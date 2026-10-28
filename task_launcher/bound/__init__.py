@@ -1,4 +1,4 @@
-"""Zhigou B1-Bound — read-only binding layer on top of B1's task launcher.
+"""EasyCirq B1-Bound — read-only binding layer on top of B1's task launcher.
 
 This package is the **capability surface** half of the B1 PoC: instead of only
 telling the model to follow a procedure, it removes the tools that could bypass
@@ -42,23 +42,39 @@ Hard boundaries of this phase:
 
 from __future__ import annotations
 
+import os
+
 __version__ = "0.1.0"
 
 #: Receipt schema (one signed step in the chain).
-RECEIPT_SCHEMA = "zhigou.bound.receipt/v1"
+RECEIPT_SCHEMA = "easycirq.bound.receipt/v1"
 #: B1-Bound task request schema (launcher -> bound runner).
-REQUEST_SCHEMA = "zhigou.bound.request/v1"
+REQUEST_SCHEMA = "easycirq.bound.request/v1"
 #: Final report schema, written only by the supervisor.
-REPORT_SCHEMA = "zhigou.bound.report/v1"
+REPORT_SCHEMA = "easycirq.bound.report/v1"
 #: Task configuration schema (no secrets; token only as SHA-256).
-CONFIG_SCHEMA = "zhigou.bound.config/v1"
+CONFIG_SCHEMA = "easycirq.bound.config/v1"
 #: Frozen benchmark result schema.
-BENCHMARK_SCHEMA = "zhigou.bound.benchmark/v1"
+BENCHMARK_SCHEMA = "easycirq.bound.benchmark/v1"
 #: Self-check result schema.
-SELFTEST_SCHEMA = "zhigou.bound.selftest/v1"
+SELFTEST_SCHEMA = "easycirq.bound.selftest/v1"
+
+#: Prefix of every bound schema id, plus the pre-rename prefix.  Documents are
+#: only ever *written* with :data:`SCHEMA_PREFIX`; the legacy ``zhigou.`` id is
+#: still accepted when reading data produced before the easycirq rename.
+SCHEMA_PREFIX = "easycirq.bound."
+LEGACY_SCHEMA_PREFIX = "zhigou.bound."
+
+
+def accepted_schema_ids(new_schema: str) -> tuple[str, ...]:
+    """Return ``new_schema`` plus its pre-rename (``zhigou.``) equivalent."""
+
+    if new_schema.startswith(SCHEMA_PREFIX):
+        return (new_schema, LEGACY_SCHEMA_PREFIX + new_schema[len(SCHEMA_PREFIX):])
+    return (new_schema,)
 
 #: MCP stdio server identity.
-SERVER_NAME = "zhigou-bound-supervisor"
+SERVER_NAME = "easycirq-bound-supervisor"
 #: MCP protocol revision implemented by the stdio server.
 MCP_PROTOCOL_VERSION = "2025-06-18"
 
@@ -78,6 +94,27 @@ def normalize_skill_name(name: str | None) -> str:
     return SKILL_NAME
 
 
+#: MCP tool prefix of the bound supervisor (``mcp__<server>__<tool>``).  The
+#: legacy prefix is accepted when reading allow-lists written before the rename.
+TOOL_PREFIX = "mcp__easycirq_bound__"
+LEGACY_TOOL_PREFIX = "mcp__zhigou_bound__"
+
+#: Environment-variable prefix for bound settings/tokens.  The pre-rename
+#: ``ZHIGOU_BOUND_`` prefix is still honoured when *reading* an old environment;
+#: new values are only ever written with :data:`BOUND_ENV_PREFIX`.
+BOUND_ENV_PREFIX = "EASYCIRQ_BOUND_"
+LEGACY_BOUND_ENV_PREFIX = "ZHIGOU_BOUND_"
+
+
+def read_bound_env(suffix: str, default: str | None = None) -> str | None:
+    """Read ``EASYCIRQ_BOUND_<suffix>``, falling back to the legacy ``ZHIGOU_`` name."""
+
+    value = os.environ.get(BOUND_ENV_PREFIX + suffix)
+    if value is None:
+        value = os.environ.get(LEGACY_BOUND_ENV_PREFIX + suffix)
+    return default if value is None else value
+
+
 def allowed_agent_tools(skill_name: str | None = None) -> tuple[str, ...]:
     """The read-only capability surface, binding the detected Skill name."""
 
@@ -87,7 +124,7 @@ def allowed_agent_tools(skill_name: str | None = None) -> tuple[str, ...]:
         "Glob",
         "Grep",
         f"Skill({resolved})",
-        "mcp__zhigou_bound__*",
+        f"{TOOL_PREFIX}*",
     )
 
 
@@ -157,10 +194,21 @@ SUPPORTED_BACKENDS = (BACKEND_FIXTURE, BACKEND_OFFICIAL_CLI, BACKEND_A_DAEMON)
 #: EDA authorization. Without it every operation is ``NOT RUN`` / blocked.
 REAL_EDA_BACKENDS = (BACKEND_OFFICIAL_CLI, BACKEND_A_DAEMON)
 
-#: Offline audit engines.
+#: Offline audit engines.  ``easycirq_mcp`` is the canonical module name; the
+#: pre-rename ``zhigou_mcp`` is still accepted when reading old plans/configs.
 AUDIT_ENGINE_FIXTURE = "fixture"
-AUDIT_ENGINE_ZHIGOU_MCP = "zhigou_mcp"
-SUPPORTED_AUDIT_ENGINES = (AUDIT_ENGINE_FIXTURE, AUDIT_ENGINE_ZHIGOU_MCP)
+AUDIT_ENGINE_EASYCIRQ_MCP = "easycirq_mcp"
+AUDIT_ENGINE_LEGACY_ZHIGOU_MCP = "zhigou_mcp"
+SUPPORTED_AUDIT_ENGINES = (AUDIT_ENGINE_FIXTURE, AUDIT_ENGINE_EASYCIRQ_MCP)
+ACCEPTED_AUDIT_ENGINES = SUPPORTED_AUDIT_ENGINES + (AUDIT_ENGINE_LEGACY_ZHIGOU_MCP,)
+
+
+def normalize_audit_engine(name: str | None) -> str:
+    """Map the pre-rename engine id to the canonical one; unknown values pass through."""
+
+    if name == AUDIT_ENGINE_LEGACY_ZHIGOU_MCP:
+        return AUDIT_ENGINE_EASYCIRQ_MCP
+    return name or AUDIT_ENGINE_FIXTURE
 
 #: Stable exit codes of ``python -m task_launcher.bound``.
 EXIT_OK = 0

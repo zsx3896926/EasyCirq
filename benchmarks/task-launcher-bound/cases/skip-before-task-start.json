@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "skip-before-task-start",
   "description": "Every step is attempted before task_start: snapshot_read -> OUT_OF_ORDER, audit/finalize -> NOT_READY; nothing is signed and the task stays CREATED.",
   "setup": {

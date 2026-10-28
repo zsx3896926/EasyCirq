@@ -26,13 +26,13 @@ class SettingsTests(support.BoundTestCase):
         for tool in ("Bash", "Write", "Edit", "Agent", "Task", "WebFetch", "WebSearch"):
             self.assertNotIn(tool, allow)
         self.assertIn(f"Skill({support.SKILL_NAME})", allow)
-        self.assertIn("mcp__zhigou_bound__*", allow)
+        self.assertIn("mcp__easycirq_bound__*", allow)
 
     def test_settings_default_mode_and_env_are_minimal(self) -> None:
         harness = self.harness()
         settings = support.read_json(harness.task_dir / "settings.json")
         self.assertEqual(settings["permissions"]["defaultMode"], "default")
-        self.assertEqual(settings["env"], {"ZHIGOU_BOUND_PHASE": "1"})
+        self.assertEqual(settings["env"], {"EASYCIRQ_BOUND_PHASE": "1"})
 
     def test_settings_do_not_contain_the_token_or_hmac_key(self) -> None:
         harness = self.harness()
@@ -72,7 +72,7 @@ class McpConfigTests(support.BoundTestCase):
         servers = document["mcpServers"]
         self.assertEqual(len(servers), 1)
         name = next(iter(servers))
-        self.assertIn(name, ("zhigou_bound", "zhigou-bound"))
+        self.assertIn(name, ("easycirq_bound", "easycirq-bound"))
         server = servers[name]
         self.assertEqual(server["type"], "stdio")
         self.assertEqual(Path(server["command"]).name.lower(), Path(__import__("sys").executable).name.lower())
@@ -163,12 +163,12 @@ class AgentArgvTests(support.BoundTestCase):
     def test_agent_command_file_matches_plan_summary(self) -> None:
         harness = self.harness(plugin_dir=self.fake_plugin_dir())
         command = support.read_json(harness.task_dir / "agent.command.json")
-        self.assertEqual(command["schema"], "zhigou.bound.agent-command/v1")
+        self.assertEqual(command["schema"], "easycirq.bound.agent-command/v1")
         self.assertEqual(command["argv"], harness.summary["agent_argv"])
         self.assertEqual(Path(command["cwd"]).resolve(), harness.task_dir.resolve())
         self.assertIn("PYTHONIOENCODING", command["env_whitelist"])
-        self.assertNotIn("ZHIGOU_BOUND_TOKEN", command["env_whitelist"])
-        self.assertNotIn("ZHIGOU_BOUND_HMAC_KEY", command["env_whitelist"])
+        self.assertNotIn("EASYCIRQ_BOUND_TOKEN", command["env_whitelist"])
+        self.assertNotIn("EASYCIRQ_BOUND_HMAC_KEY", command["env_whitelist"])
 
     def test_nonexistent_plugin_dir_is_rejected(self) -> None:
         root = self.temp_dir()
@@ -193,7 +193,7 @@ class PlanArtifactTests(support.BoundTestCase):
         harness = self.harness()
         summary = harness.summary
         self.assertTrue(summary["ok"])
-        self.assertEqual(summary["schema"], "zhigou.bound.plan/v1")
+        self.assertEqual(summary["schema"], "easycirq.bound.plan/v1")
         self.assertFalse(summary["wrote_repo"])
         self.assertEqual(summary["real_eda"], "NOT RUN")
         self.assertEqual(summary["eda_calls"], 0)
@@ -217,7 +217,7 @@ class PlanArtifactTests(support.BoundTestCase):
     def test_config_contains_only_the_token_hash(self) -> None:
         harness = self.harness()
         config = harness.config()
-        self.assertEqual(config["schema"], "zhigou.bound.config/v1")
+        self.assertEqual(config["schema"], "easycirq.bound.config/v1")
         self.assertEqual(config["token_sha256"], support.sha256_hex(harness.token))
         self.assertNotIn("token", config)
         config_text = support.read_text(harness.config_path)

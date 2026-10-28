@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "readonly-fail",
   "description": "Offline audit status fail: the chain is allowed to finalize, but the supervisor report verdict is FAIL (the benchmark case itself passes because the refusal is honest).",
   "setup": {

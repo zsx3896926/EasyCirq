@@ -1,4 +1,4 @@
-﻿param(
+param(
     [ValidateSet('menu','install','check','update','status','repair','rollback','recover','discover','update-agent')]
     [string]$Action = 'menu',
     [ValidateSet('claude','codex','workbuddy')][string]$Client,
@@ -31,7 +31,7 @@ if (-not (Test-Path -LiteralPath $manager)) {
     $manager = Join-Path $PSScriptRoot '../easycirq/scripts/skill_update.py'
 }
 if ($Action -eq 'menu') {
-    Write-Host '硬件设计 Skill - 安装与更新'
+    Write-Host 'EasyCirq - 安装与更新'
     Write-Host '1 安装 / 2 检查更新 / 3 升级 / 4 查看安装 / 5 回退 / 6 修复安装 / 7 恢复中断 / 8 升级EDA执行器'
     $actions = @{'1'='install';'2'='check';'3'='update';'4'='status';'5'='rollback';'6'='repair';'7'='recover';'8'='update-agent'}
     $Action = $actions[(Read-Host '输入操作编号')]

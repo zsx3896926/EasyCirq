@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "receipt-out-of-order",
   "description": "After evidence_emit the snapshot_read and run_offline_audit receipt lines are swapped; finalize refuses the reordered chain with RECEIPT_STEP_ORDER.",
   "setup": {

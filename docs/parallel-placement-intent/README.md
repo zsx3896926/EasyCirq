@@ -15,7 +15,7 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 | 验收项 | 结果 |
 |---|---|
 | 基线 `origin/main` | `91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后：统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`） |
-| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`、`zhigou.*` schema 统一为 `easycirq.*`；本任务已端口到新布局（`easycirq/scripts/placement_intent/`） |
+| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`、`easycirq.*` schema 统一为 `easycirq.*`；本任务已端口到新布局（`easycirq/scripts/placement_intent/`） |
 | 代码/测试/基准/结果冻结 HEAD | `9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`（docs 收口提交紧随其后） |
 | 单包测试（`unittest discover -s tests/placement_intent_tests -t tests`） | **Ran 239 tests in 45.586s — OK**，exit 0 |
 | 官方全量（`python -m unittest discover -s tests`） | **Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0；新测试已被 discovery 发现 |

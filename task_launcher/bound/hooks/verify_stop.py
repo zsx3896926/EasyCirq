@@ -58,7 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     reason = f"任务未完成：supervisor 状态为 {state}"
     if remaining:
         reason += f"，缺少步骤 {', '.join(remaining)}"
-    reason += "。请继续按顺序调用 mcp__zhigou_bound__ 工具，直到 finalize 返回报告。"
+    reason += "。请继续按顺序调用 mcp__easycirq_bound__ 工具，直到 finalize 返回报告。"
     sys.stdout.write(json.dumps({"decision": "block", "reason": reason}, ensure_ascii=False) + "\n")
     return 0
 

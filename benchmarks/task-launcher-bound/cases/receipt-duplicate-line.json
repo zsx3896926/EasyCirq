@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "receipt-duplicate-line",
   "description": "After evidence_emit the last receipt line is duplicated; finalize refuses with RECEIPT_DUPLICATE_STEP (a step can only be signed once).",
   "setup": {

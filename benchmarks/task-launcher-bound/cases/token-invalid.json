@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "token-invalid",
   "description": "serve is started with a tampered task.token file: the supervisor refuses before any MCP traffic, prints TOKEN_INVALID and exits 2.",
   "setup": {

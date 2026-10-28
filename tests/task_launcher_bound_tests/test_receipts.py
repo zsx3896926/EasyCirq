@@ -51,7 +51,7 @@ class ReceiptChainTests(support.BoundTestCase):
             receipt = entry["receipt"]
             for field in REQUIRED_RECEIPT_FIELDS:
                 self.assertIn(field, receipt, field)
-            self.assertEqual(receipt["schema"], "zhigou.bound.receipt/v1")
+            self.assertEqual(receipt["schema"], "easycirq.bound.receipt/v1")
             self.assertEqual(receipt["task_id"], harness.task_id)
             self.assertIn(receipt["risk"], ("none", "read_only", "write", "critical"))
             self.assertEqual(len(receipt["hmac"]), 64)
@@ -203,7 +203,7 @@ class ReceiptChainTests(support.BoundTestCase):
         client = self.client(harness)
         self.full_happy_path(client, harness)
         evidence = self.read_evidence(harness)
-        self.assertEqual(evidence["schema"], "zhigou.bound.evidence/v1")
+        self.assertEqual(evidence["schema"], "easycirq.bound.evidence/v1")
         self.assertEqual(evidence["task_id"], harness.task_id)
         self.assertEqual(evidence["generated_by"], "supervisor")
         self.assertEqual(evidence["real_eda"], "NOT RUN")

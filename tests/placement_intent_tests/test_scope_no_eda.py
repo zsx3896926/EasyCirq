@@ -10,7 +10,7 @@ import unittest
 
 from . import fixtures, support
 
-FORBIDDEN_EDA = ("easy" + "eda", "lc" + "eda", "zhigou_" + "mcp", "easycirq_" + "mcp")
+FORBIDDEN_EDA = ("easy" + "eda", "lc" + "eda", "easycirq_" + "mcp", "easycirq_" + "mcp")
 # Built by concatenation so this very file does not contain the literals it
 # forbids (the package scans its own sources).
 FORBIDDEN_NET = ("sock" + "et", "url" + "lib", "http" + ".client",

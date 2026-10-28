@@ -22,7 +22,7 @@
 | A8 | 文档完整，明确 NOT RUN：EDA/宿主 DRC/保存重开/路由/EM 仿真/制造/实物 | 本目录 9 个文件（`contract.md` + 8 个任务文档）+ 每个 plan/validation 输出固定字段 | **PASS**：`not_checked`/`limits`/`real_eda`/`eda_calls`/`placement_applied`/`routing_verified`/`physical_validation` 均在输出与文档中 |
 | A9 | 交接文件含准确 HEAD 与复跑命令 | `handoff-current.md` §1/§3 | **PASS**：HEAD、命令、结果、文件清单齐全 |
 | A10 | 未修改禁止路径；未合并 PR；未发版/安装客户端；未复制论文素材/第三方代码 | `git diff --name-status origin/main...HEAD`；`git status`；文件内容审阅 | **PASS**：无允许路径外修改；未合并/未发版/未装客户端；无论文正文/图表/数据；无第三方代码/依赖 |
-| A11 | 适配仓库 #99 重构（`design-hardware/`→`easycirq/`、`zhigou.*`→`easycirq.*`）后仍全绿 | 提交 `d81280c`；重跑 A2/A3/A4/A5/A7 | **PASS**：端口后 239 单包测试、3569 全量、38/38 基准、5 PASS 自检均复跑通过；新增文件落在新布局等价允许路径 |
+| A11 | 适配仓库 #99 重构（`design-hardware/`→`easycirq/`、`easycirq.*`→`easycirq.*`）后仍全绿 | 提交 `d81280c`；重跑 A2/A3/A4/A5/A7 | **PASS**：端口后 239 单包测试、3569 全量、38/38 基准、5 PASS 自检均复跑通过；新增文件落在新布局等价允许路径 |
 
 ## B. 任务书 §7 测试覆盖（12 项，均为真实子进程调用 CLI）
 

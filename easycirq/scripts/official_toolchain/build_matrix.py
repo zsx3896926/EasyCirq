@@ -35,8 +35,12 @@ SPIKE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SPIKE_DIR.parents[2]
 DOCS_DIR = REPO_ROOT / "docs" / "toolchain-integration"
 EVIDENCE_ROOT = REPO_ROOT / "docs" / "evidence"
-MATRIX_SCHEMA = "zhigou.a2-coverage.matrix/v1"
-RUBRIC_SCHEMA = "zhigou.a2-coverage.rubric/v1"
+MATRIX_SCHEMA = "easycirq.a2-coverage.matrix/v1"
+RUBRIC_SCHEMA = "easycirq.a2-coverage.rubric/v1"
+ASSESSMENTS_SCHEMA = "easycirq.a2-coverage.assessments/v1"
+#: Assessments produced before the 2026-10 rebrand still use the old id; they
+#: stay readable so historical evidence keeps validating.
+LEGACY_ASSESSMENTS_SCHEMA = "zhigou.a2-coverage.assessments/v1"
 
 REQUIRED_WORKFLOW_KEYS = {"id", "title", "official", "a", "critical", "verdict", "notes"}
 REQUIRED_OFFICIAL_KEYS = {
@@ -66,7 +70,7 @@ def rel(path: Path) -> str:
 
 def validate_assessments(data: dict) -> list:
     problems: list = []
-    if data.get("schema") != "zhigou.a2-coverage.assessments/v1":
+    if data.get("schema") not in (ASSESSMENTS_SCHEMA, LEGACY_ASSESSMENTS_SCHEMA):
         problems.append("bad assessments schema")
     workflows = data.get("workflows")
     if not isinstance(workflows, list):
@@ -425,7 +429,7 @@ def write_outputs(assessments: dict, measured: dict) -> dict:
         write_json(
             edir / f"{wid}-official.json",
             {
-                "schema": "zhigou.a2-coverage.workflow-cell/v1",
+                "schema": "easycirq.a2-coverage.workflow-cell/v1",
                 "id": wid,
                 "side": "official",
                 "title": wf["title"],
@@ -436,7 +440,7 @@ def write_outputs(assessments: dict, measured: dict) -> dict:
         write_json(
             edir / f"{wid}-a.json",
             {
-                "schema": "zhigou.a2-coverage.workflow-cell/v1",
+                "schema": "easycirq.a2-coverage.workflow-cell/v1",
                 "id": wid,
                 "side": "a",
                 "title": wf["title"],

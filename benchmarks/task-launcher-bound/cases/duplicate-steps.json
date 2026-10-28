@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "duplicate-steps",
   "description": "Repeating task_start and snapshot_read is refused with STEP_ALREADY_DONE (no second signed receipt, no state change).",
   "setup": {

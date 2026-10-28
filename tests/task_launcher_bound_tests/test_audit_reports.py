@@ -91,7 +91,7 @@ class ReportTests(support.BoundTestCase):
     def test_report_shape_and_generator(self) -> None:
         harness, _ = self.finalize()
         report = self.read_result(harness)
-        self.assertEqual(report["schema"], "zhigou.bound.report/v1")
+        self.assertEqual(report["schema"], "easycirq.bound.report/v1")
         self.assertEqual(report["generated_by"], "supervisor")
         self.assertEqual(report["task"]["task_id"], harness.task_id)
         self.assertEqual(report["task"]["phase"], 1)

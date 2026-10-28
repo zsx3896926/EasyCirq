@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "skip-audit-before-snapshot",
   "description": "After task_start the agent tries to skip snapshot_read: run_offline_audit -> NOT_READY and finalize -> NOT_READY; the task stays STARTED.",
   "setup": {

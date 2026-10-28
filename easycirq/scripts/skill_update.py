@@ -451,7 +451,7 @@ def check_all(target, client, home, refresh=False, exe=None):
 
 
 def menu(home=None):
-    print('硬件设计 Skill：安装与更新')
+    print('EasyCirq：安装与更新')
     print('1 安装  2 检查更新  3 升级本Skill  4 安装状态  5 回退  6 修复  7 恢复中断  8 检查EDA执行器')
     actions = dict(zip('12345678', ['install', 'check', 'update', 'status', 'rollback', 'repair', 'recover', 'update-agent']))
     action = actions.get(input('操作编号：').strip())

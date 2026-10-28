@@ -12,7 +12,7 @@
 | 分支 | `feat/parallel-placement-intent` |
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree` |
 | 基线 `origin/main` | `91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后：统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`） |
-| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`，schema 命名空间 `zhigou.*` 统一为 `easycirq.*`；本任务的包/测试/基准/文档已端口到新布局（提交 `d81280c`），schema 与仓库其它模块一致 |
+| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`，schema 命名空间 `easycirq.*` 统一为 `easycirq.*`；本任务的包/测试/基准/文档已端口到新布局（提交 `d81280c`），schema 与仓库其它模块一致 |
 | 代码/测试/基准/结果冻结 HEAD | `9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`（其后只有 docs 收口提交） |
 | 合并状态 | **PR #100 已合并到 `main`**（merge commit `befc081d777308ca81335a641f4eaf3c32cf124e`，2026-10-28T06:37:16Z）；特性分支已删除 |
 | 操作系统 | Windows 11 10.0.26200 SP0（AMD64） |
@@ -136,7 +136,7 @@ python easycirq/scripts/skill_selftest.py
 5. **`overlap_not_checked` unknown**：重叠不可算时以 `impact:none` 明确记录，而不是
    静默跳过；不改变 plan 状态。
 6. **适配仓库 #99 重构（提交 `d81280c`）**：main 统一品牌为「智构 / EasyCirq」后，
-   `design-hardware/` → `easycirq/`、schema 命名空间 `zhigou.*` → `easycirq.*`。
+   `design-hardware/` → `easycirq/`、schema 命名空间 `easycirq.*` → `easycirq.*`。
    本任务把包、测试、基准（含 38 个 case 的 `input_sha256` 重冻结与 derived 源
    README 新 SHA `0bd97330…e4fb`）、文档端口到新布局；重跑后 239 单包测试与 38/38
    基准仍全绿。`results.json.implementation.git_commit` 记录执行时 HEAD `d81280c`。

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "limits-max-tool-calls",
   "description": "Task limits max_tool_calls=2: task_start and snapshot_read succeed, run_offline_audit is refused with LIMIT_EXCEEDED and the task cannot finalize.",
   "setup": {

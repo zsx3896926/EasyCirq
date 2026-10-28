@@ -33,9 +33,9 @@ WORKTREE = Path(__file__).resolve().parents[2]
 #: 2026-10 rebrand: the Skill directory/name is easycirq on new main, design-hardware on old checkouts.
 SKILL_NAME = "easycirq" if (WORKTREE / "easycirq" / ".version").exists() else "design-hardware"
 
-REQUEST_SCHEMA = "zhigou.bound.request/v1"
+REQUEST_SCHEMA = "easycirq.bound.request/v1"
 MCP_PROTOCOL_VERSION = "2025-06-18"
-SERVER_NAME = "zhigou-bound-supervisor"
+SERVER_NAME = "easycirq-bound-supervisor"
 
 PHASE1_TOOLS = (
     "task_start",
@@ -62,7 +62,7 @@ ALLOWED_AGENT_TOOLS = (
     "Glob",
     "Grep",
     f"Skill({SKILL_NAME})",
-    "mcp__zhigou_bound__*",
+    "mcp__easycirq_bound__*",
 )
 
 INJECTION_PROMPT = (
@@ -238,7 +238,7 @@ def make_request(
     missing_fields: list | None = None,
     limits: dict | None = None,
 ) -> dict:
-    """Build a valid ``zhigou.bound.request/v1`` document."""
+    """Build a valid ``easycirq.bound.request/v1`` document."""
 
     context: dict = {
         "project": project or {"name": "bound-demo", "revision": "rev-A"},

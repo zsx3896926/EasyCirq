@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "phase2-apply-without-plan",
   "description": "Phase 2 config: apply before any plan_submit is refused with PLAN_NOT_FOUND; the task cannot finalize.",
   "setup": {

@@ -25,7 +25,7 @@ from pathlib import Path
 
 from .support import ROOT, SKILL_DIR, SKILL_VERSION, base_request, write_request
 
-BOUND_SERVER_NAME = "zhigou_bound"
+BOUND_SERVER_NAME = "easycirq_bound"
 BOUND_TOOL_NAMES = (
     "task_start",
     "snapshot_read",
@@ -213,7 +213,7 @@ class BoundIntegrationTests(unittest.TestCase):
             "run_offline_audit",
             "evidence_emit",
             "finalize",
-            "mcp__zhigou_bound__*",
+            "mcp__easycirq_bound__*",
             f"skill=`{SKILL_VERSION}`",
             "最终报告由 supervisor 生成",
         ):
@@ -223,7 +223,7 @@ class BoundIntegrationTests(unittest.TestCase):
         command = read_json(self.workspace / "agent.command.json")
         argv = command["argv"]
         allowed = argv[argv.index("--allowedTools") + 1].split(",")
-        self.assertIn("mcp__zhigou_bound__*", allowed)
+        self.assertIn("mcp__easycirq_bound__*", allowed)
         self.assertNotIn("Bash", allowed)
         bound = command.get("bound")
         self.assertIsInstance(bound, dict, command)
@@ -238,7 +238,7 @@ class BoundIntegrationTests(unittest.TestCase):
         client = _McpClient(entry, cwd=self.tmp)
         try:
             init = client.initialize()
-            self.assertEqual(init["serverInfo"]["name"], "zhigou-bound-supervisor")
+            self.assertEqual(init["serverInfo"]["name"], "easycirq-bound-supervisor")
             self.assertEqual([tool["name"] for tool in client.tools()], list(BOUND_TOOL_NAMES))
             toolchain = config["versions"]
             task_start = {
@@ -275,7 +275,7 @@ class BoundIntegrationTests(unittest.TestCase):
 
 
 class OfflineAuditMCPRebrandTests(unittest.TestCase):
-    """The 2026-10 rebrand renamed zhigou_mcp -> easycirq_mcp; mcp.json must match disk."""
+    """The 2026-10 rebrand renamed easycirq_mcp -> easycirq_mcp; mcp.json must match disk."""
 
     def test_offline_mcp_uses_the_module_that_exists(self) -> None:
         with tempfile.TemporaryDirectory(prefix="b1-offline-mcp-") as raw:
@@ -289,8 +289,8 @@ class OfflineAuditMCPRebrandTests(unittest.TestCase):
             self.assertEqual(completed.returncode, 0, completed.stderr[-2000:])
             workspace = state_dir / "tasks" / task_id
             scripts = SKILL_DIR / "scripts"
-            expected_module = "zhigou_mcp"
-            for candidate in ("easycirq_mcp", "zhigou_mcp"):
+            expected_module = "easycirq_mcp"
+            for candidate in ("easycirq_mcp", "easycirq_mcp"):
                 if (scripts / candidate).is_dir():
                     expected_module = candidate
                     break
@@ -382,7 +382,7 @@ class BoundGateTests(unittest.TestCase):
             self.assertIn("--disallowedTools", argv)
             self.assertEqual(
                 argv[argv.index("--allowedTools") + 1].split(","),
-                ["Skill", "Read", "Glob", "Grep", "mcp__zhigou_bound__*"],
+                ["Skill", "Read", "Glob", "Grep", "mcp__easycirq_bound__*"],
             )
             events = [
                 json.loads(line)

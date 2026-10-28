@@ -275,7 +275,7 @@ class UpdaterTests(unittest.TestCase):
         with patch.object(sys, 'stdout', output), patch('builtins.input', side_effect=['1', '2', 'NO']):
             self.assertEqual(u.main(['menu', '--home', str(self.root)]), 0)
         output.flush()
-        self.assertIn('硬件设计 Skill', buffer.getvalue().decode('utf-8'))
+        self.assertIn('EasyCirq', buffer.getvalue().decode('utf-8'))
 
     def test_stale_lock_recovery(self):
         self.target.parent.mkdir(parents=True)
@@ -299,7 +299,7 @@ class UpdaterTests(unittest.TestCase):
                            input='1\n1\nYES\n\n\n', capture_output=True, encoding='utf-8', errors='replace', env=env, timeout=45)
         self.assertEqual(p.returncode, 0, p.stderr + p.stdout)
         self.assertIn('"status": "installed"', p.stdout)
-        self.assertIn('硬件设计 Skill', p.stdout)
+        self.assertIn('EasyCirq', p.stdout)
         target = self.root / 'menu home/.claude/skills/easycirq'
         self.assertEqual(u.status(target)['version'], '0.7.0')
 

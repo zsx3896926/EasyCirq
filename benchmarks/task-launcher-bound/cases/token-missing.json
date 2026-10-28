@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "token-missing",
   "description": "serve is started without the task.token file: TOKEN_MISSING, exit 2, no MCP session.",
   "setup": {

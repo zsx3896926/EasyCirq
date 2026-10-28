@@ -120,7 +120,13 @@ def python_env() -> dict:
     env["PYTHONIOENCODING"] = "utf-8"
     env["PYTHONUTF8"] = "1"
     # keep the benchmark honest: never let a real EDA/agent hook leak in
-    for name in ("ZHIGOU_BOUND_TOKEN", "ZHIGOU_BOUND_HMAC_KEY", "ANTHROPIC_API_KEY"):
+    for name in (
+        "EASYCIRQ_BOUND_TOKEN",
+        "EASYCIRQ_BOUND_HMAC_KEY",
+        "ZHIGOU_BOUND_TOKEN",
+        "ZHIGOU_BOUND_HMAC_KEY",
+        "ANTHROPIC_API_KEY",
+    ):
         env.pop(name, None)
     return env
 
@@ -177,7 +183,7 @@ def load_cases(selected: Optional[list]) -> list:
 def build_request(case: dict) -> dict:
     setup = case.get("setup") or {}
     request = {
-        "schema": "zhigou.bound.request/v1",
+        "schema": "easycirq.bound.request/v1",
         "task_id": "task-bench-" + slug(str(case["id"])),
         "mode": "read_only",
         "client": {"name": "bound-benchmark-client", "version": "0.1.0"},
@@ -769,7 +775,7 @@ def check_case_expectations(case: dict, ctx: dict, failures: list) -> None:
 def run_case(case: dict, env: dict) -> dict:
     started = time.perf_counter()
     failures: list = []
-    base_dir = Path(tempfile.mkdtemp(prefix="zhigou-bound-bench-"))
+    base_dir = Path(tempfile.mkdtemp(prefix="easycirq-bound-bench-"))
     server: Optional[McpServer] = None
     ctx: dict = {
         "task_dir": base_dir / "task",
@@ -872,7 +878,7 @@ def run_case(case: dict, env: dict) -> dict:
                         "initialize protocolVersion: expected '2025-06-18', got %r"
                         % result.get("protocolVersion")
                     )
-                if ((result.get("serverInfo") or {}).get("name")) != "zhigou-bound-supervisor":
+                if ((result.get("serverInfo") or {}).get("name")) != "easycirq-bound-supervisor":
                     failures.append(
                         "initialize serverInfo.name: got %r"
                         % ((result.get("serverInfo") or {}).get("name"))
@@ -903,7 +909,7 @@ def run_case(case: dict, env: dict) -> dict:
                 )
     except Exception as exc:  # noqa: BLE001 - infrastructure failure
         failures.append("case infrastructure error: %s: %s" % (type(exc).__name__, exc))
-        if os.environ.get("ZHIGOU_BOUND_BENCH_DEBUG"):
+        if os.environ.get("EASYCIRQ_BOUND_BENCH_DEBUG") or os.environ.get("ZHIGOU_BOUND_BENCH_DEBUG"):
             failures.append(traceback.format_exc()[-2000:])
     finally:
         if server is not None:
@@ -961,7 +967,7 @@ def build_results(case_results: list, case_limit_rows: dict) -> dict:
     failed = total - passed
     generated_at = utc_now()
     return {
-        "schema": "zhigou.bound.benchmark/v1",
+        "schema": "easycirq.bound.benchmark/v1",
         "simulated": True,
         "agent": "none",
         "real_eda": "NOT RUN",

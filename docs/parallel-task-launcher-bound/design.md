@@ -28,7 +28,7 @@ supervisor 的状态机 + HMAC 回执链，把“执行/回读/证据/最终报�
 | agent 只保留“提议”能力 | `task_launcher/bound/__init__.py` 的 `ALLOWED_AGENT_TOOLS`/`DENIED_AGENT_TOOLS`；`runner.build_agent_argv`；`settings.build_settings` |
 | 唯一成功路径，跳步即拒绝 | `state.py`（`TaskMachine`）+ `supervisor.py`（`call_tool`） |
 | 回执/证据不可由模型伪造 | `receipts.py`（HMAC-SHA256 链）、`supervisor._evidence_emit/_finalize` |
-| 报告由 server 生成 | `report.py`（`zhigou.bound.report/v1`），模型文本不进入 verdict |
+| 报告由 server 生成 | `report.py`（`easycirq.bound.report/v1`），模型文本不进入 verdict |
 | 离线可验证、诚实 NOT RUN | fixture backend、`real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0` |
 | Phase 2 有接口无授权 | `backends._RealEdaBackendStub`、`supervisor._apply/_readback`、`EDA_NOT_AUTHORIZED` |
 
@@ -41,11 +41,11 @@ supervisor 的状态机 + HMAC 回执链，把“执行/回读/证据/最终报�
 | 维度 | B1（触发面） | Bound（能力面 + 门禁） |
 |---|---|---|
 | 解决的问题 | EDA 插件/connector 如何触发一次受控 Claude Code 任务；Skill/plugin 如何注入 | agent 在任务内**能做什么**、**按什么顺序**、**证据由谁产生** |
-| 输入 | `task.start`（`zhigou.task-launcher.start/v1`，HTTP loopback） | 本任务 `request.json`（`zhigou.bound.request/v1`）→ 任务目录 |
+| 输入 | `task.start`（`easycirq.task-launcher.start/v1`，HTTP loopback） | 本任务 `request.json`（`easycirq.bound.request/v1`）→ 任务目录 |
 | 关键产物 | Claude Code plugin（Skill+routing+MCP）、argv、stream-json 事件、launcher result | `bound.config.json`、`mcp.json`、`settings.json`、`routing.md`、`agent.command.json`、回执链、`evidence.json`、`result.json` |
 | 可信进程 | launcher sidecar（本地 HTTP）+ B1 的 fake/真实 agent 启动 | supervisor（本包 MCP stdio server，唯一证据/报告写者，持有 HMAC key） |
 | 版本握手 | 三方：launcher / Skill / plugin（`VERSION_MISMATCH`） | 四方：skill / plugin / server / backend（`VERSION_MISMATCH`） |
-| 工具面 | 挂 `zhigou-offline-audit`（B1 现有离线审计 MCP） | 只挂 `zhigou-bound` supervisor（Phase 1 六个只读工具） |
+| 工具面 | 挂 `easycirq-offline-audit`（B1 现有离线审计 MCP） | 只挂 `easycirq-bound` supervisor（Phase 1 六个只读工具） |
 | 强约束 | 只读 `mode`；固定 argv 模板；必含 `--plugin-dir/--mcp-config/--append-system-prompt-file/--output-format` | 状态机 + 回执链 + server 报告；模型无写工具 |
 | 失败语义 | launcher 状态机 / 事件 / 超时取消 / 进程树终止 | 任务状态机（FINALIZED/FAILED/CANCELLED/TIMEOUT/INCOMPLETE），缺步不得 FINALIZED |
 | 交付状态 | **分支有提交但无 handoff/PR，`delivered=false`** | Phase 1 离线实现完成；集成 **BLOCKED ON B1** |
@@ -64,7 +64,7 @@ Python 内部模块（`task_launcher/bound/b1.py` 只做只读探测 + 文档化
         │   settings.json / agent.command.json / task.token
         ▼
 [Claude Code headless]（Phase 1 目标形态；本交付 NOT RUN）
-        │  工具面：Read / Glob / Grep / Skill(design-hardware) / mcp__zhigou_bound__*
+        │  工具面：Read / Glob / Grep / Skill(design-hardware) / mcp__easycirq_bound__*
         │  MCP stdio（newline-delimited JSON-RPC 2.0, UTF-8）
         ▼
 [supervisor: python -m task_launcher.bound serve]（可信）
@@ -81,10 +81,10 @@ Python 内部模块（`task_launcher/bound/b1.py` 只做只读探测 + 文档化
 
 | 文件 | 内容 | 含秘密 |
 |---|---|---|
-| `request.json` | 脱敏后的任务请求（schema `zhigou.bound.request/v1`） | 否 |
+| `request.json` | 脱敏后的任务请求（schema `easycirq.bound.request/v1`） | 否 |
 | `bound.config.json` | `task_id/task_dir/token_sha256/versions/limits/backend/phase/b1` | 否（仅 token 哈希） |
 | `routing.md` | 硬路由文本（先 Skill、只读、工具顺序、版本握手值、结束时 finalize） | 否 |
-| `mcp.json` | 只挂 `zhigou-bound`（stdio），env 仅 `PYTHONPATH/PYTHONIOENCODING` | 否（token 是文件路径） |
+| `mcp.json` | 只挂 `easycirq-bound`（stdio），env 仅 `PYTHONPATH/PYTHONIOENCODING` | 否（token 是文件路径） |
 | `settings.json` | `permissions.deny/allow` + 可选 hooks（默认关闭） | 否 |
 | `agent.command.json` | argv 列表、cwd、env 白名单、`agent_ready`、NOT RUN 原因 | 否 |
 | `task.token` | 随机 token（`write_token_file` 尽力 0600） | **是（仅此文件）** |
@@ -120,7 +120,7 @@ Phase 2 工具（`plan_submit/precheck/apply/readback`）在 Phase 1 配置下�
 
 ```json
 {
-  "schema": "zhigou.bound.receipt/v1",
+  "schema": "easycirq.bound.receipt/v1",
   "task_id": "task-...",
   "step": "snapshot_read",
   "prev_receipt_sha256": "<上一条完整 receipt 的 canonical SHA-256 | null>",
@@ -139,7 +139,7 @@ Phase 2 工具（`plan_submit/precheck/apply/readback`）在 Phase 1 配置下�
 
 ### 3.4 报告
 
-`result.json`（`zhigou.bound.report/v1`）只由 `report.build_report` 从 supervisor 自己产生的
+`result.json`（`easycirq.bound.report/v1`）只由 `report.build_report` 从 supervisor 自己产生的
 snapshot/audit/chain/evidence 组合；verdict 只由审计状态映射
 （`pass_with_scope→PASS`、`fail→FAIL`、`review_required→REVIEW_REQUIRED`）；
 `incomplete/invalid_input` 不产生报告。报告固定 `generated_by:"supervisor"`、
@@ -196,7 +196,7 @@ plan_submit → precheck` 可以走；`apply` 被 `EDA_NOT_AUTHORIZED` 拒绝并
 | 同用户无沙箱 | supervisor 与 agent 同用户、同完整性级别；无 AppContainer/Job Object/独立账号 | 同用户进程可读任务目录、读 supervisor 内存取 HMAC key、杀进程、改文件 |
 | 文件权限 | `os.chmod(path, 0o600)` 在 Windows 只影响只读位，不改 ACL（`config.write_token_file`） | `task.token` 的“0600”是尽力而为，不构成机密性保证 |
 | 进程终止 | `runner.kill_tree` 用 `taskkill /PID <pid> /T /F`；spawn 用参数列表、不用 shell | 能清进程树，但不是资源/权限隔离 |
-| 路径 | 任务目录默认 `%LOCALAPPDATA%\zhigou-bound`（`config.default_state_dir`），也可由调用方指定 | 路径含空格/中文/长路径的代码处理已实现，但隔离级别取决于目录 ACL |
+| 路径 | 任务目录默认 `%LOCALAPPDATA%\easycirq-bound`（`config.default_state_dir`），也可由调用方指定 | 路径含空格/中文/长路径的代码处理已实现，但隔离级别取决于目录 ACL |
 | MCP stdio | `_force_utf8_stdio` 只重配 `sys.stdin/sys.stdout`；stderr 未重配（实测告警输出出现 GBK 乱码） | 协议流是 UTF-8；**stderr 诊断**在 Windows 代码页下可能不可解析（IC-10） |
 | 网络 | 无 OS 级网络隔离；Phase 1 代码本身不访问网络 | 同用户外部进程仍可直连 EDA/网络 |
 
