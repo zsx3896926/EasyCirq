@@ -3,6 +3,9 @@
 ## 未发布
 
 - 新增离线铜岛诊断 `scripts/power_preflight/islands.py`（`--net` 输出岛/成员/bbox/岛间最近点，铺铜多边形作为成员）与离线补线 `scripts/power_preflight/island_join.py`（同层 A* 连岛，或跨层过孔缝合；输出 `design-engine-pcb-playbook/v1` 供 `pcb_apply_plan`；无安全缝合时如实标 incomplete）；`pcb-execution.md` §7 路由器选择表加一行。新增 `tests/test_island_join.py`。
+- SY8089 块默认电感改为 `ind.2u2_swpa4020`（本板实装 SWPA4020S2R2MT，Isat/Irms 待核），`ind.22uh_1210` 降为备选并注明约 0.77A 不满足 2A；新增 `tests/test_block_parts_verified.py`（块引用 `auto-added` 器件报警）。
+- `gate_check` G5 关键网证明支持 `netpath_fallback`（`{fallback: {connection: 0, copper_ids: [...]}}`，原生 DRC Connection=0 时降级 advisory）；`design-gates.md` 写清该证据格式。
+- `gate_check` G6 增加 `step`（3D/STEP）角色与 `manufacturing_manual_handoff` advisory（`artifacts[].status=manual_handoff`）；Gerber/钻孔/CPL 文案更新为 `pcb.manufacture.*` typed action + GUI 兜底；`manufacturing-package.md` 同步。
 
 ## 1.1.0 — 2026-10-28
 

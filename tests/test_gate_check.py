@@ -467,6 +467,36 @@ class FullPassFixture(unittest.TestCase):
         self.assertEqual(self.check_status(report, 'G5_routing',
                                            'pour_freshness'), 'fail')
 
+    def _set_netpath_fallback(self, connection):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['routing']['key_nets'].append('CAM_PCLK')
+        state['routing']['key_net_proofs']['CAM_PCLK'] = {
+            'fallback': {'connection': connection, 'copper_ids': ['t1']}}
+        write_json(self.state, state)
+
+    def test_netpath_fallback_downgrades_to_advisory(self):
+        self._set_netpath_fallback(0)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G5_routing'], 'PASS')
+        self.assertEqual(self.check_status(report, 'G5_routing',
+                                           'key_net_fallback'), 'warn')
+
+    def test_netpath_fallback_needs_connection_zero(self):
+        self._set_netpath_fallback(1)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G5_routing'], 'BLOCKED')
+
+    def test_manual_handoff_artifacts_are_recorded(self):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['manufacturing']['artifacts'].append(
+            {'role': 'assembly_drawing', 'path': 'evidence/asm.pdf',
+             'status': 'manual_handoff'})
+        write_json(self.state, state)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(self.check_status(report, 'G6_manufacturing',
+                                           'manufacturing_manual_handoff'), 'warn')
+        self.assertEqual(statuses(report)['G6_manufacturing'], 'PASS')
+
     def test_unused_waiver_is_marked(self):
         report = gate.evaluate(args_for(
             self.ev, self.root, self.state,

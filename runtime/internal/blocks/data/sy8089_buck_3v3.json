@@ -15,9 +15,9 @@
       "note": "SY8089A1AAC TSOT-23-5。功能脚(sch read 实测): EN(1)/GND(2)/LX(3)/IN(4)/FB(5)。"
     },
     "L": {
-      "part": "ind.22uh_1210",
+      "part": "ind.2u2_swpa4020",
       "qty": 1,
-      "note": "2.2µH,Isat≥2A(终核)。"
+      "note": "2.2µH,Isat≥2A(待按手册终核)。本板实装 SWPA4020S2R2MT(C83423)。"
     },
     "R_FBT": {
       "part": "res.453k_0402__2",

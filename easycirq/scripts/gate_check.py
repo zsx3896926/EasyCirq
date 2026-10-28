@@ -1897,11 +1897,13 @@ def gate_g5(gate: Gate, ctx):
 
     missing = []
     found = []
+    fallback = []
     for net in key_nets:
         net = str(net)
         entry = proofs.get(net)
         ok = False
         detail = ""
+        fb_ok = False
         if isinstance(entry, dict):
             ok = bool(entry.get("found"))
             detail = str(entry.get("evidence") or "")
@@ -1912,6 +1914,12 @@ def gate_g5(gate: Gate, ctx):
                 if found_path is None:
                     ok = False
                     detail += " (文件不存在)"
+            if not ok:
+                fb = entry.get("fallback")
+                if isinstance(fb, dict):
+                    copper_ids = fb.get("copper_ids")
+                    fb_ok = (fb.get("connection") == 0 and
+                             isinstance(copper_ids, list) and bool(copper_ids))
         if not ok:
             for p_ev, parsed in parsed_paths:
                 pnet = str(parsed.get("net") or "")
@@ -1923,6 +1931,8 @@ def gate_g5(gate: Gate, ctx):
                     break
         if ok:
             found.append({"net": net, "evidence": detail})
+        elif fb_ok and drc is not None and drc.get("connection_errors", 0) == 0:
+            fallback.append(net)
         else:
             missing.append(net)
     if missing:
@@ -1930,6 +1940,10 @@ def gate_g5(gate: Gate, ctx):
                  blocking=True, waivable=False,
                  next_command="对每个关键网运行 easycirq pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>")
     elif key_nets:
+        if fallback:
+            gate.add("key_net_fallback", "warn",
+                     "关键网 %s 用 netpath_fallback 降级（原生 DRC Connection=0 + 铜对象 id）：%s"
+                     % (len(fallback), ", ".join(fallback)), blocking=False)
         gate.add("key_net_proofs", "pass", "%d 个关键网均有证明。" % len(found), evidence=[x["evidence"] for x in found if x["evidence"]])
 
     plan = state_get(state, "routing", "plan", default=None)
@@ -2083,10 +2097,11 @@ def gate_g6(gate: Gate, ctx):
     gerber, gerber_ok = artifact_exists("gerber", ["*.gbr", "*.g??", "gerber*"])
     drill, drill_ok = artifact_exists("drill", ["*.drl", "*drill*"])
     cpl, cpl_ok = artifact_exists("cpl", ["*cpl*.csv", "*pos*.csv", "*pick*place*"])
+    step, step_ok = artifact_exists("step", ["*.step", "*.stp"])
     gate.add("gerber_files", "pass" if gerber_ok else "fail",
-             "Gerber: %s" % (gerber or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
+             "Gerber: %s" % (gerber or "缺少（无专用子命令；用 `easycirq call pcb.manufacture.gerber` 导出，或 GUI 手工导出）"),
              blocking=True, waivable=False, capability=not gerber_ok,
-             next_command="从 EDA GUI 导出 Gerber；文件放入 manufacturing/ 并在 design-state.manufacturing.artifacts 登记")
+             next_command="easycirq call pcb.manufacture.gerber --payload '{}'；文件放入 manufacturing/ 并登记 artifacts")
     # A board with no drilled holes needs no drill file. Only an explicit,
     # project-recorded count (design-state.pcb.drilled_holes == 0) makes this
     # not_applicable; an absent declaration still fails.
@@ -2102,11 +2117,27 @@ def gate_g6(gate: Gate, ctx):
                  blocking=True, waivable=False)
     else:
         gate.add("drill_files", "fail",
-                 "钻孔: %s" % (drill or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
+                 "钻孔: %s" % (drill or "缺少（随 pcb.manufacture.gerber drill=true 产出，或 GUI 导出）"),
                  blocking=True, waivable=False, capability=not drill_ok)
     gate.add("cpl_files", "pass" if cpl_ok else "fail",
-             "CPL/坐标: %s" % (cpl or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
+             "CPL/坐标: %s" % (cpl or "缺少（用 `easycirq call pcb.manufacture.cpl` 导出，或 GUI 手工导出）"),
              blocking=True, waivable=False, capability=not cpl_ok)
+    if step_ok:
+        gate.add("step_3d", "pass", "3D/STEP: %s" % step, blocking=False)
+    else:
+        gate.add("step_3d", "warn",
+                 "3D/STEP 未导出（`easycirq pcb export-3d --format step|obj`；超 20 MiB 导出 OBJ 作展示件、STEP 改 GUI 并登记）",
+                 blocking=False)
+
+    manual_handoff = []
+    for a in artifacts:
+        status = str(a.get("status") or "").strip().lower()
+        if status in ("manual_handoff", "manual", "gui"):
+            manual_handoff.append(a.get("role") or a.get("path") or "?")
+    if manual_handoff:
+        gate.add("manufacturing_manual_handoff", "warn",
+                 "待人工导出（MANUAL_HANDOFF，登记导出人/时间/版本）: %s"
+                 % ", ".join(map(str, manual_handoff)), blocking=False)
 
     bom_ev = ev.get("bom")
     bom = parse_bom(bom_ev) if bom_ev is not None else None

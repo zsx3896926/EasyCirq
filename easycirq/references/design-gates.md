@@ -206,13 +206,15 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 | `pcb_drc_passed` | 通过判定 | `easycirq pcb drc --json --timeout 120 > evidence/pcb-drc.json` | `pcb_drc` | `passed:true`；PCB 必须是前台/活动文档 | 后台/遮挡窗口永远算不完；超时切前台跑一次，不循环重试；缺证据 → `BLOCKED` |
 | `connection_errors` | 连接错误 | 同上 | `pcb_drc.counts` | `Connection` 为 0 | 非 0 → `BLOCKED`（不可豁免） |
 | `key_nets_declared` | 清单 | 状态文件 | `routing.key_nets` | 非空，覆盖电源、主信号、参考/阈值、输出/驱动、接口 | 缺失 → `BLOCKED`（不可豁免） |
-| `key_net_proofs` | 逐网证明 | `easycirq pcb net-path --from D.PAD --to D.PAD --net <net> --json > evidence/net-path-<net>.json` | `net_path` | 每个关键网 `found:true` | `found:false` 表示未走线证明，不等于全板断连；缺证明 → `BLOCKED`（不可豁免） |
+| `key_net_proofs` | 逐网证明 | `easycirq pcb net-path --from D.PAD --to D.PAD --net <net> --json > evidence/net-path-<net>.json` | `net_path` | 每个关键网 `found:true`，或 `netpath_fallback`（原生 DRC Connection=0 + 铜对象 id，降级 advisory） | `found:false` 表示未走线证明，不等于全板断连；缺证明 → `BLOCKED`（不可豁免） |
 | `routing_plan` | 计划 | 阅读 [布线计划](../assets/routing-plan.md) | `routing.plan` | 层/通道/过孔/net class/顺序/停止条件齐全 | 缺失 → `BLOCKED`（不可豁免） |
 | `save_reload` | 持久化 | `easycirq pcb save`；`easycirq doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |
 | `silk_over_pad` | 丝印 | `easycirq pcb silk-align`；`pcb dump`/`layout-lint` | `silk_align` | 0 处丝印压焊盘，或已整理并回读 | 缺失 → `BLOCKED`（可豁免） |
 | `stop_rule` | DRC 轮次 | 状态文件 `routing.drc_rounds` | `drc_rounds`、`stop_rule_triggered` | 未出现连续 3 轮改善 <30%；触发时已停止并记录结构决定（唯一定义见 [agent-collaboration](agent-collaboration.md) §停止规则，4 层出路见 [PCB 4 层闭环](pcb-4layer-closure.md)） | 轮次不足只给 advisory `warn`；触发未处理 → `BLOCKED`（可豁免） |
 
 `pcb net-path` 只证明已列出的走线铜（线段/弧/过孔/焊盘），不覆盖铺铜、平面和填充区域。仅靠铺铜连接的 GND 不要放进 `key_nets` 的 `net-path` 清单，应以 `pcb drc` 的 Connection 结论加 `pour-list` 回读证明；`net-path` 失败也不等于全板断连。
+
+`net-path` 返回 unknown 的关键网可用 `netpath_fallback` 补足：`routing.key_net_proofs[net] = {"fallback": {"connection": 0, "copper_ids": ["<track/via id>", ...], "evidence": "evidence/pcb-drc.json"}}`。G5 在原生 DRC `connection_errors==0` 且 `copper_ids` 非空时，把该网记为 `key_net_fallback` advisory（warn），不算 fail。
 
 **退出条件：** `pcb drc` `passed:true` 且 0 Connection、关键网逐条证明、保存重载 match、丝印与停止规则有记录。满足后进入 S5。
 
