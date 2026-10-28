@@ -119,7 +119,7 @@ updater (windows-latest)   pass      2m45s
 publish                    skipping
 ```
 
-- PR: https://github.com/zsx3896926/EasyCirq/pull/94 （OPEN，未合并；79 files 全 A，+15607/-0）
+- PR: https://github.com/zsx3896926/EasyCirq/pull/94 （OPEN，未合并；83 files 全 A，+15607/-0）
 - **CI 结论：`validate (3.10)` PASS、`validate (3.13)` PASS、`updater` PASS（head `4ec29ee`）**。
 - 首轮 CI 失败/挂起的根因与修复（如实记录）：
   - 现象：初版 head 的 `validate` 步骤在 “Validate structure and calculations” 处失败/长时间
@@ -134,36 +134,55 @@ publish                    skipping
     208 tests OK、基准 24/24、selftest 19/19。
 - 本地已跑：Python 3.13 全量 `3520 tests OK (skipped=3)`；CI 已实际在 3.10/3.13 跑完整套件。
 
+### 3.7 rebase 到最新 main + 双布局复跑（2026-10-28）
+
+B1 PR #74 合并（main `f9aa773`）后，把叠加分支 rebase 到最新 main 并重新验证：
+
+| 项 | 结果 |
+|---|---|
+| rebase | `git rebase --onto origin/main 074bd88`，6 个提交干净重放；83 files 全 A vs main |
+| bound 测试 | **Ran 208 tests, OK**（75.9s） |
+| 冻结基准 | **24/24 passed, exit 0**（8.74s，simulated=true / real_eda=NOT RUN / eda_calls=0） |
+| 产品自检 | **19/19 pass** |
+| 官方全量（最新 main） | **Ran 3636 tests, OK (skipped=3), exit 0**（549.8s） |
+| B1 plugin（easycirq） | `build-plugin --skill-dir easycirq` → 628 files / 13,181,116 bytes |
+| bound plan | `agent_ready=true`、`skill_name=easycirq`、allow `Skill(easycirq)`、无 token/HMAC |
+| 旧布局回归 | 主交付分支（`acca50d`）208 tests OK / 24/24 / 19/19，`skill_name=design-hardware` |
+
+根因修复：rebrand（`zhigou_mcp`→`easycirq_mcp`、审计输入 schema 变更、Skill 名
+`design-hardware`→`easycirq`）使旧代码在新 main 上找不到离线模块/输入；已实现双布局
+检测并新增 `fixtures/inputs_easycirq/` 冻结输入。
+
 ## 4. B1 交付状态与兼容性验证
 
-- **B1_BASE_HEAD（开工时）**：`NOT DELIVERED`。开工时 B1 worktree HEAD=`0e391e3` 且全部交付文件
-  未提交（未提交树 `79496e3`）。详见 `handoff-current.md` §1。
-- **B1 在任务执行期间交付**：分支 `feat/parallel-task-launcher`（worktree `hds-tl-worktree`），
-  PR **#74（OPEN，未合并）**；交付 HEAD（含仅文档提交）`074bd88`（PR 引用 CI 已验证代码 HEAD
-  `c828ebc`）；`docs/parallel-task-launcher/handoff-current.md` 已出现；origin 已有该分支。
-  B1 交接记录：98 tests OK、全量 3416 tests OK(skipped=3)、基准 12/12、plugin 627 files /
-  13,165,621 bytes、真实 Claude NOT RUN。
-- **叠加验证（本任务，真实执行）**：新建 worktree `hds-tlb-on-b1`，基于
-  `origin/feat/parallel-task-launcher @ 074bd88` 叠加本包 79 个新文件（分支
-  `feat/parallel-task-launcher-bound-on-b1`，叠加提交见 `handoff-current.md`）：
-  - `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"`
-    → **Ran 208 tests, OK**（65s 级）；
-  - `python benchmarks/task-launcher-bound/run_benchmark.py` → **24/24 passed, exit 0**
-    （`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`）；
-  - `python -m task_launcher.bound selftest` → **19/19 pass**；
-  - `python -m task_launcher.bound probe-b1 --repo-root <hds-tlb-on-b1>` →
-    `available=true, delivered=true, integration_status="AVAILABLE"`；
-  - `python -m task_launcher build-plugin --skill-dir design-hardware --out <temp>/plugin`
-    （B1 已交付 HEAD）→ exit 0，627 files / 13,165,619 bytes（本次实测）；
-  - `python -m task_launcher.bound plan --request <req> --out <temp>/task --skill-dir design-hardware
-    --plugin-dir <temp>/plugin --b1-repo <hds-tlb-on-b1>` → exit 0，`agent_ready=true`，
-    argv 含全部 hardening flag（`-p/--mcp-config/--plugin-dir/--append-system-prompt-file/
-    --settings/--output-format/--allowedTools/--disallowedTools`），allow 值为
-    `Read,Glob,Grep,Skill(design-hardware),mcp__zhigou_bound__*`，argv 不含 token。
-- 结论：**产物级/离线叠加验证 PASS @ B1 交付 HEAD 074bd88**。仍 **NOT RUN**：
-  由 B1 launcher 真实拉起本 supervisor 的端到端会话（B1 的 mcp.json 目前只挂
-  `zhigou-offline-audit`，接入 bound 需 B1 侧最小改动，见 `integration-notes.md`）、
-  真实 Claude、真实 EDA。**B1 PR 未合并，本任务未合并任何 PR**。
+- **B1_BASE_HEAD（开工时）**：`NOT DELIVERED`（B1 worktree HEAD=`0e391e3`，交付文件 untracked，
+  未提交树 `79496e3`；无 handoff/PR）。详见 `handoff-current.md` §1。
+- **B1 执行期间交付、最终合并**：PR **#74 已于 2026-10-28T06:09:58Z 合并**到 main，
+  merge commit **`f9aa773`**；最新 main 同时包含 rebrand PR #77
+  （`design-hardware/`→`easycirq/`、`zhigou_mcp`→`easycirq_mcp`）。
+- **rebase 到最新 main 后的重新验证（真实执行）**：把叠加分支
+  `feat/parallel-task-launcher-bound-on-b1`（基线 B1 `074bd88`）重命名并
+  `git rebase --onto origin/main 074bd88` → 6 个提交干净重放，得到
+  `feat/parallel-task-launcher-bound-on-main`（基于 `f9aa773`，83 files 全 A）：
+  - bound 测试 → **Ran 208 tests, OK**（75.9s）；基准 → **24/24 passed**（8.74s）；
+    selftest → **19/19**；
+  - 官方全量 → **Ran 3636 tests, OK (skipped=3)**（549.8s，含 B1 98 tests）；
+  - B1 合并后 `build-plugin --skill-dir easycirq` → exit 0，**628 files / 13,181,116 bytes**；
+  - bound `plan --plugin-dir` → `agent_ready=true`、`skill_name=easycirq`、
+    `skill_dir=<repo>/easycirq`、allow=`Skill(easycirq)`、versions skill=1.0.2；
+  - `probe-b1` → `available=true, delivered=true`。
+- **双布局兼容（rebase 必须修复）**：rebrand 导致旧代码在新 main 上无法找到
+  `zhigou_mcp`/旧 schema 输入；已提交 `9c88def`（叠加分支）/ `a0c13bb`（主分支）：
+  - Skill 检测 `easycirq`/`design-hardware`，写入 config/settings/argv/routing；
+  - 离线引擎 `easycirq_mcp`/`zhigou_mcp` 双探测，按模块选择
+    `fixtures/inputs_easycirq/`（easycirq schema）或 `fixtures/inputs/`（旧 schema）；
+  - hooks 接受两种 Skill 名；`plan --skill-name` 可显式覆盖；
+  - 两种布局都缺时如实 `NOT_RUN`/`BACKEND_UNAVAILABLE`。
+- 旧布局（主交付分支 `origin/main@acca50d`）在改动后同样复验：208 tests OK、24/24、
+  selftest 19/19、`skill_name=design-hardware`、allow=`Skill(design-hardware)`。
+- **仍未验证/未授权**：由 B1 launcher 真实拉起 bound supervisor 的端到端会话 **NOT RUN**
+  （B1 的 `mcp.json` 只挂离线审计 MCP；接入需 B1 侧最小改动）；真实 Claude、真实 EDA 仍
+  **NOT RUN / BLOCKED**。真实 Claude 冒烟、Phase 2 真实 EDA 写均未运行，不得写成通过。
 
 ## 5. 未运行 / 阻塞（如实记录）
 

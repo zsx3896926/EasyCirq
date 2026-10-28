@@ -343,3 +343,23 @@ B1 文件、不合并 PR、不发版。
   3. Phase 2 真实 EDA 写：**BLOCKED**（无 EDA 授权）。
 - **结论**：在 B1 交付 HEAD `074bd88` 上，**产物级/离线叠加验证 PASS**；不构成 B1 验收，
   B1 PR 未合并，本任务未合并 PR、未发版。B1 HEAD 若再变化，需重跑本节命令。
+
+
+## 10. 收口更新（2026-10-28）：B1 #74 已合并 + rebase 到最新 main
+
+- B1 PR **#74 已合并**（merge commit `f9aa773`），main 同时包含 rebrand PR #77：
+  `design-hardware/`→`easycirq/`、`zhigou_mcp`→`easycirq_mcp`、审计输入 schema
+  `zhigou.electrical-review.input/v1`→`easycirq.electrical-review.input/v1`。
+- 本包已 rebase：`feat/parallel-task-launcher-bound-on-main`（base `f9aa773`），
+  6 个提交干净重放，83 files 全 A。
+- rebase 后必须的兼容修复（真实执行）：
+  - 双布局 Skill 检测（`easycirq`/`design-hardware`）并写入
+    config/settings/argv/routing；`plan --skill-name` 可覆盖；
+  - 离线引擎 `easycirq_mcp`/`zhigou_mcp` 双探测，按模块选择
+    `fixtures/inputs_easycirq/`（新 schema）或 `fixtures/inputs/`（旧 schema）；
+  - hooks 接受两种 Skill 名。
+- 复验：新 main 上 208 tests OK、24/24、selftest 19/19、全量 3636 OK(skipped=3)；
+  旧布局分支 208 OK、24/24、19/19。B1 `build-plugin --skill-dir easycirq` 628 files；
+  bound `plan --plugin-dir` → `agent_ready=true`、`skill_name=easycirq`。
+- 仍 **NOT RUN**：由 B1 launcher 真实拉起 bound 的端到端（B1 未接 bound MCP）、真实 Claude
+  冒烟、Phase 2 真实 EDA 写（无授权）。B1 HEAD/main 若再变化需重跑上述命令。
