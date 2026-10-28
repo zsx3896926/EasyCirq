@@ -28,7 +28,7 @@
 |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |
 
-- `zhigou pcb net-classes` 回读时间与结果：
+- `easyeda pcb net-classes` 回读时间与结果：
 - 电源网（+5V/VREF 等）宽度依据；与 `pcb check` 的 `width-under-spec`/`width-mismatch` 对照：
 
 ## 3. 电源与地策略
@@ -60,7 +60,7 @@
 
 - `routing.key_nets` / `routing.key_net_proofs` 填写值：
 - `net-path` 只证明已布铜，不含铺铜/内电层；由铺铜承担的网另列 `pour-list` + `dump`，并注明“net-path 不覆盖”：
-- 保存 → `zhigou doc reload` → 重新回读的时间与结果：
+- 保存 → `easyeda doc reload` → 重新回读的时间与结果：
 
 ## 6. 过孔策略
 
@@ -82,9 +82,9 @@
 
 ## 8. 自动布线候选记录
 
-- `zhigou pcb route-short --dry-run` 的命令/时间/结果，skipped nets 与实际 routes/vias 差异：
+- `easyeda pcb route-short --dry-run` 的命令/时间/结果，skipped nets 与实际 routes/vias 差异：
 - 是否使用 `--route-power`（默认“否”；若“是”，写理由与铺铜前/后顺序）：
-- 是否使用 `zhigou pcb autoroute`（DSN→SES→import→DRC 的回读结果）：
+- 是否使用 `easyeda pcb autoroute`（DSN→SES→import→DRC 的回读结果）：
 - 采纳/回退决定与理由：
 
 ## 9. 停止条件与 DRC 轮次
@@ -103,12 +103,12 @@
 
 | 角色 | 文件 | 命令 | 时间/版本 | 格式 | 备注 |
 |---|---|---|---|---|---|
-| DRC（布线前/最终） |  | `zhigou pcb drc --json` |  |  |  |
-| 布局检查 |  | `zhigou pcb layout-lint --json` |  |  |  |
-| 铺铜与过孔回读 |  | `zhigou pcb pour-list` / `zhigou pcb via-list` |  |  |  |
-| 板级铜/网络 |  | `zhigou pcb dump` |  |  |  |
-| 关键网证明 |  | `zhigou pcb net-path --json` |  |  |  |
-| 保存重载与丝印 |  | `zhigou doc reload` / `zhigou pcb silk-align` |  |  |  |
+| DRC（布线前/最终） |  | `easyeda pcb drc --json` |  |  |  |
+| 布局检查 |  | `easyeda pcb layout-lint --json` |  |  |  |
+| 铺铜与过孔回读 |  | `easyeda pcb pour-list` / `easyeda pcb via-list` |  |  |  |
+| 板级铜/网络 |  | `easyeda pcb dump` |  |  |  |
+| 关键网证明 |  | `easyeda pcb net-path --json` |  |  |  |
+| 保存重载与丝印 |  | `easyeda doc reload` / `easyeda pcb silk-align` |  |  |  |
 
 - 截断或损坏的 JSON 不作为证据；每份记录工程/板版、时间与命令，便于判断是否早于最终板。
 

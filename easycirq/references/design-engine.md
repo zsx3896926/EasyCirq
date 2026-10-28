@@ -1,6 +1,6 @@
 # 确定性设计引擎：IR、几何审计与标签规划
 
-`scripts/design_engine/` 是离线、stdlib-only 的确定性层，用于把真实 EDA 回读变成可复核的 IR、覆盖报告、问题和可应用计划。它**不连接 EDA、不写工程、不下单**；执行仍由 `zhigou` 的受控 typed 命令完成。
+`scripts/design_engine/` 是离线、stdlib-only 的确定性层，用于把真实 EDA 回读变成可复核的 IR、覆盖报告、问题和可应用计划。它**不连接 EDA、不写工程、不下单**；执行仍由 `eda_exec.py` 或 easyeda-agent 的受控命令完成。
 
 适用场景：真实回读后的几何/身份审计；纯排版前后的差异与网表身份比较；Designator/Name 标签的确定性重排候选；PCB 板框、焊盘、走线连通和原生 DRC 的独立复核。仅做方案或没有真实回读时，不启动本引擎。
 
@@ -46,7 +46,7 @@
 
 ## 4. 命令
 
-在 `easycirq/scripts/` 下运行：
+在 `design-hardware/scripts/` 下运行：
 
 ```bash
 python design_engine_cli.py ingest --bundle <bundle> --out ir.json --json
@@ -75,7 +75,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 ### 4.1 标签计划
 
-`plan-labels` 只移动 **Designator/Name** 属性（zhigou-agent 的 `sch attribute-move` 只支持这两类）。每个候选位置都在当前 IR 副本上检查：页内、图签、其他器件本体、其他文字、网络标签、导线；按确定性的环搜索取第一个合法位置，并重新审计后再处理下一个问题。净标签和网络旗形属于导线/符号，移动锚点会脱离所属对象，因此只报告 `unplanned`，不伪造坐标。
+`plan-labels` 只移动 **Designator/Name** 属性（easyeda-agent 的 `sch attribute-move` 只支持这两类）。每个候选位置都在当前 IR 副本上检查：页内、图签、其他器件本体、其他文字、网络标签、导线；按确定性的环搜索取第一个合法位置，并重新审计后再处理下一个问题。净标签和网络旗形属于导线/符号，移动锚点会脱离所属对象，因此只报告 `unplanned`，不伪造坐标。
 
 计划是声明式的：
 
@@ -87,7 +87,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 `--moves-dir` 生成 `sch attribute-move --from` 所需的 JSON：`projectUuid`、`documentUuid`、`primitiveId`、`x`、`y`、`expected`（完整原始属性记录）。不接受额外字段；应用后必须重新回读、重新 `audit`、重新导出图；计划里的模拟结果不是 EDA 验收。
 
-本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见[真实应用（仓库证据）](https://github.com/zsx3896926/EasyCirq/blob/main/docs/round7/a08-real-apply.md)）；仍不移动净标签、旗形或器件属性值。
+本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见[真实应用（仓库证据）](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/round7/a08-real-apply.md)）；仍不移动净标签、旗形或器件属性值。
 
 ### 4.2 前后比较
 
@@ -151,7 +151,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 - `pcb-diff`：比较两次实测 dump 的身份/几何/铜；`scope` 外的变化进入 `unrelated_changes` 并判 `mismatch`。
 - `pcb-extract-module` / `pcb-reuse-plan`：提取相对布局 + pad→net 契约，在目标板按 anchor 旋转/平移应用；身份/层/pad 集合/网络分区/尺寸/rotation 不一致即拒绝；铜复用固定 `not_supported`。
 
-边界：不连接 EDA、不写工程、不证明铺铜连通/阻抗/EMC/热；`near_pin` 是 pad 中心距，不是铜路径；模板是方法级/离线验证，不是已画完实例。实际写入仍由 typed `zhigou pcb ...` 完成，保存重开后用 fresh dump 再跑 `pcb-diff`。
+边界：不连接 EDA、不写工程、不证明铺铜连通/阻抗/EMC/热；`near_pin` 是 pad 中心距，不是铜路径；模板是方法级/离线验证，不是已画完实例。实际写入仍由 typed `easyeda pcb ...` 完成，保存重开后用 fresh dump 再跑 `pcb-diff`。
 
 ## 5. 常用画法模板
 
@@ -169,7 +169,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 ## 7. 与现有脚本的关系
 
-- `zhigou`：受控读写执行层；本引擎不替代它。
-- `layout_from_snapshot.py`：把真实回读快照转成 `sch_layout_check.py` 输入；现在会在快照带 `parts[].bbox` / `texts[].bbox` 时输出真实 `components/texts`，否则在 `coverage` 中明示缺失，检查器返回 `incomplete`。
+- `eda_exec.py`：受控读写执行器；本引擎不替代它。
+- `layout_from_snapshot.py`：把 `eda_exec` 快照转成 `sch_layout_check.py` 输入；现在会在快照带 `parts[].bbox` / `texts[].bbox` 时输出真实 `components/texts`，否则在 `coverage` 中明示缺失，检查器返回 `incomplete`。
 - `sch_layout_check.py`：矩形/折线候选检查器；新增 `coverage` 字段后，不再把“没读到几何”误报成 `no_candidates`。
 - `netlist_diff.py`：原生网表门禁；纯排版的最终电气验收仍以它为准。

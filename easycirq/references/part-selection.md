@@ -47,7 +47,7 @@ G0 的 `assembly` 是整板路线（如 `self-solder` / `jlc-smt` / `mixed`）�
 
 - 空厂家/空 MPN 不留空，统一写 `待核`；采购前必须补实，不能靠 BOM 看起来齐全过关。
 - C 号是身份，不是可得性：有 C 号不代表有库存、能贴、价格合适。库存、MOQ/包装、SMT 可贴状态分别核对，见 [立创商城](lcsc-sourcing.md)。
-- 原始 BOM 先导出并保留：`zhigou bom export --type csv --enrich=false`；富化失败不阻断设计，处理流程见 [立创商城](lcsc-sourcing.md)。
+- 原始 BOM 先导出并保留：`easyeda bom export --type csv --enrich=false`；富化失败不阻断设计，处理流程见 [立创商城](lcsc-sourcing.md)。
 - 字段模板与检查：[parts.example.json](../assets/parts.example.json)，运行 `python scripts/bom_check.py <parts.json>` 检查缺字段、手焊 0402、DNP 分类等结构问题；脚本通过不等于库存/封装/电气已核。
 
 C号/供应商编号服务采购与匹配，不证明引脚、封装或电气等价；非立创供应链不因缺C号阻断设计。

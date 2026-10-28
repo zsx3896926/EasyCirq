@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Adapt zhigou-agent reads into sch_layout_check.py input.
+"""Adapt easyeda-agent reads into sch_layout_check.py input.
 
 Inputs are retained CLI responses, never live calls:
 
-* ``zhigou sch list --include-bbox --include-pins --include-wires
+* ``easyeda sch list --include-bbox --include-pins --include-wires
   --include-page-primitives`` -> components, pins, wires, drawing primitives;
 * ``schematic.visible_text.bboxes`` -> the measured subset of visible text;
-* ``zhigou sch sheet-geometry --from-svg`` -> measured title-block keep-out;
+* ``easyeda sch sheet-geometry --from-svg`` -> measured title-block keep-out;
 * an optional rendered SVG text measurement (``rows`` with a model bbox whose
   y axis is negative) -> every text that actually renders, including pin names,
   net names and border labels the API does not enumerate.
@@ -17,7 +17,7 @@ the checker can refuse strict acceptance instead of turning missing glyphs into
 a clean result.
 
 Usage:
-  python layout_from_zhigou.py --list list.json --visible-text text.json \
+  python layout_from_easyeda.py --list list.json --visible-text text.json \
       --sheet-geometry sheet.json [--rendered-text svg-text.json] --out layout.json
 Exit 0: adapter output written; 2: invalid input.
 """

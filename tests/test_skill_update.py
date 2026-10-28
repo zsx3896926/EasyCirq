@@ -24,7 +24,7 @@ class UpdaterTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.source = self.root / 'source'
         (self.source / 'scripts').mkdir(parents=True)
-        (self.source / 'SKILL.md').write_text('---\nname: easycirq\ndescription: test\n---\n', encoding='utf-8')
+        (self.source / 'SKILL.md').write_text('---\nname: design-hardware\ndescription: test\n---\n', encoding='utf-8')
         shutil.copyfile(ROOT / 'easycirq/scripts/skill_update.py', self.source / 'scripts/skill_update.py')
         self.target = self.root / 'home' / '.agents' / 'skills' / u.NAME
         self.p1, self.m1 = self.make('0.7.0')
@@ -50,7 +50,7 @@ class UpdaterTests(unittest.TestCase):
     def test_unchanged_version_is_idempotent(self):
         self.first()
         self.assertEqual(u.install(self.target, self.p1, self.m1)['status'], 'already_current')
-        self.assertFalse(list(u.state_dir(self.target).glob('.easycirq-backup-*')))
+        self.assertFalse(list(u.state_dir(self.target).glob('.design-hardware-backup-*')))
 
     def test_edited_file_blocks_update_and_rollback(self):
         self.first()
@@ -113,7 +113,7 @@ class UpdaterTests(unittest.TestCase):
         self.assertFalse(self.target.exists())
 
     def test_zip_slip_and_windows_paths_rejected(self):
-        for p in ['../outside', '/absolute', 'C:/windows', 'easycirq/CON.txt', 'easycirq/a:b', 'easycirq/a\\b', 'easycirq/a./b']:
+        for p in ['../outside', '/absolute', 'C:/windows', 'design-hardware/CON.txt', 'design-hardware/a:b', 'design-hardware/a\\b', 'design-hardware/a./b']:
             with self.subTest(p=p):
                 with self.assertRaises(u.UpdateError): u.install(self.target, self.modified_archive(p))
         self.assertFalse((self.root / 'outside').exists())
@@ -142,7 +142,7 @@ class UpdaterTests(unittest.TestCase):
         self.first()
         replace = u.os.replace
         def fail(src, dst):
-            if Path(src).name.startswith('.easycirq-stage-') and Path(dst) == self.target:
+            if Path(src).name.startswith('.design-hardware-stage-') and Path(dst) == self.target:
                 raise OSError('simulated file lock')
             return replace(src, dst)
         with patch.object(u.os, 'replace', side_effect=fail):
@@ -153,8 +153,8 @@ class UpdaterTests(unittest.TestCase):
 
     def test_interrupted_old_rename_recovery(self):
         self.first()
-        backup = u.state_dir(self.target) / '.easycirq-backup-interrupted'
-        stage = u.state_dir(self.target) / '.easycirq-stage-interrupted'
+        backup = u.state_dir(self.target) / '.design-hardware-backup-interrupted'
+        stage = u.state_dir(self.target) / '.design-hardware-stage-interrupted'
         stage.mkdir()
         os.replace(self.target, backup)
         u.write_json(u.paths(self.target)[1], {'target': str(self.target), 'stage': str(stage), 'backup': str(backup)})
@@ -165,7 +165,7 @@ class UpdaterTests(unittest.TestCase):
     def test_interrupted_first_install_can_be_retried(self):
         self.target.parent.mkdir(parents=True)
         u.state_dir(self.target).mkdir(parents=True)
-        stage = u.state_dir(self.target) / '.easycirq-stage-gone'
+        stage = u.state_dir(self.target) / '.design-hardware-stage-gone'
         u.write_json(u.paths(self.target)[1], {'target': str(self.target), 'stage': str(stage), 'backup': None})
         u.recover(self.target)
         self.first()
@@ -199,11 +199,11 @@ class UpdaterTests(unittest.TestCase):
 
     def test_client_detection_preserves_legacy_codex_path(self):
         home = self.root / 'clients'
-        old = home / '.codex/skills/easycirq'
+        old = home / '.codex/skills/design-hardware'
         old.mkdir(parents=True)
         (old / 'SKILL.md').write_text('legacy')
         self.assertEqual(u.choose_target('codex', home), old)
-        new = home / '.agents/skills/easycirq'
+        new = home / '.agents/skills/design-hardware'
         new.mkdir(parents=True)
         (new / 'SKILL.md').write_text('duplicate')
         with self.assertRaises(u.UpdateError): u.choose_target('codex', home)
@@ -300,7 +300,7 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr + p.stdout)
         self.assertIn('"status": "installed"', p.stdout)
         self.assertIn('硬件设计 Skill', p.stdout)
-        target = self.root / 'menu home/.claude/skills/easycirq'
+        target = self.root / 'menu home/.claude/skills/design-hardware'
         self.assertEqual(u.status(target)['version'], '0.7.0')
 
     def test_cli_real_subprocess_install_and_status(self):

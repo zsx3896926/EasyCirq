@@ -21,7 +21,7 @@
 
 | ID | 验证项 | 方法/条件 | 判定标准 | 实测 | 状态 | 证据 |
 |---|---|---|---|---|---|---|
-| V1 | 电气检查 | 最终版原理图跑 `zhigou sch drc --json`、`sch nets --json`、`sch connectivity`；PCB 跑 `zhigou pcb drc --json` | `sch drc` 0 fatal/error；0 单引脚网；PCB `passed:true`；网表与计划一致 |  | `NOT RUN` | DRC/网表 JSON |
+| V1 | 电气检查 | 最终版原理图跑 `easyeda sch drc --json`、`sch nets --json`、`sch connectivity`；PCB 跑 `easyeda pcb drc --json` | `sch drc` 0 fatal/error；0 单引脚网；PCB `passed:true`；网表与计划一致 |  | `NOT RUN` | DRC/网表 JSON |
 | V2 | 目视与装配 | 对照装配图查极性、1 脚、DNP、连锡、器件方向、连接器朝向 | 与装配图一致，无连锡/漏件/错件 |  | `NOT RUN` | 顶/底照片 |
 | V3 | 静态阻抗 | 断电，万用表测 `+5V`–`GND` 及关键网对地 | 无短路；阻值不低于设计下限（填实数值） |  | `NOT RUN` | 读数照片/CSV |
 | V4 | 限流上电 | 限流电源设标称电压与限流值；空板先测阻抗 | 电流在预期范围，无异常发热/异味；超限立即断电 |  | `NOT RUN` | 电流读数、时间点 |

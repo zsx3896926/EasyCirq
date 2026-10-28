@@ -10,7 +10,7 @@ orphan, so strict acceptance needs the rendered set.
 The SVG is sanitized (script/event/foreignObject removed), wrapped in a local
 HTML page, and measured with a headless Chromium browser via ``--dump-dom``.
 Output bbox is in the SVG's exported user coordinates (y down, so a model y of
-10 appears as -10).  ``layout_from_zhigou.py`` flips it to EasyEDA raw y-up.
+10 appears as -10).  ``layout_from_easyeda.py`` flips it to EasyEDA raw y-up.
 
 This is an offline measurement adapter.  It never calls or edits EasyEDA.
 

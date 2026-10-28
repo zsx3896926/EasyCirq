@@ -1,9 +1,9 @@
 {
   "_doc": [
-    "Curated STANDARD PARTS for the zhigou library-first workflow (器件标准化).",
+    "Curated STANDARD PARTS for the EasyCirq library-first workflow (器件标准化).",
     "Place from here FIRST — it is deterministic, BOM-ready, and LCSC-orderable. Fall back",
-    "to schematic.library.search only for a category not listed here. Each part places via",
-    "schematic.component.place with { libraryUuid, uuid: deviceUuid }. The lcsc field is the",
+    "to the official CLI library search only for a category not listed here. Each part places via",
+    "the official CLI adapter with { libraryUuid, uuid: deviceUuid }. The lcsc field is the",
     "立创 C-number for direct ordering. All deviceUuid/lcsc values were captured from live",
     "lib_Device.search and validated by placing on real boards (ESP32-S3 system + USB-C",
     "power). Prefer JLC basic parts (basic:true) to avoid extended-part feeder fees.",

@@ -29,10 +29,11 @@ python scripts/ecosystem.py run --tool files -- inspect --input project.epro2
 | 不占 EDA 的审图 | 与单独部署 viewer 的只读页面、位号定位集成；渲染器未捆绑 | [files](ecosystem-files.md) |
 | CLI/API/SDK 查询 | 本地资料索引、内容哈希防旧、按查询返回行定位；运行时帮助优先 | 下文 |
 
-## 官方 API/文档资料（只读）与执行层
+## 官方 CLI 与 API/SDK 资料
 
-官方客户端文档/API 资料只用于只读查询与核对签名，不是本Skill的写执行通道；写入只走 `zhigou`。不要混用官方文档示例、窗口 ID、命令参数或就绪结论。API Skill 与
-SDK 资料用于检索签名和枚举，不能覆盖当前宿主实际返回。官方文档声明的
+分别管理 `lceda-pro/easyeda-pro` 官方客户端 CLI 与 `easyeda-agent`。不要混用会话 ID、
+窗口 ID、命令参数或就绪结论。官方 CLI 来源是已安装版本的 help/doc；API Skill 与
+SDK 资料用于检索签名和枚举，不能覆盖当前宿主实际返回。官方 CLI 文档声明的
 制造导出能力仍须逐项实际导出、检查非空产物与版本后才能标通过。
 
 ```bash

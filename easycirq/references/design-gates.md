@@ -43,12 +43,12 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 ## 3. 门禁总览
 
-| 门禁 | 对应阶段 | 阻塞条件（一句话） | 主要命令（前代命令面，执行前复核） | 证据角色 | 不适用条件 |
+| 门禁 | 对应阶段 | 阻塞条件（一句话） | 主要命令（v1.14.0） | 证据角色 | 不适用条件 |
 |---|---|---|---|---|---|
 | G0 需求边界 | S1 | 12 个需求字段缺失/`待确认`，或存在 blocking open item | `gate_check.py --design-state` | `design-state.json` | 只读评审或纯知识问答，不进入设计 |
-| G1 功能冻结 | S2→S3 | 未冻结、必需件为空，或冻结后增删无 change-impact 文件 | `gate_check.py`；`zhigou pcb import-changes` | `design-state.function_freeze`、`change-impact.md` | 只读评审，不修改工程 |
-| G2 原理图完成 | S3→S4 | `sch drc` fatal/error>0、电气类 check>0，或网表/图签/看图证据缺失 | `zhigou sch gate --json`；`sch drc/check/netlist/export-image` | `sch_drc`、`sch_check`、`netlist_diff`、`schematic_png` | 仅 PCB 任务且原理图基线未改；复用基线证据须标日期与版本 |
-| G3 布局完成 | S4 布线前 | score<60、crossings>8、overlap/off-board>0，或板框/安装孔/冻结缺失 | `zhigou pcb layout-lint --json`；`outline-get`；`mount-holes --dry-run`；`pcb dump` | `pcb_layout_lint`、`pcb_board`、`pcb_mount_holes` | 只交付原理图，不进入 PCB |
+| G1 功能冻结 | S2→S3 | 未冻结、必需件为空，或冻结后增删无 change-impact 文件 | `gate_check.py`；`easyeda pcb import-changes` | `design-state.function_freeze`、`change-impact.md` | 只读评审，不修改工程 |
+| G2 原理图完成 | S3→S4 | `sch drc` fatal/error>0、电气类 check>0，或网表/图签/看图证据缺失 | `easyeda sch gate --json`；`sch drc/check/netlist/export-image` | `sch_drc`、`sch_check`、`netlist_diff`、`schematic_png` | 仅 PCB 任务且原理图基线未改；复用基线证据须标日期与版本 |
+| G3 布局完成 | S4 布线前 | score<60、crossings>8、overlap/off-board>0，或板框/安装孔/冻结缺失 | `easyeda pcb layout-lint --json`；`outline-get`；`mount-holes --dry-run`；`pcb dump` | `pcb_layout_lint`、`pcb_board`、`pcb_mount_holes` | 只交付原理图，不进入 PCB |
 | G4 电源地策略 | S4 布线前 | 层数与板不符、策略未在布线前声明、GND 未铺、过孔未审计 | `pcb stackup show`；`power-pour`；`pour-list`；`via-list`；`pcb check` | `pcb_pours`、`pcb_vias`、`pcb_board`、`pcb_check` | 无 PCB 任务；进入 S4 后不能整门禁跳过 |
 | G5 布线完成 | S4 退出 | `pcb drc` 未 `passed:true` 或仍有 Connection、关键网未证明、保存重载无回读 | `pcb drc --json`；`net-path`；`doc reload`；`silk-align` | `pcb_drc`、`net_path`、`reopen_check`、`silk_align` | 用户只要求布局，交付级别写“PCB 候选（未布线）” |
 | G6 制造交付 | S5 | Gerber/钻孔/CPL 缺证据、BOM 缺 C 号、库存/SMT 未核、恢复演练未做、无测试计划 | `bom export`；`project export`；制造文件由 GUI 导出 | `gerber`、`drill`、`cpl`、`bom`、`project_export` | 交付级别止于 PCB/DRC 0；交付说明仍须写 G6 `NOT RUN` |
@@ -62,8 +62,6 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 5. **`UNSUPPORTED` 必须显式列出。** 当前 CLI 没有检查路径的项不能默认通过，也不能静默删除；写入 `not_checked` 并给出人工证据要求。缺人工证据时，所在门禁整体 `BLOCKED`。
 6. **缺证据就是 `BLOCKED`，不是 `PASS`。** 未运行、未导出、未回读的检查保持 `待确认`；报告写 `NOT RUN`，不写“应该没问题”。
 7. **退出码。** `gate_check.py`：`0` = 没有 `BLOCKED`/`UNSUPPORTED`；`1` = 至少一个 `BLOCKED`/`UNSUPPORTED`；`2` = 参数、IO 或 `design-state` schema 错误。退出码 0 只说明脚本判定，不证明硬件。
-8. **几何告警只能靠布局/走线/检查器解决，禁止用电气手段消警。** 不得用浮空或支撑假脚、改网络、删器件、伪造 NC、降低约束/阈值来让 overlap、间距、连通或文字告警消失；这类改动既改变电气事实又制造假证据。确需电气变更时必须有依据、影响分析和变更记录，并重跑受影响门禁；检查器误判时修检查器或记录为误报（附证据），不改图迁就检查器。
-9. **失败预算不是豁免。** 同类失败连续 2 次必须重新诊断、换方法，禁止原样重试；阶段预算耗尽时切换已验证替代路径，但不能据此跳过质量检查或把 `BLOCKED` 写成 `PASS`（见 [反馈闭环](feedback-loop.md) §3）。
 
 ## 5. G0_requirements 需求边界
 
@@ -98,7 +96,7 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 | `frozen` | 状态 | `python scripts/gate_check.py --evidence-dir <dir> --design-state <file>` | `function_freeze.status` | `frozen` 或 `frozen_with_changes` | 其他值 → `BLOCKED`（不可豁免） |
 | `required_parts` | 列表 | 同上 | `function_freeze.required` | 非空 | 空或缺失 → `BLOCKED` |
 | `change_impact` | 逐项文件存在 | 同上；变更影响可用 `python scripts/decision_record_check.py` 复核记录结构 | `removed_after_freeze[].change_impact`、`changes[].change_impact` | 每个冻结后增删都有存在的 `change-impact.md` | 缺失、文件不存在或无 impact → `BLOCKED` |
-| `reimport`（G1 证据，非独立 id） | 回读 | `zhigou pcb import-changes --schematic <uuid>`；`zhigou pcb list --include-pads`；`zhigou pcb net-path` | `pcb-list-*.json`、`netlist-diff.json` | 原理图删除件在 PCB 中确实消失，网表一致 | 只跑导入不回读 → 仍 `待确认` |
+| `reimport`（G1 证据，非独立 id） | 回读 | `easyeda pcb import-changes --schematic <uuid>`；`easyeda pcb list --include-pads`；`easyeda pcb net-path` | `pcb-list-*.json`、`netlist-diff.json` | 原理图删除件在 PCB 中确实消失，网表一致 | 只跑导入不回读 → 仍 `待确认` |
 
 **退出条件：** 冻结状态成立、必需件非空、冻结后每项变更都有影响记录且重新导入已回读。满足后进入 S3。
 
@@ -112,22 +110,20 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 **必需输入：** 已保存并回读的原理图；计划网表与实际网表；整页导出图；图签信息。适用检查提示见 [原理图细节](schematic-details.md) 的 SC 条目与 [原理图工程习惯](schematic.md)。
 
-| check id | 判定 | 命令（前代命令面，执行前复核） | 证据 | 通过条件 | 不支持时 |
+| check id | 判定 | 命令（v1.14.0） | 证据 | 通过条件 | 不支持时 |
 |---|---|---|---|---|---|
-| `sch_drc_electrical` | 计数 | `zhigou sch drc --json > evidence/sch-drc.json` | `sch_drc`（JSON 或 human 摘要） | fatal=0 且 error=0；warn/info 记录 | 缺证据、截断或 `invalid_json` → `BLOCKED` |
-| `sch_check_electrical` | 电气类计数 | `zhigou sch check --json --page <page> > evidence/sch-check.json` | `sch_check` | floating pin、net-marker/wire-name mismatch、multi-net wire、wire crossing、wire-over-pin 等电气类为 0 | 目标页非 active 时报 `Active schematic document instance is unavailable`；先 `--page` 或 `doc switch`，不能当作通过 |
+| `sch_drc_electrical` | 计数 | `easyeda sch drc --json > evidence/sch-drc.json` | `sch_drc`（JSON 或 human 摘要） | fatal=0 且 error=0；warn/info 记录 | 缺证据、截断或 `invalid_json` → `BLOCKED` |
+| `sch_check_electrical` | 电气类计数 | `easyeda sch check --json --page <page> > evidence/sch-check.json` | `sch_check` | floating pin、net-marker/wire-name mismatch、multi-net wire、wire crossing、wire-over-pin 等电气类为 0 | 目标页非 active 时报 `Active schematic document instance is unavailable`；先 `--page` 或 `doc switch`，不能当作通过 |
 | `style_warnings` | 风格/结构类计数 | 同上 | `sch_check` | 0，或逐条修复/带理由豁免 | 非空且未豁免 → `BLOCKED`（可豁免） |
-| `netlist_audit` | 网表 diff | `zhigou sch netlist --type protel` 导出计划与实际网表；`python scripts/netlist_diff.py before.net after.net --output netlist-diff.json` | `netlist_diff` | `status=match`；电气修订只允许逐条白名单差异 | `invalid` 或缺一侧网表 → `BLOCKED`，不能当审计通过 |
-| `single_pin_nets` | 单引脚网 | `zhigou sch nets --all --json --strict > evidence/sch-nets.json` | `sch_nets` | 0 个单引脚网 | 缺失或不可判定 → `BLOCKED`（可豁免）；单脚网可能是漏连，也可能是测试点，需逐条解释 |
-| `titleblock` | 图签 | `zhigou sch titleblock-get --page <uuid>` | 状态记录或 `sch_check` 分类 | 板名、版本、图签完整；无 missing-titleblock/titleblock-overlap | 缺失 → `BLOCKED`（可豁免） |
-| `png_review` | 看图 | `zhigou sch export-image --format png --scope page --page <page> -o <file>` | `schematic_png` + `schematic.png_review` | 实际看过整页与关键局部，记录遮挡/歧义/绕线问题 | 只有 DRC 没有导图 → `BLOCKED`（可豁免） |
+| `netlist_audit` | 网表 diff | `easyeda sch netlist --type protel` 导出计划与实际网表；`python scripts/netlist_diff.py before.net after.net --output netlist-diff.json` | `netlist_diff` | `status=match`；电气修订只允许逐条白名单差异 | `invalid` 或缺一侧网表 → `BLOCKED`，不能当审计通过 |
+| `single_pin_nets` | 单引脚网 | `easyeda sch nets --all --json --strict > evidence/sch-nets.json` | `sch_nets` | 0 个单引脚网 | 缺失或不可判定 → `BLOCKED`（可豁免）；单脚网可能是漏连，也可能是测试点，需逐条解释 |
+| `titleblock` | 图签 | `easyeda sch titleblock-get --page <uuid>` | 状态记录或 `sch_check` 分类 | 板名、版本、图签完整；无 missing-titleblock/titleblock-overlap | 缺失 → `BLOCKED`（可豁免） |
+| `png_review` | 看图 | `easyeda sch export-image --format png --scope page --page <page> -o <file>` | `schematic_png` + `schematic.png_review` | 实际看过整页与关键局部，记录遮挡/歧义/绕线问题 | 只有 DRC 没有导图 → `BLOCKED`（可豁免） |
 | `net_naming` | 风格 | 阅读原理图与网表 | `schematic.net_naming` | 功能网名有语义（如 VBUS/CC1/CC2/NODE/VREF/GATE/BUZ_D） | 缺失只给 advisory `warn` |
 
-`zhigou sch gate --json [--strict] [--all-pages]` 是组合入口，固定顺序 layout-lint → check → bridge-check → drc，三态 verdict 为 `pass`/`fail`/`blocked`；阻塞规则是 layout-lint overlap/pin-coincidence、check fatal+error、bridge-check bridge、drc fatal。组合命令方便一次跑完，但每个子项的证据仍要落盘，不能用一行 `pass` 代替。
+`easyeda sch gate --json [--strict] [--all-pages]` 是组合入口，固定顺序 layout-lint → check → bridge-check → drc，三态 verdict 为 `pass`/`fail`/`blocked`；阻塞规则是 layout-lint overlap/pin-coincidence、check fatal+error、bridge-check bridge、drc fatal。组合命令方便一次跑完，但每个子项的证据仍要落盘，不能用一行 `pass` 代替。
 
 **退出条件：** DRC 0 fatal/0 error、电气检查 0、网表 match、单引脚网已解释、图签与看图记录存在；风格警告已修复或豁免。满足后导入 PCB。
-
-**代表模块前置（默认步骤）：** 新画/大改的原理图必须先有一个**代表模块**完成 `绘制 → save → 重开后回读 → 逐脚/pin-net 核对 → 官方导图整页+局部视觉检查`，并把样板证据放进 `schematic.representative_module`；样板未完成时不得批量扩展其余模块，也不得声称 G2 通过。该步骤是自主自检，不要求用户审批。
 
 **豁免规则：** 电气 DRC、网表审计不可豁免；单引脚网、图签、看图、风格警告可豁免，但要在豁免里写清哪条、为什么、何时复验。同名网标签不是实际导通的证据，不能靠改名消除检查项。
 
@@ -139,24 +135,22 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 **必需输入：** 目标板框与尺寸上限、安装孔要求、连接器位置、器件放置结果；`pcb dump`（含 components/outline/copper）与 `pcb layout-lint`。
 
-| check id | 判定 | 命令（前代命令面，执行前复核） | 证据 | 通过条件 | 不支持时 |
+| check id | 判定 | 命令（v1.14.0） | 证据 | 通过条件 | 不支持时 |
 |---|---|---|---|---|---|
-| `layout_lint_score` | 阈值 | `zhigou pcb layout-lint --json > evidence/pcb-layout-lint.json` | `pcb_layout_lint` | score ≥ 60（可用 `--min-layout-score` 调整） | 缺证据或解析失败 → `BLOCKED`；原理图 layout-lint 不算 |
+| `layout_lint_score` | 阈值 | `easyeda pcb layout-lint --json > evidence/pcb-layout-lint.json` | `pcb_layout_lint` | score ≥ 60（可用 `--min-layout-score` 调整） | 缺证据或解析失败 → `BLOCKED`；原理图 layout-lint 不算 |
 | `layout_lint_crossings` | 阈值 | 同上 | `pcb_layout_lint` | crossings ≤ 8（可用 `--max-crossings` 调整） | 同上 → `BLOCKED` |
 | `layout_lint_geometry` | 计数 | 同上 | `pcb_layout_lint` | overlap=0、off-board=0、short=0；tight 只作 advisory | 任一几何错误 → `BLOCKED`（不可豁免） |
-| `board_outline` | 尺寸 | `zhigou pcb outline-get > evidence/pcb-outline.json`；`zhigou pcb dump --out evidence/pcb-board.json` | `pcb_board` | 实际宽高不超过 `layout.board_outline` 或 `requirements.size_limit` 的目标 +0.5 mm | 目标未记录 → `BLOCKED`；不能用 `outline-fit` 反推目标 |
-| `mounting_holes` | 记录/回执 | `zhigou pcb mount-holes --dry-run > evidence/pcb-mount-holes.json` | `pcb_mount_holes` | 数量/孔径/内缩已记录，或 `not_applicable` 带理由 | 无记录 → `BLOCKED`（可豁免）；该命令铣 BoardCutout，不是导入安装孔器件 |
-| `connector_escape` | 距离/禁布 | `zhigou pcb dump --out board.json`；`zhigou pcb list --include-pads` | `layout.connector_escape` | 接口无源件（CC/VBUS/TVS/ESD）距连接器 ≤5 mm，且避开 slot 禁布 | 板上有连接器但未记录 → `BLOCKED`（可豁免） |
-| `auto_place_comparison` | 前后对比 | `zhigou pcb auto-place` 前后各跑一次 `layout-lint` | `layout.auto_place_metrics` | 记录 before/after；变差则回退 | 用了自动摆放但无指标 → `BLOCKED`（可豁免） |
+| `board_outline` | 尺寸 | `easyeda pcb outline-get > evidence/pcb-outline.json`；`easyeda pcb dump --out evidence/pcb-board.json` | `pcb_board` | 实际宽高不超过 `layout.board_outline` 或 `requirements.size_limit` 的目标 +0.5 mm | 目标未记录 → `BLOCKED`；不能用 `outline-fit` 反推目标 |
+| `mounting_holes` | 记录/回执 | `easyeda pcb mount-holes --dry-run > evidence/pcb-mount-holes.json` | `pcb_mount_holes` | 数量/孔径/内缩已记录，或 `not_applicable` 带理由 | 无记录 → `BLOCKED`（可豁免）；该命令铣 BoardCutout，不是导入安装孔器件 |
+| `connector_escape` | 距离/禁布 | `easyeda pcb dump --out board.json`；`easyeda pcb list --include-pads` | `layout.connector_escape` | 接口无源件（CC/VBUS/TVS/ESD）距连接器 ≤5 mm，且避开 slot 禁布 | 板上有连接器但未记录 → `BLOCKED`（可豁免） |
+| `auto_place_comparison` | 前后对比 | `easyeda pcb auto-place` 前后各跑一次 `layout-lint` | `layout.auto_place_metrics` | 记录 before/after；变差则回退 | 用了自动摆放但无指标 → `BLOCKED`（可豁免） |
 | `layout_frozen` | 状态 | 状态文件 | `layout.frozen`、`layout.frozen_at` | 已冻结并记录时间 | 未冻结 → `BLOCKED`（可豁免）；冻结后移动器件要重开 G3 |
 
-`zhigou pcb layout-lint --gate` 已废弃：它只显示历史阈值，不授权、不阻断布线。Skill 自己定阈值（默认 score≥60、crossings≤8）；CLI 的 `--min-score`/`--max-crossings` 只有在兼容 `--gate` 时用于显示，不能当作放行依据。
+`easyeda pcb layout-lint --gate` 已废弃：它只显示历史阈值，不授权、不阻断布线。Skill 自己定阈值（默认 score≥60、crossings≤8）；CLI 的 `--min-score`/`--max-crossings` 只有在兼容 `--gate` 时用于显示，不能当作放行依据。
 
 **退出条件：** 分数与交叉达标、几何 0 错误、板框与目标一致、安装孔与连接器逃逸有记录、布局冻结。满足后与 G4 一起进入布线。
 
 **豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。
-
-**几何告警的修复纪律：** overlap、间距、out-of-board、文字压迫等告警只能通过移动器件/改走线/改布局/修检查器解决；禁止用浮空或支撑假脚、改网络、删器件、伪造 NC、降低约束或放宽阈值来消警。电气设计变更必须有依据、影响分析和变更记录，并重开受影响门禁；检查器误判时以证据记录误报并修检查器，不改电气事实。
 
 **真实反例：** 15:38:01 `outline-fit --margin 100` 得到 3577.55 × 2176.76 mil；15:38:28 `pcb layout-lint` 仅为 `score 48/100 (hard)`、13 crossings（28 comps、0 short/overlap/off-board/tight、13 signal nets、ratsnest 17073 mil）；15:38:54 仍执行 `route-short`（v1.14.0 默认非 dry-run；当时日志写作 `--apply`，该参数不在 v1.14.0 help 中），74 routes、26 vias。随后 R1、R2 在 15:50:47 才从 `(1359.2,-1326.9)/(126.0,-410.5)` 移到 J1 旁 `(820,-1750)/(950,-1750)`，布局变更使已布线路由结论失效。
 
@@ -166,17 +160,17 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 **必需输入：** 层叠决策（2 层 vs 4 层）、电源树、地策略、DRC 规则、铺铜/平面回执、过孔清单。方法细节见 [布线与回流细节](pcb-routing-details.md) 的 RT 条目与 [PCB 工程习惯](pcb.md)。
 
-| check id | 判定 | 命令（前代命令面，执行前复核） | 证据 | 通过条件 | 不支持时 |
+| check id | 判定 | 命令（v1.14.0） | 证据 | 通过条件 | 不支持时 |
 |---|---|---|---|---|---|
-| `stackup_declared` | 层数一致性 | `zhigou pcb stackup show`；`zhigou pcb dump --out board.json` | `pcb_board`、`stackup.layers` | 声明 2/4/6/8 层且与 PCB 实际 `copperLayers` 一致 | 不一致或缺失 → `BLOCKED`（不可豁免） |
+| `stackup_declared` | 层数一致性 | `easyeda pcb stackup show`；`easyeda pcb dump --out board.json` | `pcb_board`、`stackup.layers` | 声明 2/4/6/8 层且与 PCB 实际 `copperLayers` 一致 | 不一致或缺失 → `BLOCKED`（不可豁免） |
 | `stackup_decision` | 决策记录 | 同上 | `stackup.decision` | 有 2 层 vs 4 层的理由与代价记录 | 缺失 → `BLOCKED`（可豁免） |
-| `power_ground_strategy` | 策略声明 | `zhigou pcb power-pour --dry-run`；`zhigou pcb power-planes --dry-run` | `stackup.power_ground_strategy` | 布线前声明一层一网或铺铜优先级、GND 层、非 GND 电源归属 | 缺失 → `BLOCKED`（不可豁免） |
-| `inner_layers` | 内层 | `zhigou pcb stackup show` | `stackup.inner_layers` | 4 层以上声明 PLANE/SIGNAL/GND/POWER | 缺失 → `BLOCKED`（不可豁免） |
-| `drc_rules_recorded` | 规则 | `zhigou pcb drc-rules > evidence/pcb-drc-rules.json` | `stackup.drc_rules_recorded` | clearance/线宽/过孔/net class 在布线前记录 | 缺失 → `BLOCKED`（可豁免） |
-| `gnd_pours` | 铺铜回读 | `zhigou pcb power-pour` 后 `zhigou pcb pour-list --net GND` | `pcb_pours` | 2 层板 GND 在 L1、L2 均有铺铜；多网同层需回读 priority | 回执与回读不一致、`priorityVerified:false` → 不得当已确认；缺铺铜 → `BLOCKED` |
-| `gnd_thin_traces` | 线宽审计 | `zhigou pcb dump --include-copper --out board.json` | `pcb_board` | 无低于 `max(10 mil, 2×trackWidthMinMil)` 的 GND 线 | 缺 dump → `BLOCKED`（不可豁免）；铺铜板上不应靠细 GND 线连通 |
-| `via_audit` | 过孔 | `zhigou pcb via-list > evidence/pcb-vias.json` | `pcb_vias` | 回读新鲜、drill/diameter 可核对、无 `staleRisk` | 缺证据或字段不完整 → `BLOCKED`/`warn`；4 层板必须有 |
-| `pcb_check_power` | DFM | `zhigou pcb check --json --spec S0.json > evidence/pcb-check.json` | `pcb_check` | `power-not-poured` 为 0 | 未运行只给 advisory `warn`；有该项 → `BLOCKED`（可豁免） |
+| `power_ground_strategy` | 策略声明 | `easyeda pcb power-pour --dry-run`；`easyeda pcb power-planes --dry-run` | `stackup.power_ground_strategy` | 布线前声明一层一网或铺铜优先级、GND 层、非 GND 电源归属 | 缺失 → `BLOCKED`（不可豁免） |
+| `inner_layers` | 内层 | `easyeda pcb stackup show` | `stackup.inner_layers` | 4 层以上声明 PLANE/SIGNAL/GND/POWER | 缺失 → `BLOCKED`（不可豁免） |
+| `drc_rules_recorded` | 规则 | `easyeda pcb drc-rules > evidence/pcb-drc-rules.json` | `stackup.drc_rules_recorded` | clearance/线宽/过孔/net class 在布线前记录 | 缺失 → `BLOCKED`（可豁免） |
+| `gnd_pours` | 铺铜回读 | `easyeda pcb power-pour` 后 `easyeda pcb pour-list --net GND` | `pcb_pours` | 2 层板 GND 在 L1、L2 均有铺铜；多网同层需回读 priority | 回执与回读不一致、`priorityVerified:false` → 不得当已确认；缺铺铜 → `BLOCKED` |
+| `gnd_thin_traces` | 线宽审计 | `easyeda pcb dump --include-copper --out board.json` | `pcb_board` | 无低于 `max(10 mil, 2×trackWidthMinMil)` 的 GND 线 | 缺 dump → `BLOCKED`（不可豁免）；铺铜板上不应靠细 GND 线连通 |
+| `via_audit` | 过孔 | `easyeda pcb via-list > evidence/pcb-vias.json` | `pcb_vias` | 回读新鲜、drill/diameter 可核对、无 `staleRisk` | 缺证据或字段不完整 → `BLOCKED`/`warn`；4 层板必须有 |
+| `pcb_check_power` | DFM | `easyeda pcb check --json --spec S0.json > evidence/pcb-check.json` | `pcb_check` | `power-not-poured` 为 0 | 未运行只给 advisory `warn`；有该项 → `BLOCKED`（可豁免） |
 
 `power-planes` 需要 ≥4 层，2 层会被拒绝并提示改用 `power-pour`。`power-pour` 默认 `railsMode=pour`，会为 GND 与电源轨创建铺铜；多层多网铺铜的 priority 必须以重载后的 `pour-list` 为准。
 
@@ -198,15 +192,15 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 **必需输入：** 布线计划、关键网清单、完整 DRC、关键网 `net-path` 证明、保存重载回读、丝印检查、DRC 轮次记录。计划模板见 [布线计划](../assets/routing-plan.md)。
 
-| check id | 判定 | 命令（前代命令面，执行前复核） | 证据 | 通过条件 | 不支持时 |
+| check id | 判定 | 命令（v1.14.0） | 证据 | 通过条件 | 不支持时 |
 |---|---|---|---|---|---|
-| `pcb_drc_passed` | 通过判定 | `zhigou pcb drc --json --timeout 120 > evidence/pcb-drc.json` | `pcb_drc` | `passed:true`；PCB 必须是前台/活动文档 | 后台/遮挡窗口永远算不完；超时切前台跑一次，不循环重试；缺证据 → `BLOCKED` |
+| `pcb_drc_passed` | 通过判定 | `easyeda pcb drc --json --timeout 120 > evidence/pcb-drc.json` | `pcb_drc` | `passed:true`；PCB 必须是前台/活动文档 | 后台/遮挡窗口永远算不完；超时切前台跑一次，不循环重试；缺证据 → `BLOCKED` |
 | `connection_errors` | 连接错误 | 同上 | `pcb_drc.counts` | `Connection` 为 0 | 非 0 → `BLOCKED`（不可豁免） |
 | `key_nets_declared` | 清单 | 状态文件 | `routing.key_nets` | 非空，覆盖电源、主信号、参考/阈值、输出/驱动、接口 | 缺失 → `BLOCKED`（不可豁免） |
-| `key_net_proofs` | 逐网证明 | `zhigou pcb net-path --from D.PAD --to D.PAD --net <net> --json > evidence/net-path-<net>.json` | `net_path` | 每个关键网 `found:true` | `found:false` 表示未走线证明，不等于全板断连；缺证明 → `BLOCKED`（不可豁免） |
+| `key_net_proofs` | 逐网证明 | `easyeda pcb net-path --from D.PAD --to D.PAD --net <net> --json > evidence/net-path-<net>.json` | `net_path` | 每个关键网 `found:true` | `found:false` 表示未走线证明，不等于全板断连；缺证明 → `BLOCKED`（不可豁免） |
 | `routing_plan` | 计划 | 阅读 [布线计划](../assets/routing-plan.md) | `routing.plan` | 层/通道/过孔/net class/顺序/停止条件齐全 | 缺失 → `BLOCKED`（不可豁免） |
-| `save_reload` | 持久化 | `zhigou pcb save`；`zhigou doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |
-| `silk_over_pad` | 丝印 | `zhigou pcb silk-align`；`pcb dump`/`layout-lint` | `silk_align` | 0 处丝印压焊盘，或已整理并回读 | 缺失 → `BLOCKED`（可豁免） |
+| `save_reload` | 持久化 | `easyeda pcb save`；`easyeda doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |
+| `silk_over_pad` | 丝印 | `easyeda pcb silk-align`；`pcb dump`/`layout-lint` | `silk_align` | 0 处丝印压焊盘，或已整理并回读 | 缺失 → `BLOCKED`（可豁免） |
 | `stop_rule` | DRC 轮次 | 状态文件 `routing.drc_rounds` | `drc_rounds`、`stop_rule_triggered` | 未出现连续 3 轮改善 <30%；触发时已停止并记录重排/改 4 层/拆页/如实报告 | 轮次不足只给 advisory `warn`；触发未处理 → `BLOCKED`（可豁免） |
 
 `pcb net-path` 只证明已列出的走线铜（线段/弧/过孔/焊盘），不覆盖铺铜、平面和填充区域。仅靠铺铜连接的 GND 不要放进 `key_nets` 的 `net-path` 清单，应以 `pcb drc` 的 Connection 结论加 `pour-list` 回读证明；`net-path` 失败也不等于全板断连。
@@ -225,17 +219,17 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 | check id | 判定 | 命令 | 证据 | 通过条件 | 不支持时 |
 |---|---|---|---|---|---|
-| `gerber_files` | 文件存在 | 前代执行器 v1.14.0 无 CLI/typed action；由用户在 EDA GUI 导出 | `gerber` | 文件存在、登记在 `manufacturing.artifacts`、版本与最终板一致 | CLI 无路径 → 属 `UNSUPPORTED` 能力；缺人工证据 → `BLOCKED`（不可豁免） |
+| `gerber_files` | 文件存在 | easyeda v1.14.0 无 CLI/typed action；由用户在 EDA GUI 导出 | `gerber` | 文件存在、登记在 `manufacturing.artifacts`、版本与最终板一致 | CLI 无路径 → 属 `UNSUPPORTED` 能力；缺人工证据 → `BLOCKED`（不可豁免） |
 | `drill_files` | 文件存在 | 无 CLI | `drill` | 钻孔文件存在且孔径/层与叠层一致 | 同上 |
 | `cpl_files` | 文件存在 | 无 CLI/typed action | `cpl` | CPL/坐标存在，位号/封装/面/旋转/原点与 BOM 一致 | 同上 |
-| `bom_c_numbers` | 逐行 | `zhigou bom export --type csv --enrich=false > BOM.csv` | `bom` | 每行数量>0 的器件都有 C 号 | 缺 C 号 → `BLOCKED`（不可豁免）；缺 MPN/厂家只给 advisory `warn` |
+| `bom_c_numbers` | 逐行 | `easyeda bom export --type csv --enrich=false > BOM.csv` | `bom` | 每行数量>0 的器件都有 C 号 | 缺 C 号 → `BLOCKED`（不可豁免）；缺 MPN/厂家只给 advisory `warn` |
 | `manufacturing_profile` | 记录 | 按 [工艺档案模板](../assets/manufacturing-profile.md) 填写 | `manufacturing.profile` | 层叠/铜厚/阻焊/表面处理/装配方式齐全 | 缺失 → `BLOCKED`（不可豁免） |
-| `epro2_integrity` | 完整性 | `zhigou project export --out <file> --project-uuid <uuid>` | `project_export`、`.epro2` | zip 完整可打开；`zipIntegrityVerified:true` | 损坏/缺失 → `BLOCKED`；完整性不等于可恢复 |
+| `epro2_integrity` | 完整性 | `easyeda project export --out <file> --project-uuid <uuid>` | `project_export`、`.epro2` | zip 完整可打开；`zipIntegrityVerified:true` | 损坏/缺失 → `BLOCKED`；完整性不等于可恢复 |
 | `epro2_restore` | 恢复演练 | 在副本上重开并回读 | `restoreVerified` | `restoreVerified:true`，记录重开后对象/连接仍在 | 缺失 → `BLOCKED`（不可豁免）；只做 `zipIntegrityVerified` 不够 |
 | `sourcing_check` | 时间戳 | 查询立创商城/SMT 渠道当前状态 | `sourcing.stock_checked_at`、`smt_checked_at` | 库存与 SMT 可贴状态有核对日期；`smt_required:false` 必须带理由 | 缺失或只有历史 BOM → `BLOCKED`（不可豁免） |
 | `test_plan` | 文件存在 | 按验证模板编写 | `docs/test-plan.md` | 上电、阈值、边界、失效测试项齐全 | 缺失 → `BLOCKED`（可豁免） |
 
-**G6 的支持边界（必须写清）：** Gerber、钻孔、CPL 在 前代执行器 v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）。这三项属 `UNSUPPORTED` 能力：gate_check 不会判 `PASS`，必须由用户在 EDA GUI 导出并落证据；缺人工证据时整门禁 `BLOCKED`。G6 通过也只输出交付级别（概念方案 / 原理图候选 / PCB 候选 / 制造候选 / 样机验证）与证据范围，不等于项目完成或可量产。
+**G6 的支持边界（必须写清）：** Gerber、钻孔、CPL 在 easyeda v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）。这三项属 `UNSUPPORTED` 能力：gate_check 不会判 `PASS`，必须由用户在 EDA GUI 导出并落证据；缺人工证据时整门禁 `BLOCKED`。G6 通过也只输出交付级别（概念方案 / 原理图候选 / PCB 候选 / 制造候选 / 样机验证）与证据范围，不等于项目完成或可量产。
 
 **退出条件：** 三类制造文件、BOM、工艺档案、工程恢复演练、库存/SMT 核对时间、测试计划全部有证据，且 gate_check 无 `BLOCKED`/`UNSUPPORTED`。
 
@@ -411,6 +405,6 @@ python scripts/gate_check.py --project <name> --evidence-dir <dir>
 
 | 日期 | 版本 | 变更 |
 |---|---|---|
-| 2026-10-24 | 0.6.0 | 首次建立 G0–G6 门禁、四结论词与五状态词映射、`design-state/v1` 状态文件、`gate_check.py` 离线复核与温度报警板回归案例；命令面按 前代执行器 v1.14.0 核对 |
+| 2026-10-24 | 0.6.0 | 首次建立 G0–G6 门禁、四结论词与五状态词映射、`design-state/v1` 状态文件、`gate_check.py` 离线复核与温度报警板回归案例；命令面按 easyeda-agent v1.14.0 核对 |
 | 2026-10-24 | 0.6.0 | 明确 G 门禁是阶段退出证据门而非审批；G3/G4 并列于布线前；G6 的 Gerber/钻孔/CPL 标 `UNSUPPORTED`，缺人工证据整门禁 `BLOCKED` |
 | 2026-10-24 | 0.6.0 | 状态文件由早期草案的 `gates.json`/`design-gates/v1`/camelCase 统一为 `design-state.json`/`design-state/v1`/snake_case；旧稿字段不再被识别 |

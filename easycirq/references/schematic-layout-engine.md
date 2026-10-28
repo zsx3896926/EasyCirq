@@ -1,6 +1,6 @@
 # 原理图排版引擎：测量 → 模块布局 → 合页 → 写入 → 复核
 
-本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + 前代执行器 1.15.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。
+本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + easyeda-agent 1.15.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。
 
 目标不是生成一张“分数高”的图，而是让同一个人能顺着主信号链读完、能定位每个连接、能继续修改。分数、截图和 DRC 都只是其中一项证据。
 
@@ -41,22 +41,22 @@
 每次重排前先保存同一时刻的完整证据。缺少任一项都不要开始写入。
 
 ```bash
-zhigou doc ls --project <project>
-zhigou sch sheet-geometry --project <project> --doc <page-uuid> --json
-zhigou sch sheet-geometry --from-svg <page.svg> --json      # 精确内框/图签
-zhigou sch list --project <project> --page <page-uuid> \
+easyeda doc ls --project <project>
+easyeda sch sheet-geometry --project <project> --doc <page-uuid> --json
+easyeda sch sheet-geometry --from-svg <page.svg> --json      # 精确内框/图签
+easyeda sch list --project <project> --page <page-uuid> \
   --include-device-identity --include-bbox --include-pins \
   --include-wires --include-page-primitives > page-before.json
-zhigou sch connectivity --project <project> --page <page-uuid> > connectivity-before.json
-zhigou sch designator-geometry --project <project> --doc <page-uuid> --out designators-before.json
-zhigou sch check --project <project> --page <page-uuid> --json > check-before.json
-zhigou sch export-image --project <project> --page <page-uuid> --format svg --out before.svg
-zhigou sch export-image --project <project> --page <page-uuid> --format png --out before.png
+easyeda sch connectivity --project <project> --page <page-uuid> > connectivity-before.json
+easyeda sch designator-geometry --project <project> --doc <page-uuid> --out designators-before.json
+easyeda sch check --project <project> --page <page-uuid> --json > check-before.json
+easyeda sch export-image --project <project> --page <page-uuid> --format svg --out before.svg
+easyeda sch export-image --project <project> --page <page-uuid> --format png --out before.png
 ```
 
 工程级的备份优先用 `project export --window <id> --project-uuid <uuid> --out <new.epro2>`；它不覆盖已有文件。记录 SHA-256。
 
-**并发规则**：同一个工程副本同一时间只允许一个写入者。开工前查 `zhigou audit tail`，确认没有其他会话正在写；发现漂移立即停写，不要用 `--resume` 跳过守卫。
+**并发规则**：同一个工程副本同一时间只允许一个写入者。开工前查 `easyeda audit tail`，确认没有其他会话正在写；发现漂移立即停写，不要用 `--resume` 跳过守卫。
 
 ## 4. 功能模块计划
 
@@ -90,7 +90,7 @@ zhigou sch export-image --project <project> --page <page-uuid> --format png --ou
 ## 5. 构建并校验测量输入
 
 ```bash
-python easycirq/scripts/sch_layout_model.py \
+python design-hardware/scripts/sch_layout_model.py \
   --snapshot page-before.json --connectivity connectivity-before.json \
   --designators designators-before.json --sheet sheet.json \
   --module-plan plan.json --out-dir out/model
@@ -120,7 +120,7 @@ python easycirq/scripts/sch_layout_model.py \
 ## 6. 区内布局与连线
 
 ```bash
-zhigou sch layout-plan --zones --from out/model/layout-source.json \
+easyeda sch layout-plan --zones --from out/model/layout-source.json \
   --out out/zones-geom.json --report out/layout-report.json
 ```
 
@@ -150,12 +150,12 @@ zhigou sch layout-plan --zones --from out/model/layout-source.json \
 
 ```bash
 # 页预算预检：只读 frame + 纸张几何，不写 EDA（exit 0 fits / 1 no-fit / 2 invalid）
-python easycirq/scripts/sch_sheet_fit.py \
+python design-hardware/scripts/sch_sheet_fit.py \
   --zones zones-geom.json --model-report model-report.json \
   --out-page page-packed.json --fixed mcu:20,240
 
 # 官方合页（shelf 打包）
-zhigou sch layout-sheet-plan --from render-input.json --out pages.json --flow z
+easyeda sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 ```
 
 预检规则：
@@ -175,8 +175,8 @@ zhigou sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 ## 8. 候选复核（离线）
 
 ```bash
-zhigou sch layout-render --from page.json --out layout.svg
-python easycirq/scripts/sch_layout_quality.py planned-quality-input.json
+easyeda sch layout-render --from page.json --out layout.svg
+python design-hardware/scripts/sch_layout_quality.py planned-quality-input.json
 ```
 
 `layout-render` 输出的是简化符号的离线预览，不是官方导图，也不代表已写入。必须看图，不能只看 JSON。
@@ -209,7 +209,7 @@ python easycirq/scripts/sch_layout_quality.py planned-quality-input.json
 `compose` 只接受一份 composition，而流水线产出的是 connectivity / zones / model-report 三份文件；用适配器合并并校验，不要手拼：
 
 ```bash
-python easycirq/scripts/sch_compose_input.py \
+python design-hardware/scripts/sch_compose_input.py \
   --connectivity connectivity-before.json --zones zones-geom.json \
   --model-report model-report.json --sheet sheet.json \
   --out composition.json
@@ -222,11 +222,11 @@ python easycirq/scripts/sch_compose_input.py \
 - `--connection-mode net-labels` 只在明确选择标签连接时使用；默认 `direct`。
 
 ```bash
-zhigou sch compose --from composition.json --layout-page page.json \
+easyeda sch compose --from composition.json --layout-page page.json \
   --out compose-plan.json --before page-before.json \
   --replace --preserve-instances --playbook apply.json
-zhigou sch apply apply.json --dry-run
-zhigou sch apply apply.json --yes
+easyeda sch apply apply.json --dry-run
+easyeda sch apply apply.json --yes
 ```
 
 ### 9.1 稳定 ID 绑定（preserve-instances 的前置条件）
@@ -241,12 +241,12 @@ zhigou sch apply apply.json --yes
 
 ```bash
 # 计划：缺哪个、冲突哪个、每件的 sch modify 命令
-python easycirq/scripts/sch_bind_component_ids.py \
+python design-hardware/scripts/sch_bind_component_ids.py \
   --snapshot page-before.json --connectivity connectivity-before.json \
   --project <project> --doc <page-uuid> --commands-out bind.ps1
 
 # 写入并 save/reload 后复核（必须全部 verified）
-python easycirq/scripts/sch_bind_component_ids.py \
+python design-hardware/scripts/sch_bind_component_ids.py \
   --snapshot page-after.json --connectivity connectivity-before.json \
   --verify page-after.json
 ```
@@ -280,7 +280,7 @@ python easycirq/scripts/sch_bind_component_ids.py \
 `sch zone-arrange` / `sch zone relayout --apply` 会先扫掉区内导线再重建。实测在 10-raw 间距的密集 USB 区失败于 `pin-exit-direction`，J2/R8/R9 的连接已被破坏，工具明确提示 `Mutation may have landed. No automatic rollback.`。
 
 - 不要把 `zone relayout --apply` 当“小步安全操作”；它和整页 compose 一样是破坏性写入。
-- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`zhigou audit tail`）。
+- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`easyeda audit tail`）。
 - 失败后立即停写，不要继续 autoconnect 或重放快照。恢复流程：
   1. 保存/关闭当前窗口，确保没有未决写入；
   2. 用 `project import`（或 GUI 导入）把开工前的 `.epro2` 作为**新工程**导入，不覆盖原工程；
@@ -294,11 +294,11 @@ python easycirq/scripts/sch_bind_component_ids.py \
 ## 10. 写入后复核
 
 ```bash
-zhigou sch save --project <project> --doc <page>
-zhigou sch connectivity --project <project> --page <page> > connectivity-after.json
-zhigou sch gate --project <project>
-zhigou sch export-image --project <project> --page <page> --format svg --out after.svg
-zhigou sch export-image --project <project> --page <page> --format png --out after.png
+easyeda sch save --project <project> --doc <page>
+easyeda sch connectivity --project <project> --page <page> > connectivity-after.json
+easyeda sch gate --project <project>
+easyeda sch export-image --project <project> --page <page> --format svg --out after.svg
+easyeda sch export-image --project <project> --page <page> --format png --out after.png
 ```
 
 硬验收：

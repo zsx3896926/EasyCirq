@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only self-test for the easycirq skill package.
+"""Read-only self-test for the design-hardware skill package.
 
 What it checks:
   1. required files exist (gate docs, templates, scripts, regression case);
-  2. every relative Markdown link in easycirq/**/*.md resolves;
+  2. every relative Markdown link in design-hardware/**/*.md resolves;
   3. gate keys G0_requirements..G6_manufacturing and the four status words
      are consistent across SKILL.md, references/design-gates.md and
      scripts/gate_check.py;
@@ -72,7 +72,7 @@ REQUIRED_FILES = [
     "assets/design-calc.md",
     "scripts/gate_check.py",
     "scripts/bom_check.py",
-    "scripts/layout_from_zhigou.py",
+    "scripts/layout_from_easyeda.py",
     "scripts/svg_text_bbox.py",
     "scripts/pin_net_intent_check.py",
     "scripts/pcb_preflight.py",
@@ -606,7 +606,7 @@ def run_checks(root, timeout=180):
 
 
 def _print_human(report, quiet=False):
-    print(f"easycirq skill self-test {report['skill_version']}")
+    print(f"design-hardware skill self-test {report['skill_version']}")
     print(report["selftest_only"])
     print(f"root: {report['skill_root']}")
     print()
@@ -625,12 +625,12 @@ def _print_human(report, quiet=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        description="Read-only self-test for the easycirq skill package."
+        description="Read-only self-test for the design-hardware skill package."
     )
     parser.add_argument(
         "--root",
         default=None,
-        help="easycirq directory (default: parent of this script directory)",
+        help="design-hardware directory (default: parent of this script directory)",
     )
     parser.add_argument("--json", action="store_true", help="emit one JSON report")
     parser.add_argument("--quiet", action="store_true", help="human summary without details")

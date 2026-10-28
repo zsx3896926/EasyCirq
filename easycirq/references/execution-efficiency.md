@@ -4,7 +4,7 @@
 
 - 小任务、现成完整计划：直接使用现有 `--plan`，不要额外拆模块。
 - 同一 PCB 快照上的独立放置模块：用重复的 `--module-plan` 合批。
-- 创建器件、原理图或铜修改：分别使用已有 materialize/compose、`zhigou sch compose/materialize` 或 `pcb_apply_plan.py --plan` 支持的路径；本次模块合批不支持这些操作。
+- 创建器件、原理图或铜修改：分别使用已有 materialize/compose、`eda_exec.py` 或 `pcb_apply_plan.py --plan` 支持的路径；本次模块合批不支持这些操作。
 - 模块存在执行依赖、必须观察中间结果或工具载荷过大：保持明确检查点分批。不是所有动作合成一个巨型队列。
 
 ## 模块输入
@@ -35,7 +35,7 @@ python scripts/pcb_apply_plan.py --dump before.json --module-plan power.json --m
 
 默认 dry-run，0 次 EDA 调用。原适配器会对合并后的全部放置同时预检，因此各自可行但合并碰撞的方案仍会拒绝。报告记录每个模块路径、原始字节 SHA-256、成员、基础快照与完整 assembled_plan；playbook 保留模块来源。
 
-确认当前快照、权限及窗口归属后，在相同命令增加 `--apply --yes`。适配器一次调用现有 `zhigou apply`，仍保留 journal、save、reload、fresh dump 与作用域 diff。全 no-op 时不生成新队列、不调用 EDA；报告才是本次状态，不执行目录里遗留的旧 playbook。部分成功或超时先回读并重新生成差异，禁止全批盲重试。
+确认当前快照、权限及窗口归属后，在相同命令增加 `--apply --yes`。适配器一次调用现有 `easyeda apply`，仍保留 journal、save、reload、fresh dump 与作用域 diff。全 no-op 时不生成新队列、不调用 EDA；报告才是本次状态，不执行目录里遗留的旧 playbook。部分成功或超时先回读并重新生成差异，禁止全批盲重试。
 
 本功能不是事务回滚或实时互斥锁。移动已有布线器件需要后续重布、连通性和 DRC，放置通过不能证明铜连接正确。
 

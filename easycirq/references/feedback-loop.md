@@ -18,7 +18,7 @@ JSON、规则编号或专业表格。
 
 ## 2. 六个稳定能力入口
 
-所有命令都接受 `--zhigou <path>`（测试缝）和 `--timeout`，输出带 `schema` 的
+所有命令都接受 `--easyeda <path>`（测试缝）和 `--timeout`，输出带 `schema` 的
 JSON；只读命令（`probe/observe/intent/evaluate/preview/readback/status/
 case-search`）绝不写入工程。
 
@@ -71,11 +71,6 @@ observe → plan → prepare → apply → readback → verify → repair ↺
   `call_ok`（调用返回）、`write_confirmed`（写入回读一致）、
   `save_confirmed`（保存回执）、`reopen_confirmed`（重新打开后仍存在）、
   `quality_passed`（质量评价通过）。缺失的回读是 `None`（NOT RUN），不是 `True`。
-- **失败预算（重新决策触发器，不是放弃借口）**：
-  - 同类失败（同一命令/同一断言/同一失败机制）连续 **2 次**即停止原样重试，必须先重新诊断：读实际状态、换假设、换工具路径或缩小范围；第三次必须是不同方法的尝试或 `BLOCKED` 记录。
-  - 到达阶段预算（`max_rounds`/`max_no_improvement`/调用数/时间）时，切换到**已验证的替代路径**（手工局部、GUI 导出、先做离线方案、分开交付），并在记录中写明切换原因与剩余缺口。
-  - 预算耗尽只说明“此路径不再继续尝试”，不得用于跳过质量检查、隐藏缺测、伪造通过或直接宣称工程不可完成；有真实能力缺口时按层给 `BLOCKED`/`NOT RUN` 与复现条件。
-  - 工程电气设计不因预算而妥协：禁止用浮空脚、改网、删器件、降约束来让告警消失（见 [审查与验证](review.md)）。
 
 ## 4. 观察契约（`hds-observation/v1`）
 
@@ -171,7 +166,7 @@ structural → host_readback → erc_drc → simulation → manufacturing → ph
 
 ## 9. 离线与真机
 
-- 单元/集成测试用注入的 fake runner，不解析 PATH 上的 `zhigou`；离线套件
+- 单元/集成测试用注入的 fake runner，不解析 PATH 上的 `easyeda`；离线套件
   `tools/offline_suite.py` 会拦截真实 CLI 与网络；
 - mock 的名称、输入和证据必须标 `simulated`，mock 保存不能冒充真实宿主保存；
 - 真实 EDA 调用失败、宿主不可用或用户要求停手时，完成离线可做部分，真机项写

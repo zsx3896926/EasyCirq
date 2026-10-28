@@ -3,7 +3,7 @@
 
 Contract: ``docs/round10/interface-contract.md`` section 5.
 
-Live mode (default) drives only typed ``zhigou`` CLI commands plus the optional
+Live mode (default) drives only typed ``easyeda`` CLI commands plus the optional
 ``pcb_gate.py``; ``--skip-live`` never talks to EDA and only assembles and
 verifies an existing case directory.  The rules that keep the manifest honest:
 
@@ -294,7 +294,7 @@ def _git_head(repo_root):
 
 
 def _skill_version(repo_root):
-    path = os.path.join(repo_root, 'easycirq', '.version')
+    path = os.path.join(repo_root, 'design-hardware', '.version')
     try:
         with open(path, encoding='utf-8-sig') as handle:
             return handle.read().strip() or None
@@ -345,7 +345,7 @@ class CaseRunner:
         self.evidence_dir = os.path.join(case_dir, 'evidence')
         self.logs_dir = os.path.join(case_dir, 'logs')
         self.case_id = os.path.basename(os.path.normpath(case_dir))
-        self.zhigou = pcb_cli.zhigou_executable(args.zhigou)
+        self.easyeda = pcb_cli.easyeda_executable(args.easyeda)
         self.timeout = args.timeout
         self.commands = []
         self.artifacts = []
@@ -407,7 +407,7 @@ class CaseRunner:
         default_stdout, default_stderr = self._log_paths(step, label)
         stdout_path = stdout_path or default_stdout
         stderr_path = stderr_path or default_stderr
-        record = pcb_cli.run(argv, zhigou=self.args.zhigou,
+        record = pcb_cli.run(argv, easyeda=self.args.easyeda,
                              timeout=self.timeout)
         command = self._record_command(record, step, label, stdout_path,
                                        stderr_path)
@@ -547,7 +547,7 @@ class CaseRunner:
         repo_root = os.path.dirname(os.path.dirname(SCRIPT_DIR))
         self.versions = {
             'skill': _skill_version(repo_root),
-            'zhigou_agent': None,
+            'easyeda_agent': None,
             'connector': None,
             'python': platform.python_version(),
             'os': ('%s %s' % (platform.system(), platform.release())).strip(),
@@ -555,21 +555,21 @@ class CaseRunner:
         }
         if not self.live:
             if self.previous and isinstance(self.previous.get('versions'), dict):
-                for key in ('zhigou_agent', 'connector'):
+                for key in ('easyeda_agent', 'connector'):
                     self.versions[key] = self.previous['versions'].get(key)
             return
-        record, _ = self.run_cli('versions', 'zhigou-version', ['version'])
+        record, _ = self.run_cli('versions', 'easyeda-version', ['version'])
         value = _version_from_text((record.get('stdout') or '') +
                                    (record.get('stderr') or ''))
         if value:
-            self.versions['zhigou_agent'] = value
-        record, _ = self.run_cli('versions', 'zhigou-health', ['health'])
+            self.versions['easyeda_agent'] = value
+        record, _ = self.run_cli('versions', 'easyeda-health', ['health'])
         combined = (record.get('stdout') or '') + (record.get('stderr') or '')
         if record.get('payload'):
             combined += '\n' + json.dumps(record['payload'], ensure_ascii=False)
         self.versions['connector'] = _connector_from_text(combined)
-        if not self.versions['zhigou_agent']:
-            self.not_run('versions', 'zhigou_version_unknown')
+        if not self.versions['easyeda_agent']:
+            self.not_run('versions', 'easyeda_version_unknown')
 
     def resolve_identity(self):
         """Fill project identity from flags, design-state and measured dumps."""
@@ -2035,7 +2035,7 @@ def build_parser():
     parser.add_argument('--key-nets', help='required pad-to-pad connections JSON')
     parser.add_argument('--warn-disposition',
                         help='pcb-check WARN/INFO disposition JSON')
-    parser.add_argument('--zhigou', help='zhigou CLI path (test seam)')
+    parser.add_argument('--easyeda', help='easyeda CLI path (test seam)')
     parser.add_argument('--steps', help='comma-separated subset of: %s' %
                         ','.join(DEFAULT_STEPS))
     parser.add_argument('--skip-live', action='store_true',

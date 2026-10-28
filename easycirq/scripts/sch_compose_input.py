@@ -2,16 +2,16 @@
 """Build a validated `sch compose --from` source from frozen layout evidence.
 
 The layout planner emits three unrelated artifacts (connectivity IR, zones
-geometry, model report) while `zhigou sch compose` wants one composition
+geometry, model report) while `easyeda sch compose` wants one composition
 document. This script is that missing adapter. It does not place anything and
 does not call EDA.
 
 Inputs (all produced by the measured pipeline):
 
-  zhigou sch connectivity --page <uuid>          -> connectivity.json
-  zhigou sch layout-plan --zones ...             -> zones-geom.json
+  easyeda sch connectivity --page <uuid>          -> connectivity.json
+  easyeda sch layout-plan --zones ...             -> zones-geom.json
   python sch_layout_model.py ...                  -> model-report.json
-  zhigou sch sheet-geometry --from-svg ...       -> optional sheet override
+  easyeda sch sheet-geometry --from-svg ...       -> optional sheet override
 
 Output (schemaVersion 1, accepted by compose --layout-page):
 

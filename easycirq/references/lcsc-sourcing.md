@@ -49,9 +49,9 @@ PCB/SMT/钢网或制具/运费/税费/烧录测试等按实际服务分项报价
 
 ### 8.1 先导出原始 BOM，再考虑富化
 
-- 画完或改完原理图先导出原始 CSV：`zhigou bom export --type csv --enrich=false`。原始文件保留 EDA 库自带的 `Supplier Part` 字段，是后续与商城、SMT 对账的基线；不要先手工改一版“看起来齐全”的表。
-- `zhigou bom export --type csv` 默认会尝试按 MPN 富化 C 号；富化是 best-effort，失败时导出文件保持未富化并打印警告，导出本身仍成功。**富化失败不阻断设计与画板**：保留原始 CSV，在报告里写“C 号未富化/待核”；采购或下单前仍必须补齐可下单的 C 号或非立创渠道。
-- `zhigou bom enrich <bom.tsv>` 只处理 TSV 输入，`--out` 写结果；它不是设计前置条件，失败就停在原始 BOM，不反复重跑。`bom-enrich` 在 `value=null` 时有已知异常，见 [工具动作陷阱](tool-gotchas.md) §7。
+- 画完或改完原理图先导出原始 CSV：`easyeda bom export --type csv --enrich=false`。原始文件保留 EDA 库自带的 `Supplier Part` 字段，是后续与商城、SMT 对账的基线；不要先手工改一版“看起来齐全”的表。
+- `easyeda bom export --type csv` 默认会尝试按 MPN 富化 C 号；富化是 best-effort，失败时导出文件保持未富化并打印警告，导出本身仍成功。**富化失败不阻断设计与画板**：保留原始 CSV，在报告里写“C 号未富化/待核”；采购或下单前仍必须补齐可下单的 C 号或非立创渠道。
+- `easyeda bom enrich <bom.tsv>` 只处理 TSV 输入，`--out` 写结果；它不是设计前置条件，失败就停在原始 BOM，不反复重跑。`bom-enrich` 在 `value=null` 时有已知异常，见 [工具动作陷阱](tool-gotchas.md) §7。
 - 当前 `bom export` 没有 `--out` 参数；产物路径以 CLI 返回为准，需要固定文件名时按实际输出方式重定向或复制，不假设不存在的参数。
 - BOM 与工程版本绑定：改图后重新导出，不沿用旧 CSV 配单。
 

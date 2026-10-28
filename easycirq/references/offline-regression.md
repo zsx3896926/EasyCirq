@@ -1,6 +1,6 @@
 # 离线回归、证据绑定与冻结基准
 
-本页说明本轮离线工具链的可执行入口、边界和判据。所有命令只读本地 JSON/SVG/CSV，**不启动或连接 EDA、不调用真实 `zhigou`、不写工程**。通过只代表离线检查通过，不证明真实 EDA、布线、制造或硬件功能。
+本页说明本轮离线工具链的可执行入口、边界和判据。所有命令只读本地 JSON/SVG/CSV，**不启动或连接 EDA、不调用真实 `easyeda`、不写工程**。通过只代表离线检查通过，不证明真实 EDA、布线、制造或硬件功能。
 
 路径约定：本页第 1/9 节的 `tools/...` 与 `benchmarks/...` 只在仓库开发环境存在（安装到客户端的 Skill 包不含 `tests/`/`benchmarks/`），须在**仓库根目录**运行；Skill 目录内的脚本用 `python scripts/<name>.py`。第 8 节按仓库根目录写全路径。
 
@@ -14,14 +14,14 @@ python tools/offline_suite.py --inventory docs/round11/offline-inventory.json
 
 `offline_suite.py`：
 
-- 设置 `HDS_OFFLINE=1`，安装 `offline_guard`：真实 `zhigou`/`zhigou.exe` 或进程内网络连接立即 `OfflineViolation`；
+- 设置 `HDS_OFFLINE=1`，安装 `offline_guard`：真实 `easyeda`/`easyeda.exe` 或进程内网络连接立即 `OfflineViolation`；
 - 只允许路径中含 `fake` 或文件带 `HDS_FAKE_CLI`/`FAKE_EASYEDA` 标记的假 CLI；
 - 在全新临时 `TMP/TEMP` 下导入所有脚本并运行 `tests/`，从任意工作目录可运行；
 - 输出 `simulated:true`、测试计数、被拦截事件和静态清单；不把模拟日志当真实证据。
 
 `offline_guard` 不是 EDA 适配器，只是测试安全缝。允许假 CLI 的规则是显式的；不要为了“跑通”把真实 CLI 路径改名成 fake。
 
-负例在 `tests/test_offline_guard.py`：裸 `zhigou`、`subprocess.run(['zhigou',...])`、`socket.connect` 均被拦截；带标记的假 CLI 通过。
+负例在 `tests/test_offline_guard.py`：裸 `easyeda`、`subprocess.run(['easyeda',...])`、`socket.connect` 均被拦截；带标记的假 CLI 通过。
 
 ## 2. 证据解析：absent / empty / invalid / measured
 
@@ -102,7 +102,7 @@ python tools/offline_suite.py --inventory docs/round11/offline-inventory.json
 先按 [原理图排版与看图验收](schematic-layout.md) 生成 `layout.json`，再运行：
 
 ```bash
-python easycirq/scripts/sch_visual_audit.py layout.json \
+python design-hardware/scripts/sch_visual_audit.py layout.json \
   --out-svg review/photo-led-v14-overlay.svg \
   --out review/photo-led-v14-visual.json
 ```

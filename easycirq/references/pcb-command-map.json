@@ -1,14 +1,14 @@
 {
   "version": 1,
   "schema": "design-engine-pcb-command-map/v1",
-  "source": "docs/round10/interface-contract.md (section 5); docs/round10/recon/{cli,evidence,stack}.md; easycirq/references/pcb-execution.md; easycirq/cases/photo-led-pcb-2026-10-26/README.md; easycirq/cases/mcu-i2c-s3-2026-10-26/README.md; C:/Users/jlc/.claude/skills/zhigou-agent/references/pcb.md",
+  "source": "docs/round10/interface-contract.md (section 5); docs/round10/recon/{cli,evidence,stack}.md; design-hardware/references/pcb-execution.md; design-hardware/cases/photo-led-pcb-2026-10-26/README.md; design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md; C:/Users/jlc/.claude/skills/easyeda-agent/references/pcb.md",
   "verified_at": "2026-10-26",
   "units": "mil",
   "coordinate_semantics": "footprint anchor x/y, y-up; not bbox centre",
   "placeholder_note": "Placeholders are <name>; every command is run as an argv list (never a shell string).",
   "commands": {
     "dump": {
-      "argv": ["zhigou", "pcb", "dump", "--project", "<project>", "--doc", "<doc>", "--include-copper", "--out", "<dump.json>"],
+      "argv": ["easyeda", "pcb", "dump", "--project", "<project>", "--doc", "<doc>", "--include-copper", "--out", "<dump.json>"],
       "required_flags": ["--project", "--doc", "--include-copper", "--out"],
       "optional_flags": [],
       "output": {
@@ -26,7 +26,7 @@
       "notes": "Real CLI writes the dump to --out and may print the success line to stderr, so a non-JSON stdout is not a dump failure. PCB must be the foreground document; run doc switch first. Availability categories are read one by one; a missing bbox/pad/copper makes the dump incomplete, never silently signed."
     },
     "save": {
-      "argv": ["zhigou", "pcb", "save", "--project", "<project>", "--doc", "<doc>"],
+      "argv": ["easyeda", "pcb", "save", "--project", "<project>", "--doc", "<doc>"],
       "required_flags": ["--project", "--doc"],
       "optional_flags": [],
       "output": {
@@ -39,7 +39,7 @@
       "notes": "checkpoint:true only marks a journal entry; it never saves. A save that does not confirm saved:true must stop the save/reload proof."
     },
     "reload": {
-      "argv": ["zhigou", "doc", "reload", "<doc>", "--project", "<project>", "--json"],
+      "argv": ["easyeda", "doc", "reload", "<doc>", "--project", "<project>", "--json"],
       "required_flags": ["--json"],
       "optional_flags": ["--project", "--window"],
       "output": {
@@ -48,11 +48,11 @@
         "path": "<case>/logs/*-doc-reload.stdout.txt"
       },
       "verify": ["result.status === passed", "result.saved !== false", "result.closed !== false"],
-      "status": "documented; receipt fields come from the predecessor v1.14 source and must be re-checked with `zhigou <cmd> --help` + `zhigou capabilities`",
+      "status": "documented; receipt fields come from v1.14 source and are re-checked live",
       "notes": "doc reload saves first, closes the tab and reopens it; it refreshes the per-document enumeration cache. Without it, DRC/check/readback evidence may be stale. Take a fresh dump after the reload and diff it against the pre-reload dump."
     },
     "drc": {
-      "argv": ["zhigou", "pcb", "drc", "--project", "<project>", "--doc", "<doc>", "--json", "--timeout", "<seconds>"],
+      "argv": ["easyeda", "pcb", "drc", "--project", "<project>", "--doc", "<doc>", "--json", "--timeout", "<seconds>"],
       "required_flags": ["--json"],
       "optional_flags": ["--timeout", "--project", "--doc"],
       "output": {
@@ -65,7 +65,7 @@
       "notes": "The native DRC canvas recompute only finishes with the PCB window in the foreground; a background window times out and must not be retried in a loop. The command exits non-zero when passed:false or the result is inconclusive. Always capture the raw JSON, and run it after the final save/reload (a pre-reload DRC cannot claim final evidence)."
     },
     "check": {
-      "argv": ["zhigou", "pcb", "check", "--project", "<project>", "--doc", "<doc>", "--json"],
+      "argv": ["easyeda", "pcb", "check", "--project", "<project>", "--doc", "<doc>", "--json"],
       "required_flags": ["--json"],
       "optional_flags": ["--project", "--doc"],
       "output": {
@@ -78,7 +78,7 @@
       "notes": "passed:false may mean warnings only; never gate on the boolean alone. Gate on errors plus a disposition file. --strict turns any WARN/ERROR into a non-zero exit and is not used by the case recorder."
     },
     "layout-lint": {
-      "argv": ["zhigou", "pcb", "layout-lint", "--project", "<project>", "--doc", "<doc>", "--json"],
+      "argv": ["easyeda", "pcb", "layout-lint", "--project", "<project>", "--doc", "<doc>", "--json"],
       "required_flags": ["--json"],
       "optional_flags": ["--project", "--doc"],
       "output": {
@@ -91,7 +91,7 @@
       "notes": "Score/crossings are placement quality, not routing correctness. Coverage incomplete is unmeasured and must not be reported as a pass. Run it after the final dump so the gate can prove it is fresh."
     },
     "net-path": {
-      "argv": ["zhigou", "pcb", "net-path", "--project", "<project>", "--doc", "<doc>", "--from", "<D.PAD>", "--to", "<D.PAD>", "--net", "<NET>", "--json"],
+      "argv": ["easyeda", "pcb", "net-path", "--project", "<project>", "--doc", "<doc>", "--from", "<D.PAD>", "--to", "<D.PAD>", "--net", "<NET>", "--json"],
       "required_flags": ["--from", "--to", "--net", "--json"],
       "optional_flags": ["--project", "--doc", "--through", "--layer"],
       "output": {
@@ -104,7 +104,7 @@
       "notes": "One call per required DESIGNATOR.PAD pair; the aggregate keeps each argv. Same net name is not connectivity. Pours, fills and PLANE copper are excluded from net-path; GND/power pours need native DRC plus poured-list evidence."
     },
     "sch-read": {
-      "argv": ["zhigou", "sch", "read", "--project", "<project>", "--out", "<sch-read.json>"],
+      "argv": ["easyeda", "sch", "read", "--project", "<project>", "--out", "<sch-read.json>"],
       "required_flags": ["--project", "--out"],
       "optional_flags": ["--page"],
       "output": {
@@ -117,7 +117,7 @@
       "notes": "The schematic must be the active document: doc switch <schematic> before sch read, switch back to the PCB afterwards. Fallback is sch list --include-pins --project <project> --json. Comparison is exact designator+pad-number; combination pads need an explicit alias map instead of being guessed."
     },
     "stage-snapshot": {
-      "argv": ["zhigou", "pcb", "stage-snapshot", "--stage", "<top|bottom>", "--project", "<project>", "--doc", "<doc>"],
+      "argv": ["easyeda", "pcb", "stage-snapshot", "--stage", "<top|bottom>", "--project", "<project>", "--doc", "<doc>"],
       "required_flags": ["--stage"],
       "optional_flags": ["--project", "--doc", "--fit-mode"],
       "output": {
@@ -127,10 +127,10 @@
       },
       "verify": ["artifact path from result.artifacts[].path", "PNG signature and positive IHDR width/height", "copy into the case directory"],
       "status": "documented; command existence is probed with --help",
-      "notes": "Switch the canvas first with zhigou pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to zhigou pcb snapshot --fit-mode board. Copy the reported artifact into the case instead of referencing .zhigou/artifacts, so the manifest hash travels with the case."
+      "notes": "Switch the canvas first with easyeda pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to easyeda pcb snapshot --fit-mode board. Copy the reported artifact into the case instead of referencing .easyeda/artifacts, so the manifest hash travels with the case."
     },
     "layout-render": {
-      "argv": ["zhigou", "pcb", "layout", "render", "--actual", "--board", "<dump.json>", "--side", "both", "--out", "<svg>"],
+      "argv": ["easyeda", "pcb", "layout", "render", "--actual", "--board", "<dump.json>", "--side", "both", "--out", "<svg>"],
       "required_flags": ["--actual", "--board", "--side", "--out"],
       "optional_flags": [],
       "output": {
@@ -143,7 +143,7 @@
       "notes": "Offline actual-geometry aid rendered from the dump; it is not an object-level official fabrication export. A sourceSha256 that does not match the final dump is a stale-binding failure."
     },
     "bom-export": {
-      "argv": ["zhigou", "bom", "export", "--type", "csv", "--enrich=false", "--project", "<project>"],
+      "argv": ["easyeda", "bom", "export", "--type", "csv", "--enrich=false", "--project", "<project>"],
       "required_flags": ["--type"],
       "optional_flags": ["--enrich"],
       "output": {
@@ -156,7 +156,7 @@
       "notes": "bom export reads the active schematic; switch to the schematic and back to the PCB. --enrich=false keeps the raw export so an enrichment TypeError cannot fail an otherwise valid BOM; C-number enrichment and sourcing checks are a separate step. There is no --out flag: take the path from result.artifacts[].path."
     },
     "project-export": {
-      "argv": ["zhigou", "project", "export", "--project-uuid", "<project-uuid>", "--window", "<window-id>", "--out", "<archive.epro2>"],
+      "argv": ["easyeda", "project", "export", "--project-uuid", "<project-uuid>", "--window", "<window-id>", "--out", "<archive.epro2>"],
       "required_flags": ["--project-uuid", "--out"],
       "optional_flags": ["--window"],
       "output": {
@@ -169,7 +169,7 @@
       "notes": "The command refuses to overwrite an existing file; the case recorder checks existence first and never overwrites. An earlier case saw 'explicit --window and --project-uuid are required', so pass the measured capture.windowId when it is known. zipIntegrityVerified only proves the container; restoreVerified needs a separate reopen drill."
     },
     "apply": {
-      "argv": ["zhigou", "apply", "<playbook.json>", "--project", "<project>", "--doc", "<doc>"],
+      "argv": ["easyeda", "apply", "<playbook.json>", "--project", "<project>", "--doc", "<doc>"],
       "required_flags": ["--project", "--doc"],
       "optional_flags": ["--yes", "--dry-run", "--resume"],
       "output": {
@@ -197,32 +197,32 @@
     "case": {
       "argv": ["python", "<scripts>/pcb_case.py", "--case", "<case>", "--project", "<project>", "--doc", "<doc>", "--key-nets", "<key-nets.json>", "--warn-disposition", "<warn-disposition.json>", "--steps", "<step-list>", "--out", "manifest.json", "--json"],
       "required_flags": ["--case"],
-      "optional_flags": ["--project", "--doc", "--schematic", "--key-nets", "--warn-disposition", "--zhigou", "--steps", "--skip-live", "--no-gate", "--gate-script", "--out", "--archive", "--timeout", "--json"],
+      "optional_flags": ["--project", "--doc", "--schematic", "--key-nets", "--warn-disposition", "--easyeda", "--steps", "--skip-live", "--no-gate", "--gate-script", "--out", "--archive", "--timeout", "--json"],
       "output": {
         "role": "manifest (design-engine-pcb-case/v1)",
         "format": "json",
         "path": "<case>/manifest.json"
       },
       "verify": ["artifact sha256/bytes", "source_dump_sha256 binding", "run_after_final_reload", "failures/not_run", "gate status"],
-      "status": "implemented by easycirq/scripts/pcb_case.py",
-      "notes": "Live mode runs dump -> save-reload (final dump) -> checks -> images/bom/archive -> gate. --skip-live only assembles and verifies an existing case directory and never calls zhigou. A missing required artifact is not_run; an invalid or failed one is a failure. All writes stay inside the case directory, and the default archive is never overwritten. When --warn-disposition/--key-nets are omitted, evidence/warn-disposition.json and evidence/key-nets.json are auto-discovered from the case."
+      "status": "implemented by design-hardware/scripts/pcb_case.py",
+      "notes": "Live mode runs dump -> save-reload (final dump) -> checks -> images/bom/archive -> gate. --skip-live only assembles and verifies an existing case directory and never calls easyeda. A missing required artifact is not_run; an invalid or failed one is a failure. All writes stay inside the case directory, and the default archive is never overwritten. When --warn-disposition/--key-nets are omitted, evidence/warn-disposition.json and evidence/key-nets.json are auto-discovered from the case."
     }
   },
   "helpers": {
     "doc-switch": {
-      "argv": ["zhigou", "doc", "switch", "<doc-name-or-uuid>", "--project", "<project>"],
+      "argv": ["easyeda", "doc", "switch", "<doc-name-or-uuid>", "--project", "<project>"],
       "required_flags": ["--project"],
       "output": {"role": "command record only", "format": "json", "path": "<case>/logs/*"},
       "notes": "Needed before every PCB command (PCB foreground) and before bom export (schematic foreground). Switch back to the PCB afterwards."
     },
     "doc-ls": {
-      "argv": ["zhigou", "doc", "ls", "--project", "<project>", "--json"],
+      "argv": ["easyeda", "doc", "ls", "--project", "<project>", "--json"],
       "required_flags": ["--project", "--json"],
       "output": {"role": "command record only", "format": "json", "path": "<case>/logs/*"},
       "notes": "Used when the schematic document name/uuid is not supplied. Parse defensively: look for a document whose type is schematic/sch rather than guessing from position."
     },
     "snapshot-fallback": {
-      "argv": ["zhigou", "pcb", "snapshot", "--fit-mode", "board", "--project", "<project>", "--doc", "<doc>"],
+      "argv": ["easyeda", "pcb", "snapshot", "--fit-mode", "board", "--project", "<project>", "--doc", "<doc>"],
       "required_flags": ["--fit-mode"],
       "output": {"role": "image-top | image-bottom", "format": "png", "path": "<case>/evidence/pcb-final-<side>.png"},
       "notes": "Used only when pcb stage-snapshot --help fails. The resulting PNG is a viewport snapshot, not an object-level export."

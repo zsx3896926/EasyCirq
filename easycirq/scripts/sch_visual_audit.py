@@ -400,7 +400,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(
         description='Offline schematic visual audit + analysis overlay')
     parser.add_argument('layout', type=Path,
-                        help='layout.json from layout_from_zhigou.py')
+                        help='layout.json from layout_from_easyeda.py')
     parser.add_argument('--svg', type=Path, help='official SVG export (optional)')
     parser.add_argument('--out-svg', type=Path, help='annotated SVG output')
     parser.add_argument('--out', type=Path, help='JSON report output')

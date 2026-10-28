@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Offline identity/BOM/SCH-PCB comparison for replayed schematic parts.
 
-Inputs are retained zhigou-agent reads, never live calls:
+Inputs are retained easyeda-agent reads, never live calls:
 
-* ``zhigou sch list --include-device-identity --include-page-primitives
+* ``easyeda sch list --include-device-identity --include-page-primitives
   --include-pins --include-wires --json`` before and after a replay;
 * optional ``pcb list``/``pcb components list`` JSON for SCH-PCB binding.
 

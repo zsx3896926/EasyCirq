@@ -4,14 +4,14 @@
 
 ## 1. 使用边界与真实命令
 
-`easycirq` 负责清单、证据与工程判断；实际导出由 `zhigou` / EDA 完成。前代执行器 v1.14.0 中与本门禁直接相关的命令只有：
+`design-hardware` 负责清单、证据与工程判断；实际导出由 easyeda-agent / EDA 完成。easyeda-agent v1.14.0 中与本门禁直接相关的命令只有：
 
 ```powershell
-zhigou bom export --type csv --enrich=false --project <name> > manufacturing/BOM.csv
-zhigou project export --out manufacturing/<project>-<rev>.epro2 --project-uuid <uuid>
+easyeda bom export --type csv --enrich=false --project <name> > manufacturing/BOM.csv
+easyeda project export --out manufacturing/<project>-<rev>.epro2 --project-uuid <uuid>
 ```
 
-v1.14.0 的 `--help` 中没有 Gerber、钻孔、坐标/CPL、装配图的 CLI 子命令，这三类制造文件在能力上属 `UNSUPPORTED`：必须由用户在嘉立创EDA专业版的制造资料导出入口人工导出，并在 manifest 中记录 `GUI 手工导出`、EDA 版本、导出人、时间与 sha256；缺人工证据时 G6 为 `BLOCKED`。不得写成不存在的 `zhigou pcb export-gerber` 之类命令。一次只认一个板版本，换版必须全部重导并更新哈希，不能沿用旧文件。
+v1.14.0 的 `--help` 中没有 Gerber、钻孔、坐标/CPL、装配图的 CLI 子命令，这三类制造文件在能力上属 `UNSUPPORTED`：必须由用户在嘉立创EDA专业版的制造资料导出入口人工导出，并在 manifest 中记录 `GUI 手工导出`、EDA 版本、导出人、时间与 sha256；缺人工证据时 G6 为 `BLOCKED`。不得写成不存在的 `easyeda pcb export-gerber` 之类命令。一次只认一个板版本，换版必须全部重导并更新哈希，不能沿用旧文件。
 
 ## 2. Manifest 模板
 
@@ -20,7 +20,7 @@ v1.14.0 的 `--help` 中没有 Gerber、钻孔、坐标/CPL、装配图的 CLI �
 ```text
 板名/版本:       <project> / <rev>
 EDA 版本:        嘉立创EDA专业版 <版本>
-CLI 版本:        前代执行器 v1.14.0
+CLI 版本:        easyeda-agent v1.14.0
 工程 UUID:       <uuid>
 导出时间:        <YYYY-MM-DD HH:MM +08:00>
 导出人/复核人:   <姓名或接手记录>
@@ -32,11 +32,11 @@ CLI 版本:        前代执行器 v1.14.0
 |---|---|---|---|
 | `gerber` | 顶层/底层铜、顶层/底层阻焊、顶层/底层丝印、板框、顶层/底层钢网；单文件或 zip 注明 | GUI 手工导出 | 文件名、层清单、导出时间、EDA 版本、sha256 |
 | `drill` | PTH/NPTH 或合并文件，孔径表与板厚 | GUI 手工导出 | 文件名、孔数、最小孔径、sha256 |
-| `bom` | 可订购 BOM（位号、数量、MPN、厂家、C 号、封装、DNP 标记） | `zhigou bom export --type csv --enrich=false` | 文件名、行数/件数、sha256 |
+| `bom` | 可订购 BOM（位号、数量、MPN、厂家、C 号、封装、DNP 标记） | `easyeda bom export --type csv --enrich=false` | 文件名、行数/件数、sha256 |
 | `cpl` | 贴片坐标（designator、x、y、层、旋转）；与当前装配变体一致 | GUI 手工导出 | 文件名、贴装面、件数、sha256 |
 | `assembly_drawing` | 顶/底装配图：极性、1 脚、DNP、连接器方向 | GUI 打印/导出或 EDA 截图 | 文件名、覆盖面、sha256 |
 | `stackup_process` | 层叠、板厚、铜厚、表面处理、阻焊/丝印、阻抗 | 按 manufacturing-profile 填写 | 文件、与订单页核对日期 |
-| `project_export` | 可重开的 `.epro2` 工程备份 | `zhigou project export` | 路径、sha256、zip 完整性、恢复演练结果 |
+| `project_export` | 可重开的 `.epro2` 工程备份 | `easyeda project export` | 路径、sha256、zip 完整性、恢复演练结果 |
 | `manifest` | 本清单的最终版 | 人工汇总 | 版本、生成时间、上表全部哈希 |
 
 `gate_check.py` 只自动核对 `gerber / drill / cpl / bom` 四类核心件；`assembly_drawing`、`stackup_process` 等作为人工证据登记，不能因为脚本没查就省略。
@@ -127,7 +127,7 @@ python scripts/bom_check.py parts.json --strict > bom-check.json
 ## 6. 工程导出与恢复演练
 
 ```powershell
-zhigou project export --out manufacturing\<project>-<rev>.epro2 --project-uuid <uuid>
+easyeda project export --out manufacturing\<project>-<rev>.epro2 --project-uuid <uuid>
 Get-FileHash -Algorithm SHA256 manufacturing\<project>-<rev>.epro2
 python -c "import zipfile; print(zipfile.ZipFile(r'manufacturing\<project>-<rev>.epro2').testzip())"
 ```
@@ -158,7 +158,7 @@ python -c "import zipfile; print(zipfile.ZipFile(r'manufacturing\<project>-<rev>
 
 测试计划可基于 [verification.md](verification.md) 生成本项目的 `docs/test-plan.md`；`path` 指向项目内实际文件。
 
-注意两个名字：`design-state.json` 用 `restore_verified`；`zhigou project export` 的 JSON 回执用 `restoreVerified`。二者不能混写。
+注意两个名字：`design-state.json` 用 `restore_verified`；`easyeda project export` 的 JSON 回执用 `restoreVerified`。二者不能混写。
 
 ## 7. 测试计划与“未证明”清单
 

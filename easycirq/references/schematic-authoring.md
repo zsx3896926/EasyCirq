@@ -16,20 +16,6 @@
 | 受保护的移动/重连/回读 | 按官方 typed 工具局部执行；不要跨过工具限制使用任意 JS |
 | 离线 layout-plan / sheet-plan | 用实测候选与模板；不能为了调用成功丢弃反馈路径、改成全标签或自动加页 |
 
-### 1.1 开工交付能力盘点（默认步骤）
-
-新任务开始画图前，用一次 `zhigou doctor` + `zhigou capabilities` 同时完成执行层与**交付能力**盘点；不是等交付阶段才问“能不能导出”。按任务读取对应能力项（当前build若已提供 `delivery` 分类则整组读取），逐项落进工程记录，标签只用这五类：
-
-| 交付环节 | 相关能力 id（示例） | 记录标签 |
-|---|---|---|
-| 原理图读写/检查/导出 | `schematic.read`、`schematic.write`、`schematic.check`、`schematic.export`、`image.export` | `已实测` / `API存在但未测` / `GUI路径` / `需要开发` / `不支持` |
-| 原理图↔PCB 同步与板绑定 | `board.binding`、`save.reload` | 同上 |
-| PCB 层叠/读写/布线/DRC | `pcb.read`、`pcb.write`、`pcb.route`、`pcb.pour`、`pcb.drc` | 同上 |
-| BOM / 图片 / 3D | `bom.export`、`image.export`、`pcb.export-3d`（若支持） | 同上 |
-| Gerber / 钻孔 / CPL | `gerber.export`、`drill.export`、`cpl.export` | 同上 |
-
-规则：`supported` 只说明“本版本有该 typed 能力/接口”，**接口存在不等于已验证**；标为 `API存在但未测` 或 `GUI路径` 的环节必须写清验证方式或人工导出路径，`不支持` 的环节在开工时就告知用户并给替代路径，交付时不得改写成已完成。盘点结果还要写进 `design-state`/工程记录，后续阶段按它决定自动化还是 GUI 补证。
-
 ## 2. 用拓扑决定空间
 
 1. 列出主信号链、辅助供电/参考、反馈回路、外部接口。器件仅归属一个功能模块，模块之间列出实际网络。
@@ -41,28 +27,11 @@
 
 已有布局管线使用 [布局引擎](schematic-layout-engine.md)。其预览是简化符号，非官方工程导出；候选失败时不能拿这张预览交付为实际完成。
 
-### 2.1 默认画法：功能分区 + 短引线 + 网络标签
-
-默认画法按“读者能否顺着图看懂电气关系”判定，不按连线数量或某次工程的具体间距：
-
-- **必须直连**：去耦电容到电源脚、反馈分压/补偿网络、滤波与保护、晶振与负载电容、启动/复位/使能外围等局部拓扑关键路径；同一功能区内、路径不穿越无关器件/文字/模块框且可以短引线跟读时，一律直连。直连要能读出分压比、反馈极性、参考方向或环路，否则就算“短”也不算可读。
-- **优先标签/端口**：跨功能块、跨页、到连接器/远端接口的长信号；密集数字总线或并行信号；直连会形成长环线、穿过密集区或必须绕过芯片本体时。标签两端都留短引线并落在真实连接端点，名称有语义且**作用域成对**（页内标签 / 网络端口方向 / 跨页作用域）。
-- **禁止的默认做法**：把每个节点都打标签把局部拓扑拆成“网名列表”；为了少画一根线制造长距离绕行；跨页只在一端标注；用同名标签冒充已连通；为了对齐交换真实引脚或改脚号。
-- **不确定时的默认取舍**：拓扑关键、局部可跟读 → 直连；连接跨边界、只读网名也能追踪 → 标签。两种做法都必须通过 pin-net/网表、原生检查和官方导图看图的验证，不以“看起来整齐”代替。完整正反例和验收见 [原理图排版与看图验收](schematic-layout.md) §3。
-
 ## 3. 一个模块闭环后再复制
 
-先做**最有代表性的模块**（典型器件、标签、关键连接、至少一个跨块网络都在其中），完整走完默认闭环，再复制到同类的其他通道：
+先做最有代表性的模块，执行“候选 → 局部写入 → pin-net 回读 → 官方导图局部复核”。将自动线名与显式标签叠印、位号压值、输入标记压引脚名等问题在这个阶段暴露。样板尚未过关，不批量复制到另一通道。
 
-1. 生成候选并局部写入；
-2. `save` 后实际重开/回读，确认器件身份与连接仍在；
-3. 逐脚/pin-net 回读（`pin_net_intent_check.py` 或 `sch read`）核对物理脚→网络；
-4. 用官方导出看整页与可读局部，检查自动线名与显式标签叠印、位号压值、输入标记压引脚名、符号/端口方向；
-5. 记录样板结论与缺口，再开始批量扩展。
-
-样板没有通过上述四项证据前，不批量复制到另一通道，也不宣称该页“已完成”。将自动线名与显式标签叠印、位号压值、输入标记压引脚名等问题在这个阶段暴露；一次只修对应原因，同一种机制两次失败就改变方法（见下段失败预算），例如从旗标堆叠改为直接连线、从等宽分区改为内容尺寸装页。
-
-失败预算：同类失败（同一命令/同一断言/同一机制）连续 2 次即停止原样重试，先重新诊断——读实际状态、换假设、换工具路径或缩小范围；到达阶段预算时切换到已验证的替代路径（手工局部、GUI 导出、先做离线方案）。预算是重新决策触发器，不是降低验收标准、跳过检查或宣称无法完成的理由；只有真实能力缺口/证据缺失才记 `BLOCKED`/`NOT RUN`。
+对每次失败只记录：对象 ID、预期、实际、证据、改变了哪个参数。一次只修对应原因；同一种机制两次失败就改变方法，例如从旗标堆叠改为直接连线，从等宽分区改为内容尺寸装页。该次数是防止盲重试的默认策略，并不是两次就向用户宣布无法完成。
 
 修改前固定项目/页和快照哈希。移动与重连使用执行器的受保护计划；移动器件后旧线不能留在原位。写入部分失败/超时先回读并只补差量，不全页删除重建。身份/连线/布局分别对比，保留无关模块。
 
@@ -105,11 +74,11 @@ EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名�
 官方导出 SVG 后先测全部渲染文字，再构建严格几何输入：
 
 ```bash
-zhigou sch list --include-bbox --include-pins --include-wires \
+easyeda sch list --include-bbox --include-pins --include-wires \
   --include-page-primitives --page <page> > list.json
-zhigou sch sheet-geometry --from-svg page.svg --json > sheet.json
+easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json
 python scripts/svg_text_bbox.py page.svg --out svg-text.json
-python scripts/layout_from_zhigou.py --list list.json \
+python scripts/layout_from_easyeda.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
@@ -118,7 +87,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
   --out pin-net-diff.json
 ```
 
-`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `zhigou sch read`，不比较
+`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easyeda sch read`，不比较
 网名拼写；极性器件的功能脚名用组件内 `pinMap` 落到实际脚号，缺映射按输入无效处理，
 不猜脚号。
 
@@ -134,7 +103,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 和局部图 → 保存重开。任何一层 PASS 都不能替代另一层；`info_only` 只表示没有阻塞候选，
 不表示图面已合格。
 
-### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / 前代执行器 1.15.0）
+### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
 - `photo-led-5v-20261026` P1：v18 编号 1→4 按阅读顺序、标题左上、图签重复消除；
   137 条渲染文字无 text-text overlap，R3 Name 与 zone2 purpose 的 blocking 接触已修；

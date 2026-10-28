@@ -1,18 +1,5 @@
 # 变更记录
 
-## 1.0.2 — 2026-10-27
-
-- 把 GameForge-X1 实战教训落进默认执行路径（用户提供的 8 条编号要求；第 4 条未在需求中给出，按缺失记录，见 `docs/toolchain-integration/field-lessons.md`）。
-- 原理图默认画法：功能分区 + 短引线 + 清晰网络标签；局部拓扑关键路径（去耦/反馈/晶振/匹配等）保留直连短线，跨区/跨页/密集数字信号优先语义标签与成对作用域端口；给出“何时直连/何时标签”的可判定条件（`SKILL.md`、`schematic-authoring.md`、`schematic-layout.md`）。
-- 新增默认步骤“先验证代表模块”：绘制→保存重开→逐脚/pin-net 回读→官方导图整页+局部检查，通过后再批量扩展；写入工作流与 G2 门禁（自主自检，不新增用户审批）。
-- 开工新增“交付能力盘点”：用 `zhigou capabilities` 按任务核对原理图/PCB 同步/层叠/布线/DRC/3D/BOM/Gerber/钻孔/CPL，逐项标 `已实测 / API存在但未测 / GUI路径 / 需要开发 / 不支持`，并写明“接口存在不等于已验证”。
-- 失败预算统一：同类失败连续 2 次重新诊断、禁止原样重试；阶段预算耗尽切换已验证替代路径；预算不得绕过质量检查（`feedback-loop.md`、`tool-gotchas.md`、门禁规则）。
-- 统一自主执行规则：用户授权整板自主完成后，布局自检+记录+展示即可继续布线，只在新增范围/关键约束冲突/确需用户选择时暂停。
-- 电气设计保护：禁止浮空支撑脚、改网络、删器件、降约束消几何告警；电气变化必须有依据+影响分析+变更记录，检查器误判修检查器（底线、门禁通用规则、审查清单）。
-- 新增器件专项核对与“先验证再沉淀”：按键常通组、型号/修订引脚能力、合并焊盘、裸露焊盘、摇杆机械尺寸、多单元符号几何按“适用条件/证据级别/不适用场景”入库（`design-experience.md`、`failures/README.md`）。
-- 如实标注现场证据缺口：`D:/Users/27675/...` 本机不可访问，未取得、未复现，仅按用户描述纳入（证据级别 D）。
-- 新增 guard `tests/test_skill_rules_present.py` 与经验记录 `docs/toolchain-integration/field-lessons.md`。
-
 ## 1.0.1 — 2026-10-27
 
 - 修复 design_engine/adapters.py 使用 Python 3.12 f-string 语法导致 Python 3.10 加载失败；保持文本身份生成结果不变。
@@ -223,7 +210,7 @@ round10 PCB 阶段工具链整合。
 
 ## 0.8.1 — 2026-10-26
 
-- 更新检查同时覆盖 easycirq 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。
+- 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。
 - 新增 update-agent：委托官方更新器，锁定预检版本、备份二进制和当前客户端 Skill、执行后复查。
 - WorkBuddy 通过官方 CLAUDE_CONFIG_DIR 能力映射其 Skill 目录，不覆盖 Claude 配置。
 - 不自动重启 daemon、不自动导入 Connector；不把依赖更新或跨组件兼容性写成已实测。

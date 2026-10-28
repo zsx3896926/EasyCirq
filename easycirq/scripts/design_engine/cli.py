@@ -20,7 +20,7 @@ from .constraints import compile_intent
 from .gerber import audit_layers
 from .critical import audit_critical
 from .ir import read_ir, summary, validate_ir, write_ir
-from .labels import plan_label_moves, to_zhigou_moves, verify_plan
+from .labels import plan_label_moves, to_easyeda_moves, verify_plan
 from .manufacturing import audit_package
 from .pack import pack_modules
 from .pcb import audit_pcb, build_pcb_ir
@@ -135,7 +135,7 @@ def command_plan(args):
         print('eda_apply: NOT RUN')
     if args.moves_dir:
         os.makedirs(args.moves_dir, exist_ok=True)
-        documents = to_zhigou_moves(plan, ir)
+        documents = to_easyeda_moves(plan, ir)
         for index, document in enumerate(documents, 1):
             path = os.path.join(args.moves_dir, f'move-{index:03d}-{document["primitiveId"]}.json')
             _dump(document, path)
@@ -798,7 +798,7 @@ def build_parser():
         item.add_argument('--out')
         item.add_argument('--json', action='store_true')
         if name == 'plan-labels':
-            item.add_argument('--moves-dir', help='write zhigou sch attribute-move JSON documents')
+            item.add_argument('--moves-dir', help='write easyeda sch attribute-move JSON documents')
             item.add_argument('--include-advisory', action='store_true',
                               help='also move attributes that only touch a wire edge')
         item.set_defaults(func=func)

@@ -50,8 +50,8 @@
       "bundled_data": "six selected schemas with original MIT license; not full validator"
     },
     {
-      "id": "zhigou-client-cli",
-      "repository": "https://github.com/easyeda/zhigou-client-cli",
+      "id": "easyeda-client-cli",
+      "repository": "https://github.com/easyeda/easyeda-client-cli",
       "revision": "cda404cd6bec65b836cf1608c0bc53b7abc824a2",
       "license": "Apache-2.0",
       "mode": "runtime-help-plan",

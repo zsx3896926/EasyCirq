@@ -6,7 +6,7 @@
 
 - [ ] 工程名、工程 UUID、PCB UUID、原理图页 UUID 记录在同一份交接里。
 - [ ] 本项目只改自己的工程；未改用户既有工程/共享窗口。
-- [ ] Skill、zhigou 运行时、Connector、EDA 版本分别记录；不把“Skill 安装成功”当成 EDA 已连通。
+- [ ] Skill、easyeda-agent、Connector、EDA 版本分别记录；不把“Skill 安装成功”当成 EDA 已连通。
 - [ ] 板框、层数、铜厚、板厂工艺、器件数量、装配面是冻结输入；变更走显式记录。
 
 ## B. 原理图
