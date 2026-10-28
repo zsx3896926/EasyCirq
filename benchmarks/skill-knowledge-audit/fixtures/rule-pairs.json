@@ -266,7 +266,7 @@
       "b": {
         "text": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。",
         "source": "easycirq/references/pcb-execution.md",
-        "line": 306
+        "line": 307
       },
       "expected": "coexist",
       "rationale": "看似“提速/合批”对“任何失败都只能 unverified”；a 自身已包含“不能为提速跳过身份、连接、DRC 或最终保存重开”的例外，与 b 同向，属 coexist（a 的例外使二者一致）。",
