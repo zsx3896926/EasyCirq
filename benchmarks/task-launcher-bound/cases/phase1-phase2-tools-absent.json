@@ -1,0 +1,55 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "phase1-phase2-tools-absent",
+  "description": "Phase 1 tool surface exposes only the six read-only tools; calling the Phase 2 apply tool is a protocol-level unknown/unavailable tool (-32602).",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "tools_list",
+      "expect_tools": [
+        "task_start",
+        "snapshot_read",
+        "run_offline_audit",
+        "evidence_emit",
+        "finalize",
+        "task_abort"
+      ],
+      "expect_tools_absent": [
+        "plan_submit",
+        "precheck",
+        "apply",
+        "readback"
+      ]
+    },
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "apply",
+      "arguments": {
+        "plan_id": "00000000000000000000000000000000"
+      },
+      "expect": {
+        "error": "-32602"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (apply does not exist in Phase 1; JSON-RPC -32602)",
+    "final_state": "STARTED",
+    "result_present": false,
+    "receipts_count": 1
+  }
+}

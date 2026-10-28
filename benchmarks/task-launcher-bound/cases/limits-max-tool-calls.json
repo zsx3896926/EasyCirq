@@ -1,0 +1,60 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "limits-max-tool-calls",
+  "description": "Task limits max_tool_calls=2: task_start and snapshot_read succeed, run_offline_audit is refused with LIMIT_EXCEEDED and the task cannot finalize.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid",
+    "request": {
+      "limits": {
+        "max_tool_calls": 2
+      }
+    }
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "error": "LIMIT_EXCEEDED",
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "SNAPSHOT_READ"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (max_tool_calls=2 exceeded -> LIMIT_EXCEEDED)",
+    "final_state": "SNAPSHOT_READ",
+    "result_present": false,
+    "receipts_count": 2,
+    "config_limits": {
+      "max_tool_calls": 2
+    }
+  }
+}

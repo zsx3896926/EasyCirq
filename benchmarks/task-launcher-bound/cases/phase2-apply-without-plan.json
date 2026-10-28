@@ -1,0 +1,55 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "phase2-apply-without-plan",
+  "description": "Phase 2 config: apply before any plan_submit is refused with PLAN_NOT_FOUND; the task cannot finalize.",
+  "setup": {
+    "phase": 2,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "apply",
+      "arguments": {
+        "plan_id": "00000000000000000000000000000000"
+      },
+      "expect": {
+        "error": "PLAN_NOT_FOUND",
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "SNAPSHOT_READ"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (apply without a submitted plan -> PLAN_NOT_FOUND)",
+    "final_state": "SNAPSHOT_READ",
+    "result_present": false,
+    "receipts_count": 2
+  }
+}
