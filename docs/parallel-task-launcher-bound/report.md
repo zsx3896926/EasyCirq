@@ -1,0 +1,157 @@
+# B1-Bound（任务 O）实际运行报告
+
+> 运行环境：Windows，CPython 3.13.15，worktree `hds-tlb-worktree`，分支
+> `feat/parallel-task-launcher-bound`，基线 `origin/main @ acca50d`。
+> 本文件只记录真实执行过的命令与结果；未运行的项一律 `NOT RUN/BLOCKED`，不伪造
+> 真实 Claude/EDA 验证。
+
+## 1. 交付概览
+
+| 组件 | 路径 | 状态 |
+|---|---|---|
+| Phase 1 supervisor 子包 | `task_launcher/bound/` | 已实现（只读，fixture 后端，MCP stdio） |
+| 离线测试 | `tests/task_launcher_bound_tests/` | 178 tests，OK |
+| 冻结基准 | `benchmarks/task-launcher-bound/` | 24 cases，24/24 passed |
+| 文档 | `docs/parallel-task-launcher-bound/` | contract/threat-model/design/integration-notes/acceptance-matrix/issue-candidates/report/handoff |
+| B1 集成 | 依赖 B1 的 launcher/plugin | **BLOCKED ON B1**（无已交付 HEAD） |
+| Phase 2 受控写 | 仅接口占位 | **BLOCKED (EDA authorization absent)** |
+| 真实 Claude Code | — | **NOT RUN** |
+| 真实 EDA | — | **NOT RUN** |
+
+## 2. Phase 1 实现内容（摘要）
+
+- MCP stdio supervisor（`supervisor.py`）：initialize/tools/list/tools/call/ping、
+  JSON-RPC 错误码、通知、UTF-8、同任务目录禁止重启复用（`TASK_ALREADY_STARTED`）。
+- 状态机（`state.py`）：`CREATED→STARTED→SNAPSHOT_READ→AUDIT_RUN→EVIDENCE_EMITTED→FINALIZED`；
+  跳步/乱序/重复/终态/limits/rate 全部稳定错误码；审计 incomplete 进入 `INCOMPLETE`，禁止 finalize。
+- HMAC-SHA256 回执链（`receipts.py`）：canonical JSON、payload/prev/hmac、内存 key、
+  磁盘 `receipts.jsonl`；finalize 重新读盘验链并校验 `evidence.json` 哈希。
+- fixture 后端（`backends.py`）：合成快照（含 prompt-injection 文本文件）、四种审计状态；
+  可选 `--audit-engine zhigou_mcp` 调用已合并离线模块（仍 `real_eda=NOT RUN`）。
+- 最终报告（`report.py`）：server 生成 `result.json`，verdict 仅由审计状态映射，
+  模型文本不进入 verdict；固定 `real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0`。
+- 启动加固（`runner.py`/`settings.py`）：生成 `mcp.json`、`routing.md`、
+  `settings.json`（deny: Bash/Write/Edit/NotebookEdit/Agent/Task/WebFetch/WebSearch；
+  allow: Read/Glob/Grep/Skill(design-hardware)/mcp__zhigou_bound__*）、`agent.command.json`
+  （argv 参数列表，无 token/HMAC）；hooks 默认关闭、可选启用。
+- B1 接缝（`b1.py`）：只读 probe + 文档化 CLI `build-plugin` 边界（不 import/不修改 B1）。
+
+## 3. 实际运行命令与结果
+
+### 3.1 产品自检
+
+```text
+$ python -m task_launcher.bound version
+exit 0；version=0.1.0、phase2_enabled=false、real_eda="NOT RUN"、eda_calls=0
+
+$ python -m task_launcher.bound selftest
+19/19 pass, 0 failed, exit 0
+```
+
+自检项：canonical-json、receipt-chain-valid、tamper-payload、wrong-key、reorder、
+state-skip/duplicate/abort、limits、happy-path、finalize-gating、token-binding、
+version-handshake、incomplete-blocked、phase2-refused、artifacts-no-secrets、
+settings-deny-allow、fixture-deterministic、timeout-kill-tree。
+
+### 3.2 离线测试（Phase 1）
+
+```text
+$ python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"
+Ran 207 tests in 66.417s
+OK
+```
+
+- 测试包：`tests/task_launcher_bound_tests/`（`__init__.py` + `support.py` +
+  13 个 `test_*.py`：cli / mcp_protocol / schema_strict / state_machine /
+  receipts / version_token / audit_reports / launch_config / hooks /
+  paths_injection_repo / limits / phase2 / zhigou_engine）。
+- 纪律：全部通过子进程驱动 `python -m task_launcher.bound`（CLI / MCP stdio），
+  不在测试进程 import 实现；使用 tempfile，不写仓库；无网络/真实 Claude/EDA。
+
+### 3.3 冻结基准
+
+```text
+$ python benchmarks/task-launcher-bound/run_benchmark.py
+summary: 24/24 passed, 0 failed
+real_eda=NOT RUN, eda_calls=0, project_writes=0, agent=none, simulated=true
+exit 0
+```
+
+- `benchmarks/task-launcher-bound/results.json`：`simulated=true`、`agent="none"`、
+  `real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、逐 case
+  expected/actual/duration、limits、runtime。
+- 两次运行忽略时间字段可复现（`REPRODUCIBLE_IGNORING_TIMING: True`）。
+- 覆盖：readonly pass/fail/review/incomplete、版本不匹配、token 无效/缺失、跳步、
+  重复、Phase1/Phase2 apply、plan 哈希不符、Phase2 无 EDA 授权（BLOCKED_NOT_RUN，
+  不是通过）、receipt 篡改/缺步/重复/乱序、evidence 篡改、prompt injection、limits、
+  abort；共 24 cases。
+
+### 3.4 Skill 自检
+
+```text
+$ python design-hardware/scripts/skill_selftest.py
+5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
+```
+
+### 3.5 官方全量套件
+
+```text
+$ python -m unittest discover -s tests
+Ran 3519 tests in 361.582s
+OK (skipped=3)
+exit 0
+```
+
+- 全量套件包含本任务的 207 个 bound 测试（同一 discovery 根 `tests/`）。
+- 注意（诚实记录）：该全量套件中的既有测试会在运行时追加写入
+  `docs/toolchain-integration/evidence/installer/install-lifecycle.log`（仓库内已跟踪的
+  evidence 日志）。Lead 在验证后已 `git checkout --` 还原该文件，因此本次交付的
+  `git diff` 不包含该改动；这属于既有测试的仓库写入行为，不是本任务新增。
+
+## 4. B1 交付状态与兼容性探针
+
+- B1_BASE_HEAD：**NOT DELIVERED**。开工时 B1 worktree HEAD=`0e391e3` 且全部交付文件未提交；
+  本报告写作时 B1 出现本地提交 `caed250`，但 `docs/parallel-task-launcher/handoff-current.md`
+  仍缺失、origin 无 `feat/parallel-task-launcher` 分支/PR，B1 docs 仍有未提交修改。
+  详见 `handoff-current.md` §1 与 `integration-notes.md`。
+- `python -m task_launcher.bound probe-b1 --repo-root <hds-tl-worktree>`：
+  `available=true, delivered=false, integration_status="BLOCKED ON B1"`。
+- **只读 artifact-level 兼容性探针（不作为验收基线，B1 HEAD 未冻结）**：
+  1. `cd hds-tl-worktree; python -m task_launcher build-plugin --skill-dir <bound-worktree>/design-hardware --out <temp>/plugin`
+     → exit 0；manifest 13,165,622 bytes；产出 `.claude-plugin/`、`hooks/`、
+     `skills/design-hardware/SKILL.md`、`.mcp.json`、`plugin.manifest.json`。
+  2. `python -m task_launcher.bound plan --request <req> --out <temp>/task --skill-dir design-hardware --plugin-dir <temp>/plugin --b1-repo <hds-tl-worktree>`
+     → exit 0；`agent_ready=true`；argv 含 `-p/--mcp-config/--plugin-dir/
+     --append-system-prompt-file/--settings/--output-format/--allowedTools/--disallowedTools`；
+     `mcp.json` 只挂 `zhigou_bound` stdio supervisor；`settings.json` deny/allow 正确；
+     `agent.command.json` 不含 token/HMAC。
+  - 结论：在观察到的 B1 本地提交 `caed250` 上，产物级兼容性 PASS；**B1 未交付/未冻结，
+    不构成 B1 验收**，真实 Claude 启动仍 NOT RUN。
+
+## 5. 未运行 / 阻塞（如实记录）
+
+| 项 | 状态 | 原因 |
+|---|---|---|
+| 真实 Claude Code 冒烟（工具面/子代理/hooks/注入实测） | **NOT RUN** | 需用户明确授权（会产生费用）；本次未授权 |
+| Phase 2 真实 EDA 写（plan→apply→readback→finalize） | **BLOCKED** | 无 EDA 授权、无一次性临时工程副本；apply/readback 一律 `EDA_NOT_AUTHORIZED` |
+| 真实 EDA 只读快照 | **NOT RUN** | Phase 1 只用 fixture；`real_eda=NOT RUN` |
+| B1 集成端到端（真实 B1 launcher 启动本 supervisor） | **BLOCKED ON B1** | B1 无可引用的已交付 HEAD/handoff/PR |
+| 真实 Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（见 issue-candidates） |
+| 3.10 CI | **NOT RUN（本机）** | 本机只有 3.13；代码保持 3.10 语法，靠 CI 验证（未发 PR，CI 未触发） |
+
+## 6. 限制与诚实声明
+
+- 能保证：流程不可跳过、回执/证据由 supervisor 产生、缺证据不可 FINALIZED、
+  模型无直接执行能力（工具面只有 6 个只读 MCP 工具 + Read/Glob/Grep/Skill）。
+- 不能保证：模型计划/内容质量；prompt injection 不会浪费 token；同用户下若允许 Read，
+  模型可读任务目录/文件；不是恶意内核的安全沙箱（HMAC key 在 supervisor 内存，
+  但同用户进程隔离有限）；`Skill` 被调用不等于模型读懂 Skill。
+- 最终报告只证明“流程 + 证据链”，不证明板子通过验收；`pass_with_scope` 不是整板通过。
+- 未合并 PR、未发版；未修改 B1 已交付文件、A/runtime/connector/SKILL/CI。
+
+## 7. 已知问题/后续建议
+
+- B1 交付后：用其文档化 CLI 构建 plugin，接 `plan --plugin-dir`，并做一次授权后的真实
+  Claude 冒烟（只读）；Phase 2 需 EDA 授权 + 一次性临时工程副本。
+- 见 `issue-candidates.md`（IC-01..IC-19）：真实冒烟授权、EDA 写授权、Windows 沙箱、
+  并发锁、receipt 长期验签、plugin 版本绑定、MCP/settings 作用域合并等。

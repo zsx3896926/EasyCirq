@@ -1,0 +1,75 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "phase2-plan-hash-mismatch",
+  "description": "Phase 2 config: after plan_submit + precheck, applying with a wrong plan_id is refused with PLAN_HASH_MISMATCH (the plan is immutable).",
+  "setup": {
+    "phase": 2,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "plan_submit",
+      "expect": {
+        "ok": true,
+        "state": "PLAN_SUBMITTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "precheck",
+      "expect": {
+        "ok": true,
+        "state": "PRECHECKED",
+        "structured": {
+          "real_eda": "NOT RUN",
+          "eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "apply",
+      "arguments": {
+        "plan_id": "$wrong_plan_id"
+      },
+      "expect": {
+        "error": "PLAN_HASH_MISMATCH",
+        "state": "PRECHECKED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "PRECHECKED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (wrong plan_id -> PLAN_HASH_MISMATCH; task remains PRECHECKED)",
+    "final_state": "PRECHECKED",
+    "result_present": false,
+    "receipts_count": 4
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "skip-audit-before-snapshot",
+  "description": "After task_start the agent tries to skip snapshot_read: run_offline_audit -> NOT_READY and finalize -> NOT_READY; the task stays STARTED.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "STARTED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (snapshot_read skipped; audit/finalize refused)",
+    "final_state": "STARTED",
+    "result_present": false,
+    "receipts_count": 1
+  }
+}

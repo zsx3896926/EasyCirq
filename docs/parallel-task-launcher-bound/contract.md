@@ -74,7 +74,9 @@ task_abort: 任意非终态 -> CANCELLED（不写成功报告）
 规则（全部有稳定错误码，见 §7）：
 
 1. 每个工具只能在其前置状态调用，且每步只允许一次；重复 → `STEP_ALREADY_DONE`。
-2. 顺序错误 → `OUT_OF_ORDER`（`detail.next` 给出下一步）。
+2. 顺序错误 → `OUT_OF_ORDER`（`detail.next` 给出下一步）。**例外**：`finalize` 的
+   前置是“证据已发出 + 链校验通过”，因此未到 `EVIDENCE_EMITTED` 时返回 `NOT_READY`
+   （`detail.remaining` 给出缺的步骤），而不是 `OUT_OF_ORDER`；这是收尾就绪检查。
 3. 终态后任何调用 → `TASK_CLOSED`。
 4. 审计状态为 `incomplete`/`invalid_input` 时，任务进入 `INCOMPLETE`，**不允许**
    `evidence_emit`/`finalize`，不会生成通过报告。

@@ -205,7 +205,14 @@ class BoundConfig:
 
     @classmethod
     def from_dict(cls, data: Any) -> "BoundConfig":
-        validate(CONFIG_JSON_SCHEMA, data, "config")
+        try:
+            validate(CONFIG_JSON_SCHEMA, data, "config")
+        except BoundError as exc:
+            raise BoundError(
+                INVALID_CONFIG,
+                f"invalid bound config: {exc.message}",
+                exc.detail,
+            ) from exc
         task_dir = Path(data["task_dir"]).expanduser()
         state_root = Path(data["state_root"]).expanduser() if data.get("state_root") else None
         task_dir = _assert_task_dir(task_dir, state_root)

@@ -64,6 +64,8 @@ def _print_json(document: Any, *, stream: Any = None) -> None:
 
 
 def _error_exit_code(exc: BoundError) -> int:
+    """Configuration/protocol refusals exit 2; task-level failures exit 1."""
+
     config_errors = {
         INVALID_CONFIG,
         INVALID_REQUEST,
@@ -72,6 +74,9 @@ def _error_exit_code(exc: BoundError) -> int:
         VERSION_MISMATCH,
         BACKEND_UNAVAILABLE,
         PATH_OUTSIDE_TASK_DIR,
+        # A config carries eda_authorized=false with a real EDA backend: that is
+        # a configuration refusal, consistent with `serve` exiting 2 on it.
+        "EDA_NOT_AUTHORIZED",
     }
     return 2 if exc.code in config_errors else 1
 
