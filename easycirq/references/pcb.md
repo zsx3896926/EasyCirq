@@ -26,7 +26,7 @@
 - 用 [布线计划模板](../assets/routing-plan.md) 填层、通道、过孔、net class、顺序、停止条件和关键网证明；未填不进入布线。
 - 布局 lint 分数/交叉达到项目阈值并记录 before/after；`layout-lint --gate` 只是 deprecated 兼容显示、不阻断，阈值判定由 `gate_check.py` 与项目记录执行。
 - 规则先写入并回读（`pcb drc-rules` / `pcb drc-rules-set`）；铺铜/平面与缝合孔按策略到位，任何布局/布线改动后 `pour-rebuild`。
-- 停止规则：连续 3 轮 DRC 改善 <30% 就停，选择重排/改 4 层/拆板/如实报告；每轮保存并 `doc reload` 后重读。
+- 停止规则：见 [agent-collaboration](agent-collaboration.md) §停止规则（全库唯一定义）；4 层板端到端顺序见 [PCB 4 层闭环](pcb-4layer-closure.md)。每轮保存并 `doc reload` 后重读。
 
 ## 布线与回流
 先设置网络类，再布电源关键回路、差分/时钟/精密模拟和其他受约束网络，最后普通信号。

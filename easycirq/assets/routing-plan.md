@@ -98,7 +98,7 @@
 | 2 |  |  |  |  |  |  |
 | 3 |  |  |  |  |  |  |
 
-- 连续 3 轮改善 <30% 时停止同一策略，改为重排/改层/评估 4 层/拆分或如实报告；是否触发 `DRC_PLATEAU` 及动作：
+- 连续 3 轮改善 <30% 时停止同一策略（定义与出路见 [agent-collaboration](../references/agent-collaboration.md) §停止规则）；是否触发 `DRC_PLATEAU` 及动作：
 - `routing.drc_rounds` 与 `routing.stop_rule_triggered`：
 
 ## 10. 证据清单
