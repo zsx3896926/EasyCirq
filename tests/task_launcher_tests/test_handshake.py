@@ -101,7 +101,7 @@ def make_prebuilt_plugin(
 
 class HandshakeTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._tmp = tempfile.TemporaryDirectory(prefix="zhigou-handshake-")
+        self._tmp = tempfile.TemporaryDirectory(prefix="easycirq-handshake-")
         self.addCleanup(self._tmp.cleanup)
         self.tmp = Path(self._tmp.name)
         self._launchers: list[LauncherProcess] = []

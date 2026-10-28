@@ -40,7 +40,7 @@ def run_cli(args: list[str], timeout: float = 180.0) -> subprocess.CompletedProc
 
 class CLITests(unittest.TestCase):
     def setUp(self) -> None:
-        self._tmp = tempfile.TemporaryDirectory(prefix="zhigou-cli-")
+        self._tmp = tempfile.TemporaryDirectory(prefix="easycirq-cli-")
         self.addCleanup(self._tmp.cleanup)
         self.tmp = Path(self._tmp.name)
         self.state = self.tmp / "state"

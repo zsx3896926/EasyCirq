@@ -31,7 +31,7 @@ python -m task_launcher version
 python -m task_launcher health --state-dir .easycirq-launcher-state
 
 # 2) 构建 Claude Code plugin（只读复制 Skill 目录；自动探测 easycirq/，旧布局 design-hardware/）
-python -m task_launcher build-plugin --out /tmp/zhigou-plugin
+python -m task_launcher build-plugin --out /tmp/easycirq-plugin
 
 # 3) 启动本地 sidecar（默认 127.0.0.1:23121，token 写入 <state>/launcher.token）
 python -m task_launcher serve --state-dir .easycirq-launcher-state --agent-profile fake

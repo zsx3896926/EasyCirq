@@ -94,7 +94,7 @@ class StubConnectorTests(LauncherTestCase):
     def case_request(self, case_id: str) -> Path:
         """Resolved copy of a frozen case request (toolchain placeholders filled)."""
 
-        target = Path(tempfile.mkdtemp(prefix="zhigou-stub-case-"))
+        target = Path(tempfile.mkdtemp(prefix="easycirq-stub-case-"))
         self.addCleanup(shutil.rmtree, target, True)
         return resolve_frozen_case_request(case_id, target)
 

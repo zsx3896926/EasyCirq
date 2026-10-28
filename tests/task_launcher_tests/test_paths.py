@@ -35,7 +35,7 @@ EVIDENCE_FILES = (
 
 class PathsTests(LauncherTestCase):
     def _temp_root(self) -> Path:
-        root = Path(tempfile.mkdtemp(prefix="zhigou-paths-test-"))
+        root = Path(tempfile.mkdtemp(prefix="easycirq-paths-test-"))
         self.addCleanup(shutil.rmtree, root, True)
         return root
 

@@ -37,7 +37,7 @@ PLUGIN_MANIFEST_SCHEMA = "easycirq.task-launcher.plugin-manifest/v1"
 BENCHMARK_SCHEMA = "easycirq.task-launcher.benchmark/v1"
 
 #: Local HTTP endpoint. 23121 follows the (unmerged) toolchain's 23111-23120
-#: daemon range on purpose: one port block for "zhigou on the loopback".
+#: daemon range on purpose: one port block for "easycirq on the loopback".
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 23121
 
