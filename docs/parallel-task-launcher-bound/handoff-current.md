@@ -29,7 +29,7 @@
 - 精确 HEAD（自包含分支）：见 §9 的 `git rev-parse HEAD`（收口提交）。
 - 叠加分支：`feat/parallel-task-launcher-bound-on-b1`，worktree `hds-tlb-on-b1`；
   基线 `origin/feat/parallel-task-launcher @ 074bd88`（B1 交付 HEAD）；叠加提交见 §9。
-- **PR：#94（OPEN，未合并、未发版）**：https://github.com/zsx3896926/EasyCirq/pull/94 ；base `main`，head `feat/parallel-task-launcher-bound`；79 files 全 A（+15607 / -0）。未 force push，未改他人 worktree。
+- **PR：#94（OPEN，未合并、未发版）**：https://github.com/zsx3896926/EasyCirq/pull/94 ；base `main`，head `feat/parallel-task-launcher-bound`；79 files 全 A（+15607 / -0）；CI `validate 3.10/3.13 PASS`、`updater PASS`（head `4ec29ee`）。未 force push，未改他人 worktree。
 - 说明：B1 PR #74 未合并，因此本任务不把 PR 基线强行设为未合并分支；提供了可直接
   review 的叠加分支（79 files 全 A vs B1 交付 HEAD）。
 
@@ -62,6 +62,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 - **Skill 自检**：`python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL**。
 - **官方全量**：`python -m unittest discover -s tests` → **Ran 3520 tests，OK (skipped=3)，exit 0**
   （374.287s；含本任务 208 tests）。
+- **CI（PR #94）**：`validate (3.10)` **PASS**（3m19s/2m12s）、`validate (3.13)` **PASS**（3m26s/3m16s）、`updater (ubuntu/windows)` **PASS**、`publish` skipping（head `4ec29ee`）。首轮 CI 失败/挂起的根因是 POSIX `kill_tree` 在 selftest 中误杀自身进程组，已修复并在 WSL Ubuntu 复验（208 tests OK / selftest 19/19）。
 - **B1 叠加验证**（worktree `hds-tlb-on-b1`，基于 B1 交付 HEAD `074bd88`）：
   - 208 tests OK；基准 24/24；selftest 19/19；
   - `python -m task_launcher build-plugin --skill-dir design-hardware --out <temp>/plugin`
@@ -119,7 +120,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 - Phase 2 真实 EDA 写 **BLOCKED（无授权）**；`limits.timeout_s` 未由 supervisor 强制
   （launcher 层职责，见 issue-candidates IC-14）；真实并发未验证。
 - 真实 Windows 独立账号/沙箱隔离 **NOT RUN**（属主线评估）。
-- CI 3.10/3.13：PR #94 已触发；交接时 `validate (3.10)/(3.13)` **queued/pending**（共享 runner 排队），`updater` PASS；本机 3.13 全量 3520 tests OK；35 个新 py 文件已用 `ast.parse(feature_version=(3,10))` 校验语法通过（不等于 3.10 运行通过）。
+- CI 3.10/3.13：**已全绿**（见 §4）。首轮失败/挂起根因是 POSIX `kill_tree` 自杀进程组，修复提交 `4ec29ee`（POSIX 加 `start_new_session=True`，仅子进程自成组时 killpg）；WSL Ubuntu 复验 208 tests OK / selftest 19/19。
 - 既有全量套件在运行时追加写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`
   （已跟踪 evidence 日志）；验证后已还原，交付 diff 不含该文件。
 - 风险：同用户进程隔离有限（防流程不防恶意内核）；HMAC key 仅内存、进程退出后无法离线复验；
@@ -132,7 +133,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 ```text
 worktree: default-workspace/hds-tlb-worktree
 branch:   feat/parallel-task-launcher-bound
-HEAD:     见 PR #94 的 head（`feat/parallel-task-launcher-bound`）；代码/测试/基准/文档主体提交 `6a9ac09`，其后为 docs-only 收口提交（`bd6d73c` 及其后最终文档提交）
+HEAD:     代码/修复 head `4ec29ee`（CI validate 3.10/3.13 PASS）；其后为 docs-only 收口提交；PR #94 head 以 PR 页为准
 diff:     git diff --name-status origin/main...HEAD   # 79 files, all A
 ```
 
@@ -142,7 +143,7 @@ diff:     git diff --name-status origin/main...HEAD   # 79 files, all A
 worktree: default-workspace/hds-tlb-on-b1
 branch:   feat/parallel-task-launcher-bound-on-b1
 base:     origin/feat/parallel-task-launcher @ 074bd88
-HEAD:     见 `git log --oneline -1`（叠加提交；其后可能有 docs-only 同步提交）
+HEAD:     修复同步 head `7ad0f77`（含 POSIX kill_tree 修复；其后可能有 docs-only 同步提交）
 diff:     git diff --name-status 074bd88...HEAD       # 79 files, all A
 ```
 
