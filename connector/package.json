@@ -1,6 +1,6 @@
 {
 	"name": "easycirq-connector",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"description": "EasyCirq connector extension for EasyEDA Pro (derived from easyeda-agent, MIT).",
 	"author": "zsx3896926",
 	"license": "(MIT AND Apache-2.0)",
