@@ -7,10 +7,10 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 - 一侧契约（launcher 侧）：[contract.md](contract.md)；架构关系：[architecture.md](architecture.md)。
 - 验收状态：[acceptance-matrix.md](acceptance-matrix.md)；范围外事项：[issue-candidates.md](issue-candidates.md)。
 
-> 基线与事实说明：任务书假设 A 分支未合并；实际本 worktree 的 `origin/main` 已推进到
-> `acca50d`（PR #36 `feat/integrated-eda-toolchain` 已合入 A 工具链），且 `runtime/`、
-> `connector/`、`protocol/`、`distribution/` 均在 main。本建议按 **main 上的 A 代码** 写；
-> 本分支基于任务书基线 `0e391e3`，只新增 launcher 的 4 类路径，不触碰 A。
+> 基线与事实说明：任务书假设 A 分支未合并；实际 `origin/main` 已推进到 `c54c6fc`
+> （PR #36 `feat/integrated-eda-toolchain` 合入 A 工具链），`runtime/`、`connector/`、
+> `protocol/`、`distribution/` 均在 main。本建议按 **main 上的 A 代码** 写；本分支已从任务书
+> 基线 `0e391e3` rebase 到 `origin/main@c54c6fc`，只新增 launcher 的 4 类路径，不触碰 A。
 
 ---
 
@@ -52,7 +52,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 | 传输 | loopback HTTP（默认 `127.0.0.1:23121`），Bearer token 文件，`GET /health` 免鉴权 | contract.md §1 |
 | 入口 | `POST /task/start`（202）、`GET /task/<id>`、`/events?since=`、`/result`、`POST /cancel` | contract.md §1.3 |
 | 只读 | `mode=read_only` 硬门禁；`real_eda=NOT RUN`；不调 EDA/daemon/connector/网络 | contract.md §6/§8 |
-| 版本 | launcher `0.1.0`、Skill `1.0.1`、plugin 包 `0.1.0`（`plugin.json.skill_version=1.0.1`） | contract.md §5 |
+| 版本 | launcher `0.1.0`、Skill `1.0.2`、plugin 包 `0.1.0`（`plugin.json.skill_version=1.0.2`） | contract.md §5 |
 | 触发面 | 本任务用 `stub_connector` 模拟 EDA 插件（HTTP 客户端） | `task_launcher/stub_connector.py` |
 
 **端口与状态目录不冲突**：daemon 23111 / launcher 23121；`~/.zhigou` / `%LOCALAPPDATA%\zhigou-launcher`
@@ -69,7 +69,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
   "schema": "zhigou.task-launcher.start/v1",
   "task_id": "task-20261028-001234-ab12",
   "client": {"name": "zhigou-connector", "version": "0.1.3"},
-  "toolchain": {"launcher": "0.1.0", "skill": "1.0.1", "plugin": "0.1.0"},
+  "toolchain": {"launcher": "0.1.0", "skill": "1.0.2", "plugin": "0.1.0"},
   "mode": "read_only",
   "context": {
     "project": {"name": "<projectName>", "revision": "<可选>"},
@@ -91,7 +91,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 2. `client`：只有 `name`/`version` 两个字段；建议 `name="zhigou-connector"`，
    `version=__CONNECTOR_VERSION__`；经 daemon 转发时可改为 `zhigou-daemon` 并在 detail 记录两侧。
 3. `toolchain` 三字段**必须**来自 `GET /health`（见 §4）；`plugin` 是 **plugin 包版本**，
-   不是 Skill 版本——把 `1.0.1` 填进 `plugin` 会得到 `409`。
+   不是 Skill 版本——把 `1.0.2` 填进 `plugin` 会得到 `409`。
 4. `context.snapshot_sha256`：拿不到快照哈希时填 `null`，且必须把 `"snapshot_sha256"` 放进
    `context.missing_fields`，否则 `422 MISSING_SNAPSHOT_DECLARATION`；不得伪造哈希。
 5. `context.document.kind` 只能是 `schematic|pcb|unknown`；`page`/`selection` 可选；
@@ -174,7 +174,7 @@ launcher 的 schema/状态机/证据/plugin 构建逻辑可以未来迁移/重�
 |---|---|---|---|
 | launcher | `GET /health.version`（launcher 进程） | `toolchain.launcher` | 逐字相等；触发方每次 start 前读取，不写死 |
 | Skill | `GET /health.skill_version`（launcher 读 `--skill-dir/.version`） | `toolchain.skill` | 逐字相等；同时要求 plugin 的 `skill_version` 等于它 |
-| plugin 包 | `GET /health.plugin_version`（launcher 内置或 `--plugin-dir` 的 manifest） | `toolchain.plugin` | 逐字相等；**是包版本 0.1.0，不是 Skill 1.0.1** |
+| plugin 包 | `GET /health.plugin_version`（launcher 内置或 `--plugin-dir` 的 manifest） | `toolchain.plugin` | 逐字相等；**是包版本 0.1.0，不是 Skill 1.0.2** |
 | connector | `connector/extension.json` 的 `version`（构建期 `__CONNECTOR_VERSION__`，当前 `0.1.3`） | `client.name` / `client.version` | 仅身份记录，不参与 launcher 版本门禁 |
 | daemon | Go `version.Version`（ldflags 注入）+ `wireVersion "v1"` | `client.name` / `client.version`（转发时） | 仅身份记录 |
 | toolchain 发布 | `distribution/toolchain.json`（version `0.1.0`、protocol `zhigou-agent/v1`） | 未来 `toolchain_compat` 字段（需 v2） | 建议在 toolchain.json 增加 `launcher` 块（见 §5） |

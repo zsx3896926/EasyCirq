@@ -6,9 +6,9 @@
     "version": "0.0.0"
   },
   "toolchain": {
-    "launcher": "0.1.0",
+    "launcher": "@launcher",
     "skill": "0.0.9",
-    "plugin": "0.1.0"
+    "plugin": "@plugin"
   },
   "mode": "read_only",
   "context": {

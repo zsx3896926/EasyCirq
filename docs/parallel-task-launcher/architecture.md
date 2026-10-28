@@ -108,7 +108,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
   `--allowedTools` 只含 `Skill/Read/Glob/Grep` 与五个 `mcp__zhigou-offline-audit__*` 只读工具
   （无 Bash/Write/Edit）。
 - **版本映射**：plugin 包版本 `0.1.0` 由 launcher 拥有，`plugin.json.skill_version` 承载
-  `design-hardware/.version`（当前 `1.0.1`），请求的 `toolchain` 三方逐字比对，
+  `design-hardware/.version`（当前 `1.0.2`），请求的 `toolchain` 三方逐字比对，
   不一致即 `409 VERSION_MISMATCH`（见 contract §5）。
 - **缓存与物化**：plugin 按 Skill 指纹缓存（同一 launcher 进程只构建一次），每任务物化到
   `tasks/<id>/plugin/`（同卷硬链接/跨卷复制；体量见 `task_launcher/README.md`），
@@ -153,12 +153,16 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
 
 ### 6.1 当前状态（本任务只读、不改 A）
 
-- 本分支从 `main`（`0e391e3`）拉出，只新增 `task_launcher/`、`tests/task_launcher_tests/`、
-  `benchmarks/task-launcher/`、`docs/parallel-task-launcher/`；仓库根目录没有
-  `runtime/`、`connector/`、`protocol/`，代码不 import A、不启动 daemon/connector。
-- 任务书 §1.3 记录 A 分支 HEAD 为 `dfa8f10`；本 worktree 里只读观察到的远端跟踪引用
-  `origin/feat/integrated-eda-toolchain` 为 `e93947d`（未 fetch、未使用、未修改；A 的实际
-  HEAD 由 A owner 为准）。
+- 基线：本分支从任务书基线 `main@0e391e3` 拉出；随后 A 工具链随 PR #36
+  （`feat/integrated-eda-toolchain`）合入 `origin/main`，M4 已把本分支 **rebase 到
+  `origin/main@c54c6fc`**。本任务只新增 `task_launcher/`、`tests/task_launcher_tests/`、
+  `benchmarks/task-launcher/`、`docs/parallel-task-launcher/` 四类路径；对 A 的目录
+  （`runtime/`、`connector/`、`protocol/`、`distribution/`，rebase 后已在工作树中）
+  **没有任何修改**，代码不 import A、不启动 daemon/connector。
+  `git diff --name-status origin/main...HEAD` 全部为 `A`（仅上述新增）。
+- 任务书 §1.3 记录 A 分支 HEAD 为 `dfa8f10`；本任务开工时 A 分支尚未合并，只读参考过
+  `origin/feat/integrated-eda-toolchain` 的架构/协议文档，未修改、未作为 base；A 的实际
+  HEAD 由 A owner 为准。
 - 本任务的 Phase 2 建议（connector 如何发 `task.start`、daemon 如何托管/转发、写门禁、
   最小文件清单）由任务书 §6.5 要求的独立集成建议文档给出；本文只说明架构关系与边界。
 

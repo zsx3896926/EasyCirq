@@ -6,8 +6,8 @@
     "version": "0.0.0"
   },
   "toolchain": {
-    "launcher": "0.1.0",
-    "skill": "1.0.1",
+    "launcher": "@launcher",
+    "skill": "@skill",
     "plugin": "0.0.9"
   },
   "mode": "read_only",

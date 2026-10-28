@@ -60,6 +60,15 @@ LAUNCHER_VERSION = "0.1.0"
 PLUGIN_VERSION = "0.1.0"
 SKILL_VERSION = (ROOT / "design-hardware" / ".version").read_text(encoding="utf-8").strip()
 
+#: Frozen case requests use placeholders instead of hard-coded versions, so a
+#: Skill version bump on main does not break the benchmark.  Deliberately
+#: mismatched toolchain versions in the mismatch cases stay literal.
+TOOLCHAIN_PLACEHOLDERS = {
+    "@launcher": LAUNCHER_VERSION,
+    "@skill": SKILL_VERSION,
+    "@plugin": PLUGIN_VERSION,
+}
+
 #: Fixed benchmark bearer token.  It lives only in the per-run temporary state
 #: directory and is never written to ``results.json``.
 TOKEN = "benchmark-token-0123456789abcdef0123456789abcdef"
@@ -165,6 +174,19 @@ def _lookup(document: Any, dotted: str) -> Any:
 
 def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _resolve_toolchain_placeholders(request: dict) -> dict:
+    """Resolve ``@launcher``/``@skill``/``@plugin`` in a frozen case request."""
+
+    resolved = json.loads(json.dumps(request))
+    toolchain = resolved.get("toolchain")
+    if isinstance(toolchain, dict):
+        for key in ("launcher", "skill", "plugin"):
+            value = toolchain.get(key)
+            if isinstance(value, str) and value in TOOLCHAIN_PLACEHOLDERS:
+                toolchain[key] = TOOLCHAIN_PLACEHOLDERS[value]
+    return resolved
 
 
 def _read_events(path: Path) -> list[dict]:
@@ -500,6 +522,14 @@ def run_case(
         if not request_path.is_file():
             problems.append("request.json is missing")
             return row
+        try:
+            request_document = _read_json(request_path)
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            problems.append(f"request.json cannot be parsed: {_sanitize(exc, temp_root)}")
+            return row
+        if not isinstance(request_document, dict):
+            problems.append("request.json must be a JSON object")
+            return row
 
         launcher_config = expected.get("launcher") or {}
         stub_config = expected.get("stub_args") or {}
@@ -509,6 +539,23 @@ def run_case(
         state_dir.mkdir(parents=True, exist_ok=True)
         token_file = state_dir / "token.txt"
         token_file.write_text(TOKEN + "\n", encoding="utf-8", newline="\n")
+
+        # Frozen requests carry ``@launcher`` / ``@skill`` / ``@plugin`` instead
+        # of hard-coded versions so the benchmark stays valid when the Skill
+        # version is bumped on main; the runner resolves them to the versions it
+        # measured (the deliberate mismatch cases keep their literal versions).
+        resolved_request_path = case_temp / "request.resolved.json"
+        resolved_request_path.write_text(
+            json.dumps(
+                _resolve_toolchain_placeholders(request_document),
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=False,
+            )
+            + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
 
         try:
             launcher = BenchLauncher(
@@ -525,7 +572,7 @@ def run_case(
 
         try:
             completed = subprocess.run(
-                _stub_argv(launcher, request_path=request_path, token_file=token_file, stub_config=stub_config),
+                _stub_argv(launcher, request_path=resolved_request_path, token_file=token_file, stub_config=stub_config),
                 cwd=str(ROOT),
                 env=_env(),
                 stdin=subprocess.DEVNULL,

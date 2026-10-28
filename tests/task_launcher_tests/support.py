@@ -92,6 +92,45 @@ def read_json(path: Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+#: Frozen case requests carry these placeholders instead of hard-coded versions,
+#: so a Skill version bump on main does not invalidate the frozen benchmark.
+TOOLCHAIN_PLACEHOLDERS = {
+    "@launcher": LAUNCHER_VERSION,
+    "@skill": SKILL_VERSION,
+    "@plugin": PLUGIN_VERSION,
+}
+
+
+def resolve_toolchain_placeholders(request: dict) -> dict:
+    """Return a copy of ``request`` with toolchain placeholders resolved."""
+
+    document = json.loads(json.dumps(request))
+    toolchain = document.get("toolchain")
+    if isinstance(toolchain, dict):
+        for key in ("launcher", "skill", "plugin"):
+            value = toolchain.get(key)
+            if isinstance(value, str) and value in TOOLCHAIN_PLACEHOLDERS:
+                toolchain[key] = TOOLCHAIN_PLACEHOLDERS[value]
+    return document
+
+
+def resolve_frozen_case_request(case_id: str, out_dir: Path) -> Path:
+    """Write a resolved copy of ``benchmarks/task-launcher/cases/<id>/request.json``."""
+
+    source = ROOT / "benchmarks" / "task-launcher" / "cases" / case_id / "request.json"
+    if not source.is_file():
+        raise AssertionError(f"frozen benchmark case request is missing: {source}")
+    document = resolve_toolchain_placeholders(json.loads(source.read_text(encoding="utf-8")))
+    target = Path(out_dir) / case_id / "request.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        json.dumps(document, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return target
+
+
 def pid_alive(pid: int) -> bool:
     """Cross-platform process liveness check (used for no-orphan assertions)."""
 
@@ -445,6 +484,9 @@ __all__ = [
     "base_request",
     "write_request",
     "read_json",
+    "TOOLCHAIN_PLACEHOLDERS",
+    "resolve_toolchain_placeholders",
+    "resolve_frozen_case_request",
     "pid_alive",
     "wait_until",
     "LauncherProcess",

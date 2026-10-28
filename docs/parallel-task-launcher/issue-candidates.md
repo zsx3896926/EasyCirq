@@ -14,7 +14,7 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 | ID | 事项 | 证据 | 建议 | 优先级 | 为何不在本任务 |
 |---|---|---|---|---|---|
 | `IC-01` | **Claude Code CLI 参数漂移**：`--append-system-prompt-file` 未在 2.1.303 的 `claude --help` 中单列（仅以 `--append-system-prompt[-file]` 出现在 `--bare` 描述里），但本机实测 CLI 接受该参数 | `task_launcher/README.md`「已知限制」；contract.md §11 的本机核对记录；本机 `claude --version` = `2.1.303`；`claude --append-system-prompt-file <file> --version` 退出码 0（仅参数解析） | 启动器增加**启动前兼容性探测**（`claude --version` + 参数可用性），失败时 health 报 degraded 并给明确修复建议；在 `design-hardware/references/client-compatibility.md` 记录已验证版本区间；上游若移除该参数，改用 `--append-system-prompt` 或版本化模板 | 高 | 涉及 CI/客户端兼容文档与 Skill 参考文件，超出允许路径；当前四个强制参数已由测试断言（`agent.py::REQUIRED_AGENT_FLAGS` + argv 模板拒绝用例） |
-| `IC-02` | **基线漂移**：任务书假设 A 分支未合并（§1.3 记 HEAD `dfa8f10`），但本 worktree 的 `origin/main` 已到 `acca50d`（PR #36 合入 A 工具链）；本分支基于 `0e391e3` | `git log --oneline origin/main`（`acca50d Merge pull request #36 ...`）；`git diff --name-status 0e391e3 origin/main` 显示 connector/runtime/protocol/distribution 已进 main；`git merge-base HEAD origin/main` = `0e391e3` | M4 提交/PR 前决定 **rebase/merge 最新 main**；`git diff --name-status origin/main...HEAD`（三点）应只显示本次新增文件；同步更新 `architecture.md` §6.1 中基于任务书基线的措辞（`integration-proposal.md` 已按 main 事实写） | 高 | 分支基线、PR 流程与已有文档措辞由 Lead M4 统一处理；本任务只写 3 份新文档 |
+| `IC-02` | **基线漂移（已在 M4 处理，保留记录）**：任务书假设 A 分支未合并（§1.3 记 HEAD `dfa8f10`），但开工期间 A 工具链随 PR #36 合入 `origin/main`；本分支原基于 `0e391e3` | `git log --oneline origin/main`（`c54c6fc` / `acca50d Merge pull request #36 ...`）；`git merge-base` 原为 `0e391e3` | **已解决**：M4 将本分支 rebase 到 `origin/main@c54c6fc`；`git diff --name-status origin/main...HEAD` 仍为 63 个文件全部 `A`；`architecture.md` §6.1、`contract.md` §10、`integration-proposal.md`、`acceptance-matrix.md` 的基线措辞已同步。后续 PR 前如 main 再推进，重复同样流程 | 高（已关闭） | 分支基线、PR 流程与文档措辞由 Lead M4 统一处理 |
 | `IC-03` | **CI 不跑冻结基准**：`.github/workflows/validate.yml` 只执行 `python3 -m unittest discover -s tests -v`（3.10/3.13），`benchmarks/task-launcher/run_benchmark.py` 不在 CI 中 | `.github/workflows/validate.yml`；`benchmarks/task-launcher/results.json` | 合并后在 CI 增加独立 job（建议 3.13，ubuntu）跑 `python benchmarks/task-launcher/run_benchmark.py`，把 `results.json` 与退出码作为门禁；`real_claude` 默认 `NOT RUN`，可用 `--real-claude` 仅做标记 | 中 | `.github/**` 在本任务禁止修改 |
 | `IC-04` | **`.gitattributes` 未覆盖新目录**：根 `.gitattributes` 没有 `benchmarks/task-launcher/**`、`docs/parallel-task-launcher/**`、`task_launcher/**` 的 `eol=lf` 规则 | 根 `.gitattributes` 现有规则；`results.json` 由脚本用 `newline="\n"` 写出（`run_benchmark.py::_write_results`） | 为 benchmark 用例/结果与 B1 文档加 `text eol=lf`（尤其未来若引入文件哈希/逐字节对比）；对 Python 源码可按仓库惯例处理 | 低 | 需改根 `.gitattributes`（允许路径外） |
 | `IC-05` | **docs 索引/handoff 未链接 B1 文档**：`docs/handoff-current.md` 与 docs 顶层没有 `docs/parallel-task-launcher/` 入口 | `docs/handoff-current.md` 存在；`docs/` 下无总索引文件；本任务禁止改 handoff | 主分支在 handoff/docs 索引加 B1 入口（contract/architecture/acceptance-matrix/report + 分支/PR/NOT RUN） | 低 | `docs/handoff-current.md` 明确禁止修改 |
@@ -28,6 +28,8 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 | `IC-13` | **结果/状态字段命名不一致**：start 响应 `agent="claude"`，result 中 `agent="claude-code"`；`agent_profile` 另有一套值 | contract.md §1.3.2 / §6.2；`task_launcher/tasks.py` 的映射 | 契约 v2 统一（例如 `agent_profile` 固定 `fake`/`claude`，`agent` 固定 `fake`/`claude-code` 并只出现一次）；或至少在文档显式标注两处差异（本任务已在 contract §6.2 标注，但客户端仍易误用） | 低 | 契约变更 |
 | `IC-14` | **Windows/跨平台验收不完整**：本机只在 Windows + Python 3.13 跑过；token 文件 0600 在 Windows 仅为 best-effort；POSIX `killpg` 路径由 CI 覆盖但尚未跑过 | 本任务环境（Windows 本机、Python 3.13.15）；`tests/task_launcher_tests/support.py` 的 Windows/POSIX 分支；contract.md §8.4 | 合并后确认 CI（ubuntu 3.10/3.13）全绿；补一轮 macOS/Windows 冒烟；token 文件权限按平台写清威胁模型；如需强隔离，改为 daemon 持有 token（见 integration-proposal §3.1） | 中 | 平台验证属 M4/CI 与后续维护 |
 | `IC-15` | **任务书 §3.3 示例本身不合法**：示例 `snapshot_sha256: null` 但 `missing_fields` 未含 `"snapshot_sha256"`，按实现会被 422 | 任务书 `b1-task-launcher-task-book.md` §3.3 示例；contract.md §12.1 第 1 行；`protocol.py` 的 `_validate_context` | 修正任务书示例（或明确“缺失时必须声明”的示例写法），避免后续读者照抄被 422 | 低 | 任务书在仓库外/由任务 owner 维护；本任务用 contract.md 修正版示例替代 |
+| `IC-16` | **A 的全量测试会写仓库内证据文件**：`python -m unittest discover -s tests` 会向已跟踪的 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加约 130 行，导致干净 checkout 的 `git status` 变脏 | 本任务 M4 实测：全量套件后该文件出现 132 行新增（12:01:56 起）；已用 `git checkout --` 在提交前还原 | 建议 A owner 让该测试把日志写到显式 `--evidence-out`/临时目录，或在测试内先备份/恢复；CI 无影响（工作树一次性），但本地开发与“全量套件后 git 必须干净”的检查会受影响 | 中 | 属于 A 的测试与证据约定；本任务不修改 `docs/toolchain-integration/**` |
+| `IC-17` | **冻结用例 toolchain 版本硬编码**（已在本任务修复，记录模式）：原 case 写死 `skill="1.0.1"`，main 升级到 1.0.2 后 5 个 case 失败 | `benchmarks/task-launcher/cases/*/request.json`；`run_benchmark.py::_resolve_toolchain_placeholders`；`tests/task_launcher_tests/support.py::resolve_frozen_case_request` | 保持 `@launcher/@skill/@plugin` 占位符约定；新增 case 不要硬编码版本（版本不一致 case 除外，必须用字面错误值） | 低 | 已在本任务内修复并回归（见 §2） |
 
 ---
 
@@ -42,6 +44,8 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
    现已补齐（`task_id:null`、`result_http_status:null`、`event_seq_monotonic:true` 等）。
 3. **`result.event_count` 与事件流差 1**：终态事件 `task_finished` 现于构建结果**之前**追加，
    因此 `event_count` 等于 events API/`events.jsonl` 的总条数（`tasks.py::_finalize`）。
+4. **冻结基准 toolchain 版本硬编码**：`@launcher/@skill/@plugin` 占位符 + runner/测试解析
+   （见 IC-17）；这是在 main 把 Skill 从 1.0.1 升到 1.0.2 时暴露并修复的真实问题。
 
 以上已有测试/基准覆盖（`test_stub_connector.py`、`test_workspace.py`、基准 case 01/07/12），
 不列为待办。
