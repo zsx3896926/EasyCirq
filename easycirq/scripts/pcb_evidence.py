@@ -15,21 +15,28 @@ Design rules:
   * net-path never covers copper pours; callers must say so in the report;
   * component/pin comparisons are exact for designator+pad number.  Combination
     pads need an explicit alias map; an unmapped pin is reported, not guessed.
+
+``python pcb_evidence.py drc-summary <drc.json>`` is the routing-time
+lightweight entry: it reuses :func:`parse_drc`, so agents do not hand-write a
+second DRC parser that can read 61/74 violations as zero.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import math
 import os
 import re
+import sys
 
-from pcb_cli import load_json, sha256_file
+from pcb_cli import load_json, sha256_file, write_json
 
 SCH_PCB_SCHEMA = 'design-engine-pcb-sch-pcb-compare/v1'
 WARN_DISPOSITION_SCHEMA = 'design-engine-pcb-warn-disposition/v1'
 CHECK_SCHEMA = 'design-engine-pcb-check/v1'
 DRC_SCHEMA = 'design-engine-pcb-drc/v1'
+DRC_SUMMARY_SCHEMA = 'design-engine-pcb-drc-summary/v1'
 LINT_SCHEMA = 'design-engine-pcb-lint/v1'
 NETPATH_SCHEMA = 'design-engine-pcb-netpath/v1'
 PARSER_VERSION = 2
@@ -1205,6 +1212,208 @@ def parse_drc(payload):
         'note': 'native DRC must be run with the PCB foreground; total=0 is the '
                 'only clean result',
     }
+
+
+# ---------------------------------------------------------------------------
+# DRC summary (lightweight entry)
+# ---------------------------------------------------------------------------
+
+_CONNECTION_HINTS = (
+    'connection', 'unconnected', 'not connected', 'open circuit',
+    '断开', '未连接', '连接错误',
+)
+
+
+def _violation_rule(violation):
+    if isinstance(violation, str):
+        return violation.strip() or 'unclassified'
+    if isinstance(violation, dict):
+        for key in ('rule', 'ruleName', 'type', 'name'):
+            value = violation.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+    return 'unclassified'
+
+
+def _violation_net(violation):
+    if isinstance(violation, dict):
+        value = violation.get('net')
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return ''
+
+
+def _is_connection_violation(violation):
+    if isinstance(violation, str):
+        text = violation
+    elif isinstance(violation, dict):
+        text = ' '.join(str(violation.get(key) or '') for key in
+                        ('rule', 'ruleName', 'type', 'objType', 'message'))
+    else:
+        text = ''
+    lowered = text.lower()
+    return any(hint in lowered for hint in _CONNECTION_HINTS)
+
+
+def summarize_drc(payload, source=None, source_sha256=None):
+    """Summarize a native DRC receipt for routing-time reading.
+
+    Reuses :func:`parse_drc`, so this entry cannot disagree with
+    ``pcb_gate.py`` PG3.  Output is deliberately small: totals, per-rule and
+    per-net counts, connection violations and the listed disconnected
+    pads/nets.  The receipt is never treated as clean unless ``parse_drc``
+    says it is.
+    """
+    parsed = parse_drc(payload)
+    by_rule = {}
+    by_net = {}
+    disconnected = []
+    for violation in parsed['violations']:
+        rule = _violation_rule(violation)
+        by_rule[rule] = by_rule.get(rule, 0) + 1
+        net = _violation_net(violation)
+        if net:
+            by_net[net] = by_net.get(net, 0) + 1
+        if _is_connection_violation(violation):
+            item = {'rule': rule, 'net': net or None}
+            if isinstance(violation, dict):
+                for key in ('message', 'objType', 'layer'):
+                    value = violation.get(key)
+                    if isinstance(value, str) and value.strip():
+                        item[key] = value.strip()
+                objs = violation.get('objs')
+                if isinstance(objs, list):
+                    item['objs'] = [str(obj) for obj in objs]
+            disconnected.append(item)
+
+    summary = {
+        'schema': DRC_SUMMARY_SCHEMA,
+        'source': source,
+        'source_sha256': source_sha256,
+        'measured': parsed['measured'],
+        'trusted': parsed['trusted'],
+        'passed': parsed['passed'],
+        'passed_present': parsed['passed_present'],
+        'total': parsed['total'],
+        'listed_violations': len(parsed['violations']),
+        'connection_violations': parsed['connection_violations'],
+        'by_rule': dict(sorted(by_rule.items())),
+        'by_net': dict(sorted(by_net.items())),
+        'disconnected_pads': disconnected,
+        'contradictions': parsed['contradictions'],
+        'diagnostics': parsed['diagnostics'],
+        'ok': parsed['ok'],
+    }
+    summary['exit_code'] = _drc_summary_exit_code(summary)
+    return summary
+
+
+def _drc_summary_exit_code(summary):
+    """0 clean, 1 measured-but-dirty, 2 unreadable/untrustworthy receipt."""
+    if (not summary['measured'] or not summary['trusted'] or
+            not summary['passed_present']):
+        return 2
+    if summary['contradictions'] or summary['diagnostics']:
+        return 2
+    return 0 if summary['ok'] else 1
+
+
+def render_drc_summary(summary):
+    status = ('CLEAN' if summary['ok'] else
+              'NOT MEASURED' if not summary['measured'] else
+              'FAIL' if summary['passed'] is False else 'INVALID')
+    lines = ['DRC summary: %s (%d violation(s), %d listed)' %
+             (status, summary['total'], summary['listed_violations'])]
+    if summary.get('source'):
+        lines.append('  source: %s' % summary['source'])
+    lines.append('  measured=%s trusted=%s passed=%s connection=%s' %
+                 ('yes' if summary['measured'] else 'no',
+                  'yes' if summary['trusted'] else 'no',
+                  summary['passed'], summary['connection_violations']))
+    if summary['by_rule']:
+        lines.append('  by rule:')
+        for rule, count in summary['by_rule'].items():
+            lines.append('    %s: %d' % (rule, count))
+    if summary['by_net']:
+        lines.append('  by net:')
+        for net, count in summary['by_net'].items():
+            lines.append('    %s: %d' % (net, count))
+    if summary['disconnected_pads']:
+        lines.append('  disconnected pads/nets: %d'
+                     % len(summary['disconnected_pads']))
+        for item in summary['disconnected_pads'][:20]:
+            detail = item.get('message') or ''
+            lines.append('    [%s] %s%s' % (
+                item['rule'], item.get('net') or '-',
+                (': ' + detail) if detail else ''))
+        if len(summary['disconnected_pads']) > 20:
+            lines.append('    ... %d more (use --json)'
+                         % (len(summary['disconnected_pads']) - 20))
+    if summary['contradictions']:
+        lines.append('  contradictions:')
+        for item in summary['contradictions']:
+            lines.append('    - %s' % item)
+    if summary['diagnostics']:
+        lines.append('  invalid fields: %d (receipt is not a measurement)'
+                     % len(summary['diagnostics']))
+    return '\n'.join(lines)
+
+
+def _safe_stdout():
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except (AttributeError, ValueError):
+        pass
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        prog='pcb_evidence.py',
+        description='Read-only PCB evidence parsers shared with pcb_gate.py.')
+    commands = parser.add_subparsers(dest='command', required=True)
+    drc_summary = commands.add_parser(
+        'drc-summary',
+        help='summarize one native `pcb drc --json` receipt')
+    drc_summary.add_argument('drc', help='path to the native DRC JSON')
+    drc_summary.add_argument('--json', action='store_true',
+                             help='print the stable JSON summary')
+    drc_summary.add_argument('--out', help='also write the JSON summary here')
+    args = parser.parse_args(argv)
+
+    if args.command != 'drc-summary':  # pragma: no cover - argparse enforces
+        parser.error('unknown command: %s' % args.command)
+        return 2
+
+    _safe_stdout()
+    try:
+        payload = load_json(args.drc)
+    except (OSError, ValueError) as exc:
+        print('error: could not read DRC JSON %s: %s' % (args.drc, exc),
+              file=sys.stderr)
+        return 2
+    try:
+        digest = sha256_file(args.drc)
+    except OSError:
+        digest = None
+    summary = summarize_drc(payload, source=args.drc, source_sha256=digest)
+
+    if args.out:
+        try:
+            write_json(args.out, summary)
+        except (OSError, ValueError) as exc:
+            print('error: could not write summary %s: %s' % (args.out, exc),
+                  file=sys.stderr)
+            return 2
+
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print(render_drc_summary(summary))
+    return summary['exit_code']
+
+
+if __name__ == '__main__':  # pragma: no cover
+    sys.exit(main())
 
 
 # ---------------------------------------------------------------------------
