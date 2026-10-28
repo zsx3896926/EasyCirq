@@ -1,10 +1,11 @@
 ## What
 
 Retirement PR for the A (self-built) execution layer, per the A2 coverage
-decision and the authorized write probe. **Draft: the deletion + round-1
-migration are staged; the remaining references are round-2 work.**
+decision and the authorized write probe. **Draft: deletion + round-1/round-2
+migration are staged; only historical docs links remain (outside the `validate`
+workflow).**
 
-Deletes the A toolchain and replaces the Skill/docs/installer with the pre-A
+Deletes the A toolchain and restores the Skill/docs/installer to the pre-A
 official-CLI baseline:
 
 - `runtime/**` - Go daemon + 192 CLI entries (fork of easyeda-agent v1.15.0, MIT)
@@ -23,65 +24,73 @@ API additionally exposes Gerber/CPL exports that A never had.
 - marker: `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json`
   (W04/W05/W09 all checks true; source fixture unchanged)
 
-## Round-1 migration in this PR (2026-10-28)
+## Round 1 - updater CI + distribution + easycirq baseline (`e27e72a`)
 
-**Updater CI is green** (`Skill updater packages`, ubuntu + windows: 55 updater
-tests, ecosystem smoke, skill-only installer build, isolated-home smoke).
+- **Skill-only release pipeline**: `distribution/build_release.py` rewritten
+  (no Go/Node/npm/connector/toolchain bundle); the workflow no longer sets up
+  Node or runs `npm ci --prefix connector`. Emits `easycirq-<v>.zip`,
+  `release.json`, `Manage-Skill.*`, updater scripts, flat installer bundle and
+  `SHA256SUMS`.
+- **A installer removed**: `zhigou_install.py`, `Install-Zhigou.*`,
+  `rebrand_*.py`, `verify_vendor.py`, `toolchain.json`; `INSTALL.md` rewritten
+  for a Skill-only install.
+- **`easycirq/` restored to the pre-A official-CLI baseline**: 69 files restored
+  from `fd4499c` (`design-hardware/`), A-only `scripts/zhigou_cli.py` /
+  `scripts/layout_from_zhigou.py` deleted, `layout_from_easyeda.py` /
+  `layout_from_snapshot.py` restored.
+- **Skill identity unified to `easycirq`**: `SKILL.md` frontmatter, installer
+  target/state dir (`.easycirq-state`), updater tests and install docs.
+- `Skill updater packages` was **green on `e27e72a`** (ubuntu + windows: 55
+  updater tests, ecosystem smoke, skill-only build, isolated-home install/
+  upgrade/rollback smoke).
 
-1. **Skill-only release pipeline** - `distribution/build_release.py` rewritten:
-   no Go, Node, npm, connector or toolchain bundle. It emits
-   `easycirq-<version>.zip`, `release.json`, `Manage-Skill.*`, the updater
-   scripts, a flat `easycirq-installer-<version>.zip` and `SHA256SUMS`.
-   `.github/workflows/skill-updater.yml` no longer sets up Node or runs
-   `npm ci --prefix connector`.
-2. **A installer removed** - `zhigou_install.py`, `Install-Zhigou.*`,
-   `rebrand_runtime.py`, `rebrand_connector.py`, `verify_vendor.py`,
-   `toolchain.json` deleted; `INSTALL.md` rewritten for a Skill-only install
-   (no daemon/port/EDA extension).
-3. **`easycirq/` restored to the pre-A official-CLI baseline** - 69 files that
-   the A migration had rewritten to `zhigou` were restored from the pre-A tree
-   (commit `fd4499c`, `design-hardware/`); A-only modules
-   `scripts/zhigou_cli.py` and `scripts/layout_from_zhigou.py` deleted and the
-   pre-A `layout_from_easyeda.py` / `layout_from_snapshot.py` restored. This
-   reverts `SKILL.md`, `references/eda-execution.md`, gates, PCB docs and the
-   gate scripts to official-CLI wording.
-4. **Residual `zhigou` references** (intentionally kept for round 2):
-   `easycirq/scripts/zhigou_mcp/**` (offline-audit MCP, unrelated to the retired
-   runtime; rename tracked separately) and offline-audit schema strings such as
-   `zhigou.electrical-review.input/v1`.
+## Round 2 - tests/tools on the official adapter (`e2213ba`)
 
-## Why this is still a draft and `validate` is red
+- Restored 24 A-migrated test/tool files from the pre-A tree (official
+  `eda_exec.py` / `layout_from_easyeda.py` / `layout_from_snapshot.py` paths),
+  and rewrote their repo paths to `easycirq/`.
+- Deleted A-only test/tool artifacts (20 paths): `test_zhigou_cli.py`,
+  `test_install_lifecycle.py`, `test_no_legacy_toolchain_refs.py`,
+  `tools/toolchain_refs.py`, the eight `tools/zhigou_*.py` acceptance scripts,
+  and the `tests/fixtures/zhigou/` + `fake_zhigou*` fixtures.
+- Restored pre-A feedback fixtures (`fake_easyeda.py`, `easyeda-fake.*`) and
+  fixed `tools/skill-feedback/apply-feedback.py` repo paths.
+- Aligned the skill-knowledge-audit package/fixtures to the restored docs
+  (catalog + 9 fixture line anchors).
+- **`validate` is GREEN on `e2213ba`** (ubuntu, Python 3.10 + 3.13).
 
-Round 2 must migrate the remaining repository references; measured after
-round 1:
+## Why the updater workflow has no run on `e2213ba`
 
-| area | state after round 1 | required follow-up |
+The PR is currently `CONFLICTING` against `main` (main moved while this work was
+in progress). GitHub cannot create the pull-request merge ref, so the
+`pull_request`-triggered `Skill updater packages` workflow is skipped; its
+`push` trigger only lists `main` / `feat/skill-updater`, not this branch.
+Locally on `e2213ba`: 55 updater tests OK, ecosystem smoke OK, skill-only
+installer build + isolated-home release smoke OK. **Rebase onto `main` before
+ready-for-review**, then both workflows run again.
+
+## Remaining before ready-for-review (round 3)
+
+| area | state | follow-up |
 | --- | --- | --- |
-| `easycirq/scripts/zhigou_mcp/**` | 5 files kept (offline audit MCP) | rename/module move or explicit keep note |
-| `tests/**` | A-era tests still pass `--zhigou` / import `zhigou_cli` (e.g. `test_pcb_apply_plan`, `test_skill_update` fixtures) | restore/adapt tests to the official-CLI scripts |
-| `tools/**` | acceptance/board scripts still shell out to `zhigou` | point at the official CLI adapter |
-| `docs/**` | historical docs still link `runtime/`, `connector/`, `protocol/` | keep history, fix/retire broken links |
-| `benchmarks/**`, `distribution` prose | 39 files mention the retired layer | rewrite or mark historical |
+| branch freshness | GitHub reports `CONFLICTING` vs `main` | rebase and re-run both workflows |
+| `docs/**` historical links | still point at deleted `runtime/`, `connector/`, `protocol/` paths | keep history, fix/retire links; the markdown-link check is **not** part of `validate` |
+| `easycirq/scripts/zhigou_mcp/**` | 5 files kept (offline audit MCP, unrelated to retired runtime) | rename/module move or explicit keep note |
+| offline-audit schemas | `zhigou.electrical-review.input/v1` etc. | rename in a separate schema-compat PR |
+| `benchmarks/**` prose | mentions the retired layer | rewrite or mark historical |
 
-Exact `validate` failure on this head: A-era unit tests invoke the restored
-scripts with `--zhigou ...` (argparse: "unrecognized arguments: --zhigou"),
-plus tests importing removed modules. That is round-2 scope, not a regression of
-the updater migration.
+## Acceptance
 
-## Acceptance (before ready-for-review)
-
-- [x] updater CI green (skill-only release, no Go/Node/connector build)
-- [x] `distribution/` no longer installs runtime/connector; install/upgrade/
-      rollback of the Skill unchanged (`tests/test_*update.py` 55 OK;
-      release smoke passes on isolation)
-- [x] `easycirq/` documents the official CLI/MCP, not the retired `zhigou`
-      executor (69 files restored; 2 A-only modules removed)
-- [ ] `tests/**` + `tools/**` migrated (round 2)
-- [ ] `validate` (3.10/3.13) green, no markdown link points to deleted paths
-- [ ] `grep -r zhigou` outside historical evidence and the offline-audit MCP is 0
+- [x] `validate` (3.10/3.13) green on `e2213ba`
+- [x] updater pipeline green on the round-1 head; local updater suite green on round-2 head
+- [x] `distribution/` installs only the Skill; no runtime/connector
+- [x] `easycirq/` execution docs/scripts use the official CLI, not `zhigou`
+- [x] skill name/state dir unified to `easycirq`
+- [ ] rebase onto current `main`, re-run validate + updater
+- [ ] docs links to deleted paths cleaned (round 3, not in `validate`)
+- [ ] `grep -r zhigou` outside historical evidence / offline-audit MCP is 0
 
 ## Do not
 
-- do not merge while draft/`validate`-red;
-- do not delete `docs/evidence/**` (historical evidence is kept);
+- do not merge while draft, and do not delete `docs/evidence/**`;
 - do not touch the user's installed skills/connector from this PR.
