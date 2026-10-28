@@ -54,6 +54,16 @@ def _contact_kinds(interval, regions_by_id):
     return before, after
 
 
+def _nearest_copper_midpoint(intervals, index, step):
+    """Midpoint of the nearest interval whose state implies copper is present."""
+    while 0 <= index < len(intervals):
+        state = intervals[index]["state"]
+        if state in ("safe", "corridor_insufficient", "borderline"):
+            return tuple(intervals[index]["midpoint"])
+        index += step
+    return None
+
+
 def classify_run(run, regions_by_id):
     """Turn a merged non-safe run into a geometric cause.
 
@@ -89,7 +99,7 @@ def classify_run(run, regions_by_id):
 def _merge_runs(intervals):
     runs = []
     current = None
-    for interval in intervals:
+    for index, interval in enumerate(intervals):
         if interval["state"] == "safe":
             if current:
                 runs.append(current)
@@ -99,6 +109,7 @@ def _merge_runs(intervals):
             current = {
                 "t0": interval["t0"], "t1": interval["t1"],
                 "length": interval["length"],
+                "start_index": index, "end_index": index,
                 "void_length": 0.0, "corridor_length": 0.0,
                 "wrong_net_length": 0.0,
                 "min_boundary": None,
@@ -110,6 +121,7 @@ def _merge_runs(intervals):
             }
         else:
             current["t1"] = interval["t1"]
+            current["end_index"] = index
             current["length"] += interval["length"]
         current["states"].append(interval["state"])
         current["midpoints"].append(interval["midpoint"])
@@ -187,6 +199,16 @@ def coverage_for_segment(model, segment, reference, regions, tolerance,
     result["intervals"] = intervals
     result["checked_length"] = length
     runs = _merge_runs(intervals)
+    # Context must be taken from the nearest *available copper* interval, not from
+    # a point just outside the run: inside a wide hole that point is still void,
+    # which would mislabel a hole as "no copper"/"copper edge".
+    for run in runs:
+        before = _nearest_copper_midpoint(intervals, run["start_index"] - 1, -1)
+        after = _nearest_copper_midpoint(intervals, run["end_index"] + 1, 1)
+        run["context_before"] = (geometry.interval_context(
+            before, context_regions, tolerance) if before else [])
+        run["context_after"] = (geometry.interval_context(
+            after, context_regions, tolerance) if after else [])
     regions_by_id = {}
     for region in list(regions) + list(context_regions or []):
         regions_by_id.setdefault(region["id"], region)

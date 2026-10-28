@@ -332,7 +332,9 @@ def nearest_boundary(pt, regions, tolerance=1e-12, limit=None):
                 distance = point_segment_distance(pt, a, b)
                 if distance >= best[0] - tolerance:
                     continue
-                if _is_interior_seam(a, b, regions, epsilon, limit):
+                # A single simple polygon (outer + holes) has no interior seam;
+                # only multi-region unions can hide an edge behind other copper.
+                if len(regions) > 1 and _is_interior_seam(a, b, regions, epsilon, limit):
                     continue
                 best = (distance, {
                     "region_id": region.get("id"),

@@ -63,5 +63,9 @@ python benchmarks/return-path-audit/generate_scenes.py   # 重新生成（字节
 结果为 `fail`（7 处跨真实铺铜孔洞等）。投影器为 `replay_real_dump.py`，
 回归为 `tests/return_path_audit/test_real_replay.py`。
 
-**本机与仓库均无真实四层板快照**（现有真实工程全部是 2 层），因此这里**不是**四层板验证；
+**仓库内没有真实四层板快照**（已提交的真实 dump 是 2 层），因此 `real-replay/` 里**不是**四层板验证；
 拿到真实四层 dump 后用 `--stackup-json` 显式声明 4 层物理顺序即可重放。
+
+`replay_epru.py` 用于 EasyEDA Pro `.epru`/备份 zip 的只读投影：自动识别内层实际铺铜、
+4 层物理顺序、`POURED` 填充的 ×10 单位序列化，并从真实过孔/走线端点推断换层。
+真实四层工程的回放数据只在本机生成，不提交仓库。
