@@ -198,7 +198,10 @@ def plan(spec):
 
     for i in range(len(boxes)):
         for j in range(i + 1, len(boxes)):
-            if _overlap(boxes[i], boxes[j]) > 0:
+            a, b = boxes[i], boxes[j]
+            ix = max(0, min(a[2], b[2]) - max(a[0], b[0]))
+            iy = max(0, min(a[3], b[3]) - max(a[1], b[1]))
+            if ix * iy > 0:
                 metrics["overlaps"] += 1
 
     page_area = page_w * page_h
