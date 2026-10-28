@@ -3,21 +3,25 @@
 - **分支 / worktree / 基线**：`feat/parallel-task-launcher` / `hds-tl-worktree`；
   任务书基线 `0e391e3`，开工期间 A 工具链随 PR #36 合入 main，M4 已 rebase 到
   `origin/main@c54c6fc`。
-- **PR**：#74（OPEN，未合并；本任务不发版）— https://github.com/zsx3896926/hardware-design-skill/pull/74
-- **最新 HEAD（本次更新前，已推送且 CI 全绿）**：
-  `074bd88e002d7f8cd5a3d474129e64a0ad61ecd6`
-  （`feat(task-launcher)`、`fix(task-launcher): version placeholders…`、`docs(task-launcher): record
-  clean-checkout reproduction and CI results` 三个 commit）。
-  本文件本身就是最后一次**仅文档**更新；更新后的 PR head 会前移一个仅文档 commit，
-  最终 head 与对应 CI run 以 `gh pr view 74 --json headRefOid` / PR #74 checks 为准（同一
-  `validate` matrix 自动复跑）。
+- **PR**：#74（OPEN，未合并；本任务不发版）—
+  https://github.com/zsx3896926/EasyCirq/pull/74
+- **最新已推送 HEAD（本次审计修复前，CI 全绿）**：
+  `c6caa431fc22420903e39998d62d7f8ff0f89d58`
+  （5 个 commit：`feat(task-launcher)` → `fix(task-launcher): version placeholders…` →
+  `docs(task-launcher): record clean-checkout…` → `docs(task-launcher): refresh handoff…` →
+  `docs(task-launcher): backfill created GitHub issue links…`）。
+  本文件与 `issue-candidates.md` 的本次修改是仅文档提交；更新后的 PR head 会再前移一个仅文档
+  commit，最终 head 与对应 CI run 以 `gh pr view 74 --json headRefOid` / PR #74 checks 为准
+  （同一 `validate` matrix 自动复跑）。
 - **允许路径核对**：`git diff --name-status origin/main...HEAD` → **65 个文件，全部为 `A`**：
   `benchmarks/task-launcher/`（27）、`docs/parallel-task-launcher/`（7）、
   `task_launcher/`（15）、`tests/task_launcher_tests/`（16）；无 `M/D`。
+  逐个 commit 复核（`git show --name-status`）：5 个 commit 的改动全部落在上述 4 类允许路径内，
   未修改 A/runtime/connector/protocol/distribution/SKILL/分发/CI。
 - **文件清单**：`git diff --name-only origin/main...HEAD`（65 项，见 PR #74 Files changed）；
   核心：`task_launcher/{protocol,server,tasks,agent,plugin,routing,mcpconfig,fake_agent,stub_connector,cli}.py`、
-  `tests/task_launcher_tests/*`（14 模块/19 类/98 tests）、`benchmarks/task-launcher/{cases/*,run_benchmark.py,results.json}`、
+  `tests/task_launcher_tests/*`（14 模块/19 类/98 tests）、
+  `benchmarks/task-launcher/{cases/*,run_benchmark.py,results.json}`、
   `docs/parallel-task-launcher/{contract,architecture,acceptance-matrix,report,integration-proposal,issue-candidates}.md`
   + 本文件。
 
@@ -25,7 +29,7 @@
 
 | 验收项 | 结果 | 证据 |
 |---|---|---|
-| 只新增允许路径 | ✅ **65 个文件全部 `A`**，无 `M/D` | `git diff --name-status origin/main...HEAD` |
+| 只新增允许路径 | ✅ **65 个文件全部 `A`**，无 `M/D`；5 个 commit 逐个复核通过 | `git diff --name-status origin/main...HEAD` + `git show --name-status <c>` |
 | 任务启动器套件 ≥45 | ✅ **98 tests OK**（约 112 s） | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` |
 | 官方全量套件 | ✅ **3416 tests OK (skipped=3)，414.7 s** | `python -m unittest discover -s tests` |
 | 冻结基准 ≥10/10 | ✅ **12/12 passed**，`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`agent="fake"` | `python benchmarks/task-launcher/run_benchmark.py`；`results.json` |
@@ -33,8 +37,29 @@
 | stub connector e2e | ✅ 退出码 0/1/2 按契约；7 tests OK；12 个基准 case 均由 stub 驱动 | `test_stub_connector.py`、benchmark |
 | Skill 自检 | ✅ **5 PASS / 0 FAIL / 0 NOT RUN** | `python design-hardware/scripts/skill_selftest.py` |
 | 清洁 checkout 复现 | ✅ 独立 worktree：套件 **98 OK/93.1 s**、基准 **12/12/32.7 s** | `hds-tl-clean`（detached at `c828ebc`，已清理） |
-| CI 3.10/3.13 | ✅ 两个已验证 commit 的 `validate` 全绿（明细见下节） | PR #74 checks |
+| Issue 回填 | ✅ 15 个 issue（#79–#93）已创建并回填到 `issue-candidates.md` §1.1；IC-02/IC-17 未开 | 本文件「Issue 回填」+ issue-candidates.md |
+| CI 3.10/3.13 | ✅ 三个已验证 commit 的 `validate` 全绿（明细见下节） | PR #74 checks |
 | 真实 Claude / EDA / 硬件 | ⛔ **NOT RUN**（不调用真实模型/网络/EDA，未伪造） | result/benchmark 字段 |
+
+## Issue 回填（15 项）
+
+`docs/parallel-task-launcher/issue-candidates.md` 中可独立跟进的事项已在仓库建成 issue，并已在
+commit `c6caa43` 回填（§1.1 索引 + 候选清单行内链接）：
+
+| IC | Issue | IC | Issue |
+|---|---|---|---|
+| IC-01 | [#79](https://github.com/zsx3896926/EasyCirq/issues/79) | IC-09 | [#86](https://github.com/zsx3896926/EasyCirq/issues/86) |
+| IC-03 | [#80](https://github.com/zsx3896926/EasyCirq/issues/80) | IC-10 | [#87](https://github.com/zsx3896926/EasyCirq/issues/87) |
+| IC-04 | [#81](https://github.com/zsx3896926/EasyCirq/issues/81) | IC-11 | [#88](https://github.com/zsx3896926/EasyCirq/issues/88) |
+| IC-05 | [#82](https://github.com/zsx3896926/EasyCirq/issues/82) | IC-12 | [#89](https://github.com/zsx3896926/EasyCirq/issues/89) |
+| IC-06 | [#83](https://github.com/zsx3896926/EasyCirq/issues/83) | IC-13 | [#90](https://github.com/zsx3896926/EasyCirq/issues/90) |
+| IC-07 | [#84](https://github.com/zsx3896926/EasyCirq/issues/84) | IC-14 | [#91](https://github.com/zsx3896926/EasyCirq/issues/91) |
+| IC-08 | [#85](https://github.com/zsx3896926/EasyCirq/issues/85) | IC-15 | [#92](https://github.com/zsx3896926/EasyCirq/issues/92) |
+| IC-16 | [#93](https://github.com/zsx3896926/EasyCirq/issues/93) | — | — |
+
+- 15 个链接全部指向 open issue（审计时逐个 `gh issue view` 校验）。
+- **IC-02**（M4 已 rebase 解决）与 **IC-17**（本 PR 已修复并回归）**未开 issue**，在清单中标注。
+- issue 仅记录范围外后续事项，不改变本 PR 的只读/不合并/不发版边界。
 
 ## 测试
 
@@ -88,21 +113,35 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
   `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`）。
 - CI（PR #74 checks）：见下节；以 PR HEAD 的最终 run 为准。
 
-## CI 状态（PR #74，全部为 `Validate skill` / ubuntu-latest）
+## CI 状态（PR #74，`Validate skill` / ubuntu-latest；链接均为 EasyCirq 规范地址）
 
-已在两个 commit 上验证全绿：
+已在三个 commit 上验证全绿：
 
 | commit | job | 结果 | run / job |
 |---|---|---|---|
-| `c828ebc`（代码 + 文档回填基线） | `validate (3.10)` | **pass** 3m14s | [40632025926 / 122630367413](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367413) |
-| `c828ebc` | `validate (3.13)` | **pass** 2m45s | [40632025926 / 122630367167](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367167) |
-| `074bd88`（最新已推送 HEAD） | `validate (3.10)` | **pass** 3m17s | [40632426742 / 122631660217](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632426742/job/122631660217) |
-| `074bd88` | `validate (3.13)` | **pass** 2m46s | [40632432123 / 122631677862](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632432123/job/122631677862) |
-| `074bd88` | `updater (ubuntu/windows)` | pass（与本任务无关） | run `40632432169` |
-| `074bd88` | `publish` | skipping（不发版） | run `40632432169` |
+| `c828ebc`（代码 + 文档回填基线） | `validate (3.10)` | **pass** 3m14s | [40632025926 / 122630367413](https://github.com/zsx3896926/EasyCirq/actions/runs/40632025926/job/122630367413) |
+| `c828ebc` | `validate (3.13)` | **pass** 2m45s | [40632025926 / 122630367167](https://github.com/zsx3896926/EasyCirq/actions/runs/40632025926/job/122630367167) |
+| `074bd88` | `validate (3.10)` | **pass** 3m17s | [40632426742 / 122631660217](https://github.com/zsx3896926/EasyCirq/actions/runs/40632426742/job/122631660217) |
+| `074bd88` | `validate (3.13)` | **pass** 2m46s | [40632432123 / 122631677862](https://github.com/zsx3896926/EasyCirq/actions/runs/40632432123/job/122631677862) |
+| `c6caa43`（issue 链接回填） | `validate (3.10)` | **pass** 3m14s（push）/ 2m20s（PR） | [40633886734 / 122636290448](https://github.com/zsx3896926/EasyCirq/actions/runs/40633886734/job/122636290448) · [40633891487 / 122636307172](https://github.com/zsx3896926/EasyCirq/actions/runs/40633891487/job/122636307172) |
+| `c6caa43` | `validate (3.13)` | **pass** 2m21s（push）/ 2m35s（PR） | [40633886734 / 122636290793](https://github.com/zsx3896926/EasyCirq/actions/runs/40633886734/job/122636290793) · [40633891487 / 122636306929](https://github.com/zsx3896926/EasyCirq/actions/runs/40633891487/job/122636306929) |
+| `c6caa43` | `updater (ubuntu/windows)` | pass（与本任务无关） | run `40633891427` |
+| `c6caa43` | `publish` | skipping（不发版） | run `40633891427` |
 
-说明：本次 handoff 更新是仅文档提交，PR head 会在同一 `validate` matrix 上自动重跑；
-`validate` 的通过条件与本任务代码完全相同（3416 tests），以 PR #74 checks 的最终结果为准。
+说明：本文件与 `issue-candidates.md` 的本次修改是仅文档提交，PR head 会在同一 `validate`
+matrix 上自动重跑；`validate` 的通过条件与本任务代码完全相同（3416 tests），以 PR #74 checks
+的最终结果为准。
+
+## 审计记录（PR #74 head `c6caa43`）
+
+- 逐个 commit 检查路径：5 个 commit 全部只修改/新增允许路径；累计 `git diff --name-status
+  origin/main...HEAD` = 65 个 `A`，无 `M/D`。
+- 链接审计：文档 + PR 描述共 69 个链接；15 个 issue 链接全部 open 且可访问；EasyCirq 的
+  run/job 链接逐个 `gh api` 校验存在；相对链接全部可解析。
+- 与最新 main（`697d511`）合并模拟：`git merge origin/main --no-commit --no-ff` →
+  `Automatic merge went well`（无冲突；main 上不存在本任务 4 类路径）。
+- 审计发现并已修复：`issue-candidates.md` IC-02 的“63 个文件”旧数字（→ 65）；本文件旧 HEAD/CI
+  链接（旧仓库名 `hardware-design-skill` → 规范 `EasyCirq`）与缺失的 issue 回填说明。
 
 ## 已知限制 / NOT RUN
 
