@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "readonly-pass",
   "description": "Phase 1 happy path: task_start -> snapshot_read -> run_offline_audit (pass_with_scope) -> evidence_emit -> finalize. Supervisor report verdict PASS, real_eda NOT RUN, eda_calls 0.",
   "setup": {
@@ -74,7 +74,7 @@
     "receipts_count": 5,
     "evidence_present": true,
     "report": {
-      "schema": "zhigou.bound.report/v1",
+      "schema": "easycirq.bound.report/v1",
       "generated_by": "supervisor",
       "task.phase": 1,
       "task.verdict": "PASS",

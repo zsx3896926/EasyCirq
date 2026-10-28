@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "abort-then-finalize",
   "description": "task_abort after task_start cancels the task; finalize is refused with TASK_CLOSED and evidence_emit with NOT_READY; no success report is produced.",
   "setup": {

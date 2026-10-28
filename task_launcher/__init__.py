@@ -79,7 +79,7 @@ MCP_MODULE = "easycirq_mcp"
 #: B1-Bound supervisor mounted instead of the offline-audit server when the
 #: launcher runs with ``--bound`` (task O).  The supervisor is the trusted
 #: process that owns read-back, evidence and the final report.
-BOUND_SERVER_NAME = "zhigou_bound"
+BOUND_SERVER_NAME = "easycirq_bound"
 BOUND_MODULE = "task_launcher.bound"
 BOUND_SERVE_ARGS = ("-m", "task_launcher.bound", "serve")
 
@@ -105,7 +105,7 @@ BOUND_ALLOWED_TOOLS = (
     "Read",
     "Glob",
     "Grep",
-    "mcp__zhigou_bound__*",
+    "mcp__easycirq_bound__*",
 )
 BOUND_ALLOWED_TOOLS_ARG = ",".join(BOUND_ALLOWED_TOOLS)
 

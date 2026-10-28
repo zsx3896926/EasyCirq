@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "phase2-plan-hash-mismatch",
   "description": "Phase 2 config: after plan_submit + precheck, applying with a wrong plan_id is refused with PLAN_HASH_MISMATCH (the plan is immutable).",
   "setup": {

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "limits-max-steps",
   "description": "Task limits max_steps=2: the third step (run_offline_audit) is refused with LIMIT_EXCEEDED even though the tool-call budget is untouched.",
   "setup": {

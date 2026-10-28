@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.fixture.netlist/v1",
+  "schema": "easycirq.bound.fixture.netlist/v1",
   "project": "bound-demo",
   "document": "doc-1",
   "nets": [

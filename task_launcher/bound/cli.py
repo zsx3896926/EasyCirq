@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 from . import (
+    ACCEPTED_AUDIT_ENGINES,
     ALLOWED_AGENT_TOOLS,
     BENCHMARK_SCHEMA,
     CONFIG_SCHEMA,
@@ -85,7 +86,7 @@ def _error_exit_code(exc: BoundError) -> int:
 
 
 def _error_document(exc: BoundError) -> dict[str, Any]:
-    return {"ok": False, "schema": "zhigou.bound.cli-error/v1", "error": exc.to_dict()}
+    return {"ok": False, "schema": "easycirq.bound.cli-error/v1", "error": exc.to_dict()}
 
 
 # ---------------------------------------------------------------------------
@@ -95,7 +96,7 @@ def cmd_version(_: argparse.Namespace) -> int:
     _, detected_skill, _ = detect_skill(Path(__file__).resolve().parents[2])
     _print_json(
         {
-            "schema": "zhigou.bound.version/v1",
+            "schema": "easycirq.bound.version/v1",
             "name": "task_launcher.bound",
             "version": __version__,
             "server_name": SERVER_NAME,
@@ -202,7 +203,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         return _error_exit_code(exc)
     _print_json(
         {
-            "schema": "zhigou.bound.run/v1",
+            "schema": "easycirq.bound.run/v1",
             "driver": "scripted-in-process (simulation, not a real Claude run)",
             "task_id": config.task_id,
             "state": final["state"],
@@ -250,7 +251,7 @@ def cmd_probe_b1(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m task_launcher.bound",
-        description="Zhigou B1-Bound read-only supervisor (Phase 1; Phase 2 BLOCKED).",
+        description="EasyCirq B1-Bound read-only supervisor (Phase 1; Phase 2 BLOCKED).",
     )
     parser.add_argument("--version", action="store_true", help="print the package version and exit")
     sub = parser.add_subparsers(dest="command")
@@ -272,7 +273,7 @@ def build_parser() -> argparse.ArgumentParser:
     plan.add_argument("--repo-root", help="repository root (default: this checkout)")
     plan.add_argument("--state-root", help="state root; task dir must live under it")
     plan.add_argument("--backend", default="fixture", choices=["fixture", "official_cli", "a_daemon"])
-    plan.add_argument("--audit-engine", default="fixture", choices=["fixture", "zhigou_mcp"])
+    plan.add_argument("--audit-engine", default="fixture", choices=list(ACCEPTED_AUDIT_ENGINES))
     plan.add_argument("--audit-case", default="pass", choices=["pass", "fail", "review", "incomplete"])
     plan.add_argument("--hooks", action="store_true", help="enable optional Phase-3 hook scripts")
     plan.add_argument("--phase", type=int, default=1, choices=[1, 2])

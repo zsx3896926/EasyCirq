@@ -2,7 +2,7 @@
 
 Phase 1 uses :class:`FixtureBackend` exclusively: it reads frozen synthetic
 fixture data and runs the *real* merged offline audit module when asked to
-(``audit_engine = "zhigou_mcp"``), or a deterministic fixture case otherwise.
+(``audit_engine = "easycirq_mcp"``), or a deterministic fixture case otherwise.
 Either way it never calls EDA, a daemon, a connector or the network, and every
 report says ``real_eda: "NOT RUN"`` / ``eda_calls: 0``.
 
@@ -26,12 +26,13 @@ from typing import Any
 
 from . import (
     AUDIT_ENGINE_FIXTURE,
-    AUDIT_ENGINE_ZHIGOU_MCP,
+    AUDIT_ENGINE_EASYCIRQ_MCP,
     BACKEND_A_DAEMON,
     BACKEND_FIXTURE,
     BACKEND_OFFICIAL_CLI,
     FIXTURE_DIR,
     REAL_EDA_BACKENDS,
+    normalize_audit_engine,
 )
 from .errors import (
     BACKEND_UNAVAILABLE,
@@ -41,16 +42,16 @@ from .errors import (
 )
 from .receipts import canonical_json, sha256_hex
 
-SNAPSHOT_SCHEMA = "zhigou.bound.snapshot/v1"
-AUDIT_SCHEMA = "zhigou.bound.audit/v1"
+SNAPSHOT_SCHEMA = "easycirq.bound.snapshot/v1"
+AUDIT_SCHEMA = "easycirq.bound.audit/v1"
 
 #: Repository layouts / module names for the merged offline MCP layer.  The
-#: 2026-10 rebrand moved ``design-hardware/scripts/zhigou_mcp`` to
+#: 2026-10 rebrand moved ``design-hardware/scripts/easycirq_mcp`` to
 #: ``easycirq/scripts/easycirq_mcp``; both are accepted (old PRs still use the
 #: former, current main uses the latter).
 OFFLINE_MCP_CANDIDATES = (
     ("easycirq", "easycirq_mcp"),
-    ("design-hardware", "zhigou_mcp"),
+    ("design-hardware", "easycirq_mcp"),
 )
 
 #: Statuses surfaced by the merged offline-audit modules (verbatim).
@@ -148,7 +149,7 @@ class FixtureBackend(EdaBackend):
         repo_root: Path | None = None,
     ) -> None:
         self.fixture_dir = Path(fixture_dir) if fixture_dir else default_fixture_dir()
-        self.audit_engine = audit_engine
+        self.audit_engine = normalize_audit_engine(audit_engine)
         self.audit_case = audit_case
         self.repo_root = Path(repo_root) if repo_root else None
         self.version = self._read_version()
@@ -220,7 +221,7 @@ class FixtureBackend(EdaBackend):
                 {"kind": scope_kind},
             )
         binding = {
-            "schema": "zhigou.bound.snapshot-binding/v1",
+            "schema": "easycirq.bound.snapshot-binding/v1",
             "project": metadata.get("project"),
             "document": metadata.get("document"),
             "page": metadata.get("page"),
@@ -252,8 +253,8 @@ class FixtureBackend(EdaBackend):
     ) -> dict[str, Any]:
         if detail not in ("summary", "full"):
             raise BoundError("INVALID_ARGUMENTS", "detail must be 'summary' or 'full'", {"detail": detail})
-        if self.audit_engine == AUDIT_ENGINE_ZHIGOU_MCP:
-            return self._run_zhigou_mcp_audit(snapshot, detail=detail)
+        if self.audit_engine == AUDIT_ENGINE_EASYCIRQ_MCP:
+            return self._run_easycirq_mcp_audit(snapshot, detail=detail)
         case = self._load_case(self.audit_case)
         selected = case.get("checks") or []
         if checks:
@@ -285,9 +286,9 @@ class FixtureBackend(EdaBackend):
         return audit
 
     # -- real merged offline module (optional, still no EDA) ---------------
-    def _run_zhigou_mcp_audit(self, snapshot: Snapshot, *, detail: str) -> dict[str, Any]:
+    def _run_easycirq_mcp_audit(self, snapshot: Snapshot, *, detail: str) -> dict[str, Any]:
         # The merged module renamed its input schema in the 2026-10 rebrand
-        # (zhigou.electrical-review.input/v1 -> easycirq...); keep one frozen
+        # (easycirq.electrical-review.input/v1 -> easycirq...); keep one frozen
         # input set per layout so both checkouts audit real fixtures.
         located_before = locate_offline_mcp(self.repo_root)
         input_subdir = "inputs_easycirq" if (located_before and located_before[1] == "easycirq_mcp") else "inputs"
@@ -303,7 +304,7 @@ class FixtureBackend(EdaBackend):
             raise BoundError(
                 NOT_RUN,
                 "offline audit MCP module is not available in this checkout "
-                "(looked for easycirq_mcp / zhigou_mcp)",
+                "(looked for easycirq_mcp / easycirq_mcp)",
                 {"repo_root": str(self.repo_root) if self.repo_root else None},
             )
         scripts_dir, module_name = located
@@ -352,7 +353,7 @@ class FixtureBackend(EdaBackend):
             )
         audit = {
             "schema": AUDIT_SCHEMA,
-            "engine": AUDIT_ENGINE_ZHIGOU_MCP,
+            "engine": AUDIT_ENGINE_EASYCIRQ_MCP,
             "module": structured.get("module"),
             "offline_mcp_module": module_name,
             "tool": structured.get("tool"),

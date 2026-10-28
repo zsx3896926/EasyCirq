@@ -316,7 +316,7 @@ def _bound_request_from(request: dict) -> dict:
     if "timeout_s" in limits:
         bound_limits["timeout_s"] = int(limits["timeout_s"])
     return {
-        "schema": "zhigou.bound.request/v1",
+        "schema": "easycirq.bound.request/v1",
         "task_id": request["task_id"],
         "mode": "read_only",
         "client": request.get("client") or {"name": "task-launcher", "version": __version__},

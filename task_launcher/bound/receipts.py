@@ -3,7 +3,7 @@
 Every accepted supervisor step appends one receipt::
 
     {
-      "schema": "zhigou.bound.receipt/v1",
+      "schema": "easycirq.bound.receipt/v1",
       "task_id": "task-...",
       "step": "snapshot_read",
       "prev_receipt_sha256": "<hex or null>",
@@ -34,7 +34,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Sequence
 
-from . import RECEIPT_SCHEMA
+from . import RECEIPT_SCHEMA, accepted_schema_ids
 from .errors import (
     RECEIPT_CHAIN_BROKEN,
     RECEIPT_DUPLICATE_STEP,
@@ -146,7 +146,7 @@ def verify_receipt(
                 f"receipt is missing field {field_name!r}",
                 {"field": field_name},
             )
-    if receipt["schema"] != RECEIPT_SCHEMA:
+    if receipt["schema"] not in accepted_schema_ids(RECEIPT_SCHEMA):
         raise BoundError(RECEIPT_SCHEMA_INVALID, "unknown receipt schema", {"schema": receipt["schema"]})
     if receipt["prev_receipt_sha256"] != expected_prev:
         raise BoundError(

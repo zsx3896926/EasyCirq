@@ -83,7 +83,7 @@ class ForgedArtifactTests(support.BoundTestCase):
         support.write_json(
             harness.task_dir / "result.json",
             {
-                "schema": "zhigou.bound.report/v1",
+                "schema": "easycirq.bound.report/v1",
                 "generated_by": "agent",
                 "task": {"task_id": harness.task_id, "phase": 1, "verdict": "PASS"},
                 "real_eda": "PASS",

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "phase2-no-eda-authorization",
   "description": "Phase 2 without EDA authorization: plan_submit + precheck succeed offline, apply with the correct plan_id returns EDA_NOT_AUTHORIZED, the task is FAILED and finalize is refused. Expected outcome is BLOCKED / NOT RUN, not a pass.",
   "setup": {
