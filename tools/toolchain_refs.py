@@ -78,6 +78,11 @@ ALLOWLIST = {
     'tests/fixtures/zhigou/': 'faithful capture of zhigou doctor/capabilities '
                               'output; the doctor legacy field legitimately names '
                               'the old daemon it detects (never uses it)',
+    'benchmarks/': 'frozen benchmark inputs/evidence merged from main: they embed '
+                   'historical easyeda snapshots; rewriting would falsify evidence',
+    'tests/annotation_layout/fixtures/': 'frozen annotation-layout fixtures from '
+                                         'the old-toolchain era; rewriting the '
+                                         'provenance text invalidates the evidence',
 }
 ALLOWLIST_PREFIXES = tuple(ALLOWLIST)
 

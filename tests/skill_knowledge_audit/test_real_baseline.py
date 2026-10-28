@@ -47,8 +47,15 @@ class RealBaseline(unittest.TestCase):
         skill = next(item for item in self.result["files"]
                      if item["path"] == "SKILL.md")
         refs = {item["path"]: item for item in skill["script_refs"]}
-        self.assertTrue(refs["scripts/eda_exec.py"]["exists"])
-        self.assertTrue(refs["tools/offline_suite.py"]["exists"])
+        # Post-zhigou migration the Skill no longer points at the retired
+        # upstream executor adapter. Assert that every
+        # remaining reference resolves and that the core preflight scripts are
+        # still referenced.
+        self.assertTrue(refs)
+        missing = {path: item for path, item in refs.items() if not item["exists"]}
+        self.assertEqual(missing, {})
+        self.assertIn("scripts/skill_update.py", refs)
+        self.assertIn("scripts/doctor_env.py", refs)
 
 
 if __name__ == "__main__":

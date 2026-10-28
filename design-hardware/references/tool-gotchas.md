@@ -314,8 +314,8 @@
 
 1. **不写重试循环。** 一次超时后再发同一条命令只会继续排在原处。旧脚本的 5 次退避（5/10/15/20/25 s）+ 读动作 5 次（4/8/12/16/20 s）把一次卡死放大成上百次注定失败的调用；每页再套 3 轮、每页出错继续下一页，最坏接近 20 分钟等待。
 2. 把 EDA 窗口切到前台。
-3. `easyeda project doc` 取活动文档 UUID（本轮实测在超时期间仍可读；厂商文档只把 `document.current` 列为旁路，别把它当官方保证）。
-4. 判为 wedge 时才 `easyeda web reload --project <工程uuid> --doc <活动页uuid>`，每次卡死只做一次；失败就停，不循环刷新。
+3. 用 `zhigou doc`（如 `doc ls`）取活动文档 UUID（本轮实测在超时期间仍可读；厂商文档只把 `document.current` 列为旁路，别把它当官方保证）。
+4. 判为 wedge 时才 `zhigou doc reload <活动页>`，每次卡死只做一次；失败就停，不循环刷新。
 5. 恢复后**重新回读**现场再继续，不复用卡死前的批次。
 
 **自动刷新前的探测阶梯（对抗复核后收紧，2026-10-27）**：
@@ -348,7 +348,7 @@
 
 **原因**：符号的引脚坐标不在 5-raw 网格上。本案例晶振 `Y1` 两脚在 `-30 / +29`（相距 59 raw，奇数），任何姿态都不可能两脚同时落网格；autoconnect 选方向时认为已连上，实际落笔时起点吸附到最近网格点（`629` → `630`），导线与脚错开 1 raw，几何上不接触。
 
-**正确动作**：先用 `sch_layout_model` 的 `pin_off_grid` / `anchor_off_grid` blocker 或 `sch list --include-pins` 自查“引脚坐标是否都能被 5 整除”。不能整除时不要反复跑 autoconnect：用 `easyeda sch wire --doc <页> --points '[[x1,y1],[x2,y2]]'` 给精确浮点坐标画线，再用 `connectivity` 逐脚回读。
+**正确动作**：先用 `sch_layout_model` 的 `pin_off_grid` / `anchor_off_grid` blocker 或 `sch list --include-pins` 自查“引脚坐标是否都能被 5 整除”。不能整除时不要反复跑 autoconnect：用 `zhigou sch wire --doc <页> --points '[[x1,y1],[x2,y2]]'` 给精确浮点坐标画线，再用 `connectivity` 逐脚回读。
 
 **证据/边界与本案例**：2026-10-27 SkyPilot X1 P2 的 `Y1:2` 连续多轮“成功”而未连；`sch wire --points '[[629,760],[660,760]]'` 返回 `"line": [[690,760,629,760]]`（起点保持在 629）后，回读 `unconnected: []`。规则：逐脚结论只能来自回读；autoconnect/connect 的返回值、`ok:true`、`connected N` 都不是连接证据。
 
