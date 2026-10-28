@@ -80,6 +80,80 @@ class ProbeRecordValidationTest(unittest.TestCase):
         self.assertIsNone(result["host_block"])
 
 
+class ProbeBindCliTest(unittest.TestCase):
+    def _bound_paths(self, directory: Path):
+        document = helpers.mini_input(annotations=[], components=[])
+        record = example()
+        record["project"]["name"] = document["project"]["name"]
+        record["project"]["page_id"] = document["project"]["page_id"]
+        record["project"]["snapshot_sha256"] = document["project"]["snapshot_sha256"]
+        input_path = directory / "input.json"
+        record_path = directory / "record.json"
+        helpers.write_json(input_path, document)
+        helpers.write_json(record_path, record)
+        return input_path, record_path, directory / "input-bound.json", record
+
+    def test_probe_bind_injects_capabilities_into_a_valid_input(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            input_path, record_path, out, record = self._bound_paths(directory)
+            code, payload, stderr, _ = helpers.run_cli([
+                "probe-bind", str(input_path), "--record", str(record_path),
+                "--out", str(out)])
+            self.assertEqual(code, 0, stderr)
+            self.assertEqual(payload["status"], "ok")
+            self.assertEqual(payload["host_execution"], "not_executed")
+            self.assertEqual(payload["binding"]["page_id"], record["project"]["page_id"])
+            self.assertEqual(payload["host_block"]["execution"], "not_executed")
+            self.assertEqual(payload["host_block"]["capabilities"],
+                             record["capabilities"])
+            written = helpers.read_json(out)
+            self.assertEqual(written["host"], payload["host_block"])
+            self.assertEqual(helpers.run_cli(["validate", str(out)])[0], 0)
+
+    def test_probe_bind_rejects_page_or_snapshot_mismatch(self):
+        for field, value in (("page_id", "another-page"),
+                             ("snapshot_sha256", "f" * 64)):
+            with self.subTest(field=field):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    input_path, record_path, out, record = self._bound_paths(directory)
+                    record["project"][field] = value
+                    helpers.write_json(record_path, record)
+                    out.write_text('{"host": "stale"}\n', encoding="utf-8")
+                    code, payload, stderr, _ = helpers.run_cli([
+                        "probe-bind", str(input_path), "--record", str(record_path),
+                        "--out", str(out)])
+                    self.assertEqual(code, 2)
+                    self.assertEqual(payload["status"], "invalid")
+                    self.assertTrue(any("mismatch" in error for error in payload["errors"]))
+                    written = helpers.read_json(out)
+                    self.assertEqual(written["status"], "invalid")
+                    self.assertNotIn("host", written)
+
+    def test_probe_bind_rejects_invalid_record(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            input_path, record_path, out, record = self._bound_paths(directory)
+            record["capabilities"]["net_label_detach"] = "maybe"
+            helpers.write_json(record_path, record)
+            code, payload, stderr, _ = helpers.run_cli([
+                "probe-bind", str(input_path), "--record", str(record_path),
+                "--out", str(out)])
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["status"], "invalid")
+
+    def test_probe_bind_refuses_output_equal_to_input(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            input_path, record_path, _out, _record = self._bound_paths(directory)
+            code, payload, stderr, _ = helpers.run_cli([
+                "probe-bind", str(input_path), "--record", str(record_path),
+                "--out", str(input_path)])
+            self.assertEqual(code, 2)
+            self.assertIn("refusing", stderr.lower())
+
+
 class ProbeRecordCliTest(unittest.TestCase):
     def test_probe_check_validates_and_writes_host_block(self):
         with tempfile.TemporaryDirectory() as temp:

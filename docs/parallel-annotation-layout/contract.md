@@ -320,6 +320,7 @@ Commands:
 | `benchmark [--suite DIR] [--repeat N] [--out DIR]` | baseline vs improved, actual CLI-equivalent entry | ok | — | invalid |
 | `convert --layout FILE [--list FILE] [--rendered FILE] [--sheet FILE] --out FILE` | frozen fixture -> v1 input | ok | — | invalid |
 | `probe-check RECORD [--out HOST_BLOCK]` | validate an onsite host-probe capability record and derive the input `host` block (read-only, no host execution) | valid record | — | invalid record/IO |
+| `probe-bind INPUT --record RECORD --out INPUT` | bind a valid capability record into a page/snapshot-matching v1 input (read-only apart from the output file) | ok | — | invalid record/mismatch/IO |
 | `version` | tool/schema version JSON | ok | — | — |
 
 Rules:
@@ -457,4 +458,5 @@ sections above.
    `counterexample` is faster but moves more objects, so no speedup is claimed
    for it.  Only offline solver work is measured; EDA render/save/reopen/
    readback/whole-board time are **NOT RUN**.
+
 
