@@ -236,3 +236,10 @@ distribution\Install-Zhigou.ps1 rollback
 - 遗留（投产前需人工/GUI）：minGap 5.98→≥6、J1 丝印移入、+5V/GND 线宽策略（勿 10/20 混接）、
   可选 +5V 铺铜、人工走线复核、实物测试 V2–V11。
 - 证据：`evidence/eev3/final-baseline.json`、`dfm-fix-attempt.json`、`eev3-acceptance.md`。
+
+## 2026-10-28 13:25 eev3 送打样（用户决定，跳过人工复核）
+
+- 用户决定：直接送嘉立创打样，人工走线复核**明确跳过（视为未执行）**。
+- 状态：DRC 0、BOM 6 行可下单、Gerber+钻孔+CPL 已导出、5.98 mil 满足 0.10 mm 工艺下限；
+  DFM 3 WARN 经载流计算判为不必处理（+5V ≈27 mA，10 mil 余量充足）。
+- 后续：打样回来做实物测试 V2–V11（NOT RUN）；任何制造文件变更需重跑 DRC/lint/check 并重导。

@@ -139,3 +139,16 @@ layout-lint 报告 `minGapMil = 5.98`（D1 周边 `LED1_A × LED1_K`，D2 同模
   ≈ 3.94 mil，5.98 mil 余量约 1.5 倍；6 mil 只是推荐舒适值，非能力下限。依据：skill
   `references/manufacturing-routes.md`、`references/jlc-pcb-rules.md`。
 - 制造文件 / BOM / 库存与本档案一致；实物测试仍 `NOT RUN`。
+
+## 11. 打样决定（2026-10-28 13:25）
+
+用户明确决定：**直接按当前 eev3-final 状态送嘉立创打样，跳过人工走线复核**。
+
+- 送厂依据：`pcb drc` 0 违规；BOM 6 行可下单；Gerber（9 层 + PTH 钻孔）/CPL 已导出；
+  5.98 mil 满足嘉立创 1oz 双面 0.10 mm 工艺下限；DFM 剩 3 条 WARN 经载流/压降核算判定为
+  "不必处理"（+5V 仅约 27 mA、10 mil 走线余量约 20 倍）。
+- **记录边界**：人工走线复核（布局观感/电源路径目视）由用户明确跳过，**视为未执行**；
+  本记录不宣称该复核已完成。
+- 实物验证（V2–V11）仍 `NOT RUN`；打样回来后需要上电/通断/限流/边界测试。
+- 送厂文件：`evidence/eev3/manufacturing/eev3-gerber.zip`、`eev3-cpl.csv`（手焊可不用）、
+  `BOM-v3.csv`。
