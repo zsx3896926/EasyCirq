@@ -27,6 +27,7 @@ import json
 import os
 import platform
 import signal
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -106,23 +107,72 @@ def _settings(args: argparse.Namespace) -> Settings:
 
 
 def load_or_create_token(token_file: Path | None, state_dir: Path) -> tuple[str, Path]:
-    """Read a fixed token from ``--token-file`` or generate one in the state dir."""
+    """Read a fixed token from ``--token-file`` or generate one in the state dir.
+
+    The token file is always (re-)hardened afterwards so an existing file from an
+    older launcher also gets restricted permissions on upgrade (issue #91).
+    """
 
     import secrets
 
     path = Path(token_file).resolve() if token_file else Path(state_dir).resolve() / "launcher.token"
     if path.is_file():
         token = path.read_text(encoding="utf-8").strip()
-        if token:
-            return token, path
-    token = secrets.token_urlsafe(32)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(token + "\n", encoding="utf-8", newline="\n")
+    else:
+        token = ""
+    if not token:
+        token = secrets.token_urlsafe(32)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(token + "\n", encoding="utf-8", newline="\n")
+    _harden_token_file(path)
+    return token, path
+
+
+def _harden_token_file(path: Path) -> dict:
+    """Restrict the token file to the current user (best effort, issue #91)."""
+
+    if platform.system() == "Windows":
+        return _harden_token_file_windows(path)
     try:
         os.chmod(path, 0o600)
-    except OSError:  # pragma: no cover - best effort on Windows
-        pass
-    return token, path
+        return {"platform": platform.system(), "method": "chmod_0600", "applied": True}
+    except OSError as exc:  # pragma: no cover - defensive
+        return {"platform": platform.system(), "method": "chmod_0600", "applied": False, "reason": type(exc).__name__}
+
+
+def _harden_token_file_windows(path: Path) -> dict:
+    """On Windows, drop inherited ACEs and grant only the current user plus
+    SYSTEM and Administrators.  Without a matching ACE, other local low-privilege
+    users are denied, which closes the same-machine ACL inheritance risk.
+    """
+
+    domain = os.environ.get("USERDOMAIN") or ""
+    user = os.environ.get("USERNAME") or ""
+    account = f"{domain}\\{user}" if domain else user
+    try:
+        completed = subprocess.run(
+            [
+                "icacls",
+                str(path),
+                "/inheritance:r",
+                "/grant:r",
+                f"{account}:(F)" if account else "*S-1-3-4:(F)",
+                "*S-1-5-18:(F)",
+                "*S-1-5-32-544:(F)",
+            ],
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        return {"platform": "Windows", "method": "icacls", "applied": False, "reason": type(exc).__name__}
+    if completed.returncode != 0:
+        tail = (completed.stderr or completed.stdout or "").strip()[-300:]
+        return {"platform": "Windows", "method": "icacls", "applied": False, "reason": "icacls_failed", "detail": tail}
+    return {"platform": "Windows", "method": "icacls_inheritance_r_grant_current_user", "applied": True}
 
 
 def _read_skill_version(skill_dir: Path) -> tuple[str | None, str | None]:

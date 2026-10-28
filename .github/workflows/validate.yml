@@ -26,3 +26,23 @@ jobs:
           python-version: '3.13'
       - name: Run frozen task-launcher benchmark (offline, fake agent)
         run: python benchmarks/task-launcher/run_benchmark.py
+  macos-smoke:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      # Focused macOS smoke: the POSIX-specific paths that ubuntu does not add
+      # (macOS runners are contended/slow, so the full 122-test suite is not run
+      # here; it stays covered by the ubuntu `validate` matrix and `benchmark`).
+      - name: Run macOS-specific task launcher smoke
+        env:
+          PYTHONPATH: tests
+        run: >-
+          python3 -X faulthandler -m unittest -v
+          task_launcher_tests.test_binding.BindingTests.test_default_binding_is_loopback_and_ready_line_is_usable
+          task_launcher_tests.test_timeout_cancel.TimeoutTests.test_stuck_agent_times_out_and_leaves_no_orphan
+          task_launcher_tests.test_token_acl.PosixTokenModeTests.test_generated_token_file_is_0600
+          task_launcher_tests.test_health_degraded.HealthTests.test_claude_probe_lists_routing_flag
