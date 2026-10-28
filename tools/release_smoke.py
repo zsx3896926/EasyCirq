@@ -22,13 +22,22 @@ def smoke(dist, previous_dist=None):
              'Manage-Skill.cmd', 'skill_update.py', 'companion_update.py',
              'LICENSE', 'NOTICE', 'INSTALL.md'}
     declared = {}
+    extras = []
     for line in (dist / 'SHA256SUMS').read_text(encoding='utf-8').splitlines():
         sha, name = line.split('  ', 1)
-        if name in declared or name not in names:
-            raise ValueError('Unexpected or duplicate checksum entry: ' + name)
-        declared[name] = sha
-    if set(declared) != names:
-        raise ValueError('Incomplete release asset checksums')
+        if name in declared:
+            raise ValueError('Duplicate checksum entry: ' + name)
+        if name in names:
+            declared[name] = sha
+        else:
+            # The same dist also carries the toolchain bundle (connector/runtime
+            # packages + toolchain-release/provenance). Those are separate
+            # deliverables with their own manifests; the skill installer must
+            # still verify its own complete asset set below.
+            extras.append(name)
+    missing = names - set(declared)
+    if missing:
+        raise ValueError('Incomplete release asset checksums: ' + ', '.join(sorted(missing)))
     for name, sha in declared.items():
         if hashlib.sha256((dist / name).read_bytes()).hexdigest() != sha:
             raise ValueError('Asset checksum mismatch: ' + name)
