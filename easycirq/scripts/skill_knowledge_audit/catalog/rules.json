@@ -74,8 +74,8 @@
       "text": "门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 236,
-        "line_end": 243
+        "line_start": 260,
+        "line_end": 267
       },
       "condition": "G0–G6 阶段退出证据判定",
       "task_scope": [
@@ -170,8 +170,8 @@
       "text": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载：",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 151,
-        "line_end": 158
+        "line_start": 175,
+        "line_end": 182
       },
       "condition": "内部设计任务（原理图/PCB/交付）",
       "task_scope": [
@@ -202,8 +202,8 @@
       "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 147,
-        "line_end": 154
+        "line_start": 171,
+        "line_end": 178
       },
       "condition": "批量写入/合批提速",
       "task_scope": [
@@ -453,7 +453,7 @@
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 144,
+          "line": 168,
           "quote": "简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。"
         }
       ]
@@ -551,12 +551,12 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 158,
+          "line": 182,
           "quote": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载："
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 156,
+          "line": 180,
           "quote": "## 3. 按需读取，不加载规则百科"
         }
       ]
@@ -627,7 +627,7 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 154,
+          "line": 178,
           "quote": "多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。"
         },
         {
