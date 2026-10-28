@@ -25,22 +25,6 @@
       }
     ],
     "tightSpacing": null,
-    "silk": [
-      {
-        "type": "silk-off-board",
-        "level": "WARN",
-        "layer": 3,
-        "designator": "J1",
-        "primitives": [
-          "68c1979920df5098e9"
-        ],
-        "message": "silkscreen text 'J1' extends outside the board outline (text -1293..-1257 × -593..-548 mil, board -1293..590 × -401..401) — it will not be printed; move it with `pcb silk-set --ids 68c1979920df5098e9 --x … --y …`",
-        "at": {
-          "x": -1293.45,
-          "y": -592.72
-        }
-      }
-    ],
     "sides": {
       "top": 9
     },

@@ -20,7 +20,7 @@
     "netlessViaInPad": 0,
     "widthUnderSpec": 2,
     "silkOverPad": 0,
-    "silkOffBoard": 1,
+    "silkOffBoard": 0,
     "decapTooFar": 0,
     "viaInPad": 0,
     "copperNearEdge": 0,
@@ -31,27 +31,13 @@
     "connectorMatingBlocked": 0,
     "connectorOpeningInward": 0,
     "errors": 0,
-    "warnings": 4,
-    "total": 4
+    "warnings": 3,
+    "total": 3
   },
   "trackCount": 35,
   "viaCount": 0,
   "padCount": 18,
   "findings": [
-    {
-      "type": "silk-off-board",
-      "level": "WARN",
-      "layer": 3,
-      "designator": "J1",
-      "primitives": [
-        "68c1979920df5098e9"
-      ],
-      "message": "silkscreen text 'J1' extends outside the board outline (text -1293..-1257 × -593..-548 mil, board -1288..585 × -396..396) — it will not be printed; move it with `pcb silk-set --ids 68c1979920df5098e9 --x … --y …`",
-      "at": {
-        "x": -1293.45,
-        "y": -592.72
-      }
-    },
     {
       "type": "power-not-poured",
       "level": "WARN",
