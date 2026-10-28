@@ -14,6 +14,7 @@
 | 基线 `origin/main` | `91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后：统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`） |
 | 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`，schema 命名空间 `zhigou.*` 统一为 `easycirq.*`；本任务的包/测试/基准/文档已端口到新布局（提交 `d81280c`），schema 与仓库其它模块一致 |
 | 代码/测试/基准/结果冻结 HEAD | `9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`（其后只有 docs 收口提交） |
+| 合并状态 | **PR #100 已合并到 `main`**（merge commit `befc081d777308ca81335a641f4eaf3c32cf124e`，2026-10-28T06:37:16Z）；特性分支已删除 |
 | 操作系统 | Windows 11 10.0.26200 SP0（AMD64） |
 | Python（本机实际运行） | **3.13.15** |
 | 最低 Python 声明 | 3.10（`from __future__ import annotations`；仅标准库） |
@@ -186,6 +187,7 @@ python easycirq/scripts/skill_selftest.py
 - 代码按要求使用 Python 3.10 语法/标准库（`from __future__ import annotations`，
   无 3.11+ 特性）；**3.10 仅 CI 验证**：仓库 `.github/workflows/validate.yml` 的
   matrix `['3.10', '3.13']` 在 PR HEAD 上运行 `python3 -m unittest discover -s tests -v`。
-- PR **#100** 已创建（OPEN 未合并）：https://github.com/zsx3896926/EasyCirq/pull/100；
-  **CI 已全绿**（head `a182ae4`）：`validate (3.10)` pass、`validate (3.13)` pass、
+- PR **#100 已合并**：https://github.com/zsx3896926/EasyCirq/pull/100，
+  merge commit `befc081d777308ca81335a641f4eaf3c32cf124e`（2026-10-28T06:37:16Z），
+  head 分支已删除；**CI 已全绿**（head `a182ae4`）：`validate (3.10)` pass、`validate (3.13)` pass、
   `updater (ubuntu-latest)`/`updater (windows-latest)` pass、`publish` skipping。
