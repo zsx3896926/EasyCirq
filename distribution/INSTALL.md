@@ -6,8 +6,8 @@
 
 | 你想装什么 | 入口 | 对应产物 |
 |---|---|---|
-| **完整工具链**：Skill（design-hardware）+ 运行时（`easycirq.exe`）+ 连接器（`.eext`） | `Install-EasyCirq.cmd` / `Install-EasyCirq.ps1` | `easycirq-toolchain-<版本>.zip` |
-| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `design-hardware-<版本>.zip` |
+| **完整工具链**：Skill（easycirq）+ 运行时（`easycirq.exe`）+ 连接器（`.eext`） | `Install-EasyCirq.cmd` / `Install-EasyCirq.ps1` | `easycirq-toolchain-<版本>.zip` |
+| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `easycirq-<版本>.zip` |
 
 两条路径可以共存，但**不要对同一个 Skill 目录同时操作**。
 

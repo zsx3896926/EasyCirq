@@ -1,4 +1,4 @@
-"""Mechanical layout planner for the 智构 hardware design skill.
+"""Mechanical layout planner for the EasyCirq skill.
 
 Offline, deterministic 2D/2.5D mechanical anchoring analysis.  It is *not* an
 EDA executor and never writes a PCB: every candidate is an ``only_planned``
