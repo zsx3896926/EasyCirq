@@ -10,7 +10,7 @@
 |---|---|
 | `pytest-install-lifecycle.log` | `pytest tests/test_install_lifecycle.py -v` 完整输出（39 passed） |
 | `unittest-install-lifecycle.log` | `python -m unittest tests.test_install_lifecycle`（CI 同款入口，39 OK） |
-| `install-lifecycle.log` | 每个用例的 JSONL 记账（安装/升级/回退/拒绝/自检事件） |
+| `install-lifecycle.log` | 每个用例的 JSONL 记账（安装/升级/回退/拒绝/自检事件）。常规测试写临时目录、不修改本文件；仅在显式设置 `EASYCIRQ_INSTALL_EVIDENCE_LOG` 时刷新（issue #93） |
 | `e2e-real-artifacts.log` | 用**真实发行产物**走一遍：解压 installer zip → install → status → verify → uninstall |
 | `build-release.log` | `python distribution/build_release.py --output dist --skip-runtime-build --connector-build auto` 的运行记录 |
 | `artifacts.txt` | installer zip 条目、bundle 版本/兼容矩阵/组件清单、SHA-256 |
@@ -21,9 +21,15 @@
 ## 复现命令
 
 ```powershell
-# 生命周期测试（两种入口）
+# 生命周期测试（两种入口）——默认把 JSONL 记账写临时目录，不修改仓库工作树
 py -3 -m pytest tests\test_install_lifecycle.py -v
 py -3 -m unittest tests.test_install_lifecycle -v
+
+# 仅当需要刷新仓库内的证据日志时才显式指定路径（会修改 install-lifecycle.log，
+# 应作为独立证据提交，不要混入普通代码改动）
+$env:EASYCIRQ_INSTALL_EVIDENCE_LOG = "docs/toolchain-integration/evidence/installer/install-lifecycle.log"
+py -3 -m unittest tests.test_install_lifecycle -v
+Remove-Item Env:EASYCIRQ_INSTALL_EVIDENCE_LOG
 
 # 发行构建（本机无 Go，复用已构建运行时；连接器走仓库 npm 流水线）
 py -3 distribution\build_release.py --output dist --skip-runtime-build --connector-build auto
