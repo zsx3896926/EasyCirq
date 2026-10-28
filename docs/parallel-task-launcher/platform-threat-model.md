@@ -9,11 +9,13 @@
 |---|---|---|
 | Windows 11 + Python 3.13.15 | 任务套件 98 tests（后增至 120）、冻结基准 12/12、全量套件、`taskkill /T` 进程树终止、含空格/中文路径 | **已执行**（本机） |
 | Ubuntu（GitHub Actions）+ Python 3.10 / 3.13 | `python3 -m unittest discover -s tests -v`（含 task_launcher 测试）、`benchmarks/task-launcher/run_benchmark.py`（CI job） | **已由 CI 覆盖** |
-| macOS | 任务套件、基准、`killpg` 实际路径 | **已由 CI 覆盖**（`macos-latest` job：任务套件 + 基准，见 `.github/workflows/validate.yml`） |
+| macOS | focused smoke：loopback 就绪、`killpg` 杀树、`chmod 0600`、shell 版 fake claude 探测（`macos-latest` job）；全量 122 用例由 Ubuntu CI 覆盖 | **已由 CI 覆盖**（`macos-smoke` job，见 `.github/workflows/validate.yml`） |
 | Windows token 文件 ACL 加固 | `icacls` 去继承、仅授当前用户 + SYSTEM + Administrators，低权限同机用户拒绝 | **已执行**（本机，`tests/task_launcher_tests/test_token_acl.py` 断言） |
 
 POSIX 的 `killpg` 分支由 Ubuntu 与 `macos-latest` CI 覆盖；Windows 分支由本机 `taskkill /T` 实测，
-Windows token ACL 由本机 `test_token_acl.py` 实测。
+Windows token ACL 由本机 `test_token_acl.py` 实测。macOS runner 资源受限，`macos-smoke` 只跑
+POSIX 相关的 focused 用例（loopback 就绪 / killpg 杀树 / chmod 0600 / shell fake claude），
+全量任务套件仍在 Ubuntu `validate` matrix 上运行。
 
 ## 2. Token 文件威胁模型
 

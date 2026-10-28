@@ -158,10 +158,14 @@ def run(argv: list[str]) -> int:
 
     if scenario == "spam":
         # IC-07/IC-10: fast event flood so the launcher's max_events cap and
-        # process-tree kill path are exercised deterministically.
+        # process-tree kill path are exercised deterministically.  After the
+        # flood the agent sleeps instead of exiting, so the launcher must kill
+        # it (a slow runner cannot make the agent exit before the kill).
         for index in range(160):
             _emit(_assistant_event(f"spam event {index}", index))
-        _emit(_result_event(True, "FAKE AGENT spam finished"))
+        deadline = time.time() + 600
+        while time.time() < deadline:
+            time.sleep(0.5)
         return 0
 
     if scenario == "badjson":
