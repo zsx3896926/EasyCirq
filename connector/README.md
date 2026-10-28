@@ -11,6 +11,22 @@
 
 ---
 
+
+## 功能演示
+
+以下截图来自本项目的真实工程（智构 · EasyCirq 生成的 5V 双按键双 LED 指示板）：
+
+![原理图](images/showcase-schematic.png)
+
+![PCB](images/showcase-pcb.png)
+
+![流程演示](images/showcase.gif)
+
+- 原理图与 PCB 均由 AI 通过本连接器在 EasyEDA Pro 内实际绘制；
+- PCB 检查通过（DRC 0 违规），BOM 6 行可下单，Gerber/钻孔/CPL 已导出；
+- 上图依次为：原理图 → PCB 顶面（静图），以及两者的流程演示 GIF。
+
+
 ## 1. 它是什么，不是什么
 
 | 是 | 不是 |
@@ -125,8 +141,8 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 |---|---|
 | 扩展名 | `easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
-| 扩展 UUID | `4c119291f2c4482090a5f54b02a1f1d4`（每次升级会换新，见 §5） |
-| 版本 | `1.0.3` |
+| 扩展 UUID | `41bf382bbfb84e6d82fc96cc3c12b0d7`（每次升级会换新，见 §5） |
+| 版本 | `1.0.4` |
 | 依赖服务 | `zhigou-agent`（本工具链 daemon；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `zhigouDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |
