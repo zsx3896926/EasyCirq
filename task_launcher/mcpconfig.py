@@ -15,6 +15,7 @@ same installation.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -26,13 +27,20 @@ def _posix(path: Path) -> str:
     return path.resolve().as_posix()
 
 
-def build_mcp_config(skill_scripts_dir: Path) -> dict:
-    """Return the ``.mcp.json`` document for a task."""
+def build_mcp_config(skill_scripts_dir: Path, python_executable: str | None = None) -> dict:
+    """Return the ``.mcp.json`` document for a task.
 
+    ``command`` is resolved to an actual interpreter (IC-12): a bare ``python``
+    does not exist on every Linux/macOS install.  Callers may override it with
+    an explicit ``--mcp-python`` value, otherwise the launcher's own interpreter
+    is used.
+    """
+
+    command = python_executable or sys.executable or "python"
     return {
         "mcpServers": {
             MCP_SERVER_NAME: {
-                "command": "python",
+                "command": command,
                 "args": ["-m", MCP_MODULE],
                 "env": {"PYTHONPATH": _posix(skill_scripts_dir)},
             }
@@ -40,10 +48,10 @@ def build_mcp_config(skill_scripts_dir: Path) -> dict:
     }
 
 
-def write_mcp_config(path: Path, skill_scripts_dir: Path) -> dict:
+def write_mcp_config(path: Path, skill_scripts_dir: Path, python_executable: str | None = None) -> dict:
     """Write ``mcp.json`` (LF, deterministic JSON) and return the document."""
 
-    document = build_mcp_config(skill_scripts_dir)
+    document = build_mcp_config(skill_scripts_dir, python_executable)
     path.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(document, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     path.write_text(text, encoding="utf-8", newline="\n")

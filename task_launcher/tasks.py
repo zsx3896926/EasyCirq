@@ -66,6 +66,12 @@ def iso_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
+def _agent_label(kind: str) -> str:
+    """Public agent label: ``fake`` or ``claude-code`` (IC-13, same as result)."""
+
+    return "claude-code" if kind == "claude" else "fake"
+
+
 def default_state_dir() -> Path:
     """Default launcher state directory (never inside the repository)."""
 
@@ -81,7 +87,7 @@ class Settings:
     """Configuration of one launcher process."""
 
     state_dir: Path = field(default_factory=default_state_dir)
-    #: The 2026-10 rename moved the Skill from ``easycirq/`` to
+    #: The 2026-10 rename moved the Skill from ``design-hardware/`` to
     #: ``easycirq/``; discover whichever exists instead of hard-coding one name.
     skill_dir: Path = field(default_factory=lambda: plugin.default_skill_dir(PACKAGE_ROOT))
     plugin_dir: Path | None = None
@@ -91,6 +97,12 @@ class Settings:
     max_concurrent: int = 1
     fake_scenario: str = DEFAULT_FAKE_SCENARIO
     agent_argv_template: Path | None = None
+    #: Interpreter used in the generated ``mcp.json`` (IC-12).  ``None`` means
+    #: the interpreter running this launcher (``sys.executable``).
+    mcp_python: str | None = None
+    #: Terminal tasks older than this are pruned with their workspace (IC-06);
+    #: ``0`` disables TTL cleanup and keeps tasks until the launcher restarts.
+    task_ttl_s: int = 0
     host: str = DEFAULT_HOST
     port: int = DEFAULT_PORT
 
@@ -239,6 +251,7 @@ class Task:
                 self._events_handle = None
 
     def to_status_dict(self) -> dict:
+        profile = self.agent_info.get("profile")
         return {
             "task_id": self.task_id,
             "status": self.status,
@@ -249,7 +262,8 @@ class Task:
             "finished_at": self.finished_at,
             "event_count": self.event_count,
             "next_seq": self.next_seq,
-            "agent": self.agent_info.get("profile"),
+            "agent": _agent_label(profile) if profile else None,
+            "agent_profile": profile,
             "agent_version": self.agent_info.get("version"),
             "skill_version": self.skill_version,
             "plugin": self.plugin_info,
@@ -274,6 +288,7 @@ class TaskManager:
         self._argv_template: list[str] | None = None
         self._plugin_cache_dir: Path | None = None
         self._plugin_cache_manifest: dict | None = None
+        self._cli_probe: dict = self._probe_agent_cli()
         if settings.agent_argv_template is not None:
             self._argv_template = agent_mod.load_argv_template(settings.agent_argv_template)
         self.settings.state_dir.mkdir(parents=True, exist_ok=True)
@@ -301,16 +316,54 @@ class TaskManager:
             info.plugin_skill_version = info.skill
         return info
 
+    def _probe_agent_cli(self) -> dict:
+        """Best-effort offline probe of the agent CLI routing flags (IC-01)."""
+
+        if self._agent_info.kind != "claude":
+            return {
+                "checked": False,
+                "executable": self._agent_info.executable,
+                "ok": True,
+                "reason": "fake_profile_uses_bundled_agent",
+            }
+        if not self._agent_info.available:
+            return {
+                "checked": False,
+                "executable": self._agent_info.executable,
+                "ok": False,
+                "reason": "agent_unavailable",
+            }
+        return agent_mod.probe_cli_routing_support(self._agent_info.executable)
+
+    def _degraded_reasons(self, versions: VersionInfo) -> list[str]:
+        reasons: list[str] = []
+        if versions.skill_error:
+            reasons.append(versions.skill_error)
+        if versions.plugin_error:
+            reasons.append(versions.plugin_error)
+        if not self._agent_info.available:
+            reasons.append("agent_unavailable")
+        if self._cli_probe.get("checked") and not self._cli_probe.get("ok"):
+            reasons.append("agent_cli_routing_flag_missing")
+        return reasons
+
     def health(self) -> dict:
+        self._prune_expired()
         with self._lock:
             running = sum(1 for task in self._tasks.values() if not task.terminal)
+            total = len(self._tasks)
         versions = self.live_versions()
+        reasons = self._degraded_reasons(versions)
         return {
-            "status": "ok",
+            "status": "ok" if not reasons else "degraded",
+            "degraded_reasons": reasons,
             "version": __version__,
             "skill_version": versions.skill,
             "plugin_version": versions.plugin,
             "tasks_running": running,
+            "tasks_total": total,
+            "agent": self._agent_info.to_dict(),
+            "agent_cli": self._cli_probe,
         }
 
     def running_count(self) -> int:
@@ -323,6 +376,61 @@ class TaskManager:
         if task is None:
             raise LauncherError("TASK_NOT_FOUND", "no such task", {"task_id": task_id})
         return task
+
+    # -- registry: list / delete / TTL (IC-06) -----------------------------
+    def _prune_expired(self) -> int:
+        """Drop terminal tasks older than ``settings.task_ttl_s`` (IC-06)."""
+
+        ttl = int(self.settings.task_ttl_s or 0)
+        if ttl <= 0:
+            return 0
+        now = time.time()
+        expired: list[Task] = []
+        with self._lock:
+            for task_id, task in list(self._tasks.items()):
+                if not task.terminal or not task.finished_at:
+                    continue
+                try:
+                    finished = datetime.fromisoformat(task.finished_at.replace("Z", "+00:00")).timestamp()
+                except ValueError:  # pragma: no cover - defensive
+                    continue
+                if now - finished >= ttl:
+                    expired.append(task)
+                    del self._tasks[task_id]
+        for task in expired:
+            shutil.rmtree(task.workspace, ignore_errors=True)
+        return len(expired)
+
+    def list_tasks(self, status: str | None = None) -> dict:
+        """Return a JSON-serialisable summary of the task registry (IC-06)."""
+
+        self._prune_expired()
+        with self._lock:
+            tasks = [
+                task.to_status_dict()
+                for task in self._tasks.values()
+                if status is None or task.status == status
+            ]
+        tasks.sort(key=lambda item: (item.get("created_at") or "", item.get("task_id") or ""))
+        return {"tasks": tasks, "count": len(tasks), "status_filter": status}
+
+    def delete_task(self, task_id: str) -> dict:
+        """Delete a terminal task from the registry and remove its workspace."""
+
+        self._prune_expired()
+        with self._lock:
+            task = self._tasks.get(task_id)
+            if task is None:
+                raise LauncherError("TASK_NOT_FOUND", "no such task", {"task_id": task_id})
+            if not task.terminal:
+                raise LauncherError(
+                    "TASK_NOT_DELETABLE",
+                    "the task is not in a terminal state; cancel it first",
+                    {"task_id": task_id, "status": task.status},
+                )
+            del self._tasks[task_id]
+        shutil.rmtree(task.workspace, ignore_errors=True)
+        return {"task_id": task_id, "status": "deleted", "workspace": str(task.workspace)}
 
     def _plugin_cache(self) -> tuple[Path, dict]:
         """Return ``(cached_plugin_dir, manifest)``, building it at most once."""
@@ -410,6 +518,7 @@ class TaskManager:
     # -- start -------------------------------------------------------------
     def start(self, request: dict) -> dict:
         task_id = request["task_id"]
+        self._prune_expired()
         with self._lock:
             if task_id in self._tasks:
                 raise LauncherError(
@@ -442,7 +551,8 @@ class TaskManager:
                 "task_id": task_id,
                 "status": "accepted",
                 "workspace": str(task.workspace),
-                "agent": self._agent_info.kind,
+                "agent": _agent_label(self._agent_info.kind),
+                "agent_profile": self._agent_info.kind,
                 "skill_version": skill_version,
                 "plugin": task.plugin_info,
             }
@@ -548,7 +658,8 @@ class TaskManager:
             task.add_event(
                 "task_accepted",
                 task_id=task_id,
-                agent=self._agent_info.kind,
+                agent=_agent_label(self._agent_info.kind),
+                agent_profile=self._agent_info.kind,
                 plugin_version=task.plugin_info.get("version"),
             )
             return task
@@ -586,7 +697,11 @@ class TaskManager:
         (task.workspace / "routing.md").write_text(
             routing.build_routing_text(task.request, skill_name=skill_name), encoding="utf-8", newline="\n"
         )
-        mcpconfig.write_mcp_config(task.workspace / "mcp.json", self.settings.skill_dir / "scripts")
+        mcpconfig.write_mcp_config(
+            task.workspace / "mcp.json",
+            self.settings.skill_dir / "scripts",
+            python_executable=self.settings.mcp_python or (sys.executable or "python"),
+        )
         self._write_json(
             task.workspace / "routing.summary.json",
             routing.routing_summary(task.request, skill_name=skill_name),
@@ -690,7 +805,7 @@ class TaskManager:
                             )
                             try:
                                 if task.process is not None:
-                                    agent_mod.kill_tree(task.process)
+                                    task.kill_info = agent_mod.kill_tree(task.process)
                             except Exception:  # pragma: no cover - defensive
                                 pass
                         break
@@ -767,6 +882,14 @@ class TaskManager:
         }
         if task.spawn_error:
             result["spawn_error"] = task.spawn_error
+        if task.max_events_exceeded:
+            # IC-10: the event cap is a task-level failure with a stable code
+            # (this HTTP API never returns a MAX_EVENTS_EXCEEDED HTTP error).
+            result["error"] = {
+                "code": "MAX_EVENTS_EXCEEDED",
+                "message": "the agent produced more events than limits.max_events; the process tree was terminated",
+                "detail": {"max_events": task.max_events},
+            }
         task.result = result
         self._write_json(task.workspace / "result.json", result)
 

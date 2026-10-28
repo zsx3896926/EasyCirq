@@ -97,7 +97,7 @@
 |---|---|---|
 | `UNAUTHORIZED` | 401 | 缺少/错误 Bearer token |
 | `NOT_FOUND` | 404 | 未知路径 |
-| `METHOD_NOT_ALLOWED` | 405 | 已知路径用了不支持的方法（GET/POST 范围内） |
+| `METHOD_NOT_ALLOWED` | 405 | 已知路径用了不支持的方法（所有动词均返回 JSON） |
 | `PAYLOAD_TOO_LARGE` | 413 | 请求体 / `Content-Length` 超过 1 MiB |
 | `BUSY` | 429 | 非终态任务数已达 `max_concurrent` |
 | `INVALID_JSON` | 400 | 空体、非 UTF-8、JSON 语法错误、缺 `Content-Length` |
@@ -113,7 +113,7 @@
 | `UNSUPPORTED_SCHEMA` | 422 | `schema` 不等于 `easycirq.task-launcher.start/v1` |
 | `MISSING_SNAPSHOT_DECLARATION` | 422 | `snapshot_sha256` 为 null/缺失但未在 `missing_fields` 声明 |
 | `WRITE_MODE_NOT_SUPPORTED` | 422 | `mode != "read_only"` |
-| `TASK_EXISTS` | 409 | `task_id` 在本进程内已存在（含终态任务） |
+| `TASK_EXISTS` | 409 | `task_id` 在本进程内已存在且未删除（终态任务也可用 `DELETE`/TTL 清除） |
 | `TASK_NOT_FOUND` | 404 | 未知 `task_id` |
 | `TASK_NOT_CANCELLABLE` | 409 | 对终态任务调用 cancel |
 | `RESULT_NOT_READY` | 409 | 任务未到终态或结果尚未落盘 |
@@ -121,8 +121,11 @@
 | `AGENT_UNAVAILABLE` | 503 | Agent 不可执行；或 spawn 时 `OSError` |
 | `AGENT_COMMAND_INVALID` | 500 | 替换 argv 模板缺强制参数/不可读 |
 | `PLUGIN_BUILD_FAILED` | 500 | plugin 构建/结构校验失败，或预构建 plugin 不完整 |
-| `MAX_EVENTS_EXCEEDED` | 500 | 保留码：当前实现用任务终态 `failed` + `max_events_exceeded:true` 表达，不抛出该码 |
+| `TASK_NOT_DELETABLE` | 409 | 对非终态任务调用 `DELETE /task/<id>`（先 cancel 或等待终态） |
 | `INTERNAL_ERROR` | 500 | 未预期异常；launcher 正在关闭 |
+
+事件上限是**任务级失败**：HTTP 层不返回 `MAX_EVENTS_EXCEEDED` 错误，结果文档里给出
+`max_events_exceeded: true` 与 `error.code = "MAX_EVENTS_EXCEEDED"`（§3.4/§6.2）。
 
 CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）：
 `LOOPBACK_ONLY`、`BIND_FAILED`（`serve` 绑定失败）、`HEALTH_UNAVAILABLE`（`health --base-url`
@@ -139,22 +142,28 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 | `GET` | `/task/<id>/events?since=N` | 是 | `200` 事件批次 | `400` `401` `404` `422` |
 | `GET` | `/task/<id>/result` | 是 | `200` 结果文档 | `401` `404` `409` `422` |
 | `POST` | `/task/<id>/cancel` | 是 | `200` 取消受理 | `401` `404` `409` `422` |
-| 任意 | 其他路径 | 是（先鉴权） | — | `401` 或 `404 NOT_FOUND` |
+| `GET` | `/tasks?status=<status>` | 是 | `200` 任务列表 | `400` `401` |
+| `DELETE` | `/task/<id>` | 是 | `200` 删除受理 | `401` `404` `409` `422` |
+| 任意 | 其他路径 | 是（先鉴权） | — | `401` 或 `404 NOT_FOUND`；已知路径用错动词 → `405` JSON |
 
 路径中的 `<id>` 会先 percent-decode，再用 `^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$` 校验；
 不合法 → `422 INVALID_FORMAT`；`/task/`、`/task/x/y` 等不匹配路径 → `404 NOT_FOUND`。
-**已知差异**：`PUT`/`DELETE` 等未实现的动词由 Python 标准库直接返回 `501`（非 JSON），
-见 §12。
+所有已实现/未实现的 HTTP 动词（`GET`/`POST`/`DELETE`/`PUT`/`PATCH`/`HEAD`）都返回 JSON
+错误封装；`HEAD` 只返回头、不返回正文。
 
 #### 1.3.1 `GET /health`
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| `status` | string | 固定 `"ok"`（不反映 Skill/plugin 可读性，见 §12.2） |
+| `status` | string | `"ok"` 或 `"degraded"`（Skill/plugin 不可读、Agent 不可用、CLI 路由参数不可用时为 `degraded`） |
+| `degraded_reasons` | array\<string\> | 稳定原因 token：`skill_version_unreadable`、`skill_version_invalid`、`plugin_missing`、`plugin_manifest_invalid`、`agent_unavailable`、`agent_cli_routing_flag_missing` |
 | `version` | string | launcher 版本 |
 | `skill_version` | string \| null | 本地 Skill 版本；不可读时 `null` |
 | `plugin_version` | string \| null | plugin 包版本；预构建 plugin 损坏时 `null` |
 | `tasks_running` | integer | 非终态任务数（含 `accepted` 未开始） |
+| `tasks_total` | integer | 注册表内任务数（含终态，TTL 到期后减少） |
+| `agent` | object | `{profile, executable, version, available, reason}` |
+| `agent_cli` | object | CLI 探测结果：`{checked, executable, version, help_lists_routing_flag_file, help_lists_routing_flag, fallback_available, ok, reason}`；fake profile 下 `checked:false` |
 
 #### 1.3.2 `POST /task/start`
 
@@ -165,7 +174,8 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 | `task_id` | string | 回显 |
 | `status` | string | 固定 `"accepted"` |
 | `workspace` | string | 任务目录绝对路径 |
-| `agent` | string | Agent profile：`"fake"` 或 `"claude"`（**不是**结果里的 `"claude-code"`） |
+| `agent` | string | `"fake"` 或 `"claude-code"`（与 result 一致） |
+| `agent_profile` | string | profile：`"fake"` 或 `"claude"` |
 | `skill_version` | string | 本地 Skill 版本 |
 | `plugin` | object | plugin 元数据（见 §6.2 `plugin` 字段） |
 
@@ -184,7 +194,8 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 | `finished_at` | string \| null | |
 | `event_count` | integer | 当前事件总数（含 `task_finished`） |
 | `next_seq` | integer | 下一个事件的 `seq` |
-| `agent` | string | profile：`fake`/`claude` |
+| `agent` | string | `fake`/`claude-code`（与 result 一致） |
+| `agent_profile` | string | profile：`fake`/`claude` |
 | `agent_version` | string \| null | fake 为 `0.0.0-fake`；claude 为 `claude --version` 首段或 `null` |
 | `skill_version` | string \| null | |
 | `plugin` | object | plugin 元数据 |
@@ -226,6 +237,18 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 
 任务随后进入终态 `cancelled`（即使 Agent 进程刚好以退出码 0 结束，只要取消标志先到）。
 对终态任务 → `409 TASK_NOT_CANCELLABLE`。请求体被忽略。
+
+#### 1.3.7 `GET /tasks?status=<status>`
+
+列出注册表内的任务摘要（`to_status_dict()` 的数组），按 `created_at`、`task_id` 升序：
+`{tasks: [...], count: int, status_filter: str|null}`。`status` 为空串 → `400 INVALID_REQUEST`；
+未知状态值只返回空列表，不报错。
+
+#### 1.3.8 `DELETE /task/<id>`
+
+仅允许删除**终态**任务：从注册表移除并删除 `tasks/<id>/` 工作区（证据随之删除）→
+`{task_id, status: "deleted", workspace}`。非终态 → `409 TASK_NOT_DELETABLE`；未知 id →
+`404 TASK_NOT_FOUND`。删除后同一 `task_id` 可再次 `start`（§4.4）。
 
 ### 1.4 传输适配器（Phase 2 WebSocket）
 
@@ -472,6 +495,8 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 - 当解析行数 **超过** `limits.max_events`（即第 `max_events + 1` 行）时：追加
   `max_events_exceeded`、终止整棵进程树、任务终态 `failed`（`max_events_exceeded: true`）。
 - 事件上限是**拒绝继续**的上限，不是“截断后继续跑”；已产生的事件仍可重放。
+- 结果文档同时给出 `max_events_exceeded: true` 与 `error: {code: "MAX_EVENTS_EXCEEDED", ...}`；
+  `kill` 记录实际终止方式（`killed:true` + `method`）。
 
 ---
 
@@ -525,11 +550,12 @@ POST /task/start (202)
 - `max_concurrent` 默认 `1`（`--max-concurrent`，必须 ≥1）；计数 = 非终态任务数
   （含 `accepted`）。
 - 达到上限时新 `start` **立即** `429 BUSY`，不排队；先结束一个任务后才能再启动。
-- `task_id` 在**本进程内**唯一：重复 start（即使旧任务已终态）→ `409 TASK_EXISTS`，
-  `detail` 带旧任务状态。要复用 id 只能重启 launcher。
-- launcher 重启后注册表清空；再次 start 同一 id 会删除并重建 `tasks/<id>/` 目录。
-- 没有任务列表端点；`GET /health.tasks_running` 是唯一的聚合视图。
-- 终止的任务对象仍保留在内存（无淘汰），单进程长时间运行会持续增长。
+- `task_id` 在**本进程内**唯一：重复 start（旧任务未删除）→ `409 TASK_EXISTS`，`detail` 带旧任务状态。
+- 注册表端点：`GET /tasks`（可按状态过滤）与 `DELETE /task/<id>`（仅终态，见 §1.3.7/§1.3.8）。
+- **TTL 清理**：`--task-ttl-s N`（默认 `0` = 关闭）会在每次 start/health/list 时清理
+  `finished_at` 超过 N 秒的终态任务及其 `tasks/<id>/` 目录。
+- 删除或 TTL 清理后，同一 `task_id` 可重新使用；launcher 重启后注册表清空。
+- `GET /health.tasks_running`（非终态数）与 `tasks_total`（总数）提供聚合视图。
 
 ### 4.5 `POST /task/start` 的拒绝顺序
 
@@ -635,6 +661,7 @@ POST /task/start (202)
 | `cancelled` | boolean | `status == "cancelled"` |
 | `timed_out` | boolean | `status == "timeout"` |
 | `max_events_exceeded` | boolean | 是否因事件上限失败 |
+| `error` | object \| absent | 仅事件上限失败时出现：`{code:"MAX_EVENTS_EXCEEDED", message, detail:{max_events}}` |
 | `real_eda` | string | 恒 `"NOT RUN"` |
 | `real_eda_source` | string | 恒 `"task_launcher"` |
 | `eda_calls` | integer | 恒 `0` |
@@ -908,23 +935,26 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 | 1 | §3.3 示例 `snapshot_sha256: null` 且 `missing_fields: ["pcb_geometry"]` | 该示例会被 `422 MISSING_SNAPSHOT_DECLARATION` 拒绝；`missing_fields` 必须含 `"snapshot_sha256"` | 任务书 `b1-task-launcher-task-book.md:143-163`（`missing_fields` 在 :156）vs `protocol.py:402-409` |
 | 2 | §3.6 “`claude` 不存在时 `serve` 返回 503 `AGENT_UNAVAILABLE`” | `serve` 正常启动（health 显示 agent 不可用）；是 **`POST /task/start`** 返回 503 | 任务书 `:224` vs `tasks.py:427`（`require_agent`）与 `cli.py:212-278`（serve 不检查 agent） |
 | 3 | §3.9 “从 `benchmarks/task-launcher/cases/*.json` 读取一个请求” | stub connector 用 `--case <文件路径>` 指定单个请求，不扫描目录 | 任务书 `:276` vs `stub_connector.py:257-270` |
-| 4 | §3.2 “所有响应为 JSON” | `GET/POST` 范围内的已知端点满足；未实现的动词（`PUT`/`DELETE`…）由标准库返回 `501` 文本 | 任务书 `:137` vs `server.py:81-85`（只定义 `do_GET`/`do_POST`） |
+| 4 | §3.2 “所有响应为 JSON” | **已满足**：所有动词都返回 JSON；`PUT`/`PATCH` 等对已知路径 → `405` JSON，`HEAD` 只回头 | 任务书 `:137` vs `server.py`（`do_GET/POST/DELETE/PUT/PATCH/HEAD`） |
 
 ### 12.2 实现边界（本文档已按实际写入，提醒接入方）
 
 | # | 现象 | 影响 | 位置 |
 |---|---|---|---|
-| 1 | 超 `max_events` 时进程树会被杀，但 `result.kill` 记录为默认“已退出” | `kill.method` 不反映实际终止方式 | `tasks.py:674-687` 杀树但未保存返回值；`:650` 用默认值兜底 |
-| 2 | HTTP `/health` 的 `status` 恒为 `"ok"` | 版本不可读时看 `skill_version`/`plugin_version` 是否为 `null`；CLI 本地 `health` 会报 `degraded` | `tasks.py:302-312`、`cli.py:197-206` |
-| 3 | 终态标志与 `result.json` 落盘之间有极短窗口 | `terminal:true` 后可能短暂 `409 RESULT_NOT_READY` | `tasks.py:648-651`（先 `set_status`，再 `_finalize`） |
-| 4 | `MAX_EVENTS_EXCEEDED` 有映射但当前不抛出 | 以 `status=failed` + `max_events_exceeded:true` 表达 | `protocol.py:87` |
-| 5 | 终态任务也占用 `task_id`（直到重启） | 同一 id 不能重复使用；重启会清空旧任务目录 | `tasks.py:409-446`、`tasks.py:448-453` |
-| 6 | 真实 Claude 通道未运行 | 所有真实模型结论均为 `NOT RUN` | 任务范围（§10） |
+| 1 | 超 `max_events` 时进程树会被杀，`result.kill` 记录实际终止方式 | 已修复（#84） | `tasks.py` `_pump_stdout` 保存 `kill_tree()` 返回值；`test_limits.py` 断言 |
+| 2 | HTTP `/health` 返回 `ok`/`degraded` + `degraded_reasons` | 已修复（#85）；CLI 本地 `health` 与 HTTP 共用同一判定 | `tasks.py::health`、`cli.py::cmd_health` |
+| 3 | 终态标志与 `result.json` 落盘之间有极短窗口 | 客户端仍应重试；非本次修复范围 | `tasks.py::_run_task` → `_finalize` |
+| 4 | `MAX_EVENTS_EXCEEDED` 曾是死码 | 已修复（#87）：删除 HTTP 映射，结果文档带稳定 `error.code` | `protocol.py`、`tasks.py::_finalize` |
+| 5 | 终态任务占用 `task_id` 直到重启 | 已修复（#83）：`GET /tasks`、`DELETE /task/<id>`、`--task-ttl-s` 与 id 复用 | `tasks.py`、`server.py` |
+| 6 | 真实 Claude 通道未运行 | 默认 `NOT RUN`；新增 env-gated 只读验收用例（`EASYCIRQ_REAL_CLAUDE=1`）但本机未执行 | `test_real_claude_optional.py` |
+| 7 | Agent CLI 参数漂移未探测 | 已修复（#79）：启动前 `--version`/`--help` 离线探测，health 给出 `agent_cli` 与降级原因 | `agent.py::probe_cli_routing_support`、`tasks.py::_probe_agent_cli` |
+| 8 | `mcp.json` 硬编码 `python` | 已修复（#89）：默认使用 launcher 解释器，`--mcp-python` 可覆盖 | `mcpconfig.py`、`cli.py` |
 
 ### 12.3 待验证（NOT RUN / 待运行）
 
-- 真实 Claude Code 只读任务：**NOT RUN**（需要 `--agent-profile claude --claude-exe <path>`
-  显式开启；结果应记录 `agent:"claude-code"`、`model_used:"unknown"`）。
+- 真实 Claude Code 只读任务：**NOT RUN**（`tests/task_launcher_tests/test_real_claude_optional.py`
+  默认 skip；仅 `EASYCIRQ_REAL_CLAUDE=1` 且本机已登录 CLI 时运行，结果记录
+  `agent:"claude-code"`、`model_used:"unknown"`、`real_eda:"NOT RUN"`）。
 - `benchmarks/task-launcher/` 的基准通过数与耗时：**待运行**，以
   `benchmarks/task-launcher/results.json` 与实际命令输出为准。
 - `tests/task_launcher_tests/` 的实际用例数与全量套件结果：以 `python -m unittest discover`

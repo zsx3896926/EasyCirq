@@ -104,7 +104,7 @@ AGENT_PROFILE_CLAUDE = "claude"
 AGENT_PROFILES = (AGENT_PROFILE_FAKE, AGENT_PROFILE_CLAUDE)
 
 #: Fake agent scenarios consumed by ``task_launcher.fake_agent``.
-FAKE_SCENARIOS = ("stream", "slow", "stuck", "badjson", "fail")
+FAKE_SCENARIOS = ("stream", "slow", "stuck", "badjson", "fail", "spam")
 DEFAULT_FAKE_SCENARIO = "stream"
 
 #: Terminal and non-terminal task states.

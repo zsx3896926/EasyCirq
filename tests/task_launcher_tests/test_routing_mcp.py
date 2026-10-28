@@ -23,6 +23,7 @@ No test calls EDA, a daemon, a connector, the network or a real Claude Code.
 from __future__ import annotations
 
 import json
+import sys
 import unittest
 from pathlib import Path
 
@@ -129,7 +130,7 @@ class RoutingAndMcpTests(unittest.TestCase):
         self.assertEqual(set(servers), {MCP_SERVER_NAME})
 
         entry = servers[MCP_SERVER_NAME]
-        self.assertEqual(entry.get("command"), "python")
+        self.assertEqual(entry.get("command"), sys.executable)
         self.assertEqual(entry.get("args"), ["-m", MCP_MODULE])
         env = entry.get("env")
         self.assertIsInstance(env, dict, entry)
@@ -152,7 +153,7 @@ class RoutingAndMcpTests(unittest.TestCase):
         self.assertEqual(set(servers), {MCP_SERVER_NAME})
 
         entry = servers[MCP_SERVER_NAME]
-        self.assertEqual(entry.get("command"), "python")
+        self.assertEqual(entry.get("command"), sys.executable)
         self.assertEqual(entry.get("args"), ["-m", MCP_MODULE])
         env = entry.get("env")
         self.assertIsInstance(env, dict, entry)

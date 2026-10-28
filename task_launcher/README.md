@@ -80,6 +80,15 @@ python -m task_launcher run --request benchmarks/task-launcher/cases/happy-read-
   任何替换模板缺少其中任意一个都会被拒绝启动。
 - token 只放内存/受权限保护的文件；工作区证据、`agent.command.json`、结果里都不出现 token。
 - 超时/取消会终止整棵进程树（Windows `taskkill /T`，POSIX 进程组），不留孤儿进程。
+- `GET /health` 返回 `ok`/`degraded` 与 `degraded_reasons`（Skill/plugin 不可读、Agent 不可用、
+  CLI 路由参数不可用），并给出离线 CLI 探测结果 `agent_cli`（只跑 `--version`/`--help`）。
+- 注册表端点：`GET /tasks`、`DELETE /task/<id>`（仅终态）；`--task-ttl-s N` 可自动清理终态任务
+  及其工作区（默认 `0` = 关闭）。删除/TTL 后同一 `task_id` 可复用。
+- 所有 HTTP 动词（含 `PUT`/`PATCH`/`DELETE`/`HEAD`）都返回 JSON 错误封装；`HEAD` 无正文。
+- `mcp.json` 的 `command` 默认是 launcher 自身的解释器（不再硬编码 `python`），
+  `--mcp-python <path>` 可显式覆盖。
+- 结果与 start/status 的 Agent 字段统一：`agent` = `fake`/`claude-code`，
+  `agent_profile` = `fake`/`claude`。
 
 ## 测试与基准
 
@@ -95,16 +104,20 @@ python benchmarks/task-launcher/run_benchmark.py # 冻结基准（fake agent）
 ## 已知限制
 
 - 2026-10 仓库/Skill 重命名为 **EasyCirq**（目录 `easycirq/`）：launcher 自动探测
-  `easycirq/` 与旧 `easycirq/`；plugin 包名仍为 `easycirq-skill`，plugin 内
+  `easycirq/` 与旧 `design-hardware/`；plugin 包名为 `easycirq-skill`，plugin 内
   `skills/<skill-name>/` 跟随实际 Skill 名。
 
-- 真实 Claude 只作可选验证：未在本任务中运行时报 `NOT RUN`；可用 `--agent-profile claude
-  --claude-exe <path>` 手动跑一次只读任务（结果记录 `agent:"claude-code"`、`model_used:"unknown"`）。
+- 真实 Claude 只作可选验证：默认 `NOT RUN`；可用 `--agent-profile claude --claude-exe <path>`
+  手动跑一次只读任务（结果记录 `agent:"claude-code"`、`model_used:"unknown"`）。另有一个
+  env-gated 用例 `tests/task_launcher_tests/test_real_claude_optional.py`，仅
+  `EASYCIRQ_REAL_CLAUDE=1` 时运行，默认在 CI 跳过。
 - 本机核对：Claude Code 2.1.303 的 `claude --help` 列出 `--plugin-dir`、`--mcp-config`、
   `-p/--print`、`--output-format`、`--permission-mode`、`--allowedTools`、`--add-dir` 与
   `--append-system-prompt`；`--append-system-prompt-file` 未在 help 正文列出，但 2.1.303 CLI
   接受该参数（实测参数解析通过）。帮助文本会随版本变化，以开工时本机 `claude --help` 为准。
 - plugin 缓存以 Skill 指纹为 key；同一 Skill 版本内容变了（未改 `.version` 也会）会触发重建。
-- 任务插件的 622 个文件在支持硬链接的同一卷上按硬链接物化；跨卷时退化为复制（更慢）。
+- 任务插件约 630 个文件在支持硬链接的同一卷上按硬链接物化；跨卷时退化为复制（更慢）。
+- `DELETE /task/<id>` 与 TTL 清理会**连同工作区证据一起删除**；需要长期保留证据时先复制
+  `tasks/<id>/` 或关闭 TTL。
 - 尚未接入真实 EDA 插件菜单、daemon 写门禁或 Phase 2 WebSocket；见
   `docs/parallel-task-launcher/integration-proposal.md`。

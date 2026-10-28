@@ -184,6 +184,7 @@ class LauncherProcess:
         fake_scenario: str = "stream",
         max_concurrent: int = 1,
         agent_argv_template: Path | None = None,
+        extra_args: list[str] | None = None,
         token: str = "test-token-0123456789abcdef0123456789abcdef",
         fixed_token: bool = True,
         keep_state: bool = False,
@@ -239,6 +240,8 @@ class LauncherProcess:
             argv.extend(["--claude-exe", claude_exe])
         if agent_argv_template is not None:
             argv.extend(["--agent-argv-template", str(agent_argv_template)])
+        if extra_args:
+            argv.extend([str(item) for item in extra_args])
 
         env = dict(os.environ)
         env["PYTHONPATH"] = str(ROOT)
