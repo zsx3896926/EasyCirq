@@ -1,9 +1,9 @@
 {
 	"name": "easycirq-connector",
-	"uuid": "9e378fdb9cb14f2abdb218ad2e437f69",
+	"uuid": "1d2fa854824d46f995508d7605b7d162",
 	"displayName": "智构 · EasyCirq 连接器",
 	"description": "智构 · EasyCirq 连接器：把本机 EasyCirq 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
-	"version": "1.0.16",
+	"version": "1.0.17",
 	"publisher": "zsx3896926",
 	"engines": {
 		"eda": ">=3.2.0"
