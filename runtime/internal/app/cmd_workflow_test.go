@@ -10,15 +10,15 @@ func TestWorkflowAdvanceBlocked(t *testing.T) {
 	// Every `next` workflowNext can emit, so a wording change here can't silently
 	// turn a human-sign-off stop back into an exit 0.
 	const (
-		nextSetAssembly    = "zhigou pcb stage set-assembly --profile hand-solder|reflow"
-		nextImport         = "zhigou pcb import-changes"
-		nextLayoutLint     = "zhigou pcb layout-lint --gate"
-		nextConfirmLayout  = "zhigou pcb stage confirm-layout --note \"...\""
-		nextOutlineFit     = "zhigou pcb outline-fit"
-		nextConfirmOutline = "zhigou pcb stage confirm-outline --note \"...\""
-		nextRoute          = "zhigou pcb route-short   (or autoroute)"
-		nextAdvance        = "zhigou workflow advance   (runs the pcb-check gate)"
-		nextDelivery       = "zhigou pcb silk-align && pcb drc && pcb save   (P9/P10 delivery)"
+		nextSetAssembly    = "easycirq pcb stage set-assembly --profile hand-solder|reflow"
+		nextImport         = "easycirq pcb import-changes"
+		nextLayoutLint     = "easycirq pcb layout-lint --gate"
+		nextConfirmLayout  = "easycirq pcb stage confirm-layout --note \"...\""
+		nextOutlineFit     = "easycirq pcb outline-fit"
+		nextConfirmOutline = "easycirq pcb stage confirm-outline --note \"...\""
+		nextRoute          = "easycirq pcb route-short   (or autoroute)"
+		nextAdvance        = "easycirq workflow advance   (runs the pcb-check gate)"
+		nextDelivery       = "easycirq pcb silk-align && pcb drc && pcb save   (P9/P10 delivery)"
 	)
 
 	cases := []struct {

@@ -7,7 +7,7 @@
       "before": "0.7.0",
       "after": "0.8.0",
       "rollback": "0.7.0",
-      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\claude\\.claude\\.hardware-design-skill-state\\f403e4fa49338eaa\\.design-hardware-backup-1792981139915589400",
+      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\claude\\.claude\\.EasyCirq-state\\f403e4fa49338eaa\\.design-hardware-backup-1792981139915589400",
       "installed_selftest_exit": 0,
       "project_unchanged": true
     },
@@ -17,7 +17,7 @@
       "before": "0.7.0",
       "after": "0.8.0",
       "rollback": "0.7.0",
-      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\codex\\.codex\\.hardware-design-skill-state\\9dbcd5a384fceb67\\.design-hardware-backup-1792981145488944900",
+      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\codex\\.codex\\.EasyCirq-state\\9dbcd5a384fceb67\\.design-hardware-backup-1792981145488944900",
       "installed_selftest_exit": 0,
       "project_unchanged": true
     },
@@ -27,7 +27,7 @@
       "before": "0.7.0",
       "after": "0.8.0",
       "rollback": "0.7.0",
-      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\workbuddy\\.workbuddy\\.hardware-design-skill-state\\d509f6f038faf88a\\.design-hardware-backup-1792981150745576100",
+      "backup": "C:\\Users\\jlc\\tmp\\hds-updater-lifecycle\\workbuddy\\.workbuddy\\.EasyCirq-state\\d509f6f038faf88a\\.design-hardware-backup-1792981150745576100",
       "installed_selftest_exit": 0,
       "project_unchanged": true
     }

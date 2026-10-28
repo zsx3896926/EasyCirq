@@ -22,11 +22,11 @@ import (
 const maxSchImageSourceBytes = 8 << 20
 const maxSchImagePixels = 16_000_000
 
-// newSchImageCmd wires `zhigou sch image create/list/modify` — the CLI path
+// newSchImageCmd wires `easycirq sch image create/list/modify` — the CLI path
 // for issue #272's schematic reference images (non-electrical PNG/JPEG/SVG
 // artwork placed beside the circuit: a module photo, dimension drawing, or
 // pinout diagram). Deletion reuses the existing generic
-// `zhigou sch prim-delete` (schematic.primitives.delete already routes any
+// `easycirq sch prim-delete` (schematic.primitives.delete already routes any
 // primitiveId — including these — through sch_PrimitiveObject.delete), so no
 // separate delete verb is added here.
 func newSchImageCmd(cfg *appConfig, window *string, stdout, stderr io.Writer) *cobra.Command {
@@ -42,7 +42,7 @@ copper.
 COORDINATES ARE SCHEMATIC raw units (0.01 inch, y-UP) — NOT the PCB domain's
 mil. This is the same unit convention as ` + "`sch place`" + `'s --x/--y.
 
-To delete an image, use ` + "`zhigou sch prim-delete --id <primitiveId>`" + `
+To delete an image, use ` + "`easycirq sch prim-delete --id <primitiveId>`" + `
 (schematic.primitives.delete already routes any primitive id through the
 correct delete path — no separate ` + "`sch image delete`" + ` exists).`,
 	}
@@ -85,9 +85,9 @@ complete PNG/JPEG decoding or SVG root and source dimensions, resolved
 positive finite width/height) without contacting the connector. Sources are
 limited to 8 MiB and raster images to 16 million pixels. Coordinates and
 rotation must be finite; an explicitly supplied dimension must be positive.`,
-		Example: `  zhigou sch image create --file ./module-photo.png --x 2000 --y -1000
-  zhigou sch image create --file ./pinout.svg --x 0 --y 0 --width 800 --dry-run
-  zhigou sch image create --file "接口示意图.jpg" --x 500 --y -500 --rotation 90`,
+		Example: `  easycirq sch image create --file ./module-photo.png --x 2000 --y -1000
+  easycirq sch image create --file ./pinout.svg --x 0 --y 0 --width 800 --dry-run
+  easycirq sch image create --file "接口示意图.jpg" --x 500 --y -500 --rotation 90`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if file == "" {
 				return fmt.Errorf("--file is required")
@@ -171,8 +171,8 @@ func newSchImageListCmd(cfg *appConfig, window *string, stdout, stderr io.Writer
 ACTIVE schematic page. Page-lazy-load law applies: only the active page's
 images are returned; switch pages with --page or ` + "`doc switch`" + ` to sweep a
 multi-page project. The raw file content is never returned — geometry only.`,
-		Example: `  zhigou sch image list
-  zhigou sch image list --page P2`,
+		Example: `  easycirq sch image list
+  easycirq sch image list --page P2`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if page != "" {
 				scope, err := switchToPage(cfg, *window, page)
@@ -206,8 +206,8 @@ can change — replacing the artwork itself is a new ` + "`sch image create`" + 
 patch. Verified by readback: if only some fields actually applied, the result
 reports partial:true + notApplied[] rather than failing outright (the canvas
 already changed for whatever DID apply).`,
-		Example: `  zhigou sch image modify --id abc123 --x 3000 --y -1500
-  zhigou sch image modify --id abc123 --rotation 180 --mirror`,
+		Example: `  easycirq sch image modify --id abc123 --x 3000 --y -1500
+  easycirq sch image modify --id abc123 --rotation 180 --mirror`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if id == "" {
 				return fmt.Errorf("--id is required")

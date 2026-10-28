@@ -501,7 +501,7 @@ func runAutolayout(cfg *appConfig, window string, spec alSpec, rules autolayoutR
 		parts, sheet = parseAutolayoutParts(res.Result)
 	}
 	if apply && sheet == nil {
-		return fmt.Errorf("autolayout: no sheet bbox found; select/create an A4 sheet and verify with 'zhigou sch sheet-geometry' before --apply")
+		return fmt.Errorf("autolayout: no sheet bbox found; select/create an A4 sheet and verify with 'easycirq sch sheet-geometry' before --apply")
 	}
 
 	modules := make([]alModuleSpec, 0, len(spec.Modules))
@@ -1045,11 +1045,11 @@ Spec shape:
               "preferVerticalPeripheralPlacement":true}
   }`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou sch autolayout --spec p1-layout.json --dry-run
-  zhigou sch autolayout --spec p1-layout.json --doc P1_MCU_USB_STORAGE --apply
-  zhigou sch autolayout --spec p1-layout.json --json
-  zhigou sch autolayout --engine official --apply             # unwired page: place only
-  zhigou sch autolayout --engine official --apply --rewire    # wired page: layout + rebuild wiring`,
+		Example: `  easycirq sch autolayout --spec p1-layout.json --dry-run
+  easycirq sch autolayout --spec p1-layout.json --doc P1_MCU_USB_STORAGE --apply
+  easycirq sch autolayout --spec p1-layout.json --json
+  easycirq sch autolayout --engine official --apply             # unwired page: place only
+  easycirq sch autolayout --engine official --apply --rewire    # wired page: layout + rebuild wiring`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dryRun && apply {
 				return fmt.Errorf("--dry-run and --apply are mutually exclusive")

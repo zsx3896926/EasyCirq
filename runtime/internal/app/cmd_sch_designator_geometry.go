@@ -61,8 +61,8 @@ hidden, mismatched or invalid geometry fails the whole export before writing --o
 The designators[].bbox values can be copied by parentId into source
 measurement.textBboxes; preserve this raw export as measurement provenance.
 No other component attributes, arbitrary JavaScript, or EDA mutations are used.`,
-		Example: `  zhigou sch designator-geometry --project ceshi --doc <page-uuid> --out designators.json
-  zhigou sch designator-geometry --project ceshi --doc <page-uuid>`,
+		Example: `  easycirq sch designator-geometry --project ceshi --doc <page-uuid> --out designators.json
+  easycirq sch designator-geometry --project ceshi --doc <page-uuid>`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			pinned, win, doc, err := pinZonePage(cfg, *window)

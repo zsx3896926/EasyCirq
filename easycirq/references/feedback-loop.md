@@ -18,7 +18,7 @@ JSON、规则编号或专业表格。
 
 ## 2. 六个稳定能力入口
 
-所有命令都接受 `--zhigou <path>`（测试缝）和 `--timeout`，输出带 `schema` 的
+所有命令都接受 `--easycirq <path>`（测试缝）和 `--timeout`，输出带 `schema` 的
 JSON；只读命令（`probe/observe/intent/evaluate/preview/readback/status/
 case-search`）绝不写入工程。
 
@@ -171,7 +171,7 @@ structural → host_readback → erc_drc → simulation → manufacturing → ph
 
 ## 9. 离线与真机
 
-- 单元/集成测试用注入的 fake runner，不解析 PATH 上的 `zhigou`；离线套件
+- 单元/集成测试用注入的 fake runner，不解析 PATH 上的 `easycirq`；离线套件
   `tools/offline_suite.py` 会拦截真实 CLI 与网络；
 - mock 的名称、输入和证据必须标 `simulated`，mock 保存不能冒充真实宿主保存；
 - 真实 EDA 调用失败、宿主不可用或用户要求停手时，完成离线可做部分，真机项写

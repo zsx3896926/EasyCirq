@@ -2641,33 +2641,33 @@ def _next_command(stages, ctx):
                 '--intent <intent.json> --out %s --json'
                 % (case, os.path.join(evidence, 'constraints.json')))
     if stage_id == 'PG2_layout':
-        return ('zhigou pcb layout-lint --json --project %s --doc %s > %s'
+        return ('easycirq pcb layout-lint --json --project %s --doc %s > %s'
                 % (project, doc, os.path.join(evidence, 'pcb-layout-lint.json')))
     if stage_id == 'PG3_drc':
-        return ('zhigou pcb drc --json --timeout 120 --project %s --doc %s > %s'
+        return ('easycirq pcb drc --json --timeout 120 --project %s --doc %s > %s'
                 % (project, doc, os.path.join(evidence, 'pcb-drc.json')))
     if stage_id == 'PG4_check':
-        return ('zhigou pcb check --json --project %s --doc %s > %s ; then write '
+        return ('easycirq pcb check --json --project %s --doc %s > %s ; then write '
                 'a warn-disposition file and rerun the gate'
                 % (project, doc, os.path.join(evidence, 'pcb-check.json')))
     if stage_id == 'PG5_netpath':
-        return ('zhigou pcb net-path --from D.PAD --to D.PAD --net NET --json '
+        return ('easycirq pcb net-path --from D.PAD --to D.PAD --net NET --json '
                 '--project %s --doc %s > %s'
                 % (project, doc, os.path.join(evidence, 'netpath-key-connections.json')))
     if stage_id == 'PG6_sch_pcb':
-        return ('zhigou sch read --project %s --out %s ; then rerun with --sch '
+        return ('easycirq sch read --project %s --out %s ; then rerun with --sch '
                 'and --dump-after' % (project,
                                       os.path.join(evidence, 'sch-read.json')))
     if stage_id == 'PG7_save_reload':
-        return ('zhigou pcb save --project %s --doc %s ; zhigou doc reload %s '
-                '--project %s --json ; zhigou pcb dump --project %s --doc %s '
+        return ('easycirq pcb save --project %s --doc %s ; easycirq doc reload %s '
+                '--project %s --json ; easycirq pcb dump --project %s --doc %s '
                 '--include-copper --out %s'
                 % (project, doc, doc, project, project, doc,
                    os.path.join(evidence, 'pcb-dump-after-reload.json')))
     if stage_id == 'PG8_delivery':
-        return ('zhigou pcb stage-snapshot --stage top --project %s --doc %s --out %s '
-                '; zhigou pcb stage-snapshot --stage bottom --project %s --doc %s '
-                '--out %s ; zhigou pcb layout render --actual --board %s --side both '
+        return ('easycirq pcb stage-snapshot --stage top --project %s --doc %s --out %s '
+                '; easycirq pcb stage-snapshot --stage bottom --project %s --doc %s '
+                '--out %s ; easycirq pcb layout render --actual --board %s --side both '
                 '--out %s'
                 % (project, doc, evidence, project, doc, evidence,
                    os.path.join(evidence, 'pcb-dump-final.json'),

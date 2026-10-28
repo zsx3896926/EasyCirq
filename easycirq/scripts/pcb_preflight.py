@@ -290,7 +290,7 @@ def _new_report(board, dump, plan, plan_supplied):
                    'hard_fail': 0, 'hard_unmeasured': 0},
         'board': summary,
         'notes': [
-            'offline preflight: no zhigou command is executed',
+            'offline preflight: no easycirq command is executed',
             'hard check fail/unmeasured blocks; advisory items only cause review',
             'preferred constraints are advisory by contract and never block',
             'near_pin distances are pad-centre measurements, not copper-path proofs',

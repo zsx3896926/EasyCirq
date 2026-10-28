@@ -6,19 +6,19 @@
   "createdAt": "2026-10-27T15:34:04.1772925Z",
   "ok": true,
   "result": {
-    "friendlyName": "zhigou-dual-button-led-restore-20261027",
+    "friendlyName": "easycirq-dual-button-led-restore-20261027",
     "opened": true,
     "uuid": "4f9db8f9cdd743fc9a197589baabf21a",
     "verified": true
   },
   "context": {
     "projectUuid": "4f9db8f9cdd743fc9a197589baabf21a",
-    "projectName": "zhigou-dual-button-led-restore-20261027",
+    "projectName": "easycirq-dual-button-led-restore-20261027",
     "pageVisibility": "hidden"
   },
   "mutationContext": {
     "projectUuid": "4f9db8f9cdd743fc9a197589baabf21a",
-    "projectName": "zhigou-dual-button-led-restore-20261027",
+    "projectName": "easycirq-dual-button-led-restore-20261027",
     "pageVisibility": "hidden"
   },
   "mutationContextAvailable": false,

@@ -1,14 +1,14 @@
 # 制造资料导出清单（G6 待办）
 
-> 本版本 `zhigou capabilities` 中 `gerber.export`/`drill.export`/`cpl.export` 均为
+> 本版本 `easycirq capabilities` 中 `gerber.export`/`drill.export`/`cpl.export` 均为
 > `gui_only`（typed action 目录不存在），因此只能在 EasyEDA Pro GUI 导出，人工落证据。
 > 导出后放入 `docs/toolchain-integration/evidence/gates/manufacturing/` 并在
 > `design-state.manufacturing.artifacts` 登记 role/path。
 
 ## 1. Gerber
-1. EasyEDA Pro 打开 `zhigou-integrated-dual-button-led-20261027` → PCB1；
+1. EasyEDA Pro 打开 `easycirq-integrated-dual-button-led-20261027` → PCB1；
 2. 「制造 → 导出 Gerber」：层选 TOP/BOTTOM/丝印/阻焊/板框（两层板标准集合）；
-3. 命名 `zhigou-dual-button-led-{rev}-gerber.zip`，落到上面目录；
+3. 命名 `easycirq-dual-button-led-{rev}-gerber.zip`，落到上面目录；
 4. 校验：zip 可打开、层文件数与层数一致、板框层存在、文件非空。
 
 ## 2. 钻孔

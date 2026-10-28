@@ -4,7 +4,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // pcb_antenna_keepout.go — auto-generate the all-layer no-copper keep-out for an

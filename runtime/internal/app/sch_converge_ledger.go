@@ -47,7 +47,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // schConvergeDefaultMaxAttempts 是默认上限。
@@ -116,7 +116,7 @@ type schConvergeLedger struct {
 	path string // 不落盘
 }
 
-// schConvergeLedgerPath 与 workflow 状态同目录(~/.zhigou/workflow/),
+// schConvergeLedgerPath 与 workflow 状态同目录(~/.easycirq/workflow/),
 // 但**是独立文件**:台账是可丢弃的诊断数据,不该和工作流阶段门(会被 confirm /
 // fingerprint 校验)搅在一个 JSON 里 —— 一方写坏不该拖垮另一方。
 //
@@ -233,7 +233,7 @@ func (s *schConvergeStop) message() string {
 	if advice != "" {
 		b.WriteString("\n下一步:" + advice)
 	} else {
-		b.WriteString("\n下一步二选一:① 让这个目标独占一页(`zhigou sch page-new --schematic <原理图UUID>` 后在新页重放);" +
+		b.WriteString("\n下一步二选一:① 让这个目标独占一页(`easycirq sch page-new --schematic <原理图UUID>` 后在新页重放);" +
 			"② 继续分页 —— 把本页其余模块搬走腾出整幅。")
 	}
 	b.WriteString("\n(确认还要再试一次:加 `--max-attempts 0` 关闭上限;或先做出实质改变——" +

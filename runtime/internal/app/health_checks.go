@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// healthCheck is one line of the onboarding checklist `zhigou health` prints:
+// healthCheck is one line of the onboarding checklist `easycirq health` prints:
 // what is being checked, whether it holds, and — when it does not — the exact
 // next step. The JSON envelope keeps every raw field; this is the one-screen
 // answer to "is everything ready, and if not, what do I do".
@@ -23,8 +23,8 @@ type healthCheck struct {
 func healthChecks(r healthResult) []healthCheck {
 	if r.Found == nil {
 		return []healthCheck{{Name: "daemon", Status: "fail",
-			Detail: fmt.Sprintf("%s 端口 %s 上没有 zhigou daemon", r.Host, r.Ports),
-			Fix:    "运行 `zhigou daemon start`（或任意 zhigou 命令会自动在后台启动它）"}}
+			Detail: fmt.Sprintf("%s 端口 %s 上没有 easycirq daemon", r.Host, r.Ports),
+			Fix:    "运行 `easycirq daemon start`（或任意 easycirq 命令会自动在后台启动它）"}}
 	}
 	var raw struct {
 		Version string `json:"version"`
@@ -43,7 +43,7 @@ func healthChecks(r healthResult) []healthCheck {
 	if len(raw.Windows) == 0 {
 		return append(out, healthCheck{Name: "connector", Status: "fail",
 			Detail: "没有 EasyEDA 窗口连上 daemon",
-			Fix:    "运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"})
+			Fix:    "运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"})
 	}
 	var versions []string
 	for _, w := range raw.Windows {
@@ -57,12 +57,12 @@ func healthChecks(r healthResult) []healthCheck {
 	if g := r.VersionGate; g != nil {
 		c := healthCheck{Name: "versions", Status: "ok", Detail: strings.TrimSpace(strings.TrimLeft(versionGateSummary(*g), "✓⚠·✗ "))}
 		if g.Verdict == versionSevWarn || g.Verdict == versionSevBlock {
-			c.Status, c.Fix = "warn", "运行 `zhigou update --check` 查看差异；按提示 `zhigou update`，连接器需重新导入对应版本 .eext"
+			c.Status, c.Fix = "warn", "运行 `easycirq update --check` 查看差异；按提示 `easycirq update`，连接器需重新导入对应版本 .eext"
 		}
 		out = append(out, c)
 	}
 	if h := r.HostCompatibility; h != nil {
-		c := healthCheck{Name: "zhigou", Status: "ok", Detail: strings.TrimSpace(strings.TrimLeft(hostCompatibilitySummary(*h), "✓⚠·✗ "))}
+		c := healthCheck{Name: "easycirq", Status: "ok", Detail: strings.TrimSpace(strings.TrimLeft(hostCompatibilitySummary(*h), "✓⚠·✗ "))}
 		switch h.Verdict {
 		case versionSevBlock:
 			c.Status, c.Fix = "fail", "升级 EasyEDA Pro 到 V4（推荐 "+h.Recommended+" 或更新）"
@@ -106,6 +106,6 @@ func printHealthChecklist(w io.Writer, checks []healthCheck) {
 	if ready {
 		fmt.Fprintln(w, "就绪：可以开始操作 EasyEDA。")
 	} else {
-		fmt.Fprintln(w, "未就绪：按 → 的步骤处理后重跑 `zhigou health`。")
+		fmt.Fprintln(w, "未就绪：按 → 的步骤处理后重跑 `easycirq health`。")
 	}
 }

@@ -26,7 +26,7 @@ func newPcbExport3DCmd(cfg *appConfig, window *string, stdout, stderr io.Writer)
 		Use: "export-3d", Short: "Export real PCB OBJ/STEP with version-bound readbacks and file integrity checks",
 		Long:    "Export the active PCB using official beta get3DFile. Requires --window and a NEW --out directory.\nCaptures full board readbacks before/after and refuses changed versions or unknown observations.\nPreserves the official file (including ZIP containers), checks SHA-256, size and model syntax.\nModel bindings do not prove exported coverage; inspect the resulting 3D independently.\nNo save/reload or design changes. Files over 20 MiB are refused before transfer.\nSTEP only includes components imported as STEP. Placeholders default off.",
 		Args:    cobra.NoArgs,
-		Example: "  zhigou pcb export-3d --format obj --project <uuid> --doc <pcb-uuid> --window <id> --out ./board-3d\n  zhigou pcb export-3d --format step --window <id> --out ./board-step",
+		Example: "  easycirq pcb export-3d --format obj --project <uuid> --doc <pcb-uuid> --window <id> --out ./board-3d\n  easycirq pcb export-3d --format step --window <id> --out ./board-step",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			if *window == "" || out == "" {
 				return fmt.Errorf("--window and a new --out directory are required")

@@ -19,8 +19,8 @@ func TestModifyPatchWindowsPowerShell51(t *testing.T) {
 		t.Fatal(err)
 	}
 	dir := t.TempDir()
-	binary := filepath.Join(dir, "zhigou.exe")
-	build := exec.Command("go", "build", "-o", binary, "../../cmd/zhigou")
+	binary := filepath.Join(dir, "easycirq.exe")
+	build := exec.Command("go", "build", "-o", binary, "../../cmd/easycirq")
 	if out, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("build: %v\n%s", err, out)
 	}
@@ -40,7 +40,7 @@ exit $LASTEXITCODE
 				t.Fatal(err)
 			}
 			cmd := exec.Command(ps, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", script, binary, filepath.Join(dir, "patch with spaces.json"), cfg.host, cfg.ports, domain)
-			cmd.Env = append(os.Environ(), "ZHIGOU_AUDIT_DIR="+filepath.Join(dir, "state"))
+			cmd.Env = append(os.Environ(), "EASYCIRQ_AUDIT_DIR="+filepath.Join(dir, "state"))
 			if out, err := cmd.CombinedOutput(); err != nil {
 				t.Fatalf("PowerShell: %v\n%s", err, out)
 			}

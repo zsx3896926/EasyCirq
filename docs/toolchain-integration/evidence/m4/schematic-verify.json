@@ -1,6 +1,6 @@
 {
-  "schema": "zhigou-m4-schematic-verify/v1",
-  "project": "zhigou-integrated-dual-button-led-20261027",
+  "schema": "easycirq-m4-schematic-verify/v1",
+  "project": "easycirq-integrated-dual-button-led-20261027",
   "page": "P1",
   "componentCount": 20,
   "netCount": 7,

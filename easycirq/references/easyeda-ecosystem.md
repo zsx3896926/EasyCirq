@@ -31,7 +31,7 @@ python scripts/ecosystem.py run --tool files -- inspect --input project.epro2
 
 ## 官方 API/文档资料（只读）与执行层
 
-官方客户端文档/API 资料只用于只读查询与核对签名，不是本Skill的写执行通道；写入只走 `zhigou`。不要混用官方文档示例、窗口 ID、命令参数或就绪结论。API Skill 与
+官方客户端文档/API 资料只用于只读查询与核对签名，不是本Skill的写执行通道；写入只走 `easycirq`。不要混用官方文档示例、窗口 ID、命令参数或就绪结论。API Skill 与
 SDK 资料用于检索签名和枚举，不能覆盖当前宿主实际返回。官方文档声明的
 制造导出能力仍须逐项实际导出、检查非空产物与版本后才能标通过。
 

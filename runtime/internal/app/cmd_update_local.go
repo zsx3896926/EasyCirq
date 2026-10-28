@@ -5,8 +5,8 @@ import (
 	"io"
 	"path/filepath"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 func runLocalUpdate(cfg *appConfig, dir, binary string, check, exitCode, jsonOut bool, out io.Writer) error {
@@ -23,7 +23,7 @@ func runLocalUpdate(cfg *appConfig, dir, binary string, check, exitCode, jsonOut
 			return fmt.Errorf("local installation prints backup paths; --json is check-only")
 		}
 		if binary == "" {
-			return fmt.Errorf("local installation requires --binary /absolute/path/to/zhigou")
+			return fmt.Errorf("local installation requires --binary /absolute/path/to/easycirq")
 		}
 		if err := b.Install(binary, out); err != nil {
 			return err

@@ -16,7 +16,7 @@ test('project source export preserves official archive bytes and checks current 
 	};
 	try {
 		const got: any = await runAction('project.export_source', { uuid: 'project-id' });
-		assert.deepEqual(calls.filter(call => call[0] === 'export'), [['export', 'zhigou-agent-project.epro2', undefined, 'epro2']]);
+		assert.deepEqual(calls.filter(call => call[0] === 'export'), [['export', 'easycirq-agent-project.epro2', undefined, 'epro2']]);
 		const exportIndex = calls.findIndex(call => call[0] === 'export');
 		assert.equal(calls[exportIndex - 1]?.[0], 'current', 'current project must be read before the archive getter');
 		assert.equal(calls[exportIndex + 1]?.[0], 'current', 'current project must be rechecked after the archive getter');

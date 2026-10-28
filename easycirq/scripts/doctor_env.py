@@ -5,9 +5,9 @@ Answers, without writing anything:
   - which agent clients are installed and which skill directory they use;
   - whether easycirq is installed for each client;
   - whether this machine can execute local commands;
-  - one toolchain preflight: ``zhigou doctor`` + ``zhigou capabilities``.
+  - one toolchain preflight: ``easycirq doctor`` + ``easycirq capabilities``.
 
-The executor is the repository's own ``zhigou`` runtime.  There is no second
+The executor is the repository's own ``easycirq`` runtime.  There is no second
 execution route and no upstream CLI to detect: ``doctor_env.py`` reports the
 skill/daemon/connector/protocol facts the runtime prints, and it never claims
 the project is writable.  Writing requires a separate authorized apply, and
@@ -25,7 +25,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import zhigou_cli  # noqa: E402
+import easycirq_cli  # noqa: E402
 
 CLIENTS = [
     {
@@ -56,7 +56,7 @@ CLIENTS = [
 
 SKILL_NAME = 'easycirq'
 LEGACY_SKILL_NAME = 'design-hardware'
-ZHIGOU_DOCTOR_TIMEOUT_S = 30
+EASYCIRQ_DOCTOR_TIMEOUT_S = 30
 
 
 def _expand(path, cwd):
@@ -185,17 +185,17 @@ def _repo_skill(cwd):
     return {'path': str(candidate), 'present': candidate.is_file()}
 
 
-def _zhigou_probe(exe=None, timeout=ZHIGOU_DOCTOR_TIMEOUT_S):
-    """The single toolchain preflight: ``zhigou doctor`` + ``capabilities``.
+def _easycirq_probe(exe=None, timeout=EASYCIRQ_DOCTOR_TIMEOUT_S):
+    """The single toolchain preflight: ``easycirq doctor`` + ``capabilities``.
 
     Both commands are read-only and never start the daemon by themselves; the
     environment disables autostart so a diagnosis cannot change host state.
     """
-    command = zhigou_cli.resolve_bin(exe)
+    command = easycirq_cli.resolve_bin(exe)
     env = dict(os.environ)
-    env.setdefault('ZHIGOU_NO_AUTOSTART', '1')
-    diagnosis = zhigou_cli.doctor(zhigou=exe, timeout=timeout, env=env)
-    negotiation = zhigou_cli.capabilities(zhigou=exe, timeout=timeout, env=env)
+    env.setdefault('EASYCIRQ_NO_AUTOSTART', '1')
+    diagnosis = easycirq_cli.doctor(easycirq=exe, timeout=timeout, env=env)
+    negotiation = easycirq_cli.capabilities(easycirq=exe, timeout=timeout, env=env)
     report = {
         'command': command,
         'doctor_ok': diagnosis['ok'],
@@ -237,10 +237,10 @@ def _zhigou_probe(exe=None, timeout=ZHIGOU_DOCTOR_TIMEOUT_S):
     return report
 
 
-def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=ZHIGOU_DOCTOR_TIMEOUT_S):
+def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=EASYCIRQ_DOCTOR_TIMEOUT_S):
     cwd = str(Path(cwd or os.getcwd()).resolve())
     clients = _client_rows(cwd)
-    zhigou = _zhigou_probe(exe=exe, timeout=timeout)
+    easycirq = _easycirq_probe(exe=exe, timeout=timeout)
     active, active_reason, markers = _detect_active_client(clients, requested=client)
     missing = []
     if active is None:
@@ -252,8 +252,8 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=ZHIGOU_DOC
             missing.append(f"easycirq is not installed for {active['name']}")
         if active.get('legacy_installed') and not active.get('installed'):
             missing.append("legacy design-hardware install found; install easycirq, verify it, then remove the old copy")
-    missing.extend(zhigou['blockers'])
-    if project and (zhigou.get('doctor') or {}).get('daemon', {}).get('status') != 'running':
+    missing.extend(easycirq['blockers'])
+    if project and (easycirq.get('doctor') or {}).get('daemon', {}).get('status') != 'running':
         missing.append('the authorized project copy was not probed: the toolchain is not connected')
     active_view = None
     if active is not None:
@@ -277,17 +277,17 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=ZHIGOU_DOC
         },
         'repo_skill': _repo_skill(cwd),
         'clients': clients,
-        'zhigou': zhigou,
+        'easycirq': easycirq,
         'preflight': {
-            'ready': zhigou['ready'],
-            'blockers': zhigou['blockers'],
+            'ready': easycirq['ready'],
+            'blockers': easycirq['blockers'],
             'not_proven': ['project writability', 'write readback/persistence',
                            'electrical or manufacturing correctness'],
         },
         'missing': missing,
         'notes': [
             'status is evaluated for the active client, not for "any client + any install"',
-            'zhigou doctor/capabilities is the only toolchain preflight; a missing connector is a host-side blocker, not a skill problem',
+            'easycirq doctor/capabilities is the only toolchain preflight; a missing connector is a host-side blocker, not a skill problem',
             'project_writable is never inferred here; verify it with an authorized dry-run/apply plus readback',
             'a project may be readable in half-offline mode; full-online conclusions need the user GUI session',
         ],
@@ -295,9 +295,9 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=ZHIGOU_DOC
 
 
 def render_summary(report):
-    zhigou = report.get('zhigou') or {}
+    easycirq = report.get('easycirq') or {}
     lines = [f"status: {report['status']}  preflight: "
-             f"{'ready' if zhigou.get('ready') else 'blocked'}  cwd: {report['host']['cwd']}"]
+             f"{'ready' if easycirq.get('ready') else 'blocked'}  cwd: {report['host']['cwd']}"]
     active = report.get('active_client')
     if active:
         lines.append(f"active client: {active['name']} ({active['reason']}) "
@@ -313,9 +313,9 @@ def render_summary(report):
             mark = '*' if item['installed'] else ('+' if item['exists'] else '-')
             lines.append(f"      {mark} {item['scope']}: {item['path']}")
     lines.append('')
-    lines.append(f"- zhigou: {zhigou.get('command') or 'not found'}")
-    if zhigou.get('doctor_ok'):
-        doctor = zhigou.get('doctor') or {}
+    lines.append(f"- easycirq: {easycirq.get('command') or 'not found'}")
+    if easycirq.get('doctor_ok'):
+        doctor = easycirq.get('doctor') or {}
         runtime = doctor.get('runtime') or {}
         daemon = doctor.get('daemon') or {}
         connector = doctor.get('connector') or {}
@@ -324,14 +324,14 @@ def render_summary(report):
                      f"daemon: {daemon.get('status') or 'unknown'}  "
                      f"connector: {connector.get('status') or 'unknown'}")
     else:
-        lines.append(f"    doctor: NOT RUN ({zhigou.get('doctor_error') or 'unknown error'})")
-    if zhigou.get('capabilities_ok'):
-        summary = (zhigou.get('capabilities') or {}).get('summary') or {}
+        lines.append(f"    doctor: NOT RUN ({easycirq.get('doctor_error') or 'unknown error'})")
+    if easycirq.get('capabilities_ok'):
+        summary = (easycirq.get('capabilities') or {}).get('summary') or {}
         lines.append(f"    capabilities: supported={summary.get('supported')} "
                      f"unsupported={summary.get('unsupported')} unknown={summary.get('unknown')}")
     else:
-        lines.append(f"    capabilities: NOT RUN ({zhigou.get('capabilities_error') or 'unknown error'})")
-    for step in zhigou.get('next_steps') or []:
+        lines.append(f"    capabilities: NOT RUN ({easycirq.get('capabilities_error') or 'unknown error'})")
+    for step in easycirq.get('next_steps') or []:
         lines.append(f"    next: {step}")
     if report['missing']:
         lines.append('')
@@ -348,13 +348,13 @@ def main(argv=None):
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--cwd', help='workspace to inspect (default: current directory)')
     parser.add_argument('--project', help='optional authorized .eprj2 copy (readability is not probed)')
-    parser.add_argument('--exe', help='path to zhigou (default: ZHIGOU_BIN or PATH)')
+    parser.add_argument('--exe', help='path to easycirq (default: EASYCIRQ_BIN or PATH)')
     parser.add_argument('--client', default='auto',
                         choices=['auto', 'claude-code', 'codex', 'workbuddy'],
                         help='which client to evaluate (default: detect from environment)')
     parser.add_argument('--summary', action='store_true', help='human-readable summary instead of JSON')
-    parser.add_argument('--timeout', type=int, default=ZHIGOU_DOCTOR_TIMEOUT_S,
-                        help='zhigou preflight timeout in seconds (default 30)')
+    parser.add_argument('--timeout', type=int, default=EASYCIRQ_DOCTOR_TIMEOUT_S,
+                        help='easycirq preflight timeout in seconds (default 30)')
     args = parser.parse_args(argv)
     report = diagnose(cwd=args.cwd, project=args.project, exe=args.exe,
                       client=args.client, timeout=args.timeout)

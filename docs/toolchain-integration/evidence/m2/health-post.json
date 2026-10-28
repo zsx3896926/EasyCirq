@@ -4,10 +4,10 @@
   "ports": "23111-23120",
   "found": {
     "port": 23111,
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "raw": {
       "pid": 19464,
-      "service": "zhigou-agent",
+      "service": "easycirq-agent",
       "version": "0.2.1-dev",
       "status": "ok",
       "port": 23111,
@@ -26,7 +26,7 @@
           },
           "context": {
             "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-            "projectName": "zhigou-integrated-dual-button-led-20261027",
+            "projectName": "easycirq-integrated-dual-button-led-20261027",
             "documentUuid": "ee9b284771dad29b",
             "documentType": "schematic",
             "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -78,7 +78,7 @@
           "action": "schematic.save",
           "context": {
             "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-            "projectName": "zhigou-integrated-dual-button-led-20261027",
+            "projectName": "easycirq-integrated-dual-button-led-20261027",
             "documentUuid": "ee9b284771dad29b",
             "documentType": "schematic",
             "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -143,14 +143,14 @@
       "detail": "版本一致性:未判定(dev 构建或无连接器上报版本)"
     },
     {
-      "name": "zhigou",
+      "name": "easycirq",
       "status": "ok",
       "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
     },
     {
       "name": "project",
       "status": "ok",
-      "detail": "zhigou-integrated-dual-button-led-20261027（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）"
+      "detail": "easycirq-integrated-dual-button-led-20261027（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）"
     }
   ],
   "checked": [

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
 type Receiver = (event: { data: string }) => void;
-const handshake = JSON.stringify({ type: 'handshake', service: 'zhigou-agent' });
+const handshake = JSON.stringify({ type: 'handshake', service: 'easycirq-agent' });
 
 // Only worker messages run. Main-thread timers remain queued: this tests the
 // production transport without sleeps or assuming a background timer will fire.

@@ -7,6 +7,6 @@
   "error": {
     "code": "UNKNOWN_ACTION",
     "message": "unknown action: pcb.outline.foreign.scan",
-    "detail": "run `zhigou actions` for the supported set"
+    "detail": "run `easycirq actions` for the supported set"
   }
 }

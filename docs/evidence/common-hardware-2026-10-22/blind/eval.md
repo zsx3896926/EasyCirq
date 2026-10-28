@@ -4,7 +4,7 @@
 
 > 输出文件：`C:\Users\jlc\work\hds-common-scratch\blind\eval.md`
 >
-> 评分对象：`C:\Users\jlc\work\hds-common-scratch\blind\B1.md`–`B6.md`。复核仓库：`C:\Users\jlc\work\hardware-design-skill`（HEAD `0fe5cf80`，工作区含未提交的 common-hardware 内容）。
+> 评分对象：`C:\Users\jlc\work\hds-common-scratch\blind\B1.md`–`B6.md`。复核仓库：`C:\Users\jlc\work\EasyCirq`（HEAD `0fe5cf80`，工作区含未提交的 common-hardware 内容）。
 >
 > 评分口径：路线/证据/计算/误判/诚实各 1–5；总分 1–5 是整份回答的可用性，不是五项相加。5 = 可直接进入下一阶段（仍按 NOT RUN 验证）；4 = 有一处实质修正；3 = 路线或关键证据缺口；2 = 不可用。
 >

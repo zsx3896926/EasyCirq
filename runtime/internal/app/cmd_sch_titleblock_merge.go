@@ -83,7 +83,7 @@ func buildTitleBlockTextPatch(full, patch map[string]any, shown bool) (map[strin
 		out[k] = item
 	}
 	if len(unknown) > 0 {
-		return nil, false, fmt.Errorf("这些明细项当前页没有:%s —— 先跑 `zhigou sch titleblock-get` 看可用 key(平台对不认识的项会崩或静默忽略)",
+		return nil, false, fmt.Errorf("这些明细项当前页没有:%s —— 先跑 `easycirq sch titleblock-get` 看可用 key(平台对不认识的项会崩或静默忽略)",
 			strings.Join(unknown, ", "))
 	}
 	// A text write must not silently choose host defaults for either unknown
@@ -141,10 +141,10 @@ func warnIfSheetLost(cfg *appConfig, window string, stderr io.Writer) error {
 	// 「图框被写坏了」,而那条提示指向的恰恰是唯一真能写坏图框的操作。
 	if rerr != nil {
 		return fmt.Errorf("写图签后无法回读本页图纸几何(%w)—— **未证实**图框是否还在,不要据此执行整包回传;"+
-			"先用 `zhigou sch sheet-geometry` 单独确认", rerr)
+			"先用 `easycirq sch sheet-geometry` 单独确认", rerr)
 	}
 	return fmt.Errorf("写图签后本页找不到图纸边框(sheet 图元的 bbox)—— 停止依赖写入并冻结回读;" +
-		"用 `zhigou sch sheet-geometry` 核对当前状态，不通过 titleblock 回写结构字段恢复图框")
+		"用 `easycirq sch sheet-geometry` 核对当前状态，不通过 titleblock 回写结构字段恢复图框")
 }
 
 // tbRequestedKeys 从用户的 patch 里取出**他真正要写的**明细项名。

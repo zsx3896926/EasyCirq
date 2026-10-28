@@ -1,9 +1,9 @@
 {
   "id": "connector-verify",
-  "title": "zhigou connector verify (.eext vs loaded window)",
+  "title": "easycirq connector verify (.eext vs loaded window)",
   "stage": "preflight",
   "command": [
-    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "connector",
     "verify"
   ],

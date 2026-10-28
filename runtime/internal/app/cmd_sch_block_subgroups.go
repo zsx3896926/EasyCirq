@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // bslSubgroup 是一个功能子群:一个名字 + 属于它的 role 列表。

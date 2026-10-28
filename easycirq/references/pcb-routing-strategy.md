@@ -18,7 +18,7 @@
 | 维度 | 2 层 | 4 层 | 本项目怎么判断 |
 |---|---|---|---|
 | 成本 | 板材与工序少，通常更省；实际差价随数量、工艺与渠道变化，本页不写具体价格 | 层压、对位与成品率因素增加成本；打样与批量价差不同 | 用当期渠道报价核对；不为省成本接受不可布，也不为“看起来专业”无理由加层 |
-| 可布性 | 只有两层走线，靠通道规划与铺铜腾空间；交叉多时容易反复 | 内层可做平面，外层走线压力小；但过孔与平面开窗更复杂 | 看 `zhigou pcb layout-lint --json` 的 score/crossings 与关键逃线；2 层多轮重排仍不收敛再评估升级 |
+| 可布性 | 只有两层走线，靠通道规划与铺铜腾空间；交叉多时容易反复 | 内层可做平面，外层走线压力小；但过孔与平面开窗更复杂 | 看 `easycirq pcb layout-lint --json` 的 score/crossings 与关键逃线；2 层多轮重排仍不收敛再评估升级 |
 | 电源完整性 | GND 靠双面铺铜与缝合孔，回流路径受开槽、器件和走线切割影响 | 完整参考平面与电源平面，回流更连续；前提是平面划分与过孔位置正确 | 有连续参考、阻抗控制或多电源域需求时倾向 4 层；2 层必须证明 GND 连续 |
 | EMC/回流 | 无完整参考平面，回流靠双面铺铜与缝合；接口、开槽与长支路需额外控制共模与辐射路径 | 完整平面有利于回流与辐射控制，但平面分割、过孔和接口处理不当仍会失败 | 有 EMC/认证要求或高速/接口较多时优先 4 层；2 层必须逐段核对回流与缝合 |
 | 装配与嘉立创工艺 | 常规双面板，贴装/手焊/返修可见性好；无内层对位问题 | 压合与对位步骤多，内层不可见，返修与改板成本高 | 按实际装配方式（SMT/手焊）与当期订单工艺核对 [jlc-pcb-rules.md](jlc-pcb-rules.md)；本页不替代报价与工艺确认 |
@@ -44,13 +44,13 @@
 4 层同样有条件：
 
 - 必须声明内层类型（PLANE/SIGNAL/GND/POWER），并说明每层职责；缺内层声明时 G4 不能通过。
-- 必须使用 `zhigou pcb power-planes` 建立电源/地平面，而不是把“命名为 GND 的层”当已正确铺铜。
+- 必须使用 `easycirq pcb power-planes` 建立电源/地平面，而不是把“命名为 GND 的层”当已正确铺铜。
 - 必须做过孔审计：层跨度、孔径/外径、是否穿过平面开窗，以及 `pcb check` 的 `via-crosses-plane`、`single-layer-via` 等项。
 - 内层错误不可见，首板前应结合 `pcb dump` 与逐层视图核对，而不是只看顶层效果图。
 
 ### 1.4 决策记录与失效
 
-- 用 `zhigou pcb stackup show` 回读实际层数；用 `zhigou pcb stackup set` 修改（实际参数以 `stackup set --help` 为准）时必须确认当前工程与目标层数一致。
+- 用 `easycirq pcb stackup show` 回读实际层数；用 `easycirq pcb stackup set` 修改（实际参数以 `stackup set --help` 为准）时必须确认当前工程与目标层数一致。
 - 在工程状态中记录 `stackup.layers`、`stackup.decision`（选择与理由）、`stackup.inner_layers`（4 层以上）、`stackup.power_ground_strategy` 与 `stackup.drc_rules_recorded`。
 - 层数、铜厚、叠层或板厂工艺变化后，既有铺铜、过孔、阻抗与 DRC 结论全部按失效处理，重新回读再判定。
 - 不把自动布线能否跑通当作层数依据；路由器在 2 层上给出结果，不代表布局与回流合格。
@@ -64,36 +64,36 @@
 - **一层一网**：同一铜层只放一个电源网络（含 GND）的铺铜，优先保证 GND；其他电源用走线或换层分配。
 - **铺铜优先级**：同层允许多个网络铺铜，但必须给出明确优先级、间距和回读结果，不能靠创建回执。
 
-2 层用 `zhigou pcb power-pour`：
+2 层用 `easycirq pcb power-pour`：
 
 - `--gnd-layers both` 做 GND 双面铺铜；`--rails pour|skip` 决定是否同时铺电源网络。
 - 同层多网时用 `--margin`、`--inset` 控制边界，用 `--replace` 或 `--rebuild` 重铺后必须回读。
 - 创建回执不是最终状态。真实案例中创建回执为 priority 1/1/2 且 `priorityVerified:false`，重载后 `pcb pour-list` 读到 GND L1 的 priority 变成 3；以重载后的 `pour-list` 为准。
 
-4 层用 `zhigou pcb power-planes`：
+4 层用 `easycirq pcb power-planes`：
 
 - 该命令需要至少 4 层；2 层会被拒绝并提示改用 `power-pour`，不要反复重试。
-- 用 `zhigou pcb power-planes` 建立电源/地平面（层号、gnd/power 层与是否改叠层的参数以 `power-planes --help` 为准）；平面建立后回读 `stackup show` 与 `pour-list`，确认层号、网络与连通，不把命令回执当完成。
+- 用 `easycirq pcb power-planes` 建立电源/地平面（层号、gnd/power 层与是否改叠层的参数以 `power-planes --help` 为准）；平面建立后回读 `stackup show` 与 `pour-list`，确认层号、网络与连通，不把命令回执当完成。
 
 ### 2.2 GND：双层铺铜加缝合
 
 - 2 层板 GND 必须覆盖两层；4 层板至少一个完整地平面，其余层按回流需要铺铜。
-- 铺铜后用 `zhigou pcb via-stitch` 增加缝合孔，再用 `zhigou pcb via-list` 审计；确认缝合孔真的落到目标平面或铺铜上（RT30），不是等距排满全板就算完成。
-- 用 `zhigou pcb pour-list` 与 `zhigou pcb dump` 检查孤岛、狭颈与意外分割（RT27、RT28）。轮廓、网名和颜色都不证明已铺铜。
+- 铺铜后用 `easycirq pcb via-stitch` 增加缝合孔，再用 `easycirq pcb via-list` 审计；确认缝合孔真的落到目标平面或铺铜上（RT30），不是等距排满全板就算完成。
+- 用 `easycirq pcb pour-list` 与 `easycirq pcb dump` 检查孤岛、狭颈与意外分割（RT27、RT28）。轮廓、网名和颜色都不证明已铺铜。
 - 同层多网铺铜要回读优先级和实际连通；`netless-pour`、`power-not-poured` 是 `pcb check` 的直接信号，不能忽略。
 - 铺铜后重新计算连接与 DRC；铺铜前后各留一份 DRC 与 pour 回读，作为对比基线。
 
 ### 2.3 铺铜板上不布 GND 细线
 
 - GND 连通优先由铺铜、缝合孔和短而宽的铜皮出口完成；不要在已经铺铜的板上用大量 GND track 代替铜区。
-- 真实案例：在已有 4 个铺铜的板上执行 `zhigou pcb route-short --route-power`，产生 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14；随后 DRC 93（71 Clearance + 22 Connection），其中 net=GND 的 Clearance 68 条。
+- 真实案例：在已有 4 个铺铜的板上执行 `easycirq pcb route-short --route-power`，产生 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14；随后 DRC 93（71 Clearance + 22 Connection），其中 net=GND 的 Clearance 68 条。
 - 这批 GND track 是 20 mil，不属于“细线”。问题不是线太细，而是铺铜板上把大量 GND 改成走线，和既有铜/焊盘产生间隙冲突。把“GND 20 mil”当成根因会修错方向。
 - 确需 GND 走线时，按 net class 给足宽度并说明为什么铺铜不能覆盖，改完重新铺铜、重新 DRC。
 - GND 走线宽度与是否存在要在计划中给出依据；是否有自动检查以 [design-gates.md](design-gates.md) 与实际门禁实现为准，不要用“看起来够粗”代替回读。
 
 ### 2.4 电源线宽按 net class
 
-- 先用 `zhigou pcb net-classes` 回读当前网络类，确认 +5V、VREF 等电源网属于哪个类，再决定宽度；没有类就先建类，不逐段随手改宽。
+- 先用 `easycirq pcb net-classes` 回读当前网络类，确认 +5V、VREF 等电源网属于哪个类，再决定宽度；没有类就先建类，不逐段随手改宽。
 - 线宽依据是载流、允许温升、铜厚、压降、环境与脉冲/持续负载（RT01、RT02、RT03），不是“1 mm 几安”的口诀。
 - `+5V` 与 `VREF` 分别按各自负载与允许压降给宽；VREF 还要考虑采样精度，不能为了走线方便随意变宽或换层。
 - `route-short --width` 只能作为候选宽度，最终以 net class 与 `pcb check` 的 `width-under-spec`、`width-mismatch` 为准。
@@ -102,8 +102,8 @@
 
 ### 2.5 过孔审计
 
-- 用 `zhigou pcb via-list` 与 `zhigou pcb dump` 回读全部过孔，核对孔径、外径、层跨度与所在网络，并与 `pcb drc-rules`、net class 和板厂能力对照。
-- 过孔证据带 `staleRisk` 时不能作为权威结果；必须保存工程、`zhigou doc reload` 后重新回读。
+- 用 `easycirq pcb via-list` 与 `easycirq pcb dump` 回读全部过孔，核对孔径、外径、层跨度与所在网络，并与 `pcb drc-rules`、net class 和板厂能力对照。
+- 过孔证据带 `staleRisk` 时不能作为权威结果；必须保存工程、`easycirq doc reload` 后重新回读。
 - 4 层板重点看 `via-crosses-plane`、`single-layer-via`、`overlapping-via`；缝合孔还要确认没有把 GND 与电源平面短接。
 - 过孔数量与位置服从回流、屏蔽、散热与制造需要（RT30、RT16），不是越多越好；散热焊盘上的孔另行核对塞孔/填孔与焊料流失。
 
@@ -113,7 +113,7 @@
 
 ### 3.1 先 dry-run
 
-- 先运行 `zhigou pcb route-short --dry-run`，检查计划布多少条、跳过哪些网络、准备打多少过孔；再决定是否执行。
+- 先运行 `easycirq pcb route-short --dry-run`，检查计划布多少条、跳过哪些网络、准备打多少过孔；再决定是否执行。
 - 重点看 skipped nets：电源、地、关键信号被跳过时，不能把剩余条数当作完成度。
 - 执行后核对实际 routes 与 vias；命令返回的数量是动作回执，不等于电气连通。
 
@@ -125,7 +125,7 @@
 
 ### 3.3 `pcb autoroute` 同样是候选
 
-- `zhigou pcb autoroute` 走外部 Freerouting 流程：导出 DSN、外部布线、回导 SES、导入、再 DRC。
+- `easycirq pcb autoroute` 走外部 Freerouting 流程：导出 DSN、外部布线、回导 SES、导入、再 DRC。
 - 回导后必须重新检查网络、规则、层与机械约束（RT35），不能把“DSN 导出成功”或“路由完成”当 PCB 完成。
 - 外部路由器不了解你的 G3/G4 约束，跳过的网络、错误的层、过孔与平面冲突都要自己复核。
 
@@ -133,11 +133,11 @@
 
 无论哪种自动布线，采纳前至少完成：
 
-1. `zhigou pcb drc --json` 并读取完整结果，不用截断文件。
-2. `zhigou pcb check --json` 查 `dangling-end`、`acute-angle`、`width-under-spec`、`power-not-poured` 等。
-3. 关键网逐条 `zhigou pcb net-path`。
-4. `zhigou pcb dump` 回读真实铜与过孔。
-5. 保存工程、`zhigou doc reload`、重新回读。
+1. `easycirq pcb drc --json` 并读取完整结果，不用截断文件。
+2. `easycirq pcb check --json` 查 `dangling-end`、`acute-angle`、`width-under-spec`、`power-not-poured` 等。
+3. 关键网逐条 `easycirq pcb net-path`。
+4. `easycirq pcb dump` 回读真实铜与过孔。
+5. 保存工程、`easycirq doc reload`、重新回读。
 
 ## 4. 布线顺序与计划
 
@@ -164,7 +164,7 @@
 
 - 每层写清角色（信号/地/电源/混合）、主要走向与禁布区；通道在连接器与主控之间预留，不靠布线时临时挤。
 - 连接器密集区、QFN/BGA 逃线先试排；拥挤区域不能靠自动布局总分证明能布（PL29）。
-- 可用 `zhigou pcb layout-plan`、`zhigou pcb place-constrained` 辅助规划禁布与通道；它们只生成计划/约束，不代表实际铜已连。
+- 可用 `easycirq pcb layout-plan`、`easycirq pcb place-constrained` 辅助规划禁布与通道；它们只生成计划/约束，不代表实际铜已连。
 - 过孔计划写明类型、孔径/外径、允许层跨度、用途与数量预期；4 层以上还要写平面开窗与反焊盘要求。
 - 任何 `--no-avoid`、`--no-multilayer` 之类的放宽选项默认不用；确需使用时记录理由与复验范围。
 
@@ -174,7 +174,7 @@
 - TVS/ESD 必须位于连接器与受保护网络之间的逃逸路径上，先泄放到参考，再进入板内（PL15、RT08）；不能放在全板末端。
 - 连接器 slot 与开槽区域禁止走线、铺铜和放孔；记录 `slot_clear`，并逐层核对铜与孔到槽的距离（RT31）。
 - 采用 SOP 式成组放件：连接器 → CC/限流电阻 → TVS/ESD → 被保护网络，按固定顺序同向摆放，便于目检、返修与自动检查。
-- 可用 `zhigou pcb escape-plan` 生成逃逸规划（实际参数以 `escape-plan --help` 为准），再与真实布局回读对照。
+- 可用 `easycirq pcb escape-plan` 生成逃逸规划（实际参数以 `escape-plan --help` 为准），再与真实布局回读对照。
 - G3 记录 `layout.connector_escape`（`max_distance_mm`、`slot_clear`）；未记录时按 BLOCKED 处理，不靠口头说明。
 
 ### 4.5 温度传感器热设计（NTC/RTD/数字）
@@ -204,7 +204,7 @@
 
 ### 5.2 `net-path` 的用法
 
-- 逐网运行：`zhigou pcb net-path --from D.PAD --to D.PAD --net NAME --json`，必要时加 `--through`、`--layer`。
+- 逐网运行：`easycirq pcb net-path --from D.PAD --to D.PAD --net NAME --json`，必要时加 `--through`、`--layer`。
 - 每次结果单独落盘，一条证据对应一个网；写入 `routing.key_net_proofs`。
 - `--from`/`--to` 用真实位号与焊盘号，不用网名代替对象；`--net` 用于消除同名歧义。
 
@@ -217,7 +217,7 @@
 
 ### 5.4 保存与重载
 
-- 布线、铺铜、移件、改层或改规则后，保存工程并执行 `zhigou doc reload`，再重新回读。
+- 布线、铺铜、移件、改层或改规则后，保存工程并执行 `easycirq doc reload`，再重新回读。
 - 重新回读至少包括：`pcb drc`、关键网 `net-path`、`pcb pour-list`、`pcb via-list`、`pcb dump`。
 - 回读结果与保存前一致才谈 G5；`save` 回执、截图或旧 JSON 都不能代替重开后的新鲜读回。
 
@@ -260,7 +260,7 @@
 
 ### 7.3 `--route-power` 把 30 变成 93
 
-- 在已铺铜的板上执行 `zhigou pcb route-short --route-power`：计划 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14。
+- 在已铺铜的板上执行 `easycirq pcb route-short --route-power`：计划 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14。
 - 随后 DRC 为 93（71 Clearance + 22 Connection），其中 net=GND 的 Clearance 68 条。GND track 宽度是 20 mil。
 - 教训：铺铜板上不要用 `--route-power` 把 GND 改成大量走线；20 mil 不是“细线”，根因是走线与铺铜/焊盘的间隙冲突。出现这种结果应回退该批 GND 走线、恢复铺铜连通，而不是继续调线宽。
 
@@ -294,10 +294,10 @@
 | DRC 规则 | 布线前记录 clearance/线宽/过孔/net class | G4 | 已记录且与实际板一致 |
 | 布局冻结 | `layout-lint`、板框、安装孔、连接器逃逸 | G3 | score/crossings 达标，0 overlap/off-board，逃逸 ≤5 mm 且避开 slot |
 | 布线计划 | [布线计划模板](../assets/routing-plan.md) 填写结果 | G5 | 层/通道/过孔/net class/顺序/停止条件齐全 |
-| 完整 DRC | `zhigou pcb drc --json` 完整文件 | G5 | `passed:true`，0 Connection |
+| 完整 DRC | `easycirq pcb drc --json` 完整文件 | G5 | `passed:true`，0 Connection |
 | 关键网证明 | 逐网 `net-path --json` | G5 | 每个 `routing.key_nets` 有证据；铺铜承担的网另证 |
-| 保存重载 | 保存 → `zhigou doc reload` → 新鲜回读 | G5 | 内容一致，无 stale |
-| 丝印 | `zhigou pcb silk-align` 回读 | G5 | 无压焊盘、极性/位号可读 |
+| 保存重载 | 保存 → `easycirq doc reload` → 新鲜回读 | G5 | 内容一致，无 stale |
+| 丝印 | `easycirq pcb silk-align` 回读 | G5 | 无压焊盘、极性/位号可读 |
 | 停止规则 | `routing.drc_rounds`、`stop_rule_triggered` | G5 | 连续 3 轮改善 <30% 时已停止并改策略 |
 
 - 表中任一项缺证据 → `BLOCKED`；带理由和剩余风险的例外 → `PASS_WITH_WAIVER`；无 CLI 覆盖的人工项 → `UNSUPPORTED` 并进 `not_checked`。

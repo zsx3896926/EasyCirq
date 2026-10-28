@@ -1,6 +1,6 @@
 package app
 
-import "github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+import "github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 
 // Match the design-diff/revision numeric contract at the compile boundary.
 // This removes API arithmetic tails at 1e-9 raw, not at the 5-raw drawing grid.

@@ -11,9 +11,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcblayout"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbsolve"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcblayout"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbsolve"
 )
 
 // Inputs contain a permitted search radius, never an answer coordinate.

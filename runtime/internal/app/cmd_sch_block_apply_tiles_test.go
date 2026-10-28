@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // Reading order: an empty sheet puts the tile in the top-left corner; a part

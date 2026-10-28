@@ -293,7 +293,7 @@ def verify_plan(ir, plan):
     }
 
 
-def to_zhigou_moves(plan, ir):
+def to_easycirq_moves(plan, ir):
     """Build the ``sch attribute-move --from`` documents (not executed).
 
     The command requires the complete original attribute record and the exact

@@ -1,7 +1,7 @@
 Print the connector .eext this runtime ships with
 
 Usage:
-  zhigou connector path [flags]
+  easycirq connector path [flags]
 
 Flags:
   -h, --help   help for path

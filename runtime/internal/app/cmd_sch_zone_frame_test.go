@@ -22,7 +22,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // ── 真机 fixture(工程 ceshi / POWER 页,2026-08-20)───────────────────────

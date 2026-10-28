@@ -3,7 +3,7 @@ package app
 // spec_backfill_identity_test.go — 同名重建的死页不再进回填分母。
 //
 // 用的是**真实的脏状态文件**(testdata/workflow/dirty-ceshi.json,原样拷自
-// ~/.zhigou/workflow/ceshi.json:7 页里 4 页属于已删除的同名工程)。
+// ~/.easycirq/workflow/ceshi.json:7 页里 4 页属于已删除的同名工程)。
 // 合成 fixture 证明不了「旧格式读得出来」,真文件能。
 
 import (
@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // 真实脏文件里的页:三页属于当时活着的 ceshi,四页是前几次同名重建的残留。

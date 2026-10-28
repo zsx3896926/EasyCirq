@@ -15,14 +15,14 @@
    "easycirq/cases/photo-led-pcb-2026-10-26/README.md": 1,
    "easycirq/cases/temp-alarm-2026-10-24/actual.json": 16,
    "easycirq/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json": 2,
-   "easycirq/scripts/layout_from_zhigou.py": 1,
+   "easycirq/scripts/layout_from_easycirq.py": 1,
    "easycirq/scripts/offline_guard.py": 3,
    "tests/fixtures/photo-led-acceptance.json": 1,
    "tests/fixtures/photo-led-v14/checker-expected.json": 14,
    "tests/fixtures/photo-led-v14/junction-report.json": 2,
    "tests/fixtures/photo-led-v14/layout.json": 3,
-   "tests/fixtures/zhigou/doctor-connected.json": 3,
-   "tests/fixtures/zhigou/doctor-degraded.json": 3
+   "tests/fixtures/easycirq/doctor-connected.json": 3,
+   "tests/fixtures/easycirq/doctor-degraded.json": 3
   }
  },
  "rows": [
@@ -339,7 +339,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "easycirq/scripts/layout_from_zhigou.py",
+   "path": "easycirq/scripts/layout_from_easycirq.py",
    "line": 602,
    "category": "service",
    "match": "easyeda-agent",
@@ -531,52 +531,52 @@
    "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "path": "tests/fixtures/easycirq/doctor-connected.json",
    "line": 86,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"service\": \"easyeda-agent\",",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "path": "tests/fixtures/easycirq/doctor-connected.json",
    "line": 89,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"note\": \"legacy upstream easyeda-agent daemon; detected only, never used by this runtime\"",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "path": "tests/fixtures/easycirq/doctor-connected.json",
    "line": 110,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"detail\": \"检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\"",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "path": "tests/fixtures/easycirq/doctor-degraded.json",
    "line": 72,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"service\": \"easyeda-agent\",",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "path": "tests/fixtures/easycirq/doctor-degraded.json",
    "line": 75,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"note\": \"legacy upstream easyeda-agent daemon; detected only, never used by this runtime\"",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   },
   {
-   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "path": "tests/fixtures/easycirq/doctor-degraded.json",
    "line": 97,
    "category": "service",
    "match": "easyeda-agent",
    "text": "\"detail\": \"检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\"",
-   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+   "allowlist_reason": "faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
   }
  ]
 }

@@ -3,7 +3,7 @@ package pcbmodel_test
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
 )
 
 func TestTransformAsymmetricFootprintMovesPadsAndOwnedCopperTogether(t *testing.T) {

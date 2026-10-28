@@ -7,8 +7,8 @@
   },
   {
     "ProcessId": 49128,
-    "Name": "zhigou.exe",
-    "ExecutablePath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
-    "CommandLine": "\"C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe\" daemon restart"
+    "Name": "easycirq.exe",
+    "ExecutablePath": "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
+    "CommandLine": "\"C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe\" daemon restart"
   }
 ]

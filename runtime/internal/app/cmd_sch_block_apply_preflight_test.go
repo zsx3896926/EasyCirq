@@ -39,7 +39,7 @@ func TestRunBlockApplyRefusesBeforePlacingWhenDevicesAreUnresolvable(t *testing.
 		"dev-led", "dev-res", // the uuids, so the parts file can be edited
 		"was not found", // the library's own words, not a paraphrase
 		"different EasyEDA site",
-		"zhigou lib by-lcsc", // the executable next step
+		"easycirq lib by-lcsc", // the executable next step
 	} {
 		if !strings.Contains(msg, want) {
 			t.Errorf("refusal missing %q:\n%s", want, msg)

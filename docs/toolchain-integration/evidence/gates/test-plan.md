@@ -6,7 +6,7 @@
 ## 1. 记录头
 | 字段 | 内容 |
 |---|---|
-| 板名/版本 | zhigou-integrated-dual-button-led-20261027 / rev-a |
+| 板名/版本 | easycirq-integrated-dual-button-led-20261027 / rev-a |
 | 工程与产物 | `.epro2` sha256 `7e76767a…`；BOM `BOM.csv` |
 | 装配方式 | 手焊单件；无 DNP |
 | 仪器 | 限流直流电源（0–6 V，≥200 mA，带电流显示）、万用表、可选热像仪/点温计 |

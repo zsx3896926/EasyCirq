@@ -3,22 +3,22 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 func TestAutoStartAllowedOnlyForReleaseBuildsWithoutOptOut(t *testing.T) {
 	old := version.Version
 	t.Cleanup(func() { version.Version = old })
 	version.Version = "v1.11.0"
-	t.Setenv("ZHIGOU_NO_AUTOSTART", "")
+	t.Setenv("EASYCIRQ_NO_AUTOSTART", "")
 	if !autoStartAllowed() {
 		t.Fatal("a release build without opt-out must auto-start")
 	}
-	t.Setenv("ZHIGOU_NO_AUTOSTART", "1")
+	t.Setenv("EASYCIRQ_NO_AUTOSTART", "1")
 	if autoStartAllowed() {
-		t.Fatal("ZHIGOU_NO_AUTOSTART=1 must disable auto-start")
+		t.Fatal("EASYCIRQ_NO_AUTOSTART=1 must disable auto-start")
 	}
-	t.Setenv("ZHIGOU_NO_AUTOSTART", "")
+	t.Setenv("EASYCIRQ_NO_AUTOSTART", "")
 	for _, dev := range []string{"v1.11.0-2-gffac5fe-dirty", "v1.11.0-dirty", "dev"} {
 		version.Version = dev
 		if autoStartAllowed() {

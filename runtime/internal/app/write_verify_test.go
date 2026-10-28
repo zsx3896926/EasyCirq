@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/daemon"
 )
 
 func TestWriteVerifyBodyMatchesDaemonContract(t *testing.T) {

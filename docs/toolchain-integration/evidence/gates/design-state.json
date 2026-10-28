@@ -1,7 +1,7 @@
 {
   "schema": "design-state/v1",
   "project": {
-    "name": "zhigou-integrated-dual-button-led-20261027",
+    "name": "easycirq-integrated-dual-button-led-20261027",
     "board_revision": "rev-a",
     "stage": "G6",
     "updated": "2026-10-28"
@@ -78,7 +78,7 @@
   "schematic": {
     "netlist_audit": {
       "status": "verified",
-      "detail": "zhigou sch read 逐脚网络与设计意图一致：7 网、0 浮空引脚、20 个图元；本版本 sch netlist/protel 导出返回 'returned no file'，因此没有原生前/后网表 diff，网表一致性由活体逐脚回读 + PCB DRC 0 共同证明"
+      "detail": "easycirq sch read 逐脚网络与设计意图一致：7 网、0 浮空引脚、20 个图元；本版本 sch netlist/protel 导出返回 'returned no file'，因此没有原生前/后网表 diff，网表一致性由活体逐脚回读 + PCB DRC 0 共同证明"
     },
     "titleblock": {
       "status": "verified",
@@ -235,13 +235,13 @@
       "detail": "两层 FR-4/1oz/1.6mm，HASL 无铅/绿油白字，单片手焊，无过孔；板厂规则为条件快照，下单前重查"
     },
     "project_export": {
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\zhigou-board.epro2",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\gates\\easycirq-board.epro2",
       "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7",
       "restore_verified": true,
-      "restore_detail": "导入独立新工程 zhigou-dual-button-led-restore-20261027 后回读：7 网一致、9 footprint pose 一致、板框一致、PCB DRC 0（evidence/m4/restore/restore-summary.json）"
+      "restore_detail": "导入独立新工程 easycirq-dual-button-led-restore-20261027 后回读：7 网一致、9 footprint pose 一致、板框一致、PCB DRC 0（evidence/m4/restore/restore-summary.json）"
     },
     "test_plan": {
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\test-plan.md",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\gates\\test-plan.md",
       "status": "verified",
       "detail": "V1 EDA 检查已 PASS；V2–V11 实物项全部 NOT RUN（未上电/未手焊）"
     },
@@ -294,134 +294,134 @@
       {
         "role": "sch_drc",
         "path": "evidence/gates/sch-drc.json",
-        "command": "zhigou sch drc",
+        "command": "easycirq sch drc",
         "captured_at": "2026-10-28T01:44:00Z",
         "sha256": "b4fef88a7425121b2854f57e78cd2c6f6145d339da44cac2451571f61d92c38c"
       },
       {
         "role": "sch_check",
         "path": "evidence/gates/sch-check.json",
-        "command": "zhigou sch check（分区框+图签修复后）",
+        "command": "easycirq sch check（分区框+图签修复后）",
         "captured_at": "2026-10-28T01:44:00Z",
         "sha256": "99eaac17a5e7b8292ad0029aa2ac5cac52748c570cfce8a4ba85664cb52907de"
       },
       {
         "role": "schematic_png",
         "path": "evidence/gates/schematic-page.png",
-        "command": "zhigou sch export-image --format png",
+        "command": "easycirq sch export-image --format png",
         "captured_at": "2026-10-28T01:45:10Z",
         "sha256": "de07d95cbce54055cd6c378e1d64265da928f497728e156fe3cd66eeb7a14c37"
       },
       {
         "role": "pcb_layout_lint",
         "path": "evidence/gates/pcb-layout-lint.json",
-        "command": "zhigou pcb layout-lint（最终板）",
+        "command": "easycirq pcb layout-lint（最终板）",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "d32ba41ffee5f93c1418eb03b938065fff4ff8aa22a52ae3ece9f28836e3f804"
       },
       {
         "role": "pcb_drc",
         "path": "evidence/gates/pcb-drc-final.json",
-        "command": "zhigou pcb drc（最终板，save+reload 后）",
+        "command": "easycirq pcb drc（最终板，save+reload 后）",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "465f6431e431af4afd444ffe78340aead1e108c7240e1d68dab5f73302628104"
       },
       {
         "role": "pcb_board",
         "path": "evidence/gates/pcb-dump.json",
-        "command": "zhigou pcb dump（最终板）",
+        "command": "easycirq pcb dump（最终板）",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "26ad15f86633332446e78ae41765a849a3c558bba3079c91eaad6509bec63a4d"
       },
       {
         "role": "pcb_pours",
         "path": "evidence/gates/pcb-pours.json",
-        "command": "zhigou call pcb.pour.list",
+        "command": "easycirq call pcb.pour.list",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "2e3ed2232e34974e6c754767abd2a7b50882d4af10d14f5386bc4c90ea53620b"
       },
       {
         "role": "pcb_vias",
         "path": "evidence/gates/pcb-vias.json",
-        "command": "zhigou call pcb.via.list",
+        "command": "easycirq call pcb.via.list",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "037ef2d150fe38481933c9e1f63c42385f509f749bb405335bf6dc4e3d836027"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-vin.json",
-        "command": "zhigou pcb net-path --from J1.1 --to F1.1 --json",
+        "command": "easycirq pcb net-path --from J1.1 --to F1.1 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "95a7a734ffa711dcba4fa0ac26fdd45c6330634ab0461c83354a4138e6e2a68d"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-5v.json",
-        "command": "zhigou pcb net-path --from F1.2 --to R2.1 --json",
+        "command": "easycirq pcb net-path --from F1.2 --to R2.1 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "0175208778de118634e9380e39b2b94f9058b5d4418026ca7040be7b8a6faadb"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-led1a.json",
-        "command": "zhigou pcb net-path --from R1.2 --to D1.2 --json",
+        "command": "easycirq pcb net-path --from R1.2 --to D1.2 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "cf6117657d74fc46618541c7368ad1c96b42b7da17711dc2035bf887d4b80696"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-led1k.json",
-        "command": "zhigou pcb net-path --from D1.1 --to SW1.1 --json",
+        "command": "easycirq pcb net-path --from D1.1 --to SW1.1 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "ed04d8c89e3c5e658891dfd454516222bf60163c35c48f7b60059ad6b6b7ff79"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-led2a.json",
-        "command": "zhigou pcb net-path --from R2.2 --to D2.2 --json",
+        "command": "easycirq pcb net-path --from R2.2 --to D2.2 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "970fee2f68618c6114e64cc2d16abf06663a16c63b66e81aea823f03c7613390"
       },
       {
         "role": "net_path",
         "path": "evidence/gates/net-path-led2k.json",
-        "command": "zhigou pcb net-path --from D2.1 --to SW2.1 --json",
+        "command": "easycirq pcb net-path --from D2.1 --to SW2.1 --json",
         "captured_at": "2026-10-28T01:47:00Z",
         "sha256": "8b45a23d3b43ff1a809c0fcc798f478e7ebf2d794765d3d77d0e0ce18b47d893"
       },
       {
         "role": "reopen_check",
         "path": "evidence/gates/pcb-reopen-readback.json",
-        "command": "zhigou doc reload PCB1",
+        "command": "easycirq doc reload PCB1",
         "captured_at": "2026-10-28T01:46:00Z",
         "sha256": "31ae761091bd58fae448dd3739962a8e62b7e5a923dfdf200a085951f822ae0a"
       },
       {
         "role": "project_export",
         "path": "evidence/gates/project-export.json",
-        "command": "zhigou project export --out <epro2>",
+        "command": "easycirq project export --out <epro2>",
         "captured_at": "2026-10-27T23:49:00Z",
         "sha256": "5199c8e32f68f9a154e89ddf0b0b94c2d227ab45544f5d1fcf853cc98b2ae87c"
       },
       {
         "role": "bom",
         "path": "evidence/gates/BOM.csv",
-        "command": "zhigou bom export --type csv",
+        "command": "easycirq bom export --type csv",
         "captured_at": "2026-10-27T23:14:00Z",
         "sha256": "fcfa3eb41f20b0cf96305bc2ea4823cd63e71da683ed3b185f7ef5d8423f9652"
       },
       {
         "role": "project_export",
-        "path": "evidence/gates/zhigou-board.epro2",
+        "path": "evidence/gates/easycirq-board.epro2",
         "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7",
-        "command": "zhigou project export --out <epro2>",
+        "command": "easycirq project export --out <epro2>",
         "captured_at": "2026-10-27T23:49:00Z"
       },
       {
         "role": "project_export",
-        "path": "evidence/gates/zhigou-board.epro2",
+        "path": "evidence/gates/easycirq-board.epro2",
         "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7",
-        "command": "zhigou project export --out <epro2>",
+        "command": "easycirq project export --out <epro2>",
         "captured_at": "2026-10-27T23:49:00Z"
       },
       {

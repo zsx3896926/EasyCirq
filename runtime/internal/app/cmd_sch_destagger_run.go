@@ -440,10 +440,10 @@ func newSchDestaggerCommand(cfg *appConfig, window *string, stdout, stderr io.Wr
 挤不下时**宁可不动**(记 no-free-slot),不硬塞一个还撞的位置。
 单页作用域(桩线只能从激活页读)——跨页请逐页 ` + "`doc switch`" + ` 后各跑一次。`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou sch destagger                    # 只算不动(dry-run)
-  zhigou sch destagger --json
-  zhigou sch destagger --apply            # 落地 + 复验 + 恶化则回滚
-  zhigou sch destagger --apply --max-rounds 3`,
+		Example: `  easycirq sch destagger                    # 只算不动(dry-run)
+  easycirq sch destagger --json
+  easycirq sch destagger --apply            # 落地 + 复验 + 恶化则回滚
+  easycirq sch destagger --apply --max-rounds 3`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if apply && dryRun {
 				return fmt.Errorf("--dry-run and --apply are mutually exclusive")

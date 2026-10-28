@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.integration.minimal-board/v1",
+  "schema": "easycirq.integration.minimal-board/v1",
   "kind": "synthetic_minimal_board",
   "note": "Frozen minimal engineering dataset for interface checks only. It is not a real design, not a verified netlist and not a manufacturing package. Adapters that would consume it do not exist yet (see ../cross-module-contract.md).",
   "identity": {

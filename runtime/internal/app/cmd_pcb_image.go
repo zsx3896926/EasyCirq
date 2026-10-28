@@ -32,7 +32,7 @@ sizes in mil; at least one is required. One dimension preserves aspect;
 both resize independently. --rotation is in degrees; --mirror is horizontal.
 --dry-run validates the local source and reports the transformed target bbox
 without contacting EDA. Web rendering/persistence must be checked after save/reload.`,
-		Example: `  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run`,
+		Example: `  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dry {
 				defer setDispatchDryRun(true)()

@@ -3,13 +3,13 @@ project through the official @beta importer. The command never writes into an
 existing project and does not open the result. The archive is checked for ZIP
 integrity first; .epro2 must contain .epru data. Import success proves only
 that a project was created: open it and read back schematic, PCB and DRC.
-A timeout leaves the outcome unknown; run 'zhigou project find' before retrying.
+A timeout leaves the outcome unknown; run 'easycirq project find' before retrying.
 
 Usage:
-  zhigou project import [flags]
+  easycirq project import [flags]
 
 Examples:
-  zhigou project import --window <id> --file design.epro2 --name blink-import
+  easycirq project import --window <id> --file design.epro2 --name blink-import
 
 Flags:
       --extract-libraries   also extract embedded libraries into the team library

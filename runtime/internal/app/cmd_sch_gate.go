@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // ── sch gate: the S5 校验门, one command ──────────────────────────────────
@@ -609,7 +609,7 @@ func runSchGate(cfg *appConfig, window string, allPages, strict, asJSON, failFas
 func collectSchGate(cfg *appConfig, window string, allPages, strict, failFast bool,
 	only, skip string, minGap, pinEps, overlapEps float64, stderr io.Writer) (*gateReport, error) {
 	if strict && allPages {
-		return nil, fmt.Errorf("sch gate: --strict cannot be combined with --all-pages: inactive pages expose shallow geometry (see layout-lint), so gate each page after `zhigou doc switch <page>`")
+		return nil, fmt.Errorf("sch gate: --strict cannot be combined with --all-pages: inactive pages expose shallow geometry (see layout-lint), so gate each page after `easycirq doc switch <page>`")
 	}
 	run, skippedNames, err := resolveGateStages(only, skip)
 	if err != nil {
@@ -771,8 +771,8 @@ func renderGateReport(rep gateReport, w io.Writer) {
 			}
 		}
 		if rep.Verdict == "blocked" {
-			fmt.Fprintln(w, "\n  注意:这是「检查器没跑成」,不是「板子有问题」——先 `zhigou health` 确认连接器,")
-			fmt.Fprintln(w, "  再 `zhigou doc ls` / `doc switch <page>` 确认目标页已打开,然后重跑 gate。")
+			fmt.Fprintln(w, "\n  注意:这是「检查器没跑成」,不是「板子有问题」——先 `easycirq health` 确认连接器,")
+			fmt.Fprintln(w, "  再 `easycirq doc ls` / `doc switch <page>` 确认目标页已打开,然后重跑 gate。")
 		}
 	}
 	if len(rep.Warnings) > 0 {
@@ -780,7 +780,7 @@ func renderGateReport(rep gateReport, w io.Writer) {
 	}
 }
 
-// newSchGateCmd builds the `zhigou sch gate` command.
+// newSchGateCmd builds the `easycirq sch gate` command.
 func newSchGateCmd(cfg *appConfig, window *string, stdout, stderr io.Writer) *cobra.Command {
 	var (
 		allPages, strict, asJSON, failFast bool
@@ -821,12 +821,12 @@ non-fatal DRC items are advisory — --strict promotes them to blocking.
 --json emits every stage's full native report under stages[].detail, so it is a
 superset of the four single commands' JSON: nothing needs a second run.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou sch gate
-  zhigou sch gate --json
-  zhigou sch gate --strict                 # 告警也阻塞
-  zhigou sch gate --only layout-lint,check # 只跑便宜的两关
-  zhigou sch gate --skip drc               # 窗口不在前台时跳过 DRC
-  zhigou sch gate --fail-fast              # 第一个阻塞失败就停`,
+		Example: `  easycirq sch gate
+  easycirq sch gate --json
+  easycirq sch gate --strict                 # 告警也阻塞
+  easycirq sch gate --only layout-lint,check # 只跑便宜的两关
+  easycirq sch gate --skip drc               # 窗口不在前台时跳过 DRC
+  easycirq sch gate --fail-fast              # 第一个阻塞失败就停`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runSchGate(cfg, *window, allPages, strict, asJSON, failFast,
 				only, skip, minGap, pinEps, overlapEps, stdout, stderr)

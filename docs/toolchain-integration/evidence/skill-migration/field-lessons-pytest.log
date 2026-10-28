@@ -34,7 +34,7 @@ tests/test_install_lifecycle.py::UpgradeRollbackTests::test_failed_upgrade_leave
 tests/test_install_lifecycle.py::CorruptBundleTests::test_duplicate_entry
 tests/test_install_lifecycle.py::CorruptBundleTests::test_inspect_bundle_reports_corruption
 tests/test_install_lifecycle.py::CorruptBundleTests::test_tampered_payload
-  C:\Users\jlc\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'payload/bin/zhigou.exe'
+  C:\Users\jlc\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'payload/bin/easycirq.exe'
     return self._open_to_write(zinfo, force_zip64=force_zip64)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

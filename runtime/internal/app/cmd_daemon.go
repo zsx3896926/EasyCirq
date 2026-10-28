@@ -17,16 +17,16 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/daemon"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // newDaemonCmd returns the "daemon" subcommand group.
 func newDaemonCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	d := &cobra.Command{
 		Use:   "daemon",
-		Short: "Manage the zhigou-agent background daemon",
+		Short: "Manage the easycirq-agent background daemon",
 	}
 	d.AddCommand(
 		newDaemonStartCmd(cfg, stdout, stderr),
@@ -54,9 +54,9 @@ window once its edits quiesce for the debounce window (a burst coalesces into on
 save). Set to 0 to disable.
 
 Skill auto-update (--auto-update-skill, on by default) keeps your installed
-zhigou-agent skill dirs (CLAUDE_CONFIG_DIR / CODEX_HOME, default ~/.claude / ~/.codex) in sync with this daemon's release on
+easycirq-agent skill dirs (CLAUDE_CONFIG_DIR / CODEX_HOME, default ~/.claude / ~/.codex) in sync with this daemon's release on
 startup, so you never hand-copy the skill after a CLI upgrade. It touches only
-dirs that already exist, honors ZHIGOU_SKILL_PRESERVE=1, and logs each change.
+dirs that already exist, honors EASYCIRQ_SKILL_PRESERVE=1, and logs each change.
 The EasyEDA connector .eext has no sideload auto-update (marketplace-only).
 Patch drift is compatible; a connector behind the daemon's major.minor line is
 only DETECTED and logged with a re-import notice — not swapped.
@@ -64,7 +64,7 @@ only DETECTED and logged with a re-import notice — not swapped.
 The daemon binds a SINGLE fixed port (23111, the start of --ports) and never
 spills to the next one — so at most one daemon ever runs and the connector always
 finds it there, instead of several daemons quietly binding 49621/49622… and the
-connector churning between them. If 23111 is already held by another zhigou
+connector churning between them. If 23111 is already held by another easycirq
 daemon it is replaced automatically; if held by a FOREIGN process the daemon asks
 (interactive terminal) or refuses with a clear message (headless) rather than
 starting a second daemon elsewhere.
@@ -76,10 +76,10 @@ running the daemon on a different port with --ports also needs the connector's
 escape hatch — set its "daemonPorts" extension user config (see the header of
 extension/src/transport.ts).`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou daemon start
-  zhigou daemon start --autosave-debounce 5s
-  zhigou daemon start --autosave-debounce 0   # disable autosave
-  zhigou daemon start --auto-update-skill=false # don't sync skill on startup`,
+		Example: `  easycirq daemon start
+  easycirq daemon start --autosave-debounce 5s
+  easycirq daemon start --autosave-debounce 0   # disable autosave
+  easycirq daemon start --auto-update-skill=false # don't sync skill on startup`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if background {
 				extra := []string{"--autosave-debounce", autosaveDebounce.String(), fmt.Sprintf("--auto-update-skill=%v", autoUpdateSkill)}
@@ -127,7 +127,7 @@ extension/src/transport.ts).`,
 	c.Flags().DurationVar(&autosaveDebounce, "autosave-debounce", 3*time.Second,
 		"autosave a window this long after its last mutating action (0 = disable)")
 	c.Flags().BoolVar(&background, "background", false,
-		"start detached (log: ~/.zhigou/daemon.log) and return once /health answers; other zhigou commands do this automatically when no daemon runs (ZHIGOU_NO_AUTOSTART=1 disables; dev builds never auto-start)")
+		"start detached (log: ~/.easycirq/daemon.log) and return once /health answers; other easycirq commands do this automatically when no daemon runs (EASYCIRQ_NO_AUTOSTART=1 disables; dev builds never auto-start)")
 	c.Flags().BoolVar(&autoUpdateSkill, "auto-update-skill", false,
 		"off by default in the integrated toolchain: installation and upgrades are owned by distribution/, never by an upstream release download (best-effort)")
 	return c
@@ -146,8 +146,8 @@ func runStartupSkillSync(parent context.Context, log io.Writer) {
 
 // ── daemon health ─────────────────────────────────────────────────────────
 
-// newHealthAliasCmd exposes `zhigou health` at the root as an alias of
-// `zhigou daemon health` — the skill docs mandate it as the preflight check
+// newHealthAliasCmd exposes `easycirq health` at the root as an alias of
+// `easycirq daemon health` — the skill docs mandate it as the preflight check
 // before any window operation, and the bare form is what they spell (#130).
 func newHealthAliasCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	h := newDaemonHealthCmd(cfg, stdout, stderr)
@@ -205,13 +205,13 @@ func daemonPIDFile() string {
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(home, ".zhigou", "daemon.pid")
+	return filepath.Join(home, ".easycirq", "daemon.pid")
 }
 
 // ensurePortAvailable makes the daemon's FIXED port bindable before startup.
 // Behavior (chosen with the user): the daemon uses ONE port and never spills.
 //   - port free                         → proceed.
-//   - held by ANOTHER zhigou daemon    → replace it automatically (safe: it's our
+//   - held by ANOTHER easycirq daemon    → replace it automatically (safe: it's our
 //     own stale/duplicate service; this is the reliable, port-based successor to
 //     the old PID-file kill).
 //   - held by a FOREIGN process         → never kill it silently. On an interactive
@@ -233,7 +233,7 @@ func ensurePortAvailable(host string, port int, log io.Writer) error {
 		return fmt.Errorf("port %d owner PID is unknown or self (%d, %s); health did not identify a daemon; no process was terminated", port, pid, cmdName)
 	}
 	if isInteractive() {
-		fmt.Fprintf(log, "⚠ port %d is held by pid %d (%s) — NOT an zhigou daemon.\n  Kill it and take over the port? [y/N]: ", port, pid, cmdName)
+		fmt.Fprintf(log, "⚠ port %d is held by pid %d (%s) — NOT an easycirq daemon.\n  Kill it and take over the port? [y/N]: ", port, pid, cmdName)
 		if !readYes() {
 			return fmt.Errorf("port %d busy (pid %d %s) — declined; free it (kill %d) or run with --ports", port, pid, cmdName, pid)
 		}
@@ -245,7 +245,7 @@ func ensurePortAvailable(host string, port int, log io.Writer) error {
 		}
 		return fmt.Errorf("port %d still busy after killing pid %d", port, pid)
 	}
-	return fmt.Errorf("port %d is held by pid %d (%s), not an zhigou daemon — free it (kill %d) or run with --ports; refusing to spawn a second daemon", port, pid, cmdName, pid)
+	return fmt.Errorf("port %d is held by pid %d (%s), not an easycirq daemon — free it (kill %d) or run with --ports; refusing to spawn a second daemon", port, pid, cmdName, pid)
 }
 
 // portFree reports whether the daemon can bind host:port right now.
@@ -258,7 +258,7 @@ func portFree(host string, port int) bool {
 	return true
 }
 
-// daemonOnPort reports whether an zhigou daemon answers /health on host:port.
+// daemonOnPort reports whether an easycirq daemon answers /health on host:port.
 func daemonOnPort(host string, port int) bool {
 	client := &http.Client{Timeout: time.Second}
 	resp, err := client.Get(fmt.Sprintf("http://%s/health", net.JoinHostPort(host, strconv.Itoa(port))))
@@ -312,11 +312,11 @@ func writeDaemonPID(log io.Writer) func() {
 		return func() {}
 	}
 	if err := os.MkdirAll(filepath.Dir(pidFile), 0755); err != nil {
-		fmt.Fprintf(log, "zhigou-agent: create pid dir: %v\n", err)
+		fmt.Fprintf(log, "easycirq-agent: create pid dir: %v\n", err)
 		return func() {}
 	}
 	if err := os.WriteFile(pidFile, fmt.Appendf(nil, "%d\n", os.Getpid()), 0644); err != nil {
-		fmt.Fprintf(log, "zhigou-agent: write pid file %s: %v; check ownership/write permission of this file and its parent directory. Lifecycle commands use health/port identity instead.\n", pidFile, err)
+		fmt.Fprintf(log, "easycirq-agent: write pid file %s: %v; check ownership/write permission of this file and its parent directory. Lifecycle commands use health/port identity instead.\n", pidFile, err)
 		return func() {}
 	}
 	return func() { _ = os.Remove(pidFile) }

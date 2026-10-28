@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply a verified PCB plan through the typed zhigou CLI.
+"""Apply a verified PCB plan through the typed easycirq CLI.
 
 Two plan dialects are accepted:
 
@@ -13,14 +13,14 @@ Contract:
   * the plan is checked against a measured ``pcb dump`` before any write.  A
     stale base hash, a stale primitiveId/from pose, a hard placement failure or
     out-of-board copper geometry refuses the whole batch;
-  * the adapter compiles an ``zhigou apply`` playbook v1 (retry 0,
+  * the adapter compiles an ``easycirq apply`` playbook v1 (retry 0,
     continueOnError false, fail fast) instead of hand-written commands;
   * the default is dry-run: the playbook and report are written, no CLI call is
-    made.  ``--apply`` performs exactly ONE ``zhigou apply``, then verifies the
+    made.  ``--apply`` performs exactly ONE ``easycirq apply``, then verifies the
     journal, the fresh out-dump and an independent scoped ``diff_boards``;
   * save, reload, journal or dump failures are never reported as verified;
-  * ``--zhigou`` and ``--timeout`` are the test seams; tests must never let the
-    adapter resolve a real ``zhigou`` through PATH (pass a fake or patch
+  * ``--easycirq`` and ``--timeout`` are the test seams; tests must never let the
+    adapter resolve a real ``easycirq`` through PATH (pass a fake or patch
     ``pcb_cli.run``).
 """
 from __future__ import annotations
@@ -953,7 +953,7 @@ def _normalize_scope(raw_scope, ops):
 # ---------------------------------------------------------------------------
 
 def compile_playbook(ops, scope, args, timeout_sec):
-    """Compile the ordered zhigou apply playbook v1 steps."""
+    """Compile the ordered easycirq apply playbook v1 steps."""
     steps = []
 
     def add(step):
@@ -1356,13 +1356,13 @@ def main(argv=None):
                         help='fresh dump after save/reload')
     parser.add_argument('--report', help='write the apply/verify report here')
     parser.add_argument('--playbook-out',
-                        help='write the compiled zhigou apply playbook here '
+                        help='write the compiled easycirq apply playbook here '
                              '(default: <out-dump>.apply-playbook.json)')
-    parser.add_argument('--zhigou', help='zhigou executable (test seam; '
-                                          'otherwise ZHIGOU_BIN or PATH)')
+    parser.add_argument('--easycirq', help='easycirq executable (test seam; '
+                                          'otherwise EASYCIRQ_BIN or PATH)')
     parser.add_argument('--timeout', type=float, default=pcb_cli.DEFAULT_TIMEOUT_SEC,
                         help='per-step and process timeout in seconds')
-    parser.add_argument('--journal', help='journal path passed to zhigou apply '
+    parser.add_argument('--journal', help='journal path passed to easycirq apply '
                                           '(default: <playbook>.journal.jsonl)')
     parser.add_argument('--no-reload', action='store_true',
                         help='omit the doc reload step before the fresh dump')
@@ -1373,7 +1373,7 @@ def main(argv=None):
     parser.add_argument('--apply', action='store_true',
                         help='perform the playbook writes (default dry-run)')
     parser.add_argument('--yes', action='store_true',
-                        help='pass --yes to zhigou apply for confirmation gates')
+                        help='pass --yes to easycirq apply for confirmation gates')
     parser.add_argument('--json', action='store_true',
                         help='also print the report to stdout')
     args = parser.parse_args(argv)
@@ -1576,12 +1576,12 @@ def main(argv=None):
         apply_args.extend(['--journal', journal_path])
     if args.yes:
         apply_args.append('--yes')
-    record = pcb_cli.run(apply_args, zhigou=args.zhigou,
+    record = pcb_cli.run(apply_args, easycirq=args.easycirq,
                          timeout=args.timeout)
     apply_info = pcb_cli.command_record(record)
     apply_info['exit_zero'] = record.get('exit') == 0
     apply_info['ok'] = record.get('exit') == 0
-    apply_info['zhigou'] = pcb_cli.zhigou_executable(args.zhigou)
+    apply_info['easycirq'] = pcb_cli.easycirq_executable(args.easycirq)
     report['apply'] = apply_info
 
     journal = verify_journal(journal_path, journal_before['size'],
@@ -1637,7 +1637,7 @@ def main(argv=None):
     # 8. Independent scoped diff (only on complete, fresh evidence).
     problems = []
     if not apply_info['exit_zero']:
-        problems.append('zhigou apply exited %s' % record.get('exit'))
+        problems.append('easycirq apply exited %s' % record.get('exit'))
     if journal.get('status') != 'pass':
         problems.append('journal verification failed: %s' %
                         '; '.join(journal.get('problems') or ['unknown']))

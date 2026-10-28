@@ -1,10 +1,10 @@
 Re-pour (recompute) all pours after layout/routing changes
 
 Usage:
-  zhigou pcb pour-rebuild [flags]
+  easycirq pcb pour-rebuild [flags]
 
 Examples:
-  zhigou pcb pour-rebuild
+  easycirq pcb pour-rebuild
 
 Flags:
   -h, --help         help for pour-rebuild

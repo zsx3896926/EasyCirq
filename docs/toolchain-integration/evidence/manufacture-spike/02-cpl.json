@@ -7,13 +7,13 @@
   "ok": true,
   "result": {
     "artifactId": "art_2f435b2c-1b35-4f7c-99d8-868a9742f80e",
-    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
+    "artifactPath": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
     "capabilityNote": "Uses the official @beta pcb_ManufactureData.getPickAndPlaceFile. Rows/rotations must be checked against the BOM before assembly.",
     "exportContext": {
       "documentType": "pcb",
       "documentUuid": "56a25fb38c54cb1b",
       "pageVisibility": "hidden",
-      "projectName": "zhigou-integrated-dual-button-led-20261027",
+      "projectName": "easycirq-integrated-dual-button-led-20261027",
       "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
       "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e"
     },
@@ -24,7 +24,7 @@
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -32,7 +32,7 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -43,7 +43,7 @@
     {
       "id": "art_2f435b2c-1b35-4f7c-99d8-868a9742f80e",
       "kind": "pcb_cpl",
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
       "fileName": "acceptance-cpl",
       "mimeType": "text/csv",
       "size": 3238,

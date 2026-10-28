@@ -5,7 +5,7 @@ import "encoding/json"
 // AntennaKeepout is a block's declarative RF/antenna keep-out spec (the top-level
 // `keepout` object with role="antenna"). The circuit-block library is the single
 // source-of-truth for the per-part keep-out DEPTH; the generator
-// (`zhigou pcb antenna-keepout`) matches a placed part to this by device name and
+// (`easycirq pcb antenna-keepout`) matches a placed part to this by device name and
 // sizes the all-layer no-copper region at the module's pad-free (antenna) end.
 type AntennaKeepout struct {
 	Role    string  `json:"role"`     // "antenna"

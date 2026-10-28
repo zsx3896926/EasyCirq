@@ -1,10 +1,10 @@
-zhigou doctor — verdict: ok
-  runtime   zhigou 0.2.1-dev  (C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe)
+easycirq doctor — verdict: ok
+  runtime   easycirq 0.2.1-dev  (C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe)
   skill     installed
   daemon    running pid=19464 port=23111 v0.2.1-dev
-  connector connected (1 window(s), expected zhigou-connector v0.1.0)
+  connector connected (1 window(s), expected easycirq-connector v0.1.0)
   host      EasyEDA Pro 4.1.78 ()
-  protocol  zhigou-agent wire v1
+  protocol  easycirq-agent wire v1
   ✓ daemon     v0.2.1-dev 运行在端口 23111
   ✓ connector  1 个窗口已连接（连接器 v0.1.0）
   ✓ project    SkyPilot-X1（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）

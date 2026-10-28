@@ -7,12 +7,12 @@
   "ok": true,
   "result": {
     "artifactId": "art_6763ffa4-067a-4f9a-b41b-6232f370ec10",
-    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-231442-schematic_bom-6763ffa4.csv",
+    "artifactPath": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261027-231442-schematic_bom-6763ffa4.csv",
     "fileType": "csv"
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "ee9b284771dad29b",
     "documentType": "schematic",
     "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -20,7 +20,7 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "ee9b284771dad29b",
     "documentType": "schematic",
     "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -31,7 +31,7 @@
     {
       "id": "art_6763ffa4-067a-4f9a-b41b-6232f370ec10",
       "kind": "schematic_bom",
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-231442-schematic_bom-6763ffa4.csv",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261027-231442-schematic_bom-6763ffa4.csv",
       "fileName": "Export_BOM.csv",
       "mimeType": "text/csv",
       "size": 1020,

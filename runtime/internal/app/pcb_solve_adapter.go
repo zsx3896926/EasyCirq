@@ -5,7 +5,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
 )
 
 // boardSnapshotToModel is the fail-closed host adapter for the public solver.

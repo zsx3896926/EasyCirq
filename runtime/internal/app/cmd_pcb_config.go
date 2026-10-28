@@ -22,12 +22,12 @@ This changes rules, not existing tracks/vias or global editor preferences.
 Use --project and --doc to select the target. Save, reload and read back to
 verify persistence. See pcb stackup/origin and silk-add/silk-set for other
 exam settings. Grid/snap/global preferences are currently unsupported.`,
-		Example: `  zhigou pcb config get --project ceshi
-  zhigou pcb config track --name copperThickness1oz --min 8 --default 8 --dry-run --project ceshi --doc PCB1`,
+		Example: `  easycirq pcb config get --project ceshi
+  easycirq pcb config track --name copperThickness1oz --min 8 --default 8 --dry-run --project ceshi --doc PCB1`,
 	}
 	group.AddCommand(&cobra.Command{
 		Use: "get", Short: "Export current rules, net classes and assignments", Args: cobra.NoArgs,
-		Example: "  zhigou pcb config get --project ceshi > config-before.json",
+		Example: "  easycirq pcb config get --project ceshi > config-before.json",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return dispatch(cfg, "pcb.config.get", *window, nil, stdout, stderr)
 		},
@@ -56,7 +56,7 @@ Track/clearance update all existing layer-table entries. New track rules require
 --copy-from and do not become the default rule. Bind requires a non-empty class
 created using "pcb net-class create"; it does not alter members.
 Use pcb save, doc reload, config get to verify persistence.`,
-			Example: "  zhigou pcb config " + op.kind + " " + op.example + " --dry-run --project ceshi --doc PCB1\n  zhigou pcb config " + op.kind + " " + op.example + " --project ceshi --doc PCB1",
+			Example: "  easycirq pcb config " + op.kind + " " + op.example + " --dry-run --project ceshi --doc PCB1\n  easycirq pcb config " + op.kind + " " + op.example + " --project ceshi --doc PCB1",
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{"kind": op.kind, "dryRun": dryRun}
 				if op.kind == "bind" {
@@ -136,7 +136,7 @@ func newPcbConfigNetColorCmd(cfg *appConfig, window *string, stdout, stderr io.W
 	cmd := &cobra.Command{
 		Use: "net-color", Short: "Set one network's RGB color, preserving transparency",
 		Args:    cobra.NoArgs,
-		Example: "  zhigou pcb config net-color --net +5V --color '#FF8000' --dry-run --project ceshi --doc PCB1",
+		Example: "  easycirq pcb config net-color --net +5V --color '#FF8000' --dry-run --project ceshi --doc PCB1",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(net) == "" || !regexp.MustCompile(`^#[0-9a-fA-F]{6}$`).MatchString(color) {
 				return fmt.Errorf("provide --net and --color '#RRGGBB'")

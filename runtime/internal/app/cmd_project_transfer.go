@@ -127,8 +127,8 @@ project through the official @beta importer. The command never writes into an
 existing project and does not open the result. The archive is checked for ZIP
 integrity first; .epro2 must contain .epru data. Import success proves only
 that a project was created: open it and read back schematic, PCB and DRC.
-A timeout leaves the outcome unknown; run 'zhigou project find' before retrying.`,
-		Example: `  zhigou project import --window <id> --file design.epro2 --name blink-import`,
+A timeout leaves the outcome unknown; run 'easycirq project find' before retrying.`,
+		Example: `  easycirq project import --window <id> --file design.epro2 --name blink-import`,
 		Args:    cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(*window) == "" || strings.TrimSpace(name) == "" {
 				return fmt.Errorf("explicit --window and --name are required")
@@ -165,7 +165,7 @@ A timeout leaves the outcome unknown; run 'zhigou project find' before retrying.
 			if err != nil {
 				// The host may open the new project and reload the page mid-call
 				// (live 4.1.71), dropping the connector before it responds.
-				return fmt.Errorf("%w; outcome unknown: run `zhigou project find --name %q` before retrying", err, name)
+				return fmt.Errorf("%w; outcome unknown: run `easycirq project find --name %q` before retrying", err, name)
 			}
 			if uuid, _ := res.Result["uuid"].(string); uuid == "" {
 				return fmt.Errorf("project import returned no project identity")

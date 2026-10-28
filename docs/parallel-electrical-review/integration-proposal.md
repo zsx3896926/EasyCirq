@@ -30,7 +30,7 @@ design_engine、pcb_gate、runtime、connector、protocol、distribution、CI、
 
 ```json
 {
-  "schema": "zhigou.electrical-review.input/v1",
+  "schema": "easycirq.electrical-review.input/v1",
   "design": {"project_id": "mcu-i2c-s3-20261026", "document_id": "P2",
              "units": {"length": "mil", "voltage": "V", "capacitance": "uF"},
              "source_type": "derived"},
@@ -70,7 +70,7 @@ PYTHONPATH=easycirq/scripts python -m electrical_review review INPUT.json \
   3 `review_required`；4 `incomplete`。
 - `report.summary.totals` 分 checked/satisfied/violations/unknown/not_applicable/
   invalid_input；`report.status` 与退出码一一对应。
-- `schema` 固定为 `zhigou.electrical-review.input/v1`；报告 `zhigou.electrical-review.report/v1`。
+- `schema` 固定为 `easycirq.electrical-review.input/v1`；报告 `easycirq.electrical-review.report/v1`。
   不兼容变更需升版本号，不静默改语义。
 - 缺少证据的语义：`review_required`/`incomplete`，不是 `pass`；报告 `not_checked` 列出
   本模块不覆盖的 EDA/DRC/波形/铜/热/EMC/制造/上电。

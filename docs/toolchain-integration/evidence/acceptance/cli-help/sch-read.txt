@@ -8,12 +8,12 @@ so it's authoritative, not geometry-guessed. Use --no-check to skip the design
 check for a faster read.
 
 Usage:
-  zhigou sch read [flags]
+  easycirq sch read [flags]
 
 Examples:
-  zhigou sch read
-  zhigou sch read --all-pages
-  zhigou sch read --no-check
+  easycirq sch read
+  easycirq sch read --all-pages
+  easycirq sch read --no-check
 
 Flags:
       --all-pages doc switch   read components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)

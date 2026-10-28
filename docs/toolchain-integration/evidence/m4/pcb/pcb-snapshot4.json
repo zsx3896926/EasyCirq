@@ -7,7 +7,7 @@
   "ok": true,
   "result": {
     "artifactId": "art_aca7e593-3eb4-4d43-96cf-7c7c798aad5a",
-    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
+    "artifactPath": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
     "captureKind": "board-fitted-viewport-png",
     "capturedAt": "2026-10-27T15:48:24.411Z",
     "fitApi": "eda.pcb_Document.zoomToBoardOutline",
@@ -23,7 +23,7 @@
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -31,7 +31,7 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -42,7 +42,7 @@
     {
       "id": "art_aca7e593-3eb4-4d43-96cf-7c7c798aad5a",
       "kind": "pcb_snapshot",
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
       "fileName": "pcb-snapshot.png",
       "mimeType": "image/png",
       "size": 144620,

@@ -10,7 +10,7 @@
 技术资料收集和需求摘要由Agent承担。只问用户能观察/决定的使用条件，必要额定由产品资料取得；当前没拿到关键数据时只暂停依赖链路。
 
 ## 开工交付能力盘点（默认，S1 前）
-新硬件任务或新工程开始画图前，用一次 `zhigou doctor` + `zhigou capabilities` 做执行层与交付能力预检，并按任务逐项记录：原理图读写/检查/导出、原理图↔PCB 同步与 `board.binding`、层叠、布线、DRC、3D、BOM、Gerber、钻孔、CPL、`save.reload`（当前build若提供 `delivery` 分类则整组读取）。每项只标 `已实测 / API存在但未测 / GUI路径 / 需要开发 / 不支持`，写入工程记录与 `design-state`。
+新硬件任务或新工程开始画图前，用一次 `easycirq doctor` + `easycirq capabilities` 做执行层与交付能力预检，并按任务逐项记录：原理图读写/检查/导出、原理图↔PCB 同步与 `board.binding`、层叠、布线、DRC、3D、BOM、Gerber、钻孔、CPL、`save.reload`（当前build若提供 `delivery` 分类则整组读取）。每项只标 `已实测 / API存在但未测 / GUI路径 / 需要开发 / 不支持`，写入工程记录与 `design-state`。
 
 规则：`supported` 只说明接口/typed 能力存在，**接口存在 ≠ 已验证**；`API存在但未测`/`GUI路径` 要写明后续验证或人工导出方式，`不支持` 在开工时就告知用户并给替代路径。交付时把当初的盘点逐项回填真实结果，不能把“接口存在”改写成“已交付”。详见 [原理图绘图执行方法](schematic-authoring.md) §1.1。
 

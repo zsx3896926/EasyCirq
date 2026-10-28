@@ -3,8 +3,8 @@ package daemon
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 func TestWorkflowStagesDoNotAuthorizeTypedActions(t *testing.T) {

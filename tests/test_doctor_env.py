@@ -23,17 +23,17 @@ def client_row(name, installed=True, command='cmd'):
 def doctor_report(*, ready=True, connector='connected', verdict='ok',
                   daemon='running', blockers=None):
     return {
-        'schema': 'zhigou-doctor/v1',
+        'schema': 'easycirq-doctor/v1',
         'verdict': verdict,
         'ready': ready,
-        'runtime': {'name': 'zhigou', 'version': '0.2.0-dev', 'onDisk': True,
-                    'executable': 'zhigou.exe'},
+        'runtime': {'name': 'easycirq', 'version': '0.2.0-dev', 'onDisk': True,
+                    'executable': 'easycirq.exe'},
         'skill': {'name': 'easycirq', 'status': 'installed',
                   'installed': []},
         'daemon': {'status': daemon, 'pid': 1, 'port': 23111},
         'connector': {'status': connector,
                       'count': 1 if connector == 'connected' else 0},
-        'protocol': {'service': 'zhigou-agent', 'wireVersion': 'v1'},
+        'protocol': {'service': 'easycirq-agent', 'wireVersion': 'v1'},
         'checks': [],
         'failed_checks': [],
         'next_steps': ['import the connector'],
@@ -52,7 +52,7 @@ def capabilities_report(*, supported=('schematic.read',), unsupported=(),
     for cap in unknown:
         items[cap] = {'status': 'unknown', 'reason': 'connector not negotiated'}
     return {
-        'schema': 'zhigou-capabilities/v1',
+        'schema': 'easycirq-capabilities/v1',
         'connected': True,
         'summary': {'supported': len(supported), 'unsupported': len(unsupported),
                     'unknown': len(unknown)},
@@ -62,7 +62,7 @@ def capabilities_report(*, supported=('schematic.read',), unsupported=(),
                         for cap in unsupported],
         'unknown': [{'id': cap, 'reason': 'connector not negotiated'}
                     for cap in unknown],
-        'protocol': {'service': 'zhigou-agent'},
+        'protocol': {'service': 'easycirq-agent'},
         'connector': {'status': 'connected', 'count': 1, 'reported': []},
         'notes': [],
     }
@@ -75,7 +75,7 @@ class ClientDetection(unittest.TestCase):
                 client_row('WorkBuddy', installed=True)]
         with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
                 mock.patch.object(doctor, '_client_rows', return_value=rows), \
-                mock.patch.object(doctor, '_zhigou_probe',
+                mock.patch.object(doctor, '_easycirq_probe',
                                   return_value={'ready': True, 'blockers': [],
                                                 'doctor_ok': True,
                                                 'capabilities_ok': True}):
@@ -90,7 +90,7 @@ class ClientDetection(unittest.TestCase):
                 client_row('WorkBuddy', installed=False)]
         with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
                 mock.patch.object(doctor, '_client_rows', return_value=rows), \
-                mock.patch.object(doctor, '_zhigou_probe',
+                mock.patch.object(doctor, '_easycirq_probe',
                                   return_value={'ready': True, 'blockers': [],
                                                 'doctor_ok': True,
                                                 'capabilities_ok': True}):
@@ -121,12 +121,12 @@ class ClientDetection(unittest.TestCase):
             'status': 'incomplete',
             'host': {'cwd': 'X'},
             'clients': [],
-            'zhigou': {'command': None, 'doctor_ok': False,
+            'easycirq': {'command': None, 'doctor_ok': False,
                        'capabilities_ok': False,
                        'doctor_error': 'not found',
                        'capabilities_error': 'not found',
                        'ready': False, 'blockers': ['not found']},
-            'missing': ['zhigou not found'],
+            'missing': ['easycirq not found'],
         }
         text = doctor.render_summary(report)
         self.assertIn('NOT tested', text)
@@ -150,14 +150,14 @@ class ClientDetection(unittest.TestCase):
         self.assertTrue(rows[0]['installed'])
 
 
-class ZhigouProbe(unittest.TestCase):
+class EasyCirqProbe(unittest.TestCase):
     def test_ready_toolchain_requires_doctor_and_capabilities(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
+        with mock.patch.object(doctor.easycirq_cli, 'doctor',
                                return_value={'ok': True, 'report': doctor_report()}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
+                mock.patch.object(doctor.easycirq_cli, 'capabilities',
                                   return_value={'ok': True,
                                                 'report': capabilities_report()}):
-            report = doctor._zhigou_probe()
+            report = doctor._easycirq_probe()
         self.assertTrue(report['ready'])
         self.assertEqual(report['doctor']['verdict'], 'ok')
         self.assertEqual(report['connector']['status'], 'connected')
@@ -166,35 +166,35 @@ class ZhigouProbe(unittest.TestCase):
         broken = doctor_report(ready=False, connector='disconnected',
                                verdict='degraded',
                                blockers=['connector is disconnected'])
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
+        with mock.patch.object(doctor.easycirq_cli, 'doctor',
                                return_value={'ok': True, 'report': broken}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
+                mock.patch.object(doctor.easycirq_cli, 'capabilities',
                                   return_value={'ok': True,
                                                 'report': capabilities_report(
                                                     supported=(),
                                                     unknown=('schematic.write',))}):
-            report = doctor._zhigou_probe()
+            report = doctor._easycirq_probe()
         self.assertFalse(report['ready'])
         self.assertTrue(any('connector' in item for item in report['blockers']))
 
     def test_doctor_failure_is_reported_as_not_run(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
+        with mock.patch.object(doctor.easycirq_cli, 'doctor',
                                return_value={'ok': False, 'report': None,
-                                             'error': 'zhigou doctor exited 127'}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
+                                             'error': 'easycirq doctor exited 127'}), \
+                mock.patch.object(doctor.easycirq_cli, 'capabilities',
                                   return_value={'ok': False, 'report': None,
-                                                'error': 'zhigou capabilities exited 127'}):
-            report = doctor._zhigou_probe()
+                                                'error': 'easycirq capabilities exited 127'}):
+            report = doctor._easycirq_probe()
         self.assertFalse(report['ready'])
         self.assertIn('127', ' '.join(report['blockers']))
 
     def test_unsupported_capability_blocks_preflight(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
+        with mock.patch.object(doctor.easycirq_cli, 'doctor',
                                return_value={'ok': True, 'report': doctor_report()}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
+                mock.patch.object(doctor.easycirq_cli, 'capabilities',
                                   return_value={'ok': True, 'report': capabilities_report(
                                       unsupported=('pcb.route',))}):
-            report = doctor._zhigou_probe()
+            report = doctor._easycirq_probe()
         self.assertFalse(report['ready'])
         self.assertTrue(any('pcb.route' in item for item in report['blockers']))
 
@@ -209,13 +209,13 @@ class ZhigouProbe(unittest.TestCase):
             calls.append(kwargs)
             return {'ok': True, 'report': capabilities_report()}
 
-        with mock.patch.object(doctor.zhigou_cli, 'doctor', side_effect=fake_doctor), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
+        with mock.patch.object(doctor.easycirq_cli, 'doctor', side_effect=fake_doctor), \
+                mock.patch.object(doctor.easycirq_cli, 'capabilities',
                                   side_effect=fake_capabilities):
-            doctor._zhigou_probe()
+            doctor._easycirq_probe()
         self.assertTrue(calls)
         for call in calls:
-            self.assertEqual(call['env']['ZHIGOU_NO_AUTOSTART'], '1')
+            self.assertEqual(call['env']['EASYCIRQ_NO_AUTOSTART'], '1')
 
 
 if __name__ == '__main__':

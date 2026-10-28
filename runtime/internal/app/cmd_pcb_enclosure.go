@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/enclosure"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/enclosure"
 )
 
 const mmPerMil = 0.0254
@@ -27,10 +27,10 @@ cutouts/pockets and solid bosses, written as binary STL in mm.
   plan   derive an editable spec.json from "pcb dump" (+ "pcb 3d models")
   build  check the spec (component/board clearance, mesh volume) and write STL
 Neither command talks to EasyEDA; the enclosure is not an EDA shell object.`,
-		Example: `  zhigou pcb dump --project ceshi --out board.json
-  zhigou pcb 3d models --project ceshi > models.json
-  zhigou pcb enclosure plan --board board.json --models models.json --top-cutout SW1 --out spec.json
-  zhigou pcb enclosure build --spec spec.json --out ./enclosure`,
+		Example: `  easycirq pcb dump --project ceshi --out board.json
+  easycirq pcb 3d models --project ceshi > models.json
+  easycirq pcb enclosure plan --board board.json --models models.json --top-cutout SW1 --out spec.json
+  easycirq pcb enclosure build --spec spec.json --out ./enclosure`,
 	}
 	group.AddCommand(newPcbEnclosurePlanCmd(stdout, stderr), newPcbEnclosureBuildCmd(stdout, stderr))
 	return group
@@ -51,8 +51,8 @@ lip, screw pillars at mounting holes, side openings for edge connectors
 names its source; unknown heights use --default-height and are listed in
 warnings — fix them with --height REF=mm so the total height is recomputed. Review and edit the spec, then run "pcb enclosure build".`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb enclosure plan --board board.json --models models.json --out spec.json
-  zhigou pcb enclosure plan --board board.json --mode rect --wall 2.4 --top-cutout SW1,SW2 --out spec.json`,
+		Example: `  easycirq pcb enclosure plan --board board.json --models models.json --out spec.json
+  easycirq pcb enclosure plan --board board.json --mode rect --wall 2.4 --top-cutout SW1,SW2 --out spec.json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if boardPath == "" || out == "" {
 				return fmt.Errorf("--board and --out are required")
@@ -263,7 +263,7 @@ preview.png and manifest.json into a NEW --out directory; --step also writes
 checked too; spans thinner than 0.8 mm are warnings. On any failed check only
 manifest.json and preview.png are written and the command exits non-zero.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou pcb enclosure build --spec spec.json --out ./enclosure`,
+		Example: `  easycirq pcb enclosure build --spec spec.json --out ./enclosure`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if specPath == "" || out == "" {
 				return fmt.Errorf("--spec and --out are required")

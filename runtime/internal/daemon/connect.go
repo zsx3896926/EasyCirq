@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // handleConnect accepts the connector WebSocket and runs the read loop until the
@@ -51,7 +51,7 @@ func (s *Server) handleConnect(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	// Identify ourselves first so the connector can verify it reached an
-	// zhigou-agent daemon before it registers.
+	// easycirq-agent daemon before it registers.
 	if err := c.write(ctx, protocol.Handshake{
 		Type:    protocol.TypeHandshake,
 		Service: Service,

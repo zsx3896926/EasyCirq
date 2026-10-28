@@ -67,7 +67,7 @@ func TestPcbAntennaKeepoutEvidence(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Set("Content-Type", "application/json")
 				if r.URL.Path == "/health" {
-					fmt.Fprint(w, `{"service":"zhigou-agent","windows":[{"windowId":"synthetic-window"}]}`)
+					fmt.Fprint(w, `{"service":"easycirq-agent","windows":[{"windowId":"synthetic-window"}]}`)
 					return
 				}
 				var request struct {

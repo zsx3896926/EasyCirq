@@ -55,7 +55,7 @@ func newWebReloadFixture(t *testing.T, fx *webReloadFixture) (*appConfig, func()
 			if fx.preexistingWindow {
 				windows = append([]any{map[string]any{"windowId": "existing-empty-window", "context": map[string]any{"projectUuid": project}}}, windows...)
 			}
-			_ = json.NewEncoder(w).Encode(map[string]any{"service": "zhigou-agent", "windows": windows})
+			_ = json.NewEncoder(w).Encode(map[string]any{"service": "easycirq-agent", "windows": windows})
 			return
 		}
 		var req struct {
@@ -309,7 +309,7 @@ func TestWebReloadReadConsumesOnlyRemainingBudget(t *testing.T) {
 func TestWebReloadRefusesWrongDocumentBeforeSave(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"old-window","context":{"projectUuid":"project-1","documentUuid":"doc-2"}}]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"old-window","context":{"projectUuid":"project-1","documentUuid":"doc-2"}}]}`))
 			return
 		}
 		var req struct {

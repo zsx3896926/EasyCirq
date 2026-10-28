@@ -17,8 +17,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/pcb/svgimport"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/pcb/svgimport"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // runExternalRouter keeps the command-template interface while selecting the
@@ -360,7 +360,7 @@ var pcbClearScopes = map[string]bool{
 }
 
 // parsePcbDrcRulesSetSpec accepts both hand-authored rule specs and the JSON
-// emitted by `zhigou pcb drc-rules`.  CLI output is a full action envelope
+// emitted by `easycirq pcb drc-rules`.  CLI output is a full action envelope
 // (`{ok,result:{rules:{name,config}}}`), so requiring users or examples to
 // manually strip two wrapper levels breaks the intended export/edit/import
 // loop.  The connector performs the final {name,config} → bare config
@@ -447,9 +447,9 @@ func buildPcbClearPayload(only string, dryRun, noPreserveOutline, includeLocked 
 // newPcbCmd returns the "pcb" subcommand group with all PCB actions.
 // --window is a persistent flag on the group so every subcommand inherits it.
 //
-// Switching the active document to a PCB is done with the generic `zhigou doc
+// Switching the active document to a PCB is done with the generic `easycirq doc
 // switch <name|uuid>` (or `pcb docs` to list boards first) — there is no
-// pcb-specific open. PCB design rules live in the zhigou-agent skill references
+// pcb-specific open. PCB design rules live in the easycirq-agent skill references
 // skills.
 func newPcbCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	var window string
@@ -483,7 +483,7 @@ func newPcbCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 The native boolean passed verdict controls the exit status in raw and JSON modes.
 passed:false or an unavailable verdict returns nonzero; JSON preserves nativeResult.
 
-This is the PCB counterpart to ` + "`zhigou sch drc`" + ` (schematic DRC). The two are
+This is the PCB counterpart to ` + "`easycirq sch drc`" + ` (schematic DRC). The two are
 distinct subcommands and route to different documents automatically — pcb.* targets
 the project's PCB window, schematic.* targets the schematic window — so they never
 cross-fire. The PCB must be the active/foreground document.
@@ -500,10 +500,10 @@ with the result preserved on stdout. --json also retains the original result in
 nativeResult so unrecognized native detail is not silently discarded. Action or
 response-shape failures preserve the original response instead of a flat report.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb drc
-  zhigou pcb drc --strict
-  zhigou pcb drc --json                  # flat rows, coordinates in mil
-  zhigou pcb drc --json --timeout 120    # allow a heavy board 2 minutes`,
+			Example: `  easycirq pcb drc
+  easycirq pcb drc --strict
+  easycirq pcb drc --json                  # flat rows, coordinates in mil
+  easycirq pcb drc --json --timeout 120    # allow a heavy board 2 minutes`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var payload map[string]any
 				if strict {
@@ -558,8 +558,8 @@ response-shape failures preserve the original response instead of a flat report.
 		Use:   "docs",
 		Short: "List PCB documents in the current project (uuid + name)",
 		Args:  cobra.NoArgs,
-		Example: `  zhigou pcb docs
-  zhigou doc switch <uuid>   # then switch to one`,
+		Example: `  easycirq pcb docs
+  easycirq doc switch <uuid>   # then switch to one`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return dispatch(cfg, "pcb.documents.list", window, nil, stdout, stderr)
 		},
@@ -575,7 +575,7 @@ response-shape failures preserve the original response instead of a flat report.
 			Short: "Delete one exact, unbound PCB document and verify it is gone (no undo)",
 			Long: "Delete one PCB document after a UUID + --expected-name preflight against the\n" +
 				"project's PCB list. A PCB still bound to a Board is refused: use\n" +
-				"'zhigou board delete' (Board + its documents) or 'board delete --keep-documents'\n" +
+				"'easycirq board delete' (Board + its documents) or 'board delete --keep-documents'\n" +
 				"to unbind first. Success requires the PCB to be absent from a fresh readback;\n" +
 				"other documents removed with it (reuse-module cascade) are reported in alsoDeleted.\n\n" +
 				"A verified delete then refreshes the official project tree by saving the active\n" +
@@ -584,9 +584,9 @@ response-shape failures preserve the original response instead of a flat report.
 				"already be saved. Reported as treeRefreshed/treeRefresh — a failed refresh does\n" +
 				"not fail the delete. --no-tree-refresh skips it.",
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb docs                                              # find uuid + name
-  zhigou pcb doc-delete --uuid <pcbUuid> --expected-name PCB1_1 --dry-run
-  zhigou pcb doc-delete --uuid <pcbUuid> --expected-name PCB1_1`,
+			Example: `  easycirq pcb docs                                              # find uuid + name
+  easycirq pcb doc-delete --uuid <pcbUuid> --expected-name PCB1_1 --dry-run
+  easycirq pcb doc-delete --uuid <pcbUuid> --expected-name PCB1_1`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if uuid == "" || expectedName == "" {
 					return fmt.Errorf("--uuid and --expected-name are required")
@@ -616,7 +616,7 @@ response-shape failures preserve the original response instead of a flat report.
 			Long: `Create a brand-new board (板) that CONTAINS a fresh, empty PCB page, bound to a
 schematic — the CLI equivalent of the UI's 新建PCB / 原理图转PCB. You get a clean
 board to lay out from scratch, still driven by the schematic netlist (switch to it,
-then 'zhigou pcb import-changes').
+then 'easycirq pcb import-changes').
 
 IMPORTANT: a schematic can belong to only ONE board in EasyEDA Pro. If the target
 schematic is ALREADY bound to a board, this command refuses (it would otherwise MOVE
@@ -627,12 +627,12 @@ out another PCB for an already-bound schematic, work inside its existing board. 
 Under the hood it runs the required 2-step SDK sequence (createBoard shell →
 createPcb into that board — a one-shot createPcb is a silent no-op), with rollback
 if the PCB can't be created. --schematic defaults to the CURRENT board's schematic,
-so in a single-design project you can just run 'zhigou pcb new-board'.`,
+so in a single-design project you can just run 'easycirq pcb new-board'.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb new-board
-  zhigou pcb new-board --name ESP32-rev2
-  zhigou pcb new-board --schematic de2bc6678317009f --name Proto
-  zhigou pcb new-board --schematic de2bc6678317009f --force   # move an already-bound schematic`,
+			Example: `  easycirq pcb new-board
+  easycirq pcb new-board --name ESP32-rev2
+  easycirq pcb new-board --schematic de2bc6678317009f --name Proto
+  easycirq pcb new-board --schematic de2bc6678317009f --force   # move an already-bound schematic`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if schematic != "" {
@@ -662,9 +662,9 @@ so in a single-design project you can just run 'zhigou pcb new-board'.`,
 			Use:   "list",
 			Short: "List placed components/footprints on the active PCB",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb list
-  zhigou pcb list --include-bbox
-  zhigou pcb list --layer TOP --include-pads`,
+			Example: `  easycirq pcb list
+  easycirq pcb list --include-bbox
+  easycirq pcb list --layer TOP --include-pads`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if layer != "" {
@@ -728,8 +728,8 @@ so in a single-design project you can just run 'zhigou pcb new-board'.`,
 			Use:   "layer-set",
 			Short: "Switch the active/edit PCB layer (id|name|top|bottom|inner1)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb layer-set --layer bottom --project ceshi
-  zhigou pcb layer-set --layer Inner1`,
+			Example: `  easycirq pcb layer-set --layer bottom --project ceshi
+  easycirq pcb layer-set --layer Inner1`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if layer == "" {
 					return fmt.Errorf("--layer is required (id|name|top|bottom|inner1)")
@@ -751,9 +751,9 @@ so in a single-design project you can just run 'zhigou pcb new-board'.`,
 			Use:   "layer-visibility",
 			Short: "Show/hide/focus PCB layers (preset or explicit show/hide)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb layer-visibility --preset bottom-only --project ceshi
-  zhigou pcb layer-visibility --show bottom --show 4 --exclusive
-  zhigou pcb layer-visibility --hide top`,
+			Example: `  easycirq pcb layer-visibility --preset bottom-only --project ceshi
+  easycirq pcb layer-visibility --show bottom --show 4 --exclusive
+  easycirq pcb layer-visibility --hide top`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if preset != "" {
@@ -769,7 +769,7 @@ so in a single-design project you can just run 'zhigou pcb new-board'.`,
 					payload["exclusive"] = true
 				}
 				if len(payload) == 0 {
-					return fmt.Errorf("nothing to do — use --preset, or --show/--hide (ids from `zhigou pcb layers`)")
+					return fmt.Errorf("nothing to do — use --preset, or --show/--hide (ids from `easycirq pcb layers`)")
 				}
 				return dispatch(cfg, "pcb.layers.visibility", window, payload, stdout, stderr)
 			},
@@ -788,8 +788,8 @@ so in a single-design project you can just run 'zhigou pcb new-board'.`,
 			Use:   "view-side",
 			Short: "Switch the PCB view to the top or bottom side (for snapshots)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb view-side --side bottom --project ceshi
-  zhigou pcb snapshot   # then capture the bottom-focused view`,
+			Example: `  easycirq pcb view-side --side bottom --project ceshi
+  easycirq pcb snapshot   # then capture the bottom-focused view`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if side == "" {
 					return fmt.Errorf("--side is required (top|bottom)")
@@ -857,21 +857,21 @@ schematic and PCB first, then recomputes ratlines.
 The platform's import copies the top-level identity fields but leaves the
 otherProperty VALUES empty on the PCB side (Value/Voltage Rating/Tolerance/
 Datasheet/… all "") — blanking the 器件标准化 panel's columns. Filling them is
-OPT-IN (--sync-attrs, or standalone ` + "`zhigou pcb sync-attrs`" + `): the
+OPT-IN (--sync-attrs, or standalone ` + "`easycirq pcb sync-attrs`" + `): the
 library values exist only on the PCB side, so native DRC then reports
 "Netlist Error: PCB and schematic netlist does not match" (live 2026-10-13: the
 error came back after every default import and vanished with the backfill
 skipped). A clean schematic↔PCB DRC outranks filled BOM columns.
 
 After the attrs sync this command ALSO runs the designator repair
-(` + "`zhigou pcb sync-designators`" + `, matched by uniqueId — the one id both
+(` + "`easycirq pcb sync-designators`" + `, matched by uniqueId — the one id both
 documents share). The import itself lands real designators; the repair is a
 rear-guard for boards damaged by the old attrs-backfill Designator-key bug
 (166/166 wiped to U?/C? on a real board) and for any future whole-otherProperty
 write that resets them. Disable with --no-sync-designators.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb import-changes
-  zhigou pcb import-changes --schematic <uuid>`,
+			Example: `  easycirq pcb import-changes
+  easycirq pcb import-changes --schematic <uuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if schematicUUID != "" {
@@ -908,12 +908,12 @@ write that resets them. Disable with --no-sync-designators.`,
 				// 写入若再毁位号，殿后的回填都能当场修回。
 				if landed && syncAttrs && !noSyncAttrs {
 					if err := syncSchAttrsToPcb(cfg, window, false, stderr); err != nil {
-						fmt.Fprintf(stderr, "⚠ attrs sync after import failed (import itself succeeded): %v — retry with `zhigou pcb sync-attrs`\n", err)
+						fmt.Fprintf(stderr, "⚠ attrs sync after import failed (import itself succeeded): %v — retry with `easycirq pcb sync-attrs`\n", err)
 					}
 				}
 				if landed && !noSyncDesignators {
 					if rep, err := runSyncDesignators(cfg, window, false, stderr); err != nil {
-						fmt.Fprintf(stderr, "⚠ designator sync after import failed (import itself succeeded): %v — retry with `zhigou pcb sync-designators`\n", err)
+						fmt.Fprintf(stderr, "⚠ designator sync after import failed (import itself succeeded): %v — retry with `easycirq pcb sync-designators`\n", err)
 					} else if rep.Repaired > 0 || len(rep.Unmatched) > 0 || len(rep.SchUnannotated) > 0 || len(rep.Failed) > 0 {
 						fmt.Fprintf(stderr, "designators: %s\n", rep.Summary)
 						for _, f := range rep.Failed {
@@ -931,7 +931,7 @@ write that resets them. Disable with --no-sync-designators.`,
 		c.Flags().BoolVar(&noSyncAttrs, "no-sync-attrs", false, "deprecated: the backfill is now opt-in (--sync-attrs)")
 		_ = c.Flags().MarkHidden("no-sync-attrs")
 		c.Flags().BoolVar(&noSyncDesignators, "no-sync-designators", false,
-			"skip the automatic designator repair after import (the platform leaves every\ndesignator as a U?/C? placeholder; see `zhigou pcb sync-designators`)")
+			"skip the automatic designator repair after import (the platform leaves every\ndesignator as a U?/C? placeholder; see `easycirq pcb sync-designators`)")
 		pcb.AddCommand(c)
 	}
 
@@ -960,8 +960,8 @@ forces the library values. Parts without a C-number are skipped and reported.
 Cost: the values land on the PCB only, so native DRC reports "Netlist Error:
 PCB and schematic netlist does not match" until the next plain import-changes
 (live 2026-10-13). Run it for BOM/standardization output, not before a DRC gate.`,
-			Example: `  zhigou pcb sync-attrs
-  zhigou pcb sync-attrs --overwrite`,
+			Example: `  easycirq pcb sync-attrs
+  easycirq pcb sync-attrs --overwrite`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return syncSchAttrsToPcb(cfg, window, overwrite, stdout)
 			},
@@ -991,11 +991,11 @@ twin (--designator + --unique-id), assigns each pad's net from --nets
 Get --nets and --unique-id from 'sch read' (the netlist is only readable while the
 schematic is active, so you pass them). Workflow:
   1. place + wire the part in the schematic (sch place / connect)
-  2. zhigou sch read   → note the part's pin nets + uniqueId
-  3. zhigou pcb add-component --library … --uuid … --x … --y … \
+  2. easycirq sch read   → note the part's pin nets + uniqueId
+  3. easycirq pcb add-component --library … --uuid … --x … --y … \
        --designator U2 --unique-id gge9 --nets '{"5":"3V3","3":"GND"}'`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb add-component --library <lib> --uuid <dev> --x 3500 --y -1900 \
+			Example: `  easycirq pcb add-component --library <lib> --uuid <dev> --x 3500 --y -1900 \
       --designator U2 --unique-id gge9 --nets '{"5":"3V3","3":"GND"}'`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if libraryUUID == "" || deviceUUID == "" {
@@ -1059,11 +1059,11 @@ Virtual groups (#173): a patch that changes x/y/rotation/layer of a member of a
 multi-part ` + "`pcb group`" + ` is refused (it would break the group) — use
 ` + "`pcb group move`" + `, or --break-group to override.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb modify --id <pid> --patch '{"x":1000,"y":2000}'   # x/y = ANCHOR
-  zhigou pcb modify --id <pid> --patch '{"rotation":90,"layer":"bottom"}'   # layer: top|bottom or 1|2, verified by readback
-  zhigou pcb modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
-  zhigou pcb modify --id <pid> --patch '{"locked":false}'      # verified via readback (#174); batches → 'pcb lock'
-  zhigou pcb modify --id <pid> --center --x 1500 --y 2200      # x/y = desired bbox CENTER`,
+			Example: `  easycirq pcb modify --id <pid> --patch '{"x":1000,"y":2000}'   # x/y = ANCHOR
+  easycirq pcb modify --id <pid> --patch '{"rotation":90,"layer":"bottom"}'   # layer: top|bottom or 1|2, verified by readback
+  easycirq pcb modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  easycirq pcb modify --id <pid> --patch '{"locked":false}'      # verified via readback (#174); batches → 'pcb lock'
+  easycirq pcb modify --id <pid> --center --x 1500 --y 2200      # x/y = desired bbox CENTER`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if id == "" {
 					return fmt.Errorf("--id is required")
@@ -1139,15 +1139,15 @@ lists applied / alreadyInState / notApplied / missing ids, and a write that
 did not stick can never report ok.
 
 Scope EXACTLY ONE of:
-  --ids   lock/unlock these component primitiveIds (from 'zhigou pcb list')
+  --ids   lock/unlock these component primitiveIds (from 'easycirq pcb list')
   --all   every component on the active PCB (idempotent — components already
           in the desired state are counted, not re-written)
 
 For copper routing (tracks/vias/fills) use 'pcb track-lock' instead.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb lock --ids id1,id2            # lock two components
-  zhigou pcb lock --all --unlock           # release every component on the board
-  zhigou pcb lock --ids id1 --unlock       # unlock one`,
+			Example: `  easycirq pcb lock --ids id1,id2            # lock two components
+  easycirq pcb lock --all --unlock           # release every component on the board
+  easycirq pcb lock --ids id1 --unlock       # unlock one`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if (idsRaw == "") == !all {
 					return fmt.Errorf("pass EXACTLY ONE of --ids or --all")
@@ -1191,8 +1191,8 @@ For copper routing (tracks/vias/fills) use 'pcb track-lock' instead.`,
 			Use:   "delete",
 			Short: "Delete PCB component primitives by id",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb delete --ids id1,id2
-  zhigou pcb delete --ids id1,id2          # CSV works too`,
+			Example: `  easycirq pcb delete --ids id1,id2
+  easycirq pcb delete --ids id1,id2          # CSV works too`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if idsRaw == "" {
 					return fmt.Errorf("--ids is required")
@@ -1234,13 +1234,13 @@ tracks AFTER a reload. The verify pass is exactly the "run it again after a
 reload" the manual workaround was; --no-verify restores the single-pass
 behavior (faster, but re-check with '--dry-run' after a reload yourself).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb clear                        # reset + reload + verify (usually 2 passes to a provable 0)
-  zhigou pcb clear --no-verify            # single pass, no save/reload (legacy behavior)
-  zhigou pcb clear --dry-run              # report what would be deleted, delete nothing
-  zhigou pcb clear --only components      # delete only components
-  zhigou pcb clear --only routing,copper  # delete only routing + pours/fills
-  zhigou pcb clear --no-preserve-outline  # also delete the board outline (layer 11)
-  zhigou pcb clear --include-locked       # also delete locked primitives (danger)`,
+			Example: `  easycirq pcb clear                        # reset + reload + verify (usually 2 passes to a provable 0)
+  easycirq pcb clear --no-verify            # single pass, no save/reload (legacy behavior)
+  easycirq pcb clear --dry-run              # report what would be deleted, delete nothing
+  easycirq pcb clear --only components      # delete only components
+  easycirq pcb clear --only routing,copper  # delete only routing + pours/fills
+  easycirq pcb clear --no-preserve-outline  # also delete the board outline (layer 11)
+  easycirq pcb clear --include-locked       # also delete locked primitives (danger)`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload, err := buildPcbClearPayload(only, dryRun, noPreserveOutline, includeLocked)
 				if err != nil {
@@ -1313,8 +1313,8 @@ behavior (faster, but re-check with '--dry-run' after a reload yourself).`,
 			Use:   "grid-snap",
 			Short: "Snap component anchors to a grid (PCB data units, mil-scale)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb grid-snap --grid 100
-  zhigou pcb grid-snap --grid 100 --ids id1,id2`,
+			Example: `  easycirq pcb grid-snap --grid 100
+  easycirq pcb grid-snap --grid 100 --ids id1,id2`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if !cmd.Flags().Changed("grid") {
 					return fmt.Errorf("--grid is required")
@@ -1347,8 +1347,8 @@ behavior (faster, but re-check with '--dry-run' after a reload yourself).`,
 			Use:   "move",
 			Short: "Translate components by a relative (dx, dy) offset",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb move --dx 100 --dy 0
-  zhigou pcb move --dx 100 --dy 50 --ids id1`,
+			Example: `  easycirq pcb move --dx 100 --dy 0
+  easycirq pcb move --dx 100 --dy 50 --ids id1`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if !cmd.Flags().Changed("dx") && !cmd.Flags().Changed("dy") {
 					return fmt.Errorf("at least one of --dx / --dy is required")
@@ -1387,10 +1387,10 @@ behavior (faster, but re-check with '--dry-run' after a reload yourself).`,
 
 mode=cluster groups by shared local nets; mode=grid packs a flat grid. Each cluster
 is grid-packed into a tidy block with gutters; locked components are skipped. Apply
-the placement priorities in pcb-layout-conventions.md (zhigou-agent) afterward.`,
+the placement priorities in pcb-layout-conventions.md (easycirq-agent) afterward.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb arrange
-  zhigou pcb arrange --mode grid --cols 8 --pitch 200`,
+			Example: `  easycirq pcb arrange
+  easycirq pcb arrange --mode grid --cols 8 --pitch 200`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if mode != "" {
@@ -1447,10 +1447,10 @@ the placement priorities in pcb-layout-conventions.md (zhigou-agent) afterward.`
 			Long: `Set the board outline from a closed polygon of points (mil, y-up).
 
 Replaces any existing outline by default. The agent generates the points for the
-desired shape (rectangle/rounded-rect/circle/instrument) — see the zhigou-agent skill;
+desired shape (rectangle/rounded-rect/circle/instrument) — see the easycirq-agent skill;
 curves are approximated by line segments. Reports whether all components fall inside.`,
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb outline-set --points '[[0,0],[2000,0],[2000,1500],[0,1500]]'`,
+			Example: `  easycirq pcb outline-set --points '[[0,0],[2000,0],[2000,1500],[0,1500]]'`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if pointsJSON == "" {
 					return fmt.Errorf("--points is required")
@@ -1508,8 +1508,8 @@ editor only; every primitive keeps the same API/data coordinates and geometry.`,
 			Use:   "set",
 			Short: "Set and read back canvas-origin X/Y offsets in mil",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb origin set --x 0 --y 0
-  zhigou pcb origin set --x 118.11 --y 118.11  # 3mm, display origin only`,
+			Example: `  easycirq pcb origin set --x 0 --y 0
+  easycirq pcb origin set --x 118.11 --y 118.11  # 3mm, display origin only`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return dispatch(cfg, "pcb.origin.set", window, map[string]any{
 					"offsetX": offsetX,
@@ -1564,8 +1564,8 @@ power roles step up per pcb-layout-conventions.md §7.8), clamped ≥ the fab's
 legal minimum. Power-rung widths are METRIC-round per pcb-design-rules.md §1.2
 (0.05mm grid): branch 0.25mm (9.84mil) / trunk 0.4mm (15.75mil) /
 high-current 0.5mm (19.69mil) — not mil fragments like 10/15/20.`,
-			Example: `  zhigou pcb net-classes            # human table
-  zhigou pcb net-classes --json     # {role: {mil, mm}}`,
+			Example: `  easycirq pcb net-classes            # human table
+  easycirq pcb net-classes --json     # {role: {mil, mm}}`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				rules := fetchPcbRules(cfg, window)
 				table := netClassWidthTable(rules)
@@ -1622,7 +1622,7 @@ high-current 0.5mm (19.69mil) — not mil fragments like 10/15/20.`,
 				Use:     "create",
 				Short:   "Create a real net class from explicit existing PCB nets",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou pcb net-class create --name PWR_Class --net +5V --net +3V3 --net GND`,
+				Example: `  easycirq pcb net-class create --name PWR_Class --net +5V --net +3V3 --net GND`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if strings.TrimSpace(name) == "" || len(nets) == 0 {
 						return fmt.Errorf("--name and at least one --net are required")
@@ -1663,8 +1663,8 @@ configuration is an immutable system preset (JLCPCB Capability …), writing
 turns it into a per-board 自定义配置 copy — expected and required (system
 presets cannot be modified). Run "pcb pour-rebuild" afterwards so existing
 pours reflow under the new clearance.`,
-			Example: `  zhigou pcb drc-rules-set --pour-clearance 12   # 10→12mil margin, then:
-  zhigou pcb pour-rebuild`,
+			Example: `  easycirq pcb drc-rules-set --pour-clearance 12   # 10→12mil margin, then:
+  easycirq pcb pour-rebuild`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if fromPath != "" {
 					if cmd.Flags().Changed("pour-clearance") {
@@ -1713,8 +1713,8 @@ pours reflow under the new clearance.`,
 			Use:   "track",
 			Short: "Create a copper track (导线) on a layer between two points (mil, y-up)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb track --x1 1000 --y1 1000 --x2 1500 --y2 1000 --net GND
-  zhigou pcb track --x1 0 --y1 0 --x2 500 --y2 0 --layer 2 --width 10`,
+			Example: `  easycirq pcb track --x1 1000 --y1 1000 --x2 1500 --y2 1000 --net GND
+  easycirq pcb track --x1 0 --y1 0 --x2 500 --y2 0 --layer 2 --width 10`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				for _, f := range []string{"x1", "y1", "x2", "y2"} {
 					if !cmd.Flags().Changed(f) {
@@ -1738,7 +1738,7 @@ pours reflow under the new clearance.`,
 		c.Flags().Float64Var(&y1, "y1", 0, "start Y (mil, required)")
 		c.Flags().Float64Var(&x2, "x2", 0, "end X (mil, required)")
 		c.Flags().Float64Var(&y2, "y2", 0, "end Y (mil, required)")
-		c.Flags().IntVar(&layer, "layer", 1, "copper layer id: TOP=1, BOTTOM=2; inner ids via 'zhigou pcb layers'")
+		c.Flags().IntVar(&layer, "layer", 1, "copper layer id: TOP=1, BOTTOM=2; inner ids via 'easycirq pcb layers'")
 		c.Flags().Float64Var(&width, "width", 0, "track width (mil; default 6)")
 		c.Flags().StringVar(&net, "net", "", "net name to bind the track to")
 		pcb.AddCommand(c)
@@ -1750,8 +1750,8 @@ pours reflow under the new clearance.`,
 			Use:   "via",
 			Short: "Place a via (过孔) at (x,y) with hole + outer diameter (mil, y-up)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb via --x 1200 --y 1000 --net GND
-  zhigou pcb via --x 1200 --y 1000 --hole 12 --diameter 24 --net GND`,
+			Example: `  easycirq pcb via --x 1200 --y 1000 --net GND
+  easycirq pcb via --x 1200 --y 1000 --hole 12 --diameter 24 --net GND`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if !cmd.Flags().Changed("x") || !cmd.Flags().Changed("y") {
 					return fmt.Errorf("--x and --y are required")
@@ -1797,7 +1797,7 @@ pours reflow under the new clearance.`,
 			Use:     "track-list",
 			Short:   "List copper tracks (导线), optionally by net/layer",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb track-list --net GND`,
+			Example: `  easycirq pcb track-list --net GND`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if net != "" {
@@ -1819,7 +1819,7 @@ pours reflow under the new clearance.`,
 			Use:     "via-list",
 			Short:   "List vias (过孔), optionally by net",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb via-list --net GND`,
+			Example: `  easycirq pcb via-list --net GND`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if net != "" {
@@ -1839,9 +1839,9 @@ pours reflow under the new clearance.`,
 			Use:   "rip-up",
 			Short: "Rip up routing (delete tracks+vias); --net to scope, omit = all. Outline/locked are safe",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb rip-up --net GND
-  zhigou pcb rip-up --net GND --net +3V3
-  zhigou pcb rip-up            # rip up ALL routing (board outline + locked survive)`,
+			Example: `  easycirq pcb rip-up --net GND
+  easycirq pcb rip-up --net GND --net +3V3
+  easycirq pcb rip-up            # rip up ALL routing (board outline + locked survive)`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if len(nets) > 0 {
@@ -1859,7 +1859,7 @@ pours reflow under the new clearance.`,
 			Use:     "clear-routing",
 			Short:   "Native clearRouting (@alpha — may be unavailable; prefer rip-up)",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb clear-routing --type all`,
+			Example: `  easycirq pcb clear-routing --type all`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if typ != "" {
@@ -1881,14 +1881,14 @@ pours reflow under the new clearance.`,
 		{
 			use: "via-delete", kind: "via",
 			short: "Delete specific vias by primitiveId (rip-up is net-scoped; this is surgical)",
-			example: `  zhigou pcb via-delete --ids 184fd1d7742ac942
-  zhigou pcb via-delete --ids id1,id2      # ids from 'pcb via-list' or 'pcb drc --json' objs`,
+			example: `  easycirq pcb via-delete --ids 184fd1d7742ac942
+  easycirq pcb via-delete --ids id1,id2      # ids from 'pcb via-list' or 'pcb drc --json' objs`,
 		},
 		{
 			use: "track-delete", kind: "track",
 			short: "Delete specific copper tracks by primitiveId (rip-up is net-scoped; this is surgical)",
-			example: `  zhigou pcb track-delete --ids 666de996beeb75f4
-  zhigou pcb track-delete --ids id1,id2    # ids from 'pcb track-list' or 'pcb drc --json' objs`,
+			example: `  easycirq pcb track-delete --ids 666de996beeb75f4
+  easycirq pcb track-delete --ids id1,id2    # ids from 'pcb track-list' or 'pcb drc --json' objs`,
 		},
 	} {
 		var idsRaw string
@@ -1935,9 +1935,9 @@ reload — embedded vias re-materialize netless every time. Re-run via-bond afte
 any reload, before DRC / power-planes. 'pcb check' flags the condition as
 netless-via-in-pad so you know when it is needed.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb via-bond --dry-run          # show which vias would get which net
-  zhigou pcb via-bond                    # bond them (idempotent — safe to re-run)
-  zhigou pcb via-bond --component U1     # only U1's pads`,
+			Example: `  easycirq pcb via-bond --dry-run          # show which vias would get which net
+  easycirq pcb via-bond                    # bond them (idempotent — safe to re-run)
+  easycirq pcb via-bond --component U1     # only U1's pads`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPcbViaBond(cfg, window, only, dryRun, stdout, stderr)
 			},
@@ -1976,9 +1976,9 @@ Scope EXACTLY ONE of:
 blocks) are included by default; --no-fills locks only tracks + vias. Pours
 (覆铜, meant to reflow) are never touched.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb track-lock --net 5V --net USB_DP --net USB_DM   # lock power + USB diff after routing them
-  zhigou pcb track-lock --all                                 # lock all routed copper
-  zhigou pcb track-lock --net GND --unlock                    # release`,
+			Example: `  easycirq pcb track-lock --net 5V --net USB_DP --net USB_DM   # lock power + USB diff after routing them
+  easycirq pcb track-lock --all                                 # lock all routed copper
+  easycirq pcb track-lock --net GND --unlock                    # release`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				modes := 0
 				if len(nets) > 0 {
@@ -2039,8 +2039,8 @@ sit --stub mil inside the endpoints so they stay OFF pads (via-on-pad ≠
 connected). Everything created is rolled back if any step fails. Verify with
 'pcb drc'.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb via-hop --net U0TXD --from-x 1000 --from-y 500 --to-x 1400 --to-y 500
-  zhigou pcb via-hop --net +5V --from-x 900 --from-y 200 --to-x 1200 --to-y 400 --hop-layer 2 --width 10`,
+			Example: `  easycirq pcb via-hop --net U0TXD --from-x 1000 --from-y 500 --to-x 1400 --to-y 500
+  easycirq pcb via-hop --net +5V --from-x 900 --from-y 200 --to-x 1200 --to-y 400 --hop-layer 2 --width 10`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if net == "" {
 					return fmt.Errorf("--net is required (the hop must bind to a net)")
@@ -2108,7 +2108,7 @@ rebuild result. A mismatch or unreadable boundary exits nonzero and retains the
 created ID for inspection. Size it to the board outline; bind to GND for a ground
 plane. fill = solid (default) | grid | grid45.`,
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb pour --points '[[0,0],[2000,0],[2000,1500],[0,1500]]' --net GND --layer 2`,
+			Example: `  easycirq pcb pour --points '[[0,0],[2000,0],[2000,1500],[0,1500]]' --net GND --layer 2`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if pointsJSON == "" {
 					return fmt.Errorf("--points is required")
@@ -2145,7 +2145,7 @@ plane. fill = solid (default) | grid | grid45.`,
 		}
 		c.Flags().StringVar(&pointsJSON, "points", "", `JSON array of [x,y] points in mil (required)`)
 		c.Flags().StringVar(&net, "net", "", "net to bind the pour to (e.g. GND)")
-		c.Flags().IntVar(&layer, "layer", 1, "copper layer id (TOP=1, BOTTOM=2; inner via 'zhigou pcb layers')")
+		c.Flags().IntVar(&layer, "layer", 1, "copper layer id (TOP=1, BOTTOM=2; inner via 'easycirq pcb layers')")
 		c.Flags().StringVar(&fill, "fill", "", "fill style: solid (default) | grid | grid45")
 		c.Flags().StringVar(&name, "name", "", "pour name")
 		c.Flags().IntVar(&priority, "priority", 0, "native per-layer insertion order (0 highest; existing orders must be contiguous; valid 0..count)")
@@ -2158,7 +2158,7 @@ plane. fill = solid (default) | grid | grid45.`,
 			Use:     "pour-list",
 			Short:   "List copper pours (铺铜), optionally by net",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb pour-list`,
+			Example: `  easycirq pcb pour-list`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if net != "" {
@@ -2181,8 +2181,8 @@ the complex polygon source, including holes and arc commands. A successful empty
 array proves there is no materialized poured object; unavailable geometry fails
 instead of being reported as empty.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb pour-rebuild --net GND
-  zhigou pcb poured-list --net GND`,
+			Example: `  easycirq pcb pour-rebuild --net GND
+  easycirq pcb poured-list --net GND`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if net != "" {
@@ -2200,8 +2200,8 @@ instead of being reported as empty.`,
 			Use:   "pour-delete",
 			Short: "Delete copper pour regions by primitiveId",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb pour-delete --ids id1,id2
-  zhigou pcb pour-delete --ids id1,id2     # CSV works too`,
+			Example: `  easycirq pcb pour-delete --ids id1,id2
+  easycirq pcb pour-delete --ids id1,id2     # CSV works too`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if idsRaw == "" {
 					return fmt.Errorf("--ids is required")
@@ -2223,7 +2223,7 @@ instead of being reported as empty.`,
 			Use:     "pour-rebuild",
 			Short:   "Re-pour (recompute) all pours after layout/routing changes",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb pour-rebuild`,
+			Example: `  easycirq pcb pour-rebuild`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if net != "" {
@@ -2267,11 +2267,11 @@ Run --dry-run first to preview the plan (paths / arcs) WITHOUT mutating — safe
 any board, including one you don't want to change. Save at a good checkpoint after
 a real run. The PCB must be the active/foreground tab.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb beautify --dry-run                 # preview on the whole board
-  zhigou pcb beautify --project ceshi           # round every corner, DRC-guard, re-pour
-  zhigou pcb beautify --selected                # only the tracks selected in EasyEDA
-  zhigou pcb beautify --net GND --radius-ratio 2
-  zhigou pcb beautify --net USB_DP --net USB_DM # beautify several nets (repeat --net)`,
+			Example: `  easycirq pcb beautify --dry-run                 # preview on the whole board
+  easycirq pcb beautify --project ceshi           # round every corner, DRC-guard, re-pour
+  easycirq pcb beautify --selected                # only the tracks selected in EasyEDA
+  easycirq pcb beautify --net GND --radius-ratio 2
+  easycirq pcb beautify --net USB_DP --net USB_DM # beautify several nets (repeat --net)`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{
 					"cornerRadiusRatio":       radiusRatio,
@@ -2331,8 +2331,8 @@ draw a custom polygon with 'pcb pour' for those). By default (--replace) it firs
 clears existing pours on the same net AND layer so you don't stack them; pours of
 that net on other layers are kept (GND on TOP then BOTTOM is two calls).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb pour-fit --project ceshi --net GND --layer 1
-  zhigou pcb pour-fit --net GND --layer 1 --inset 25 --dry-run`,
+			Example: `  easycirq pcb pour-fit --project ceshi --net GND --layer 1
+  easycirq pcb pour-fit --net GND --layer 1 --inset 25 --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
 				if dryRun {
@@ -2429,8 +2429,8 @@ occupies board area but connects nothing (issue #34). These arise from a
 'pcb pour' without --net; 'pour-fit --replace' can't clear them because it only
 matches same-net pours. --dry-run lists what would be deleted without deleting.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb pour-clean --netless
-  zhigou pcb pour-clean --netless --dry-run`,
+			Example: `  easycirq pcb pour-clean --netless
+  easycirq pcb pour-clean --netless --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
 				if dryRun {
@@ -2494,8 +2494,8 @@ BEFORE pour/route so copper stays inside a tight frame. Reports the utilization
 before/after. ⚠️ Changing the outline after routing/pouring can strand copper —
 fit early. --dry-run previews the computed frame.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb outline-fit --project ceshi --margin 100
-  zhigou pcb outline-fit --dry-run`,
+			Example: `  easycirq pcb outline-fit --project ceshi --margin 100
+  easycirq pcb outline-fit --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
 				if dryRun {
@@ -2581,8 +2581,8 @@ top & bottom pours together. --rect is "x0,y0,x1,y1" (mil, y-up); vias are inset
 --margin from the rect edges. Run 'pcb pour-rebuild' afterwards so the planes reflow
 onto the new vias.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb via-stitch --net GND --rect "2300,-1750,2500,-1550" --pitch 40
-  zhigou pcb via-stitch --net GND --rect "0,-2600,3100,-400" --pitch 200 --dry-run`,
+			Example: `  easycirq pcb via-stitch --net GND --rect "2300,-1750,2500,-1550" --pitch 40
+  easycirq pcb via-stitch --net GND --rect "0,-2600,3100,-400" --pitch 200 --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
 				if dryRun {
@@ -2680,8 +2680,8 @@ redistributed into equal intervals and each corner is emitted exactly once.
 Run a dry-run first, keep the resulting points outside no-pours regions, then
 read back the vias and run pcb pour-rebuild plus the official DRC.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb via-fence --net GND --rect "1500,700,2000,1200" --pitch 80 --margin 30 --dry-run
-  zhigou pcb via-fence --net GND --rect "1500,700,2000,1200" --pitch 80 --margin 30`,
+			Example: `  easycirq pcb via-fence --net GND --rect "1500,700,2000,1200" --pitch 80 --margin 30 --dry-run
+  easycirq pcb via-fence --net GND --rect "1500,700,2000,1200" --pitch 80 --margin 30`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run must stay pure computation.
 				if dryRun {
@@ -2887,9 +2887,9 @@ getDsnFile DROPS pcb_PrimitiveRegion, so a raw export has zero keepout and an
 external router (Freerouting) would route under the antenna. The result reports
 ` + "`keepouts`" + ` = how many were injected. Pass --raw for the unmodified EasyEDA export.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb export-dsn
-  zhigou pcb export-dsn --name board.dsn
-  zhigou pcb export-dsn --raw          # unmodified EasyEDA export (no keepout)`,
+			Example: `  easycirq pcb export-dsn
+  easycirq pcb export-dsn --name board.dsn
+  easycirq pcb export-dsn --raw          # unmodified EasyEDA export (no keepout)`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if fileName != "" {
@@ -2911,8 +2911,8 @@ external router (Freerouting) would route under the antenna. The result reports
 			Use:   "import-autoroute <file>",
 			Short: "Import a routed result (Specctra .ses / autoroute .json) into the active PCB",
 			Args:  cobra.ExactArgs(1),
-			Example: `  zhigou pcb import-autoroute design.ses
-  zhigou pcb import-autoroute route.json --format json`,
+			Example: `  easycirq pcb import-autoroute design.ses
+  easycirq pcb import-autoroute route.json --format json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				data, err := os.ReadFile(args[0])
 				if err != nil {
@@ -2944,10 +2944,10 @@ external router (Freerouting) would route under the antenna. The result reports
 			Use:   "snapshot",
 			Short: "Capture the active PCB canvas as a PNG artifact",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb snapshot
-  zhigou pcb snapshot --fit-mode all
-  zhigou pcb snapshot --fit-mode none
-  zhigou view region --left 500 --right 1550 --top -1500 --bottom -2260 && zhigou pcb snapshot --fit-mode none --previous-sha256 <sha>`,
+			Example: `  easycirq pcb snapshot
+  easycirq pcb snapshot --fit-mode all
+  easycirq pcb snapshot --fit-mode none
+  easycirq view region --left 500 --right 1550 --top -1500 --bottom -2260 && easycirq pcb snapshot --fit-mode none --previous-sha256 <sha>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				mode, err := normalizePcbSnapshotFitMode(fitMode)
 				if err != nil {
@@ -3028,7 +3028,7 @@ fails if any locked primitive disappears. Exclude nets you will pour (GND) or ha
 already routed with --ignore-net. The result lists the router's per-net report
 and the created copper. Afterwards: pcb save → doc reload → pcb drc / pcb check.
 
-  zhigou pcb autoroute --layers 1,2 --ignore-net GND --ignore-net XTAL_P
+  easycirq pcb autoroute --layers 1,2 --ignore-net GND --ignore-net XTAL_P
 
 External engine (fallback): --router '<dsn→ses command> {in} {out}' (or
 FREEROUTING_CMD) exports a Specctra DSN, runs it, imports the SES and runs DRC.
@@ -3097,7 +3097,7 @@ getDsnFile drops keep-out regions, so verify the DSN before trusting that path.`
 				// 4. DRC the result.
 				//
 				// 上一步刚导入整版铜，这一步 DRC 用于即时定位问题；若带 staleRisk，
-				// 保存并 reload 后重跑 `zhigou pcb drc` 才是权威判据。
+				// 保存并 reload 后重跑 `easycirq pcb drc` 才是权威判据。
 				fmt.Fprintln(stderr, "--- DRC after routing ---")
 				return dispatch(staleReadOptIn(cfg, "autoroute 写后回读:对刚导入的 SES 走线做收尾 DRC"),
 					"pcb.drc.check", window, nil, stdout, stderr)
@@ -3145,8 +3145,8 @@ flattened into a row. Board-edge connectors (J*/CN*/USB*/… designators, low pi
 large footprint) are skipped and left for 'pcb place-constrained'.
 This is a SEED, not a final layout — verify with 'pcb drc'.
 
-  zhigou pcb auto-place --project ceshi --dry-run   # print the plan, move nothing
-  zhigou pcb auto-place --project ceshi             # apply it`,
+  easycirq pcb auto-place --project ceshi --dry-run   # print the plan, move nothing
+  easycirq pcb auto-place --project ceshi             # apply it`,
 			Args: cobra.NoArgs,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
@@ -3291,8 +3291,8 @@ built from the schematic — reads what's placed, not how. Run AFTER 'pcb outlin
 (edges must be known) and BEFORE routing; layer-aware (BOTTOM parts stay on BOTTOM).
 A SEED — verify with 'pcb layout-lint'. --dry-run prints the plan.
 
-  zhigou pcb place-constrained --project X --dry-run
-  zhigou pcb place-constrained --project X`,
+  easycirq pcb place-constrained --project X --dry-run
+  easycirq pcb place-constrained --project X`,
 			Args: cobra.NoArgs,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
@@ -3443,8 +3443,8 @@ complete polygon/rule/layer coverage. Unavailable input or unverified/partial
 creation returns non-zero and preserves actual IDs; inspect fresh state before
 retrying. Run AFTER placement, then save/reload and re-read regions + 'pcb check'.
 
-  zhigou pcb antenna-keepout --project X --dry-run
-  zhigou pcb antenna-keepout --project X`,
+  easycirq pcb antenna-keepout --project X --dry-run
+  easycirq pcb antenna-keepout --project X`,
 			Args: cobra.NoArgs,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPcbAntennaKeepout(cfg, window, pcbAntennaKeepoutOptions{
@@ -3486,10 +3486,10 @@ Track width is by net class: power/ground nets (VCC/VDD/3V3/GND…) get --width-
 overrides both. Corners default to 90° L; --corner 45 chamfers them, --corner round
 emits a chord-approximated fillet (native arcs do not commit on this build).
 
-  zhigou pcb route-short --project ceshi --dry-run            # print the plan, draw nothing
-  zhigou pcb route-short --project ceshi                      # draw with class widths + 90° corners
-  zhigou pcb route-short --project ceshi --corner 45          # chamfered corners
-  zhigou pcb route-short --project ceshi --width-power 25     # fatter power tracks`,
+  easycirq pcb route-short --project ceshi --dry-run            # print the plan, draw nothing
+  easycirq pcb route-short --project ceshi                      # draw with class widths + 90° corners
+  easycirq pcb route-short --project ceshi --corner 45          # chamfered corners
+  easycirq pcb route-short --project ceshi --width-power 25     # fatter power tracks`,
 			Args: cobra.NoArgs,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
@@ -3658,10 +3658,10 @@ no-pours(7), no-inner-electrical(8), follow-rule(9). Default is a hard keep-out
 				Use:   "create",
 				Short: "Create a keep-out / rule region (area via --points | --rect | --ref)",
 				Args:  cobra.NoArgs,
-				Example: `  zhigou pcb region create --points '[[100,100],[400,100],[400,300],[100,300]]'   # default keep-out
-  zhigou pcb region create --rect 2250,-2420,2700,-2180 --rule no-pours
-  zhigou pcb region create --rect 2250,-2420,2700,-2180 --rule follow-rule --name antenna-rule
-  zhigou pcb region create --ref U1 --margin 40 --rule no-pours --rule no-components   # keep-out under U1's antenna`,
+				Example: `  easycirq pcb region create --points '[[100,100],[400,100],[400,300],[100,300]]'   # default keep-out
+  easycirq pcb region create --rect 2250,-2420,2700,-2180 --rule no-pours
+  easycirq pcb region create --rect 2250,-2420,2700,-2180 --rule follow-rule --name antenna-rule
+  easycirq pcb region create --ref U1 --margin 40 --rule no-pours --rule no-components   # keep-out under U1's antenna`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					points, err := areaPointsFrom(cfg, window, pointsJSON, rectSpec, ref, margin)
 					if err != nil {
@@ -3691,7 +3691,7 @@ no-pours(7), no-inner-electrical(8), follow-rule(9). Default is a hard keep-out
 			c.Flags().StringVar(&ref, "ref", "", "designator of a placed component — keep-out over its bbox (e.g. an antenna module)")
 			c.Flags().Float64Var(&margin, "margin", 0, "expand the --rect/--ref box outward by this many mil (antenna clearance)")
 			c.Flags().StringArrayVar(&ruleTypes, "rule", nil, "rule type (repeatable): no-components|no-wires|no-fills|no-pours|no-inner-electrical|follow-rule (default keep-out)")
-			c.Flags().IntVar(&layer, "layer", 1, "copper layer id (TOP=1, BOTTOM=2; inner via 'zhigou pcb layers')")
+			c.Flags().IntVar(&layer, "layer", 1, "copper layer id (TOP=1, BOTTOM=2; inner via 'easycirq pcb layers')")
 			c.Flags().StringVar(&name, "name", "", "DRC region name (requires --rule follow-rule)")
 			c.Flags().Float64Var(&width, "width", 0, "region boundary width (mil; omit or 0.2 only)")
 			c.Flags().BoolVar(&locked, "locked", false, "create the region locked")
@@ -3703,7 +3703,7 @@ no-pours(7), no-inner-electrical(8), follow-rule(9). Default is a hard keep-out
 				Use:     "list",
 				Short:   "List keep-out / rule regions, optionally by layer",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou pcb region list`,
+				Example: `  easycirq pcb region list`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					payload := map[string]any{}
 					if cmd.Flags().Changed("layer") {
@@ -3721,8 +3721,8 @@ no-pours(7), no-inner-electrical(8), follow-rule(9). Default is a hard keep-out
 				Use:   "delete",
 				Short: "Delete keep-out / rule regions by primitiveId",
 				Args:  cobra.NoArgs,
-				Example: `  zhigou pcb region delete --ids id1,id2
-  zhigou pcb region delete --ids id1,id2   # CSV works too`,
+				Example: `  easycirq pcb region delete --ids id1,id2
+  easycirq pcb region delete --ids id1,id2   # CSV works too`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if idsRaw == "" {
 						return fmt.Errorf("--ids is required")
@@ -3762,10 +3762,10 @@ carries a net. fillMode: solid (default) | mesh | inner.`,
 				Use:   "create",
 				Short: "Create a net-bound filled region (area via --points | --rect | --at/--size | --ref)",
 				Args:  cobra.NoArgs,
-				Example: `  zhigou pcb fill create --points '[[100,100],[400,100],[400,300],[100,300]]' --net 3V3 --layer 1
-  zhigou pcb fill create --rect 2150,-1550,2400,-1400 --net GND    # --rect = 两个对角点 x0,y0,x1,y1（不是 x,y,宽,高！）
-  zhigou pcb fill create --at 2150,-1550 --size 250,150 --net GND  # 同一块铜：角点 + 宽高（无歧义写法）
-  zhigou pcb fill create --ref U3 --margin 20 --net GND   # copper patch over U3`,
+				Example: `  easycirq pcb fill create --points '[[100,100],[400,100],[400,300],[100,300]]' --net 3V3 --layer 1
+  easycirq pcb fill create --rect 2150,-1550,2400,-1400 --net GND    # --rect = 两个对角点 x0,y0,x1,y1（不是 x,y,宽,高！）
+  easycirq pcb fill create --at 2150,-1550 --size 250,150 --net GND  # 同一块铜：角点 + 宽高（无歧义写法）
+  easycirq pcb fill create --ref U3 --margin 20 --net GND   # copper patch over U3`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					effRect := rectSpec
 					if at != "" || size != "" {
@@ -3826,7 +3826,7 @@ carries a net. fillMode: solid (default) | mesh | inner.`,
 			c.Flags().Float64Var(&margin, "margin", 0, "expand the --rect/--ref box outward by this many mil")
 			c.Flags().BoolVar(&forceLarge, "force-large", false, "allow a fill larger than 25% of the board bbox (guard catches --rect mistakenly passed as x,y,w,h)")
 			c.Flags().StringVar(&net, "net", "", "net to bind the fill to (e.g. 3V3, GND)")
-			c.Flags().IntVar(&layer, "layer", 1, "layer id (TOP=1, BOTTOM=2; inner via 'zhigou pcb layers')")
+			c.Flags().IntVar(&layer, "layer", 1, "layer id (TOP=1, BOTTOM=2; inner via 'easycirq pcb layers')")
 			c.Flags().StringVar(&fillMode, "fill-mode", "", "fill mode: solid (default) | mesh | inner")
 			c.Flags().Float64Var(&width, "width", 0, "fill boundary width (mil; omit or 0.2 only)")
 			c.Flags().BoolVar(&locked, "locked", false, "create the fill locked")
@@ -3839,7 +3839,7 @@ carries a net. fillMode: solid (default) | mesh | inner.`,
 				Use:     "list",
 				Short:   "List net-bound filled regions, optionally by layer/net",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou pcb fill list --net 3V3`,
+				Example: `  easycirq pcb fill list --net 3V3`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					payload := map[string]any{}
 					if cmd.Flags().Changed("layer") {
@@ -3861,8 +3861,8 @@ carries a net. fillMode: solid (default) | mesh | inner.`,
 				Use:   "delete",
 				Short: "Delete net-bound filled regions by primitiveId",
 				Args:  cobra.NoArgs,
-				Example: `  zhigou pcb fill delete --ids id1,id2
-  zhigou pcb fill delete --ids id1,id2     # CSV works too`,
+				Example: `  easycirq pcb fill delete --ids id1,id2
+  easycirq pcb fill delete --ids id1,id2     # CSV works too`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if idsRaw == "" {
 						return fmt.Errorf("--ids is required")
@@ -3901,8 +3901,8 @@ treats as a BoardCutout. Specify the area three ways (pick one): --points, --rec
 x0,y0,x1,y1, or --ref <designator> (+ --margin to expand). Inspect / remove with
 'pcb fill list --layer 12' / 'pcb fill delete'.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb slot --rect 2450,-1550,2700,-1400
-  zhigou pcb slot --ref ANT1 --margin 20     # cut a slot under the antenna`,
+			Example: `  easycirq pcb slot --rect 2450,-1550,2700,-1400
+  easycirq pcb slot --ref ANT1 --margin 20     # cut a slot under the antenna`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				points, err := areaPointsFrom(cfg, window, pointsJSON, rectSpec, ref, margin)
 				if err != nil {
@@ -3957,9 +3957,9 @@ knowingly accept). A corner that already has a cutout is reported as "exists"
 
 Inspect / remove with 'pcb fill list --layer 12' / 'pcb fill delete'; save after.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb mount-holes --dry-run          # plan only
-  zhigou pcb mount-holes                    # 4 corners, M3 defaults
-  zhigou pcb mount-holes --corners tl,tr --dia 126 --inset 250`,
+			Example: `  easycirq pcb mount-holes --dry-run          # plan only
+  easycirq pcb mount-holes                    # 4 corners, M3 defaults
+  easycirq pcb mount-holes --corners tl,tr --dia 126 --inset 250`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPcbMountHoles(cfg, window, dia, inset, clearance, corners, dryRun, stdout, stderr)
 			},
@@ -4003,9 +4003,9 @@ diagnostic: it displays the historical thresholds when available, but does not
 authorize routing, write workflow state, or turn a score into a refusal. Factual
 short/overlap/off-board errors still exit non-zero.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb layout-lint
-  zhigou pcb layout-lint --json
-  zhigou pcb layout-lint --min-gap 8`,
+			Example: `  easycirq pcb layout-lint
+  easycirq pcb layout-lint --json
+  easycirq pcb layout-lint --min-gap 8`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPcbLayoutLint(cfg, window, minGap, asJSON, pcbLayoutGateOpts{
 					gate: gate, project: cfg.project, minScore: minScore, maxCrossings: maxCrossings,
@@ -4048,7 +4048,7 @@ Rules:
   • parallel-coupling — different-net traces closer than N×W (3W rule) → WARN
   • netless-pour      — copper pour bound to no net (dead copper)      → WARN
   • via-crosses-plane — a via whose net ≠ an inner PLANE(内电层)'s net → WARN
-                        (anti-pad risk, zhigou/pro-api-sdk#32: a via created
+                        (anti-pad risk, easycirq/pro-api-sdk#32: a via created
                         AFTER the plane exists gets no anti-pad; fix = remove it
                         and route on outer layers, or 'doc reload' + 'pour-rebuild')
   • floating-track-island — a connected GROUP of tracks anchoring to no pad → WARN
@@ -4065,10 +4065,10 @@ Complements 'pcb drc' (rule clearance) and 'pcb layout-lint' (placement/routabil
 Exit code: 0 by default (informational). --strict exits non-zero on any WARN/ERROR
 so it can gate the flow. Arcs are out of scope for v1 (line/via/pad only).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb check
-  zhigou pcb check --json
-  zhigou pcb check --strict
-  zhigou pcb check --coupling-w 2.5`,
+			Example: `  easycirq pcb check
+  easycirq pcb check --json
+  easycirq pcb check --strict
+  easycirq pcb check --coupling-w 2.5`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var checkSpec *spec.Spec
 				if checkSpecPath != "" {
@@ -4114,7 +4114,7 @@ current stackup with 'pcb layers' (copperLayerCount + each layer's type).`,
 				Use:     "show",
 				Short:   "Show the current stackup (copper layer count + layers)",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou pcb stackup show`,
+				Example: `  easycirq pcb stackup show`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					return dispatch(cfg, "pcb.layers.list", window, nil, stdout, stderr)
 				},
@@ -4128,9 +4128,9 @@ current stackup with 'pcb layers' (copperLayerCount + each layer's type).`,
 				Use:   "set",
 				Short: "Set copper layer count and/or inner-layer types",
 				Args:  cobra.NoArgs,
-				Example: `  zhigou pcb stackup set --layers 4
-  zhigou pcb stackup set --layers 4 --plane 15 --plane 16   # Inner1+Inner2 = planes (GND / power)
-  zhigou pcb stackup set --signal 15                        # Inner1 back to a signal layer`,
+				Example: `  easycirq pcb stackup set --layers 4
+  easycirq pcb stackup set --layers 4 --plane 15 --plane 16   # Inner1+Inner2 = planes (GND / power)
+  easycirq pcb stackup set --signal 15                        # Inner1 back to a signal layer`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					payload := map[string]any{}
 					if cmd.Flags().Changed("layers") {
@@ -4147,7 +4147,7 @@ current stackup with 'pcb layers' (copperLayerCount + each layer's type).`,
 						payload["layers"] = specs
 					}
 					if len(payload) == 0 {
-						return fmt.Errorf("nothing to set — use --layers and/or --plane/--signal (ids from `zhigou pcb layers`)")
+						return fmt.Errorf("nothing to set — use --layers and/or --plane/--signal (ids from `easycirq pcb layers`)")
 					}
 					var response bytes.Buffer
 					err := dispatch(cfg, "pcb.stackup.set", window, payload, &response, stderr)
@@ -4203,10 +4203,10 @@ Validated on ceshi: DRC 31 → 0, No-Connection → 0. Run AFTER auto-place + ou
 are preserved. --dry-run runs the same stackup preflight and prints the intended
 current/target layer counts without mutation. Missing layer evidence always refuses.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb power-planes
-  zhigou pcb power-planes --gnd-layer 15 --power-layer 16
-  zhigou pcb power-planes --gnd-plane=false   # keep GND as a signal-layer pour
-  zhigou pcb power-planes --dry-run`,
+			Example: `  easycirq pcb power-planes
+  easycirq pcb power-planes --gnd-layer 15 --power-layer 16
+  easycirq pcb power-planes --gnd-plane=false   # keep GND as a signal-layer pour
+  easycirq pcb power-planes --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPowerPlanes(cfg, window, gndLayer, powerLayer, gndPlane, dryRun, allowStackupChange, stdout, stderr)
 			},
@@ -4252,9 +4252,9 @@ reflows after. Run AFTER auto-place + outline-fit + route-short (signals), then
 'pcb check' (power-not-poured should clear) and 'pcb drc'. For 4-layer boards use
 'power-planes' instead.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb power-pour --project ceshi
-  zhigou pcb power-pour --gnd-layers bottom --rails pour
-  zhigou pcb power-pour --dry-run              # print the pour plan only`,
+			Example: `  easycirq pcb power-pour --project ceshi
+  easycirq pcb power-pour --gnd-layers bottom --rails pour
+  easycirq pcb power-pour --dry-run              # print the pour plan only`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runPowerPour(cfg, window, gndLayersSpec, railsMode, margin, inset, replace, rebuild, dryRun, stdout, stderr)
 			},
@@ -4287,9 +4287,9 @@ polyline. The line width is 10mil (0.254mm). Read back exact center-line dimensi
 with 'pcb outline-get'; its rendered bbox includes the stroke. Run BEFORE pour/route
 (changing the outline after copper can strand it).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb outline-round --radius 80
-  zhigou pcb outline-round --rect 0,0,2000,1500 --radius 100
-  zhigou pcb outline-round --margin 100 --radius 60 --dry-run`,
+			Example: `  easycirq pcb outline-round --radius 80
+  easycirq pcb outline-round --rect 0,0,2000,1500 --radius 100
+  easycirq pcb outline-round --margin 100 --radius 60 --dry-run`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runOutlineRound(cfg, window, rectSpec, radius, margin, dryRun, stdout, stderr)
 			},
@@ -4323,9 +4323,9 @@ Fresh text bboxes and pose are checked after writing. Unresolved, missing or
 unverified geometry returns a nonzero exit with appliedIds and partial evidence;
 read the actual state before recomputing. Snapshot is supplementary evidence.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb silk-align
-  zhigou pcb silk-align --side bottom --offset 15
-  zhigou pcb silk-align --refs U1 --refs LED1`,
+			Example: `  easycirq pcb silk-align
+  easycirq pcb silk-align --side bottom --offset 15
+  easycirq pcb silk-align --refs U1 --refs LED1`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if cmd.Flags().Changed("offset") {
@@ -4366,9 +4366,9 @@ a small font with a thick stroke smears the glyphs together (糊). Returns the n
 primitiveId + rendered bbox — check it fits the board and clears parts. Reposition or
 restyle later with 'pcb silk-set'.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb silk-add --text "auto created by zhigou-agent" --x 1850 --y -2455
-  zhigou pcb silk-add --text "REV A" --x 2400 --y -2455 --font-size 50 --line-width 6
-  zhigou pcb silk-add --text "bottom mark" --x 2000 --y -2000 --layer 4 --rotation 90`,
+			Example: `  easycirq pcb silk-add --text "auto created by easycirq-agent" --x 1850 --y -2455
+  easycirq pcb silk-add --text "REV A" --x 2400 --y -2455 --font-size 50 --line-width 6
+  easycirq pcb silk-add --text "bottom mark" --x 2000 --y -2000 --layer 4 --rotation 90`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if text == "" {
 					return fmt.Errorf("--text is required")
@@ -4428,11 +4428,11 @@ NOTE: rotation via the reliable .modify persists, but a 'pcb snapshot' taken bef
 document reload shows the OLD orientation (stale render) — judge success by 'pcb check'
 / silk list, not a screenshot.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb silk-set --ids id1 --rotation 0
-  zhigou pcb silk-set --ids credit --ref board --align centerx   # center the board credit
-  zhigou pcb silk-set --ids lbl --ref U1 --align top             # align label to U1's top
-  zhigou pcb silk-set --ids id1,id2 --font-size 45 --line-width 6
-  zhigou pcb silk-set --ids id1,id2 --mirror=false --reverse=false`,
+			Example: `  easycirq pcb silk-set --ids id1 --rotation 0
+  easycirq pcb silk-set --ids credit --ref board --align centerx   # center the board credit
+  easycirq pcb silk-set --ids lbl --ref U1 --align top             # align label to U1's top
+  easycirq pcb silk-set --ids id1,id2 --font-size 45 --line-width 6
+  easycirq pcb silk-set --ids id1,id2 --mirror=false --reverse=false`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if ids == "" {
 					return fmt.Errorf("--ids is required (CSV of primitiveIds)")
@@ -4515,9 +4515,9 @@ COORDINATES: in mil, y-up (positive y = upward). Silk layer defaults to TOP_SILK
 ALIGNMENT: --align left (left-to-right order, default) or right (right-to-left order).
 
 Pair with 'pcb silk-list' to verify positions and 'pcb snapshot' for visual QA.`,
-			Example: `  zhigou pcb silk-netnames \
+			Example: `  easycirq pcb silk-netnames \
   --zone-left 0 --zone-top 3000 --zone-right 2000 --zone-bottom 1000
-  zhigou pcb silk-netnames \
+  easycirq pcb silk-netnames \
   --zone-left 100 --zone-top 2800 --zone-right 1900 --zone-bottom 1200 \
   --layer 4 --align right --exclude-nets GND --exclude-nets +5V`,
 			RunE: func(cmd *cobra.Command, args []string) error {
@@ -4582,10 +4582,10 @@ ALIGN_AXIS: --align-axis auto|x|y (default auto — x for vertical pins, y for h
 LAYER: --layer 3=TOP_SILKSCREEN (default), 4=BOTTOM_SILKSCREEN.
 
 Pair with 'pcb snapshot' for visual QA. Agent Skill can analyze pins and choose optimal layout.`,
-			Example: `  zhigou pcb silk-label-pads --refs J2
-  zhigou pcb silk-label-pads --refs J2 --align-axis x --side right
-  zhigou pcb silk-label-pads --refs J2 --align-axis y --side below
-  zhigou pcb silk-label-pads --refs J2 --content both --side auto`,
+			Example: `  easycirq pcb silk-label-pads --refs J2
+  easycirq pcb silk-label-pads --refs J2 --align-axis x --side right
+  easycirq pcb silk-label-pads --refs J2 --align-axis y --side below
+  easycirq pcb silk-label-pads --refs J2 --content both --side auto`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if len(refs) == 0 {
 					return fmt.Errorf("--refs required (component designators, e.g., --refs J2)")
@@ -4659,9 +4659,9 @@ min-feature < --min-line-width (JLCPCB silk minimum ≈ 6 mil).
 Fill rule is even-odd; stroke-only art is not stroked (all geometry is filled).
 After a real import, follow reload → pcb.silk.list / pcb check → pcb save.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb silk-import-svg --file ./logo.svg --x 1000 --y -1000 --width 600 --dry-run
-  zhigou pcb silk-import-svg --file ./logo.svg --at "1000,-1000" --width 600 --keep-aspect
-  zhigou pcb silk-import-svg --file ./logo.svg --x 1000 --y -1000 --width 400 --layer 4`,
+			Example: `  easycirq pcb silk-import-svg --file ./logo.svg --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb silk-import-svg --file ./logo.svg --at "1000,-1000" --width 600 --keep-aspect
+  easycirq pcb silk-import-svg --file ./logo.svg --x 1000 --y -1000 --width 400 --layer 4`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// ADR-0004 Decision 4: dry-run 必须纯计算 —— 机械保证。
 				if dryRun {
@@ -4943,7 +4943,7 @@ if (changed) {
 }
 const configName = await eda.pcb_Drc.getCurrentRuleConfigurationName();
 return { targetMil: %.4g, targetMm: MIN_MM, changed, writeOk, verified, configName, before, after,
-         hint: changed ? 'run "zhigou pcb pour-rebuild" so existing pours reflow under the new clearance; on a freshly CREATED PCB also run "zhigou doc reload" first — its reflow keeps the creation-time rules snapshot until the document is reopened' : 'already at or above target — nothing written' };
+         hint: changed ? 'run "easycirq pcb pour-rebuild" so existing pours reflow under the new clearance; on a freshly CREATED PCB also run "easycirq doc reload" first — its reflow keeps the creation-time rules snapshot until the document is reopened' : 'already at or above target — nothing written' };
 `, mm, mil)
 }
 
@@ -4969,7 +4969,7 @@ func runPcbClearVerified(cfg *appConfig, window string, payload map[string]any,
 	// Save + reload the active document (must be the PCB the clear just ran on).
 	cur, err := requestAction(cfg, "document.current", window, nil)
 	if err != nil || cur.Context == nil || cur.Context.DocumentUUID == "" {
-		fmt.Fprintf(stderr, "warning: could not resolve the active document for the verify pass (%v) — cleared once, NOT verified; run `zhigou doc reload` then `pcb clear --dry-run` to check for reload-materialized leftovers (#121)\n", err)
+		fmt.Fprintf(stderr, "warning: could not resolve the active document for the verify pass (%v) — cleared once, NOT verified; run `easycirq doc reload` then `pcb clear --dry-run` to check for reload-materialized leftovers (#121)\n", err)
 		return writeJSON(stdout, out)
 	}
 	// The reload pins every step to one window. Under --project the flag window

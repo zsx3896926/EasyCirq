@@ -525,7 +525,7 @@ func TestPcbNetPathCommandUsesOnlyTypedReadActions(t *testing.T) {
 	var payloads []map[string]any
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			fmt.Fprint(w, `{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`)
+			fmt.Fprint(w, `{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`)
 			return
 		}
 		if r.URL.Path != "/action" {
@@ -578,7 +578,7 @@ func TestPcbNetPathCommandUsesOnlyTypedReadActions(t *testing.T) {
 		}
 	}
 	if !runIsReadOnly("pcb net-path --from C3.1 --to U2.3") {
-		t.Fatal("zhigou apply does not classify pcb net-path as read-only")
+		t.Fatal("easycirq apply does not classify pcb net-path as read-only")
 	}
 }
 

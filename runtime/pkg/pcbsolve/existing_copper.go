@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
 )
 
 // Existing pad/copper contacts are independent witnesses. A displacement may

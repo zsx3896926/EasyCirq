@@ -139,7 +139,7 @@ func TestPostActionRejectsOversizedResponseWithoutPartialBody(t *testing.T) {
 
 func TestScanHealthRejectsOversizedResponse(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = fmt.Fprint(w, `{"service":"zhigou-agent"}`+strings.Repeat(" ", 1<<20))
+		_, _ = fmt.Fprint(w, `{"service":"easycirq-agent"}`+strings.Repeat(" ", 1<<20))
 	}))
 	defer srv.Close()
 	host, portText, _ := strings.Cut(strings.TrimPrefix(srv.URL, "http://"), ":")

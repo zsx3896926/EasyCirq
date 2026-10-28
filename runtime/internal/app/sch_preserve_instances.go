@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 var schInstanceFields = []string{"uniqueId", "name", "subPartName", "addIntoBom", "addIntoPcb", "manufacturer", "manufacturerId", "supplier", "supplierId", "otherProperty", "component", "symbol", "footprint"}

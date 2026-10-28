@@ -3,9 +3,9 @@
 
 Steps (each command is recorded in run-manifest.json):
 
-  1. zhigou sch layout-plan --zones     local placement/wire candidate
-  2. zhigou sch layout-sheet-plan       pack zones onto the measured sheet
-  3. zhigou sch layout-render           vector preview, no EDA mutation
+  1. easycirq sch layout-plan --zones     local placement/wire candidate
+  2. easycirq sch layout-sheet-plan       pack zones onto the measured sheet
+  3. easycirq sch layout-render           vector preview, no EDA mutation
   4. sch_layout_quality.py               independent readability check
 
 The script never writes to EDA and never reports an Apply. With --before and a
@@ -15,7 +15,7 @@ but it refuses to execute it: compose --preserve-instances requires the explicit
 checked first.
 
 Usage:
-  python sch_layout_pipeline.py --zhigou <path> --source out/layout-source.json \
+  python sch_layout_pipeline.py --easycirq <path> --source out/layout-source.json \
       --model-report out/model-report.json --out-dir out/run
 """
 import argparse
@@ -158,7 +158,7 @@ def planned_quality(pages, model_report):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--zhigou', required=True)
+    parser.add_argument('--easycirq', required=True)
     parser.add_argument('--source', required=True, help='layout-source.json')
     parser.add_argument('--model-report', required=True)
     parser.add_argument('--out-dir', required=True)
@@ -175,7 +175,7 @@ def main(argv=None):
     manifest = {'status': 'running', 'inputs': {
         'source_sha256': _sha(args.source),
         'model_report_sha256': _sha(args.model_report),
-        'zhigou': args.zhigou,
+        'easycirq': args.easycirq,
     }, 'steps': [], 'evidence': {
         'scope': 'offline planned geometry only',
         'visual_review': 'NOT RUN',
@@ -189,7 +189,7 @@ def main(argv=None):
         if args.before:
             manifest['inputs']['before_sha256'] = _sha(args.before)
         zones = out / 'zones-geom.json'
-        _run([args.zhigou, 'sch', 'layout-plan', '--zones', '--from', args.source,
+        _run([args.easycirq, 'sch', 'layout-plan', '--zones', '--from', args.source,
               '--out', str(zones), '--report', str(out / 'layout-report.json')],
              manifest, 'layout-plan')
         page = report['page']
@@ -214,7 +214,7 @@ def main(argv=None):
         render_path.write_text(json.dumps(render, ensure_ascii=False, indent=1),
                                encoding='utf-8')
         pages_path = out / 'pages.json'
-        _run([args.zhigou, 'sch', 'layout-sheet-plan', '--from', str(render_path),
+        _run([args.easycirq, 'sch', 'layout-sheet-plan', '--from', str(render_path),
               '--out', str(pages_path), '--flow', args.flow], manifest, 'layout-sheet-plan')
         pages = _load(pages_path)
         if len(pages.get('pages') or []) != 1:
@@ -232,7 +232,7 @@ def main(argv=None):
             page_path = out / 'page.json'
             page_path.write_text(json.dumps(pages['pages'][0], ensure_ascii=False, indent=1),
                                  encoding='utf-8')
-            _run([args.zhigou, 'sch', 'layout-render', '--from', str(page_path),
+            _run([args.easycirq, 'sch', 'layout-render', '--from', str(page_path),
                   '--out', str(out / 'layout.svg')], manifest, 'layout-render')
             quality = planned_quality(pages, report)
             quality_path = out / 'planned-quality-input.json'
@@ -266,7 +266,7 @@ def main(argv=None):
                     manifest['status'] = quality_failure
 
         if args.compose_source and args.before and args.page:
-            compose_cmd = [args.zhigou, 'sch', 'compose', '--from', args.compose_source,
+            compose_cmd = [args.easycirq, 'sch', 'compose', '--from', args.compose_source,
                            '--layout-page', args.page, '--out', str(out / 'compose-plan.json'),
                            '--before', args.before, '--replace', '--preserve-instances',
                            '--playbook', str(out / 'apply.json'), '--dry-run']

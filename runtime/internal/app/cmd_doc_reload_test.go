@@ -38,7 +38,7 @@ func newReloadFixture(t *testing.T, failReopen bool) (*reloadFixture, *appConfig
 
 func (fx *reloadFixture) serveHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/health" {
-		_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`))
+		_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`))
 		return
 	}
 	var req struct {

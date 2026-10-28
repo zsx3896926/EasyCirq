@@ -30,7 +30,7 @@ func splitNets(raw string) ([]string, error) {
 		}
 	}
 	if len(out) == 0 {
-		return nil, fmt.Errorf("--nets is empty; pass a comma-separated net list, e.g. --nets A0,A1,A2 (see `zhigou pcb nets`)")
+		return nil, fmt.Errorf("--nets is empty; pass a comma-separated net list, e.g. --nets A0,A1,A2 (see `easycirq pcb nets`)")
 	}
 	return out, nil
 }
@@ -43,18 +43,18 @@ func addPcbConstraintCmds(pcb *cobra.Command, cfg *appConfig, window *string, st
 		Use:   "diff-pair",
 		Short: "Differential pair constraints (create/list/rename/delete)",
 		Long: `Bind two nets as a differential pair so EasyEDA's DRC treats them as a pair
-and ` + "`zhigou pcb report`" + ` can measure their skew (|lenP - lenN|).
+and ` + "`easycirq pcb report`" + ` can measure their skew (|lenP - lenN|).
 
 Declare pairs BEFORE routing (P7): the constraint is what makes the router and
 DRC aware of the pairing, and what makes the post-route skew number meaningful.
 
 Net names are pre-validated against the board — a pair pointing at a net that
-isn't on this PCB is refused before anything is written (` + "`zhigou pcb nets`" + `
+isn't on this PCB is refused before anything is written (` + "`easycirq pcb nets`" + `
 lists the real ones; they are case-sensitive).`,
-		Example: `  zhigou pcb diff-pair create --name USB0 --positive USB_DP --negative USB_DM
-  zhigou pcb diff-pair list
-  zhigou pcb diff-pair rename --name USB0 --to USB
-  zhigou pcb diff-pair delete --name USB`,
+		Example: `  easycirq pcb diff-pair create --name USB0 --positive USB_DP --negative USB_DM
+  easycirq pcb diff-pair list
+  easycirq pcb diff-pair rename --name USB0 --to USB
+  easycirq pcb diff-pair delete --name USB`,
 	}
 
 	dp.AddCommand(&cobra.Command{
@@ -132,15 +132,15 @@ which nets it binds, delete it and create it again.`,
 		Use:   "eq-group",
 		Short: "Equal-length net group constraints (create/list/add/delete)",
 		Long: `Group nets that must match in routed length (a parallel bus, a memory
-address group), so ` + "`zhigou pcb report`" + ` can measure the group's spread
+address group), so ` + "`easycirq pcb report`" + ` can measure the group's spread
 (max - min across members).
 
 Needs at least 2 nets — a one-net group constrains nothing. Net names are
-pre-validated against the board (` + "`zhigou pcb nets`" + `).`,
-		Example: `  zhigou pcb eq-group create --name DDR_ADDR --nets A0,A1,A2
-  zhigou pcb eq-group add --name DDR_ADDR --nets A3,A4
-  zhigou pcb eq-group list
-  zhigou pcb eq-group delete --name DDR_ADDR`,
+pre-validated against the board (` + "`easycirq pcb nets`" + `).`,
+		Example: `  easycirq pcb eq-group create --name DDR_ADDR --nets A0,A1,A2
+  easycirq pcb eq-group add --name DDR_ADDR --nets A3,A4
+  easycirq pcb eq-group list
+  easycirq pcb eq-group delete --name DDR_ADDR`,
 	}
 
 	eq.AddCommand(&cobra.Command{

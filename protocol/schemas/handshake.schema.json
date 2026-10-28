@@ -12,7 +12,7 @@
       "const": "handshake"
     },
     "service": {
-      "const": "zhigou-agent",
+      "const": "easycirq-agent",
       "description": "Connectors reject any other service, which is what keeps an upstream easyeda-agent daemon from being used."
     },
     "version": {

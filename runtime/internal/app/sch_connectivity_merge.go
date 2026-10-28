@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 // A project-wide snapshot has no single active-page identity. Page IDs remain

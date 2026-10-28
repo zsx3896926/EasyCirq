@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // auditEntry is one JSONL row appended per dispatched action. The shape is
-// intentionally flat so future `zhigou audit` tooling can pipe it through
+// intentionally flat so future `easycirq audit` tooling can pipe it through
 // jq/grep without parsing nested envelopes.
 type auditEntry struct {
 	Timestamp time.Time `json:"ts"`
@@ -47,10 +47,10 @@ type auditEntry struct {
 	MutationContextError     string            `json:"mutationContextError,omitempty"`
 }
 
-// EnvAuditDir overrides the audit log root, mirroring ZHIGOU_WORKFLOW_DIR
+// EnvAuditDir overrides the audit log root, mirroring EASYCIRQ_WORKFLOW_DIR
 // (internal/workflow). Set it to keep a run's audit trail out of the user's
 // real log — the daemon's own tests rely on this.
-const EnvAuditDir = "ZHIGOU_AUDIT_DIR"
+const EnvAuditDir = "EASYCIRQ_AUDIT_DIR"
 
 // auditWriter serializes appends to one JSONL file per UTC day so log files
 // stay rotatable by date without a separate rotation process.
@@ -63,10 +63,10 @@ type auditWriter struct {
 }
 
 // newAuditWriter resolves the audit root: the explicit dir, else
-// ZHIGOU_AUDIT_DIR, else ~/.zhigou/audit.
+// EASYCIRQ_AUDIT_DIR, else ~/.easycirq/audit.
 //
 // The last fallback is DISABLED under `go test` (issue #159). The audit log is
-// a first-class output that `zhigou audit` / audit-baseline.py read to judge
+// a first-class output that `easycirq audit` / audit-baseline.py read to judge
 // which actions are failing in the field; a test that constructs a Server
 // without an AuditDir used to append its fixtures — fake windows "w1"/"w2",
 // project "motobox" — straight into the user's real log, manufacturing failure
@@ -84,7 +84,7 @@ func newAuditWriter(dir string) *auditWriter {
 		if err != nil || home == "" {
 			home = os.Getenv("HOME")
 		}
-		dir = filepath.Join(home, ".zhigou", "audit")
+		dir = filepath.Join(home, ".easycirq", "audit")
 	}
 	return &auditWriter{dir: dir}
 }

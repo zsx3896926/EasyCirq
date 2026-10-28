@@ -2,7 +2,7 @@
 
 日期：2026-10-26。本目录是 `docs/round8-report.md` 的原始证据副本；项目工作目录为
 `C:\Users\jlc\work\dual-scope-20261026`，Skill 工作树为 `C:\Users\jlc\work\hds-round8`。
-PR：https://github.com/zsx3896926/hardware-design-skill/pull/17
+PR：https://github.com/zsx3896926/EasyCirq/pull/17
 
 ## 环境与身份
 

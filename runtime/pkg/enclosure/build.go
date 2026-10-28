@@ -496,7 +496,7 @@ func Build(s *Spec) (*Result, error) {
 			res.Checks = append(res.Checks, Check{Name: "mesh-" + names[part], OK: true, Detail: fmt.Sprintf("closed 2-manifold mesh, volume %.1f mm3", p.Volume)})
 		}
 		if res.OK {
-			p.STL = m.stl("zhigou-agent enclosure " + names[part])
+			p.STL = m.stl("easycirq-agent enclosure " + names[part])
 		}
 		res.Parts = append(res.Parts, p)
 	}

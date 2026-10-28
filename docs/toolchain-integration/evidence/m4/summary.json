@@ -1,6 +1,6 @@
 {
-  "schema": "zhigou-m4-acceptance-board/v1",
-  "project": "zhigou-integrated-dual-button-led-20261027",
+  "schema": "easycirq-m4-acceptance-board/v1",
+  "project": "easycirq-integrated-dual-button-led-20261027",
   "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
   "board": {
     "name": "Board1",
@@ -120,13 +120,13 @@
     ],
     "titleBlock": {
       "Name": "Dual button LED (5V)",
-      "Drawed": "Zhigou AI",
+      "Drawed": "EasyCirq AI",
       "Description": "2-channel button-to-LED indicator, 5V in, PTC + 100nF"
     },
     "artifacts": {
-      "bomCsv": ".zhigou/artifacts/20261027-231442-schematic_bom-6763ffa4.csv",
-      "svg": ".zhigou/artifacts/20261027-231208-schematic_export-664e661f.svg",
-      "png": ".zhigou/artifacts/20261027-231445-schematic_export-bfee39bb.png (458081 B)"
+      "bomCsv": ".easycirq/artifacts/20261027-231442-schematic_bom-6763ffa4.csv",
+      "svg": ".easycirq/artifacts/20261027-231208-schematic_export-664e661f.svg",
+      "png": ".easycirq/artifacts/20261027-231445-schematic_export-bfee39bb.png (458081 B)"
     }
   },
   "pcb": {
@@ -230,7 +230,7 @@
     },
     "export3d": {
       "status": "PASS",
-      "file": ".zhigou/artifacts/pcb-3d/board.obj.zip",
+      "file": ".easycirq/artifacts/pcb-3d/board.obj.zip",
       "bytes": 208971,
       "sha256": "2695098b199b99241e2bc78481cdf79fc8befe8c97fdc916387044b82c22d710",
       "modelCoverage": "binding-only",
@@ -328,7 +328,7 @@
   ],
   "archive": {
     "format": "EasyEDA native .epro2",
-    "path": ".zhigou/artifacts/zhigou-dual-button-led-board.epro2",
+    "path": ".easycirq/artifacts/easycirq-dual-button-led-board.epro2",
     "bytes": 46838,
     "zipEntries": 3,
     "integrity": "CRC OK",

@@ -18,9 +18,9 @@ The observation layer is deliberately conservative:
 
 Normalized sections use snake_case; the source spellings that consumers rely
 on (``copperLayers``/``capturedAt``/``semanticSha256``/``uniqueId``) are kept as
-aliases next to them.  Nothing here calls a real ``zhigou`` binary by itself:
+aliases next to them.  Nothing here calls a real ``easycirq`` binary by itself:
 the caller injects ``runner`` (same signature as :func:`pcb_cli.run`) and
-``zhigou`` is passed through unchanged.
+``easycirq`` is passed through unchanged.
 """
 from __future__ import annotations
 
@@ -89,8 +89,8 @@ def _looks_like_uuid(value):
     return bool(_UUID_RE.match(_text(value)))
 
 
-def _invoke(run, args, *, zhigou=None, timeout=120):
-    return run([str(item) for item in args], zhigou=zhigou,
+def _invoke(run, args, *, easycirq=None, timeout=120):
+    return run([str(item) for item in args], easycirq=easycirq,
                timeout=timeout)
 
 
@@ -316,8 +316,8 @@ def _capability_item(cap_id, status, interface, *, version=None, evidence=None,
     }
 
 
-def _probe_version(run, *, zhigou, timeout):
-    record = _invoke(run, ['version'], zhigou=zhigou, timeout=timeout)
+def _probe_version(run, *, easycirq, timeout):
+    record = _invoke(run, ['version'], easycirq=easycirq, timeout=timeout)
     body, _ = _body(record)
     if isinstance(body, dict):
         value = _first(body, 'version', 'cliVersion')
@@ -362,9 +362,9 @@ def _combine_gates(gates):
     return STATUS_UNKNOWN, 'no_probe_result'
 
 
-def _help_probe(run, cap_id, interface, args, *, zhigou, version, timeout,
+def _help_probe(run, cap_id, interface, args, *, easycirq, version, timeout,
                 limits):
-    record = _invoke(run, args, zhigou=zhigou, timeout=timeout)
+    record = _invoke(run, args, easycirq=easycirq, timeout=timeout)
     state = _record_state(record)
     evidence = _compact_evidence(record, None)
     if state == 'timeout':
@@ -393,7 +393,7 @@ def _help_probe(run, cap_id, interface, args, *, zhigou, version, timeout,
         reason='interface_probe_failed: exit=%s' % (record.get('exit'),))
 
 
-def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
+def probe_capabilities(*, runner=None, easycirq=None, window=None, project=None,
                        sch_doc=None, pcb_doc=None, timeout=120):
     """Probe read commands and CLI interfaces without mutating the project.
 
@@ -404,7 +404,7 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
     ``--help`` and reported as ``unknown`` -- the probe never writes.
     """
     run = runner or pcb_cli.run
-    version = _probe_version(run, zhigou=zhigou, timeout=timeout)
+    version = _probe_version(run, easycirq=easycirq, timeout=timeout)
     base = _target_args(window=window, project=project)
     raw_project_uuid = _text(project) if _looks_like_uuid(project) else None
     raw_project_name = None if _looks_like_uuid(project) else _text(project)
@@ -412,7 +412,7 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
 
     def call(label, args, *, project_uuid=None, project_name=None,
              document=None, document_name=None):
-        record = _invoke(run, args, zhigou=zhigou, timeout=timeout)
+        record = _invoke(run, args, easycirq=easycirq, timeout=timeout)
         body, _envelope = _body(record)
         mismatch = None
         if _record_state(record) in ('ok', 'failed') and body is not None:
@@ -559,7 +559,7 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
             _first(body, 'documents', 'docs', 'items'), list)
 
     read_item('project_doc_identity',
-              'zhigou project info + doc ls',
+              'easycirq project info + doc ls',
               ('project-info', 'doc-list'),
               lambda body: identity_measured(body) if
               calls['project-info']['body'] is body
@@ -585,44 +585,44 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
                             calls['project-info']['body']),
     }
 
-    read_item('sch_object_read', 'zhigou sch read', ('sch-read',),
+    read_item('sch_object_read', 'easycirq sch read', ('sch-read',),
               has_components,
               limits=['inactive pages may return shallow data'])
-    read_item('sch_net_read', 'zhigou sch read (nets)', ('sch-read',),
+    read_item('sch_net_read', 'easycirq sch read (nets)', ('sch-read',),
               sch_net_measured,
               limits=['netlistAvailable=false means the net table was not '
                       'measured'])
-    read_item('pcb_object_read', 'zhigou pcb list --include-pads',
+    read_item('pcb_object_read', 'easycirq pcb list --include-pads',
               ('pcb-list',), has_components,
               limits=['an empty list is measured only when the host reports '
                       'no components, not when a read failed'])
-    read_item('pcb_geometry_read', 'zhigou pcb dump (components + outline)',
+    read_item('pcb_geometry_read', 'easycirq pcb dump (components + outline)',
               ('pcb-dump',), geometry_measured,
               limits=['the board outline requires the PCB foreground document; '
                       'a missing outline is unknown, not an empty board'])
-    read_item('pcb_copper_read', 'zhigou pcb dump --include-copper',
+    read_item('pcb_copper_read', 'easycirq pcb dump --include-copper',
               ('pcb-dump',), copper_measured,
               limits=['each copper category must report availability=available'])
-    read_item('sch_erc', 'zhigou sch drc --json', ('sch-drc',),
+    read_item('sch_erc', 'easycirq sch drc --json', ('sch-drc',),
               sch_drc_measured)
-    read_item('pcb_drc', 'zhigou pcb drc --json', ('pcb-drc',),
+    read_item('pcb_drc', 'easycirq pcb drc --json', ('pcb-drc',),
               pcb_drc_measured)
-    read_item('pcb_check', 'zhigou pcb check --json', ('pcb-check',),
+    read_item('pcb_check', 'easycirq pcb check --json', ('pcb-check',),
               pcb_check_measured)
 
     help_specs = (
-        ('move_component', 'zhigou pcb modify', ['pcb', 'modify', '--help']),
-        ('move_text', 'zhigou sch attribute-move',
+        ('move_component', 'easycirq pcb modify', ['pcb', 'modify', '--help']),
+        ('move_text', 'easycirq sch attribute-move',
          ['sch', 'attribute-move', '--help']),
-        ('route_track', 'zhigou pcb track', ['pcb', 'track', '--help']),
-        ('place_via', 'zhigou pcb via', ['pcb', 'via', '--help']),
-        ('lock', 'zhigou pcb lock', ['pcb', 'lock', '--help']),
-        ('save', 'zhigou pcb save + sch save', ['pcb', 'save', '--help']),
-        ('reopen', 'zhigou doc reload', ['doc', 'reload', '--help']),
-        ('screenshot', 'zhigou pcb snapshot', ['pcb', 'snapshot', '--help']),
-        ('export_archive', 'zhigou project export',
+        ('route_track', 'easycirq pcb track', ['pcb', 'track', '--help']),
+        ('place_via', 'easycirq pcb via', ['pcb', 'via', '--help']),
+        ('lock', 'easycirq pcb lock', ['pcb', 'lock', '--help']),
+        ('save', 'easycirq pcb save + sch save', ['pcb', 'save', '--help']),
+        ('reopen', 'easycirq doc reload', ['doc', 'reload', '--help']),
+        ('screenshot', 'easycirq pcb snapshot', ['pcb', 'snapshot', '--help']),
+        ('export_archive', 'easycirq project export',
          ['project', 'export', '--help']),
-        ('undo', 'zhigou undo', ['undo', '--help']),
+        ('undo', 'easycirq undo', ['undo', '--help']),
     )
     for cap_id, interface, args in help_specs:
         limits = ['write/side-effect capability: only the CLI interface was '
@@ -631,7 +631,7 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
             limits.append('the host exposes no public undo; recovery relies on '
                           'checkpoints and idempotent journal replay')
         items.append(_help_probe(run, cap_id, interface, args,
-                                 zhigou=zhigou, version=version,
+                                 easycirq=easycirq, version=version,
                                  timeout=timeout, limits=limits))
 
     order = {cap_id: index for index, cap_id in enumerate(CAPABILITY_IDS)}
@@ -650,9 +650,9 @@ def probe_capabilities(*, runner=None, zhigou=None, window=None, project=None,
     payload = schemas.new_capabilities(
         host={'window_id': _text(window) or None,
               'project': _text(project) or None,
-              'zhigou': zhigou,
+              'easycirq': easycirq,
               'probed_at': pcb_cli.utc_now()},
-        adapter={'name': 'zhigou-cli', 'interface': 'cli',
+        adapter={'name': 'easycirq-cli', 'interface': 'cli',
                  'version': version},
         items=items,
     )
@@ -1481,7 +1481,7 @@ def _evidence_write(directory, index, label, record, body):
     }
 
 
-def collect_observation(*, runner=None, zhigou=None, window, project,
+def collect_observation(*, runner=None, easycirq=None, window, project,
                         sch_doc, pcb_doc, project_name=None, evidence_dir=None,
                         timeout=120):
     """Collect one versioned observation with identity-enforced reads.
@@ -1514,7 +1514,7 @@ def collect_observation(*, runner=None, zhigou=None, window, project,
 
     def execute(index, label, args, *, document=None, document_name=None,
                 project_uuid=None, project_name=None):
-        record = _invoke(run, args, zhigou=zhigou, timeout=timeout)
+        record = _invoke(run, args, easycirq=easycirq, timeout=timeout)
         body, envelope = _body(record)
         if isinstance(envelope, dict) and envelope.get('simulated') is True:
             simulation['simulated'] = True
@@ -1920,10 +1920,10 @@ def collect_observation(*, runner=None, zhigou=None, window, project,
     # ---- observation -------------------------------------------------------
     observation = schemas.new_observation(
         host={'window_id': _text(window),
-              'zhigou': zhigou,
+              'easycirq': easycirq,
               'project_name': host_project['name'],
               'captured_at': pcb_cli.utc_now()},
-        adapter={'name': 'zhigou-cli', 'interface': 'cli',
+        adapter={'name': 'easycirq-cli', 'interface': 'cli',
                  'commands': commands},
         project=host_project,
         documents=documents,

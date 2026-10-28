@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 type libLayoutAttach = SchematicLayoutAttach
@@ -51,8 +51,8 @@ without writing output. Output is a validated source for sch compose. Naming mar
 and ground islands; direct/module_port nets form an actual wire tree.
 
 Examples:
-  zhigou sch lib-layout --from layout-input.json --out composition.json
-  zhigou sch compose --from composition.json --out plan.json`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+  easycirq sch lib-layout --from layout-input.json --out composition.json
+  easycirq sch compose --from composition.json --out plan.json`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		if from == "" {
 			return fmt.Errorf("--from is required")
 		}

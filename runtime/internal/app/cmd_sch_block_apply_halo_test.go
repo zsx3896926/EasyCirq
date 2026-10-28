@@ -5,7 +5,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // ── LED 块必压 WROOM 模组(确定性复现)────────────────────────────────────────

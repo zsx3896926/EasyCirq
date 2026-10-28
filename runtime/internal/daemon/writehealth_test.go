@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 func okResp(id string) *protocol.Response {

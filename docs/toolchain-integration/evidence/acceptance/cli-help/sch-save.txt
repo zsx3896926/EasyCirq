@@ -1,7 +1,7 @@
 Save the active schematic document
 
 Usage:
-  zhigou sch save [flags]
+  easycirq sch save [flags]
 
 Flags:
   -h, --help   help for save

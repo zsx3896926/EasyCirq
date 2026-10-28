@@ -4,10 +4,10 @@
   "ports": "23111-23120",
   "found": {
     "port": 23111,
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "raw": {
       "pid": 49128,
-      "service": "zhigou-agent",
+      "service": "easycirq-agent",
       "version": "0.2.0-dev",
       "status": "ok",
       "port": 23111,
@@ -42,7 +42,7 @@
       "name": "connector",
       "status": "fail",
       "detail": "没有 EasyEDA 窗口连上 daemon",
-      "fix": "运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"
+      "fix": "运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"
     }
   ],
   "checked": [

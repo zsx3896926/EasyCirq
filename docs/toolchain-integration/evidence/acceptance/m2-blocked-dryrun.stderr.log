@@ -1,33 +1,33 @@
 [ACCEPTANCE] note: zero-delta move requested — this is the idempotency check
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe doctor
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe capabilities
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe connector verify
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe connector path
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe health
-  → C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe version
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe doctor
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe capabilities
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe connector verify
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe connector path
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe health
+  → C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe version
 
 BLOCKED — host not reachable for acceptance:
   - connector.status=disconnected (no EasyEDA window connected)
   - connector verify verdict=degraded (no loaded connector windows)
-  - zhigou health reports no connected window
-  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载
+  - easycirq health reports no connected window
+  next: 在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载
 
 Recorded preflight evidence only; every host step is NOT RUN. Exit 2.
 
-zhigou acceptance — stage=m2 dryRun=true
-  cli        zhigou 0.2.0-dev  (C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe)
+easycirq acceptance — stage=m2 dryRun=true
+  cli        easycirq 0.2.0-dev  (C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe)
   preflight  verdict=degraded connector=disconnected verify=degraded
   BLOCKED
     - connector.status=disconnected (no EasyEDA window connected)
     - connector verify verdict=degraded (no loaded connector windows)
-    - zhigou health reports no connected window
-    next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载
-  [PASS   ] doctor             zhigou doctor (disk vs running state)
-  [PASS   ] capabilities       zhigou capabilities (per-item negotiation)
-  [PASS   ] connector-verify   zhigou connector verify (.eext vs loaded window)
-  [PASS   ] connector-path     zhigou connector path (ships-with .eext)
-  [PASS   ] health             zhigou health (live window context)
-  [PASS   ] version            zhigou version
+    - easycirq health reports no connected window
+    next: 在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载
+  [PASS   ] doctor             easycirq doctor (disk vs running state)
+  [PASS   ] capabilities       easycirq capabilities (per-item negotiation)
+  [PASS   ] connector-verify   easycirq connector verify (.eext vs loaded window)
+  [PASS   ] connector-path     easycirq connector path (ships-with .eext)
+  [PASS   ] health             easycirq health (live window context)
+  [PASS   ] version            easycirq version
   six-state  {'UNKNOWN': 12}
   counts     PASS=6  FAIL=0  NOT RUN=24  BLOCKED=0  UNKNOWN=0
   timing     total=679ms cli=6 calls/513ms overhead=166ms

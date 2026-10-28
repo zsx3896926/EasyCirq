@@ -25,7 +25,7 @@ func newViewCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Use:     "fit",
 		Short:   "Zoom to fit all primitives (适应全部, the `K` shortcut)",
 		Args:    cobra.NoArgs,
-		Example: `  zhigou view fit`,
+		Example: `  easycirq view fit`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return dispatch(cfg, "view.fit", window, nil, stdout, stderr)
 		},
@@ -39,8 +39,8 @@ func newViewCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:   "zoom",
 			Short: "Pan/zoom to a center coordinate and/or scale ratio (percent)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou view zoom --scale 200
-  zhigou view zoom --x 100 --y 200 --scale 150`,
+			Example: `  easycirq view zoom --scale 200
+  easycirq view zoom --x 100 --y 200 --scale 150`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if cmd.Flags().Changed("x") {
@@ -80,10 +80,10 @@ a LARGER stored y renders HIGHER on screen. The flag names are accepted as two
 unordered Y bounds, so you do not need to pre-sort them.
 
 For a partial / zoomed-in screenshot, frame the area here first, then capture
-with "zhigou pcb snapshot --no-fit" (PCB side) so the capture keeps this
+with "easycirq pcb snapshot --no-fit" (PCB side) so the capture keeps this
 viewport; the schematic side renders via "sch export-image" (viewport-free).`,
 			Args:    cobra.NoArgs,
-			Example: `  zhigou view region --left 0 --right 1000 --top 1000 --bottom 0`,
+			Example: `  easycirq view region --left 0 --right 1000 --top 1000 --bottom 0`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{
 					"left":   left,

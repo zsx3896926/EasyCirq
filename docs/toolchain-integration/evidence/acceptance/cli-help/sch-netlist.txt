@@ -1,11 +1,11 @@
 Export schematic netlist as an artifact
 
 Usage:
-  zhigou sch netlist [flags]
+  easycirq sch netlist [flags]
 
 Examples:
-  zhigou sch netlist
-  zhigou sch netlist --type kicad
+  easycirq sch netlist
+  easycirq sch netlist --type kicad
 
 Flags:
   -h, --help          help for netlist

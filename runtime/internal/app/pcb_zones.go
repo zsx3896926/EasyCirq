@@ -10,7 +10,7 @@ package app
 // This file makes the claim table executable:
 //   - `pcb zones set --spec <s0-spec.json>` (or --module NAME=ZONE:D1,D2 …)
 //     persists module → {grid zone, designators} into the project workflow
-//     state (~/.zhigou/workflow/<project>.json — same store the stage
+//     state (~/.easycirq/workflow/<project>.json — same store the stage
 //     gates use, so the daemon and every CLI cwd agree);
 //   - `pcb place-constrained` consumes it (mains anchored into their zone,
 //     satellites legalized within it — edge parts exempt, the board edge is a
@@ -33,7 +33,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 type stageZoneClaim = workflow.ZoneClaim
@@ -356,8 +356,8 @@ func newPcbZonesSetCmd(cfg *appConfig, window *string, stdout, stderr io.Writer)
 	c := &cobra.Command{
 		Use:   "set",
 		Short: "Set zone claims from an S0 spec file (--spec) or manually (--module)",
-		Example: `  zhigou pcb zones set --spec s0-esp32mini.json --project ceshi
-  zhigou pcb zones set --module "RF=right-top:U2,ANT1" --module "POWER=left-bottom:U3,C5,C6" --project ceshi`,
+		Example: `  easycirq pcb zones set --spec s0-esp32mini.json --project ceshi
+  easycirq pcb zones set --module "RF=right-top:U2,ANT1" --module "POWER=left-bottom:U3,C5,C6" --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			var claims map[string]*stageZoneClaim
 			var err error

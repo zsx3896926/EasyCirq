@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // exitCodeUpdatesAvailable is the exit code `update --check --exit-code` uses when
@@ -19,7 +19,7 @@ import (
 // without parsing text (0 = verified and compatible, 1 = check failure).
 const exitCodeUpdatesAvailable = 10
 
-// updateReport is the JSON shape of `zhigou update` / `zhigou update --check`.
+// updateReport is the JSON shape of `easycirq update` / `easycirq update --check`.
 // The three moving parts of an install are reported side by side: the CLI
 // binary, the skill dirs, and the EasyEDA connector — only the first two can be
 // updated from here (see connectorNote).
@@ -98,9 +98,9 @@ func newUpdateCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Long: `Bring this installation up to the latest GitHub release.
 
 Covers the two pieces that CAN be updated programmatically:
-  • the zhigou CLI binary itself (downloaded for this platform, sha256-verified
+  • the easycirq CLI binary itself (downloaded for this platform, sha256-verified
     when the release publishes checksums.txt, then atomically swapped in place)
-  • the zhigou-agent skill dirs (~/.claude/skills, ~/.codex/skills,
+  • the easycirq-agent skill dirs (~/.claude/skills, ~/.codex/skills,
     and the shared ~/.agents/skills root used by Codex Desktop)
 
 The EasyEDA connector .eext is only REPORTED: a sideloaded extension has no
@@ -110,14 +110,14 @@ in-place auto-update, so a stale connector has to be re-imported by hand
 A dev build (git-describe stamp) is never overwritten without --force.
 If the binary lives in a root-owned dir, re-run with sudo.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou update                    # CLI + skills → latest
-  zhigou update --check            # report only, change nothing
-  zhigou update --check --exit-code  # exit 10 when explicit install reconciliation finds a difference
-  zhigou update --version 0.25.0   # pin a release
-  zhigou update --skill-only       # leave the binary alone
-  zhigou update --json
-  zhigou update --local-dir ./dist --binary /absolute/path/to/zhigou  # install trusted local dev assets
-  zhigou update --local-dir ./dist --check --exit-code                 # offline, exact local runtime reconciliation`,
+		Example: `  easycirq update                    # CLI + skills → latest
+  easycirq update --check            # report only, change nothing
+  easycirq update --check --exit-code  # exit 10 when explicit install reconciliation finds a difference
+  easycirq update --version 0.25.0   # pin a release
+  easycirq update --skill-only       # leave the binary alone
+  easycirq update --json
+  easycirq update --local-dir ./dist --binary /absolute/path/to/easycirq  # install trusted local dev assets
+  easycirq update --local-dir ./dist --check --exit-code                 # offline, exact local runtime reconciliation`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if localDir != "" {
 				for _, flag := range []string{"version", "cli-only", "skill-only", "client", "preserve", "force", "create-missing"} {
@@ -506,12 +506,12 @@ func updateNotes(rep updateReport) []string {
 	}
 	if rep.Connector != nil && rep.Connector.DaemonStatus == "mismatch" {
 		notes = append(notes, "daemon is still running a DIFFERENT binary — restart it with v"+rep.Target+
-			" (`zhigou daemon stop`, then `zhigou daemon start --background`; a make dev daemon restarts with its own build)")
+			" (`easycirq daemon stop`, then `easycirq daemon start --background`; a make dev daemon restarts with its own build)")
 	}
 	if rep.Connector != nil && (rep.Connector.Status == "behind" || rep.Connector.Status == "mismatch") {
 		notes = append(notes, fmt.Sprintf(
 			"connector %s is not compatible with the v%s major.minor line and cannot be updated from here — re-import the .eext "+
-				"(https://github.com/%s/releases/download/v%s/zhigou-agent-connector.eext), "+
+				"(https://github.com/%s/releases/download/v%s/easycirq-agent-connector.eext), "+
 				"then fully quit and relaunch EasyEDA so open windows load it",
 			strings.Join(rep.Connector.Versions, ","), rep.Target, selfupdate.RepoSlug, rep.Target))
 	}
@@ -520,10 +520,10 @@ func updateNotes(rep updateReport) []string {
 			notes = append(notes, fmt.Sprintf("skill %s kept local content and its previous version marker; release parity is not claimed", s.Client))
 		}
 		if s.Status == "not-installed" {
-			notes = append(notes, fmt.Sprintf("skill not installed for %s — `zhigou update --create-missing` to add %s", s.Client, s.Dir))
+			notes = append(notes, fmt.Sprintf("skill not installed for %s — `easycirq update --create-missing` to add %s", s.Client, s.Dir))
 		}
 		if s.Status == "skipped" && s.Err != "" {
-			notes = append(notes, fmt.Sprintf("skill %s skipped (%s) — `zhigou update --create-missing` to install it", s.Client, s.Err))
+			notes = append(notes, fmt.Sprintf("skill %s skipped (%s) — `easycirq update --create-missing` to install it", s.Client, s.Err))
 		}
 	}
 	return notes
@@ -534,7 +534,7 @@ func printUpdateReport(w io.Writer, rep updateReport) {
 	if rep.Latest == "" {
 		label = "pinned"
 	}
-	fmt.Fprintf(w, "zhigou-agent %s  →  %s v%s\n\n", rep.CLIVersion, label, rep.Target)
+	fmt.Fprintf(w, "easycirq-agent %s  →  %s v%s\n\n", rep.CLIVersion, label, rep.Target)
 
 	// component | status | version(s) | where — one fixed grid so the three
 	// rows line up whatever the client names are.

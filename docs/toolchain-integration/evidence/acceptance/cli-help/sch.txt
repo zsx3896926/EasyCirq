@@ -1,8 +1,8 @@
 Schematic operations
 
 Usage:
-  zhigou sch [flags]
-  zhigou sch [command]
+  easycirq sch [flags]
+  easycirq sch [command]
 
 Available Commands:
   align               Align parts' rendered bboxes (left|right|top|bottom|centerx|centery) to a reference part
@@ -93,5 +93,5 @@ Global Flags:
       --project string            route by project name/uuid instead of --window (survives windowId churn)
       --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
 
-Use "zhigou sch [command] --help" for more information about a command.
+Use "easycirq sch [command] --help" for more information about a command.
 

@@ -16,8 +16,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 const (
@@ -65,7 +65,7 @@ type appConfig struct {
 	// docCache is the --doc guard's per-process memory (doc_pin.go). A pointer so
 	// the `local := *cfg` copies commands make share it; nil until first use.
 	docCache *docGuardCache
-	// command is the invoking CLI command path (e.g. "zhigou sch connect"),
+	// command is the invoking CLI command path (e.g. "easycirq sch connect"),
 	// sent with every action so the audit log can attribute calls to the
 	// subcommand that issued them — the evidence for pruning unused commands.
 	command string
@@ -700,7 +700,7 @@ func listWindows(cfg *appConfig) ([]healthWindow, error) {
 		}
 	}
 	if scan.Found == nil {
-		return nil, fmt.Errorf("no zhigou-agent daemon found on %s:%s (start it with `zhigou daemon start --background`)", cfg.host, scan.Ports)
+		return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start --background`)", cfg.host, scan.Ports)
 	}
 	// An installed daemon older than this installed CLI was left running across
 	// an upgrade: replace it the same way a missing one is started.
@@ -712,7 +712,7 @@ func listWindows(cfg *appConfig) ([]healthWindow, error) {
 		}
 		scan = scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
 		if scan.Found == nil {
-			return nil, fmt.Errorf("no zhigou-agent daemon found on %s:%s after restarting it (see %s)", cfg.host, scan.Ports, daemonLogPath())
+			return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s after restarting it (see %s)", cfg.host, scan.Ports, daemonLogPath())
 		}
 	}
 	var parsed struct {
@@ -760,7 +760,7 @@ func selectWindow(windows []healthWindow, project, window string) (string, error
 		case 1:
 			return matches[0].WindowID, nil
 		case 0:
-			return "", fmt.Errorf("no connected window for project %q (run `zhigou daemon health`)", project)
+			return "", fmt.Errorf("no connected window for project %q (run `easycirq daemon health`)", project)
 		default:
 			// Extension reloads can leave several registrations for the exact same
 			// project/document tab. They are transport duplicates; route to the
@@ -823,12 +823,12 @@ func describeWindows(ws []healthWindow) string {
 
 // cliClientID identifies this CLI process to the daemon, computed once per
 // process: "<hostname>:<pid>", plus an optional session label from
-// ZHIGOU_CLIENT_LABEL (e.g. "mikas-mbp:12345:e2e-regression"). The daemon
+// EASYCIRQ_CLIENT_LABEL (e.g. "mikas-mbp:12345:e2e-regression"). The daemon
 // stamps it into every audit entry (pid = precise per-process attribution) and
 // uses it to detect a different client writing to the same window
 // (concurrentWriter advisory, issue #108). NOTE: the advisory compares SESSION
 // identity — hostname+label, or hostname alone when unlabeled — because the
-// pid churns on every one-shot CLI invocation; set ZHIGOU_CLIENT_LABEL per
+// pid churns on every one-shot CLI invocation; set EASYCIRQ_CLIENT_LABEL per
 // agent/session to make same-host concurrent writers detectable.
 var cliClientID = sync.OnceValue(func() string {
 	host, err := os.Hostname()
@@ -836,7 +836,7 @@ var cliClientID = sync.OnceValue(func() string {
 		host = "unknown-host"
 	}
 	id := fmt.Sprintf("%s:%d", host, os.Getpid())
-	if label := os.Getenv("ZHIGOU_CLIENT_LABEL"); label != "" {
+	if label := os.Getenv("EASYCIRQ_CLIENT_LABEL"); label != "" {
 		id += ":" + label
 	}
 	return id
@@ -1123,7 +1123,7 @@ func dryRunGuard(action string) error {
 }
 
 // artifactOutputDir resolves the outputDir sent with every action request (the
-// directory the daemon roots its .zhigou/artifacts tree under). Thin os.Getwd
+// directory the daemon roots its .easycirq/artifacts tree under). Thin os.Getwd
 // wrapper around the pure, unit-tested resolveOutputDir.
 func artifactOutputDir() (string, bool) {
 	cwd, err := os.Getwd()
@@ -1133,7 +1133,7 @@ func artifactOutputDir() (string, bool) {
 	return resolveOutputDir(cwd, dirHasProjectMarker), true
 }
 
-// resolveOutputDir is the pure core: strip any .zhigou/artifacts nesting from
+// resolveOutputDir is the pure core: strip any .easycirq/artifacts nesting from
 // cwd (a cwd INSIDE the artifact tree must not seed another level), then anchor
 // to the nearest enclosing project root (isRoot marker walk-up); when no marker
 // is found, fall back to the stripped cwd.
@@ -1164,7 +1164,7 @@ func dirHasProjectMarker(dir string) bool {
 }
 
 // stripArtifactNesting truncates a path to just BEFORE its first
-// ".zhigou/artifacts" segment pair, so that Join(dir, ".zhigou", "artifacts")
+// ".easycirq/artifacts" segment pair, so that Join(dir, ".easycirq", "artifacts")
 // is idempotent however deeply the input had already nested. A path without the
 // pair is returned cleaned but otherwise unchanged. The daemon applies the same
 // normalization defensively (internal/daemon dispatch.go) — keep both in sync.
@@ -1173,7 +1173,7 @@ func stripArtifactNesting(p string) string {
 	sep := string(filepath.Separator)
 	segs := strings.Split(clean, sep)
 	for i := 0; i+1 < len(segs); i++ {
-		if segs[i] == ".zhigou" && segs[i+1] == "artifacts" {
+		if segs[i] == ".easycirq" && segs[i+1] == "artifacts" {
 			trimmed := strings.Join(segs[:i], sep)
 			if trimmed == "" {
 				if filepath.IsAbs(clean) {
@@ -1234,7 +1234,7 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 
 	scan := scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
 	if scan.Found == nil {
-		return nil, fmt.Errorf("no zhigou-agent daemon found on %s:%s (start it with `zhigou daemon start`)", cfg.host, scan.Ports)
+		return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start`)", cfg.host, scan.Ports)
 	}
 
 	body := map[string]any{"action": action}
@@ -1263,9 +1263,9 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 	}
 	// Tell the daemon where to drop artifacts. Anchored to the project root
 	// (nearest .git/go.mod ancestor), falling back to cwd — and NEVER a path
-	// inside an existing .zhigou/artifacts tree: sending a raw cwd that had
+	// inside an existing .easycirq/artifacts tree: sending a raw cwd that had
 	// drifted into the artifact dir made the daemon Join another
-	// .zhigou/artifacts under it, recursively nesting the tree. Best-effort.
+	// .easycirq/artifacts under it, recursively nesting the tree. Best-effort.
 	if dir, ok := artifactOutputDir(); ok {
 		body["outputDir"] = dir
 	}
@@ -1384,7 +1384,7 @@ type daemonHealth struct {
 }
 
 // scanHealth probes each port in [portStart, portEnd] and returns the first
-// port that responds with service=="zhigou-agent".
+// port that responds with service=="easycirq-agent".
 func scanHealth(ctx context.Context, opts hostPortOptions) healthResult {
 	result := healthResult{
 		Status: "not_found",
@@ -1433,7 +1433,7 @@ func scanHealth(ctx context.Context, opts hostPortOptions) healthResult {
 		svc := serviceName(body)
 		checked.Status = "ok"
 		result.Checked = append(result.Checked, checked)
-		if svc == "zhigou-agent" {
+		if svc == "easycirq-agent" {
 			raw := append(json.RawMessage(nil), body...)
 			result.Status = "found"
 			result.Found = &daemonHealth{Port: port, Service: svc, Raw: raw}

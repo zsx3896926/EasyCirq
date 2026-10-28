@@ -16,7 +16,7 @@
 .eslintcache
 debug.log
 ws-file-server.mjs
-# Zhigou: upstream demo media and changelog stay out of the shipped package
+# EasyCirq: upstream demo media and changelog stay out of the shipped package
 /images/demo-*.png
 /images/demo-*.gif
 /images/access-control-*.png

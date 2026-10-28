@@ -47,7 +47,7 @@ class RealBaseline(unittest.TestCase):
         skill = next(item for item in self.result["files"]
                      if item["path"] == "SKILL.md")
         refs = {item["path"]: item for item in skill["script_refs"]}
-        # Post-zhigou migration the Skill no longer points at the retired
+        # Post-easycirq migration the Skill no longer points at the retired
         # upstream executor adapter. Assert that every
         # remaining reference resolves and that the core preflight scripts are
         # still referenced.

@@ -1,7 +1,7 @@
 """Tests for the round10 pcb_apply_plan adapter.
 
-Every test either patches ``pcb_cli.run`` or passes ``--zhigou`` pointing at a
-fake executable.  No test may resolve a real ``zhigou`` from PATH.
+Every test either patches ``pcb_cli.run`` or passes ``--easycirq`` pointing at a
+fake executable.  No test may resolve a real ``easycirq`` from PATH.
 """
 import contextlib
 import copy
@@ -41,7 +41,7 @@ def write_json(path, value):
 
 
 class FakeRunner:
-    """Stand-in for ``pcb_cli.run`` that emulates one ``zhigou apply``."""
+    """Stand-in for ``pcb_cli.run`` that emulates one ``easycirq apply``."""
 
     def __init__(self, test, *, after=None, journal_statuses=None,
                  exit_code=0, skip_journal=False, skip_out_dump=False,
@@ -60,10 +60,10 @@ class FakeRunner:
         self.journal_reverse = journal_reverse
         self.calls = []
 
-    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, easycirq=None, timeout=120, cwd=None, env=None):
         args = [str(item) for item in args]
-        argv = [pcb_cli.zhigou_executable(zhigou)] + args
-        self.calls.append({'args': args, 'argv': argv, 'zhigou': zhigou,
+        argv = [pcb_cli.easycirq_executable(easycirq)] + args
+        self.calls.append({'args': args, 'argv': argv, 'easycirq': easycirq,
                            'timeout': timeout})
         playbook_path = args[1]
         playbook = load(playbook_path)
@@ -116,8 +116,8 @@ class ApplyPlanTests(unittest.TestCase):
         self.playbook_path = os.path.join(self.tmp, 'playbook.json')
         self.report_path = os.path.join(self.tmp, 'report.json')
         self.fake_exe = os.path.join(
-            self.tmp, 'zhigou-fake.cmd' if os.name == 'nt'
-            else 'zhigou-fake.sh')
+            self.tmp, 'easycirq-fake.cmd' if os.name == 'nt'
+            else 'easycirq-fake.sh')
         # The frozen plan describes the measured pose (J1 is an equivalent
         # 270/-90 rotation), so it is a no-op by design.  Move one unconstrained
         # part for tests that need a real write, and keep a same-pose plan for
@@ -233,7 +233,7 @@ class ApplyPlanTests(unittest.TestCase):
                 '--out-dump', self.out_dump,
                 '--playbook-out', self.playbook_path,
                 '--report', self.report_path,
-                '--zhigou', self.fake_exe]
+                '--easycirq', self.fake_exe]
         if apply:
             argv.append('--apply')
         argv.extend(extra)
@@ -912,7 +912,7 @@ class ApplyPlanTests(unittest.TestCase):
         after_path = os.path.join(self.tmp, 'prepared-after.json')
         log_path = os.path.join(self.tmp, 'calls.log')
         write_json(after_path, self.dump)
-        script_path = os.path.join(self.tmp, 'fake_zhigou.py')
+        script_path = os.path.join(self.tmp, 'fake_easycirq.py')
         Path(script_path).write_text(FAKE_EXE_SCRIPT, encoding='utf-8')
         if os.name == 'nt':
             with open(self.fake_exe, 'w', encoding='ascii',

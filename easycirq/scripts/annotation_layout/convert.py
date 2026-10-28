@@ -4,7 +4,7 @@ input document.
 Sources (all read-only, never modified):
 * ``layout.json``      - ``layout_from_easyeda.py`` output: checker-contract
                          geometry, text kinds/owners/content and module frames;
-* ``list.json``        - retained ``zhigou sch list`` response: component
+* ``list.json``        - retained ``easycirq sch list`` response: component
                          designators and page-text anchor/rotation/font metadata;
 * ``rendered-text.json`` - browser-measured SVG text bboxes (y is negated once);
 * ``sheet.json``       - official-SVG sheet geometry (inner frame, title block).

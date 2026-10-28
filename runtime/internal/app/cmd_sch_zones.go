@@ -39,7 +39,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 type schZoneClaim = workflow.SchZoneClaim
@@ -231,7 +231,7 @@ left / right / top / bottom / center. The canvas is y-UP, and "top" means the
 VISUALLY upper half (larger y — zoneRect owns the mapping). The rectangle is
 resolved from the LIVE sheet bbox at placement time. Claims live by schematic
 document UUID in the project workflow state
-(~/.zhigou/workflow/<project>.json); modules[].page in a spec is resolved
+(~/.easycirq/workflow/<project>.json); modules[].page in a spec is resolved
 to its page UUID, while manual --module claims apply to the active/--doc page.
 This is separate from PCB zone claims — the same module may claim different
 zones on sheet vs board.`,
@@ -248,8 +248,8 @@ func newSchZonesSetCmd(cfg *appConfig, window *string, stdout, stderr io.Writer)
 	c := &cobra.Command{
 		Use:   "set",
 		Short: "认领模块的落位格位(给布局前的 autolayout 用;成员归属请用虚拟组)",
-		Example: `  zhigou sch zones set --spec s0-esp32mini.json --project ceshi
-  zhigou sch zones set --module "POWER=left-top:U3,C5,C6" --module "MCU=center:U1" --project ceshi`,
+		Example: `  easycirq sch zones set --spec s0-esp32mini.json --project ceshi
+  easycirq sch zones set --module "POWER=left-top:U3,C5,C6" --module "MCU=center:U1" --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			pinnedCfg, win, activeUUID, err := pinZonePage(cfg, *window)
 			if err != nil {

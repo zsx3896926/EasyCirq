@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // Regression for the 2026-10-13 ESP32-S3 demo: block.esp32s3_wroom1_module

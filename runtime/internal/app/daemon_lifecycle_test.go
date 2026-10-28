@@ -41,21 +41,21 @@ func TestDaemonLifecycleRefusesRemoteHostAndInvalidPID(t *testing.T) {
 
 // Child listener is disposable and independent of the developer's real daemon.
 func TestDaemonLifecycleHelper(t *testing.T) {
-	port := os.Getenv("ZHIGOU_TEST_LIFECYCLE_PORT")
+	port := os.Getenv("EASYCIRQ_TEST_LIFECYCLE_PORT")
 	if port == "" {
 		return
 	}
-	mode := os.Getenv("ZHIGOU_TEST_LIFECYCLE_MODE")
+	mode := os.Getenv("EASYCIRQ_TEST_LIFECYCLE_MODE")
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		switch mode {
 		case "foreign":
 			fmt.Fprint(w, `{"service":"other"}`)
 		case "unknown":
-			fmt.Fprint(w, `{"service":"zhigou-agent","pid":-1}`)
+			fmt.Fprint(w, `{"service":"easycirq-agent","pid":-1}`)
 		case "old":
-			fmt.Fprint(w, `{"service":"zhigou-agent"}`)
+			fmt.Fprint(w, `{"service":"easycirq-agent"}`)
 		default:
-			fmt.Fprintf(w, `{"service":"zhigou-agent","pid":%d}`, os.Getpid())
+			fmt.Fprintf(w, `{"service":"easycirq-agent","pid":%d}`, os.Getpid())
 		}
 	})
 	if err := http.ListenAndServe("127.0.0.1:"+port, nil); err != nil {
@@ -68,7 +68,7 @@ func TestDaemonLifecycleStopsOnlyIdentifiedProcess(t *testing.T) {
 		t.Run(mode, func(t *testing.T) {
 			port := freeTCPPort(t)
 			cmd := exec.Command(os.Args[0], "-test.run=^TestDaemonLifecycleHelper$")
-			cmd.Env = append(os.Environ(), "ZHIGOU_TEST_LIFECYCLE_PORT="+strconv.Itoa(port), "ZHIGOU_TEST_LIFECYCLE_MODE="+mode)
+			cmd.Env = append(os.Environ(), "EASYCIRQ_TEST_LIFECYCLE_PORT="+strconv.Itoa(port), "EASYCIRQ_TEST_LIFECYCLE_MODE="+mode)
 			if err := cmd.Start(); err != nil {
 				t.Fatal(err)
 			}

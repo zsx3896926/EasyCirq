@@ -5,7 +5,7 @@
  * ## What breaks
  *
  * With `isShowAtHeaderMenu` on — which is what the connector ships with — the
- * `Zhigou` menu never appears on EasyEDA Pro 3.2.149, not even while the
+ * `EasyCirq` menu never appears on EasyEDA Pro 3.2.149, not even while the
  * connector is connected and serving requests. `Reconnect` therefore cannot be
  * clicked, and that is the only recovery path which does not need the daemon —
  * exactly what an operator wants when the connector failed to come up (#221).
@@ -88,7 +88,7 @@ export async function ensureHeaderMenusVisible(config: unknown, delay: DelayFn =
 		}
 		catch (err) {
 			try {
-				eda.sys_Log.add(`[zhigou-agent] header menu registration failed: ${String(err)}`);
+				eda.sys_Log.add(`[easycirq-agent] header menu registration failed: ${String(err)}`);
 			}
 			catch { /* log panel unavailable */ }
 			return; // A rejecting host will not start accepting; stop retrying.

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou-footprint-outline-diagnose/v1",
+  "schema": "easycirq-footprint-outline-diagnose/v1",
   "pcbDrcPassed": false,
   "violationCount": 1,
   "leafErrorCount": 4,

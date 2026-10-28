@@ -294,7 +294,7 @@ func renderPCBActualSVG(w io.Writer, raw []byte, side string) error {
 		return err
 	}
 	var out bytes.Buffer
-	fmt.Fprintf(&out, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.6f %.6f" width="1200" height="%.0f" role="img"><title>PCB 实际回读辅助装配图</title><metadata id="zhigou-actual-readback">%s</metadata>`, width, height, height/width*1200, html.EscapeString(string(metadata)))
+	fmt.Fprintf(&out, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.6f %.6f" width="1200" height="%.0f" role="img"><title>PCB 实际回读辅助装配图</title><metadata id="easycirq-actual-readback">%s</metadata>`, width, height, height/width*1200, html.EscapeString(string(metadata)))
 	fmt.Fprint(&out, `<style>.heading{font:bold 25px sans-serif;fill:#102d38}.caption{font:16px sans-serif;fill:#405561}.side-title{font:bold 19px sans-serif;fill:#102d38}.limitation{font:15px sans-serif;fill:#695025}.component-envelope{fill:#c6dadd;fill-opacity:.24;stroke:#537782;stroke-width:1;stroke-dasharray:6 4}.pad{fill:#dca64a;stroke:#8b6628;stroke-width:.6}.silk{fill:#183a41}.unknown{stroke:#b73d3d;stroke-width:2;fill:none}.text-envelope{fill:none;stroke:#739395;stroke-width:.6;stroke-dasharray:2 2;opacity:.45}</style>`)
 	fmt.Fprintf(&out, `<rect width="%.6f" height="%.6f" fill="#f7fafb"/><text class="heading" x="24" y="34">PCB 实际回读 · 辅助装配图</text><text class="caption" x="24" y="62">%.3f × %.3f mm · %d 个器件 · %s</text><text class="caption" x="24" y="87">%s</text><text class="caption" x="24" y="111">源 SHA256 %s</text>`, width, height, d.Metadata.DimensionsMM.Width, d.Metadata.DimensionsMM.Height, len(d.Snapshot.Components), html.EscapeString(d.Metadata.CapturedAt), html.EscapeString(d.RoutingLabel), d.Metadata.SourceSHA256)
 	out.Write(panels.Bytes())

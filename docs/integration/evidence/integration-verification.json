@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.integration.verification/v1",
+  "schema": "easycirq.integration.verification/v1",
   "generated_at_utc": "2026-10-27T17:56:46Z",
   "offline": true,
   "eda_calls": 0,
@@ -9,7 +9,7 @@
   "manufacturing": "NOT RUN",
   "fixture": {
     "path": "docs/integration/fixtures/minimal-board/board.json",
-    "schema": "zhigou.integration.minimal-board/v1",
+    "schema": "easycirq.integration.minimal-board/v1",
     "kind": "synthetic_minimal_board",
     "note": "Frozen synthetic dataset; adapters do not exist yet, so it is used as the common-semantics reference, not as an automatic chain input."
   },
@@ -23,7 +23,7 @@
       "command": "python -m electrical_review validate C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-int-worktree\\benchmarks\\electrical-review\\cases\\real-mcu-i2c-ams-tab\\input.json",
       "exit": 0,
       "seconds": 0.152,
-      "stdout_tail": "  \"schema\": \"zhigou.electrical-review.input/v1\",\n  \"status\": \"valid\"\n}",
+      "stdout_tail": "  \"schema\": \"easycirq.electrical-review.input/v1\",\n  \"status\": \"valid\"\n}",
       "stderr_tail": "",
       "ok": true,
       "classified": "native_capability"
@@ -174,13 +174,13 @@
       "id": "F output is not a B input",
       "producer": "circuit_blocks",
       "consumer": "electrical_review",
-      "note": "B requires zhigou.electrical-review.input/v1 with evidence/fact refs; F emits an abstract circuit-block result.",
+      "note": "B requires easycirq.electrical-review.input/v1 with evidence/fact refs; F emits an abstract circuit-block result.",
       "expect_nonzero": true,
       "command": "python -m electrical_review validate C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-integration-9ja9oe0_\\circuit-block.json",
       "exit": 2,
       "seconds": 0.13,
-      "stdout_tail": "{\"status\": \"invalid_input\", \"code\": \"unsupported\", \"path\": \"schema\", \"error\": \"schema: require schema 'zhigou.electrical-review.input/v1'\"}",
-      "stderr_tail": "validate: schema: require schema 'zhigou.electrical-review.input/v1'",
+      "stdout_tail": "{\"status\": \"invalid_input\", \"code\": \"unsupported\", \"path\": \"schema\", \"error\": \"schema: require schema 'easycirq.electrical-review.input/v1'\"}",
+      "stderr_tail": "validate: schema: require schema 'easycirq.electrical-review.input/v1'",
       "ok": true,
       "classified": "gap_confirmed_missing_adapter"
     },
@@ -210,7 +210,7 @@
       "exit": 2,
       "seconds": 0.125,
       "stdout_tail": "  \"status\": \"input_invalid\",\n  \"tool_version\": \"0.1.0\"\n}",
-      "stderr_tail": "change_impact: invalid_input: model.schema: expected 'hds-change-impact-input/v1', got 'zhigou.electrical-review.report/v1'\n  - wrong_schema: model.schema: expected 'hds-change-impact-input/v1', got 'zhigou.electrical-review.report/v1'",
+      "stderr_tail": "change_impact: invalid_input: model.schema: expected 'hds-change-impact-input/v1', got 'easycirq.electrical-review.report/v1'\n  - wrong_schema: model.schema: expected 'hds-change-impact-input/v1', got 'easycirq.electrical-review.report/v1'",
       "ok": true,
       "classified": "gap_confirmed_missing_adapter"
     },

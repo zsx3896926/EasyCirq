@@ -33,7 +33,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // extractRoleGeom is one placed part's measured anchor + rotation (schematic units).
@@ -258,8 +258,8 @@ block, paste ` + "`schematic_layout`" + ` into internal/blocks/data/<id>.json, a
 ` + "`go test ./internal/blocks/...`" + ` validate full-role coverage + on-grid + legal
 rotation.`,
 		Args: cobra.ExactArgs(1),
-		Example: `  zhigou sch extract-layout led_indicator_gpio --from LED1,R1,U1 --project ceshi
-  zhigou sch extract-layout ch340c_usb_serial --role usb=U2 --role tvs=D1 --from R3,R4,C5`,
+		Example: `  easycirq sch extract-layout led_indicator_gpio --from LED1,R1,U1 --project ceshi
+  easycirq sch extract-layout ch340c_usb_serial --role usb=U2 --role tvs=D1 --from R3,R4,C5`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			blockID := args[0]
 			b, ok, err := blocks.Get(blockID)
@@ -267,7 +267,7 @@ rotation.`,
 				return err
 			}
 			if !ok {
-				return fmt.Errorf("no such block %q — `zhigou blocks ls` to list", blockID)
+				return fmt.Errorf("no such block %q — `easycirq blocks ls` to list", blockID)
 			}
 			if len(b.Parts) == 0 {
 				return fmt.Errorf("block %s has no parts to extract", blockID)
@@ -303,7 +303,7 @@ rotation.`,
 			}
 			if len(absent) > 0 {
 				sort.Strings(absent)
-				return fmt.Errorf("these mapped designators are not on the active page: %v — check they are placed and you are on the right page (`zhigou doc switch`)", absent)
+				return fmt.Errorf("these mapped designators are not on the active page: %v — check they are placed and you are on the right page (`easycirq doc switch`)", absent)
 			}
 
 			anchorRole := extractAnchorRole(prefixes)

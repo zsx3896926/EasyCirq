@@ -177,7 +177,7 @@ python easycirq/scripts/eda_cache.py get --cache .cache/eda \
 - `sch frame apply --from frames.json`：显式矩形 + 单行标题，回读 `verified`、`unchanged`。
   **标题只接受单行**；多行会被拒。
 - 用途说明：typed action 目录没有 `schematic.text.create`（只有 list/move）。可用
-  `zhigou debug exec` 调用 `eda.sch_PrimitiveText.create(x,y,content,rotation,null,null,fontSize)`
+  `easycirq debug exec` 调用 `eda.sch_PrimitiveText.create(x,y,content,rotation,null,null,fontSize)`
   作为受控 escape hatch，创建后用 `sch text-list` 回读；这是工具缺口，不是首选路径。
 - `sch zone-draw`/`sch zone-arrange` 读虚拟组/zone 认领；手工页先用
   `sch group create --members ... --name ...` 建组。
@@ -224,7 +224,7 @@ python easycirq/scripts/eda_cache.py get --cache .cache/eda \
 
 ## 7. 性能记录：把墙钟、工具时间和思考分开
 
-- `zhigou audit cost --day ... --since ... --until ... --json` 给出墙钟、daemon 时间、
+- `easycirq audit cost --day ... --since ... --until ... --json` 给出墙钟、daemon 时间、
   `components.list`、probe、失败与 top actions。
 - 注意：`audit cost` 的 `think = wall − Σduration` 会忽略并发；多窗口/后台时用调用
   区间并集（union）而不是 Σduration。报告要写清用的是哪一个口径。

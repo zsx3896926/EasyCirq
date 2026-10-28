@@ -260,7 +260,7 @@
     },
     {
       "rule_id": "R-START-009",
-      "text": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `zhigou doctor` 检查执行层，两者分开报告。",
+      "text": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。",
       "source": {
         "path": "easycirq/SKILL.md",
         "line_start": 4,
@@ -423,7 +423,7 @@
         {
           "path": "easycirq/SKILL.md",
           "line": 16,
-          "quote": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `zhigou doctor` 检查执行层，两者分开报告。"
+          "quote": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。"
         },
         {
           "path": "easycirq/SKILL.md",
@@ -602,7 +602,7 @@
         {
           "path": "easycirq/SKILL.md",
           "line": 8,
-          "quote": "让用户描述想实现的效果，由正在运行的Agent持续推进到任务范围内的真实成果；完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。此Skill是Agent的协作与工程方法包；Agent负责读信息、问关键问题、推荐选择、调用工具、处理失败和交付，本仓库的 `zhigou` 执行层负责实际编辑。安装此Skill本身不会获得本机访问、EDA连接、软件安装或制造下单能力。"
+          "quote": "让用户描述想实现的效果，由正在运行的Agent持续推进到任务范围内的真实成果；完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。此Skill是Agent的协作与工程方法包；Agent负责读信息、问关键问题、推荐选择、调用工具、处理失败和交付，本仓库的 `easycirq` 执行层负责实际编辑。安装此Skill本身不会获得本机访问、EDA连接、软件安装或制造下单能力。"
         },
         {
           "path": "easycirq/SKILL.md",

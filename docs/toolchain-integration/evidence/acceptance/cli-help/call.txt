@@ -1,12 +1,12 @@
 Generic escape hatch: call any typed action directly
 
 Usage:
-  zhigou call <action> [flags]
+  easycirq call <action> [flags]
 
 Examples:
-  zhigou call system.health
-  zhigou call schematic.components.list --window win-1
-  zhigou call schematic.component.place --payload '{"libraryUuid":"...","uuid":"...","x":100,"y":200}'
+  easycirq call system.health
+  easycirq call schematic.components.list --window win-1
+  easycirq call schematic.component.place --payload '{"libraryUuid":"...","uuid":"...","x":100,"y":200}'
 
 Flags:
   -h, --help             help for call

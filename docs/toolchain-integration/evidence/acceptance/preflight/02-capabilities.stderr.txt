@@ -1,4 +1,4 @@
-zhigou capabilities — 0 supported / 19 unknown / 5 unsupported
+easycirq capabilities — 0 supported / 19 unknown / 5 unsupported
   - schematic.read       unknown     动作目录里有 15 个 typed action，但当前没有连接器连接，无法与宿主协商
   - schematic.write      unknown     动作目录里有 26 个 typed action，但当前没有连接器连接，无法与宿主协商
   - schematic.check      unknown     动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商

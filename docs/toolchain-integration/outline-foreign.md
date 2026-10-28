@@ -1,7 +1,7 @@
 # 封装内嵌 Board Outline 缺陷：现场结论与修复路径
 
-> 现场实测：2026-10-28，EasyEDA Pro 4.1.78，自有 zhigou 运行时 0.2.2-dev +
-> zhigou-connector 0.1.2。证据：`evidence/outline-foreign/`。
+> 现场实测：2026-10-28，EasyEDA Pro 4.1.78，自有 easycirq 运行时 0.2.2-dev +
+> easycirq-connector 0.1.2。证据：`evidence/outline-foreign/`。
 
 ## 现象
 
@@ -19,10 +19,10 @@
 
 ## 修复路径（已验证有效）
 
-1. 诊断：`python tools/zhigou_footprint_outline_diagnose.py`
+1. 诊断：`python tools/easycirq_footprint_outline_diagnose.py`
    → 点名器件、违规条数、受影响焊盘、对象 id、建议。
 2. 换器件（不是删图元）：
-   `zhigou sch replace --id <器件 primitiveId> --lcsc <无内嵌 outline 的同类器件>`
+   `easycirq sch replace --id <器件 primitiveId> --lcsc <无内嵌 outline 的同类器件>`
 3. 同步与复验：`doc open <pcb>` → `pcb import-changes` → `pcb save` → `doc reload` → `pcb drc`
 4. 实测结果：**4 条违规 → 0 违规（DRC passed）**；证据 `17-drc-after-replace.json`。
 
@@ -34,7 +34,7 @@
   `pcb.outline.foreign.scan/delete` 已从 runtime action catalog 移除（枚举不到子图元、删除被重建）。
   它们继续留在 0.1.2 连接器里但不作为能力发布。
 * **支持的能力是"诊断 + 器件/封装级替换 + 保存重开 DRC 复验"**，已封装为
-  `tools/zhigou_footprint_outline_diagnose.py`。
+  `tools/easycirq_footprint_outline_diagnose.py`。
 * 根因在库/封装数据：封装不应内嵌板框图形。
 
 ## 复现方式（可重复）

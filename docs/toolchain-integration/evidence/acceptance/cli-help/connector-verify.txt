@@ -1,7 +1,7 @@
 Verify the .eext build against this runtime and the loaded connector
 
 Usage:
-  zhigou connector verify [flags]
+  easycirq connector verify [flags]
 
 Flags:
   -h, --help   help for verify

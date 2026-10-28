@@ -143,6 +143,6 @@ func primDeleteResidueGuidance(w io.Writer, res *actionResult) {
 		fmt.Fprintf(w, "  still on the page: %s\n", strings.Join(list, ", "))
 	}
 	fmt.Fprintln(w, "  删除尚未完整生效，停止依赖步骤；仅凭残留不能判断是宿主状态、删除接口还是队列问题。")
-	fmt.Fprintln(w, "  保存原始命令/回包；绑定同一 --project/--doc 做 fresh `zhigou sch list` 并核对上述 ID。")
+	fmt.Fprintln(w, "  保存原始命令/回包；绑定同一 --project/--doc 做 fresh `easycirq sch list` 并核对上述 ID。")
 	fmt.Fprintln(w, "  按回读事实诊断 typed 接口；不要盲重试、刷新浏览器、重启宿主或用 GUI 删除兜底。")
 }

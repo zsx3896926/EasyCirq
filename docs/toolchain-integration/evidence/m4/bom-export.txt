@@ -1,27 +1,27 @@
-📎 artifact saved: C:\Users\jlc\work\zhigou-toolchain\.zhigou\artifacts\20261027-231442-schematic_bom-6763ffa4.csv
+📎 artifact saved: C:\Users\jlc\work\easycirq-toolchain\.easycirq\artifacts\20261027-231442-schematic_bom-6763ffa4.csv
 warning: BOM exported but enrichment failed (file left un-enriched): bom-enrich.py not found — probed:
   C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
   C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
   C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\dist\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\dist\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\dist\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\runtime\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\jlc\work\zhigou-toolchain\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\dist\.agents\skills\easycirq\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\dist\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\dist\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\.agents\skills\easycirq\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\runtime\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\.agents\skills\easycirq\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\jlc\work\easycirq-toolchain\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
   C:\Users\jlc\work\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\jlc\work\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\jlc\work\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-  C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+  C:\Users\jlc\work\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\jlc\work\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+  C:\Users\jlc\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\jlc\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
   C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+  C:\Users\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\Users\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
   C:\.agents\skills\easycirq\scripts\bom-enrich.py
-  C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-  C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+  C:\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+  C:\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
   $PATH/bom-enrich.py
-pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`)
+pass --script /path/to/bom-enrich.py, set EASYCIRQ_SKILLS_DIR to your skills root, or install the skill (`easycirq skill sync --create-missing`)

@@ -17,8 +17,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // The doctor command is the single diagnosis entry point of the integrated
@@ -186,7 +186,7 @@ func newDoctorCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 func collectDoctorReport(cfg *appConfig) doctorReport {
 	now := time.Now().UTC().Format(time.RFC3339)
 	rep := doctorReport{
-		Schema:      "zhigou-doctor/v1",
+		Schema:      "easycirq-doctor/v1",
 		GeneratedAt: now,
 		Runtime:     runtimeIdentity(),
 		Protocol: doctorProtocol{
@@ -253,7 +253,7 @@ func stateDir() string {
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(home, ".zhigou")
+	return filepath.Join(home, ".easycirq")
 }
 
 func daemonIdentity(result healthResult, host string) doctorDaemon {
@@ -329,7 +329,7 @@ func connectorIdentity(result healthResult) (doctorConnector, doctorHost) {
 }
 
 // probeLegacy checks whether the upstream easyeda-agent daemon is still running
-// on its historical port range. Finding it is informational: the Zhigou runtime
+// on its historical port range. Finding it is informational: the EasyCirq runtime
 // never dials it and never proxies through it.
 func probeLegacy(ctx context.Context, host string) doctorLegacy {
 	leg := doctorLegacy{
@@ -387,7 +387,7 @@ func skillCandidates() []doctorSkillInstall {
 	if wd, err := os.Getwd(); err == nil {
 		out = append(out, doctorSkillInstall{Client: "repo", Dir: filepath.Join(wd, "design-hardware")})
 	}
-	for _, extra := range strings.Split(os.Getenv("ZHIGOU_SKILL_DIRS"), ",") {
+	for _, extra := range strings.Split(os.Getenv("EASYCIRQ_SKILL_DIRS"), ",") {
 		extra = strings.TrimSpace(extra)
 		if extra == "" {
 			continue
@@ -465,7 +465,7 @@ func doctorSkillCheck(sk doctorSkill) healthCheck {
 	}
 	return healthCheck{Name: "skill", Status: "warn",
 		Detail: "没有找到已安装的 design-hardware Skill",
-		Fix:    "运行 `distribution/Manage-Skill.ps1 install`（或附带的安装包）安装 Skill；单独运行 zhigou 不会安装它"}
+		Fix:    "运行 `distribution/Manage-Skill.ps1 install`（或附带的安装包）安装 Skill；单独运行 easycirq 不会安装它"}
 }
 
 func doctorLegacyCheck(leg doctorLegacy) healthCheck {
@@ -483,7 +483,7 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 
 	if rep.Daemon.Status != "running" {
 		verdict = "blocked"
-		steps = append(steps, "启动自有 daemon：`zhigou daemon start`（端口 23111，状态目录 ~/.zhigou）")
+		steps = append(steps, "启动自有 daemon：`easycirq daemon start`（端口 23111，状态目录 ~/.easycirq）")
 	}
 	if rep.Connector.Count == 0 {
 		if verdict == "ok" {
@@ -491,7 +491,7 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 		}
 		steps = append(steps,
 			"在 EasyEDA Pro 导入自有连接器 "+expectedConnectorName+" v"+expectedConnectorVersion+
-				"（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载")
+				"（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载")
 	}
 	if len(rep.Connector.VersionMatches) > 0 && verdict == "ok" {
 		verdict = "degraded"
@@ -504,14 +504,14 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 		if verdict == "ok" {
 			verdict = "degraded"
 		}
-		steps = append(steps, fmt.Sprintf("pid 文件（%d）与运行实例（%d）不一致：daemon 可能非正常退出过，可用 `zhigou daemon restart` 清理",
+		steps = append(steps, fmt.Sprintf("pid 文件（%d）与运行实例（%d）不一致：daemon 可能非正常退出过，可用 `easycirq daemon restart` 清理",
 			rep.Daemon.PIDFilePID, rep.Daemon.PID))
 	}
 	return verdict, steps
 }
 
 func printDoctorSummary(w io.Writer, rep doctorReport) {
-	fmt.Fprintf(w, "zhigou doctor — verdict: %s\n", rep.Verdict)
+	fmt.Fprintf(w, "easycirq doctor — verdict: %s\n", rep.Verdict)
 	fmt.Fprintf(w, "  runtime   %s %s  (%s)\n", rep.Runtime.Name, rep.Runtime.Version, rep.Runtime.Executable)
 	fmt.Fprintf(w, "  skill     %s\n", rep.Skill.Status)
 	if rep.Daemon.Status == "running" {

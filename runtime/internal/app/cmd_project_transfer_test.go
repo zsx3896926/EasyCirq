@@ -67,7 +67,7 @@ func TestProjectTransferDispatchesTypedActions(t *testing.T) {
 				calls := 0
 				srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 					if r.URL.Path == "/health" {
-						w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w"}]}`))
+						w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w"}]}`))
 						return
 					}
 					var req struct {
@@ -130,7 +130,7 @@ func TestProjectImportValidatesAndDispatchesNewProjectOnly(t *testing.T) {
 	var reqs []map[string]any
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w"}]}`))
+			w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w"}]}`))
 			return
 		}
 		var req struct {
