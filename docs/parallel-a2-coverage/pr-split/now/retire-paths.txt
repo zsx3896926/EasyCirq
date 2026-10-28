@@ -58,6 +58,7 @@ connector/src/pcb-config.test.ts
 connector/src/pcb-config.ts
 connector/src/pcb-export-3d.test.ts
 connector/src/pcb-export-3d.ts
+connector/src/pcb-manufacture.ts
 connector/src/pcb-model3d.test.ts
 connector/src/pcb-model3d.ts
 connector/src/pcb-net-color.test.ts
@@ -154,6 +155,7 @@ runtime/internal/app/bap_direct_wire.go
 runtime/internal/app/bap_direct_wire_test.go
 runtime/internal/app/bsl_attach_trunk.go
 runtime/internal/app/bsl_attach_trunk_test.go
+runtime/internal/app/capability_measured.go
 runtime/internal/app/cmd_api.go
 runtime/internal/app/cmd_apply.go
 runtime/internal/app/cmd_apply_test.go

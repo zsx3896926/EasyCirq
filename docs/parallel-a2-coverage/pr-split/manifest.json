@@ -1,6 +1,6 @@
 {
   "schema": "zhigou.a2-coverage.pr-split/v1",
-  "generated_at": "2026-10-28T12:10:52+08:00",
+  "generated_at": "2026-10-28T12:26:31+08:00",
   "repo": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a2-worktree",
   "refs": {
     "history_base": {
@@ -13,21 +13,21 @@
     },
     "main": {
       "ref": "origin/main",
-      "sha": "1d1fcbd984d670905cf2fd4c7acf2c89f7e04347"
+      "sha": "9f6f325a508930ffcfb1254fc0647e572470bad8"
     },
     "a_branch": {
       "ref": "origin/feat/integrated-eda-toolchain",
-      "sha": "3c93015bbd828bc595818200421b6b20fda67164"
+      "sha": "9a1cb75c609df0d98abf4c94a104053eaca91287"
     },
     "thin": {
       "ref": "spike/a2-eda-coverage",
-      "sha": "d6385c92355f099e704e2b54baeb246e8f79360b"
+      "sha": "92676e23a05b6a01688ddf18cc022062fd2af7ad"
     },
     "history_effective_base": {
       "sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
     },
     "residual_base": {
-      "sha": "84040679393bbcaa9ef98237edd33c3cb4e8a4e5"
+      "sha": "9a1cb75c609df0d98abf4c94a104053eaca91287"
     },
     "thin_base": {
       "sha": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5"
@@ -64,25 +64,25 @@
       "file_delete": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr3-delete.txt"
     },
     "residual": {
-      "paths": 25,
+      "paths": 0,
       "deletes": 0,
-      "sha256_paths": "52f5447413d1506fe548f33b233f11f49a7f54766d43ccbcdb5075467a837406",
+      "sha256_paths": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\residual-paths.txt",
       "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "file_delete": "docs\\parallel-a2-coverage\\pr-split\\now\\residual-delete.txt"
     },
     "thin-layer": {
-      "paths": 210,
+      "paths": 232,
       "deletes": 0,
-      "sha256_paths": "e1d934d501a339f96bde4a83b8ec44c7b320d53fa74b25dccfbac1ff2de4e21f",
+      "sha256_paths": "7e2b9d279d62185709186567cba20a8aedd391d5480fb5dcde887ccd0a8f4c86",
       "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\thin-layer-paths.txt",
       "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "file_delete": "docs\\parallel-a2-coverage\\pr-split\\now\\thin-layer-delete.txt"
     },
     "retire": {
-      "paths": 1145,
+      "paths": 1147,
       "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\retire-paths.txt",
-      "sha256_paths": "0e569f072024baddb06dd0fd8927a2f833b199099f67c517a60d071fe8a93f98",
+      "sha256_paths": "c37590ba5311b9c4164f0a33b29dc5972f2ed9231ddec708fdeb2875d64b717f",
       "note": "deletion scope for the A2 retire PR; gated by the authorized write probe"
     }
   }

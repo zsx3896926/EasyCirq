@@ -349,12 +349,12 @@ def main(argv: list[str] | None = None) -> int:
     gen.add_argument("--thin-exclude-evidence", action="store_true")
     gen.set_defaults(func=generate)
 
-    apply = sub.add_parser("apply", help="materialise one set into a worktree")
-    apply.add_argument("--set", required=True)
-    apply.add_argument("--worktree", required=True)
-    apply.add_argument("--source-ref", default=None, help="restore from this ref instead of the manifest sha")
-    apply.add_argument("--out", default=str(DEFAULT_OUT))
-    app.set_defaults(func=apply)
+    app_parser = sub.add_parser("apply", help="materialise one set into a worktree")
+    app_parser.add_argument("--set", required=True)
+    app_parser.add_argument("--worktree", required=True)
+    app_parser.add_argument("--source-ref", default=None, help="restore from this ref instead of the manifest sha")
+    app_parser.add_argument("--out", default=str(DEFAULT_OUT))
+    app_parser.set_defaults(func=apply)
 
     args = parser.parse_args(argv)
     return args.func(args)
