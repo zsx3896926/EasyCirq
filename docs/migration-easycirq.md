@@ -1,5 +1,11 @@
 # 迁移到 EasyCirq（统一命名）
 
+> **历史说明（2026-10-28 退役收口后补充）**：本文中的 `zhigou` 自建执行层
+> （`runtime/`、`connector/`、`protocol/`）已经整体退役，仅作**命名溯源**保留。
+> 下表的“新名称”中，运行时、连接器、工具链包等已无对应实现；当前 EDA 执行层是
+> 官方嘉立创 EDA 专业版 `lceda-pro` CLI/MCP。识别旧安装残留时仍可参考本表，
+> 不要据此安装任何 `easycirq` 运行时/连接器。
+
 2026-10-28 起，项目统一为：**中文名「智构」，英文名「EasyCirq」**。不再使用旧英文名
 `zhigou`、`design-hardware` 或 `hardware-design-skill`。
 

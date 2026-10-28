@@ -142,7 +142,7 @@ manifest_sha256=E7A9CC644FB31ECAA741A07C2A6B804F3F30AEAC5FEFA6353A572999BE242424
 2. **真实 EDA/daemon/connector 未接入**：Phase 2 集成建议见 `integration-proposal.md`，
    本任务不修改 A 的任何文件。
 3. **Python 3.10 本机不可用**：本机仅 3.13；语法按 3.10 约束编写，最终以 CI 3.10/3.13 matrix 为准。
-4. **真实 MCP 客户端未启动**：`mcp.json` 结构与 `zhigou_mcp` 入口有测试，但没有让真实 Claude
+4. **真实 MCP 客户端未启动**：`mcp.json` 结构与 `easycirq_mcp` 入口有测试，但没有让真实 Claude
    实际拉起 MCP 子进程（真实 Claude NOT RUN）。
 5. **Claude CLI 参数漂移**：本机 2.1.303 `claude --help` 未单列 `--append-system-prompt-file`
    （只在描述中出现 `--append-system-prompt[-file]`），但 CLI 实际接受该参数（仅验证了参数解析）；
@@ -166,7 +166,7 @@ main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **
 |---|---|
 | Skill 目录 | 自动探测：优先 `<repo>/easycirq/`，回退 `<repo>/design-hardware/`；`--skill-dir` 仍可显式指定 |
 | plugin 内的 Skill 目录 | 按 SKILL.md frontmatter 名打包：`skills/easycirq/`（旧布局 `skills/design-hardware/`） |
-| plugin 包名 | **保持 `zhigou-design-hardware` 不变**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
+| plugin 包名 | **保持 `easycirq-design-hardware` 不变**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
 | routing 硬规则 | 规则 1 使用实际 Skill 名（`必须先加载 easycirq Skill，不得跳过`）；旧布局仍生成 `design-hardware` |
 | MCP/自检/benchmark 路径 | 全部走实际 Skill 目录（`easycirq/scripts`） |
 | 测试/文档 | 路径改为 easycirq，同时保留旧布局兼容说明；冻结基准仍可跨重命名运行 |

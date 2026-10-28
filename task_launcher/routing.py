@@ -114,7 +114,7 @@ def build_routing_text(request: dict, skill_name: str | None = None) -> str:
         "",
         "可用工具仅限：`offline_audit_capabilities`、`offline_electrical_review`、",
         "`offline_return_path_audit`、`offline_delivery_inspect`、",
-        "`offline_delivery_audit`（MCP server `zhigou-offline-audit`），以及只读的",
+        "`offline_delivery_audit`（MCP server `easycirq-offline-audit`），以及只读的",
         "Read/Glob/Grep 与 Skill 加载。",
         "未知/缺测必须如实报告，不得用默认值或猜测补全；工具返回 `pass_with_scope`",
         "只覆盖其声明的输入与规则，不是整板或硬件通过。",

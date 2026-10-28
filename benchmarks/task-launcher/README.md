@@ -47,7 +47,7 @@ once, not once per case. The temporary tree is removed at the end.
 
 ## Case layout
 
-`cases/<id>/request.json` is a real `zhigou.task-launcher.start/v1` request.
+`cases/<id>/request.json` is a real `easycirq.task-launcher.start/v1` request.
 Its `toolchain` uses the placeholders `@launcher` / `@skill` / `@plugin` instead of
 hard-coded versions: the runner resolves them to the launcher/Skill/plugin
 versions of the installation under test, so a Skill version bump on `main` does
@@ -58,7 +58,7 @@ not silently invalidate the frozen benchmark. The three deliberate
 
 ```json
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "09-cancel-mid-run",
   "description": "Cancel: slow fake agent is cancelled after the first observed event.",
   "launcher": {
@@ -107,7 +107,7 @@ Field semantics:
 Always-enforced invariants (independent of `expected.json`):
 
 * stub stdout is exactly one JSON document (`json.loads(whole stdout)`);
-* stub `schema` is `zhigou.task-launcher.stub-result/v1` and
+* stub `schema` is `easycirq.task-launcher.stub-result/v1` and
   `summary.exit_code == process exit code`;
 * stub summary honesty fields are `real_eda="NOT RUN"`, `eda_calls=0`,
   `project_writes=0`, `agent="fake"`;
@@ -158,7 +158,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
 
 ```json
 {
-  "schema": "zhigou.task-launcher.benchmark/v1",
+  "schema": "easycirq.task-launcher.benchmark/v1",
   "benchmark": "task-launcher",
   "simulated": true,
   "offline": true,

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "08-timeout-stuck",
   "description": "Timeout: stuck fake agent is killed after limits.timeout_s=10; status timeout, no orphan.",
   "launcher": {
@@ -32,7 +32,7 @@
     },
     {
       "path": "result.schema",
-      "equals": "zhigou.task-launcher.result/v1"
+      "equals": "easycirq.task-launcher.result/v1"
     },
     {
       "path": "result.status",

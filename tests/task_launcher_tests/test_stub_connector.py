@@ -33,10 +33,10 @@ from .support import (
 )
 
 BENCHMARK_CASES = ROOT / "benchmarks" / "task-launcher" / "cases"
-CASE_SCHEMA = "zhigou.task-launcher.benchmark-case/v1"
-START_SCHEMA = "zhigou.task-launcher.start/v1"
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
-STUB_SCHEMA = "zhigou.task-launcher.stub-result/v1"
+CASE_SCHEMA = "easycirq.task-launcher.benchmark-case/v1"
+START_SCHEMA = "easycirq.task-launcher.start/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
+STUB_SCHEMA = "easycirq.task-launcher.stub-result/v1"
 
 
 def stub_environment() -> dict:

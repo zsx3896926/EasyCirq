@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "04-version-mismatch-plugin",
   "description": "Version handshake: request plugin version differs from the built plugin package version.",
   "launcher": {

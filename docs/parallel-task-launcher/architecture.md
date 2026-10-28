@@ -53,11 +53,11 @@ connector 或主 Skill 路由，不写工程/仓库，不调用真实 EDA/网络
 
 一次任务的消息流：
 
-1. L1 `POST /task/start`（`zhigou.task-launcher.start/v1`）→ L2 校验 schema；
+1. L1 `POST /task/start`（`easycirq.task-launcher.start/v1`）→ L2 校验 schema；
 2. L2 做三方版本握手，构建/物化 plugin，生成 `routing.md`、`mcp.json`，组装 argv；
 3. L2 spawn Agent（argv 列表，不拼 shell），并行收集 stdout 行 → `events.jsonl`；
 4. L1 轮询 `GET /task/<id>/events?since=N`（可重放、不重不漏）；
-5. 终态后 L1 `GET /task/<id>/result` 取 `zhigou.task-launcher.result/v1`。
+5. 终态后 L1 `GET /task/<id>/result` 取 `easycirq.task-launcher.result/v1`。
 
 字段、状态码与状态机见 [contract.md](contract.md) §1–§7。
 
@@ -95,7 +95,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
 |---|---|---|---|---|---|
 | Skill 随任务加载 | `--plugin-dir <task>/plugin` | `plugin.py` 从 `easycirq/`（旧布局 `design-hardware/`）**只读复制**组装，含 `SKILL.md`、`.version`、`references/`、`scripts/`、`assets/`、`.mcp.json`、`plugin.json`、`hooks.json` | 不依赖客户全局安装；版本随任务确定 | plugin 目录存在且结构合法 | 模型真的加载了 Skill |
 | 硬路由 prompt | `--append-system-prompt-file <task>/routing.md` | `routing.py` 按任务生成：五条硬规则 + 工程/文档/选区/快照上下文 + 用户目标 + 限制 | 把“先加载 Skill / 只读 / 用离线工具 / 结论分层 / 结束清单”写进 system prompt | prompt 已注入（文件存在且被 argv 引用） | 模型一定遵守 |
-| 只读工具面 | `--mcp-config <task>/mcp.json` + `--allowedTools <白名单>` | `mcpconfig.py` 挂 `zhigou-offline-audit`（`python -m zhigou_mcp`），五个离线审计工具 | 模型能直接调用离线审计工具，而不是盲跑 shell | MCP 配置已挂载、工具在 allowedTools 中 | 工具调用结果等于硬件/整板通过 |
+| 只读工具面 | `--mcp-config <task>/mcp.json` + `--allowedTools <白名单>` | `mcpconfig.py` 挂 `easycirq-offline-audit`（`python -m easycirq_mcp`），五个离线审计工具 | 模型能直接调用离线审计工具，而不是盲跑 shell | MCP 配置已挂载、工具在 allowedTools 中 | 工具调用结果等于硬件/整板通过 |
 | 固定 argv（无 shell） | `-p <user_prompt>`、`--output-format stream-json`、`--verbose`、`--permission-mode plan`、`--add-dir <task>` | `agent.py` 组装 argv 列表并校验 | `user_prompt` 是单个参数；行为可审计、事件可回放；替换模板缺任一强制参数即拒绝启动 | 实际启动参数与记录一致（fake agent 的 `agent.received.json` 可验证；真实 Agent 无等价自证） | 模型输出内容正确 |
 
 补充机制：
@@ -105,7 +105,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
   缺任一参数也会在 spawn 前被拒绝（`500 AGENT_COMMAND_INVALID`）。这防止“路由机制”
   被悄悄降级成“只传一个 prompt”。
 - **权限模式**：只读任务固定 `--permission-mode plan`，不会自动批准写操作；
-  `--allowedTools` 只含 `Skill/Read/Glob/Grep` 与五个 `mcp__zhigou-offline-audit__*` 只读工具
+  `--allowedTools` 只含 `Skill/Read/Glob/Grep` 与五个 `mcp__easycirq-offline-audit__*` 只读工具
   （无 Bash/Write/Edit）。
 - **版本映射**：plugin 包版本 `0.1.0` 由 launcher 拥有，`plugin.json.skill_version` 承载
   `easycirq/.version`（当前 `1.0.2`；旧布局 `design-hardware/.version`），请求的 `toolchain` 三方逐字比对，

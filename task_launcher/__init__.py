@@ -11,7 +11,7 @@ Scope of this PoC:
 * read-only tasks only (``mode == "read_only"``); write mode is refused;
 * no EDA, no daemon, no connector, no network calls are made by the launcher;
 * task state is written below the launcher state directory only
-  (``~/.zhigou-launcher`` or ``%LOCALAPPDATA%\\zhigou-launcher``),
+  (``~/.easycirq-launcher`` or ``%LOCALAPPDATA%\\easycirq-launcher``),
   never into the repository or a project directory;
 * the only agent used by the tests and the benchmark is the bundled fake
   agent; a real Claude Code run is OPTIONAL and reported as ``NOT RUN``
@@ -26,15 +26,15 @@ from __future__ import annotations
 __version__ = "0.1.0"
 
 #: Schema identifier of the trigger-side request (EDA plugin -> launcher).
-START_SCHEMA = "zhigou.task-launcher.start/v1"
+START_SCHEMA = "easycirq.task-launcher.start/v1"
 #: Schema identifier of the terminal result document.
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
 #: Schema identifier of a single streamed event.
-EVENT_SCHEMA = "zhigou.task-launcher.event/v1"
+EVENT_SCHEMA = "easycirq.task-launcher.event/v1"
 #: Schema identifier of the plugin build manifest.
-PLUGIN_MANIFEST_SCHEMA = "zhigou.task-launcher.plugin-manifest/v1"
+PLUGIN_MANIFEST_SCHEMA = "easycirq.task-launcher.plugin-manifest/v1"
 #: Schema identifier of the frozen benchmark result document.
-BENCHMARK_SCHEMA = "zhigou.task-launcher.benchmark/v1"
+BENCHMARK_SCHEMA = "easycirq.task-launcher.benchmark/v1"
 
 #: Local HTTP endpoint. 23121 follows the (unmerged) toolchain's 23111-23120
 #: daemon range on purpose: one port block for "zhigou on the loopback".
@@ -60,7 +60,7 @@ MAX_MAX_EVENTS = 100000
 #: The plugin package name stays stable across the Skill rename
 #: (design-hardware -> easycirq); the bundled skill directory and the
 #: ``skill_version`` follow the actual Skill on disk.
-PLUGIN_NAME = "zhigou-design-hardware"
+PLUGIN_NAME = "easycirq-design-hardware"
 PLUGIN_VERSION = "0.1.0"
 PLUGIN_DESCRIPTION = (
     "Controlled hardware-design Skill loader for the Zhigou task launcher: "
@@ -73,8 +73,8 @@ PLUGIN_LICENSE = "Apache-2.0"
 SKILL_DIR_CANDIDATES = ("easycirq", "design-hardware")
 
 #: Name of the offline MCP server mounted into the task (already on main).
-MCP_SERVER_NAME = "zhigou-offline-audit"
-MCP_MODULE = "zhigou_mcp"
+MCP_SERVER_NAME = "easycirq-offline-audit"
+MCP_MODULE = "easycirq_mcp"
 
 #: Read-only tool allow-list handed to the headless agent. No Bash/Write/Edit.
 ALLOWED_TOOLS = (
@@ -82,11 +82,11 @@ ALLOWED_TOOLS = (
     "Read",
     "Glob",
     "Grep",
-    "mcp__zhigou-offline-audit__offline_audit_capabilities",
-    "mcp__zhigou-offline-audit__offline_electrical_review",
-    "mcp__zhigou-offline-audit__offline_return_path_audit",
-    "mcp__zhigou-offline-audit__offline_delivery_inspect",
-    "mcp__zhigou-offline-audit__offline_delivery_audit",
+    "mcp__easycirq-offline-audit__offline_audit_capabilities",
+    "mcp__easycirq-offline-audit__offline_electrical_review",
+    "mcp__easycirq-offline-audit__offline_return_path_audit",
+    "mcp__easycirq-offline-audit__offline_delivery_inspect",
+    "mcp__easycirq-offline-audit__offline_delivery_audit",
 )
 ALLOWED_TOOLS_ARG = ",".join(ALLOWED_TOOLS)
 

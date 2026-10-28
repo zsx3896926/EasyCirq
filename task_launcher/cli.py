@@ -347,7 +347,7 @@ def cmd_build_plugin(args: argparse.Namespace) -> int:
 
 
 def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--state-dir", help="state directory (default: %%LOCALAPPDATA%%\\zhigou-launcher or ~/.zhigou-launcher)")
+    parser.add_argument("--state-dir", help="state directory (default: %%LOCALAPPDATA%%\\easycirq-launcher or ~/.easycirq-launcher)")
     parser.add_argument("--skill-dir", help="Skill directory (default: <repo>/easycirq, legacy <repo>/design-hardware)")
     parser.add_argument("--plugin-dir", help="use a prebuilt plugin directory instead of building one per task")
     parser.add_argument(

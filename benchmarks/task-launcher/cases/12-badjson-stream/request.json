@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "bench-12-badjson-stream",
   "client": {
     "name": "easyeda-pro-stub",

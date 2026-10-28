@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "01-happy-read-only",
   "description": "Happy path: valid read-only request, fake agent stream scenario completes.",
   "launcher": {
@@ -32,7 +32,7 @@
     },
     {
       "path": "result.schema",
-      "equals": "zhigou.task-launcher.result/v1"
+      "equals": "easycirq.task-launcher.result/v1"
     },
     {
       "path": "result.status",

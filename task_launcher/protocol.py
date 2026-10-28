@@ -435,7 +435,7 @@ def _validate_limits(value: Any, path: str) -> dict:
 
 
 def parse_start_request(data: bytes) -> dict:
-    """Parse and validate a ``zhigou.task-launcher.start/v1`` request.
+    """Parse and validate a ``easycirq.task-launcher.start/v1`` request.
 
     Returns a normalised dict (defaults applied, unknown fields absent).
     Raises :class:`LauncherError` on any violation.

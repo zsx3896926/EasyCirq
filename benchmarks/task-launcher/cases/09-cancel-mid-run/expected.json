@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "09-cancel-mid-run",
   "description": "Cancel: slow fake agent is cancelled after the first observed event; status cancelled.",
   "launcher": {
@@ -32,7 +32,7 @@
     },
     {
       "path": "result.schema",
-      "equals": "zhigou.task-launcher.result/v1"
+      "equals": "easycirq.task-launcher.result/v1"
     },
     {
       "path": "result.status",

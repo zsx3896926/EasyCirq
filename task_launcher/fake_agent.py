@@ -109,7 +109,7 @@ def _init_event(scenario: str) -> dict:
             "Read",
             "Glob",
             "Grep",
-            "mcp__zhigou-offline-audit__offline_audit_capabilities",
+            "mcp__easycirq-offline-audit__offline_audit_capabilities",
         ],
         "permission_mode": "plan",
     }

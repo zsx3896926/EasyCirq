@@ -51,7 +51,7 @@ def make_prebuilt_plugin(
     *,
     version: str = PLUGIN_VERSION,
     skill_version: str = SKILL_VERSION,
-    name: str = "zhigou-design-hardware",
+    name: str = "easycirq-design-hardware",
     complete: bool = True,
     corrupt_json: bool = False,
 ) -> Path:
@@ -83,9 +83,9 @@ def make_prebuilt_plugin(
             json.dumps(
                 {
                     "mcpServers": {
-                        "zhigou-offline-audit": {
+                        "easycirq-offline-audit": {
                             "command": "python",
-                            "args": ["-m", "zhigou_mcp"],
+                            "args": ["-m", "easycirq_mcp"],
                             "env": {"PYTHONPATH": str(skill_dir.parent)},
                         }
                     }

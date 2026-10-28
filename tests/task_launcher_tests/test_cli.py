@@ -61,8 +61,8 @@ class CLITests(unittest.TestCase):
         self.assertEqual(document["launcher"], "0.1.0")
         self.assertEqual(document["skill"], SKILL_VERSION)
         self.assertEqual(document["plugin"], "0.1.0")
-        self.assertEqual(document["schemas"]["start"], "zhigou.task-launcher.start/v1")
-        self.assertEqual(document["schemas"]["result"], "zhigou.task-launcher.result/v1")
+        self.assertEqual(document["schemas"]["start"], "easycirq.task-launcher.start/v1")
+        self.assertEqual(document["schemas"]["result"], "easycirq.task-launcher.result/v1")
 
     def test_health_local(self) -> None:
         completed = run_cli(

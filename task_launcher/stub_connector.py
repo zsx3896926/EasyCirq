@@ -33,7 +33,7 @@ from typing import Any
 
 from . import __version__
 
-STUB_SCHEMA = "zhigou.task-launcher.stub-result/v1"
+STUB_SCHEMA = "easycirq.task-launcher.stub-result/v1"
 
 
 class StubError(Exception):

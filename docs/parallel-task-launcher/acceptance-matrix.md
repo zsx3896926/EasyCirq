@@ -62,7 +62,7 @@
 | 1 | schema：缺字段/错类型/未知字段/非法 `task_id`/非法 `mode`/NaN/Inf/bool/字符串数字/重复键/空 prompt/缺快照声明 → 422/400 + 稳定码 | `test_schema.py::SchemaTests`(15) | 05、06 | 15 项逐一覆盖；`MISSING_FIELD`/`INVALID_TYPE`/`UNKNOWN_FIELD`/`INVALID_FORMAT`/`VALUE_OUT_OF_RANGE`/`EMPTY_REQUIRED`/`UNSUPPORTED_SCHEMA`/`MISSING_SNAPSHOT_DECLARATION`/`WRITE_MODE_NOT_SUPPORTED`/`INVALID_JSON`/`DUPLICATE_KEY`/`NON_FINITE_NUMBER`/`INVALID_REQUEST`/`PAYLOAD_TOO_LARGE` 均被断言 |
 | 2 | 版本握手：skill 不一致 → 409；plugin 缺失/损坏 → 拒绝；一致 → 接受 | `test_handshake.py::HandshakeTests`(12) | 02、03、04 | 覆盖 `version_mismatch`（三方各自）、`skill_version_unreadable`、`plugin_missing`、`plugin_manifest_invalid`、`plugin_skill_version_mismatch`、预构建 plugin 可用；409 时不留下任务目录 |
 | 3 | happy path（fake agent）：start → 事件轮询（seq 单调、可重放）→ result `completed`、`real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0` | `test_smoke.py::SmokeTests`(5)、`test_workspace.py::WorkspaceTests`(9) | 01 | 结果 schema/字段、409 `RESULT_NOT_READY`、事件顺序与证据文件均断言 |
-| 4 | routing/plugin/mcp 参数：fake agent 记录 argv/env；四个强制参数；routing 五条规则；mcp 挂 `zhigou-offline-audit`；plugin 结构/版本正确 | `test_routing_mcp.py::RoutingAndMcpTests`(5)、`test_plugin.py`（13）、`test_workspace.py::WorkspaceTests` | 01（workspace_checks：`agent_command_required_flags`） | `--plugin-dir`/`--append-system-prompt-file`/`--mcp-config`/`--output-format`、`--allowedTools`、routing 五个 marker、`.mcp.json` 均断言 |
+| 4 | routing/plugin/mcp 参数：fake agent 记录 argv/env；四个强制参数；routing 五条规则；mcp 挂 `easycirq-offline-audit`；plugin 结构/版本正确 | `test_routing_mcp.py::RoutingAndMcpTests`(5)、`test_plugin.py`（13）、`test_workspace.py::WorkspaceTests` | 01（workspace_checks：`agent_command_required_flags`） | `--plugin-dir`/`--append-system-prompt-file`/`--mcp-config`/`--output-format`、`--allowedTools`、routing 五个 marker、`.mcp.json` 均断言 |
 | 5 | 任务工作区：request/context/routing/mcp/command/events/stdout/stderr/result 落盘；无 token；不写仓库；不写工程 | `test_workspace.py::WorkspaceTests`(9)、`test_paths.py::PathsTests`(3) | 01、07、12 | 逐文件存在性/内容断言；token 与 `Bearer` 不出现在工作区；`easycirq/` 前后快照一致；workspace 在 state dir 下 |
 | 6 | 超时/取消：fake agent 卡住 → `timeout`、杀进程树、无孤儿；cancel 中途生效 | `test_timeout_cancel.py::TimeoutTests`(1)、`CancelTests`(3) | 08、09 | `timeout_s=10` 实测；`result.kill` 记录实际 method（基准 08 另断言 `killed=true`）；`pid_alive` 校验无孤儿；cancel 后 `cancelled`；终态 cancel → 409；未知任务 → 404 |
 | 7 | 并发：第二个 start → 429 `BUSY`；结束后可再启动 | `test_concurrency.py::ConcurrencyTests`(3)、`test_smoke.py::SmokeTests::test_second_task_is_busy` | 10 | 429 + `BUSY`；槽位释放后可再跑；`--max-concurrent 2` 可同时跑两个 |
@@ -83,7 +83,7 @@
 ## 3. 任务书 §5 冻结基准（12 个 case）
 
 命令：`python benchmarks/task-launcher/run_benchmark.py`；结果：`benchmarks/task-launcher/results.json`
-（schema `zhigou.task-launcher.benchmark/v1`，12 个 case 目录 `01-happy-read-only` …
+（schema `easycirq.task-launcher.benchmark/v1`，12 个 case 目录 `01-happy-read-only` …
 `12-badjson-stream`，每 case 一份 `request.json` + `expected.json`）。
 
 | case id | 场景 | expected HTTP / 终态 / 退出码 | 实测（results.json） | checks |

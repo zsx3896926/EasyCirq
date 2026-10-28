@@ -43,10 +43,10 @@ from .support import ROOT, SKILL_DIR, SKILL_NAME, SKILL_VERSION, LauncherProcess
 #: Hardcoded identity facts copied from the task book / repository layout.  They
 #: are intentionally *not* imported from ``task_launcher`` so this file pins the
 #: contract even if the implementation constants drift.
-PLUGIN_NAME = "zhigou-design-hardware"
+PLUGIN_NAME = "easycirq-design-hardware"
 PLUGIN_PACKAGE_VERSION = "0.1.0"
 PLUGIN_LICENSE = "Apache-2.0"
-MANIFEST_SCHEMA = "zhigou.task-launcher.plugin-manifest/v1"
+MANIFEST_SCHEMA = "easycirq.task-launcher.plugin-manifest/v1"
 MANIFEST_KEYS = {
     "schema",
     "name",
@@ -245,7 +245,7 @@ class PluginBuildTests(unittest.TestCase):
         self.assertIsInstance(hooks.get("hooks"), dict, hooks)
 
         mcp = read_json(out / ".mcp.json")
-        self.assertIn("zhigou-offline-audit", mcp.get("mcpServers", {}), mcp)
+        self.assertIn("easycirq-offline-audit", mcp.get("mcpServers", {}), mcp)
 
         # The build must not leak VCS data, caches, logs or bytecode into the plugin.
         for path in out.rglob("*"):

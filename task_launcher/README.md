@@ -28,18 +28,18 @@ daemon/connector）把 `task.start` 发到本机 HTTP 接口，launcher 生成 C
 ```bash
 # 1) 版本与本地诊断
 python -m task_launcher version
-python -m task_launcher health --state-dir .zhigou-launcher-state
+python -m task_launcher health --state-dir .easycirq-launcher-state
 
 # 2) 构建 Claude Code plugin（只读复制 Skill 目录；自动探测 easycirq/，旧布局 design-hardware/）
 python -m task_launcher build-plugin --out /tmp/zhigou-plugin
 
 # 3) 启动本地 sidecar（默认 127.0.0.1:23121，token 写入 <state>/launcher.token）
-python -m task_launcher serve --state-dir .zhigou-launcher-state --agent-profile fake
+python -m task_launcher serve --state-dir .easycirq-launcher-state --agent-profile fake
 
 # 4) 另一个终端：用 stub connector 发一个任务并打印结果摘要
 python -m task_launcher.stub_connector \
   --base-url http://127.0.0.1:23121 \
-  --token-file .zhigou-launcher-state/launcher.token \
+  --token-file .easycirq-launcher-state/launcher.token \
   --case benchmarks/task-launcher/cases/happy-read-only/request.json
 ```
 
@@ -47,10 +47,10 @@ python -m task_launcher.stub_connector \
 
 ```bash
 python -m task_launcher run --request benchmarks/task-launcher/cases/happy-read-only/request.json \
-  --state-dir .zhigou-launcher-state --agent-profile fake
+  --state-dir .easycirq-launcher-state --agent-profile fake
 ```
 
-状态目录默认 `%LOCALAPPDATA%\zhigou-launcher`（Windows）或 `~/.zhigou-launcher`，
+状态目录默认 `%LOCALAPPDATA%\easycirq-launcher`（Windows）或 `~/.easycirq-launcher`，
 **不会**默认写仓库或客户工程；`--state-dir` 可覆盖。
 
 ## 模块
@@ -64,7 +64,7 @@ python -m task_launcher run --request benchmarks/task-launcher/cases/happy-read-
 | `agent.py` | 固定 argv 模板、环境白名单、spawn、stream-json 行解析、进程树终止 |
 | `plugin.py` | 从 Skill 目录（`easycirq/`；旧布局 `design-hardware/`）组装 Claude Code plugin（确定性 manifest、缓存、按任务物化） |
 | `routing.py` | 生成强制路由 `routing.md`（5 条硬规则，测试逐条断言） |
-| `mcpconfig.py` | 生成 `mcp.json`（挂 `zhigou_mcp` 离线审计工具） |
+| `mcpconfig.py` | 生成 `mcp.json`（挂 `easycirq_mcp` 离线审计工具） |
 | `fake_agent.py` | 测试/基准用假 Agent（stream/slow/stuck/badjson/fail 场景） |
 | `stub_connector.py` | 模拟 EDA 插件：start → poll → result，stdout 仅 JSON |
 | `cli.py` / `__main__.py` | `serve` / `run` / `health` / `build-plugin` / `version` |
@@ -95,7 +95,7 @@ python benchmarks/task-launcher/run_benchmark.py # 冻结基准（fake agent）
 ## 已知限制
 
 - 2026-10 仓库/Skill 重命名为 **EasyCirq**（目录 `easycirq/`）：launcher 自动探测
-  `easycirq/` 与旧 `design-hardware/`；plugin 包名仍为 `zhigou-design-hardware`，plugin 内
+  `easycirq/` 与旧 `design-hardware/`；plugin 包名仍为 `easycirq-design-hardware`，plugin 内
   `skills/<skill-name>/` 跟随实际 Skill 名。
 
 - 真实 Claude 只作可选验证：未在本任务中运行时报 `NOT RUN`；可用 `--agent-profile claude

@@ -43,7 +43,7 @@ class SchemaTests(unittest.TestCase):
 
     def test_unsupported_schema_version(self) -> None:
         request = base_request()
-        request["schema"] = "zhigou.task-launcher.start/v2"
+        request["schema"] = "easycirq.task-launcher.start/v2"
         self.assert_code(self.post(request), 422, "UNSUPPORTED_SCHEMA")
 
     def test_task_id_format_is_strict(self) -> None:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Frozen offline benchmark for the B1 task launcher (``zhigou.task-launcher``).
+"""Frozen offline benchmark for the B1 task launcher (``easycirq.task-launcher``).
 
 The benchmark is deliberately end-to-end and deterministic:
 
@@ -51,10 +51,10 @@ BENCHMARK_DIR = Path(__file__).resolve().parent
 DEFAULT_CASES_DIR = BENCHMARK_DIR / "cases"
 DEFAULT_OUTPUT = BENCHMARK_DIR / "results.json"
 
-BENCHMARK_SCHEMA = "zhigou.task-launcher.benchmark/v1"
-CASE_SCHEMA = "zhigou.task-launcher.benchmark-case/v1"
-STUB_SCHEMA = "zhigou.task-launcher.stub-result/v1"
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
+BENCHMARK_SCHEMA = "easycirq.task-launcher.benchmark/v1"
+CASE_SCHEMA = "easycirq.task-launcher.benchmark-case/v1"
+STUB_SCHEMA = "easycirq.task-launcher.stub-result/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
 
 LAUNCHER_VERSION = "0.1.0"
 PLUGIN_VERSION = "0.1.0"
@@ -839,7 +839,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     run_started = time.perf_counter()
-    temp_root = Path(tempfile.mkdtemp(prefix="zhigou-task-launcher-benchmark-"))
+    temp_root = Path(tempfile.mkdtemp(prefix="easycirq-task-launcher-benchmark-"))
     plugin_cache_dir = temp_root / "plugin-cache"
     plugin_cache_dir.mkdir(parents=True, exist_ok=True)
 

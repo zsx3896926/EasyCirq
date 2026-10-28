@@ -73,7 +73,7 @@ def default_state_dir() -> Path:
         base = os.environ.get("LOCALAPPDATA") or os.environ.get("APPDATA") or str(Path.home())
     else:
         base = str(Path.home())
-    return Path(base) / "zhigou-launcher"
+    return Path(base) / "easycirq-launcher"
 
 
 @dataclass
@@ -530,7 +530,7 @@ class TaskManager:
                 skill_name=skill_identity["name"],
             )
             command = {
-                "schema": "zhigou.task-launcher.agent-command/v1",
+                "schema": "easycirq.task-launcher.agent-command/v1",
                 "profile": self._agent_info.kind,
                 "executable": self._agent_info.executable,
                 "version": self._agent_info.version,

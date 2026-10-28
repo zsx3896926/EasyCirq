@@ -1,5 +1,10 @@
 # 集成建议（给 A 分支 owner）— integration proposal
 
+> **历史说明（2026-10-28 退役收口后补充）**：本文中的 A 工具链（原名 `zhigou`，含
+> `runtime/`、`connector/`、`protocol/`、`distribution/toolchain.json`）已经整体退役，
+> 相关文件已从仓库删除。文中涉及它们的对比、契约与命令仅作**命名/架构溯源**保留，
+> 不代表当前可用能力；当前 EDA 执行层为官方嘉立创 EDA 专业版 `lceda-pro` CLI/MCP。
+
 **状态：建议 / 未实现。** 本文件是 B1 task launcher（`task_launcher/`，本任务新增）与
 A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Phase 2 集成方案。
 本任务**不修改 A 的任何文件**，也不替 A 决定实现方式；下列内容供 A owner 决策。
@@ -16,7 +21,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 
 ## 0. 结论摘要
 
-1. **消息体直接复用**：`zhigou.task-launcher.start/v1` / `events` / `result` 三份 JSON 文档原样使用，
+1. **消息体直接复用**：`easycirq.task-launcher.start/v1` / `events` / `result` 三份 JSON 文档原样使用，
    不新增第二套 wire 语义；`task_id` 由触发面生成（如 `task-<timestamp>-<rand>`）。
 2. **触发链路走 daemon，不让 connector 直接读 token**：connector 当前只用
    `eda.sys_WebSocket` 与 daemon 通信（`connector/src/transport.ts` 文件头），没有通用 HTTP 客户端；
@@ -55,7 +60,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 | 版本 | launcher `0.1.0`、Skill `1.0.2`、plugin 包 `0.1.0`（`plugin.json.skill_version=1.0.2`） | contract.md §5 |
 | 触发面 | 本任务用 `stub_connector` 模拟 EDA 插件（HTTP 客户端） | `task_launcher/stub_connector.py` |
 
-**端口与状态目录不冲突**：daemon 23111 / launcher 23121；`~/.zhigou` / `%LOCALAPPDATA%\zhigou-launcher`
+**端口与状态目录不冲突**：daemon 23111 / launcher 23121；`~/.zhigou` / `%LOCALAPPDATA%\easycirq-launcher`
 （可 `--state-dir` 覆盖）。两者都是 loopback，可并存，但需要明确“谁启动谁、谁持有 token”。
 
 ---
@@ -66,7 +71,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 
 ```json
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "task-20261028-001234-ab12",
   "client": {"name": "zhigou-connector", "version": "0.1.3"},
   "toolchain": {"launcher": "0.1.0", "skill": "1.0.2", "plugin": "0.1.0"},
@@ -104,7 +109,7 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 
 - 轮询：`GET /task/<id>/events?since=<最后观察到的 seq>`，返回 `seq > since` 的事件与
   `next_seq`；`seq` 从 1 严格递增、可重放、不重不漏（launcher 存活期内）。
-- 终态：`GET /task/<id>/result` → `zhigou.task-launcher.result/v1`；`completed/failed/timeout/
+- 终态：`GET /task/<id>/result` → `easycirq.task-launcher.result/v1`；`completed/failed/timeout/
   cancelled` 都是 200，用 `status` 与诚实字段判断，不要按 HTTP 状态臆断。
 - 错误：`{"error":{"code","message","detail"}}` 原样保留 `code`（如 `BUSY`/`VERSION_MISMATCH`/
   `AGENT_UNAVAILABLE`/`RESULT_NOT_READY`）与 `detail`（含 `hint`），不要改写成新错误码。
@@ -121,8 +126,8 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 ```text
 [connector 面板/菜单] ──新增 WS 帧（task.*）──▶ [daemon: zhigou]
                                                    │ 读 <launcher state-dir>/launcher.token
-                                                   │ （Windows %LOCALAPPDATA%\zhigou-launcher，
-                                                   │   POSIX ~/.zhigou-launcher；--token-file 可改）
+                                                   │ （Windows %LOCALAPPDATA%\easycirq-launcher，
+                                                   │   POSIX ~/.easycirq-launcher；--token-file 可改）
                                                    │ HTTP 127.0.0.1:23121（/health、/task/*）
                                                    ▼
                                             [task_launcher sidecar]
@@ -192,16 +197,16 @@ launcher 的 schema/状态机/证据/plugin 构建逻辑可以未来迁移/重�
 3. **单一真源**：A 侧（connector/daemon）不要复制 launcher 的 schema 校验；启动前只做
    `/health` 探测与必填字段拼装，最终校验仍由 launcher 负责。
 4. **版本命名不要混淆**：A 的 `wireVersion v1`（`zhigou-agent/v1`）与 launcher 的
-   `zhigou.task-launcher.*/v1` 是两个命名空间；`plugin` 与 `skill` 也是两个字段（契约 §5.1）。
+   `easycirq.task-launcher.*/v1` 是两个命名空间；`plugin` 与 `skill` 也是两个字段（契约 §5.1）。
 5. **发布对齐**：`distribution/toolchain.json` 建议新增（schema 内加字段，A 决定是否需要
    `zhigou-toolchain-compat/v2`）：
 
    ```json
    "launcher": {
-     "protocol": "zhigou.task-launcher/v1",
+     "protocol": "easycirq.task-launcher/v1",
      "minVersion": "0.1.0",
      "defaultPort": 23121,
-     "stateDir": "zhigou-launcher",
+     "stateDir": "easycirq-launcher",
      "tokenFile": "launcher.token"
    }
    ```
