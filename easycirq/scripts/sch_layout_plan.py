@@ -182,18 +182,18 @@ def plan(spec):
             ox = max(0, min(ar["maxX"], br["maxX"]) - max(ar["minX"], br["minX"]))
             oy = max(0, min(ar["maxY"], br["maxY"]) - max(ar["minY"], br["minY"]))
             if ox > 0 and oy > 0:
-                if ar["minY"] > br["minY"]:
-                    ar["minY"] = br["maxY"] + 4
-                    a["titleY"] = ar["maxY"] - 8
+                if ox <= oy:
+                    if ar["minX"] > br["minX"]:
+                        ar["minX"] = br["maxX"] + 4
+                    else:
+                        br["minX"] = ar["maxX"] + 4
                 else:
-                    br["minY"] = ar["maxY"] + 4
-                    b["titleY"] = br["maxY"] - 8
-                metrics["zones_trimmed"] += 1
-            elif ox > 0 and oy == 0:
-                if ar["minX"] > br["minX"]:
-                    ar["minX"] = br["maxX"] + 4
-                else:
-                    br["minX"] = ar["maxX"] + 4
+                    if ar["minY"] > br["minY"]:
+                        ar["minY"] = br["maxY"] + 4
+                    else:
+                        br["minY"] = ar["maxY"] + 4
+                a["titleY"] = ar["maxY"] - 8
+                b["titleY"] = br["maxY"] - 8
                 metrics["zones_trimmed"] += 1
 
     for i in range(len(boxes)):
