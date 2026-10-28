@@ -6,6 +6,13 @@
     "stage": "G0",
     "updated": "<YYYY-MM-DD>"
   },
+  "recovery": {
+    "open_nets": [],
+    "last_journal": "",
+    "last_backup": "",
+    "rejected_options": [],
+    "next_action": ""
+  },
   "requirements": {
     "delivery_level": {"status": "pending"},
     "size_limit": {"status": "pending"},

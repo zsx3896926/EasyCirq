@@ -1280,6 +1280,33 @@ def gate_g0(gate: Gate, ctx):
                      "接口引脚定义已声明但为空；无外接模组应写 not_applicable + reason",
                      blocking=False)
     open_items = state.get("open_items")
+    stage = state_get(state, "project", "stage", default=None)
+    known_stages = {'G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6',
+                    'S1', 'S2', 'S3', 'S4', 'S5'}
+    if stage is None:
+        gate.add("recovery_stage", "warn",
+                 "未记录 project.stage；上下文压缩/中断后应先读 design-state 定位阶段（否则按 BLOCKED）",
+                 blocking=False)
+    elif str(stage) not in known_stages:
+        gate.add("recovery_stage", "warn", "project.stage 未知: %r" % stage,
+                 blocking=False)
+    else:
+        gate.add("recovery_stage", "pass", "project.stage=%s" % stage)
+    recovery = state.get("recovery")
+    if isinstance(recovery, dict):
+        rstage = recovery.get("stage")
+        if rstage is not None and stage is not None and str(rstage) != str(stage):
+            gate.add("recovery_stage_mismatch", "warn",
+                     "recovery.stage(%r) 与 project.stage(%r) 不一致"
+                     % (rstage, stage), blocking=False)
+        for key in ("open_nets", "rejected_options"):
+            if key in recovery and not isinstance(recovery.get(key), list):
+                gate.add("recovery_" + key, "warn", "recovery.%s 应为数组" % key,
+                         blocking=False)
+    else:
+        gate.add("recovery_section", "warn",
+                 "未记录 recovery 恢复字段；上下文压缩/中断后应先读 design-state "
+                 "（open_nets/next_action 等），不凭对话摘要推断", blocking=False)
     if isinstance(open_items, list):
         blocking_items = [x for x in open_items if isinstance(x, dict) and x.get("blocking")]
         if blocking_items:
