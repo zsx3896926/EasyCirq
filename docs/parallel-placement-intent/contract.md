@@ -35,6 +35,10 @@ PYTHONPATH=. python -m placement_intent --version
 - `--out` 使用“同目录临时文件 + `os.replace`”原子写；失败不会留下半截文件。
   `--out` 与 `--input` 解析到同一文件时拒绝（exit 4）。若目标已存在旧结果，
   本次运行的报告会整体覆盖它（包括 `invalid_input`/`incomplete` 报告），不会残留旧 PASS。
+  带 `--out` 时 stdout 输出一个**摘要对象**（`schema` 仍为对应输出 schema、`status`、
+  `exit_code`、`out`、`counts`、`findings[{code,severity,subject}]`、
+  `unknowns[{code,subject,impact}]`），完整报告只写文件；不带 `--out` 时 stdout 即完整报告。
+  两种情况下 stdout 都恰是一个 JSON 对象。
 - 输入永远只读：`validate`/`plan`/`explain` 均不修改输入文件（测试用前后 SHA-256 对比）。
 - 输出确定性：同一输入、同一参数、同一路径两次运行 stdout 字节一致；输出中不含
   运行时间/时间戳，`snapshot.captured_at` 原样来自输入。
@@ -240,6 +244,12 @@ PYTHONPATH=. python -m placement_intent --version
   `position_tolerance_mm < 0`）→ `number_out_of_range`。
 - 一个输入可以同时有多条 finding；`findings` 全部输出，`status=invalid_input`，
   exit 2。错误不会被“第一条”截断。
+- 重复 id 的 finding code：同一集合/同一命名空间内重复（模块 id 重复、元件
+  `instance_id` 重复、约束 `id` 重复、显式 unknown `id` 重复、数组元素重复）→
+  `duplicate_id`；模块 id 与元件 `instance_id` 互撞（跨类型共用命名空间）→
+  `node_id_duplicate`。两者都是硬错误。
+- 合法规避：`components[].position_mm` 与 `board.fixed_positions_mm` 对同一节点给出
+  完全相同的值 → 记 info `fixed_position_duplicate` 并去重；不同值 → 硬错误。
 
 ## 4. CCG 几何语义（必须精确实现）
 
@@ -337,7 +347,9 @@ unknown 条目统一形状（输出字段固定）：
 
 `impact` 取值 `none`（只记录）、`constraints_only`（最多 `planned_constraints_only`）、
 `incomplete`（`incomplete`）。`origin` 取值 `input`/`derived`。id 稳定可复现：
-`unk:<code>:<subject or "global">`（同一 id 冲突时追加 `:2`、`:3`…）。
+`unk:<code>:<subject or "global">`（同一 id 冲突时追加 `:2`、`:3`…）。输入 `unknowns[]`
+搬运后的条目为 `unk:declared:<declared_id>`、`subject=<declared_id>`、`field`/`reason`
+原样保留，并额外回显 `declared_id`。
 
 派生 unknown：
 

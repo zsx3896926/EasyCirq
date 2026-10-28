@@ -428,9 +428,15 @@ def _provenance(ctx, value, path):
                 entry["note"] = _string(ctx, source["note"],
                                         source_path + ".note")
             sources.append(entry)
-    if kind == "derived" and not sources:
-        ctx.error("provenance_source_missing", path + ".sources",
-                  "provenance.kind=derived requires at least one source with sha256")
+    if kind == "derived":
+        if not sources:
+            ctx.error("provenance_source_missing", path + ".sources",
+                      "provenance.kind=derived requires at least one source "
+                      "with sha256")
+        elif any(source.get("sha256") is None for source in sources):
+            ctx.error("provenance_source_missing", path + ".sources",
+                      "provenance.kind=derived requires a sha256 for every "
+                      "source file")
     return {"kind": kind, "sources": sources, "note": note}
 
 
@@ -957,6 +963,8 @@ def _check_fixed_positions(ctx, model):
             ctx.warning("designator_duplicate",
                         "components[%d].designator" % component["index"],
                         "duplicate designator %r (display only)" % designator,
+                        "Designators are display-only; use unique instance_id "
+                        "references for identity.",
                         subject=component["id"])
         else:
             designators[designator] = component["id"]
@@ -966,7 +974,9 @@ def normalize_input(parsed):
     """Return ``(model, findings, unknowns)``; ``model["ok"]`` says if plan may run."""
     ctx = _Ctx()
     if not isinstance(parsed, dict):
-        ctx.error("root_not_object", "$", "top-level JSON value must be an object")
+        ctx.error("json_invalid", "$",
+                  "top-level JSON value must be an object, found %s"
+                  % type(parsed).__name__)
         return {"ok": False, "schema": None}, ctx.findings, ctx.unknowns
     _check_keys(ctx, parsed, "$", TOP_REQUIRED_KEYS, TOP_OPTIONAL_KEYS)
     schema = parsed.get("schema")
