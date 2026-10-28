@@ -11,15 +11,16 @@
 | 仓库 | https://github.com/zsx3896926/EasyCirq |
 | 分支 | `feat/parallel-placement-intent` |
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree` |
-| 基线 `origin/main` | `1d1fcbd984d670905cf2fd4c7acf2c89f7e04347`（PR #72 合并后；本分支已 rebase 到该点，ahead 5 / behind 0） |
-| 代码/测试/基准/结果冻结 HEAD | `ad0c170749fc7c32e45b0f88152641a322339ec2`（其后只有 docs 收口提交） |
+| 基线 `origin/main` | `91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后：统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`） |
+| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`，schema 命名空间 `zhigou.*` 统一为 `easycirq.*`；本任务的包/测试/基准/文档已端口到新布局（提交 `d81280c`），schema 与仓库其它模块一致 |
+| 代码/测试/基准/结果冻结 HEAD | `9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`（其后只有 docs 收口提交） |
 | 操作系统 | Windows 11 10.0.26200 SP0（AMD64） |
 | Python（本机实际运行） | **3.13.15** |
 | 最低 Python 声明 | 3.10（`from __future__ import annotations`；仅标准库） |
 | 3.10 验证状态 | **仅 CI**：本机无 3.10；仓库 `.github/workflows/validate.yml` 的 matrix 含 `3.10`/`3.13` |
 | 依赖 | 仅 Python 标准库；未新增依赖，未改顶层依赖文件 |
 | EDA 调用 | **0**（未调用 easyeda/lceda CLI、daemon、connector；未切换窗口/刷新页面/装扩展） |
-| 网络 | **0**（本任务规则禁止网络；不 push、不开 PR） |
+| 网络 | **实现/测试/基准运行期 0**（工具不联网）；收口后由负责人按指令用 `git push` + `gh pr create` 发布分支/PR（非工具运行期调用，PR 编号见 handoff） |
 
 ## 2. 实际执行命令
 
@@ -48,8 +49,8 @@ cd <临时目录> && python benchmarks/placement-intent/run_benchmark.py
 
 | 命令 | 结果 |
 |---|---|
-| `python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"` | **Ran 239 tests in 45.900s — OK**，exit 0 |
-| `python -m unittest discover -s tests`（官方全量） | **Ran 3565 tests in 390.108s — OK (skipped=3)**，exit 0；官方 discovery 能发现 `placement_intent_tests` 的 239 个测试。docs 收口提交后再复跑：**Ran 3565 tests in 390.108s — OK (skipped=3)**，exit 0 |
+| `python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"` | **Ran 239 tests in 45.586s — OK**，exit 0 |
+| `python -m unittest discover -s tests`（官方全量） | **Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0；官方 discovery 能发现 `placement_intent_tests` 的 239 个测试。docs 收口提交后再复跑：**Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0 |
 | 测试包结构 | `tests/placement_intent_tests/` 含 `__init__.py`、`support.py`（子进程 CLI 调用器）、`fixtures.py`、13 个 `test_*.py` |
 | 实现导入纪律 | 测试**不 import** 实现，只用 `python -m placement_intent` 子进程（`test_scope_no_eda.test_implementation_imports_only_the_standard_library` 等交叉验证） |
 
@@ -77,7 +78,7 @@ stdout 纯 JSON、`--out` 原子覆盖旧 PASS、`--out`=输入拒绝、`explain
 | 来源类别 | `synthetic_fixture`、`synthetic_invalid_input`、`derived_offline_from_frozen_case`、`holdout_independent`、`holdout_counterexample` |
 | 输入 SHA-256 | 每个 case 冻结；源文件改动则基准失败（不是“通过”） |
 | timing（1 run，仅记录成本） | 38 场耗时合计 **5.802 s**；单场 min **0.128 s**、max **0.217 s**（Python 3.13.15 / Windows 11 / AMD64；仅成本，无提速声明） |
-| 实现绑定 | `results.json.implementation.git_commit = ad0c170…`、`git_branch = feat/parallel-placement-intent`、`tracked_worktree_dirty=false` |
+| 实现绑定 | `results.json.implementation.git_commit = 9b408cf…`、`git_branch = feat/parallel-placement-intent`、`tracked_worktree_dirty=false` |
 | `limits` | 冻结合成/派生 JSON 上的 CLI 行为；不是“板可放置”；bbox 是相对 AABB；timing 不是性能声明 |
 | `not_covered` | 真实 EDA、绝对坐标/应用/保存重开、布线/DRC/SI-PI-EM-热、制造/装配/实测、LLM 生成与 ModuPlace 训练、真实 `.epro2` 回读 |
 
@@ -89,7 +90,7 @@ bbox 全 null → `planned_constraints_only`（不冒充 `planned_with_scope`）
 
 ## 5. 清洁 checkout 复跑（PASS）
 
-在 rebase 后的分支 HEAD（代码/测试/基准/结果冻结于 `ad0c170…`；`tests/`、`benchmarks/`、
+在 rebase 后的分支 HEAD（代码/测试/基准/结果冻结于 `9b408cf…`；`tests/`、`benchmarks/`、
 docs 均已提交）上用 `git archive` 导出清洁副本执行：
 
 ```bash
@@ -102,7 +103,7 @@ python benchmarks/placement-intent/run_benchmark.py
 python easycirq/scripts/skill_selftest.py
 ```
 
-- 结果：单包 **Ran 239 tests in 42.981s — OK**（exit 0）；基准 **38/38 pass，exit 0**
+- 结果：单包 **Ran 239 tests in 46.983s — OK**（exit 0）；基准 **38/38 pass，exit 0**
   （`results.json.status=pass`、`real_eda="NOT RUN"`、`eda_calls=0`）；
   `skill_selftest.py` **5 PASS / 0 FAIL / 0 NOT RUN**。与 worktree 结果一致。
 - 换行敏感：`benchmarks/placement-intent/.gitattributes` 已固定 `* text eol=lf`，
@@ -122,7 +123,7 @@ python easycirq/scripts/skill_selftest.py
    `anchor="top-left"`，`plan`/`explain` 传其余合法枚举 → exit 4（用法错误），
    `validate` 接受并忽略；`contract.md` §1/§4.1/§7.2 已同步。多锚点扩展移到
    `issue-candidates.md` IC-5。
-2. **严格 JSON 根节点/派生来源/位号 warning**（提交 `9d5733c`，rebase 前为 `cc6e4e0`）：
+2. **严格 JSON 根节点/派生来源/位号 warning**（提交 `c7eb7d9`，rebase 前为 `cc6e4e0`）：
    修正非对象根的 finding code、`provenance.kind="derived"` 缺源 SHA-256 的非法判定、
    重复 designator 只记 warning；`contract.md` 同步澄清（`overlap_not_checked`、
    `frame_unknown` 等 unknown code 也加入 §5 表）。
@@ -133,6 +134,11 @@ python easycirq/scripts/skill_selftest.py
    `planned_constraints_only`，不为了让基准“全绿好看”而编造 `size_mm`。
 5. **`overlap_not_checked` unknown**：重叠不可算时以 `impact:none` 明确记录，而不是
    静默跳过；不改变 plan 状态。
+6. **适配仓库 #99 重构（提交 `d81280c`）**：main 统一品牌为「智构 / EasyCirq」后，
+   `design-hardware/` → `easycirq/`、schema 命名空间 `zhigou.*` → `easycirq.*`。
+   本任务把包、测试、基准（含 38 个 case 的 `input_sha256` 重冻结与 derived 源
+   README 新 SHA `0bd97330…e4fb`）、文档端口到新布局；重跑后 239 单包测试与 38/38
+   基准仍全绿。`results.json.implementation.git_commit` 记录执行时 HEAD `d81280c`。
 
 ## 8. 限制与 NOT RUN
 

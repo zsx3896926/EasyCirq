@@ -12,6 +12,10 @@ connector、不联网、不训练/推理任何模型**。
 - 工具：`placement_intent 0.1.0`，Python ≥ 3.10，仅标准库
 - 入口：`cd easycirq/scripts && PYTHONPATH=. python -m placement_intent ...`
 
+> **命名说明**：本契约沿用任务书的字段结构；仓库 PR #99 统一品牌为「智构 / EasyCirq」后，
+> 目录 `design-hardware/` 重构为 `easycirq/`，schema 命名空间 `zhigou.*` 统一为
+> `easycirq.*`（与仓库其它模块一致）。任务书原文写作 `zhigou.placement-intent.*`。
+
 本文件是规范。测试与冻结基准只依赖本文件描述的 CLI 行为与 JSON 字段，不导入实现。
 
 ## 1. 命令、输出与退出码

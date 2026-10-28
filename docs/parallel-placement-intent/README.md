@@ -14,10 +14,11 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 
 | 验收项 | 结果 |
 |---|---|
-| 基线 `origin/main` | `1d1fcbd984d670905cf2fd4c7acf2c89f7e04347`（PR #72 合并后；本分支已 rebase 到该点，ahead 5 / behind 0） |
-| 代码/测试/基准/结果冻结 HEAD | `ad0c170749fc7c32e45b0f88152641a322339ec2`（docs 收口提交紧随其后） |
-| 单包测试（`unittest discover -s tests/placement_intent_tests -t tests`） | **Ran 239 tests in 45.900s — OK**，exit 0 |
-| 官方全量（`python -m unittest discover -s tests`） | **Ran 3565 tests in 390.108s — OK (skipped=3)**，exit 0；新测试已被 discovery 发现 |
+| 基线 `origin/main` | `91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后：统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`） |
+| 仓库重构适配 | #99 将 `design-hardware/` 重构为 `easycirq/`、`zhigou.*` schema 统一为 `easycirq.*`；本任务已端口到新布局（`easycirq/scripts/placement_intent/`） |
+| 代码/测试/基准/结果冻结 HEAD | `9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`（docs 收口提交紧随其后） |
+| 单包测试（`unittest discover -s tests/placement_intent_tests -t tests`） | **Ran 239 tests in 45.586s — OK**，exit 0 |
+| 官方全量（`python -m unittest discover -s tests`） | **Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0；新测试已被 discovery 发现 |
 | 冻结基准（`python benchmarks/placement-intent/run_benchmark.py`） | **38/38 pass**，exit 0；`simulated:true`、`real_eda="NOT RUN"`、`eda_calls:0`；`--runs 2` 同样 38/38 |
 | Skill 自检（`skill_selftest.py`） | **5 PASS / 0 FAIL**，exit 0 |
 | 真实 EDA 调用 | **0**（无 daemon/connector/网络；不写工程） |

@@ -3,17 +3,23 @@
 - 分支 / worktree / 基线 `main` SHA：
   - 分支：`feat/parallel-placement-intent`
   - worktree：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree`
-  - 基线 `origin/main`：`1d1fcbd984d670905cf2fd4c7acf2c89f7e04347`（PR #72 合并后；本分支已 rebase 到该点，收口时 `ahead 5 / behind 0`）
+  - 基线 `origin/main`：`91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后，统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`）
+  - **目录/命名适配**：#99 把 `design-hardware/` 重构为 `easycirq/`，schema 命名空间
+    `zhigou.*` 统一为 `easycirq.*`。本分支新增文件已落在新布局的等价允许路径内：
+    `easycirq/scripts/placement_intent/`、`tests/placement_intent_tests/`、
+    `benchmarks/placement-intent/`、`docs/parallel-placement-intent/`。
   - 说明：rebase 后验收用的 `git diff --name-status origin/main...HEAD` 三点 diff 的
-    merge-base 即 `1d1fcbd`，diff 只包含本任务新增的 79 个文件。若主分支在评审前继续合并
-    其它并行任务，由维护者在合并时 rebase/CI；本分支不再自动追。 
-- PR：#**未创建**（网络禁用；任务规则 §2.2/§12 禁止调用网络、不 push）；分支
-  `feat/parallel-placement-intent` 待推送，PR 目标 `main`、状态 **OPEN 未合并**。
-- 精确 HEAD：**`ad0c170749fc7c32e45b0f88152641a322339ec2`**
-  （代码/测试/基准冻结提交；docs 收口提交若晚于该 SHA，以 `git rev-parse HEAD` 为准，
-  文档提交不改变产品行为）
+    merge-base 即 `91b03e5`，diff 只包含本任务新增的 79 个文件。若主分支在评审前继续合并
+    其它并行任务，由维护者在合并时 rebase/CI；本分支不再自动追。
+- PR：#**未创建**（本任务规则禁止网络）；分支 `feat/parallel-placement-intent` 待推送，
+  PR 目标 `main`、状态 **OPEN 未合并**。
+- 精确 HEAD：**`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`**
+  （代码/测试/基准/结果冻结提交；`d81280c` 为 EasyCirq 布局/命名端口提交，`results.json`
+  的 `implementation.git_commit` 即 `d81280c`。docs 收口提交若晚于该 SHA，以
+  `git rev-parse HEAD` 为准，文档提交不改变产品行为）
 - 允许路径核对（`git diff --name-status origin/main...HEAD`，在最终 docs 提交上实际运行）：
-  **79 个新增文件，全部为 `A`**（无 `M`/`D`/`R`），且都在任务书 §3 的四个允许路径内：
+  **79 个新增文件，全部为 `A`**（无 `M`/`D`/`R`），且都在任务书 §3 四个允许路径的新布局
+  等价位置内：
 
 ```text
 A  easycirq/scripts/placement_intent/**        10 个 .py（包 + CLI）
@@ -30,17 +36,17 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
   主 `docs/handoff-current.md`，也未改其它 `docs/parallel-*`。
 - 测试：命令 / 数量 / 结果
   - `python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"`
-    → **Ran 239 tests in 45.900s — OK**，exit 0
+    → **Ran 239 tests in 45.586s — OK**，exit 0
   - `python -m unittest discover -s tests`（官方全量）→
-    **Ran 3565 tests in 390.108s — OK (skipped=3)**，exit 0；官方 discovery 已发现
+    **Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0；官方 discovery 已发现
     `placement_intent_tests` 的 239 个测试。
 - 基准：命令 / 通过数 / 结果文件
   - `python benchmarks/placement-intent/run_benchmark.py` → **38/38 pass**，exit 0
     （`--runs 2` 同样 38/38）；结果文件 `benchmarks/placement-intent/results.json`，
     `simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`、`correctness 38/38`、
-    `implementation.git_commit=ad0c170…`
+    `implementation.git_commit=9b408cf…`
 - 全量套件 / Skill 自检：
-  - 全量见上（3565 tests OK，skipped=3）
+  - 全量见上（3569 tests OK，skipped=3）
   - `python easycirq/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN**，exit 0
 - 3.10 状态：本机无 3.10（实际 3.13.15）；**3.10 仅 CI**：`.github/workflows/validate.yml`
   的 matrix `['3.10','3.13']` 在 PR HEAD 上验证。PR 尚未创建 → CI 结果待推送后确认，
@@ -58,7 +64,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
   1. 推送分支并创建 PR（目标 `main`，OPEN 未合并，由主维护者评审）；
   2. 评审重点：`docs/parallel-placement-intent/contract.md` 的 v1 收窄口径（anchor）、
      `unknown` 不补齐、`review_required` 不降级；SE(2) 合成/多路径/环的实现与契约一致；
-  3. 清洁 checkout 复跑（**已在冻结 HEAD `ad0c170` 上完成**）：`git archive` 导出临时副本后
+  3. 清洁 checkout 复跑（**已在冻结 HEAD `9b408cf` 上完成**）：`git archive` 导出临时副本后
      重跑单包测试 → **239 tests OK**、基准 → **38/38 pass / exit 0**（详见 `report.md` §5）；
   4. 后续集成 PR（本任务**不改**这些文件）：`design_engine` module-plan/候选前置校验、
      `easycirq_mcp` 新增 `offline_placement_intent_validate` /
@@ -123,10 +129,16 @@ PYTHONPATH=. python -m placement_intent explain \
 - 只新增允许路径内文件（implementation/tests/benchmarks/docs），未改 SKILL.md/
   references/design_engine/easycirq_mcp/CI/依赖/版本号。
 
+## 适配仓库重构（#99）
+本任务书基线使用旧布局/命名；已适配 main 的 #99 重构：
+`design-hardware/` → `easycirq/`、schema 命名空间 `zhigou.*` → `easycirq.*`
+（与仓库既有 `easycirq.electrical-review.*` / `easycirq.mcp.*` 一致），
+新增文件全部落在新布局的等价允许路径内。
+
 ## 实际命令与结果（本机 Windows 11 / Python 3.13.15；真实 EDA 调用 0）
 - 单包测试：`python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"`
   → 239 tests OK
-- 官方全量：`python -m unittest discover -s tests` → 3565 tests OK (skipped=3)
+- 官方全量：`python -m unittest discover -s tests` → 3569 tests OK (skipped=3)
 - 基准：`python benchmarks/placement-intent/run_benchmark.py` → 38/38 pass，exit 0，
   `simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`
 - Skill 自检：`python easycirq/scripts/skill_selftest.py` → 5 PASS / 0 FAIL
@@ -140,5 +152,5 @@ PYTHONPATH=. python -m placement_intent explain \
 `git diff --name-status origin/main...HEAD` 全部为 `A`（仅新增允许路径文件）。
 
 ## HEAD
-`ad0c170749fc7c32e45b0f88152641a322339ec2`
+`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`
 ```
