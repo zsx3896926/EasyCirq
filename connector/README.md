@@ -1,10 +1,11 @@
 # 智构 · EasyCirq 连接器（EasyEDA Pro 扩展）
 
 > English: [README.en.md](README.en.md)
-> 一句话：**它是一根"本地网线"**——把 AI 在你电脑上发出的 EDA 操作请求，转成嘉立创 EDA 专业版
-> （EasyEDA Pro）官方 API 调用；操作只在你本机发生，不经过云端。
+>
+> 一句话：**它是一根“本地网线”**——把 AI 在你电脑上发出的 EDA 操作请求，
+> 转换成嘉立创 EDA 专业版（EasyEDA Pro）的官方 API 调用；操作只在你本机发生，不经过云端。
 
-面向所有使用者（第一次装的人 / 日常用的人 / 排障的人 / 改代码的人）。
+面向所有使用者（第一次安装的、日常使用的、排障的、改代码的）。
 
 ---
 
@@ -17,7 +18,7 @@
 | 只连本机回环 `127.0.0.1:23111-23120` | 不联网、不上传工程、无遥测、无账号 |
 | 需要你**明确授权**「外部交互」才工作 | 不会偷偷改工程：每一步都需 zhigou 发来请求 |
 
-三层角色（容易混）：
+三层角色（容易混淆）：
 
 ```
 AI 客户端（Claude/Codex 等）
@@ -27,7 +28,7 @@ AI 客户端（Claude/Codex 等）
                   └─ EasyEDA Pro（你看到的画布）
 ```
 
-本连接器只负责**最下面两层之间**的翻译。
+本连接器只负责**最底下两层之间**的翻译。
 
 ---
 
@@ -48,7 +49,7 @@ AI 客户端（Claude/Codex 等）
 2. 重新打开 → **设置 → 扩展 → 已安装 → 导入扩展**；
 3. 选择 `zhigou-connector_v<版本>.eext`；
 4. 扩展管理器里找到 **「智构 · EasyCirq 连接器」** → 打开设置/权限 → 勾选
-   **「允许外部交互 / Allow external interaction」**（不勾 = 连接器连不上，且不会报错）；
+   **「允许外部交互 / Allow external interaction」**（不勾选则连不上，而且 EDA 通常不会提示错误）；
 5. **完全退出并重新启动** EasyEDA Pro；
 6. 打开任意工程，命令行运行 `zhigou doctor`：
    - 看到 `connector.status = connected` → 成功；
@@ -63,8 +64,8 @@ AI 客户端（Claude/Codex 等）
 
 - 打开 EasyEDA Pro 后连接器自动连上本机 daemon；关闭 EDA 自动断开；
 - 你只需要对 AI 说需求，由 AI 调用 `zhigou`；连接器在你无感的情况下执行；
-- **不需要**每次手动启动连接器；但 daemon 必须在线（`zhigou daemon start` 或安装器的后台服务；
-  `zhigou doctor` 会告诉你 daemon 是否在跑）。
+- **不需要**每次手动启动连接器；但 daemon 必须在线（用 `zhigou daemon start` 启动，或使用安装器注册的
+  后台服务；`zhigou doctor` 会显示 daemon 是否在运行）。
 - 若同时开着多个 EasyEDA 窗口，`zhigou` 会要求用 `--window` 或 `--project` 指定目标——
   这是防止写错窗口的保护，不是故障。
 
@@ -93,13 +94,13 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 
 | 症状 | 最可能原因 | 处理 |
 |---|---|---|
-| `zhigou doctor` 显示 `connector 未连接` / windows 0 | daemon 未启动 | 运行 `zhigou daemon start`，再试 |
+| `zhigou doctor` 显示 `connector 未连接` / `windows 0` | daemon 未启动 | 运行 `zhigou daemon start`，再试 |
 | 连不上、但 daemon 正常 | 没勾「外部交互」 | 扩展设置里勾选 → 完全重启 EDA |
 | 勾了权限仍连不上 | EDA 没真正重启（进程还在） | 确认进程退出后重开 |
 | `zhigou doctor` 提示连接器版本不符 | EDA 里是旧版本 | 卸载旧版 → 导入新版 → 重启（见 §5） |
-| 多个窗口/报窗口歧义 | 同时开了多个 EDA 窗口 | 用 `zhigou ... --project <工程名>` 或 `--window <id>` 指定 |
+| 多窗口或报窗口歧义 | 同时开了多个 EDA 窗口 | 用 `zhigou ... --project <工程名>` 或 `--window <id>` 指定 |
 | 操作报「页面隐藏/无法截图」类错误 | EDA 页签在后台，画布未重绘 | 把 EDA 窗口切到前台，再重试 |
-| 操作后读到的数据像旧的 | 运行时缓存/未保存 | AI 会走 `save → doc reload → 回读`；不要只看一次返回值 |
+| 操作后读回的数据像未生效的 | 运行时缓存/未保存 | AI 会走 `save → doc reload → 回读`；不要只看一次返回值 |
 | 扩展管理器里有两个「智构 · EasyCirq 连接器」 | 旧 UUID 未卸载 | 卸载旧的，只留当前版本 |
 
 日志位置：`%USERPROFILE%\.zhigou\daemon.log`（daemon 侧连接/请求记录）。
@@ -148,7 +149,7 @@ npx tsc --noEmit                            # 类型检查
 3. `.eext` = zip（`extension.json` + `dist/index.js` + `images/` + 许可证）；
 4. 运行时侧 `runtime/internal/version/version.go` 的 `ConnectorVersion` 必须同步，
    否则 `zhigou doctor` 会报版本不匹配；
-5. 发布后务必真机验证：导入 → 授权 → 重启 → `zhigou doctor` + 一个 `zhigou call` 冒烟。
+5. 发布后务必真机验证：导入 → 授权 → 重启 → `zhigou doctor` + 一个 `zhigou call` 冒烟测试。
 
 规则来源：`docs/toolchain-integration/`（能力矩阵、现场教训）；上游 fork 与许可证见 `NOTICE`。
 
@@ -157,5 +158,5 @@ npx tsc --noEmit                            # 类型检查
 ## 10. 许可
 
 - 上游 `easyeda-agent` 连接器：MIT（Copyright (c) 2026 zhoushoujianwork and contributors）；
-- 本项目修改：Apache-2.0。
+- 本项目修改部分：Apache-2.0。
 - 本扩展是独立维护的分支，非嘉立创官方产品。

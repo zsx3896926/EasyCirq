@@ -1,13 +1,12 @@
 # Zhigou · EasyCirq Connector (EasyEDA Pro extension)
 
 > 中文版：[README.md](README.md)
-
+>
 > In one sentence: **it is a local "network cable"** — it turns the EDA operations that the AI
 > requests on your machine into official EasyEDA Pro API calls. Everything happens locally;
 > nothing goes through the cloud.
 
 For everyone: first-time installers, daily users, troubleshooters and developers.
-
 
 ---
 
@@ -20,12 +19,12 @@ For everyone: first-time installers, daily users, troubleshooters and developers
 | Connects only to the local loopback `127.0.0.1:23111-23120` | No internet, no project upload, no telemetry, no account |
 | Requires you to explicitly grant **"Allow external interaction"** | Never modifies a project silently: every step needs a request from zhigou |
 
-Three layers (easy to confuse):
+The three layers (easy to confuse at first):
 
 ```
 AI client (Claude / Codex, etc.)
    └─ design-hardware Skill (design method, rules, gates)
-        └─ zhigou runtime (local CLI + daemon; actually dispatches actions)
+        └─ zhigou runtime (local CLI + daemon; this is what actually sends the actions)
              └─ this connector (executes eda.* API calls inside EasyEDA)
                   └─ EasyEDA Pro (the canvas you see)
 ```
@@ -51,11 +50,11 @@ The connector only translates between the **bottom two layers**.
 2. Start it again → **Settings → Extensions → Installed → Import extension**;
 3. Choose `zhigou-connector_v<version>.eext`;
 4. In the extension manager find **"Zhigou · EasyCirq Connector"** → open its settings/permissions →
-   enable **"Allow external interaction"** (without it the connector cannot connect and reports no error);
+   enable **"Allow external interaction"** (if not enabled, the connector cannot connect, and EDA does not report an error);
 5. **Fully exit and restart** EasyEDA Pro;
 6. Open any project and run `zhigou doctor` from the command line:
    - `connector.status = connected` → success;
-   - `degraded` with "connector not connected" → re-check step 4/5 (permission and restart).
+   - `degraded` with "connector not connected" → re-check steps 4 and 5 (permission and restart).
 
 > Why "external interaction": the connector talks to the local daemon through
 > `eda.sys_WebSocket`, which the host blocks by default. You must allow it explicitly in the
@@ -66,7 +65,7 @@ The connector only translates between the **bottom two layers**.
 ## 4. Daily use (you barely touch it)
 
 - After EasyEDA Pro starts, the connector connects to the local daemon automatically; it disconnects when EDA closes;
-- You just describe requirements to the AI; the AI drives `zhigou`; the connector executes invisibly;
+- You just describe requirements to the AI; the AI drives `zhigou`; the connector works silently in the background;
 - You do **not** need to start the connector manually every time, but the daemon must be online
   (`zhigou daemon start`, or the background service from the installer; `zhigou doctor` reports daemon status);
 - With multiple EasyEDA windows open, `zhigou` will ask for `--window` or `--project` to pick the target —
@@ -87,7 +86,7 @@ The correct flow:
 5. **Fully exit and restart** EDA;
 6. `zhigou doctor` must show the connector version = expected version and status `connected`.
 
-> Upgrade note: the installer / `zhigou doctor` shows the expected connector version. If it does not match,
+> Upgrade note: the installer and `zhigou doctor` show the expected connector version. If it does not match,
 > follow the flow above; do not just overwrite-import (it may keep old code).
 >
 > Uninstall: remove the extension in the extension manager. It does not touch your projects and does not
@@ -158,13 +157,13 @@ npx tsc --noEmit                            # type check
 5. After release, always smoke-test on a real host: import → authorize → restart → `zhigou doctor` +
    one `zhigou call`.
 
-Sources: `docs/toolchain-integration/` (capability matrix, field lessons); upstream fork and license
-are in `NOTICE`.
+Sources: `docs/toolchain-integration/` (capability matrix, field lessons); upstream provenance and licenses
+are recorded in `NOTICE`.
 
 ---
 
 ## 10. License
 
 - Upstream `easyeda-agent` connector: MIT (Copyright (c) 2026 zhoushoujianwork and contributors);
-- Changes in this project: Apache-2.0.
+- Modifications in this project: Apache-2.0.
 - This extension is an independently maintained fork and is not an official JLC product.
