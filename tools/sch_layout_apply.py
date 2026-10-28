@@ -20,16 +20,24 @@ BIN = r"C:\Users\jlc\AppData\Local\EasyCirq\bin\easycirq.exe"
 
 
 
-def cli(*args, timeout=900):
-    for _ in range(5):
-        r = subprocess.run([BIN, *args], capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=timeout)
+def cli(*args, timeout=120):
+    last = None
+    for _ in range(6):
+        try:
+            r = subprocess.run([BIN, *args], capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", timeout=timeout)
+        except subprocess.TimeoutExpired:
+            time.sleep(6)
+            continue
+        last = r
         text = (r.stdout or "") + (r.stderr or "")
         if "document transition is being verified" in text:
             time.sleep(8)
             continue
         return r.returncode, r.stdout, r.stderr
-    return r.returncode, r.stdout, r.stderr
+    if last is not None:
+        return last.returncode, last.stdout, last.stderr
+    return 1, "", "timeout"
 
 
 def parse(out):
@@ -77,11 +85,22 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
         "--allow-discard-unsaved")
     time.sleep(4)
     cli("call", "document.open", "--payload", json.dumps({"uuid": page}))
-    time.sleep(2)
+    # wait until the daemon/editor accepts reads again (writes settle after reopen)
+    for _ in range(20):
+        time.sleep(3)
+        c, o, e = cli("call", "schematic.components.list", "--payload", "{}")
+        if c == 0:
+            break
+    time.sleep(5)
 
-    code, out, err = cli("sch", "clear", *doc)
+    # clear must actually succeed and the page must report zero parts
+    for attempt in range(10):
+        code, out, err = cli("sch", "clear", *doc)
+        time.sleep(5)
+        comps = [c for c in components() if c.get("componentType") == "part"]
+        if code == 0 and not comps:
+            break
     report["clear"] = code
-    time.sleep(7)
 
     # place blocks one at a time, snapping each onto its planned bbox
     for i, p in enumerate(plan["placements"]):
@@ -89,10 +108,15 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
             report["blocks"].append({"id": p["id"], "skipped": "unplaced"})
             continue
         planned = p["bbox"]
+        before = {c.get("designator") for c in components()
+                  if c.get("componentType") == "part"}
+        # NOTE: --json on a real apply can stall for minutes; diff designators instead
         code, out, err = cli("sch", "block-apply", p["id"], "--at", p["at"],
-                             "--parts", parts, *doc, "--json")
-        manifest = parse(out) or {}
-        desig = [x.get("designator") for x in (manifest.get("placed") or []) if x.get("designator")]
+                             "--parts", parts, *doc)
+        time.sleep(3)
+        after = [c for c in components() if c.get("componentType") == "part"]
+        desig = [c.get("designator") for c in after
+                 if c.get("designator") and c.get("designator") not in before]
         group = "blk-%02d" % (i + 1)
         # block-apply already records provenance groups "<blockId>(<instance>)/..."
         codeg, outg, errg = cli("sch", "group", "list", "--json", *doc)
@@ -130,8 +154,8 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
         if not a:
             continue
         title = plan["placements"][i]["title"]
-        zx1, zy1 = max(12, a[0] - 16), max(12, a[1] - 16)
-        zx2, zy2 = min(1158, a[2] + 16), min(813, a[3] + 16 + 36)
+        zx1, zy1 = int(max(12, round(a[0] - 16))), int(max(12, round(a[1] - 16)))
+        zx2, zy2 = int(min(1158, round(a[2] + 16))), int(min(813, round(a[3] + 16 + 36)))
         zframes.append({"id": "zone-%02d" % (i + 1), "title": title,
                         "rect": {"minX": zx1, "minY": zy1, "maxX": zx2, "maxY": zy2},
                         "titleX": zx1 + 8, "titleY": zy2 - 8, "fontSize": 20,
