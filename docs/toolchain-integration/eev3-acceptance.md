@@ -67,3 +67,39 @@
 2. **人工走线复核**：全板重布结果建议看一眼（电气正确，走向/观感可优化）；
 3. **实物验证**：打样后的上电、通断、限流、边界测试（V2–V11，全部 NOT RUN）；
 4. 钻孔文件已随 Gerber 产出（PTH），若需单独钻孔文件可从 zip 内取 `Drill_PTH_Through.DRL`。
+
+## 7. DFM / layout-lint 复核（2026-10-28 13:15，只读）
+
+### layout-lint
+
+- **score 76 / 100（moderate）**，覆盖完整：9 器件、
+  minGap 5.98 mil、overlaps None、outsideOutline [{'type': 'outside-outline', 'a': 'J1'}]、
+  tightSpacing None、crossings 1
+- crossing：[{"netA": "LED1_A", "netB": "LED1_K", "x": 30.21, "y": 277}]
+
+### PCB DFM（`pcb check`）
+
+`passed = false`（无 error，全部为 WARN）：
+
+| 类型 | 级别 | 说明 |
+|---|---|---|
+| silk-off-board | WARN | silkscreen text 'J1' extends outside the board outline (text -1293..-1257 × -593..-548 mil, board -1288..585 × |
+| power-not-poured | WARN | power net +5V (4 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pou |
+| width-under-spec | WARN | power net +5V: 5 track(s) below the power-trunk spec width 15.7 mil (thinnest 10 mil) — widen for current capa |
+| width-under-spec | WARN | power net GND: 5 track(s) below the gnd spec width 19.7 mil (thinnest 10 mil) — widen for current capacity (ro |
+
+### 结论与修复建议
+
+- DFM **没有 error**；三条 WARN 属可接受但应处理：
+  1. **J1 丝印越界**（TH J1 在板外，位号文字跑到板框外）→ 用 `pcb silk-set --ids … --x/--y` 移回板内；
+  2. **+5V 未铺铜**（4 pads）→ 设计选择（9–14 mA 走线可承载），若要按 DFM 建议可加 +5V 铺铜；
+  3. **2 条线宽低于推荐** → 加宽或确认电流/工艺可接受。
+- layout-lint 76 分、1 处 crossing（LED1_A × LED1_K）是自动布线结果，人工复核时可优化。
+- 此复核为只读，未修改工程。
+
+### 补充：最小间距 5.98 mil（略低于 6 mil 常规工艺）
+
+layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距标准（差 0.02 mil）。
+这来自全板自动布线，属于**制造前必须处理**的一项：人工微调该处走线，或在板厂确认
+5.98 mil 可接受的工艺档位后放行。另外 `outsideOutline` 报告 J1 在板框外（TH 排针逃逸，
+设计使然），其位号丝印同时越界（DFM `silkOffBoard`）。

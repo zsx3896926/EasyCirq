@@ -1,0 +1,108 @@
+{
+  "passed": false,
+  "summary": {
+    "danglingEnds": 0,
+    "acuteAngles": 0,
+    "nonOrthogonal": 0,
+    "trackOverPad": 0,
+    "clearance": 0,
+    "silkscreenFlipped": 0,
+    "overlappingVias": 0,
+    "singleLayerVias": 0,
+    "widthMismatches": 0,
+    "duplicateSegments": 0,
+    "parallelCoupling": 0,
+    "antennaKeepout": 0,
+    "netlessPours": 0,
+    "viaCrossesPlane": 0,
+    "floatingIslands": 0,
+    "powerNotPoured": 1,
+    "netlessViaInPad": 0,
+    "widthUnderSpec": 2,
+    "silkOverPad": 0,
+    "silkOffBoard": 1,
+    "decapTooFar": 0,
+    "viaInPad": 0,
+    "copperNearEdge": 0,
+    "fiducialMissing": 0,
+    "zoneViolation": 0,
+    "internalOnEdge": 0,
+    "connectorPlugClearance": 0,
+    "connectorMatingBlocked": 0,
+    "connectorOpeningInward": 0,
+    "errors": 0,
+    "warnings": 4,
+    "total": 4
+  },
+  "trackCount": 35,
+  "viaCount": 0,
+  "padCount": 18,
+  "findings": [
+    {
+      "type": "silk-off-board",
+      "level": "WARN",
+      "layer": 3,
+      "designator": "J1",
+      "primitives": [
+        "68c1979920df5098e9"
+      ],
+      "message": "silkscreen text 'J1' extends outside the board outline (text -1293..-1257 × -593..-548 mil, board -1288..585 × -396..396) — it will not be printed; move it with `pcb silk-set --ids 68c1979920df5098e9 --x … --y …`",
+      "at": {
+        "x": -1293.45,
+        "y": -592.72
+      }
+    },
+    {
+      "type": "power-not-poured",
+      "level": "WARN",
+      "net": "+5V",
+      "message": "power net +5V (4 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+    },
+    {
+      "type": "width-under-spec",
+      "level": "WARN",
+      "net": "+5V",
+      "primitives": [
+        "050ab6d60b0c5d3a"
+      ],
+      "widths": [
+        10,
+        15.75
+      ],
+      "message": "power net +5V: 5 track(s) below the power-trunk spec width 15.7 mil (thinnest 10 mil) — widen for current capacity (route-short sizes by role; pour it instead, or --width-power to override) [规范 §1.2 推荐线宽 — pcb-design-rules.md]",
+      "at": {
+        "x": -277.56,
+        "y": 110
+      }
+    },
+    {
+      "type": "width-under-spec",
+      "level": "WARN",
+      "net": "GND",
+      "primitives": [
+        "09d522564a1d798b"
+      ],
+      "widths": [
+        10,
+        19.69
+      ],
+      "message": "power net GND: 5 track(s) below the gnd spec width 19.7 mil (thinnest 10 mil) — widen for current capacity (route-short sizes by role; pour it instead, or --width-power to override) [规范 §1.2 推荐线宽 — pcb-design-rules.md]",
+      "at": {
+        "x": 455.51,
+        "y": -204.58
+      }
+    }
+  ],
+  "incomplete": false,
+  "coverage": {
+    "complete": true,
+    "componentsInventoryKnown": true,
+    "padsInventoryKnown": true,
+    "componentCount": 9,
+    "totalPads": 18,
+    "knownGeometryPads": 18,
+    "unsupportedGeometryPads": 0,
+    "unknownGeometryPads": 0,
+    "legacyGeometryPads": 0
+  }
+}
