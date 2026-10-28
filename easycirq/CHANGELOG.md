@@ -1,6 +1,8 @@
 # 变更记录
 
-## 未发布
+## 1.1.0 — 2026-10-28
+
+- **破坏性重命名**：仓库 `hardware-design-skill` → `EasyCirq`；Skill `design-hardware` → `easycirq`；运行时 CLI/二进制 `zhigou` → `easycirq`；环境变量 `ZHIGOU_*` → `EASYCIRQ_*`；状态目录 `~/.zhigou` → `~/.easycirq`；协议服务 `zhigou-agent` → `easycirq-agent`；连接器 `zhigou-connector` → `easycirq-connector`。迁移见 `docs/migration-easycirq.md`。
 
 - 把 PocketCam X1（4 层、81 件）整板闭环的布线与收敛教训写进默认路径，见 `docs/toolchain-integration/pocketcam-x1-lessons.md`。
 - 布线顺序统一：平面/铺铜先定，缝合线与电源补线放到所有信号网 Connection 0 之后；`routing-plan.md`、`pcb-routing-strategy.md`、`pcb-execution.md` 与 `SKILL.md` 不再互相矛盾。

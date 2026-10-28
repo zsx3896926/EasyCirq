@@ -29,7 +29,7 @@ func TestNativeDownloadedBinaryVerificationAndReplacement(t *testing.T) {
 import "os"
 func main() {
 	if len(os.Args) != 2 || os.Args[1] != "version" { os.Exit(2) }
-	_, _ = os.Stdout.WriteString("easycirq-agent v1.4.20\n")
+	_, _ = os.Stdout.WriteString("easycirq 1.4.20\n")
 }
 `
 	if err := os.WriteFile(source, []byte(program), 0600); err != nil {

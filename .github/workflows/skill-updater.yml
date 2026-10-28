@@ -35,31 +35,3 @@ jobs:
         with:
           name: easycirq-installer-${{ matrix.os }}
           path: dist/*
-  publish:
-    if: github.event_name == 'release' && !github.event.release.prerelease
-    needs: updater
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install connector build dependencies
-        run: npm ci --prefix connector
-      - name: Match release tag to skill version
-        env:
-          TAG: ${{ github.event.release.tag_name }}
-        run: test "$TAG" = "v$(cat easycirq/.version)"
-      - run: python -m unittest discover -s tests
-      - run: python distribution/build_release.py --output dist --require-clean
-      - run: python tools/release_smoke.py --dist dist
-      - name: Attach immutable release assets
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$TAG" dist/easycirq-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py dist/LICENSE dist/NOTICE dist/INSTALL.md dist/SHA256SUMS
