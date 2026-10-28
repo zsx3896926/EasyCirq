@@ -21,6 +21,9 @@
 - `gate_check` G5 关键网证明支持 `netpath_fallback`（`{fallback: {connection: 0, copper_ids: [...]}}`，原生 DRC Connection=0 时降级 advisory）；`design-gates.md` 写清该证据格式。
 - `gate_check` G6 增加 `step`（3D/STEP）角色与 `manufacturing_manual_handoff` advisory（`artifacts[].status=manual_handoff`）；Gerber/钻孔/CPL 文案更新为 `pcb.manufacture.*` typed action + GUI 兜底；`manufacturing-package.md` 同步。
 - 命名收尾：`task_launcher` bound 的 MCP server 名（`easycirq_bound`）、工具前缀（`mcp__easycirq_bound__*`）与 `easycirq.bound.*` schema、以及 `official_toolchain` 的 `easycirq.a2-coverage.*` schema 统一到 EasyCirq 品牌；旧 `zhigou.*` / `mcp__zhigou_bound__*` / `ZHIGOU_BOUND_*` 仅作为**读取旧数据**的 legacy 兼容保留，不再写出。历史文档与证据保留原名（见 `docs/migration-easycirq.md`）。
+- 原理图风格与交付门禁：新增风格指南 `references/schematic-style.md`、参考图与 token（`assets/style-reference/`）和离线风格审查 `scripts/sch_style_audit.py`；设计期风格蓝图门禁 `scripts/sch_style_plan_check.py`；交付 Stop hook `scripts/sch_delivery_hook.py` 重查输入以防伪造。
+- Stage 5 参考图对比：`scripts/sch_style_visual.py` 输出参考图并排与粗略视觉相似度（页面比例/配色/空白/过曝/灰度相关/颜色直方图，只作人工参考）；交付时可选 `--visual-similarity`，审美不通过只降级为 review、不阻塞，导出缺失/无效才阻塞。
+- 工具链：落地官方 `lceda-pro` 薄适配层的并行非默认路径（`scripts/official_toolchain/`，S1 评估）；能力矩阵与 task launcher 后续修复；PocketCam X1 整板闭环交接文档。
 
 ## 1.0.2 — 2026-10-27
 
