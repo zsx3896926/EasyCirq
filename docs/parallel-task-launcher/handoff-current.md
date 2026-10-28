@@ -3,10 +3,14 @@
 - **分支 / worktree / 基线**：`feat/parallel-task-launcher` / `hds-tl-worktree`；
   任务书基线 `0e391e3`，开工期间 A 工具链随 PR #36 合入 main，M4 已 rebase 到
   `origin/main@c54c6fc`。
-- **PR**：#74（OPEN，未合并；本任务不发版）
-- **代码 HEAD（CI 已验证）**：`c828ebc6a0ee378c7a30ddde963e60225cb460c0`
-  （`feat(task-launcher)` + `fix(task-launcher): version placeholders…` 两个 commit）；
-  本文件与 `report/acceptance-matrix` 的 CI 回填是之后唯一的仅文档提交，PR HEAD 见 PR #74。
+- **PR**：#74（OPEN，未合并；本任务不发版）— https://github.com/zsx3896926/hardware-design-skill/pull/74
+- **最新 HEAD（本次更新前，已推送且 CI 全绿）**：
+  `074bd88e002d7f8cd5a3d474129e64a0ad61ecd6`
+  （`feat(task-launcher)`、`fix(task-launcher): version placeholders…`、`docs(task-launcher): record
+  clean-checkout reproduction and CI results` 三个 commit）。
+  本文件本身就是最后一次**仅文档**更新；更新后的 PR head 会前移一个仅文档 commit，
+  最终 head 与对应 CI run 以 `gh pr view 74 --json headRefOid` / PR #74 checks 为准（同一
+  `validate` matrix 自动复跑）。
 - **允许路径核对**：`git diff --name-status origin/main...HEAD` → **65 个文件，全部为 `A`**：
   `benchmarks/task-launcher/`（27）、`docs/parallel-task-launcher/`（7）、
   `task_launcher/`（15）、`tests/task_launcher_tests/`（16）；无 `M/D`。
@@ -16,6 +20,21 @@
   `tests/task_launcher_tests/*`（14 模块/19 类/98 tests）、`benchmarks/task-launcher/{cases/*,run_benchmark.py,results.json}`、
   `docs/parallel-task-launcher/{contract,architecture,acceptance-matrix,report,integration-proposal,issue-candidates}.md`
   + 本文件。
+
+## 最终验收结果（汇总）
+
+| 验收项 | 结果 | 证据 |
+|---|---|---|
+| 只新增允许路径 | ✅ **65 个文件全部 `A`**，无 `M/D` | `git diff --name-status origin/main...HEAD` |
+| 任务启动器套件 ≥45 | ✅ **98 tests OK**（约 112 s） | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` |
+| 官方全量套件 | ✅ **3416 tests OK (skipped=3)，414.7 s** | `python -m unittest discover -s tests` |
+| 冻结基准 ≥10/10 | ✅ **12/12 passed**，`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`agent="fake"` | `python benchmarks/task-launcher/run_benchmark.py`；`results.json` |
+| plugin 构建确定性 | ✅ 627 files / 13,165,621 bytes；两次 manifest/文件树一致 | `python -m task_launcher build-plugin …` |
+| stub connector e2e | ✅ 退出码 0/1/2 按契约；7 tests OK；12 个基准 case 均由 stub 驱动 | `test_stub_connector.py`、benchmark |
+| Skill 自检 | ✅ **5 PASS / 0 FAIL / 0 NOT RUN** | `python design-hardware/scripts/skill_selftest.py` |
+| 清洁 checkout 复现 | ✅ 独立 worktree：套件 **98 OK/93.1 s**、基准 **12/12/32.7 s** | `hds-tl-clean`（detached at `c828ebc`，已清理） |
+| CI 3.10/3.13 | ✅ 两个已验证 commit 的 `validate` 全绿（明细见下节） | PR #74 checks |
+| 真实 Claude / EDA / 硬件 | ⛔ **NOT RUN**（不调用真实模型/网络/EDA，未伪造） | result/benchmark 字段 |
 
 ## 测试
 
@@ -67,20 +86,23 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
 - `python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL / 0 NOT RUN**（rebase 后）。
 - 本机只有 Python 3.13；**3.10 状态：仅 CI**（`.github/workflows/validate.yml` matrix
   `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`）。
-- CI（PR #74 checks）：**见下节；以 PR HEAD 的最终 run 为准。**
+- CI（PR #74 checks）：见下节；以 PR HEAD 的最终 run 为准。
 
-## CI 状态（commit `c828ebc`，PR #74）
+## CI 状态（PR #74，全部为 `Validate skill` / ubuntu-latest）
 
-| job | 结果 |
-|---|---|
-| `validate (3.10)` | **pass**，3m14s — run [40632025926/job/122630367413](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367413) |
-| `validate (3.13)` | **pass**，2m45s — run [40632025926/job/122630367167](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367167) |
-| `updater (ubuntu/windows)` | pass（与本任务无关） |
-| `publish` | skipping（不发版） |
+已在两个 commit 上验证全绿：
 
-说明：本文件与 `report/acceptance-matrix` 的 CI 结果回填是最后一次**仅文档**提交；PR HEAD 的
-最终 commit 会在同一 `validate` matrix 上重跑，结果以 PR #74 checks 为准（代码 commit
-`c828ebc` 的 CI 已验证全绿）。
+| commit | job | 结果 | run / job |
+|---|---|---|---|
+| `c828ebc`（代码 + 文档回填基线） | `validate (3.10)` | **pass** 3m14s | [40632025926 / 122630367413](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367413) |
+| `c828ebc` | `validate (3.13)` | **pass** 2m45s | [40632025926 / 122630367167](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632025926/job/122630367167) |
+| `074bd88`（最新已推送 HEAD） | `validate (3.10)` | **pass** 3m17s | [40632426742 / 122631660217](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632426742/job/122631660217) |
+| `074bd88` | `validate (3.13)` | **pass** 2m46s | [40632432123 / 122631677862](https://github.com/zsx3896926/hardware-design-skill/actions/runs/40632432123/job/122631677862) |
+| `074bd88` | `updater (ubuntu/windows)` | pass（与本任务无关） | run `40632432169` |
+| `074bd88` | `publish` | skipping（不发版） | run `40632432169` |
+
+说明：本次 handoff 更新是仅文档提交，PR head 会在同一 `validate` matrix 上自动重跑；
+`validate` 的通过条件与本任务代码完全相同（3416 tests），以 PR #74 checks 的最终结果为准。
 
 ## 已知限制 / NOT RUN
 
