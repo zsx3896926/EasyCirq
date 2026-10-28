@@ -65,6 +65,18 @@ distribution\Install-Zhigou.ps1 rollback
   正确路径是 诊断（`tools/zhigou_footprint_outline_diagnose.py`）→ `sch replace`
   换器件/换封装/改库 → save+reload+DRC 复验。详见 `docs/toolchain-integration/outline-foreign.md`。
 
+## 门禁复核状态（2026-10-28，skill 流程）
+
+- 验收板 `zhigou-integrated-dual-button-led-20261027` 已按 `design-hardware` 1.0.2 做 G0–G6 复核：
+  **G0–G3、G5 PASS；G4 PASS_WITH_WAIVER（+5V/VIN 未铺铜）；G6 BLOCKED**（5 PASS / 1 WAIVED / 1 BLOCKED）。
+- 交付级别：**PCB 候选（PCB DRC 0）**，未升格；实物功能 NOT RUN。
+- G6 仅剩 4 项阻塞：`gerber_files`、`drill_files`、`cpl_files`（本版本 gui_only）+
+  `sourcing_check`（库存/价格未核，不伪造查询时间）。
+- 已离线补齐：工艺档案、实物测试计划（V2–V11 NOT RUN）、BOM 身份核对（6 行：1 行可订货、
+  5 行系统库内部编号待替换/确认）、制造导出清单、物料核对清单。
+- 证据与复跑命令：`docs/toolchain-integration/gate-review.md`、`evidence/gates/`。
+- 下一动作：GUI 导出三种制造文件并登记 → 商城核对物料并写 `stock_checked_at` → 重跑 gate。
+
 ## 已知边界（如实，不是掩盖）
 
 - **Gerber/钻孔/CPL**：typed action 目录不存在 → `gui_only`，只能 EDA GUI 导出并落人工证据；未宣称。

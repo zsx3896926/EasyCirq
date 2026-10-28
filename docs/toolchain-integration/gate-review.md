@@ -84,3 +84,19 @@ python "$env:USERPROFILE\.agents\skills\design-hardware\scripts\gate_check.py" `
   V2–V11 全部 `NOT RUN`。
 - G6 `BLOCKED` 是真实结论：Gerber/钻孔/CPL 与库存核对尚未完成，交付级别不升格。
 - 本轮补齐的是"能离线写清、有可复核依据"的部分；没有用占位文件或伪造查询时间让 G6 变绿。
+
+## 7. 本轮收尾记录（2026-10-28）
+
+| 项 | 值 |
+|---|---|
+| 收尾提交 | `5633805`（G6 离线项补齐）→ 上一步 `94042bb`（G0–G6 首轮复核） |
+| 最终门禁 | **5 PASS / 1 PASS_WITH_WAIVER / 1 BLOCKED**（G0–G3、G5 PASS；G4 PASS_WITH_WAIVER；G6 BLOCKED） |
+| 交付级别 | **PCB 候选（PCB DRC 0）** —— 未升格、未宣称可打样 |
+| 剩余阻塞 | `gerber_files`、`drill_files`、`cpl_files`、`sourcing_check`（4 项，全部需 GUI 或实时联网） |
+| 已就绪待执行 | `manufacturing-export-checklist.md`（导出步骤）、`sourcing-checklist.md`（物料核对）、`test-plan.md`（实物测试，全部 NOT RUN） |
+| 证据索引 | `evidence/gates/`：`design-state.json`、`gate-report.json`、`BOM.csv`+`BOM-review.md`、`zhigou-board.epro2`、6 条 `net-path-*.json`、最终板 dump/DRC/lint/pours/vias、图签与分区框证据 |
+
+**解锁后如何收尾**：按 `manufacturing-export-checklist.md` 导出 Gerber/钻孔/CPL 并登记
+`design-state.manufacturing.artifacts`，按 `sourcing-checklist.md` 核对物料并把时间写入
+`design-state.sourcing.stock_checked_at`，然后执行 §5 的重跑命令；四项转为 pass 后 G6 即可评
+（此时才可讨论交付级别升格，且仍需实物测试 V2–V11 才谈"可用"）。
