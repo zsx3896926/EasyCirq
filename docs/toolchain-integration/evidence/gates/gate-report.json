@@ -1,7 +1,7 @@
 {
   "schema": "design-gate-report/v1",
   "project": "zhigou-integrated-dual-button-led-20261027",
-  "generated_at": "2026-10-28T02:03:19.770777+00:00",
+  "generated_at": "2026-10-28T04:09:09.174240+00:00",
   "evidence_dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates",
   "project_dir": null,
   "design_state": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\design-state.json",
@@ -689,45 +689,35 @@
       "name": "G6 制造",
       "status": "BLOCKED",
       "blocking": [
-        "gerber_files",
-        "drill_files",
-        "cpl_files",
         "sourcing_check"
       ],
       "warnings": [
         "bom_manufacturer"
       ],
       "waivers_applied": [],
-      "not_checked": [
-        "gerber_files",
-        "drill_files",
-        "cpl_files"
-      ],
+      "not_checked": [],
       "checks": [
         {
           "id": "gerber_files",
-          "status": "fail",
-          "detail": "Gerber: 缺少（v1.14.0 无 CLI，需 GUI 导出）",
+          "status": "pass",
+          "detail": "Gerber: manufacturing/gerber-acceptance.zip",
           "blocking": true,
           "waivable": false,
-          "next_command": "从 EDA GUI 导出 Gerber；文件放入 manufacturing/ 并在 design-state.manufacturing.artifacts 登记",
-          "capability": "UNSUPPORTED"
+          "next_command": "从 EDA GUI 导出 Gerber；文件放入 manufacturing/ 并在 design-state.manufacturing.artifacts 登记"
         },
         {
           "id": "drill_files",
-          "status": "fail",
-          "detail": "钻孔: 缺少（v1.14.0 无 CLI，需 GUI 导出）",
+          "status": "pass",
+          "detail": "钻孔: 不适用（design-state.pcb.drilled_holes=0：本板无过孔/插件孔；Gerber 导出仍携带钻孔参数，含孔板路径见 capability 说明）",
           "blocking": true,
-          "waivable": false,
-          "capability": "UNSUPPORTED"
+          "waivable": false
         },
         {
           "id": "cpl_files",
-          "status": "fail",
-          "detail": "CPL/坐标: 缺少（v1.14.0 无 CLI，需 GUI 导出）",
+          "status": "pass",
+          "detail": "CPL/坐标: manufacturing/cpl-acceptance.csv",
           "blocking": true,
-          "waivable": false,
-          "capability": "UNSUPPORTED"
+          "waivable": false
         },
         {
           "id": "bom_c_numbers",
@@ -995,18 +985,5 @@
       "used": true
     }
   ],
-  "not_checked": [
-    {
-      "gate": "G6_manufacturing",
-      "check": "gerber_files"
-    },
-    {
-      "gate": "G6_manufacturing",
-      "check": "drill_files"
-    },
-    {
-      "gate": "G6_manufacturing",
-      "check": "cpl_files"
-    }
-  ]
+  "not_checked": []
 }

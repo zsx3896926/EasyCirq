@@ -1,0 +1,60 @@
+{
+  "connector": "0.1.4",
+  "pcb": "56a25fb38c54cb1b",
+  "gerber": {
+    "size": 12169,
+    "file": "20261028-115444-pcb_gerber-86319620",
+    "entries": 10,
+    "gerberLayers": [
+      "Gerber_BoardOutlineLayer.GKO",
+      "Gerber_BottomLayer.GBL",
+      "Gerber_BottomSilkscreenLayer.GBO",
+      "Gerber_BottomSolderMaskLayer.GBS",
+      "Gerber_DocumentLayer.GDL",
+      "Gerber_TopLayer.GTL",
+      "Gerber_TopPasteMaskLayer.GTP",
+      "Gerber_TopSilkscreenLayer.GTO",
+      "Gerber_TopSolderMaskLayer.GTS"
+    ],
+    "drillFiles": [],
+    "totalUncompressed": 34488
+  },
+  "cpl": {
+    "size": 3238,
+    "file": "20261028-115444-pcb_cpl-2f435b2c",
+    "encoding": "utf-16",
+    "rows": 9,
+    "header": [
+      "Designator\tDevice\tFootprint\tMid X\tMid Y\tRef X\tRef Y\tPad X\tPad Y\tPins\tLayer\tRotation\tSMD\tComment\tValue\tType\tSupplier\tDatasheet"
+    ],
+    "designators": [
+      "C1\t\"100nF/0603/50V\"\t\"C0603\"\t\"-9.144mm\"\t\"0mm\"\t\"-9.144mm\"\t\"0mm\"\t\"-9.844mm\"\t\"0mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"100nF/0603/50V\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "D1\t\"发光二极管（黄绿色）\"\t\"LED0805-RD\"\t\"0.762mm\"\t\"7.588mm\"\t\"0.762mm\"\t\"7.588mm\"\t\"-0.338mm\"\t\"7.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"发光二极管（黄绿色）\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "D2\t\"发光二极管（黄绿色）\"\t\"LED0805-RD\"\t\"0.762mm\"\t\"-5.588mm\"\t\"0.762mm\"\t\"-5.588mm\"\t\"-0.338mm\"\t\"-5.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"发光二极管（黄绿色）\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "F1\t\"1.5A快恢复保险丝-1206\"\t\"F1206\"\t\"-13.208mm\"\t\"0mm\"\t\"-13.208mm\"\t\"0mm\"\t\"-14.653mm\"\t\"0mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"1.5A快恢复保险丝-1206\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "J1\t\"1*2P卧式排针\"\t\"HDR-SMD_2P-P2.54-V-M_C9900024210\"\t\"-17.78mm\"\t\"0mm\"\t\"-17.78mm\"\t\"0mm\"\t\"-17.78mm\"\t\"-1.27mm\"\t\"2\"\t\"T\"\t\"90\"\t\"Yes\"\t\"1*2P卧式排针\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "R1\t\"0402 ±5% 220Ω\"\t\"R0402\"\t\"-2.54mm\"\t\"5.588mm\"\t\"-2.54mm\"\t\"5.588mm\"\t\"-2.973mm\"\t\"5.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"220Ω\"\t\"220Ω\"\t\"厚膜电阻\"\t\"LCSC\"\t\"https://item.szlcsc.com/datasheet/0402%2520%25C2%25B15%2525%2520220%25CE%25A9/3112116.html\"",
+      "R2\t\"0402 ±5% 220Ω\"\t\"R0402\"\t\"-2.54mm\"\t\"-5.588mm\"\t\"-2.54mm\"\t\"-5.588mm\"\t\"-2.973mm\"\t\"-5.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"220Ω\"\t\"220Ω\"\t\"厚膜电阻\"\t\"LCSC\"\t\"https://item.szlcsc.com/datasheet/0402%2520%25C2%25B15%2525%2520220%25CE%25A9/3112116.html\"",
+      "SW1\t\"贴片按键ANJIAN_2PIN\"\t\"SW-SMD_L6.0-W3.6-LS8.0\"\t\"7.62mm\"\t\"5.588mm\"\t\"7.62mm\"\t\"5.588mm\"\t\"3.67mm\"\t\"5.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"贴片按键ANJIAN_2PIN\"\t\"\"\t\"\"\t\"LCSC\"\t\"\"",
+      "SW2\t\"贴片按键ANJIAN_2PIN\"\t\"SW-SMD_L6.0-W3.6-LS8.0\"\t\"7.62mm\"\t\"-5.588mm\"\t\"7.62mm\"\t\"-5.588mm\"\t\"3.67mm\"\t\"-5.588mm\"\t\"2\"\t\"T\"\t\"0\"\t\"Yes\"\t\"贴片按键ANJIAN_2PIN\"\t\"\"\t\"\"\t\"LCSC\"\t\"\""
+    ]
+  },
+  "netlist": {
+    "size": 15749,
+    "file": "20261028-115445-pcb_netlist-7f530b4c.enet",
+    "head": "{\n  \"version\": \"2.0.0\",\n  \"projectId\": \"43ebf71ffd34473f9b08aaa118aa2d5e\",\n  \"components\": {\n    \"gge3\": {\n      \"props\": {\n        \"Footprint\": \"7eafd3430233d757\",\n        \"Designator\": \"C1\",\n        \"LCSC Part Name\": \"100nF/0603/50V\",\n        \"Supplier Part\": \"C9900013340\",\n        \"Manufacturer\": \"\",\n        \"Manufacturer Part\": \"100nF/0603/50V\",\n        \"Supplier Footprint\": \"C0603\",\n        \"",
+    "lines": 542
+  },
+  "3d_obj": {
+    "size": 209014,
+    "file": "20261028-115447-pcb_3d-42d57dd8",
+    "head": "PK\u0003\u0004\n\u0000\u0000\u0000\b\u0000�\u001e\\];x��\u001c\u0001\u0000\u0000~\u0004\u0000\u0000\u0015\u0000\u0000\u0000acceptance-3d-obj.mtl��Mj�0\u0010��>������B�ʦWH�)�օ�Pr�j4���dJ\u0017~����\u0019͓:���u�'u���%�N�g����-�����ʗ��\u0017�\u000fa��c\u0016���t礼Zp�CgR\u0006�y�2dó�\u001b\u0002\t�\u0003<�HD�\u0003\u001e�\"\u0001��\u0001�0��<�^�$\"/���g6\u0014��cNٯ�\u0007[D�E�",
+    "objVertices": 0
+  },
+  "3d_step": {
+    "size": 5030129,
+    "file": "20261028-115452-pcb_3d-51b44401",
+    "head": "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Designed by EasyEDA Pro'),'2;1');\nFILE_NAME('Open CASCADE Shape Model','2026-10-28T11:54:49',('Author'),(\n    'Open CASCADE'),'Open CASCADE STEP processor 7.8'",
+    "isStep": true
+  }
+}

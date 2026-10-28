@@ -131,3 +131,35 @@ distribution\Install-Zhigou.ps1 rollback
 
 ## 已合并的 main 侧交接：Round 13（SkyPilot X1 反馈）
 
+## 2026-10-28 制造导出 spike：Gerber/CPL/网表/3D 真机通过
+
+- 连接器 **0.1.4**（uuid `9511dbc464364e48b6c9047872a82e12`）新增三个 typed action：
+  `pcb.manufacture.gerber`、`pcb.manufacture.cpl`、`pcb.manufacture.netlist`，
+  均封装官方 `@beta pcb_ManufactureData` API，产物作为 artifact 回读校验。
+- 真机结果（验收板 `zhigou-integrated-dual-button-led-20261027`，连接器 0.1.4）：
+  - Gerber：12,169 B zip，**9 层**（GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL）+ 下单必读；
+    **无 drill 文件**——本板 0 过孔，含孔板路径未验证
+  - CPL：3,238 B，UTF-16 TSV，**9 行 = 9 器件**（表头 18 列）
+  - 网表（PCB 侧）：15,749 B / 542 行（JLCEDA 格式；原理图侧 getNetlistFile 仍返回 no file）
+  - 3D：OBJ 209,014 B；STEP 5,030,129 B（ISO-10303-21，真实网格）
+- 能力模型：`gerber.export`/`cpl.export` 从 unsupported → **supported**；
+  `export.gerber`/`export.cpl`/`export.3d` deliverables → **measured**（证据清单见
+  `runtime/internal/app/capability_measured.go`）；`drill.export` 保持 unsupported。
+- G6：阻塞从 4 项降到 **2 项**（`drill_files`：0 孔不适用；`sourcing_check`：未核库存）。
+  gerber/cpl 产物已放 `evidence/gates/manufacturing/` 并登记 `manufacturing.artifacts`。
+- 注意：EDA 里旧的 0.1.3 扩展仍在加载（两个窗口），建议卸载只留 0.1.4；
+  安装包/安装目录尚未更新到 0.1.4（下次构建 bundle 时一并带上）。
+
+## 2026-10-28 drill 验证 + G6 只剩库存核对
+
+- 在独立工程 `manufacture-drill-repro-20261028-120350`（板框 2000×1200 mil + 1 个 12/24 mil 无网络 via）
+  上复跑 `pcb.manufacture.gerber`（drill=true, drillTable=true）：zip 11 个条目，含
+  `Gerber_DrillDrawingLayer.GDD`、`Drill_PTH_Through.DRL`、`Drill_PTH_Through_Via.DRL`。
+  → 钻孔文件能力在含孔板上**已验证**；0 孔板不产生 drill 文件属于不适用。
+- 能力模型：`drill.export` unsupported → **supported**；deliverables `export.drill` → **measured**
+  （capabilities 汇总 supported 20 / unknown 2 / unsupported 2）。
+- `gate_check.py` 新增"0 孔板不适用"判定：`design-state.pcb.drilled_holes=0` 时 `drill_files` 判 pass
+  并注明不适用（不是掩盖缺失）。已同步到安装目录与三处客户端 skill。
+- **G6 阻塞只剩 `sourcing_check`**（库存/价格未核，不伪造时间）；**G6 结论仍 BLOCKED**，
+  交付级别不变（PCB 候选 DRC 0）。
+- 注意：验收板板框曾被误设为 2000×1200，已按 dump 原始坐标恢复并 save+reload+DRC 0 复核。

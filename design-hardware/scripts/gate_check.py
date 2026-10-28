@@ -1886,9 +1886,23 @@ def gate_g6(gate: Gate, ctx):
              "Gerber: %s" % (gerber or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
              blocking=True, waivable=False, capability=not gerber_ok,
              next_command="从 EDA GUI 导出 Gerber；文件放入 manufacturing/ 并在 design-state.manufacturing.artifacts 登记")
-    gate.add("drill_files", "pass" if drill_ok else "fail",
-             "钻孔: %s" % (drill or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
-             blocking=True, waivable=False, capability=not drill_ok)
+    # A board with no drilled holes needs no drill file. Only an explicit,
+    # project-recorded count (design-state.pcb.drilled_holes == 0) makes this
+    # not_applicable; an absent declaration still fails.
+    drilled = state_get(state, "pcb", "drilled_holes", default=None) if state else None
+    no_holes = isinstance(drilled, int) and not isinstance(drilled, bool) and drilled == 0
+    if drill_ok:
+        gate.add("drill_files", "pass", "钻孔: %s" % drill,
+                 blocking=True, waivable=False)
+    elif no_holes:
+        gate.add("drill_files", "pass",
+                 "钻孔: 不适用（design-state.pcb.drilled_holes=0：本板无过孔/插件孔；"
+                 "Gerber 导出仍携带钻孔参数，含孔板路径见 capability 说明）",
+                 blocking=True, waivable=False)
+    else:
+        gate.add("drill_files", "fail",
+                 "钻孔: %s" % (drill or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
+                 blocking=True, waivable=False, capability=not drill_ok)
     gate.add("cpl_files", "pass" if cpl_ok else "fail",
              "CPL/坐标: %s" % (cpl or "缺少（v1.14.0 无 CLI，需 GUI 导出）"),
              blocking=True, waivable=False, capability=not cpl_ok)

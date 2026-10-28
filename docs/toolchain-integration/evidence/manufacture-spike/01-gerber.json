@@ -1,0 +1,66 @@
+{
+  "id": "req_42",
+  "type": "response",
+  "version": "v1",
+  "windowId": "ad820fe5-8b65-47a3-a60b-e996d7507ddf",
+  "createdAt": "2026-10-28T03:54:44.2346506Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_86319620-baa0-4ca1-8e84-edc4182e323a",
+    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_gerber-86319620",
+    "capabilityNote": "Uses the official @beta pcb_ManufactureData.getGerberFile. The bundle layout follows the editor one-click export (layers + drilling layers); inspect the archive before manufacturing.",
+    "colorSilkscreen": false,
+    "digitalFormat": {
+      "decimalNumber": 5,
+      "integerNumber": 4
+    },
+    "drillTable": false,
+    "exportContext": {
+      "documentType": "pcb",
+      "documentUuid": "56a25fb38c54cb1b",
+      "pageVisibility": "hidden",
+      "projectName": "zhigou-integrated-dual-button-led-20261027",
+      "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+      "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e"
+    },
+    "fileName": "acceptance-gerber",
+    "flyingProbeTestingFile": false,
+    "format": "gerber-zip",
+    "includesDrillingLayers": true,
+    "size": 12169,
+    "unit": "mm"
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_86319620-baa0-4ca1-8e84-edc4182e323a",
+      "kind": "pcb_gerber",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_gerber-86319620",
+      "fileName": "acceptance-gerber",
+      "mimeType": "application/zip",
+      "size": 12169,
+      "sha256": "6ef29481c1635d28be6f2e1d8f8efdebcbf66f1c4da27474d406b985d258cec7"
+    }
+  ],
+  "warnings": [
+    "Beta API: the Gerber bundle content must be inspected (layers, units, drill data) before it is treated as a manufacturing artifact."
+  ],
+  "seq": 32,
+  "seqAbandoned": 0
+}

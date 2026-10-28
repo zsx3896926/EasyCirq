@@ -38,14 +38,14 @@
 | `board.binding` | unknown | 10 | sync | 有 | 否 | 原理图↔PCB 绑定 |
 | `document.control` | unknown | 9 | sync | 有 | 否 | 打开/切换/保存/重载文档 |
 | `save.reload` | unknown | 3 | sync | 有 | 否 | save 返回成功 ≠ 已持久化；必须重开回读 |
-| `gerber.export` | **unsupported** | 0 | — | 否 | — | typed action 目录中不存在；只能官方 GUI 导出 + 人工证据 |
-| `drill.export` | **unsupported** | 0 | — | 否 | — | 同上 |
-| `cpl.export` | **unsupported** | 0 | — | 否 | — | 同上（贴装坐标） |
+| `gerber.export` | **supported（真机验证）** | 1 | 0.1.4 | 是（@beta） | `pcb.manufacture.gerber` | 官方 `pcb_ManufactureData.getGerberFile`；产物 9 层 Gerber zip（GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL），证据 `evidence/manufacture-spike/` |
+| `drill.export` | **supported（真机验证，含孔板）** | 1（随 gerber） | 0.1.4 | 是（@beta） | `pcb.manufacture.gerber`（drill=true） | 含孔板产出 `Drill_PTH_Through.DRL` + `Drill_PTH_Through_Via.DRL`；0 过孔板不产生 drill 文件，按 not_applicable 记录；证据 `evidence/manufacture-spike/drill/` |
+| `cpl.export` | **supported（真机验证）** | 1 | 0.1.4 | 是（@beta） | `pcb.manufacture.cpl` | 官方 `getPickAndPlaceFile`；UTF-16 TSV，9 行与 BOM 器件数一致，证据同上 |
 | `archive.backup` | **unsupported** | 0 | — | 否 | — | 没有 backup/archive 动作；原生归档走 `project.export` + 人工恢复演练 |
 | `diffpair.routing` | unknown | 3 | sync | 有 | 部分 | 存在 `pcb.differential_pair.*` 管理动作，但"官方差分布线"能力需真机探测 |
 | `length.tuning` | **unsupported** | 0 | — | 否 | — | 无等长/调长动作；只能做离线建议，不得宣称已布线 |
 
-汇总（`capabilities.summary`）：`supported 0 / unknown 19 / unsupported 5`（无连接器时的真实值）。
+汇总（`capabilities.summary`，连接器 0.1.4 在线）：`supported 20 / unknown 2 / unsupported 2`
 
 ## 2. typed action 目录（181 个动作 / 111 个写动作）
 

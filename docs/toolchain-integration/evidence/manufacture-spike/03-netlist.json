@@ -1,0 +1,57 @@
+{
+  "id": "req_44",
+  "type": "response",
+  "version": "v1",
+  "windowId": "ad820fe5-8b65-47a3-a60b-e996d7507ddf",
+  "createdAt": "2026-10-28T03:54:45.9426341Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_7f530b4c-a59a-4cbf-86d2-0c3be7ff823f",
+    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
+    "capabilityNote": "Uses the official @beta pcb_ManufactureData.getNetlistFile (PCB side).",
+    "exportContext": {
+      "documentType": "pcb",
+      "documentUuid": "56a25fb38c54cb1b",
+      "pageVisibility": "hidden",
+      "projectName": "zhigou-integrated-dual-button-led-20261027",
+      "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+      "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e"
+    },
+    "fileName": "acceptance-netlist.enet",
+    "netlistType": "JLCEDA",
+    "size": 15749
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_7f530b4c-a59a-4cbf-86d2-0c3be7ff823f",
+      "kind": "pcb_netlist",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
+      "fileName": "acceptance-netlist.enet",
+      "mimeType": "text/plain",
+      "size": 15749,
+      "sha256": "93105c70661dc61f248490a6d2fef70534ebced29122385eb495912bc5741b46"
+    }
+  ],
+  "warnings": [
+    "Beta API: parse the returned netlist and compare it with the schematic intent before relying on it."
+  ],
+  "seq": 34,
+  "seqAbandoned": 0
+}

@@ -1,0 +1,48 @@
+{
+  "entries": [
+    {
+      "name": "Gerber_TopLayer.GTL",
+      "size": 671
+    },
+    {
+      "name": "Gerber_BottomLayer.GBL",
+      "size": 674
+    },
+    {
+      "name": "Gerber_TopSilkscreenLayer.GTO",
+      "size": 627
+    },
+    {
+      "name": "Gerber_BottomSilkscreenLayer.GBO",
+      "size": 630
+    },
+    {
+      "name": "Gerber_TopSolderMaskLayer.GTS",
+      "size": 627
+    },
+    {
+      "name": "Gerber_BottomSolderMaskLayer.GBS",
+      "size": 630
+    },
+    {
+      "name": "Gerber_BoardOutlineLayer.GKO",
+      "size": 735
+    },
+    {
+      "name": "Gerber_DrillDrawingLayer.GDD",
+      "size": 29734
+    },
+    {
+      "name": "Drill_PTH_Through.DRL",
+      "size": 201
+    },
+    {
+      "name": "Drill_PTH_Through_Via.DRL",
+      "size": 205
+    },
+    {
+      "name": "PCB下单必读.txt",
+      "size": 94
+    }
+  ]
+}

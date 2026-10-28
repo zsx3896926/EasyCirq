@@ -217,7 +217,18 @@
     "stop_rule_triggered": false
   },
   "manufacturing": {
-    "artifacts": [],
+    "artifacts": [
+      {
+        "role": "gerber",
+        "path": "manufacturing/gerber-acceptance.zip",
+        "note": "官方 @beta getGerberFile；9 层 Gerber zip（含板框/阻焊/钢网/丝印/文档层），钻孔层因本板 0 过孔为空"
+      },
+      {
+        "role": "cpl",
+        "path": "manufacturing/cpl-acceptance.csv",
+        "note": "官方 @beta getPickAndPlaceFile；UTF-16 TSV，9 行与 BOM 器件数一致"
+      }
+    ],
     "profile": {
       "status": "verified",
       "path": "manufacturing-profile.md",
@@ -234,7 +245,8 @@
       "status": "verified",
       "detail": "V1 EDA 检查已 PASS；V2–V11 实物项全部 NOT RUN（未上电/未手焊）"
     },
-    "artifacts_note": "Gerber/钻孔/CPL 尚未导出：本版本 typed 能力不支持，需 EDA GUI 导出；步骤与登记要求见 manufacturing-export-checklist.md"
+    "artifacts_note": "Gerber/钻孔/CPL 尚未导出：本版本 typed 能力不支持，需 EDA GUI 导出；步骤与登记要求见 manufacturing-export-checklist.md",
+    "exports_note": "Gerber/CPL 已通过官方 @beta pcb_ManufactureData 导出并复核（2026-10-28，connector 0.1.4）；钻孔文件未产生：本板 0 过孔，含孔板能力未验证，不宣称。"
   },
   "sourcing": {
     "stock_checked_at": "",
@@ -273,7 +285,9 @@
     "outline_mm": {
       "width": 47.84,
       "height": 20.36
-    }
+    },
+    "drilled_holes": 0,
+    "drilled_holes_note": "0 via (pcb.via.list count=0), J1 is HDR-SMD (surface mount); no plated through holes"
   },
   "evidence": {
     "manifest": [
