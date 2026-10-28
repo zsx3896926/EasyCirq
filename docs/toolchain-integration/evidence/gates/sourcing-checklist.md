@@ -32,3 +32,17 @@
 
 **因此**：6 行里只有 1 行有真实订货号；其余 5 行必须先替换为真实商城料号，才谈得上核对库存/价格。
 库存/价格本身仍 **NOT RUN**（页面为 JS 渲染，未取到数字；不填写 `stock_checked_at`）。
+
+## 2026-10-28 12:40 实际核对结果（LCSC 商品页 JSON-LD/内嵌 state）
+
+| 位号 | C 号 | 结论 | 详情 |
+|---|---|---|---|
+| R1,R2 | C2889365 | orderable code but OUT OF STOCK; min packet 10000 | 库存 0；OutOfStock；最小包装 10000；价格 $0.00 |
+| D1,D2 | C28105 | no LCSC order code (Page Not Found) -> replace the part number | — |
+| C1 | C9900013340 | no LCSC order code (Page Not Found) -> replace the part number | — |
+| F1 | C9900012139 | no LCSC order code (Page Not Found) -> replace the part number | — |
+| J1 | C9900024210 | no LCSC order code (Page Not Found) -> replace the part number | — |
+| SW1,SW2 | C9900015641 | no LCSC order code (Page Not Found) -> replace the part number | — |
+
+**核对结论：当前 BOM 不能直接下单** —— R1/R2 的 C2889365 库存 0（最小包装 10000）；其余 5 行在商城 Page Not Found（系统库内部编号，没有订货号）。需要先换料再核。
+证据：`evidence/gates/sourcing-check.json`（逐行 URL/库存/价格/判断）。

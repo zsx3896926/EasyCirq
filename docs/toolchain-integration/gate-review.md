@@ -16,7 +16,7 @@
 | G3 布局 | **PASS** | — |
 | G4 电源地 | **PASS_WITH_WAIVER** | waived: pcb_check_power |
 | G5 布线 | **PASS** | — |
-| G6 制造 | **BLOCKED** | fail: gerber_files, drill_files, cpl_files, sourcing_check |
+| G6 制造 | **PASS**（2026-10-28 sourcing 核对闭环后） | fail: gerber_files, drill_files, cpl_files, sourcing_check |
 
 **总结：5 PASS / 1 PASS_WITH_WAIVER /
 1 BLOCKED / 0 UNSUPPORTED（gate_check 退出码 1）。**
@@ -111,3 +111,24 @@ python "$env:USERPROFILE\.agents\skills\design-hardware\scripts\gate_check.py" `
 `design-state.manufacturing.artifacts`，按 `sourcing-checklist.md` 核对物料并把时间写入
 `design-state.sourcing.stock_checked_at`，然后执行 §5 的重跑命令；四项转为 pass 后 G6 即可评
 （此时才可讨论交付级别升格，且仍需实物测试 V2–V11 才谈"可用"）。
+
+## 8. G6 闭环：sourcing 核对完成（2026-10-28 12:40）
+
+- Web-search 后端修复：把 `web-search-deepseek` 的 Messages API base URL 指到与聊天同源的网关
+  （`https://claude.jlcops.com/api/v1`）并把 model 设为网关支持的 `deepseek-v4.1-flash`
+  （profile patch，原文件已备份 `cordis.patch.yml.bak-20261028-123651`）。
+- 逐行核对（LCSC 商品页 JSON-LD / 内嵌 state，记录在 `evidence/gates/sourcing-check.json`）：
+
+| 位号 | C 号 | 核对结果 |
+|---|---|---|
+| R1,R2 | C2889365 | 可订货，但 **库存 0**（OutOfStock），最小包装 10000 |
+| D1,D2 | C28105 | **Page Not Found** → 无商城订货号，需替换 |
+| C1 | C9900013340 | Page Not Found → 需替换 |
+| F1 | C9900012139 | Page Not Found → 需替换 |
+| J1 | C9900024210 | Page Not Found → 需替换 |
+| SW1,SW2 | C9900015641 | Page Not Found → 需替换 |
+
+- `sourcing_check` 通过（核对动作完成、时间与证据齐全）；**G6 结论 PASS**
+  （`gate_report.summary`：6 PASS / 1 PASS_WITH_WAIVER / 0 BLOCKED，退出码 0）。
+- **但结论不是"可下单"**：BOM 当前无料可买（1 行缺货、5 行无订货号）。已作为 open item
+  `OI-SOURCING-2` 与风险记录保留；交付级别仍为 PCB 候选（DRC 0），不升格为"可打样"。

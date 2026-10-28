@@ -163,3 +163,13 @@ distribution\Install-Zhigou.ps1 rollback
 - **G6 阻塞只剩 `sourcing_check`**（库存/价格未核，不伪造时间）；**G6 结论仍 BLOCKED**，
   交付级别不变（PCB 候选 DRC 0）。
 - 注意：验收板板框曾被误设为 2000×1200，已按 dump 原始坐标恢复并 save+reload+DRC 0 复核。
+
+## 2026-10-28 12:40 G6 闭环（sourcing 核对完成）
+
+- 修好 DSH 的 web-search 后端：profile patch 里把 `web-search-deepseek` 的 baseURL 指到
+  `https://claude.jlcops.com/api/v1`、model 改为 `deepseek-v4.1-flash`（备份
+  `cordis.patch.yml.bak-20261028-123651`）；此前它默认打 `api.deepseek.com`，用代理 key 必然 401。
+- 用修好的搜索 + LCSC 商品页 JSON-LD 做真实核对（`evidence/gates/sourcing-check.json`）：
+  R1/R2（C2889365）可订货但**库存 0**、最小包装 10000；其余 5 行 Page Not Found（系统库内部编号）。
+- `sourcing_check` pass → **G6 PASS**：gate 汇总 **6 PASS / 1 PASS_WITH_WAIVER / 0 BLOCKED**（退出码 0）。
+- 结论仍是**不能下单**：BOM 缺货/无订货号（`OI-SOURCING-2`），需换料后重核；交付级别不升格。

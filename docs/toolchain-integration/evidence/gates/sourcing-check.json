@@ -1,0 +1,66 @@
+{
+  "schema": "zhigou-sourcing-check/v1",
+  "checked_at": "2026-10-28T12:40:00+08:00",
+  "method": "LCSC product pages (JSON-LD + embedded state) for C-number validity and stock; web_search backend fixed to the gateway endpoint so the probe could run.",
+  "rows": [
+    {
+      "designators": "R1,R2",
+      "value": "220Ω 0402",
+      "cnumber": "C2889365",
+      "url": "https://www.lcsc.com/product-detail/C2889365.html",
+      "exists": true,
+      "title": "0402 ±5% 220Ω | Chip Resistor - Surface Mount | VO | LCSC",
+      "stockNumber": 0,
+      "availability": "OutOfStock",
+      "priceUsd": "0.00",
+      "minPacket": 10000,
+      "reelPriceUsd": 3,
+      "verdict": "orderable code but OUT OF STOCK; min packet 10000"
+    },
+    {
+      "designators": "D1,D2",
+      "value": "发光二极管（黄绿色）0805",
+      "cnumber": "C28105",
+      "url": "https://www.lcsc.com/product-detail/C28105.html",
+      "exists": false,
+      "title": "Page Not Found | LCSC",
+      "verdict": "no LCSC order code (Page Not Found) -> replace the part number"
+    },
+    {
+      "designators": "C1",
+      "value": "100nF/0603/50V",
+      "cnumber": "C9900013340",
+      "url": "https://www.lcsc.com/product-detail/C9900013340.html",
+      "exists": false,
+      "title": "Page Not Found | LCSC",
+      "verdict": "no LCSC order code (Page Not Found) -> replace the part number"
+    },
+    {
+      "designators": "F1",
+      "value": "1.5A 自恢复保险丝 1206",
+      "cnumber": "C9900012139",
+      "url": "https://www.lcsc.com/product-detail/C9900012139.html",
+      "exists": false,
+      "title": "Page Not Found | LCSC",
+      "verdict": "no LCSC order code (Page Not Found) -> replace the part number"
+    },
+    {
+      "designators": "J1",
+      "value": "1x2P 卧式排针",
+      "cnumber": "C9900024210",
+      "url": "https://www.lcsc.com/product-detail/C9900024210.html",
+      "exists": false,
+      "title": "Page Not Found | LCSC",
+      "verdict": "no LCSC order code (Page Not Found) -> replace the part number"
+    },
+    {
+      "designators": "SW1,SW2",
+      "value": "贴片按键 2PIN",
+      "cnumber": "C9900015641",
+      "url": "https://www.lcsc.com/product-detail/C9900015641.html",
+      "exists": false,
+      "title": "Page Not Found | LCSC",
+      "verdict": "no LCSC order code (Page Not Found) -> replace the part number"
+    }
+  ]
+}
