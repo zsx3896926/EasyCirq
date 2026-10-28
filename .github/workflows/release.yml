@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  cli:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.resolve.outputs.version }}
@@ -44,10 +44,6 @@ jobs:
         with:
           go-version-file: runtime/go.mod
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -58,12 +54,12 @@ jobs:
           CONNECTOR_VERSION: ${{ steps.connector.outputs.version }}
         run: |
           set -euo pipefail
-          mkdir -p dist
+          mkdir -p dist-cli
           cd runtime
           for target in windows/amd64 linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
             GOOS="${target%/*}"; GOARCH="${target#*/}"
             EXT=""; [ "$GOOS" = "windows" ] && EXT=".exe"
-            OUT="../dist/easycirq_${GOOS}_${GOARCH}${EXT}"
+            OUT="../dist-cli/easycirq_${GOOS}_${GOARCH}${EXT}"
             CGO_ENABLED=0 GOOS="$GOOS" GOARCH="$GOARCH" \
               go build -trimpath \
                 -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=${VERSION} -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=${CONNECTOR_VERSION}" \
@@ -72,33 +68,61 @@ jobs:
           cd ..
 
       - name: Build skills tarball
-        run: tar -czf dist/skills.tar.gz easycirq
+        run: tar -czf dist-cli/skills.tar.gz easycirq
+
+      - name: Build skill package
+        run: python distribution/build_release.py --output dist-cli --require-clean --skill-only
+
+      - name: Upload CLI and skill assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-assets
+          path: dist-cli/*
+          if-no-files-found: error
+
+  toolchain:
+    needs: cli
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: runtime/go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
 
       - name: Install connector build dependencies
         run: npm ci --prefix connector
 
-      - name: Build installer and skill package
+      - name: Build stamped Windows CLI
         env:
-          VERSION: ${{ steps.resolve.outputs.version }}
+          VERSION: ${{ needs.cli.outputs.version }}
         run: |
-          python distribution/build_release.py --output dist --require-clean \
-            --runtime-exe dist/easycirq_linux_amd64 \
-            --toolchain-version "$VERSION"
+          $cv = python -c "import json;print(json.load(open('connector/extension.json'))['version'])"
+          mkdir -Force dist-tc | Out-Null
+          go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$env:VERSION -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=$cv" -o dist-tc\easycirq_windows_amd64.exe ./runtime/cmd/easycirq
 
-      - name: Generate checksums
-        run: |
-          cd dist
-          sha256sum * > checksums.txt
+      - name: Build toolchain installer
+        env:
+          VERSION: ${{ needs.cli.outputs.version }}
+        run: python distribution/build_release.py --output dist-tc --require-clean --toolchain-only --runtime-exe dist-tc\easycirq_windows_amd64.exe --toolchain-version $env:VERSION
 
-      - name: Upload release assets
+      - name: Upload toolchain assets
         uses: actions/upload-artifact@v4
         with:
-          name: release-assets
-          path: dist/*
+          name: toolchain-assets
+          path: dist-tc/*
           if-no-files-found: error
 
   publish:
-    needs: build
+    needs: [cli, toolchain]
     runs-on: ubuntu-latest
     if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.create_release == true)
     permissions:
@@ -108,8 +132,19 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: release-assets
+          name: cli-assets
           path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: toolchain-assets
+          path: dist
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+          sha256sum * > SHA256SUMS
 
       - name: Resolve version
         id: resolve
