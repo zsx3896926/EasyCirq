@@ -41,7 +41,7 @@
       "a": {
         "text": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。",
         "source": "easycirq/SKILL.md",
-        "line": 96
+        "line": 113
       },
       "b": {
         "text": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。",
@@ -58,12 +58,12 @@
       "a": {
         "text": "完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。",
         "source": "easycirq/SKILL.md",
-        "line": 8
+        "line": 25
       },
       "b": {
         "text": "- 用户只要求画图、review、换料、PCB或先方案时，仍按该范围交付，不强行追加App、外壳、采购或完整产品开发。",
         "source": "easycirq/SKILL.md",
-        "line": 30
+        "line": 47
       },
       "expected": "different_scope",
       "rationale": "a 的 scope 是“完整产品/设备任务”，b 的 scope 是“局部任务（只画图、评审、换料、PCB、先方案）”。任务范围词不相交，同一请求只落入一边；a 的“不是默认终点”只在完整产品范围成立。",
@@ -91,12 +91,12 @@
       "a": {
         "text": "- 问“做个板子”默认推进适合目标的原理图及PCB候选；问“做个设备/实现这个idea”同时建立功能、硬件、程序、结构、制造和验收的适用任务，先给最小可验证方案并继续；“先方案/先别画”只做方案。学习示例板、现成模块拼装、自制PCB分别解释和交付，不擅自把用户要的PCB替换成接线教程。",
         "source": "easycirq/SKILL.md",
-        "line": 42
+        "line": 59
       },
       "b": {
         "text": "自定义PCB不是所有idea的必经之路：现成模块能更快验证效果时，解释后作为适用路线；用户明确要定制板时保留定制交付，不悄悄换成购买开发板。服务选择围绕功能、成本和交付，不为增加业务环节强推服务。",
         "source": "easycirq/SKILL.md",
-        "line": 84
+        "line": 101
       },
       "expected": "ambiguity",
       "rationale": "a 说“问‘做个板子’默认推进原理图及PCB候选”；b 说自定义 PCB 非必经、现成模块更快时可用模块路线，除非“用户明确要定制板”。两者是否重叠取决于“做个板子”是否等于“明确要定制板”，仓库未定义该判别标准，静态阅读无法确定，归 ambiguity 并要求维护者补充定义，不能直接判 true_conflict。",
@@ -108,12 +108,12 @@
       "a": {
         "text": "在已授权范围自主推进，关键阶段汇报，不逐阶段重复求确认",
         "source": "easycirq/SKILL.md",
-        "line": 77
+        "line": 94
       },
       "b": {
         "text": "用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待",
         "source": "easycirq/SKILL.md",
-        "line": 96
+        "line": 113
       },
       "expected": "user_authorized",
       "rationale": "表面是“不重复求确认”对“在边界等待”，但两侧都以用户指令为条件：用户说“直接改/一直做到DRC”则自主推进，用户说“先评审/确认后再布线”则等待。动作差异由用户授权覆盖，属 user_authorized，不是相反义务。",
@@ -130,7 +130,7 @@
       "b": {
         "text": "由正在运行的Agent持续推进到任务范围内的真实成果",
         "source": "easycirq/SKILL.md",
-        "line": 8
+        "line": 25
       },
       "expected": "technical_limit",
       "rationale": "b 是 Agent 推进交付的职责/方法偏好；a 是执行通道能力边界（该版本无 CLI，只能用户 GUI 导出）。表面“Agent 推进到底”与“必须由用户导出”对立，但一侧是工具能力限制、另一侧是设计偏好，按契约第 6 条归 technical_limit。",
@@ -147,7 +147,7 @@
       "b": {
         "text": "不要把工程检查点一律变成权限停顿点。",
         "source": "easycirq/SKILL.md",
-        "line": 96
+        "line": 113
       },
       "expected": "negation",
       "rationale": "a 是肯定式“才等待”，b 是否定式“不要把检查点变成权限停顿点”。否定句加上 a 的明确触发条件使表象对立消解：默认不停顿，只在用户明确要求时停。归 negation 而非 true_conflict。",
@@ -164,7 +164,7 @@
       "b": {
         "text": "简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。",
         "source": "easycirq/SKILL.md",
-        "line": 178
+        "line": 195
       },
       "expected": "code_example",
       "rationale": "a 是 `text` 围栏中的示例命令，演示多模块合批调用形状；b 是选择路径规则。示例命令不是“必须拆模块”的规则，条文与示例的“看似相反”由代码示例身份消解，归 code_example。",
@@ -181,7 +181,7 @@
       "b": {
         "text": "局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。",
         "source": "easycirq/SKILL.md",
-        "line": 168
+        "line": 185
       },
       "expected": "coexist",
       "rationale": "两处都规定“局部直连、跨区/跨页才用标签/端口”；差异只是表达介质（标签 vs 端口）与措辞，方向一致。属重复声明式共存，不是“直连 vs 标签”的真冲突。",
@@ -215,7 +215,7 @@
       "b": {
         "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
         "source": "easycirq/SKILL.md",
-        "line": 106
+        "line": 123
       },
       "expected": "different_scope",
       "rationale": "a 针对“新硬件任务开始前（措辞为‘可用’，may）”，b 针对“纯方案/资料分析任务无需提前连接/安装/探测 EDA”。范围词不相交；即使场景重叠，a 只是可选检查而非义务，不构成相反义务。",
@@ -232,7 +232,7 @@
       "b": {
         "text": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。",
         "source": "easycirq/SKILL.md",
-        "line": 132
+        "line": 149
       },
       "expected": "coexist",
       "rationale": "表面“缺证据→BLOCKED”对“缺少执行通道仍可继续”；两者方向一致：允许继续可独立完成的工作，同时不得把未做的检查写成通过。属 coexist，不是“严格检查 vs 必须继续”的冲突。",
@@ -261,7 +261,7 @@
       "a": {
         "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
         "source": "easycirq/SKILL.md",
-        "line": 178
+        "line": 195
       },
       "b": {
         "text": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。",

@@ -10,8 +10,8 @@
       "text": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 83,
-        "line_end": 96
+        "line_start": 100,
+        "line_end": 113
       },
       "condition": "用户已要求设计/修改且未明确要求分阶段确认（默认）；或用户明确说“先评审/这步给我看/确认后再布线”",
       "task_scope": [
@@ -42,8 +42,8 @@
       "text": "用户已要求设计/修改时，常规选型、读取、计算、绘图和检查属于任务范围；沿用宿主的实际权限要求，不自建额外审批。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 53,
-        "line_end": 62
+        "line_start": 70,
+        "line_end": 79
       },
       "condition": "用户已要求设计/修改",
       "task_scope": [
@@ -74,8 +74,8 @@
       "text": "门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 260,
-        "line_end": 267
+        "line_start": 277,
+        "line_end": 284
       },
       "condition": "G0–G6 阶段退出证据判定",
       "task_scope": [
@@ -170,8 +170,8 @@
       "text": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载：",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 175,
-        "line_end": 182
+        "line_start": 192,
+        "line_end": 199
       },
       "condition": "内部设计任务（原理图/PCB/交付）",
       "task_scope": [
@@ -202,8 +202,8 @@
       "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 171,
-        "line_end": 178
+        "line_start": 188,
+        "line_end": 195
       },
       "condition": "批量写入/合批提速",
       "task_scope": [
@@ -263,8 +263,8 @@
       "text": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 4,
-        "line_end": 16
+        "line_start": 21,
+        "line_end": 33
       },
       "condition": "新硬件任务开始前；或用户要求检查更新",
       "task_scope": [
@@ -293,8 +293,8 @@
       "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 99,
-        "line_end": 106
+        "line_start": 116,
+        "line_end": 123
       },
       "condition": "纯方案/资料分析任务",
       "task_scope": [
@@ -395,7 +395,7 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 96,
+          "line": 113,
           "quote": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。"
         },
         {
@@ -422,12 +422,12 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 16,
+          "line": 33,
           "quote": "新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。"
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 106,
+          "line": 123,
           "quote": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。"
         }
       ]
@@ -453,7 +453,7 @@
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 168,
+          "line": 185,
           "quote": "简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。"
         }
       ]
@@ -506,7 +506,7 @@
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 132,
+          "line": 149,
           "quote": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。"
         }
       ]
@@ -525,12 +525,12 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 42,
+          "line": 59,
           "quote": "- 问“做个板子”默认推进适合目标的原理图及PCB候选；问“做个设备/实现这个idea”同时建立功能、硬件、程序、结构、制造和验收的适用任务，先给最小可验证方案并继续；“先方案/先别画”只做方案。学习示例板、现成模块拼装、自制PCB分别解释和交付，不擅自把用户要的PCB替换成接线教程。"
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 84,
+          "line": 101,
           "quote": "自定义PCB不是所有idea的必经之路：现成模块能更快验证效果时，解释后作为适用路线；用户明确要定制板时保留定制交付，不悄悄换成购买开发板。服务选择围绕功能、成本和交付，不为增加业务环节强推服务。"
         }
       ]
@@ -551,12 +551,12 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 182,
+          "line": 199,
           "quote": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载："
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 180,
+          "line": 197,
           "quote": "## 3. 按需读取，不加载规则百科"
         }
       ]
@@ -601,12 +601,12 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 8,
+          "line": 25,
           "quote": "让用户描述想实现的效果，由正在运行的Agent持续推进到任务范围内的真实成果；完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。此Skill是Agent的协作与工程方法包；Agent负责读信息、问关键问题、推荐选择、调用工具、处理失败和交付，本仓库的 `easycirq` 执行层负责实际编辑。安装此Skill本身不会获得本机访问、EDA连接、软件安装或制造下单能力。"
         },
         {
           "path": "easycirq/SKILL.md",
-          "line": 30,
+          "line": 47,
           "quote": "- 用户只要求画图、review、换料、PCB或先方案时，仍按该范围交付，不强行追加App、外壳、采购或完整产品开发。"
         }
       ]
@@ -627,7 +627,7 @@
       "evidence": [
         {
           "path": "easycirq/SKILL.md",
-          "line": 178,
+          "line": 195,
           "quote": "多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。"
         },
         {
