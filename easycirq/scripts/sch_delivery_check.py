@@ -36,6 +36,7 @@ FRAME_META = SCRIPT_DIR / "sch_frame_meta_check.py"
 LAYOUT = SCRIPT_DIR / "sch_layout_check.py"
 TEXT_AUDIT = SCRIPT_DIR / "sch_text_audit.py"
 STYLE = SCRIPT_DIR / "sch_style_audit.py"
+STYLE_VISUAL = SCRIPT_DIR / "sch_style_visual.py"
 
 SCHEMA = "easycirq-sch-delivery/v1"
 
@@ -78,6 +79,9 @@ def main(argv=None) -> int:
                     help="downgrade missing purpose_text_id to review (explicit defer)")
     ap.add_argument("--require-visual", action="store_true",
                     help="require both SVGs to exist before PASS")
+    ap.add_argument("--visual-similarity", help="exported PNG for the reference side-by-side / similarity check")
+    ap.add_argument("--visual-reference", help="reference image override (default assets/style-reference)")
+    ap.add_argument("--visual-side-by-side", help="write the candidate|reference comparison PNG here")
     ap.add_argument("--out", help="write the UTF-8 JSON report here")
     ap.add_argument("--json", action="store_true", help="print JSON to stdout")
     args = ap.parse_args(argv)
@@ -88,6 +92,7 @@ def main(argv=None) -> int:
         "layout": {"provided": bool(args.layout), "exit": None, "status": None},
         "text_audit": {"provided": bool(args.text_audit), "exit": None, "status": None},
         "style": {"provided": bool(args.style), "exit": None, "status": None},
+        "visual_similarity": {"provided": bool(args.visual_similarity), "exit": None, "status": None},
         "visual": {
             "official_svg": _file_status(args.official_svg),
             "visual_overlay": _file_status(args.visual_overlay),
@@ -144,6 +149,21 @@ def main(argv=None) -> int:
     elif args.require_style:
         gaps.append("style input not provided (--require-style)")
 
+    if args.visual_similarity:
+        cmd = [str(STYLE_VISUAL), "--candidate", args.visual_similarity]
+        if args.visual_reference:
+            cmd += ["--reference", args.visual_reference]
+        if args.visual_side_by_side:
+            cmd += ["--side-by-side", args.visual_side_by_side]
+        code, payload, _ = _run(cmd)
+        checks["visual_similarity"]["exit"] = code
+        checks["visual_similarity"]["report"] = payload
+        if payload and isinstance(payload, dict):
+            checks["visual_similarity"]["status"] = payload.get("verdict")
+            checks["visual_similarity"]["similarity"] = (payload.get("metrics") or {}).get("similarity")
+            for p in payload.get("problems") or []:
+                gaps.append("visual: %s" % p.get("message"))
+
     if args.require_visual:
         for key in ("official_svg", "visual_overlay"):
             st = checks["visual"][key]
@@ -151,7 +171,8 @@ def main(argv=None) -> int:
                 gaps.append("%s is required and missing" % key)
 
     exits = [checks["frame_meta"].get("exit"), checks["layout"].get("exit"),
-             checks["text_audit"].get("exit"), checks["style"].get("exit")]
+             checks["text_audit"].get("exit"), checks["style"].get("exit"),
+             checks["visual_similarity"].get("exit")]
     exits = [e for e in exits if e is not None]
 
     if any(e is None for e in [checks["frame_meta"]["exit"], checks["text_audit"]["exit"]]) \
@@ -182,6 +203,7 @@ def main(argv=None) -> int:
         ("layout", args.layout),
         ("text_audit", args.text_audit),
         ("style", args.style),
+        ("visual_similarity", args.visual_similarity),
         ("official_svg", args.official_svg),
         ("visual_overlay", args.visual_overlay),
     ):
