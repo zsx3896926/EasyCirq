@@ -230,6 +230,7 @@ python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
 | 稀疏普通短线 | `easycirq pcb route-short` | `--dry-run` 先看 skipped/failed；完成后 DRC |
 | 剩余普通网 | `easycirq pcb autoroute` | 同层/规则/器件不变；记录版本与参数 |
 | 有明确收益的外部路由器 | 仅在现有路径缺失/可测收益时引入 | 同一布局/规则/网络，记录 DSN/SES、未连接、过孔、线长、DRC |
+| 自动布线超时或仍有断网/孤岛 | `python scripts/island_join.py <dump> --net <net> --width <mil>`（同层连岛；先 `python -m power_preflight.islands` 诊断） | 连岛后 `pcb_apply_plan --apply` + fresh DRC；跨层连岛未实现时如实标 incomplete |
 
 板 A 的实测经验：官方路由器 `--net VREF_2V5 --layers 1,2` 生成 12 段、0 过孔、底层走线；这是候选，不是“参考网络已合格”的证明。`route-short` 对 THT pad 可能给出 layer 12（MULTI）走线，必须读回 layer/线宽再决定是否采用；不要因为“命令返回成功”就接受。
 

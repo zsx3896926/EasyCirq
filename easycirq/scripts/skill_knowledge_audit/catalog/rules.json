@@ -632,7 +632,7 @@
         },
         {
           "path": "easycirq/references/pcb-execution.md",
-          "line": 306,
+          "line": 307,
           "quote": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。"
         }
       ]
