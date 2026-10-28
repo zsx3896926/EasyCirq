@@ -1,0 +1,74 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "receipt-duplicate-line",
+  "description": "After evidence_emit the last receipt line is duplicated; finalize refuses with RECEIPT_DUPLICATE_STEP (a step can only be signed once).",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "ok": true,
+        "state": "AUDIT_RUN",
+        "structured": {
+          "finalizable": true,
+          "audit.real_eda": "NOT RUN",
+          "audit.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "ok": true,
+        "state": "EVIDENCE_EMITTED",
+        "structured": {
+          "evidence.real_eda": "NOT RUN",
+          "evidence.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "mutate_receipts",
+      "mode": "duplicate_last"
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "RECEIPT_DUPLICATE_STEP",
+        "state": "EVIDENCE_EMITTED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (duplicated receipt line -> RECEIPT_DUPLICATE_STEP)",
+    "final_state": "EVIDENCE_EMITTED",
+    "result_present": false,
+    "receipts_count": 5,
+    "evidence_present": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "token-missing",
+  "description": "serve is started without the task.token file: TOKEN_MISSING, exit 2, no MCP session.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "missing"
+  },
+  "actions": [],
+  "expect_startup": {
+    "exit_code": 2,
+    "stderr_contains": [
+      "TOKEN_MISSING"
+    ]
+  },
+  "expect": {
+    "outcome_class": "STARTUP_REJECTED",
+    "outcome": "STARTUP_REJECTED (missing token; serve exit 2, TOKEN_MISSING)",
+    "result_present": false,
+    "startup_stderr_contains": [
+      "TOKEN_MISSING"
+    ]
+  }
+}

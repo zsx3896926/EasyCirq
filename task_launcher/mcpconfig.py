@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from . import MCP_MODULE, MCP_SERVER_NAME
+from . import BOUND_MODULE, BOUND_SERVER_NAME, BOUND_SERVE_ARGS, MCP_MODULE, MCP_SERVER_NAME
 from .protocol import LauncherError
 
 
@@ -27,16 +27,48 @@ def _posix(path: Path) -> str:
     return path.resolve().as_posix()
 
 
-def build_mcp_config(skill_scripts_dir: Path, python_executable: str | None = None) -> dict:
+def _bound_entry(bound: dict, python_executable: str | None) -> dict:
+    """The trusted B1-Bound supervisor entry (replaces the offline-audit one)."""
+
+    command = python_executable or sys.executable or "python"
+    return {
+        "command": command,
+        "args": [
+            *BOUND_SERVE_ARGS,
+            "--config",
+            str(bound["config_path"]),
+            "--token-file",
+            str(bound["token_file"]),
+        ],
+        "env": {
+            "PYTHONPATH": _posix(Path(bound["repo_root"])),
+            "PYTHONIOENCODING": "utf-8",
+        },
+    }
+
+
+def build_mcp_config(
+    skill_scripts_dir: Path,
+    python_executable: str | None = None,
+    *,
+    bound: dict | None = None,
+) -> dict:
     """Return the ``.mcp.json`` document for a task.
 
     ``command`` is resolved to an actual interpreter (IC-12): a bare ``python``
     does not exist on every Linux/macOS install.  Callers may override it with
     an explicit ``--mcp-python`` value, otherwise the launcher's own interpreter
     is used.
+
+    ``bound=None`` keeps the PoC behaviour (offline-audit server only).  With
+    ``bound`` given, the task MCP surface is **replaced** by the trusted
+    B1-Bound supervisor, so the agent cannot call offline audit tools directly
+    and bypass the signed receipt chain.
     """
 
     command = python_executable or sys.executable or "python"
+    if bound is not None:
+        return {"mcpServers": {BOUND_SERVER_NAME: _bound_entry(bound, python_executable)}}
     return {
         "mcpServers": {
             MCP_SERVER_NAME: {
@@ -48,10 +80,16 @@ def build_mcp_config(skill_scripts_dir: Path, python_executable: str | None = No
     }
 
 
-def write_mcp_config(path: Path, skill_scripts_dir: Path, python_executable: str | None = None) -> dict:
+def write_mcp_config(
+    path: Path,
+    skill_scripts_dir: Path,
+    python_executable: str | None = None,
+    *,
+    bound: dict | None = None,
+) -> dict:
     """Write ``mcp.json`` (LF, deterministic JSON) and return the document."""
 
-    document = build_mcp_config(skill_scripts_dir, python_executable)
+    document = build_mcp_config(skill_scripts_dir, python_executable, bound=bound)
     path.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(document, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     path.write_text(text, encoding="utf-8", newline="\n")
@@ -67,7 +105,29 @@ def validate_mcp_config(document: Any) -> list[str]:
     servers = document.get("mcpServers")
     if not isinstance(servers, dict):
         return ["mcp.json must contain an object field 'mcpServers'"]
-    entry = servers.get(MCP_SERVER_NAME)
+    offline = servers.get(MCP_SERVER_NAME)
+    bound = servers.get(BOUND_SERVER_NAME)
+    if offline is not None and bound is not None:
+        problems.append("mcpServers must not mix the offline-audit and bound servers in one task")
+        return problems
+    if bound is not None:
+        prefix = f"mcpServers.{BOUND_SERVER_NAME}"
+        command = bound.get("command")
+        if not isinstance(command, str) or not command:
+            problems.append(f"{prefix}.command must be a non-empty string")
+        args = bound.get("args")
+        if not isinstance(args, list) or not all(isinstance(item, str) for item in args):
+            problems.append(f"{prefix}.args must be a list of strings")
+        elif args[: len(BOUND_SERVE_ARGS)] != list(BOUND_SERVE_ARGS):
+            problems.append(f"{prefix}.args must start with {list(BOUND_SERVE_ARGS)}")
+        for flag in ("--config", "--token-file"):
+            if not isinstance(args, list) or flag not in args or args.index(flag) + 1 >= len(args):
+                problems.append(f"{prefix}.args is missing {flag} <path>")
+        env = bound.get("env")
+        if not isinstance(env, dict) or not isinstance(env.get("PYTHONPATH"), str) or not env["PYTHONPATH"]:
+            problems.append(f"{prefix}.env.PYTHONPATH must be a non-empty string")
+        return problems
+    entry = offline
     if not isinstance(entry, dict):
         problems.append(f"mcpServers.{MCP_SERVER_NAME} is missing")
         return problems

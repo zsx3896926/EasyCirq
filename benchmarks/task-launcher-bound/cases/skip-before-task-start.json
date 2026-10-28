@@ -1,0 +1,52 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "skip-before-task-start",
+  "description": "Every step is attempted before task_start: snapshot_read -> OUT_OF_ORDER, audit/finalize -> NOT_READY; nothing is signed and the task stays CREATED.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "error": "OUT_OF_ORDER",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CREATED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (all pre-start steps out of order / not ready)",
+    "final_state": "CREATED",
+    "result_present": false,
+    "receipts_count": 0
+  }
+}

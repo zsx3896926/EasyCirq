@@ -1,0 +1,55 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "version-mismatch",
+  "description": "task_start presents a modified toolchain skill version; supervisor refuses with VERSION_MISMATCH and the task never reaches a finalizable state.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid",
+    "toolchain": {
+      "skill": "9.9.9"
+    }
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "error": "VERSION_MISMATCH",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "error": "OUT_OF_ORDER",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CREATED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CREATED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (VERSION_MISMATCH; task cannot be finalized)",
+    "final_state": "CREATED",
+    "result_present": false,
+    "receipts_count": 0
+  }
+}

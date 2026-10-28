@@ -1,0 +1,57 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "snapshot-hash-mismatch",
+  "description": "The launcher-declared snapshot hash does not match what the supervisor reads: snapshot_read is refused with SNAPSHOT_MISMATCH and the task cannot advance.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid",
+    "request": {
+      "context": {
+        "snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "error": "SNAPSHOT_MISMATCH",
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "STARTED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (declared snapshot hash mismatch -> SNAPSHOT_MISMATCH)",
+    "final_state": "STARTED",
+    "result_present": false,
+    "receipts_count": 1
+  }
+}

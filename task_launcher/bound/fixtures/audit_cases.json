@@ -1,0 +1,36 @@
+{
+  "schema": "zhigou.bound.fixture.audit-cases/v1",
+  "source": "synthetic fixture (no EDA); the real offline module is exercised by --audit-engine zhigou_mcp",
+  "cases": {
+    "pass": {
+      "status": "pass_with_scope",
+      "checks": [
+        {"id": "FIXTURE-CAP-DERATING", "status": "pass", "detail": "5 V bulk capacitor rated 25 V on a 5 V rail (fixture fact)"},
+        {"id": "FIXTURE-PIN-ROLE", "status": "pass", "detail": "reset pin has the declared pull-up role (fixture fact)"}
+      ],
+      "not_checked": ["host DRC", "save/reopen round-trip", "manufacturing/assembly", "physical measurement"]
+    },
+    "fail": {
+      "status": "fail",
+      "checks": [
+        {"id": "FIXTURE-CAP-DERATING", "status": "fail", "detail": "6.3 V-rated capacitor on a 5 V rail with 20% derating rule (fixture counterexample)"},
+        {"id": "FIXTURE-PIN-ROLE", "status": "pass", "detail": "reset pin has the declared pull-up role (fixture fact)"}
+      ],
+      "not_checked": ["host DRC", "save/reopen round-trip", "manufacturing/assembly", "physical measurement"]
+    },
+    "review": {
+      "status": "review_required",
+      "checks": [
+        {"id": "FIXTURE-SPECIAL-PIN", "status": "review_required", "detail": "unknown device fact: switching pin role cannot be decided offline (fixture)"}
+      ],
+      "not_checked": ["device datasheet for the unknown MPN", "host DRC", "physical measurement"]
+    },
+    "incomplete": {
+      "status": "incomplete",
+      "checks": [
+        {"id": "FIXTURE-SPECIAL-PIN", "status": "incomplete", "detail": "no device fact for the selected component; cannot audit (fixture)"}
+      ],
+      "not_checked": ["device facts", "host DRC", "physical measurement"]
+    }
+  }
+}

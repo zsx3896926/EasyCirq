@@ -94,6 +94,7 @@ def _settings(args: argparse.Namespace) -> Settings:
         else None,
         mcp_python=getattr(args, "mcp_python", None),
         task_ttl_s=int(getattr(args, "task_ttl_s", 0) or 0),
+        bound_enabled=bool(getattr(args, "bound", False)),
         host=getattr(args, "host", DEFAULT_HOST),
         port=getattr(args, "port", DEFAULT_PORT),
     )
@@ -371,6 +372,11 @@ def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
         type=int,
         default=0,
         help="delete terminal tasks (registry + workspace) after N seconds; 0 = keep until restart (IC-06)",
+    )
+    parser.add_argument(
+        "--bound",
+        action="store_true",
+        help="mount the trusted B1-Bound supervisor (task_launcher.bound) and require its FINALIZED report",
     )
 
 

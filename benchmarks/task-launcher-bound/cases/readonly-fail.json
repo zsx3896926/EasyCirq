@@ -1,0 +1,84 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "readonly-fail",
+  "description": "Offline audit status fail: the chain is allowed to finalize, but the supervisor report verdict is FAIL (the benchmark case itself passes because the refusal is honest).",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "fail",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "ok": true,
+        "state": "AUDIT_RUN",
+        "structured": {
+          "finalizable": true,
+          "audit.real_eda": "NOT RUN",
+          "audit.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "ok": true,
+        "state": "EVIDENCE_EMITTED",
+        "structured": {
+          "evidence.real_eda": "NOT RUN",
+          "evidence.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "ok": true,
+        "state": "FINALIZED",
+        "structured": {
+          "verdict": "FAIL",
+          "real_eda": "NOT RUN",
+          "eda_calls": 0,
+          "project_writes": 0
+        }
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "FAIL",
+    "outcome": "FAIL (offline audit reported fail; report generated with verdict FAIL)",
+    "final_state": "FINALIZED",
+    "result_present": true,
+    "verdict": "FAIL",
+    "receipts_count": 5,
+    "report": {
+      "task.verdict": "FAIL",
+      "summary.audit_status": "fail",
+      "audit.status": "fail",
+      "real_eda": "NOT RUN",
+      "eda_calls": 0,
+      "project_writes": 0
+    }
+  }
+}
