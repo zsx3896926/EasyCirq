@@ -350,6 +350,43 @@ class FullPassFixture(unittest.TestCase):
         strict = gate.evaluate(args_for(self.ev, self.root, self.state, strict=True))
         self.assertEqual(statuses(strict)['G0_requirements'], 'BLOCKED')
 
+    def _set_pinout(self, value):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['requirements']['interface_pinout'] = value
+        write_json(self.state, state)
+
+    def test_interface_pinout_assumed_blocks_delivery(self):
+        self._set_pinout([{'module': 'CAM', 'model': 'OV2640 24P',
+                           'status': 'assumed', 'source': '猜测',
+                           'view': 'FPC 正视'}])
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        result = statuses(report)
+        self.assertEqual(result['G0_requirements'], 'PASS')
+        self.assertEqual(result['G6_manufacturing'], 'BLOCKED')
+
+    def test_interface_pinout_confirmed_passes(self):
+        self._set_pinout([{'module': 'CAM', 'model': 'OV2640 24P',
+                           'status': 'confirmed', 'source': '数据手册',
+                           'view': 'FPC 正视'}])
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G6_manufacturing'], 'PASS')
+
+    def test_interface_pinout_pending_blocks_g0_and_g6(self):
+        self._set_pinout([{'module': 'CAM', 'status': 'pending'}])
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        result = statuses(report)
+        self.assertEqual(result['G0_requirements'], 'BLOCKED')
+        self.assertEqual(result['G6_manufacturing'], 'BLOCKED')
+
+    def test_interface_pinout_not_applicable_needs_reason(self):
+        self._set_pinout({'status': 'not_applicable'})
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G0_requirements'], 'BLOCKED')
+        self._set_pinout({'status': 'not_applicable', 'reason': '无外接模组'})
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G0_requirements'], 'PASS')
+        self.assertEqual(statuses(report)['G6_manufacturing'], 'PASS')
+
     def test_unused_waiver_is_marked(self):
         report = gate.evaluate(args_for(
             self.ev, self.root, self.state,

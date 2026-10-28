@@ -67,6 +67,8 @@
 | 11 | 变更与替代 | 任何换料/改版都判 1/2/3/4 类并重跑受影响契约 | 用“同封装”直接放行 | 替代记录 + 变更单 | 换料后门限/时序/上拉条件变了，BOM 却只改一行 |
 | 12 | 制造与装配状态 | BOM、CPL、DNP、变体、固件配置指向同一保存版本 | BOM/坐标/PCB 不同版 | 制造包 + 对账记录 | DNP 只写在 BOM、坐标仍贴；变体混料 |
 
+第 5 条的四方对照结果落到 `requirements.interface_pinout`（每条 `{module, model, source, view, status}`）；`assumed` 允许在需求期存在，但交付门禁 G6 会 `BLOCKED`（见 [design-gates](design-gates.md) §5 与 [摄像头 DVP FPC 设计卡](module-cards/camera-dvp-fpc.md)）。
+
 ## 3. 额定值：绝对最大、推荐工作、保证值、典型值不能混
 
 ### 3.1 四类数值各自回答什么

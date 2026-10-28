@@ -390,7 +390,7 @@
         "scope": "布局/评审阶段"
       },
       "scenario": "布局已冻结，为布线移动器件，同时用户未要求暂停",
-      "exception": "design-gates 153 是阶段顺序/证据要求，不是用户审批等待；用户显式要求时才在检查点等待",
+      "exception": "design-gates 156 是阶段顺序/证据要求，不是用户审批等待；用户显式要求时才在检查点等待",
       "resolution": "无需改规则；在布局冻结变更说明中注明这是 G3 重开而非审批门，避免被读成强制等待",
       "evidence": [
         {
@@ -400,7 +400,7 @@
         },
         {
           "path": "easycirq/references/design-gates.md",
-          "line": 157,
+          "line": 160,
           "quote": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。"
         }
       ]

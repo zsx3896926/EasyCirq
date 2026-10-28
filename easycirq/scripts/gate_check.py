@@ -1162,6 +1162,67 @@ def requirement_status(value):
     return "fail", "不支持的值类型"
 
 
+# ---- interface pinout (external module / FPC) ----
+
+def _interface_pinout(state):
+    """Normalize requirements.interface_pinout; None when the key is absent.
+
+    Accepted shapes:
+      * a list of records: [{module, model, source, view, status}, ...]
+      * {"status": "not_applicable", "reason": "..."} (no external modules)
+      * {"status": "confirmed|assumed|pending", "value": [records]}
+    Returns None (absent) or a dict {not_applicable, reason, records}.
+    """
+    if not isinstance(state, dict):
+        return None
+    req = state.get("requirements")
+    if not isinstance(req, dict) or "interface_pinout" not in req:
+        return None
+    raw = req["interface_pinout"]
+    top = None
+    value = raw
+    if isinstance(raw, dict):
+        top = str(raw.get("status") or "").strip().lower()
+        value = raw.get("value")
+    if top in ("not_applicable", "not-applicable", "n/a", "na"):
+        reason = str(raw.get("reason") or "").strip() if isinstance(raw, dict) else ""
+        return {"not_applicable": True, "reason": reason, "records": []}
+    records = []
+    if isinstance(value, list):
+        for item in value:
+            if isinstance(item, dict):
+                rec = dict(item)
+                rec.setdefault("status", top or "assumed")
+                records.append(rec)
+            elif isinstance(item, str):
+                records.append({"module": item, "status": top or "assumed"})
+    elif isinstance(raw, dict) and top and value is None:
+        records.append({"module": "接口引脚定义", "status": top})
+    return {"not_applicable": False, "reason": None, "records": records}
+
+
+def _pinout_problems(pinout):
+    """Return a list of (severity, message); severity is 'fail' or 'assumed'."""
+    problems = []
+    for rec in pinout["records"]:
+        status = str(rec.get("status") or "assumed").strip().lower()
+        module = str(rec.get("module") or "?").strip()
+        if status in ("confirmed", "verified", "pass", "done"):
+            continue
+        if status in ("not_applicable", "n/a", "na"):
+            if str(rec.get("reason") or "").strip():
+                continue
+            problems.append(("fail", "接口 %s: not_applicable 缺少 reason" % module))
+            continue
+        if status in ("pending", "blocked", "open", "tbd", "todo", "待确认", "待查"):
+            problems.append(("fail", "接口 %s: 引脚定义 pending" % module))
+            continue
+        source = str(rec.get("source") or rec.get("assumption") or "").strip()
+        problems.append(("assumed", "接口 %s: 引脚定义为假设（%s）"
+                         % (module, source or "无来源")))
+    return problems
+
+
 # ---- G0
 
 
@@ -1188,6 +1249,36 @@ def gate_g0(gate: Gate, ctx):
             waivable=key not in G0_NON_WAIVABLE,
             next_command="在 requirements.%s 填写值，或写 not_applicable + reason" % key,
         )
+    pinout = _interface_pinout(state)
+    if pinout is not None:
+        if pinout["not_applicable"]:
+            if pinout["reason"]:
+                gate.add("req_interface_pinout", "pass",
+                         "接口引脚定义: 不适用（%s）" % pinout["reason"])
+            else:
+                gate.add("req_interface_pinout", "fail",
+                         "接口引脚定义 not_applicable 缺少 reason", blocking=True,
+                         waivable=False,
+                         next_command="在 requirements.interface_pinout 写 reason，或改为模块清单")
+        elif pinout["records"]:
+            problems = _pinout_problems(pinout)
+            fails = [m for sev, m in problems if sev == "fail"]
+            assumed = [m for sev, m in problems if sev == "assumed"]
+            if fails:
+                gate.add("req_interface_pinout", "fail", "; ".join(fails),
+                         blocking=True, waivable=False,
+                         next_command="确认 requirements.interface_pinout 每个模块引脚定义")
+            elif assumed:
+                gate.add("req_interface_pinout", "warn", "; ".join(assumed),
+                         blocking=False,
+                         next_command="交付前确认接口引脚定义（G6 会阻塞）")
+            else:
+                gate.add("req_interface_pinout", "pass",
+                         "接口引脚定义: %d 个模块已确认" % len(pinout["records"]))
+        else:
+            gate.add("req_interface_pinout", "warn",
+                     "接口引脚定义已声明但为空；无外接模组应写 not_applicable + reason",
+                     blocking=False)
     open_items = state.get("open_items")
     if isinstance(open_items, list):
         blocking_items = [x for x in open_items if isinstance(x, dict) and x.get("blocking")]
@@ -1854,6 +1945,27 @@ def gate_g6(gate: Gate, ctx):
     state = ctx["state"]
     ev = ctx["ev"]
     project_dir = ctx.get("project_dir")
+
+    pinout = _interface_pinout(state)
+    if pinout is not None:
+        if pinout["not_applicable"]:
+            gate.add("interface_pinout",
+                     "pass" if pinout["reason"] else "fail",
+                     "接口引脚定义: 不适用" +
+                     ("" if pinout["reason"] else "（缺 reason）"),
+                     blocking=True, waivable=False)
+        else:
+            problems = _pinout_problems(pinout)
+            unconfirmed = [m for sev, m in problems if sev in ("assumed", "fail")]
+            if unconfirmed:
+                gate.add("interface_pinout", "fail",
+                         "交付前接口引脚定义未确认: " + "; ".join(unconfirmed),
+                         blocking=True, waivable=False,
+                         next_command="按数据手册/模组规格书确认引脚（电源域/差分对/"
+                                      "时钟同步/1 脚方向），status 改 confirmed")
+            elif pinout["records"]:
+                gate.add("interface_pinout", "pass",
+                         "接口引脚定义已确认（%d 个模块）" % len(pinout["records"]))
 
     artifacts = []
     if state is not None:

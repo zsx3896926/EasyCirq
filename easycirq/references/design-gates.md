@@ -76,10 +76,13 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 | `design_state` | 文件存在且可解析 | `python scripts/gate_check.py --evidence-dir <dir> --design-state <file>` | `design-state.json` | `schema` 为 `design-state/v1` | 缺文件或 schema 不符 → `BLOCKED`；先复制 [示例状态文件](../assets/design-state.example.json) |
 | `requirements_section` | 结构 | 同上 | `requirements` 对象 | 存在且为对象 | 缺失 → `BLOCKED` |
 | `req_delivery_level`、`req_size_limit`、`req_enclosure_mounting`、`req_assembly`、`req_quantity_budget`、`req_usb_role`、`req_test_points`、`req_display`、`req_firmware`、`req_threshold_interaction`、`req_alarm_behavior`、`req_environment_accuracy` | 逐字段 | 同上 | `requirements.<key>` | 标量/数组/对象视为已确认；`not_applicable` 必须带 `reason`；`assumed` 必须带 `assumption`/`source` | `pending`、空值、空列表或未知 status → `BLOCKED` |
+| `req_interface_pinout` | 逐模块 | 同上 | `requirements.interface_pinout`（列表或 `not_applicable`） | 每个模块 `status:confirmed`（记录型号/来源/1 脚视图），或整体 `not_applicable`+`reason` | 有 `assumed`/`pending` → G0 `warn`、**G6 交付 `BLOCKED`（不可豁免）** |
 | `blocking_open_items` | 列表 | 同上 | `open_items` | 没有 `blocking:true` 的未决项 | 未记录 `open_items` 时只给 advisory `warn` |
 | `assumptions`、`risks` | 列表 | 同上 | `assumptions`、`risks` | 至少记录一条，或项目确实无假设/风险并说明 | 缺失只给 advisory `warn`，不阻断 |
 
 前六个字段（`delivery_level`、`size_limit`、`enclosure_mounting`、`assembly`、`quantity_budget`、`environment_accuracy`）是不可豁免的物理/合同边界；其余字段可带理由豁免，但豁免后仍记 `PASS_WITH_WAIVER`。
+
+外接模组/FPC 的引脚定义用 `requirements.interface_pinout` 记录（每条 `{module, model, source, view, status}`）。`assumed` 允许在需求期存在（G0 只 `warn`），但交付门禁 G6 会 `BLOCKED`；无外接模组写 `{"status":"not_applicable","reason":"..."}`。摄像头 DVP FPC 的 assumed 模板见 [模块设计卡](module-cards/camera-dvp-fpc.md)。
 
 **退出条件：** 12 个字段全部有值、`not_applicable` 带理由、没有 blocking 未决项。满足后 Agent 直接进入 S2，无需用户签批。
 
@@ -340,7 +343,11 @@ project/
     "firmware": {"status": "not_applicable", "reason": "<纯模拟>"},
     "threshold_interaction": {"status": "confirmed", "value": "<RV1|按键|菜单>"},
     "alarm_behavior": {"status": "confirmed", "value": "<LED+蜂鸣|自动解除>"},
-    "environment_accuracy": {"status": "confirmed", "value": "<0-40 C, +/-2 C>"}
+    "environment_accuracy": {"status": "confirmed", "value": "<0-40 C, +/-2 C>"},
+    "interface_pinout": [
+      {"module": "摄像头 DVP FPC", "model": "<OV2640 24P>", "status": "assumed",
+       "source": "<常见模组假设，待按规格书核对>", "view": "<FPC 正视 1 脚在左>"}
+    ]
   },
   "function_freeze": {
     "status": "frozen", "frozen_at": "<YYYY-MM-DD>", "required": [], "optional": [],
