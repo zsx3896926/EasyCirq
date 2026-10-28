@@ -9,6 +9,7 @@
 - 新增删除粒度、重建铺铜后焊盘仍断开的处理、细间距 FPC 先离线逃逸规划再提交锁定、差分对容差按速率定、DRC 归零后的 DFM 收尾、3D 导出超限的回落。
 - 新增 guard `tests/test_pcb_closure_rules_present.py`。
 - 新增 DRC 轻量入口 `python scripts/pcb_evidence.py drc-summary <drc.json> [--json]`：复用 `pcb_gate.py` 的 `parse_drc`，输出 total/按规则/按网/断开焊盘；`passed` 非布尔、缺 total、计数矛盾按读取失败非零退出。布线期读 DRC 只允许用该入口（`pcb-execution.md`、`pcb-routing-strategy.md`）。
+- `pcb_apply_plan` 增加 `--skip-existing`：track/via/pour 按几何（±1 mil、可反向）与最新 dump 比对，已存在记 noop 只补缺失（续传/重跑不叠铜）；含铜验收成功时报告状态为 `verified_geometry`（新增铜几何都落在计划内，ID 无关），计划外新增铜判 `mismatch`；新增 `--auto-timeout` 按 op 数缩放超时（0.3 s/op + 30 s 余量，下限 120 s）。
 
 ## 1.0.2 — 2026-10-27
 
