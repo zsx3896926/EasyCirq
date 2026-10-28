@@ -1,0 +1,46 @@
+{
+  "schema": "zhigou.task-launcher.start/v1",
+  "task_id": "bench-02-version-mismatch-launcher",
+  "client": {
+    "name": "easyeda-pro-stub",
+    "version": "0.0.0"
+  },
+  "toolchain": {
+    "launcher": "0.0.9",
+    "skill": "1.0.1",
+    "plugin": "0.1.0"
+  },
+  "mode": "read_only",
+  "context": {
+    "project": {
+      "name": "benchmark-demo",
+      "revision": "rev-A"
+    },
+    "document": {
+      "kind": "schematic",
+      "id": "doc-1"
+    },
+    "page": {
+      "name": "P1"
+    },
+    "selection": [
+      {
+        "kind": "component",
+        "designator": "U1"
+      }
+    ],
+    "snapshot_sha256": null,
+    "missing_fields": [
+      "snapshot_sha256",
+      "pcb_geometry"
+    ]
+  },
+  "goal": {
+    "user_prompt": "离线基准模拟：帮我检查这个原理图的电源部分有没有明显问题",
+    "intent": "inspect"
+  },
+  "limits": {
+    "timeout_s": 60,
+    "max_events": 10000
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "hooks": {},
+  "notes": "PoC: hooks are intentionally empty. No hook may block or mutate a read-only task."
+}
