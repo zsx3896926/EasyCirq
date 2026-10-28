@@ -243,3 +243,12 @@ distribution\Install-Zhigou.ps1 rollback
 - 状态：DRC 0、BOM 6 行可下单、Gerber+钻孔+CPL 已导出、5.98 mil 满足 0.10 mm 工艺下限；
   DFM 3 WARN 经载流计算判为不必处理（+5V ≈27 mA，10 mil 余量充足）。
 - 后续：打样回来做实物测试 V2–V11（NOT RUN）；任何制造文件变更需重跑 DRC/lint/check 并重导。
+## 2026-10-28 16:05 演示板 peripheral 警告处理
+
+- 已清除冗余的 module claim（sch zones clear，3 个），分区框改由虚拟组驱动：
+  zone-plan 3 分区 clean、zone-draw 3 框保留；peripheral-not-direct 警告消除。
+- 清除后 sch check 报出 2 条历史遗留导线几何 ERROR（D1 附近 wire-through-body）与 2 条
+  sheet 属性 out-of-sheet（平台属性显示位置，工具链无法移动）；sch drc 仍 0。
+- 随后 EDA 事务报 "Schematic has an unknown or non-sync transaction"，导出/读取间歇失败——
+  需在 EDA 里重开工程或重启 EDA 后再复验与导出。
+- 当前演示图仍为 1.0.11 的版本（标题栏已修、三框齐全）。
