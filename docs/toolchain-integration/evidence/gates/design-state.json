@@ -285,7 +285,9 @@
     "outline_mm": {
       "width": 47.84,
       "height": 20.36
-    }
+    },
+    "drilled_holes": 0,
+    "drilled_holes_note": "0 via (pcb.via.list count=0), J1 is HDR-SMD (surface mount); no plated through holes"
   },
   "evidence": {
     "manifest": [

@@ -1,0 +1,11 @@
+{
+  "source": "pcb.manufacture.gerber on manufacture-drill-repro-20261028-120350 (board 2000x1200 mil, one 12/24 mil via, no net)",
+  "drillFiles": [
+    "Drill_PTH_Through.DRL",
+    "Drill_PTH_Through_Via.DRL"
+  ],
+  "drillDrawing": [
+    "Gerber_DrillDrawingLayer.GDD"
+  ],
+  "verdict": "with-via board produces independent drill files (PTH + Via)"
+}

@@ -58,12 +58,17 @@
 | 制造资料导出步骤 | `manufacturing-export-checklist.md`（Gerber/钻孔/CPL 的 GUI 步骤、命名、校验与 state 登记方法） | 待执行 |
 | 物料核对清单 | `sourcing-checklist.md`（6 行 C 号、需核字段、商城入口、查询时间留空） | 待人工/联网 |
 
-**仍阻塞（2 项；2026-10-28 制造导出 spike 后更新）**
+**仍阻塞（1 项；2026-10-28 drill 验证 + not_applicable 判定后）**
 
 | 阻塞项 | 原因 | 解除条件 |
 |---|---|---|
-| `drill_files` | 本板 **0 过孔**，没有钻孔文件可导出；`pcb_ManufactureData.getGerberFile` 的钻孔信息参数存在，但含孔板未验证，不宣称 | 在含过孔/插脚孔的板上复跑 `pcb.manufacture.gerber`（drill=true），确认 zip 内出现 drill 文件并登记；或先给 gate 增加"0 孔板 `not_applicable`"判定 |
 | `sourcing_check` | 缺 `sourcing.stock_checked_at`：未查库存/价格，不伪造时间 | 按 `sourcing-checklist.md` 实时核对后写入查询时间与结果 |
+
+> 2026-10-28 drill 更新：含孔板（`manufacture-drill-repro-20261028-120350`，一块板框 + 1 个 12/24 mil via）
+> 用 `pcb.manufacture.gerber`（drill=true）导出，zip 内出现 `Drill_PTH_Through.DRL`、
+> `Drill_PTH_Through_Via.DRL` 与 `Gerber_DrillDrawingLayer.GDD`；0 孔验收板不产生 drill 文件属于
+> 不适用，`gate_check.py` 现在识别 `design-state.pcb.drilled_holes=0` 并判 `drill_files` 为 pass（不适用）。
+> 证据：`evidence/manufacture-spike/drill/`。
 
 > 2026-10-28 更新：`gerber_files` 与 `cpl_files` 已通过官方 @beta 导出能力解除——
 > `pcb.manufacture.gerber` 产出 9 层 Gerber zip（含板框/阻焊/钢网/丝印/文档层），

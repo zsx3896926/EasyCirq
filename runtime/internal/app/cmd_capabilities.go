@@ -159,9 +159,11 @@ func buildCapabilityDefs() []capabilityDef {
 			"官方 @beta pcb_ManufactureData.getGerberFile 已封装为 pcb.manufacture.gerber；默认=编辑器一键导出（含钻孔层），产物作为 artifact 回读校验；2026-10-28 真机验证 9 层 Gerber zip",
 		}},
 		{id: "drill.export", match: func(s protocol.ActionSpec) bool {
-			return hasAny(s, "drill")
+			// No standalone drill action exists; the drill files are produced by the
+			// Gerber export when drilling options are enabled.
+			return hasAny(s, "drill") || s.Name == "pcb.manufacture.gerber"
 		}, note: []string{
-			"没有独立的钻孔文件 action；Gerber 导出参数已包含金属化/非金属化钻孔信息，本板为 0 过孔未产生 drill 文件，含孔板能力未验证，按未宣称处理",
+			"钻孔文件随 pcb.manufacture.gerber 产出（drill=true）：含孔板已验证 Drill_PTH_Through.DRL / Drill_PTH_Through_Via.DRL；0 过孔板不产生 drill 文件，按 not_applicable 记录",
 		}},
 		{id: "cpl.export", match: func(s protocol.ActionSpec) bool {
 			return hasAny(s, "cpl", "pick_and_place", "pick-place", "placement")
@@ -304,8 +306,8 @@ func buildDeliverables(actions []protocol.ActionSpec, connectorCount int, measur
 			"BOM 导出后仍需 C 号/型号/封装核对与内容检查"},
 		{"export.gerber", []string{"gerber"}, true,
 			"已封装 @beta getGerberFile；真机产物为 9 层 Gerber zip（含板框/阻焊/钢网/丝印/文档层），需人工核对层与单位"},
-		{"export.drill", []string{"drill"}, true,
-			"无独立 drill action；钻孔信息随 Gerber 参数导出，本板 0 过孔未产生 drill 文件，含孔板未验证"},
+		{"export.drill", []string{"drill", "pcb.manufacture.gerber"}, true,
+			"钻孔文件随 pcb.manufacture.gerber 产出（drill=true）：含孔板已验证 PTH/Via drill；0 过孔板按不适用记录"},
 		{"export.cpl", []string{"cpl", "pick_and_place", "pick-place"}, true,
 			"已封装 @beta getPickAndPlaceFile；真机产物 9 行与 BOM 一致，旋转/单位仍需人工核对"},
 	}

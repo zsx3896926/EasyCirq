@@ -149,3 +149,17 @@ distribution\Install-Zhigou.ps1 rollback
   gerber/cpl 产物已放 `evidence/gates/manufacturing/` 并登记 `manufacturing.artifacts`。
 - 注意：EDA 里旧的 0.1.3 扩展仍在加载（两个窗口），建议卸载只留 0.1.4；
   安装包/安装目录尚未更新到 0.1.4（下次构建 bundle 时一并带上）。
+
+## 2026-10-28 drill 验证 + G6 只剩库存核对
+
+- 在独立工程 `manufacture-drill-repro-20261028-120350`（板框 2000×1200 mil + 1 个 12/24 mil 无网络 via）
+  上复跑 `pcb.manufacture.gerber`（drill=true, drillTable=true）：zip 11 个条目，含
+  `Gerber_DrillDrawingLayer.GDD`、`Drill_PTH_Through.DRL`、`Drill_PTH_Through_Via.DRL`。
+  → 钻孔文件能力在含孔板上**已验证**；0 孔板不产生 drill 文件属于不适用。
+- 能力模型：`drill.export` unsupported → **supported**；deliverables `export.drill` → **measured**
+  （capabilities 汇总 supported 20 / unknown 2 / unsupported 2）。
+- `gate_check.py` 新增"0 孔板不适用"判定：`design-state.pcb.drilled_holes=0` 时 `drill_files` 判 pass
+  并注明不适用（不是掩盖缺失）。已同步到安装目录与三处客户端 skill。
+- **G6 阻塞只剩 `sourcing_check`**（库存/价格未核，不伪造时间）；**G6 结论仍 BLOCKED**，
+  交付级别不变（PCB 候选 DRC 0）。
+- 注意：验收板板框曾被误设为 2000×1200，已按 dump 原始坐标恢复并 save+reload+DRC 0 复核。

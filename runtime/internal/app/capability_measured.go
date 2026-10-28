@@ -10,13 +10,16 @@ package app
 //   - export.gerber: 9-layer Gerber zip (GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL), artifact inspected
 //   - export.cpl:    UTF-16 TSV, 9 rows matching the 9-device BOM
 //   - export.3d:     OBJ 209 KB + STEP 5.0 MB (ISO-10303-21), non-empty and parsed
+//   - export.drill:  with-via board (manufacture-drill-repro-20261028-120350)
+//                    produced Drill_PTH_Through.DRL + Drill_PTH_Through_Via.DRL
 //
-// export.drill intentionally stays unmeasured: the acceptance board has zero
-// vias, so no drill file was produced and the with-vias path is unverified.
+// The zero-via acceptance board produces no drill file; that is not_applicable,
+// not a missing capability.
 func measuredDeliverables() map[string]bool {
 	return map[string]bool{
 		"export.gerber": true,
 		"export.cpl":    true,
 		"export.3d":     true,
+		"export.drill":  true,
 	}
 }
