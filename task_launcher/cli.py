@@ -92,6 +92,7 @@ def _settings(args: argparse.Namespace) -> Settings:
         agent_argv_template=Path(args.agent_argv_template).resolve()
         if getattr(args, "agent_argv_template", None)
         else None,
+        bound_enabled=bool(getattr(args, "bound", False)),
         host=getattr(args, "host", DEFAULT_HOST),
         port=getattr(args, "port", DEFAULT_PORT),
     )
@@ -257,6 +258,7 @@ def cmd_serve(args: argparse.Namespace) -> int:
         "state_dir": str(settings.state_dir),
         "token_file": str(token_path),
         "agent_profile": manager.agent_info().kind,
+            "bound_enabled": settings.bound_enabled,
         "agent_available": manager.agent_info().available,
         "max_concurrent_tasks": settings.max_concurrent,
         "mode": "read_only",
@@ -361,6 +363,11 @@ def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
         help="JSON file with a replacement agent argv template ({exe}, {user_prompt}, {plugin_dir}, ...)",
     )
     parser.add_argument("--max-concurrent", type=int, default=1, help="max concurrently running tasks (default: 1)")
+    parser.add_argument(
+        "--bound",
+        action="store_true",
+        help="mount the trusted B1-Bound supervisor (task_launcher.bound) and require its FINALIZED report",
+    )
     parser.add_argument(
         "--fake-scenario",
         choices=FAKE_SCENARIOS,
