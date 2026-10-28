@@ -156,7 +156,7 @@ is still required before any delivery claim.
 The companion documents make the readiness path executable by A without changing
 K or its allowed paths:
 
-- [`integration-host-probe.md`](integration-host-probe.md) — disposable-copy
+- [`integration-probe-quickstart.md`](integration-probe-quickstart.md) — short, executable version of the probe plan for A;\n- [`integration-host-probe.md`](integration-host-probe.md) — disposable-copy
   probe plan for attribute/free-text/net-label movement, save/reopen, export,
   ID stability and the capability-record format;
 - [`integration-adapter-contract.md`](integration-adapter-contract.md) —
@@ -171,3 +171,4 @@ K or its allowed paths:
 A should complete the probe record before applying anything; K continues to
 produce `only_planned` proposals and never treats a plan as a write
 authorization.
+
