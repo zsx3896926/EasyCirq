@@ -1,0 +1,39 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W07",
+  "side": "official",
+  "title": "check / DRC / DFM",
+  "status": "partial",
+  "commands": [
+    "invoke -> eda.sch_Drc.check(false, false, true)",
+    "invoke -> eda.pcb_Drc.check(false, false, true)",
+    "invoke -> eda.pcb_Drc.getRealTimeDrcStatus"
+  ],
+  "steps": 3,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W07-sch-drc.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W07-pcb-drc.stdout.json"
+  ],
+  "observations": [
+    "Schematic DRC with includeVerboseError=true returned a structured warning array (rule ATTRMATCHCODE, primitive ids) even though the documented return type is boolean; the receipt is usable as evidence.",
+    "PCB DRC returned a structured error-group tree (count 1: netlist mismatch because schematic changes were never imported on this sample) and realtime status false.",
+    "DRC acts on the active document: calling schematic DRC while a PCB document was active threw 'SCH_DrcUtil: doctype(3) not support check sch drc'.",
+    "No DFM-equivalent audit was found in the official surface (PCB_Drc has rules/check only); A's pcb check is a rebuild-based DFM audit."
+  ],
+  "risks": [
+    "documented return type disagrees with the observed shape",
+    "active-document dependency; wrong doctype errors are easy to hit",
+    "DFM/process checks are out of scope for official DRC"
+  ],
+  "measured": {
+    "steps": 4,
+    "js_lines": 52,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 7357.4
+  }
+}

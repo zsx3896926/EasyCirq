@@ -1,0 +1,23 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W03",
+  "side": "a",
+  "title": "PCB read",
+  "status": "static",
+  "actions": [
+    "zhigou pcb dump",
+    "zhigou pcb list / layers / nets / outline / components"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json"
+  ],
+  "observations": [
+    "A catalog has 27 PCB read actions and a documented unit convention (mil, y-up, anchor vs bbox center), which is more prescriptive than the raw official API.",
+    "No independent A receipt exists for this spike."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "A unit convention is documentation, not proof it matches the official host"
+  ]
+}

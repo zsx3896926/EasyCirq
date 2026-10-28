@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"原理图 & 符号 / 设计规则检查（DRC）类","remarks":"检查、设定 DRC 规则","visibility":"public","methods":[{"name":"check","comment":"检查 DRC","visibility":"beta"}],"callPath":"sch_Drc"},"logs":[],"durationMs":206}

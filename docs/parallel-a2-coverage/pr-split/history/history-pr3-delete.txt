@@ -1,0 +1,4 @@
+design-hardware/scripts/layout_from_easyeda.py
+tests/fixtures/feedback/easyeda-fake.cmd
+tests/fixtures/feedback/easyeda-fake.sh
+tests/fixtures/feedback/fake_easyeda.py

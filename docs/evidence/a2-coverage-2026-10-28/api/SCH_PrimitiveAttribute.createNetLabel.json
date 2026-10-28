@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"创建网络标签","remarks":"ADD since EDA v4","visibility":"beta","params":[{"name":"x","type":"number","description":"坐标 X","required":true},{"name":"y","type":"number","description":"坐标 Y","required":true},{"name":"net","type":"string","description":"网络名称","required":true}],"returns":{"type":"ISCH_PrimitiveAttribute","description":"网络标签属性图元"},"isAsync":true},"logs":[],"durationMs":227}

@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"project":{"uuid":"843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf","friendlyName":"a2spike-quickstart","name":"/a2spike-quickstart","teamUuid":"52159e623a734559a92667bdcb3b3e5d"},"boards":[{"name":"波形变换电路","boardType":"Board","schematic":{"uuid":"82a499c56bdf4f39ae4adc65596891a6","name":"波形产生与变换","pages":[{"uuid":"1a9f744ca59348a3bb31b1ffbdf8c491","name":"P1"}]},"pcb":{"uuid":"b2f4d387989c4c63ac68533b05f0eee3","name":"PCB"}}]},"logs":[],"durationMs":7}

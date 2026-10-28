@@ -1,0 +1,895 @@
+{
+  "schema": "zhigou.a2-coverage.matrix/v1",
+  "generated_at": "2026-10-28T12:13:08+08:00",
+  "evidence_date": "2026-10-28",
+  "baseline_main": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5",
+  "a_reference": "origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1 (read-only)",
+  "official_cli": "JLCEDA Pro 4.1.78.34f5b8d9",
+  "isolation": {
+    "fixture_source": "C:/Users/jlc/Documents/LCEDA-Pro/example-projects/示例工程_快速入门.eprj2 (EDA-shipped sample, vendor content, read-only source)",
+    "fixture_copy": "%TEMP%/a2-spike-20261028-1050/fixture/a2spike-quickstart.eprj2",
+    "fixture_sha256": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0",
+    "user_session_touched": false,
+    "design_writes": "NOT AUTHORIZED - no design-content write probe was run (W04/W05/W09-save are blocked)",
+    "project_unchanged_after_probe": true
+  },
+  "workflows": [
+    {
+      "id": "W01",
+      "title": "connect / session / version",
+      "critical": false,
+      "official": {
+        "status": "covered",
+        "commands": [
+          "lceda-pro --help",
+          "lceda-pro doctor",
+          "lceda-pro open --path <temp-copy>.eprj2 --headless",
+          "lceda-pro session list",
+          "lceda-pro session close --session <id> --destroy"
+        ],
+        "steps": 7,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-doctor.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-help.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-open.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-wait-project.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-sessions-before.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W01-sessions-after-open.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/sessions-before.json",
+          "docs/evidence/a2-coverage-2026-10-28/sessions-after.json",
+          "docs/evidence/a2-coverage-2026-10-28/extensions-headless.json"
+        ],
+        "observations": [
+          "doctor: connected=true, versionMatch=true, resultChannel=true, bridgeVersion=4.1.78.34f5b8d9, exit 0.",
+          "--help first line is 'JLCEDA Pro 4.1.78.34f5b8d9'; commands: activate/open/stop/doctor/session/invoke/functions/doc + --mcp.",
+          "open --headless returns a sessionId in about 1 s, but the project keeps loading afterwards: polling getCurrentProjectInfo() needed ~3.9 s.",
+          "getReadyState() still returned 'notLoaded' after getCurrentProjectInfo() already returned the full project tree, so it cannot be used as a load gate.",
+          "There was exactly one origin=user session before and after the run; this spike only drove origin=cli sessions opened by itself.",
+          "A bare headless editor exposes 0 installed extensions; the fixture session exposes 3 (eext-common, zsxedahelper, dix) and none of them is the A connector.",
+          "open --path with a non-existent project path returns ok:true with a sessionId but creates/loads no project; ok:true is a transport-level statement."
+        ],
+        "risks": [
+          "ok:true/exit 0 only means the call ran, not that the business state is correct",
+          "a CLI-opened window leaks unless session close --destroy is used",
+          "CLI sessions are half-offline by design (isHalfOfflineMode=true), not a full-online acceptance",
+          "PowerShell cannot capture this program's stdout with $x = & ... or > file; pipes/Start-Process are required"
+        ],
+        "measured_steps": 6,
+        "measured_js_lines": 18,
+        "measured_duration_ms": 11229.4,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou doctor",
+          "zhigou capabilities",
+          "zhigou health",
+          "zhigou connector verify",
+          "handshake/register frames (protocol v1, service zhigou-agent, ws://127.0.0.1:23111-23120)"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A self-evidence (M1, A branch): doctor verdict=degraded, connector disconnected, capabilities 0 supported / 19 unknown / 5 unsupported.",
+          "A self-evidence (task-status): connector import was completed later by the operator; M2-M4 are claimed PASS on a dedicated project, but our spike did not run any A command.",
+          "A isolates by service name/ports/state dir; its process model adds a daemon + WebSocket + extension that must be imported by hand and only loads at EDA startup."
+        ],
+        "blockers": [
+          "Go toolchain is not installed on this host, so the A branch cannot be built to run (task book section 12 forbids installing Go).",
+          "The A connector lives only inside the user's GUI session; CLI-opened sessions list 0 extensions, so any A run would target the user's window - forbidden by task book section 4.2.",
+          "A exposes no MCP server; a gateway would have to be written."
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "Official route needs one human habit (always --headless + --destroy) and an explicit load-poll instead of getReadyState()."
+    },
+    {
+      "id": "W02",
+      "title": "schematic read",
+      "critical": true,
+      "official": {
+        "status": "partial",
+        "commands": [
+          "invoke -> eda.dmt_Project.getCurrentProjectInfo",
+          "invoke -> eda.dmt_EditorControl.openDocument/activateDocument",
+          "invoke -> eda.sch_PrimitiveComponent.getAll(undefined, true)",
+          "invoke -> eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(id)",
+          "invoke -> eda.sch_PrimitiveWire.getAll()",
+          "invoke -> eda.sch_Net.getAllNets()/getAllNetsName()/getCurrentProjectAllNets()",
+          "invoke -> eda.sch_Netlist.getNetlist(Protel2)"
+        ],
+        "steps": 5,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W02-activate-sch.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W02-sch-read.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W02-nets-retry.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/schematic.net"
+        ],
+        "observations": [
+          "Read 58 schematic components (designator/component/symbol/footprint/x/y/rotation/mirror/supplierId) and 34 wires with real geometry; pins returned actual x/y, pinNumber, pinType, noConnected.",
+          "waitForDocumentReady() returned false for both the page uuid and the tab handle even though the page was activated and components were readable; it is not a usable readiness gate.",
+          "sch_Net.getAllNets(), getAllNetsName() and getCurrentProjectAllNets() all returned [] on a loaded project whose Protel netlist is 34,413 bytes, so the typed net API cannot be the source of truth; parsing the netlist text is required.",
+          "Component read required allSchematicPages=true to see the whole design; per-page reads follow the active document."
+        ],
+        "risks": [
+          "net enumeration API returns empty on this fixture/version - silent data loss if trusted",
+          "background/inactive pages return shallow data; explicit page activation is required",
+          "text objects and title-block content were not probed in this run"
+        ],
+        "measured_steps": 3,
+        "measured_js_lines": 85,
+        "measured_duration_ms": 5012.3,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou sch read",
+          "zhigou sch list",
+          "zhigou sch connectivity",
+          "zhigou sch nets",
+          "schematic.designators.list / attribute.inspect / visible_text.bboxes"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md"
+        ],
+        "observations": [
+          "A catalog has 15 schematic read actions (including connectivity and nets) but the acceptance matrix marks every real-host row BLOCKED at M1; later self-evidence claims M2 PASS.",
+          "A's net/pin read is a typed action with declared readback semantics, which would remove the netlist-parsing step - but we have no independent A receipt."
+        ],
+        "blockers": [
+          "not run by this spike (no Go build; connector only in the user's window)",
+          "A self-evidence is not our measurement and cannot upgrade this cell beyond static"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "Official read works; the net API gap is closed by parsing the Protel netlist, which the Skill already does offline (netlist_diff.py)."
+    },
+    {
+      "id": "W03",
+      "title": "PCB read",
+      "critical": false,
+      "official": {
+        "status": "partial",
+        "commands": [
+          "invoke -> eda.dmt_Pcb.getAllPcbsInfo",
+          "invoke -> eda.pcb_Layer.getAllLayers / getTheNumberOfCopperLayers",
+          "invoke -> eda.pcb_Net.getAllNets",
+          "invoke -> eda.pcb_PrimitiveComponent.getAll"
+        ],
+        "steps": 4,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W03-activate-pcb.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W03-pcb-read.stdout.json"
+        ],
+        "observations": [
+          "1 PCB document, 289 layer entries (2 copper), 17 nets and 33 placed components were read from the fixture.",
+          "Layer records carry id/name/type/color/transparency/locked; the copper layer count comes from a dedicated API.",
+          "Coordinate units and anchor semantics were not independently measured in this run (the API exposes convertCanvasOriginToDataOrigin/convertDataOriginToCanvasOrigin but we did not probe them)."
+        ],
+        "risks": [
+          "unit / y-axis convention needs an explicit conversion step and a unit test",
+          "primitive ids are session-scoped; re-read before any write",
+          "outline / copper geometry were not dumped (only counts and layers), so a geometry-complete read is unproven"
+        ],
+        "measured_steps": 2,
+        "measured_js_lines": 51,
+        "measured_duration_ms": 2322.4,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou pcb dump",
+          "zhigou pcb list / layers / nets / outline / components"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json"
+        ],
+        "observations": [
+          "A catalog has 27 PCB read actions and a documented unit convention (mil, y-up, anchor vs bbox center), which is more prescriptive than the raw official API.",
+          "No independent A receipt exists for this spike."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "A unit convention is documentation, not proof it matches the official host"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "Read is available; a thin normalization layer for units/anchor is the only obvious value-add."
+    },
+    {
+      "id": "W04",
+      "title": "schematic write + readback",
+      "critical": true,
+      "official": {
+        "status": "blocked",
+        "commands": [
+          "invoke -> eda.sch_PrimitiveComponent.create",
+          "invoke -> eda.sch_PrimitiveWire.create",
+          "invoke -> eda.sch_PrimitiveAttribute.createNetLabel",
+          "invoke -> eda.sch_Document.save",
+          "invoke -> readback"
+        ],
+        "steps": 0,
+        "exit_codes": [],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveComponent.create.json",
+          "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveWire.create.json",
+          "docs/evidence/a2-coverage-2026-10-28/api/SCH_Document.save.json",
+          "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveAttribute.createNetLabel.json"
+        ],
+        "observations": [
+          "The typed write surface exists in the static API catalog (create/modify/delete/netflag/netport, wire create, save) with documented async conventions.",
+          "No write was executed: design-content write probes were not authorized for this session, so no receipt can support a covered/partial status.",
+          "Known 4.1.78 frictions from the repository's own adapter notes (eda-execution.md) still apply: new primitives commit asynchronously, property edits can be dropped, and ok:true does not mean the business operation succeeded."
+        ],
+        "risks": [
+          "hand-written JS per operation, no typed contract, no idempotency guarantees",
+          "async commit timing requires waits + readback; a naive model call will report false success",
+          "no write probe means persistence is unproven"
+        ],
+        "measured_steps": 0,
+        "measured_js_lines": 0,
+        "measured_duration_ms": 0.0,
+        "measured_exit_codes": [],
+        "evidence_scope": "static-catalog"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou sch place",
+          "zhigou sch modify",
+          "zhigou sch connect",
+          "zhigou sch netflag",
+          "zhigou sch no-connect",
+          "zhigou sch save"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A catalog has 26 schematic write actions and its self-evidence claims a real schematic write/save/reopen chain (M2-M4).",
+          "A typed action removes the JS-authoring and readback-batching burden; this is the strongest non-replaceable argument for A."
+        ],
+        "blockers": [
+          "not run by this spike (no Go build, connector in user window only)",
+          "no independent receipt"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "unclear",
+      "notes": "This is the decisive unmeasured cell: official coverage cannot be established without an authorized write probe on a disposable temp project."
+    },
+    {
+      "id": "W05",
+      "title": "PCB write",
+      "critical": true,
+      "official": {
+        "status": "blocked",
+        "commands": [
+          "invoke -> eda.sch_Document.importChanges",
+          "invoke -> eda.pcb_PrimitiveComponent.modify",
+          "invoke -> eda.pcb_Document.save",
+          "invoke -> readback"
+        ],
+        "steps": 0,
+        "exit_codes": [],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.importChanges.json",
+          "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.save.json",
+          "docs/evidence/a2-coverage-2026-10-28/api/PCB_PrimitiveComponent.modify.json"
+        ],
+        "observations": [
+          "Static surface: importChanges, PCB primitive modify/delete, PCB_Document.save and an official autoRouting entry point exist.",
+          "No write was executed (no authorization); the repository's own notes say importChanges returned true but materialized nothing in half-offline mode."
+        ],
+        "risks": [
+          "importChanges may silently no-op in half-offline mode",
+          "single-writer / ordering / undo semantics are absent at the CLI layer",
+          "no write probe means persistence is unproven"
+        ],
+        "measured_steps": 0,
+        "measured_js_lines": 0,
+        "measured_duration_ms": 0.0,
+        "measured_exit_codes": [],
+        "evidence_scope": "static-catalog"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou pcb import_changes",
+          "zhigou pcb modify",
+          "zhigou pcb place",
+          "zhigou pcb track",
+          "zhigou pcb via",
+          "zhigou pcb save",
+          "zhigou pcb route.auto"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A catalog has 58 PCB write actions plus typed route/pour/drc helpers and claims a real M4 board build (layout, autoroute 6/6, pours, DRC 0).",
+          "A's typed write actions are a real cost advantage over hand-written JS for PCB."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "no independent receipt"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "unclear",
+      "notes": "Same decisive gap as W04."
+    },
+    {
+      "id": "W06",
+      "title": "batch / plan application",
+      "critical": true,
+      "official": {
+        "status": "partial",
+        "commands": [
+          "10 x lceda-pro invoke (separate round-trips)",
+          "1 x lceda-pro invoke with a 10-read JS batch",
+          "lceda-pro invoke --timeout 3000 (timeout semantics)"
+        ],
+        "steps": 3,
+        "exit_codes": [
+          0,
+          3
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W06-batched-read.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-timeout.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/probe-run.json"
+        ],
+        "observations": [
+          "Measured CLI round-trip cost: 10 separate invokes took 10,082.7 ms (about 1,008 ms each); one invoke doing the same 10 reads took 995.6 ms.",
+          "Batching inside one JS program is about 10x cheaper than one invoke per action, so the model should compose a plan per invoke instead of calling one invoke per object.",
+          "There is no typed batch/transaction semantics: each invoke is an independent program; on timeout the CLI reports REQUEST_TIMEOUT and says the code may still be running and its result is discarded.",
+          "Write batching could not be measured (no authorization)."
+        ],
+        "risks": [
+          "timeout leaves unknown state; blind retry can duplicate creates",
+          "no per-action journal/idempotency key at the CLI layer",
+          "long JS programs are opaque to review and hard to resume"
+        ],
+        "measured_steps": 1,
+        "measured_js_lines": 12,
+        "measured_duration_ms": 994.3,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "typed batch/module plan actions",
+          "per-request id + planned/sent/confirmed/failed/unknown task log (~/.zhigou/audit)",
+          "concurrentWriter hint + single-writer discipline"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json"
+        ],
+        "observations": [
+          "A's daemon keeps a task log with request ids and states, which is a real advantage for resumable batches; the CLI has nothing comparable.",
+          "Not run by this spike."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "no independent receipt"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "both_needed",
+      "notes": "A thin batch plan (compose one JS program + readback + journal written by the caller) can reproduce most of this; the CLI's 1 s round-trip makes per-call-per-action designs unacceptable."
+    },
+    {
+      "id": "W07",
+      "title": "check / DRC / DFM",
+      "critical": true,
+      "official": {
+        "status": "partial",
+        "commands": [
+          "invoke -> eda.sch_Drc.check(false, false, true)",
+          "invoke -> eda.pcb_Drc.check(false, false, true)",
+          "invoke -> eda.pcb_Drc.getRealTimeDrcStatus"
+        ],
+        "steps": 3,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W07-sch-drc.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W07-pcb-drc.stdout.json"
+        ],
+        "observations": [
+          "Schematic DRC with includeVerboseError=true returned a structured warning array (rule ATTRMATCHCODE, primitive ids) even though the documented return type is boolean; the receipt is usable as evidence.",
+          "PCB DRC returned a structured error-group tree (count 1: netlist mismatch because schematic changes were never imported on this sample) and realtime status false.",
+          "DRC acts on the active document: calling schematic DRC while a PCB document was active threw 'SCH_DrcUtil: doctype(3) not support check sch drc'.",
+          "No DFM-equivalent audit was found in the official surface (PCB_Drc has rules/check only); A's pcb check is a rebuild-based DFM audit."
+        ],
+        "risks": [
+          "documented return type disagrees with the observed shape",
+          "active-document dependency; wrong doctype errors are easy to hit",
+          "DFM/process checks are out of scope for official DRC"
+        ],
+        "measured_steps": 4,
+        "measured_js_lines": 52,
+        "measured_duration_ms": 7357.4,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou sch drc",
+          "zhigou sch check",
+          "zhigou sch layout-lint",
+          "zhigou pcb drc",
+          "zhigou pcb check"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A self-evidence claims native schematic DRC PASS (0 violations) and PCB DRC 0 violations plus a DFM audit with 0 errors / 4 warnings on its M4 board.",
+          "A's check actions return typed receipts with counts and scope, which formats better than the raw official arrays."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "no independent receipt"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "both_needed",
+      "notes": "Official DRC is usable once the active-document rule is encoded; DFM remains an offline (Skill) or typed (A) capability."
+    },
+    {
+      "id": "W08",
+      "title": "export",
+      "critical": true,
+      "official": {
+        "status": "covered",
+        "commands": [
+          "invoke -> eda.sch_Netlist.getNetlist(Protel2)",
+          "invoke -> eda.sch_ManufactureData.getNetlistFile",
+          "invoke -> eda.sch_ManufactureData.getBomFile(csv)",
+          "invoke -> eda.sch_ManufactureData.getPngFile",
+          "invoke -> eda.sch_ManufactureData.getGerberFile? (PCB_ManufactureData.getGerberFile)",
+          "invoke -> eda.pcb_ManufactureData.getPickAndPlaceFile(csv)"
+        ],
+        "steps": 5,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-string.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-file.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-bom.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-png.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-gerber.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W08-cpl.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/schematic.net",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/bom.csv",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/page.png",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/gerber.zip",
+          "docs/evidence/a2-coverage-2026-10-28/artifacts/cpl.csv"
+        ],
+        "observations": [
+          "Real artifacts produced: Protel netlist 38,568 B sha256 7bb9874d..., BOM CSV 1,957 B, PNG 712,074 B (PNG magic), Gerber zip 1,292,203 B (zip magic), pick-and-place CSV 8,433 B.",
+          "Gerber and CPL are available through the official API (PCB_ManufactureData.getGerberFile / getPickAndPlaceFile); A's capability matrix lists gerber/drill/cpl as unsupported.",
+          "File objects cannot be written to disk with the independent-script permission: eda.sys_FileSystem.* throws until external-interaction permission is enabled. The workaround used here is to read the File in JS, base64 it through the invoke result and write the bytes from Python (PNG 712 KB relayed fine).",
+          "The CLI appends the requested extension even when the name already has one ('a2spike.net.net', 'a2spike-bom.csv.csv', 'a2spike-page.png.png')."
+        ],
+        "risks": [
+          "binary relay through JSON/base64 is awkward for large files and has no path/sha contract",
+          "file naming quirk breaks naive automation",
+          "Gerber layer/object selection defaults must be reviewed before production use"
+        ],
+        "measured_steps": 8,
+        "measured_js_lines": 96,
+        "measured_duration_ms": 19838.8,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "unsupported",
+        "actions": [
+          "zhigou sch export netlist",
+          "zhigou sch export bom",
+          "zhigou sch export image",
+          "zhigou bom export",
+          "gerber/drill/cpl: no typed action"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/architecture-notes.md"
+        ],
+        "observations": [
+          "A catalog: 3 export actions only; capabilities reports gerber.export/drill.export/cpl.export = unsupported (0 actions).",
+          "A self-evidence itself records Gerber/drill/CPL as gui_only and not claimed.",
+          "A project.export (native archive) is a capability the official CLI lacks at the same level, but it is not part of W08's manufacturing exports."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "typed catalog genuinely lacks gerber/drill/cpl"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "Official route is strictly better than A for manufacturing exports: A has no Gerber/drill/CPL action at all."
+    },
+    {
+      "id": "W09",
+      "title": "save / reopen / stale",
+      "critical": true,
+      "official": {
+        "status": "partial",
+        "commands": [
+          "invoke -> save (NOT RUN, no authorization)",
+          "lceda-pro session close --session <id> --destroy",
+          "lceda-pro open --path <same copy> --headless",
+          "re-read project tree + counts"
+        ],
+        "steps": 3,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W09-session-close.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-wait.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-tree.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/project-before.json",
+          "docs/evidence/a2-coverage-2026-10-28/project-after.json"
+        ],
+        "observations": [
+          "Close/reopen works: the reopened session returned the same project uuid, same board/schematic/PCB uuids and the same tree.",
+          "Fixture hash was unchanged before/after the whole probe (1 file, sha256 824f6dcc...), proving the read/export probes did not mutate the project.",
+          "Save persistence is NOT RUN (authorization); without it a save -> reopen -> readback chain cannot be claimed."
+        ],
+        "risks": [
+          "saved:true may still need reopen to prove persistence",
+          "stale-read detection is caller-side only at the CLI layer (no staleRisk field seen)",
+          ".eprj2 -> .eprj3 conversion on save could change file layout; unmeasured"
+        ],
+        "measured_steps": 4,
+        "measured_js_lines": 30,
+        "measured_duration_ms": 10255.6,
+        "measured_exit_codes": [
+          0
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "zhigou sch save",
+          "zhigou pcb save",
+          "zhigou doc reload",
+          "zhigou doc ready",
+          "fresh dump readback"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A defines six-state evidence (command_completed / readback_verified / save_confirmed / reopen_confirmed / electrical_passed / quality_passed) and claims save/reopen PASS on its own board.",
+          "A documents saved:true != persisted explicitly; the official route needs the same discipline encoded by us."
+        ],
+        "blockers": [
+          "not run by this spike",
+          "no independent receipt"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "unclear",
+      "notes": "Reopen is proven; persistence is not. This is the second decisive unmeasured cell."
+    },
+    {
+      "id": "W10",
+      "title": "error / permission / boundary",
+      "critical": false,
+      "official": {
+        "status": "covered",
+        "commands": [
+          "invoke --session <unknown>",
+          "invoke --args '[1,2]'",
+          "doc api --class-name <unknown>",
+          "invoke -> throw",
+          "invoke --timeout 3000 -> never-resolving promise",
+          "invoke -> eda.sys_FileSystem.getProjectsPaths (permission gate)",
+          "invoke -> activateDocument(<wrong id>)"
+        ],
+        "steps": 7,
+        "exit_codes": [
+          1,
+          3
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-bad-session.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-bad-args.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-bad-doc-api.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-thrown.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-permission.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-timeout.stdout.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/W10-wrong-document.stdout.json"
+        ],
+        "observations": [
+          "Stable envelope {ok:false,error:{code,message}} plus a mirrored stderr line; codes observed: SESSION_NOT_FOUND (exit 3), INVALID_ARGS (1), DOC_QUERY_FAILED (1), EXECUTION_ERROR (1), REQUEST_TIMEOUT (3).",
+          "REQUEST_TIMEOUT message explicitly says the code may still be running in the render and its result will be discarded - callers must read back, never blind-retry.",
+          "Permission gate observed: eda.sys_FileSystem.* throws '未启用扩展和独立脚本的外部交互权限！' for independent-script invokes; this blocks direct file writes/reads outside the editor.",
+          "activateDocument(<bogus id>) returns false instead of throwing, so confusing 'silent false' with 'success' is possible."
+        ],
+        "risks": [
+          "exit code alone is not enough; error.code must be parsed",
+          "silent-boolean APIs (activateDocument/waitForDocumentReady) need explicit checks",
+          "timeout leaves unknown side effects"
+        ],
+        "measured_steps": 7,
+        "measured_js_lines": 6,
+        "measured_duration_ms": 9793.5,
+        "measured_exit_codes": [
+          0,
+          1,
+          3
+        ],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "static",
+        "actions": [
+          "typed preconditions/refusals",
+          "stable error codes NO_CONNECTOR / STALE_WINDOW / AMBIGUOUS_* / PRECONDITION_REFUSED / ACTION_ABANDONED / REQUEST_TIMEOUT-equivalent"
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json",
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md"
+        ],
+        "observations": [
+          "A protocol defines stable error classes and states that ACTION_ABANDONED may still land later, which is the same hazard the official REQUEST_TIMEOUT has.",
+          "Not run by this spike."
+        ],
+        "blockers": [
+          "not run by this spike"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "Error envelope is good enough to build a typed gate on top; the caller must map codes, not exit codes."
+    },
+    {
+      "id": "W11",
+      "title": "MCP entry",
+      "critical": true,
+      "official": {
+        "status": "covered",
+        "commands": [
+          "lceda-pro --mcp stdio",
+          "initialize (protocol 2025-06-18)",
+          "notifications/initialized",
+          "tools/list",
+          "tools/call lceda-pro.help"
+        ],
+        "steps": 4,
+        "exit_codes": [
+          0
+        ],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/mcp-tools.json",
+          "docs/evidence/a2-coverage-2026-10-28/raw/mcp-transcript.jsonl",
+          "docs/evidence/a2-coverage-2026-10-28/probe-run.json"
+        ],
+        "observations": [
+          "The official MCP server works over stdio with newline-delimited JSON-RPC 2.0; initialize returned protocolVersion 2025-06-18, serverInfo JLCEDA Pro 4.1.78.34f5b8d9, capabilities {tools:{}}.",
+          "tools/list exposes exactly 3 meta-tools: lceda-pro.help, lceda-pro.discover, lceda-pro.call (a proxy over the CLI command surface).",
+          "tools/call lceda-pro.help returned the same command tree as the CLI; no parameterless read tool exists other than help, so a real read call needs discover -> call with arguments.",
+          "HTTP transport (--mcp http --port 3030 --token ...) was not exercised in this run."
+        ],
+        "risks": [
+          "3 generic meta-tools mean the model must discover command paths itself",
+          "no typed MCP tools per action, no schemas per EDA operation",
+          "MCP calls still need a session/project context; concurrency/auth for HTTP mode is untested here"
+        ],
+        "measured_steps": 4,
+        "measured_js_lines": 0,
+        "measured_duration_ms": 0.0,
+        "measured_exit_codes": [],
+        "evidence_scope": "real-run"
+      },
+      "a": {
+        "status": "unsupported",
+        "actions": [],
+        "evidence": [
+          "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+        ],
+        "observations": [
+          "A ships a CLI + daemon + WebSocket connector; it does not expose an MCP server, so B1 cannot use A as an MCP backend without writing a gateway.",
+          "The repository already has an unrelated offline-audit MCP server (docs/zhigou-mcp) that never touches EDA."
+        ],
+        "blockers": [
+          "no MCP implementation in A"
+        ],
+        "evidence_scope": "static"
+      },
+      "verdict": "official_sufficient",
+      "notes": "For B1 Phase 2, the official MCP server is the only existing MCP entry; its three meta-tools are thin but real."
+    }
+  ],
+  "summary": {
+    "W01": {
+      "official": "covered",
+      "a": "static",
+      "verdict": "official_sufficient",
+      "critical": false
+    },
+    "W02": {
+      "official": "partial",
+      "a": "static",
+      "verdict": "official_sufficient",
+      "critical": true
+    },
+    "W03": {
+      "official": "partial",
+      "a": "static",
+      "verdict": "official_sufficient",
+      "critical": false
+    },
+    "W04": {
+      "official": "blocked",
+      "a": "static",
+      "verdict": "unclear",
+      "critical": true
+    },
+    "W05": {
+      "official": "blocked",
+      "a": "static",
+      "verdict": "unclear",
+      "critical": true
+    },
+    "W06": {
+      "official": "partial",
+      "a": "static",
+      "verdict": "both_needed",
+      "critical": true
+    },
+    "W07": {
+      "official": "partial",
+      "a": "static",
+      "verdict": "both_needed",
+      "critical": true
+    },
+    "W08": {
+      "official": "covered",
+      "a": "unsupported",
+      "verdict": "official_sufficient",
+      "critical": true
+    },
+    "W09": {
+      "official": "partial",
+      "a": "static",
+      "verdict": "unclear",
+      "critical": true
+    },
+    "W10": {
+      "official": "covered",
+      "a": "static",
+      "verdict": "official_sufficient",
+      "critical": false
+    },
+    "W11": {
+      "official": "covered",
+      "a": "unsupported",
+      "verdict": "official_sufficient",
+      "critical": true
+    }
+  },
+  "rubric": {
+    "schema": "zhigou.a2-coverage.rubric/v1",
+    "generated_at": "2026-10-28T12:13:08+08:00",
+    "critical_ids": [
+      "W02",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W11"
+    ],
+    "counts": {
+      "covered": [
+        "W08",
+        "W11"
+      ],
+      "partial": [
+        "W02",
+        "W06",
+        "W07",
+        "W09"
+      ],
+      "unsupported": [],
+      "blocked": [
+        "W04",
+        "W05"
+      ],
+      "not_run": [],
+      "unresolved_critical": [
+        "W04",
+        "W05"
+      ]
+    },
+    "a2_conditions": {
+      "official_covered_at_least_7_of_8": false,
+      "w11_mcp_usable": true,
+      "remaining_gaps_thin_wrapper_le_2": false,
+      "a_retirement_does_not_break_b1_or_skill": null
+    },
+    "a1_conditions": {
+      "official_unsupported_or_partial_at_least_2": true,
+      "gaps_cannot_be_thin_wrapped": null,
+      "w11_unusable": false,
+      "critical_writes_need_unacceptable_js_or_permission_risk": null
+    },
+    "a3_conditions": {
+      "official_covered_at_least_7_of_8": false,
+      "w11_mcp_usable": true,
+      "a_typed_benefit_negligible": null,
+      "a_maintenance_cost_high": true
+    },
+    "decision": "incomplete",
+    "provisional": true,
+    "provisional_lean": "A2",
+    "lean_basis": [
+      "official MCP entry works (W11 covered)",
+      "official reads/checks/exports are real for W01/W02/W03/W07/W08/W10/W11",
+      "the remaining critical gaps are exactly the un-authorized write cells (W04/W05) and save/reopen persistence (W09-save)",
+      "A cannot be independently exercised on this host (no Go build; connector only in the user window)"
+    ],
+    "missing_evidence": [
+      "W04: official status is 'blocked' - an authorized write probe on a disposable project is required",
+      "W05: official status is 'blocked' - an authorized write probe on a disposable project is required"
+    ]
+  }
+}

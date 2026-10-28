@@ -1,0 +1,27 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W04",
+  "side": "a",
+  "title": "schematic write + readback",
+  "status": "static",
+  "actions": [
+    "zhigou sch place",
+    "zhigou sch modify",
+    "zhigou sch connect",
+    "zhigou sch netflag",
+    "zhigou sch no-connect",
+    "zhigou sch save"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A catalog has 26 schematic write actions and its self-evidence claims a real schematic write/save/reopen chain (M2-M4).",
+    "A typed action removes the JS-authoring and readback-batching burden; this is the strongest non-replaceable argument for A."
+  ],
+  "blockers": [
+    "not run by this spike (no Go build, connector in user window only)",
+    "no independent receipt"
+  ]
+}

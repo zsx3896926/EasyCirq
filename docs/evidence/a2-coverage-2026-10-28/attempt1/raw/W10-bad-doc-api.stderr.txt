@@ -1,0 +1,1 @@
+DOC_QUERY_FAILED: [help] eda 命名空间下不存在类型：DMT_NotARealClass

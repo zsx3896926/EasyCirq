@@ -1,0 +1,10 @@
+distribution/INSTALL.md
+distribution/Install-Zhigou.cmd
+distribution/Install-Zhigou.ps1
+distribution/build_release.py
+distribution/rebrand_connector.py
+distribution/rebrand_runtime.py
+distribution/toolchain.json
+distribution/verify_vendor.py
+distribution/zhigou_install.py
+tests/test_install_lifecycle.py

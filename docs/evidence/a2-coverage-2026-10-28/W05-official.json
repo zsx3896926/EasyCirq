@@ -1,0 +1,35 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W05",
+  "side": "official",
+  "title": "PCB write",
+  "status": "blocked",
+  "commands": [
+    "invoke -> eda.sch_Document.importChanges",
+    "invoke -> eda.pcb_PrimitiveComponent.modify",
+    "invoke -> eda.pcb_Document.save",
+    "invoke -> readback"
+  ],
+  "steps": 0,
+  "exit_codes": [],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.importChanges.json",
+    "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.save.json",
+    "docs/evidence/a2-coverage-2026-10-28/api/PCB_PrimitiveComponent.modify.json"
+  ],
+  "observations": [
+    "Static surface: importChanges, PCB primitive modify/delete, PCB_Document.save and an official autoRouting entry point exist.",
+    "No write was executed (no authorization); the repository's own notes say importChanges returned true but materialized nothing in half-offline mode."
+  ],
+  "risks": [
+    "importChanges may silently no-op in half-offline mode",
+    "single-writer / ordering / undo semantics are absent at the CLI layer",
+    "no write probe means persistence is unproven"
+  ],
+  "measured": {
+    "steps": 0,
+    "js_lines": 0,
+    "exit_codes": [],
+    "duration_ms": 0.0
+  }
+}

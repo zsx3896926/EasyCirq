@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取当前工程的详细属性","remarks":"将会获取当前打开且拥有最后输入焦点的原理图、PCB、面板所关联的工程的详细属性","visibility":"public","params":[],"returns":{"type":"IDMT_ProjectItem","description":"工程属性，如若为 `undefined` 则获取失败"},"isAsync":true},"logs":[],"durationMs":232}

@@ -1,0 +1,2418 @@
+PROTEL NETLIST 2.0
+[
+DESIGNATOR
+DC1
+FOOTPRINT
+DC-IN-TH_DC005-T20
+PARTTYPE
+DC005-T20
+DESCRIPTION
+连接器类型:DC电源插座;安装方式:弯插;触点内径:-;触点外径:6.3mm;额定电流:3A;额定电压:30V;工作温度范围:-10℃~+60℃;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+DC005-T20
+PCB Layer
+Default
+Symbol
+DC005-2.0MM_1
+Designator
+DC1
+Name
+
+Unique ID
+gge1
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+外径:6.3mm B级 全铜
+Supplier Part
+C111567
+Manufacturer
+SOFNG(硕方)
+Manufacturer Part
+DC005-T20
+Supplier Footprint
+插件
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20170519/1495157966733.pdf
+Supplier
+LCSC
+3D Model Title
+DC-IN-TH_DC005-T20
+Connector Type
+DC电源插座
+Mounting Style
+弯插
+Inside Contact Diameter
+-
+Outside Contact Diameter
+6.3mm
+Current Rating (Max)
+3A
+Voltage Rating (Max)
+30V
+Operating Temperature Range
+-10℃~+60℃
+Description
+连接器类型:DC电源插座;安装方式:弯插;触点内径:-;触点外径:6.3mm;额定电流:3A;额定电压:30V;工作温度范围:-10℃~+60℃;
+
+*
+]
+[
+DESIGNATOR
+D1
+FOOTPRINT
+DO-35_BD2.0-L4.2-P8.20-D0.5-RD
+PARTTYPE
+1N4148TR
+DESCRIPTION
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+1N4148TR
+PCB Layer
+Default
+Symbol
+1N4148TR_1
+Designator
+D1
+Reverse Leakage Current
+5A@75V
+Operating Temperature
+-55~+175@(Tj)
+Description
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Name
+
+Unique ID
+gge2
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100V 200mA 4ns
+Supplier Part
+C84410
+Manufacturer
+onsemi(安森美)
+Manufacturer Part
+1N4148TR
+Supplier Footprint
+DO-35
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20161024/1477288632860.pdf
+Supplier
+LCSC
+3D Model Title
+DO-35_D1.9-L3.9-P8.2
+Diode Configuration
+-
+Power Dissipation
+500mW
+Reverse Voltage (Vr)
+100V
+Average Rectified Current (Io)
+200mA
+Forward Voltage (Vf@If)
+1V@10mA
+Reverse Recovery Time (trr)
+4ns
+
+*
+]
+[
+DESIGNATOR
+U1
+FOOTPRINT
+CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P
+PARTTYPE
+DB301V-5.0-2P-BU-P
+DESCRIPTION
+间距:5mm;排数:1;每排PIN数:2;安装方式:直针;额定电流:17.5A;额定电压:250V;线规 - AWG:14~22;线规 - mm?:0.75~1.5;工作温度范围:-30~+120;颜色:蓝色;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+DB301V-5.0-2P-BU-P
+PCB Layer
+Default
+Symbol
+DB301V-5.0-2P-BU-P_1
+Designator
+U1
+Operating Temperature Range
+-30~+120
+Description
+间距:5mm;排数:1;每排PIN数:2;安装方式:直针;额定电流:17.5A;额定电压:250V;线规 - AWG:14~22;线规 - mm?:0.75~1.5;工作温度范围:-30~+120;颜色:蓝色;
+Name
+
+Unique ID
+gge3
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+5mm 排数:1 每排P数:2 直针
+Supplier Part
+C430621
+Manufacturer
+DIBO(地博电气)
+Manufacturer Part
+DB301V-5.0-2P-BU-P
+Supplier Footprint
+P=5mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20191217/C430621_0E4ACE8E676D4E51FA492CCC12678E45.pdf
+Supplier
+LCSC
+3D Model Title
+CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P
+Pitch
+5mm
+Number of Rows
+1
+Number of PINs Per Row
+2
+Mounting Style
+直针
+Current Rating (Max)
+17.5A
+Voltage Rating (Max)
+250V
+Wire Gauge - AWG
+14~22
+Wire Gauge - mm?
+0.75~1.5
+Color
+蓝色
+
+*
+]
+[
+DESIGNATOR
+R1
+FOOTPRINT
+RES-TH_BD2.2-L6.5-P10.50-D0.6
+PARTTYPE
+MFR-25JT-52-1K
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:1k;精度:±5%;功率:250mW;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR-25JT-52-1K
+PCB Layer
+Default
+Symbol
+MFR-25JT-52-1K
+Designator
+R1
+LCSC Part Name
+1k ±5% 250mW
+Value
+1k
+Description
+电阻类型:金属膜电阻;阻值:1k;精度:±5%;功率:250mW;工作温度范围:-;
+Name
+
+Unique ID
+gge4
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C176465
+Manufacturer
+YAGEO(国巨)
+Manufacturer Part
+MFR-25JT-52-1K
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20180412/C176465_B1D61A567F5A7ED09D93828451981E7D.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.2-L6.5-P10.50
+Type
+金属膜电阻
+Tolerance
+±5%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+R2
+FOOTPRINT
+RES-TH_BD2.2-L6.5-P10.50-D0.6
+PARTTYPE
+MFR0W4F2002A50
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:20k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR0W4F2002A50
+PCB Layer
+Default
+Symbol
+MFR0W4F2002A50_1
+Designator
+R2
+LCSC Part Name
+20k ±1% 250mW
+Value
+20k
+Temperature Coefficient
+±50ppm/
+Description
+电阻类型:金属膜电阻;阻值:20k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Name
+
+Unique ID
+gge5
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C58594
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+MFR0W4F2002A50
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20170615/1497511037942.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.2-L6.5-P10.50
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+R3
+FOOTPRINT
+RES-TH_BD2.5-L6.5-P10.50-D0.6
+PARTTYPE
+MFR0W4F1003A50
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:100k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR0W4F1003A50
+PCB Layer
+Default
+Symbol
+MFR0W4F1003A50_1
+Designator
+R3
+LCSC Part Name
+100k ±1% 250mW
+Value
+100k
+Temperature Coefficient
+±50ppm/
+Description
+电阻类型:金属膜电阻;阻值:100k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Name
+
+Unique ID
+gge6
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C58597
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+MFR0W4F1003A50
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20170615/1497511038881.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_D2.3-L6.5-P10.50
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+R6
+FOOTPRINT
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+PARTTYPE
+MFR-25FTE52-47K
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:47k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR-25FTE52-47K
+PCB Layer
+Default
+Symbol
+MFR-25FTE52-47K
+Designator
+R6
+LCSC Part Name
+47k ±1% 250mW
+Value
+47k
+Temperature Coefficient
+±50ppm/
+Description
+电阻类型:金属膜电阻;阻值:47k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Name
+
+Unique ID
+gge7
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C173021
+Manufacturer
+YAGEO(国巨)
+Manufacturer Part
+MFR-25FTE52-47K
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20180420/C173021_7AD4F1B81C478ED33B405AE8A1C191A6.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+R7
+FOOTPRINT
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+PARTTYPE
+MF1/4W ±1% 16K STB5
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:16k;精度:±1%;功率:250mW;温度系数:±350ppm/;最大工作电压:250V;工作温度范围:-55~+155;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MF1/4W ±1% 16K STB5
+PCB Layer
+Default
+Symbol
+MF1/4W ±1% 16K STB5
+Designator
+R7
+LCSC Part Name
+16k ±1% 250mW
+Value
+16k
+Temperature Coefficient
+±350ppm/
+Operating Temperature Range
+-55~+155
+Description
+电阻类型:金属膜电阻;阻值:16k;精度:±1%;功率:250mW;温度系数:±350ppm/;最大工作电压:250V;工作温度范围:-55~+155;
+Name
+
+Unique ID
+gge8
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C337151
+Manufacturer
+VO(翔胜)
+Manufacturer Part
+MF1/4W ±1% 16K STB5
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20181224/C337151_F9580EBD41013FCE755A16D7F2B5866E.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Overload Voltage (Max)
+250V
+
+*
+]
+[
+DESIGNATOR
+R8
+FOOTPRINT
+RES-ADJ-TH_3296W
+PARTTYPE
+3296W-1-103
+DESCRIPTION
+阻值:10k;精度:±10%;温度系数:±250ppm/;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+3296W-1-103
+PCB Layer
+Default
+Symbol
+3296W-1-103_C330432
+Designator
+R8
+LCSC Part Name
+10k ±10%
+Value
+10k
+Temperature Coefficient
+±250ppm/
+Description
+阻值:10k;精度:±10%;温度系数:±250ppm/;
+Name
+
+Unique ID
+gge9
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C330432
+Manufacturer
+BOCHEN(博晨)
+Manufacturer Part
+3296W-1-103
+Supplier Footprint
+插件
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20181127/C330432_1E3D0FAFEECED03876733B6304362580.pdf
+Supplier
+LCSC
+3D Model Title
+RES-ADJ-TH_3296W
+Tolerance
+±10%
+
+*
+]
+[
+DESIGNATOR
+R10
+FOOTPRINT
+RES-ADJ-TH_3296W
+PARTTYPE
+3296W-1-101LF
+DESCRIPTION
+阻值:100;精度:±10%;温度系数:±100ppm/;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+3296W-1-101LF
+PCB Layer
+Default
+Symbol
+3296W-1-101LF_1
+Designator
+R10
+LCSC Part Name
+100 ±10%
+Value
+100
+Temperature Coefficient
+±100ppm/
+Description
+阻值:100;精度:±10%;温度系数:±100ppm/;
+Name
+
+Unique ID
+gge10
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C83688
+Manufacturer
+BOURNS
+Manufacturer Part
+3296W-1-101LF
+Supplier Footprint
+3296W
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20160920/1474356682992.pdf
+Supplier
+LCSC
+3D Model Title
+RES-ADJ-TH_3296W
+Tolerance
+±10%
+
+*
+]
+[
+DESIGNATOR
+LED1
+FOOTPRINT
+LED-TH_BD3.8-P2.54-FD
+PARTTYPE
+204-10SDRD/S530-A3-L
+DESCRIPTION
+发光颜色:红灯;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+204-10SDRD/S530-A3-L
+PCB Layer
+Default
+Symbol
+204-10SDRD/S530-A3-L_1
+Designator
+LED1
+Name
+
+Unique ID
+gge11
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+3MM  红发红光
+Supplier Part
+C84774
+Manufacturer
+EVERLIGHT(台湾亿光)
+Manufacturer Part
+204-10SDRD/S530-A3-L
+Supplier Footprint
+插件
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20170717/C84774_1500286941158822251.pdf
+Supplier
+LCSC
+3D Model Title
+LED-TH_BD3.8-P2.54-FD
+Emitted Color
+红灯
+Description
+发光颜色:红灯;
+
+*
+]
+[
+DESIGNATOR
+P2
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P2
+Name
+
+Unique ID
+gge12
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+P1
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P1
+Name
+
+Unique ID
+gge13
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+P5
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P5
+Name
+
+Unique ID
+gge14
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+P3
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P3
+Name
+
+Unique ID
+gge15
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+P6
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P6
+Name
+
+Unique ID
+gge16
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+P4
+FOOTPRINT
+HDR-TH_2P-P2.54-V-F
+PARTTYPE
+2.54-1*2P母
+DESCRIPTION
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*2P母
+PCB Layer
+Default
+Symbol
+Header-Female-2.54_1x2
+Designator
+P4
+Name
+
+Unique ID
+gge17
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+2.54mm
+Supplier Part
+C49661
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*2P母
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20151109/1457707570988.pdf
+Supplier
+LCSC
+3D Model Title
+HDR-TH_2P-P2.54-F-LI-1X2P
+Pitch
+2.54mm
+Number of Holes
+2
+Number of Rows
+1
+Holes Structure
+1x2P
+Row Spacing
+-
+Mounting Type
+直插
+Insulation Height
+-
+Contact Material
+-
+Contact Plating
+-
+Description
+间距:2.54mm;总孔位数:2;排数:1;插孔结构:1x2P;行距:-;安装类型:直插;塑高:-;触头材质:-;触头镀层:-;
+
+*
+]
+[
+DESIGNATOR
+C1
+FOOTPRINT
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+PARTTYPE
+CD1H473KC9BER1E000
+DESCRIPTION
+容值:47nF;精度:±10%;额定电压:50V;温度系数:X7R;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+CD1H473KC9BER1E000
+PCB Layer
+Default
+Symbol
+CD1H473KC9BER1E000_1
+Designator
+C1
+Value
+47nF
+Name
+
+Unique ID
+gge18
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+47nF ±10% 50V
+Supplier Part
+C263197
+Manufacturer
+Dersonic(德尔创)
+Manufacturer Part
+CD1H473KC9BER1E000
+Supplier Footprint
+径向引线,P=5.08mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20200826/C263197_664386D170852956D467882687EE974D.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH-L3.2-W2.0-H2.2-P5.08
+Tolerance
+±10%
+Voltage Rated
+50V
+Temperature Coefficient
+X7R
+Description
+容值:47nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+*
+]
+[
+DESIGNATOR
+C2
+FOOTPRINT
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+PARTTYPE
+CT4-0805B103K500F1
+DESCRIPTION
+容值:10nF;精度:±10%;额定电压:50V;温度系数:X7R;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+CT4-0805B103K500F1
+PCB Layer
+Default
+Symbol
+CT4-0805B103K500F1
+Designator
+C2
+Value
+10nF
+Name
+
+Unique ID
+gge19
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+10nF ±10% 50V
+Supplier Part
+C169112
+Manufacturer
+FH(风华)
+Manufacturer Part
+CT4-0805B103K500F1
+Supplier Footprint
+径向引线,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20180118/C169112_15162576831491279695.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_L5.3-W3.8-H4.4-P5.08
+Tolerance
+±10%
+Voltage Rated
+50V
+Temperature Coefficient
+X7R
+Description
+容值:10nF;精度:±10%;额定电压:50V;温度系数:X7R;
+
+*
+]
+[
+DESIGNATOR
+C4
+FOOTPRINT
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+PARTTYPE
+DCS104M26Y5UF6FJ5A0
+DESCRIPTION
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+DCS104M26Y5UF6FJ5A0
+PCB Layer
+Default
+Symbol
+DCS104M26Y5UF6FJ5A0
+Designator
+C4
+Value
+100nF
+Name
+
+Unique ID
+gge20
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100nF ±20% 50V
+Supplier Part
+C2896063
+Manufacturer
+SHM(南方宏明)
+Manufacturer Part
+DCS104M26Y5UF6FJ5A0
+Supplier Footprint
+径向引线,P=5mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20210926/5108EA716B26000394C19365B75013E5.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+Tolerance
+±20%
+Voltage Rated
+50V
+Temperature Coefficient
+Y5U
+Lead Spacing
+5mm
+Description
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+
+*
+]
+[
+DESIGNATOR
+C5
+FOOTPRINT
+CAP-TH_BD5.0-P2.00-D0.5-FD
+PARTTYPE
+RF063M101LO8*16TA-1A1E
+DESCRIPTION
+容值:100uF;精度:±20%;额定电压:63V;电容体直径:8mm;电容体长度:16mm;脚间距:3.5mm;纹波电流:-;等效串联电阻:-;工作寿命:5000hrs@105;工作温度:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+RF063M101LO8*16TA-1A1E
+PCB Layer
+Default
+Symbol
+RF063M101LO8*16TA-1A1E_1
+Designator
+C5
+Value
+100uF
+Lifetime @ Temp
+5000hrs@105
+Description
+容值:100uF;精度:±20%;额定电压:63V;电容体直径:8mm;电容体长度:16mm;脚间距:3.5mm;纹波电流:-;等效串联电阻:-;工作寿命:5000hrs@105;工作温度:-;
+Name
+
+Unique ID
+gge21
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100uF ±20% 63V
+Supplier Part
+C516329
+Manufacturer
+BERYL(绿宝石)
+Manufacturer Part
+RF063M101LO8*16TA-1A1E
+Supplier Footprint
+径向引线,8x16mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20200423/C516329_319B046443BB3C1A7EBF366D791346F1.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_BD8.0-P3.50-D0.5-FD
+Tolerance
+±20%
+Rated Voltage
+63V
+φD
+8mm
+L
+16mm
+Lead Spacing
+3.5mm
+Ripple Current
+-
+Equivalent Series Resistance(ESR)
+-
+Operating Temperature
+-
+
+*
+]
+[
+DESIGNATOR
+D3
+FOOTPRINT
+DO-35_BD2.0-L4.2-P8.20-D0.5-RD
+PARTTYPE
+1N4148TR
+DESCRIPTION
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+1N4148TR
+PCB Layer
+Default
+Symbol
+1N4148TR_1
+Designator
+D3
+Reverse Leakage Current
+5A@75V
+Operating Temperature
+-55~+175@(Tj)
+Description
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Name
+
+Unique ID
+gge22
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100V 200mA 4ns
+Supplier Part
+C84410
+Manufacturer
+onsemi(安森美)
+Manufacturer Part
+1N4148TR
+Supplier Footprint
+DO-35
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20161024/1477288632860.pdf
+Supplier
+LCSC
+3D Model Title
+DO-35_D1.9-L3.9-P8.2
+Diode Configuration
+-
+Power Dissipation
+500mW
+Reverse Voltage (Vr)
+100V
+Average Rectified Current (Io)
+200mA
+Forward Voltage (Vf@If)
+1V@10mA
+Reverse Recovery Time (trr)
+4ns
+
+*
+]
+[
+DESIGNATOR
+R5
+FOOTPRINT
+RES-ADJ-TH_3296W
+PARTTYPE
+3296W-1-103
+DESCRIPTION
+阻值:10k;精度:±10%;温度系数:±250ppm/;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+3296W-1-103
+PCB Layer
+Default
+Symbol
+3296W-1-103_C330432
+Designator
+R5
+Value
+10k
+LCSC Part Name
+10k ±10%
+Temperature Coefficient
+±250ppm/
+Description
+阻值:10k;精度:±10%;温度系数:±250ppm/;
+Name
+
+Unique ID
+gge23
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C330432
+Manufacturer
+BOCHEN(博晨)
+Manufacturer Part
+3296W-1-103
+Supplier Footprint
+插件
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20181127/C330432_1E3D0FAFEECED03876733B6304362580.pdf
+Supplier
+LCSC
+3D Model Title
+RES-ADJ-TH_3296W
+Tolerance
+±10%
+
+*
+]
+[
+DESIGNATOR
+D2
+FOOTPRINT
+DO-35_BD2.0-L4.2-P8.20-D0.5-RD
+PARTTYPE
+1N4148TR
+DESCRIPTION
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+1N4148TR
+PCB Layer
+Default
+Symbol
+1N4148TR_1
+Designator
+D2
+Reverse Leakage Current
+5A@75V
+Operating Temperature
+-55~+175@(Tj)
+Description
+二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);
+Name
+
+Unique ID
+gge24
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100V 200mA 4ns
+Supplier Part
+C84410
+Manufacturer
+onsemi(安森美)
+Manufacturer Part
+1N4148TR
+Supplier Footprint
+DO-35
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20161024/1477288632860.pdf
+Supplier
+LCSC
+3D Model Title
+DO-35_D1.9-L3.9-P8.2
+Diode Configuration
+-
+Power Dissipation
+500mW
+Reverse Voltage (Vr)
+100V
+Average Rectified Current (Io)
+200mA
+Forward Voltage (Vf@If)
+1V@10mA
+Reverse Recovery Time (trr)
+4ns
+
+*
+]
+[
+DESIGNATOR
+C6
+FOOTPRINT
+CAP-TH_BD5.0-P2.00-D0.5-FD
+PARTTYPE
+LW100M2501017PV4
+DESCRIPTION
+容值:10uF;精度:±20%;额定电压:250V;电容体直径:10mm;电容体长度:20mm;脚间距:5mm;纹波电流:200mA@100kHz;等效串联电阻:4Ω@100kHz;工作寿命:2000hrs@105℃;工作温度:-40℃~+105℃;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+LW100M2501017PV4
+PCB Layer
+Default
+Symbol
+LW100M2501017PV4_2
+Designator
+C6
+Value
+10uF
+Name
+
+Unique ID
+gge25
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+10uF ±20% 250V
+Supplier Part
+C2847239
+Manufacturer
+UNITED(怡德)
+Manufacturer Part
+LW100M2501017PV4
+Supplier Footprint
+径向引线,10x20mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20210723/C2847239_147AA3FCC1C7F46DE6816FDB6113BC95.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_BD10.0-P5.00-D0.6-FD
+Tolerance
+±20%
+Rated Voltage
+250V
+φD
+10mm
+L
+20mm
+Lead Spacing
+5mm
+Ripple Current
+200mA@100kHz
+Equivalent Series Resistance(ESR)
+4Ω@100kHz
+Lifetime @ Temp
+2000hrs@105℃
+Operating Temperature
+-40℃~+105℃
+Description
+容值:10uF;精度:±20%;额定电压:250V;电容体直径:10mm;电容体长度:20mm;脚间距:5mm;纹波电流:200mA@100kHz;等效串联电阻:4Ω@100kHz;工作寿命:2000hrs@105℃;工作温度:-40℃~+105℃;
+
+*
+]
+[
+DESIGNATOR
+U3
+FOOTPRINT
+DIP-8_L9.6-W6.4-P2.54-LS7.6-BL-1_1
+PARTTYPE
+TL072CP
+DESCRIPTION
+运放类型:J-FET;放大器组数:2;增益带宽积（GBP）:3MHz;压摆率（SR）:13 V/us;电源电压:7V~36V,±3.5V~18V;各通道供电电流:1.4mA;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+TL072CP
+PCB Layer
+Default
+Symbol
+TL072CP
+Relevance
+[]
+Designator
+U3
+Name
+
+Multi-Part Group
+
+Unique ID
+gge33
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+TL072CP
+Supplier Part
+C7236
+Manufacturer
+TI(德州仪器)
+Manufacturer Part
+TL072CP
+Supplier Footprint
+DIP-8
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20140704/1457707129967.pdf
+Supplier
+LCSC
+3D Model Title
+DIP-8_L9.6-W6.4-P2.54-LS7.6-BL-1
+Amplifier Type
+J-FET
+Number of Circuits
+2
+Gain Bandwidth Product（GBP）
+3MHz
+Slew Rate（SR）
+13 V/us
+Output Type
+-
+Supply Voltage（Single）
+7V~36V,±3.5V~18V
+Iq per channel (Typ)
+1.4mA
+Operating Temperature
+0°C ~ 70°C
+Description
+运放类型:J-FET;放大器组数:2;增益带宽积（GBP）:3MHz;压摆率（SR）:13 V/us;电源电压:7V~36V,±3.5V~18V;各通道供电电流:1.4mA;
+
+*
+]
+[
+DESIGNATOR
+R11
+FOOTPRINT
+RES-TH_BD2.3-L6.5-P10.50-D0.5
+PARTTYPE
+MF1/4W-8.2KΩ±1%T52_1
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:8.2kΩ;精度:±1%;功率:250mW;温度系数:±200ppm/℃;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MF1/4W-8.2KΩ±1%T52_1
+PCB Layer
+Default
+Symbol
+MF1/4W-8.2KΩ±1%T52_1
+Designator
+R11
+Value
+8.2kΩ
+Name
+
+Unique ID
+gge26
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+8.2kΩ ±1% 250mW
+Supplier Part
+C714014
+Manufacturer
+华星机电
+Manufacturer Part
+MF1/4W-8.2KΩ±1%T52
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20200731/C713882_AE8EB1102749D7E4FB4FB13DC898C429.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_D2.3-L6.5-P10.50
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Temperature Coefficient
+±200ppm/℃
+Operating Temperature Range
+-
+Description
+电阻类型:金属膜电阻;阻值:8.2kΩ;精度:±1%;功率:250mW;温度系数:±200ppm/℃;工作温度范围:-;
+
+*
+]
+[
+DESIGNATOR
+C3
+FOOTPRINT
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+PARTTYPE
+DCS104M26Y5UF6FJ5A0
+DESCRIPTION
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+DCS104M26Y5UF6FJ5A0
+PCB Layer
+Default
+Symbol
+DCS104M26Y5UF6FJ5A0
+Designator
+C3
+Value
+100nF
+Name
+
+Unique ID
+gge27
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100nF ±20% 50V
+Supplier Part
+C2896063
+Manufacturer
+SHM(南方宏明)
+Manufacturer Part
+DCS104M26Y5UF6FJ5A0
+Supplier Footprint
+径向引线,P=5mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20210926/5108EA716B26000394C19365B75013E5.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+Tolerance
+±20%
+Voltage Rated
+50V
+Temperature Coefficient
+Y5U
+Lead Spacing
+5mm
+Description
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+
+*
+]
+[
+DESIGNATOR
+C7
+FOOTPRINT
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+PARTTYPE
+DCS104M26Y5UF6FJ5A0
+DESCRIPTION
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+DCS104M26Y5UF6FJ5A0
+PCB Layer
+Default
+Symbol
+DCS104M26Y5UF6FJ5A0
+Designator
+C7
+Value
+100nF
+Name
+
+Unique ID
+gge28
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+100nF ±20% 50V
+Supplier Part
+C2896063
+Manufacturer
+SHM(南方宏明)
+Manufacturer Part
+DCS104M26Y5UF6FJ5A0
+Supplier Footprint
+径向引线,P=5mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20210926/5108EA716B26000394C19365B75013E5.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_L6.5-W3.0-P5.00-D0.6
+Tolerance
+±20%
+Voltage Rated
+50V
+Temperature Coefficient
+Y5U
+Lead Spacing
+5mm
+Description
+容值:100nF;精度:±20%;额定电压:50V;温度系数:Y5U;脚间距:5mm;
+
+*
+]
+[
+DESIGNATOR
+R4
+FOOTPRINT
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+PARTTYPE
+MFR-25FTE52-47K
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:47k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR-25FTE52-47K
+PCB Layer
+Default
+Symbol
+MFR-25FTE52-47K
+Designator
+R4
+Value
+47k
+LCSC Part Name
+47k ±1% 250mW
+Temperature Coefficient
+±50ppm/
+Description
+电阻类型:金属膜电阻;阻值:47k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;
+Name
+
+Unique ID
+gge29
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C173021
+Manufacturer
+YAGEO(国巨)
+Manufacturer Part
+MFR-25FTE52-47K
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20180420/C173021_7AD4F1B81C478ED33B405AE8A1C191A6.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.4-L6.3-P10.30-D0.6
+Type
+金属膜电阻
+Tolerance
+±1%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+C8
+FOOTPRINT
+CAP-TH_BD5.0-P2.00-D0.5-FD
+PARTTYPE
+LW100M2501017PV4
+DESCRIPTION
+容值:10uF;精度:±20%;额定电压:250V;电容体直径:10mm;电容体长度:20mm;脚间距:5mm;纹波电流:200mA@100kHz;等效串联电阻:4Ω@100kHz;工作寿命:2000hrs@105℃;工作温度:-40℃~+105℃;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+LW100M2501017PV4
+PCB Layer
+Default
+Symbol
+LW100M2501017PV4_2
+Designator
+C8
+Value
+10uF
+Name
+
+Unique ID
+gge30
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+10uF ±20% 250V
+Supplier Part
+C2847239
+Manufacturer
+UNITED(怡德)
+Manufacturer Part
+LW100M2501017PV4
+Supplier Footprint
+径向引线,10x20mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20210723/C2847239_147AA3FCC1C7F46DE6816FDB6113BC95.pdf
+Supplier
+LCSC
+3D Model Title
+CAP-TH_BD10.0-P5.00-D0.6-FD
+Tolerance
+±20%
+Rated Voltage
+250V
+φD
+10mm
+L
+20mm
+Lead Spacing
+5mm
+Ripple Current
+200mA@100kHz
+Equivalent Series Resistance(ESR)
+4Ω@100kHz
+Lifetime @ Temp
+2000hrs@105℃
+Operating Temperature
+-40℃~+105℃
+Description
+容值:10uF;精度:±20%;额定电压:250V;电容体直径:10mm;电容体长度:20mm;脚间距:5mm;纹波电流:200mA@100kHz;等效串联电阻:4Ω@100kHz;工作寿命:2000hrs@105℃;工作温度:-40℃~+105℃;
+
+*
+]
+[
+DESIGNATOR
+R9
+FOOTPRINT
+RES-TH_BD2.2-L6.5-P10.50-D0.6
+PARTTYPE
+MFR-25JT-52-1K
+DESCRIPTION
+电阻类型:金属膜电阻;阻值:1k;精度:±5%;功率:250mW;工作温度范围:-;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+MFR-25JT-52-1K
+PCB Layer
+Default
+Symbol
+MFR-25JT-52-1K
+Designator
+R9
+Value
+1k
+LCSC Part Name
+1k ±5% 250mW
+Description
+电阻类型:金属膜电阻;阻值:1k;精度:±5%;功率:250mW;工作温度范围:-;
+Name
+
+Unique ID
+gge31
+Reuse Block
+
+Group ID
+
+Channel ID
+
+Supplier Part
+C176465
+Manufacturer
+YAGEO(国巨)
+Manufacturer Part
+MFR-25JT-52-1K
+Supplier Footprint
+轴向引线
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20180412/C176465_B1D61A567F5A7ED09D93828451981E7D.pdf
+Supplier
+LCSC
+3D Model Title
+RES-TH_BD2.2-L6.5-P10.50
+Type
+金属膜电阻
+Tolerance
+±5%
+Power(Watts)
+250mW
+Operating Temperature Range
+-
+
+*
+]
+[
+DESIGNATOR
+U4
+FOOTPRINT
+PDIP-8_L9.5-W6.4-P2.54-LS7.6-BL
+PARTTYPE
+NE555DR
+DESCRIPTION
+类型:555 型，计时器/振荡器(单路);计数:-;频率:100kHz;工作电压:4.5V~16V;工作电流:10mA;工作温度:0~+70;
+Component Kind
+Standard
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+NE555DR
+PCB Layer
+Default
+Symbol
+NE555DR
+Designator
+U4
+Value
+100kHz
+Operating Temperature
+0~+70
+Description
+类型:555 型，计时器/振荡器(单路);计数:-;频率:100kHz;工作电压:4.5V~16V;工作电流:10mA;工作温度:0~+70;
+Name
+
+Unique ID
+gge32
+Reuse Block
+
+Group ID
+
+Channel ID
+
+LCSC Part Name
+NE555DR
+Supplier Part
+C7593
+Manufacturer
+TI(德州仪器)
+Manufacturer Part
+NE555DR
+Supplier Footprint
+SOIC-8_150mil
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://atta.szlcsc.com/upload/public/pdf/source/20140704/1457707116116.pdf
+Supplier
+LCSC
+3D Model Title
+SOIC-8_L4.9-W3.9-H1.7-LS6.0-P1.27
+Type
+555 型，计时器/振荡器(单路)
+Count
+-
+Supply Voltage
+4.5V~16V
+Supply Current
+10mA
+
+*
+]
+(
+GND 
+DC1-3 DC005-T20-3 Input   
+DC1-2 DC005-T20-2 Input   
+U1-1 DB301V-5.0-2P-BU-P-1 Input   
+R3-1 MFR0W4F1003A50-1 Input   
+R6-2 MFR-25FTE52-47K-2 Input   
+R10-1 3296W-1-101LF-1 Input   
+LED1-2 204-10SDRD/S530-A3-L-C Input   
+P2-1 2.54-1*2P母-1 Input   
+P2-2 2.54-1*2P母-2 Input   
+P5-1 2.54-1*2P母-1 Input   
+P5-2 2.54-1*2P母-2 Input   
+P6-1 2.54-1*2P母-1 Input   
+P6-2 2.54-1*2P母-2 Input   
+C1-1 CD1H473KC9BER1E000-1 Input   
+C2-2 CT4-0805B103K500F1-2 Input   
+C4-1 DCS104M26Y5UF6FJ5A0-1 Input   
+C5-2 RF063M101LO8*16TA-1A1E-2 Input   
+U3-4 TL072CP-VCC- Input   
+R9-1 MFR-25JT-52-1K-1 Input   
+U4-1 NE555DR-GND Input   
+)
+(
+VCC_IN 
+DC1-1 DC005-T20-1 Input   
+D1-2 1N4148TR-A Input   
+U1-2 DB301V-5.0-2P-BU-P-2 Input   
+R1-1 MFR-25JT-52-1K-1 Input   
+P1-1 2.54-1*2P母-1 Input   
+P1-2 2.54-1*2P母-2 Input   
+)
+(
+VCC 
+D1-1 1N4148TR-C Input   
+R8-3 3296W-1-103-3 Input   
+C5-1 RF063M101LO8*16TA-1A1E-1 Input   
+U3-8 TL072CP-VCC+ Input   
+R4-1 MFR-25FTE52-47K-1 Input   
+U4-8 NE555DR-VCC Input   
+U4-4 NE555DR-RST Input   
+)
+(
+$1N6954 
+R1-2 MFR-25JT-52-1K-2 Input   
+LED1-1 204-10SDRD/S530-A3-L-A Input   
+)
+(
+$1N13327 
+R2-2 MFR0W4F2002A50-2 Input   
+C6-2 LW100M2501017PV4-2 Input   
+)
+(
+$1N13796 
+R2-1 MFR0W4F2002A50-1 Input   
+R3-2 MFR0W4F1003A50-2 Input   
+R11-1 MF1/4W-8.2KΩ±1%T52_1-1 Input   
+)
+(
+$1N15740 
+R6-1 MFR-25FTE52-47K-1 Input   
+U3-3 TL072CP-IN1+ Input   
+R4-2 MFR-25FTE52-47K-2 Input   
+)
+(
+$1N15475 
+R7-2 MF1/4W ±1% 16K STB5-2 Input   
+U3-2 TL072CP-IN1- Input   
+C3-1 DCS104M26Y5UF6FJ5A0-1 Input   
+)
+(
+$1N15445 
+R7-1 MF1/4W ±1% 16K STB5-1 Input   
+U3-1 TL072CP-OUT1 Output  
+C7-1 DCS104M26Y5UF6FJ5A0-1 Input   
+C8-1 LW100M2501017PV4-1 Input   
+)
+(
+$1N10436 
+R8-1 3296W-1-103-1 Input   
+R8-2 3296W-1-103-2 Input   
+D3-2 1N4148TR-A Input   
+R5-3 3296W-1-103-3 Input   
+U4-7 NE555DR-DISCH Input   
+)
+(
+$1N14821 
+R10-2 3296W-1-101LF-2 Input   
+R10-3 3296W-1-101LF-3 Input   
+R11-2 MF1/4W-8.2KΩ±1%T52_1-2 Input   
+C3-2 DCS104M26Y5UF6FJ5A0-2 Input   
+C7-2 DCS104M26Y5UF6FJ5A0-2 Input   
+)
+(
+VO1 
+P3-1 2.54-1*2P母-1 Input   
+P3-2 2.54-1*2P母-2 Input   
+C4-2 DCS104M26Y5UF6FJ5A0-2 Input   
+C6-1 LW100M2501017PV4-1 Input   
+U4-3 NE555DR-OUT Input   
+)
+(
+VO2 
+P4-1 2.54-1*2P母-1 Input   
+P4-2 2.54-1*2P母-2 Input   
+C8-2 LW100M2501017PV4-2 Input   
+R9-2 MFR-25JT-52-1K-2 Input   
+)
+(
+$1N22192 
+C1-2 CD1H473KC9BER1E000-2 Input   
+D3-1 1N4148TR-C Input   
+D2-2 1N4148TR-A Input   
+U4-6 NE555DR-THRES Input   
+U4-2 NE555DR-TRIG Input   
+)
+(
+$1N9962 
+C2-1 CT4-0805B103K500F1-1 Input   
+U4-5 NE555DR-CONT Input   
+)
+(
+$1N10660 
+R5-1 3296W-1-103-1 Input   
+R5-2 3296W-1-103-2 Input   
+D2-1 1N4148TR-C Input   
+)

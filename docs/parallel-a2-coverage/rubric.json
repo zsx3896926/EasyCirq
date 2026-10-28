@@ -1,0 +1,67 @@
+{
+  "schema": "zhigou.a2-coverage.rubric/v1",
+  "generated_at": "2026-10-28T12:13:08+08:00",
+  "critical_ids": [
+    "W02",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "W09",
+    "W11"
+  ],
+  "counts": {
+    "covered": [
+      "W08",
+      "W11"
+    ],
+    "partial": [
+      "W02",
+      "W06",
+      "W07",
+      "W09"
+    ],
+    "unsupported": [],
+    "blocked": [
+      "W04",
+      "W05"
+    ],
+    "not_run": [],
+    "unresolved_critical": [
+      "W04",
+      "W05"
+    ]
+  },
+  "a2_conditions": {
+    "official_covered_at_least_7_of_8": false,
+    "w11_mcp_usable": true,
+    "remaining_gaps_thin_wrapper_le_2": false,
+    "a_retirement_does_not_break_b1_or_skill": null
+  },
+  "a1_conditions": {
+    "official_unsupported_or_partial_at_least_2": true,
+    "gaps_cannot_be_thin_wrapped": null,
+    "w11_unusable": false,
+    "critical_writes_need_unacceptable_js_or_permission_risk": null
+  },
+  "a3_conditions": {
+    "official_covered_at_least_7_of_8": false,
+    "w11_mcp_usable": true,
+    "a_typed_benefit_negligible": null,
+    "a_maintenance_cost_high": true
+  },
+  "decision": "incomplete",
+  "provisional": true,
+  "provisional_lean": "A2",
+  "lean_basis": [
+    "official MCP entry works (W11 covered)",
+    "official reads/checks/exports are real for W01/W02/W03/W07/W08/W10/W11",
+    "the remaining critical gaps are exactly the un-authorized write cells (W04/W05) and save/reopen persistence (W09-save)",
+    "A cannot be independently exercised on this host (no Go build; connector only in the user window)"
+  ],
+  "missing_evidence": [
+    "W04: official status is 'blocked' - an authorized write probe on a disposable project is required",
+    "W05: official status is 'blocked' - an authorized write probe on a disposable project is required"
+  ]
+}

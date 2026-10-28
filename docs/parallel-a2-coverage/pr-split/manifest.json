@@ -1,0 +1,89 @@
+{
+  "schema": "zhigou.a2-coverage.pr-split/v1",
+  "generated_at": "2026-10-28T12:26:31+08:00",
+  "repo": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a2-worktree",
+  "refs": {
+    "history_base": {
+      "ref": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5",
+      "sha": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5"
+    },
+    "history_ref": {
+      "ref": "dfa8f10d7149df435ab0c0be91edcdcb91990ce1",
+      "sha": "dfa8f10d7149df435ab0c0be91edcdcb91990ce1"
+    },
+    "main": {
+      "ref": "origin/main",
+      "sha": "9f6f325a508930ffcfb1254fc0647e572470bad8"
+    },
+    "a_branch": {
+      "ref": "origin/feat/integrated-eda-toolchain",
+      "sha": "9a1cb75c609df0d98abf4c94a104053eaca91287"
+    },
+    "thin": {
+      "ref": "spike/a2-eda-coverage",
+      "sha": "92676e23a05b6a01688ddf18cc022062fd2af7ad"
+    },
+    "history_effective_base": {
+      "sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+    },
+    "residual_base": {
+      "sha": "9a1cb75c609df0d98abf4c94a104053eaca91287"
+    },
+    "thin_base": {
+      "sha": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5"
+    }
+  },
+  "warnings": [
+    "HISTORY_BASE_NOT_ANCESTOR: fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5 is not an ancestor of dfa8f10d7149df435ab0c0be91edcdcb91990ce1; using merge base 9a951edc2148 as the content base.",
+    "HISTORY_REF_ALREADY_IN_MAIN: the historical A tip is an ancestor of the current main (PR #36 was merged). Replaying the split against the current main yields an empty diff; these branches are for audit only - do not push them to the shared remote.",
+    "MAIN_ALREADY_HAS_FORK: current main already contains runtime/; a branch based on the current main cannot be used to replay the historical 'add the fork' PR-3."
+  ],
+  "sets": {
+    "history-pr1": {
+      "paths": 530,
+      "deletes": 0,
+      "sha256_paths": "1284f6704c67df7d84e765ccada402748a1e73d721472e2deeb1de6d61c2dc78",
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr1-paths.txt",
+      "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "file_delete": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr1-delete.txt"
+    },
+    "history-pr2": {
+      "paths": 10,
+      "deletes": 0,
+      "sha256_paths": "d9d8be2fc664e1db6133a407c0ecd88f0db4d6059ea41563d976311731dc8fd3",
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr2-paths.txt",
+      "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "file_delete": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr2-delete.txt"
+    },
+    "history-pr3": {
+      "paths": 1270,
+      "deletes": 4,
+      "sha256_paths": "28c3f1e1f25ba9b7a30e1ce5aa34684d666589a0b38f1ebfbb415558c88e79ab",
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr3-paths.txt",
+      "sha256_delete": "954bcc4c233ee22a117ba2bc490c3127580cd857037929e4e04cf3d35a007734",
+      "file_delete": "docs\\parallel-a2-coverage\\pr-split\\history\\history-pr3-delete.txt"
+    },
+    "residual": {
+      "paths": 0,
+      "deletes": 0,
+      "sha256_paths": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\residual-paths.txt",
+      "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "file_delete": "docs\\parallel-a2-coverage\\pr-split\\now\\residual-delete.txt"
+    },
+    "thin-layer": {
+      "paths": 232,
+      "deletes": 0,
+      "sha256_paths": "7e2b9d279d62185709186567cba20a8aedd391d5480fb5dcde887ccd0a8f4c86",
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\thin-layer-paths.txt",
+      "sha256_delete": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "file_delete": "docs\\parallel-a2-coverage\\pr-split\\now\\thin-layer-delete.txt"
+    },
+    "retire": {
+      "paths": 1147,
+      "file_paths": "docs\\parallel-a2-coverage\\pr-split\\now\\retire-paths.txt",
+      "sha256_paths": "c37590ba5311b9c4164f0a33b29dc5972f2ed9231ddec708fdeb2875d64b717f",
+      "note": "deletion scope for the A2 retire PR; gated by the authorized write probe"
+    }
+  }
+}

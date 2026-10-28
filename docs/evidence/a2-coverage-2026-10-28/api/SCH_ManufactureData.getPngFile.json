@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取 PNG 文件","remarks":"支持按长宽分辨率导出高清图片（最大 4096）；\n支持只传入 `width` 或 `height` 中的任意一个，另一侧将按原始比例自动拉伸输出；\n`width` 与 `height` 均不传时，按当前一倍分辨率输出\n\nADD since EDA v3.2.183 / EDA v4.1.23","visibility":"beta","params":[{"name":"fileName","type":"string","description":"文件名","required":false},{"name":"resolution","type":"ISCH_ExportPngResolution","required":false}],"returns":{"type":"File | undefined","description":"PNG 文件数据（或压缩包）"},"isAsync":true},"logs":[],"durationMs":190}

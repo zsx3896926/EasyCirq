@@ -1,0 +1,41 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W11",
+  "side": "official",
+  "title": "MCP entry",
+  "status": "covered",
+  "commands": [
+    "lceda-pro --mcp stdio",
+    "initialize (protocol 2025-06-18)",
+    "notifications/initialized",
+    "tools/list",
+    "tools/call lceda-pro.help"
+  ],
+  "steps": 4,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/mcp-tools.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/mcp-transcript.jsonl",
+    "docs/evidence/a2-coverage-2026-10-28/probe-run.json"
+  ],
+  "observations": [
+    "The official MCP server works over stdio with newline-delimited JSON-RPC 2.0; initialize returned protocolVersion 2025-06-18, serverInfo JLCEDA Pro 4.1.78.34f5b8d9, capabilities {tools:{}}.",
+    "tools/list exposes exactly 3 meta-tools: lceda-pro.help, lceda-pro.discover, lceda-pro.call (a proxy over the CLI command surface).",
+    "tools/call lceda-pro.help returned the same command tree as the CLI; no parameterless read tool exists other than help, so a real read call needs discover -> call with arguments.",
+    "HTTP transport (--mcp http --port 3030 --token ...) was not exercised in this run."
+  ],
+  "risks": [
+    "3 generic meta-tools mean the model must discover command paths itself",
+    "no typed MCP tools per action, no schemas per EDA operation",
+    "MCP calls still need a session/project context; concurrency/auth for HTTP mode is untested here"
+  ],
+  "measured": {
+    "steps": 4,
+    "js_lines": 0,
+    "exit_codes": [],
+    "duration_ms": 0.0,
+    "mcp_transcript_lines": 7
+  }
+}

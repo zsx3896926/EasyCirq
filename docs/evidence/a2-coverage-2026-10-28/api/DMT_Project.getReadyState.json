@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取当前工程的就绪状态","remarks":"返回工程的就绪阶段（未加载 / 加载中 / 就绪 / 失败），无需依赖业务数据推断","visibility":"alpha","params":[],"returns":{"type":"EDMT_ProjectReadyState","description":"当前工程的就绪状态"},"isAsync":true},"logs":[],"durationMs":203}

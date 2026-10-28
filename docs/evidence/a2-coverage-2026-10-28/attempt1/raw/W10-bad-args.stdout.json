@@ -1,0 +1,2 @@
+
+{"ok":false,"error":{"code":"INVALID_ARGS","message":"--args must be a JSON object"}}

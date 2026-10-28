@@ -1,0 +1,39 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W03",
+  "side": "official",
+  "title": "PCB read",
+  "status": "partial",
+  "commands": [
+    "invoke -> eda.dmt_Pcb.getAllPcbsInfo",
+    "invoke -> eda.pcb_Layer.getAllLayers / getTheNumberOfCopperLayers",
+    "invoke -> eda.pcb_Net.getAllNets",
+    "invoke -> eda.pcb_PrimitiveComponent.getAll"
+  ],
+  "steps": 4,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W03-activate-pcb.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W03-pcb-read.stdout.json"
+  ],
+  "observations": [
+    "1 PCB document, 289 layer entries (2 copper), 17 nets and 33 placed components were read from the fixture.",
+    "Layer records carry id/name/type/color/transparency/locked; the copper layer count comes from a dedicated API.",
+    "Coordinate units and anchor semantics were not independently measured in this run (the API exposes convertCanvasOriginToDataOrigin/convertDataOriginToCanvasOrigin but we did not probe them)."
+  ],
+  "risks": [
+    "unit / y-axis convention needs an explicit conversion step and a unit test",
+    "primitive ids are session-scoped; re-read before any write",
+    "outline / copper geometry were not dumped (only counts and layers), so a geometry-complete read is unproven"
+  ],
+  "measured": {
+    "steps": 2,
+    "js_lines": 51,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 2322.4
+  }
+}
