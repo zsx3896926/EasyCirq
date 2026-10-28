@@ -295,6 +295,78 @@ def command_probe_check(args: argparse.Namespace) -> int:
     return 0 if result["status"] == "valid" else 2
 
 
+def command_probe_bind(args: argparse.Namespace) -> int:
+    from .io_util import write_json_atomic
+    from .probe_record import (
+        PROBE_SCHEMA,
+        ProbeRecordError,
+        bind_host_block,
+        read_and_validate,
+    )
+    from .schema import load_json_file, validate_input
+
+    input_path = Path(args.input)
+    record_path = Path(args.record)
+    out = Path(args.out)
+    for source in (input_path, record_path):
+        if not _ensure_distinct(source, out):
+            return 2
+
+    def invalid(reasons: Sequence[str]) -> int:
+        payload = {
+            "status": "invalid",
+            "schema": SCHEMA_ID,
+            "tool": TOOL_NAME,
+            "tool_version": TOOL_VERSION,
+            "errors": list(reasons),
+            "warnings": [],
+            "host_block": None,
+            "host_execution": "not_executed",
+        }
+        try:
+            write_json_atomic(out, {"status": "invalid", "errors": list(reasons)})
+        except OSError as exc:
+            _diag(f"cannot write invalid probe-bind output {out}: {exc}")
+        _emit(payload)
+        for reason in reasons:
+            _diag(str(reason))
+        return 2
+
+    try:
+        raw = load_json_file(input_path)
+        validate_input(raw, origin=str(input_path), base_dir=input_path.parent)
+        record_document = load_json_file(record_path)
+        record_result = read_and_validate(record_path)
+        updated = bind_host_block(raw, record_result, record_document)
+        validate_input(updated, origin=str(out), base_dir=out.parent)
+    except InputError as exc:
+        return invalid(exc.reasons)
+    except (OSError, ProbeRecordError) as exc:
+        return invalid([str(exc)])
+    try:
+        write_json_atomic(out, updated)
+    except OSError as exc:
+        return _fail(f"cannot write bound input {out}: {exc}")
+    _emit({
+        "status": "ok",
+        "schema": SCHEMA_ID,
+        "tool": TOOL_NAME,
+        "tool_version": TOOL_VERSION,
+        "output": str(out),
+        "input_sha256": _sha256_file(input_path),
+        "record_sha256": record_result["record_sha256"],
+        "output_sha256": _sha256_file(out),
+        "binding": {
+            "page_id": updated["project"]["page_id"],
+            "snapshot_sha256": updated["project"]["snapshot_sha256"],
+        },
+        "host_block": updated["host"],
+        "warnings": record_result["warnings"],
+        "host_execution": "not_executed",
+    })
+    return 0
+
+
 def command_benchmark(args: argparse.Namespace) -> int:
     from .benchmark import run_benchmark
     from .io_util import write_json_atomic, write_text_atomic
@@ -393,6 +465,16 @@ def build_parser() -> argparse.ArgumentParser:
     probe.add_argument("record", help="annotation-layout-host-probe/v1 JSON file")
     probe.add_argument("--out", help="write the derived host block (or invalid marker)")
     probe.set_defaults(func=command_probe_check)
+
+    bind = sub.add_parser(
+        "probe-bind",
+        help="bind a valid capability record into an existing v1 input (page/snapshot checked)")
+    bind.add_argument("input", help="annotation-layout/v1 input JSON")
+    bind.add_argument("--record", required=True,
+                      help="annotation-layout-host-probe/v1 capability record")
+    bind.add_argument("--out", required=True,
+                      help="write the updated v1 input (same directory if source files are bound)")
+    bind.set_defaults(func=command_probe_bind)
 
     version = sub.add_parser("version", help="print schema/tool version")
     version.set_defaults(func=command_version)

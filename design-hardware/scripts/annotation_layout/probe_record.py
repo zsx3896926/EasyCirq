@@ -198,6 +198,38 @@ def load_record(path: str | Path) -> Any:
     return load_json_file(Path(path))
 
 
+def bind_host_block(input_document: Mapping[str, Any],
+                    record_result: Mapping[str, Any],
+                    record_document: Mapping[str, Any]) -> Dict[str, Any]:
+    """Return a copy of a v1 input document with the record's host block bound.
+
+    Binding is refused unless the record is valid and its page/snapshot match the
+    input's; the caller must still validate the returned document (source file
+    hashes are relative to the output directory).
+    """
+    if record_result.get("status") != "valid":
+        raise ProbeRecordError("record is not structurally valid")
+    host_block = record_result.get("host_block")
+    if not isinstance(host_block, Mapping):
+        raise ProbeRecordError("record has no host block")
+    project = input_document.get("project")
+    if not isinstance(project, Mapping):
+        raise ProbeRecordError("input project block missing")
+    if host_block.get("capability_source") != record_result.get("capability_source"):
+        raise ProbeRecordError("record capability_source is inconsistent")
+    record_project = record_document.get("project") or {}
+    if record_project.get("page_id") != project.get("page_id"):
+        raise ProbeRecordError(
+            f"page mismatch: record={record_project.get('page_id')!r} "
+            f"input={project.get('page_id')!r}")
+    if str(record_project.get("snapshot_sha256", "")).lower() != \
+            str(project.get("snapshot_sha256", "")).lower():
+        raise ProbeRecordError("snapshot mismatch: record is bound to another page read")
+    updated = dict(input_document)
+    updated["host"] = dict(host_block)
+    return updated
+
+
 def read_and_validate(path: str | Path) -> Dict[str, Any]:
     document = load_record(path)
     return validate_record(document)
