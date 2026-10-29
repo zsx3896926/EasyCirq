@@ -80,6 +80,7 @@ DEFAULT_HALO = {"left": 22.0, "right": 22.0, "top": 16.0, "bottom": 10.0}
 
 DEFAULT_CFG = {
     "zone_pad": 4.0,
+    "edge_clearance": 0.0,
     "header_h": 20.0,
     "min_gap": 6.0,
     "target_fill": 0.62,
@@ -280,6 +281,35 @@ def _derived_regions(usable, title_block, gap: float) -> list:
     return regions
 
 
+def _apply_edge_clearance(regions, usable, title_block, clearance: float) -> list:
+    """Inset placement regions away from page edges and the title block.
+
+    ``edge_clearance`` is the empirically needed safety band (units): blocks are
+    not packed against the left/right/bottom sheet edges nor directly above the
+    title block, which is where block-apply tends to shift blocks on its own.
+    """
+    if not clearance or clearance <= 0:
+        return regions
+    ux0, uy0, ux1, uy1 = usable
+    out = []
+    eps = 0.5
+    for entry in regions:
+        name = entry["name"]
+        x0, y0, x1, y1 = entry["rect"]
+        if x0 <= ux0 + eps:
+            x0 += clearance
+        if x1 >= ux1 - eps:
+            x1 -= clearance
+        if y0 <= uy0 + eps:
+            y0 += clearance
+        if title_block is not None and y0 < title_block[3] + clearance - eps \
+                and x1 > title_block[0] and x0 < title_block[2]:
+            y0 = title_block[3] + clearance
+        if x1 - x0 > 20 and y1 - y0 > 20:
+            out.append({"name": name, "rect": (x0, y0, x1, y1)})
+    return out
+
+
 def _explicit_regions(raw, usable, title_block) -> list:
     if not isinstance(raw, list) or not raw:
         raise LayoutBlocked("invalid_template",
@@ -317,7 +347,8 @@ def _explicit_regions(raw, usable, title_block) -> list:
     return regions
 
 
-def normalize_template(template=None, gap: float | None = None) -> dict:
+def normalize_template(template=None, gap: float | None = None,
+                      edge_clearance: float = 0.0) -> dict:
     """Return the internal page template, or raise :class:`LayoutBlocked`."""
     gap = float(DEFAULT_CFG["min_gap"] if gap is None else gap)
     if template is None:
@@ -357,9 +388,11 @@ def normalize_template(template=None, gap: float | None = None) -> dict:
         regions = _explicit_regions(raw_regions, usable, title_block)
     else:
         regions = _derived_regions(usable, title_block, gap)
+    regions = _apply_edge_clearance(regions, usable, title_block,
+                                    float(edge_clearance or 0.0))
     if not regions:
         raise LayoutBlocked("invalid_template",
-                            "template has no usable region")
+                            "template has no usable region after edge_clearance")
 
     usable_area = _rect_area(usable)
     if title_block is not None:
@@ -459,6 +492,9 @@ def _resolve_cfg(project) -> dict:
     if cfg["header_h"] <= 0:
         raise LayoutBlocked("invalid_project",
                             "project option 'header_h' must be positive")
+    if not isinstance(cfg["edge_clearance"], (int, float)) or cfg["edge_clearance"] < 0:
+        raise LayoutBlocked("invalid_project",
+                            "project option 'edge_clearance' must be >= 0")
     if not 0 < cfg["target_fill"] <= 1:
         raise LayoutBlocked("invalid_project",
                             "project option 'target_fill' must be in (0, 1]")
@@ -1402,7 +1438,7 @@ def plan_project(project, template=None, *, place_labels: bool = True) -> dict:
     """
     try:
         cfg = _resolve_cfg(project)
-        tpl = normalize_template(template, cfg["min_gap"])
+        tpl = normalize_template(template, cfg["min_gap"], cfg["edge_clearance"])
         modules = normalize_modules(project)
     except LayoutBlocked as exc:
         return _blocked_result(exc, project)

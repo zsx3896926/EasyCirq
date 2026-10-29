@@ -355,3 +355,24 @@ class LayoutEngineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class EdgeClearanceTests(unittest.TestCase):
+    def test_edge_clearance_insets_regions(self):
+        project = {"name": "pin", "options": {"edge_clearance": 120},
+                   "modules": [{"id": "m1", "title": "m1", "w": 200, "h": 150},
+                               {"id": "m2", "title": "m2", "w": 200, "h": 150}]}
+        plan = layout_engine.plan_project(project)
+        self.assertEqual(plan["verdict"], "pass")
+        for page in plan["pages"]:
+            for block in page["blocks"]:
+                self.assertGreaterEqual(block["bbox"][0], 10 + 120 - 0.5)
+                self.assertGreaterEqual(block["bbox"][1], 190 + 120 - 0.5)
+
+    def test_edge_clearance_zero_is_unchanged(self):
+        base = layout_engine.plan_project(project(module("a")))
+        with_zero = layout_engine.plan_project(
+            {"name": "z", "options": {"edge_clearance": 0},
+             "modules": [module("a")]})
+        self.assertEqual(base["pages"][0]["blocks"][0]["bbox"],
+                         with_zero["pages"][0]["blocks"][0]["bbox"])
+
