@@ -269,14 +269,14 @@ def _derived_regions(usable, title_block, gap: float) -> list:
     if title_block is None:
         return [{"name": "page", "rect": usable}]
     regions = []
+    # bottom-left strip (left of the title block, below its top edge)
     left_x1 = min(title_block[0] - gap, ux1)
-    if left_x1 - ux0 > EPS:
-        regions.append({"name": "left", "rect": (ux0, uy0, left_x1, uy1)})
+    if left_x1 - ux0 > EPS and title_block[3] - uy0 > EPS:
+        regions.append({"name": "left", "rect": (ux0, uy0, left_x1, title_block[3])})
+    # full-width top strip above the title block: this is where wide modules fit
     south = max(title_block[3] + gap, uy0)
-    right_x0 = max(title_block[0], ux0)
-    if ux1 - right_x0 > EPS and uy1 - south > EPS:
-        regions.append({"name": "top-right",
-                        "rect": (right_x0, south, ux1, uy1)})
+    if uy1 - south > EPS:
+        regions.append({"name": "top-right", "rect": (ux0, south, ux1, uy1)})
     return regions
 
 

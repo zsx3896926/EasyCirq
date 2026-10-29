@@ -68,8 +68,8 @@ class LayoutEngineTests(unittest.TestCase):
         self.assertEqual(template["usable_area"], DEFAULT_USABLE_AREA)
         self.assertEqual([region["name"] for region in template["regions"]],
                          ["left", "top-right"])
-        self.assertEqual(template["regions"][0]["rect"], [10, 10, 454, 815])
-        self.assertEqual(template["regions"][1]["rect"], [460, 196, 1160, 815])
+        self.assertEqual(template["regions"][0]["rect"], [10, 10, 454, 190])
+        self.assertEqual(template["regions"][1]["rect"], [10, 196, 1160, 815])
 
     def test_three_modules_single_page_passes(self):
         plan = layout_engine.plan_project(
@@ -113,16 +113,15 @@ class LayoutEngineTests(unittest.TestCase):
         page = plan["pages"][0]
         wide = next(block for block in page["blocks"]
                     if block["id"] == "wide")
-        # A 550-wide module cannot use the 444-wide left strip, so it must be
-        # placed in the top-right strip, i.e. below the title block keep-out.
+        # A 550-wide module cannot use the 444-wide bottom-left strip, so it must be
+        # placed in the full-width top strip, i.e. above the title block keep-out.
         self.assertGreaterEqual(wide["zone"][1], 196)
         self.assertGreaterEqual(wide["bbox"][1], 190)
-        self.assertGreaterEqual(wide["zone"][0], 460)
+        self.assertGreaterEqual(wide["zone"][1], 190)
         self.assertFalse(intersects(wide["zone"], DEFAULT_TB))
         self.assertEqual(plan["metrics"]["title_block_hits"], 0)
         for block in page["blocks"]:
-            if block["id"] != "wide":
-                self.assertLessEqual(block["zone"][2], 454)
+            self.assertFalse(intersects(block["zone"], DEFAULT_TB))
 
     def test_affinity_group_stays_on_one_page(self):
         modules = []
@@ -186,9 +185,9 @@ class LayoutEngineTests(unittest.TestCase):
         self.assertEqual(plan["verdict"], "pass")
         self.assertEqual(plan["metrics"]["page_count"], 1)
         self.assertEqual(plan["template"]["regions"][0]["rect"],
-                         [10, 10, 594, 990])
+                         [10, 10, 594, 100])
         self.assertEqual(plan["template"]["regions"][1]["rect"],
-                         [600, 106, 1590, 990])
+                         [10, 106, 1590, 990])
 
     # -- blocked paths ------------------------------------------------------
 

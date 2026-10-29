@@ -24,8 +24,8 @@ TEMPLATE_PATH = ROOT / "easycirq" / "assets" / "page-template.json"
 MEASURED_PAGE = {"width": 1170, "height": 825, "margin": 10}
 MEASURED_INNER = pt.Rect(10, 10, 1160, 815)
 MEASURED_TITLE_BLOCK = pt.Rect(460, 10, 1160, 190)
-MEASURED_LEFT = pt.Rect(10, 10, 460, 815)
-MEASURED_TOP_RIGHT = pt.Rect(460, 190, 1160, 815)
+MEASURED_LEFT = pt.Rect(10, 10, 460, 190)
+MEASURED_TOP_RIGHT = pt.Rect(10, 190, 1160, 815)
 
 
 def read_asset_document():
@@ -143,15 +143,15 @@ class MeasuredTemplateTests(TemplateFixtureMixin):
     def test_region_of_measured_regions(self):
         self.assertEqual(self.template.region_of(pt.Rect(20, 20, 100, 100)), "left")
         self.assertEqual(self.template.region_of(pt.Rect(500, 300, 600, 400)), "top-right")
-        # Straddles the two regions: ambiguous -> None.
-        self.assertIsNone(self.template.region_of(pt.Rect(400, 300, 800, 400)))
+        # Fully inside the full-width top strip.
+        self.assertEqual(self.template.region_of(pt.Rect(400, 300, 800, 400)), "top-right")
         # Inside the title block keep-out: no region.
         self.assertIsNone(self.template.region_of(pt.Rect(500, 50, 600, 100)))
         # Sequence inputs are accepted too.
         self.assertEqual(self.template.region_of([20, 20, 100, 100]), "left")
 
     def test_region_of_tolerance(self):
-        slightly_outside = pt.Rect(10, 5, 450, 800)
+        slightly_outside = pt.Rect(12, 5, 450, 180)
         self.assertIsNone(self.template.region_of(slightly_outside))
         self.assertIsNone(self.template.region_of(slightly_outside, tolerance=4))
         self.assertEqual(self.template.region_of(slightly_outside, tolerance=6), "left")
@@ -194,12 +194,12 @@ class BottomLeftOverrideTests(TemplateFixtureMixin):
         self.assertEqual(template.title_block_corner, "bottom-left")
         self.assertEqual(template.title_block_rect, self.BOTTOM_LEFT_TITLE_BLOCK)
         self.assertEqual(template.region_names(), ("right", "top-left"))
-        self.assertEqual(template.region("right").rect, pt.Rect(710, 10, 1160, 815))
-        self.assertEqual(template.region("top-left").rect, pt.Rect(10, 190, 710, 815))
+        self.assertEqual(template.region("right").rect, pt.Rect(710, 10, 1160, 190))
+        self.assertEqual(template.region("top-left").rect, pt.Rect(10, 190, 1160, 815))
         self.assertFalse(template.title_block_hit(template.region("right").rect))
         self.assertFalse(template.title_block_hit(template.region("top-left").rect))
-        self.assertEqual(template.region_of(pt.Rect(800, 300, 900, 400)), "right")
-        self.assertEqual(template.region_of(pt.Rect(100, 300, 200, 400)), "top-left")
+        self.assertEqual(template.region_of(pt.Rect(800, 300, 900, 400)), "top-left")
+        self.assertEqual(template.region_of(pt.Rect(800, 50, 900, 150)), "right")
         self.assertIsNone(template.region_of(pt.Rect(500, 50, 600, 100)))
 
     def test_bottom_left_corner_can_be_explicit_in_data(self):
@@ -255,8 +255,8 @@ class ContractShapeTests(unittest.TestCase):
         template = pt.PageTemplate.from_dict(document)
         self.assertEqual(template.inner_border, pt.Rect(12, 12, 1158, 813))
         self.assertEqual(template.title_block_corner, "bottom-right")
-        self.assertEqual(template.region("left").rect, pt.Rect(12, 12, 610, 813))
-        self.assertEqual(template.region("top-right").rect, pt.Rect(610, 380, 1158, 813))
+        self.assertEqual(template.region("left").rect, pt.Rect(12, 12, 610, 380))
+        self.assertEqual(template.region("top-right").rect, pt.Rect(12, 380, 1158, 813))
         self.assertFalse(template.title_block_hit(template.region("top-right").rect))
 
     def test_built_measured_template_matches_asset(self):
