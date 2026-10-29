@@ -391,6 +391,11 @@ def build_apply_document(name, plan, spec):
                       "placements": placements, "labels": labels})
     document = {
         "schema": APPLY_SCHEMA,
+        "post_apply": {
+            "save": "easycirq doc reload",
+            "reason": "EasyEDA keeps mutations in memory; doc reload = save + reopen",
+            "required": True,
+        },
         "project": name,
         "project_uuid": spec.get("project_uuid"),
         "page": spec.get("page"),
