@@ -697,6 +697,12 @@ def _parser():
     parser.add_argument("--dry-run", action="store_true",
                         help="plan + review only; print one line, write no "
                              "apply bundle")
+    parser.add_argument("--fix-plan", action="store_true",
+                        help="emit <name>.fix-plan.json from the ACE findings")
+    parser.add_argument("--autofix", action="store_true",
+                        help="emit <name>.autofix.json playbook when available")
+    parser.add_argument("--accept", action="store_true",
+                        help="emit <name>.accept.json plan when available")
     return parser
 
 
@@ -740,7 +746,49 @@ def main(argv=None):
     artifacts = {"plan": name + ".plan.json",
                  "decision_record": name + ".decision-record.md",
                  "apply": (name + ".apply.json") if apply_document else None,
+                 "fix_plan": None, "autofix": None, "accept": None,
                  "dashboard": "dashboard.md"}
+
+    snapshot_data = None
+    if spec.get("snapshot"):
+        snap_path = _resolve_against(spec_path, spec.get("snapshot"))
+        if snap_path.is_file():
+            try:
+                snapshot_data = _read_json(snap_path)
+            except (OSError, ValueError):
+                snapshot_data = None
+
+    if args.fix_plan or review.get("status") == "blocked":
+        if snapshot_data is not None:
+            try:
+                import ace_fix_plan  # noqa: F401
+                fix_plan = ace_fix_plan.build(snapshot_data)
+                artifacts["fix_plan"] = name + ".fix-plan.json"
+                _write_json(out_dir / artifacts["fix_plan"], fix_plan)
+                if args.autofix:
+                    try:
+                        import ace_autofix  # noqa: F401
+                        autofix = ace_autofix.build(
+                            fix_plan, parts_path=spec.get("parts_path"),
+                            snapshot=snapshot_data)
+                        artifacts["autofix"] = name + ".autofix.json"
+                        _write_json(out_dir / artifacts["autofix"], autofix)
+                    except Exception as exc:  # noqa: BLE001
+                        warnings.append("autofix unavailable (%s)" % type(exc).__name__)
+            except Exception as exc:  # noqa: BLE001
+                warnings.append("fix-plan unavailable (%s)" % type(exc).__name__)
+
+    if args.accept and apply_document is not None:
+        try:
+            import accept  # noqa: F401
+            accept_plan = accept.build(
+                apply_document, project_uuid=spec.get("project_uuid"),
+                page=spec.get("page"), parts_path=spec.get("parts_path"))
+            artifacts["accept"] = name + ".accept.json"
+            _write_json(out_dir / artifacts["accept"], accept_plan)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("accept unavailable (%s)" % type(exc).__name__)
+
     _write_json(out_dir / artifacts["plan"], plan)
     if apply_document is not None:
         _write_json(out_dir / artifacts["apply"], apply_document)

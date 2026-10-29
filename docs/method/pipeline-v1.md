@@ -237,3 +237,22 @@ Shipped templates in `easycirq/assets/block-templates/`:
 
 Live demo: `pipeline-demo/A-templates.spec.json` → `engine=templates`,
 12+5 absolute part placements, review gate pass, score 73.2.
+
+
+## Fix / apply / accept stages (offline)
+
+After the review gate, the pipeline can emit three downstream artifacts without
+touching EDA:
+
+- `--fix-plan` — `easycirq-ace-fix-plan/v1` from `tools/ace_fix_plan.py` (also
+  auto-emitted when the gate blocks and a snapshot is supplied).
+- `--autofix` — `easycirq-autofix/v1` from `tools/ace_autofix.py`: ordered
+  `easycirq` CLI commands for `add_component` / `add_testpoint` /
+  `move_component` / `rename_net`; unsupported actions are kept in `pending`.
+- `--accept` — `easycirq-accept/v1` from `tools/accept.py`: ordered run
+  (clear → frames → place parts/block → `doc reload` save → snapshot + review →
+  export PNG) with geometry checks (inside page, title-block overlap).
+
+These are deterministic plans, not executors: an operator (or the EDA runner)
+replays the commands and reads the checks back, which keeps the save-after-apply
+invariant explicit.
