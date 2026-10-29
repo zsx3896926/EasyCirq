@@ -1,0 +1,220 @@
+{
+ "schema": "easycirq-block-apply-offsets-matrix/v1",
+ "measured_at": "2026-10-29",
+ "source": "block-apply <block> --at (100,100),(300,300),(600,400) on an empty page; offset = actual parts bbox min - at",
+ "usage": "compiler uses the nearest measured at when project.apply_offsets_matrix is supplied; variable_offset blocks (e.g. WROOM) are clamped/shifted by block-apply and should be planned pinned",
+ "blocks": {
+  "block.esp32s3_wroom1_module": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      160.5,
+      169.5,
+      389.5,
+      590.5
+     ],
+     "offset": [
+      60.5,
+      69.5
+     ]
+    },
+    {
+     "at": [
+      300,
+      300
+     ],
+     "parts_bbox": [
+      160.5,
+      169.5,
+      389.5,
+      590.5
+     ],
+     "offset": [
+      -139.5,
+      -130.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      400
+     ],
+     "parts_bbox": [
+      440.5,
+      189.5,
+      669.5,
+      610.5
+     ],
+     "offset": [
+      -159.5,
+      -210.5
+     ]
+    }
+   ],
+   "variable_offset": true
+  },
+  "block.es8311_codec_i2s": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      91.5,
+      610.5,
+      400.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      300,
+      300
+     ],
+     "parts_bbox": [
+      289.5,
+      291.5,
+      810.5,
+      600.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      400
+     ],
+     "parts_bbox": [
+      589.5,
+      391.5,
+      1110.5,
+      700.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.microsd_spi_pushpush": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      49.5,
+      550.5,
+      264.5
+     ],
+     "offset": [
+      -10.5,
+      -50.5
+     ]
+    },
+    {
+     "at": [
+      300,
+      300
+     ],
+     "parts_bbox": [
+      289.5,
+      249.5,
+      750.5,
+      464.5
+     ],
+     "offset": [
+      -10.5,
+      -50.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      400
+     ],
+     "parts_bbox": [
+      589.5,
+      349.5,
+      1050.5,
+      564.5
+     ],
+     "offset": [
+      -10.5,
+      -50.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.bq24074_powerpath_charger": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      59.5,
+      91.5,
+      510.5,
+      635.5
+     ],
+     "offset": [
+      -40.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      300,
+      300
+     ],
+     "parts_bbox": [
+      259.5,
+      291.5,
+      710.5,
+      835.5
+     ],
+     "offset": [
+      -40.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      400
+     ],
+     "parts_bbox": [
+      559.5,
+      391.5,
+      1010.5,
+      935.5
+     ],
+     "offset": [
+      -40.5,
+      -8.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  }
+ }
+}
