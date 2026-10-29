@@ -55,6 +55,20 @@ def main() -> int:
     if fixed != {"routing_verified": False, "drc": "NOT RUN", "eda_calls": 0}:
         failures.append(f"pipeline buck: bad fixed_fields {fixed!r}")
 
+    # 2b. every registered template must instantiate to a hard-feasible layout
+    from mp_place.model import hard_violations
+    from mp_place.solver import random_feasible_placement
+    from mp_place.templates import instantiate, template_names
+    import random as _random
+
+    for tpl in template_names():
+        sc = instantiate(tpl, seed=0)
+        pl = random_feasible_placement(sc, _random.Random(0))
+        viol = hard_violations(sc, pl)
+        if viol:
+            failures.append(f"template {tpl}: {len(viol)} hard violations")
+    print(f"[benchmark] templates: {len(list(template_names()))} all hard-feasible")
+
     # 3. real-board conversion smoke (only when the EasyCirq case dumps are
     #    present, e.g. in the repository checkout; skipped elsewhere).
     try:

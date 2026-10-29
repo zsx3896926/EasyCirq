@@ -5,6 +5,10 @@
 > 不能作为可制造或可布通证明。
 >
 > 框架入口：`run_p1.py`（P1 目标对比）、`run_auto.py`（端到端无人流水线）。
+>
+> **维护者入口**：全量回归 `python nightly.py`（工作区）/ CI benchmark job；快速闸 `python -m mp_place.gates --quick`；
+> 模块索引与报告总表见 `docs/MODULE_INDEX.md`、`docs/CONSOLIDATED.md`（工作区）；仓库内历史见 `RESULTS.md`。
+> 关键入口：`run_benchmark.py`（CI 冒烟，含 10 模板可行性与真实板转换）、`run_full.py`（policy leaderboard）、`ccg_diag.py`/`ccg_study.py`（约束诊断）。
 > 测试：`python -m unittest discover -s tests -p "test_*.py"`（仓库根目录）。
 
 # P1：多物理代理 vs HPWL（最小可跑框架）
