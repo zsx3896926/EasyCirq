@@ -129,14 +129,19 @@ def _regions(page, title_block):
 
 
 def _resolve_halo(block, envelopes):
-    """Effective halo for a block: spec `halo`, else measured envelope `halo`."""
+    """Effective halo for a block: spec `halo` only.
+
+    Measured envelope entries may carry a per-side halo dict (label/flag
+    extents) plus the parts-based w/h; that halo is label-clearance data for
+    validation, not a packing clearance, so it is intentionally ignored here.
+    """
     halo = block.get("halo")
     if halo is None:
-        measured = (envelopes or {}).get(block.get("id"))
-        if isinstance(measured, dict):
-            halo = measured.get("halo")
-    if halo is None:
         return 0
+    if isinstance(halo, dict):
+        raise ValueError(
+            "block %r halo must be a non-negative number, not a per-side object; "
+            "use the label-clearance path for measured per-side halo" % block.get("id"))
     if isinstance(halo, bool) or not isinstance(halo, (int, float)) or halo < 0:
         raise ValueError("block %r halo must be a non-negative number" % block.get("id"))
     return int(round(halo))
