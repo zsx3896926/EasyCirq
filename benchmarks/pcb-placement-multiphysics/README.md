@@ -209,6 +209,16 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **真实板**：3 块 EasyCirq 真实回读板（mil→mm）转换后优化：router completion 0.8697→0.9231，physics_v2 truth 3.7283→2.4955（−33.1%）；三组全部硬可行。
 - **pipeline**：`run_pipeline(objective="proxy"|"route_aware"|"tuned")`、`run_auto.py --objective`；`run_benchmark.py` 作为 CI 冒烟（benchmark job）。
 
+
+## P2.12–P2.14 / P4.6（2026-10-29 第三轮同步）
+
+- **CV 调参仍不泛化**：两折一致 0/8，外样本 CV-tuned truth +5.48%（fixed w=2.0 −2.50%）→ 关闭 tuned 表，`route_aware`（fixed w=2.0）为安全默认。
+- **physics v3**：层/铜厚/网络类感知；v2↔v3 Spearman 0.928、top-10 重叠 0.79；2→6 层 −39.5%、1→2 oz −6.6%；8 个差异案例逐条解释。
+- **realboard v2**：4 块真实板 + 多边形板框（ray casting）+ keepout（2/4 APPLIED）；优化后 completion 0.8844→0.9615、truth 4.0083→2.1167（−47.2%）。
+- **pipeline intent 模式**：`intent_plan=True` 硬 CCG 0/run、truth −6.51% vs proxy；completion 0.8388（低于 route_aware）。
+- **跨域迁移**：模板训练 → 真实板 raw ρ 0.925；仿射校准后 R² 0.888（原始 R² 不可用）。
+- 文档：`RESULTS.md` 同步。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
@@ -244,3 +254,4 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **范围提示**：`report_v2.json` 集成仍只覆盖 5 个 P1 场景；`esp32-sensor` / `can-node` / `bldc-driver` 只进入 `run_auto` 单模板/批量，尚未进 `experiment_v2`。
 - **不能得出结论**：“能布通 / 可制造 / 满足阻抗或热 / 可直接打样”；离线真值改善不等于真实多物理收益；router completion=1 不等于 DRC 通过。
 - 完整边界、待补项与逐场景表格见 [docs/P2-RESULTS.md](docs/P2-RESULTS.md)。
+

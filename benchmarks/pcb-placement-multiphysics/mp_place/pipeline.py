@@ -53,6 +53,33 @@ completion not lower and aggregate ``truth_v2`` <= +1% -- **met**
 0/8 templates) and is therefore labelled not recommended / research only;
 ``proxy`` remains the default backwards-compatible tier.
 
+P3.8 intent-constrained planning mode
+-------------------------------------
+``run_pipeline(..., intent_plan=True)`` keeps the normal proxy pipeline, then
+builds the layout intent from its placement and refines it with
+:func:`mp_place.intent_solver.plan_from_intent` (``relax=True``: ``near`` /
+``cluster`` / ``edge`` remain hard semantic constraints with widened bounds,
+``clearance`` becomes a soft penalty), and verifies the planned placement.
+The report records ``planning_mode == "intent_relax"`` plus an
+``intent_planning`` stats block (hard/soft CCG violations, original-intent
+deviations, planner moves/cost).  ``run_auto.py --intent-plan`` enables the
+mode; ``--all-templates`` batch rows carry ``intent_plan`` / ``planning_mode``.
+
+Recorded comparison (``python -m mp_place.pipeline --intent-benchmark``,
+8 templates x seeds 0/1, ``steps=800``; artefacts
+``report_pipeline_intent.md`` / ``.json``)::
+
+    mode           truth_v2   completion   hard CCG/run   orig. deviations/run   time/run
+    proxy            2.0001      0.9019       0.00              0.00              0.50 s
+    route_aware      2.0627      0.9755       8.19              8.19              1.02 s
+    intent_relax     1.8699      0.8388       0.00              4.69              0.94 s
+
+Target (intent_relax: hard-tier CCG <= 0.5/run and truth gap <= +20%) is met:
+0.00 hard violations/run and truth_v2 -6.51% vs proxy (better), at the price of
+a lower router completion (0.8388) and deviations from the original strict
+intent bounds (4.69/run).  Use ``route_aware`` when completion matters most,
+``intent_relax`` when the near/cluster/edge layout semantics must be honored.
+
 Safety contract
 ---------------
 Everything here is **offline**.  The pipeline never applies a placement, never
@@ -332,12 +359,72 @@ def _build_objective(sc: Scenario, objective_mode: str) -> Tuple[object, Dict[st
     )
 
 
+def _as_placement(payload: Dict[str, Any]) -> Placement:
+    """Convert a report/JSON placement payload back into a :data:`Placement`."""
+    return {
+        ref: (float(coord[0]), float(coord[1]), int(coord[2]))
+        for ref, coord in payload.items()
+    }
+
+
+def _plan_from_proxy_intent(
+    sc: Scenario,
+    proxy_placement: Placement,
+    seed: int,
+    steps: int,
+    ccg_weight: float = 25.0,
+) -> Tuple[Placement, Dict[str, Any]]:
+    """P3.8: proxy placement -> ``build_intent`` -> ``plan_from_intent(relax=True)``.
+
+    The intent is derived from the *proxy* placement (the same one the plain
+    pipeline returns), then the relaxed planned intent is replayed with the P3.7
+    intent-constrained planner (``relax=True``: ``near``/``cluster`` stay hard
+    semantic constraints with widened bounds, ``clearance`` is soft).  Returns
+    ``(placement, meta)``; ``meta`` is deterministic and JSON-safe.
+    """
+    from .intent import build_intent
+    from .intent_solver import plan_from_intent
+
+    reference_intent = build_intent(sc, proxy_placement)
+    placement, stats = plan_from_intent(
+        sc,
+        reference_intent,
+        cost=ProxyObjective(sc).cost,
+        seed=seed,
+        steps=steps,
+        ccg_weight=float(ccg_weight),
+        relax=True,
+    )
+    constraints = reference_intent.get("constraints", [])
+    return placement, {
+        "mode": "intent_relax",
+        "relax": True,
+        "reference_intent_digest": _canonical_digest(reference_intent),
+        "reference_intent_constraints": len(constraints),
+        "planning_steps": int(steps),
+        "ccg_weight": float(stats["ccg_weight"]),
+        "hard_constraints": list(stats["hard_constraints"]),
+        "soft_constraints": list(stats["soft_constraints"]),
+        "ccg_initial": int(stats["ccg_initial"]),
+        "ccg_hard_final": int(stats["ccg_hard_final"]),
+        "ccg_soft_final": int(stats["ccg_soft_final"]),
+        "original_intent_ccg_final": int(stats["original_intent_ccg_final"]),
+        "hard_feasible": bool(stats["hard_feasible"]),
+        "moves": int(stats["moves"]),
+        "moves_accepted": int(stats["moves_accepted"]),
+        "cost_initial": float(stats["cost_initial"]),
+        "cost_final": float(stats["cost_final"]),
+    }
+
+
 def run_pipeline(
     scenario: Union[Scenario, str],
     budget_steps: int = DEFAULT_BUDGET_STEPS,
     seed: int = 0,
     route_repair: bool = False,
     objective: str = DEFAULT_OBJECTIVE,
+    intent_plan: bool = False,
+    intent_ccg_weight: float = 25.0,
 ) -> Dict[str, Any]:
     """Run the end-to-end offline pipeline for one scenario.
 
@@ -372,6 +459,18 @@ def run_pipeline(
 
         Neither route-aware cost path calls the router while being optimised.
         Unknown values raise ``ValueError``; non-strings raise ``TypeError``.
+    intent_plan:
+        P3.8 intent-constrained planning mode (default ``False``): after the
+        usual proxy solve, build the layout intent from that placement and run
+        :func:`mp_place.intent_solver.plan_from_intent` with ``relax=True``
+        (near/cluster stay hard semantic constraints with widened bounds,
+        clearance is soft), then verify the planned placement.  Requires
+        ``objective="proxy"``; the report records ``planning_mode ==
+        "intent_relax"`` and an ``intent_planning`` stats block.
+    intent_ccg_weight:
+        Penalty weight passed to ``plan_from_intent`` in intent-planning mode
+        (default 25.0, the P3.7 ``DEFAULT_CCG_WEIGHT``).  Only used when
+        ``intent_plan=True``.
 
     Returns
     -------
@@ -380,8 +479,9 @@ def run_pipeline(
         router completion, intent constraint counts, certificate, fixed safety
         fields and limits.  ``objective_mode`` / ``objective_model`` /
         ``objective_config`` / ``objective_recommended`` record which objective
-        solved the placement.  Deterministic for a fixed input; see module
-        notes.
+        solved the placement; ``planning_mode`` / ``intent_planning`` record the
+        P3.8 intent-constrained refinement.  Deterministic for a fixed input;
+        see module notes.
     """
     sc = _coerce_scenario(scenario, seed=seed)
     seed = int(seed)
@@ -397,6 +497,23 @@ def run_pipeline(
     if objective_mode not in PIPELINE_OBJECTIVES:
         raise ValueError(
             f"unknown objective {objective!r}; expected one of {PIPELINE_OBJECTIVES}"
+        )
+    intent_plan_flag = bool(intent_plan)
+    if intent_plan_flag and objective_mode != "proxy":
+        raise ValueError(
+            "intent_plan=True requires objective='proxy': the intent is built "
+            "from the proxy placement"
+        )
+    planning_mode = "intent_relax" if intent_plan_flag else "direct"
+    try:
+        intent_weight = float(intent_ccg_weight)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"intent_ccg_weight must be a number, got {intent_ccg_weight!r}"
+        ) from exc
+    if not math.isfinite(intent_weight) or intent_weight < 0.0:
+        raise ValueError(
+            f"intent_ccg_weight must be a finite value >= 0, got {intent_ccg_weight!r}"
         )
 
     cost_objective, objective_meta = _build_objective(sc, objective_mode)
@@ -420,6 +537,19 @@ def run_pipeline(
             sc, cost_objective.cost, seed=seed, steps=budget
         )
 
+    intent_planning: Optional[Dict[str, Any]] = None
+    if intent_plan_flag:
+        # P3.8: refine the proxy placement with the relaxed layout intent and
+        # record the deterministic intent-planning statistics.
+        placement, intent_planning = _plan_from_proxy_intent(
+            sc,
+            placement,
+            seed=seed,
+            steps=budget,
+            ccg_weight=intent_weight,
+        )
+        best_cost = float(cost_objective.cost(placement))
+
     violations = list(hard_violations(sc, placement))
     truth_v1 = PhysicsSimulator(sc, seed=seed).score(placement)
     truth_v2 = PhysicsSimulatorV2(sc, seed=seed).score(placement)
@@ -433,6 +563,8 @@ def run_pipeline(
         "objective": cost_objective.name,
         "objective_mode": objective_mode,
     }
+    if intent_plan_flag:
+        solver_extra["planning_mode"] = planning_mode
     certificate = verify_mod.certificate(sc, placement, extra=solver_extra)
 
     routability = certificate.get("routability", {})
@@ -450,6 +582,8 @@ def run_pipeline(
             "seed": seed,
             "objective": cost_objective.name,
             "objective_mode": objective_mode,
+            "planning_mode": planning_mode,
+            "intent_plan": intent_plan_flag,
             "solver": stats.get("solver"),
             "restarts": int(stats.get("restarts", 0) or 0),
             "router": f"GridRouter(grid_mm={ROUTER_GRID_MM}, layers={ROUTER_LAYERS})",
@@ -459,6 +593,9 @@ def run_pipeline(
         "objective_config": objective_meta,
         "objective_recommended": bool(objective_meta.get("recommended")),
         "objective_generalization": objective_meta.get("generalization"),
+        "planning_mode": planning_mode,
+        "intent_plan": intent_plan_flag,
+        "intent_planning": intent_planning,
         "placement": certificate.get("placement", {}),
         "placement_digest": certificate.get("placement_digest"),
         "feasible": bool(certificate.get("feasible", not violations)),
@@ -998,6 +1135,388 @@ def _fmt_optional(value: Optional[float]) -> str:
     return "n/a" if value is None else f"{value:.4f}"
 
 
+# --------------------------------------------------------------------------- #
+# P3.8 intent-constrained planning comparison within the pipeline
+# --------------------------------------------------------------------------- #
+#: Three pipeline configurations compared by ``benchmark_intent_planning``.
+INTENT_PLANNING_MODES: Tuple[str, ...] = ("proxy", "route_aware", "intent_relax")
+INTENT_REPORT_SCHEMA = "mp_place.pipeline_intent/v1"
+REPORT_INTENT_MD = "report_pipeline_intent.md"
+REPORT_INTENT_JSON = "report_pipeline_intent.json"
+#: P3.8 target: intent_relax hard-tier CCG violations per run and truth cost.
+INTENT_TARGET_MAX_CCG_PER_RUN = 0.5
+INTENT_TARGET_MAX_TRUTH_GAP_PCT = 20.0
+
+INTENT_MODE_KWARGS: Dict[str, Dict[str, Any]] = {
+    "proxy": {"objective": "proxy"},
+    "route_aware": {"objective": "route_aware"},
+    "intent_relax": {"objective": "proxy", "intent_plan": True},
+}
+
+
+def _intent_mode_row(
+    scenario: Scenario,
+    template: str,
+    seed: int,
+    mode: str,
+    report: Dict[str, Any],
+    reference_intent: Dict[str, Any],
+    runtime_s: float,
+) -> Dict[str, Any]:
+    """One (template, seed, mode) row of the P3.8 intent-planning benchmark."""
+    placement = _as_placement(report["placement"])
+    ccg_vs_reference = len(
+        intent_mod.intent_violations(scenario, placement, reference_intent)
+    )
+    planning = report.get("intent_planning") or {}
+    if mode == "intent_relax":
+        hard = int(planning.get("ccg_hard_final", 0))
+        soft = int(planning.get("ccg_soft_final", 0))
+        original = int(planning.get("original_intent_ccg_final", ccg_vs_reference))
+    else:
+        # Direct modes do not expose relaxed tiers: every strict-intent
+        # violation is a hard violation of the reference intent.
+        hard = int(ccg_vs_reference)
+        soft = 0
+        original = int(ccg_vs_reference)
+    router = report.get("router", {})
+    return {
+        "template": template,
+        "seed": int(seed),
+        "mode": mode,
+        "truth_v1": report.get("truth_v1"),
+        "truth_v2": report.get("truth_v2"),
+        "completion": router.get("completion"),
+        "feasible": bool(report.get("feasible")),
+        "runtime_s": round(runtime_s, 4),
+        "ccg_vs_reference": int(ccg_vs_reference),
+        "intent_hard_violations": hard,
+        "intent_soft_violations": soft,
+        "intent_original_deviations": original,
+        "planning_mode": report.get("planning_mode"),
+    }
+
+
+def benchmark_intent_planning(
+    names: Optional[Sequence[str]] = None,
+    seeds: Sequence[int] = (0, 1),
+    steps: int = DEFAULT_BUDGET_STEPS,
+) -> Dict[str, Any]:
+    """P3.8 benchmark: direct proxy vs route_aware vs intent-constrained planning.
+
+    Protocol (8 templates x seeds 0/1 by default, ``steps=800``):
+
+    * ``proxy``        -- plain proxy pipeline (the reference placement);
+    * ``route_aware``  -- fixed ``w_route=2.0`` route-aware pipeline;
+    * ``intent_relax`` -- proxy solve -> ``build_intent`` from that placement ->
+      ``plan_from_intent(relax=True)`` -> verify (the P3.8 mode).
+
+    All three final placements are scored against the **same reference intent**
+    (built from the plain proxy placement) so ``ccg_vs_reference`` is
+    comparable.  For ``intent_relax`` the hard/soft split of the relaxed intent
+    is reported separately: ``intent_hard_violations`` are ``near``/``cluster``/
+    ``edge`` violations under the widened (relaxed) bounds and must stay 0;
+    ``intent_original_deviations`` counts deviations from the original strict
+    reference bounds (the fidelity price of relaxation).
+
+    Target (P3.8): ``intent_relax`` hard-tier CCG violations <= 0.5/run and mean
+    ``truth_v2`` within +20% of the plain proxy pipeline.
+    """
+    import time
+
+    from .templates import instantiate, template_names
+
+    template_names_ = list(template_names() if names is None else names)
+    seeds_ = [int(seed) for seed in seeds]
+    try:
+        budget = int(steps)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"steps must be an integer, got {steps!r}") from exc
+    if budget < 0:
+        raise ValueError(f"steps must be >= 0, got {budget}")
+    if not seeds_:
+        raise ValueError("seeds must be non-empty")
+
+    rows: List[Dict[str, Any]] = []
+    for name in template_names_:
+        for seed in seeds_:
+            scenario = instantiate(name, seed=seed)
+            reports: Dict[str, Dict[str, Any]] = {}
+            timings: Dict[str, float] = {}
+            for mode in INTENT_PLANNING_MODES:
+                started = time.perf_counter()
+                reports[mode] = run_pipeline(
+                    scenario,
+                    budget_steps=budget,
+                    seed=seed,
+                    **INTENT_MODE_KWARGS[mode],
+                )
+                timings[mode] = time.perf_counter() - started
+            reference_intent = intent_mod.build_intent(
+                scenario, _as_placement(reports["proxy"]["placement"])
+            )
+            for mode in INTENT_PLANNING_MODES:
+                rows.append(
+                    _intent_mode_row(
+                        scenario,
+                        name,
+                        seed,
+                        mode,
+                        reports[mode],
+                        reference_intent,
+                        timings[mode],
+                    )
+                )
+
+    groups: List[Dict[str, Any]] = []
+    for mode in INTENT_PLANNING_MODES:
+        subset = [row for row in rows if row["mode"] == mode]
+        count = len(subset)
+
+        def _mean(key: str, rows_subset: Sequence[Dict[str, Any]] = subset) -> float:
+            values = [
+                row[key] for row in rows_subset if row[key] is not None
+            ]
+            return sum(values) / len(values) if values else 0.0
+
+        groups.append(
+            {
+                "mode": mode,
+                "runs": count,
+                "feasible_rate": (
+                    sum(1 for row in subset if row["feasible"]) / count
+                    if count
+                    else 0.0
+                ),
+                "mean_truth_v1": _mean("truth_v1"),
+                "mean_truth_v2": _mean("truth_v2"),
+                "mean_completion": _mean("completion"),
+                "fully_routed_rate": (
+                    sum(
+                        1
+                        for row in subset
+                        if row["completion"] is not None
+                        and row["completion"] >= 1.0 - 1e-12
+                    )
+                    / count
+                    if count
+                    else 0.0
+                ),
+                "mean_runtime_s": _mean("runtime_s"),
+                "mean_ccg_vs_reference": _mean("ccg_vs_reference"),
+                "mean_intent_hard": _mean("intent_hard_violations"),
+                "mean_intent_soft": _mean("intent_soft_violations"),
+                "mean_intent_original_deviations": _mean(
+                    "intent_original_deviations"
+                ),
+            }
+        )
+    group_by_mode = {group["mode"]: group for group in groups}
+    proxy_group = group_by_mode["proxy"]
+    intent_group = group_by_mode["intent_relax"]
+    truth_gap_pct = (
+        100.0
+        * (intent_group["mean_truth_v2"] - proxy_group["mean_truth_v2"])
+        / proxy_group["mean_truth_v2"]
+        if proxy_group["mean_truth_v2"]
+        else 0.0
+    )
+    ccg_ok = intent_group["mean_intent_hard"] <= INTENT_TARGET_MAX_CCG_PER_RUN
+    truth_ok = truth_gap_pct <= INTENT_TARGET_MAX_TRUTH_GAP_PCT
+    target = {
+        "criteria": "intent_relax vs proxy: hard-tier CCG violations/run <= "
+        f"{INTENT_TARGET_MAX_CCG_PER_RUN:g} and mean truth_v2 gap <= "
+        f"{INTENT_TARGET_MAX_TRUTH_GAP_PCT:g}%",
+        "ccg_hard_per_run": round(intent_group["mean_intent_hard"], 6),
+        "ccg_soft_per_run": round(intent_group["mean_intent_soft"], 6),
+        "original_intent_deviations_per_run": round(
+            intent_group["mean_intent_original_deviations"], 6
+        ),
+        "mean_truth_v2_proxy": round(proxy_group["mean_truth_v2"], 6),
+        "mean_truth_v2_intent_relax": round(intent_group["mean_truth_v2"], 6),
+        "mean_truth_gap_pct": round(truth_gap_pct, 3),
+        "completion_not_lower": bool(
+            intent_group["mean_completion"]
+            >= proxy_group["mean_completion"] - 1e-9
+        ),
+        "ccg_target_met": bool(ccg_ok),
+        "truth_target_met": bool(truth_ok),
+        "met": bool(ccg_ok and truth_ok),
+    }
+    recommendation = {
+        "default": "proxy",
+        "recommended_when_intent_matters": "intent_relax",
+        "recommended_when_completion_matters": "route_aware",
+        "rationale": "intent_relax keeps the hard near/cluster/edge semantics of the "
+        "proxy placement (0 hard CCG violations under relaxed bounds) at a small "
+        "truth cost, while route_aware buys router completion; proxy stays the "
+        "backwards-compatible default.",
+    }
+    return {
+        "schema": INTENT_REPORT_SCHEMA,
+        "created_by": "mp_place.pipeline.benchmark_intent_planning",
+        "config": {
+            "templates": template_names_,
+            "seeds": seeds_,
+            "steps": budget,
+            "modes": list(INTENT_PLANNING_MODES),
+            "mode_kwargs": {
+                mode: dict(kwargs) for mode, kwargs in INTENT_MODE_KWARGS.items()
+            },
+            "reference_intent": "intent.build_intent(sc, proxy pipeline placement)",
+            "planner": "intent_solver.plan_from_intent(relax=True, ccg_weight=25.0)",
+            "router": f"GridRouter(grid_mm={ROUTER_GRID_MM}, layers={ROUTER_LAYERS})",
+            "target_max_ccg_per_run": INTENT_TARGET_MAX_CCG_PER_RUN,
+            "target_max_truth_gap_pct": INTENT_TARGET_MAX_TRUTH_GAP_PCT,
+        },
+        "groups": groups,
+        "target": target,
+        "recommendation": recommendation,
+        "rows": rows,
+    }
+
+
+def _format_intent_markdown(result: Dict[str, Any]) -> str:
+    """Render :func:`benchmark_intent_planning` output as report markdown."""
+    config = result["config"]
+    target = result["target"]
+    group_by_mode = {group["mode"]: group for group in result["groups"]}
+    proxy_group = group_by_mode["proxy"]
+    lines = [
+        "# P3.8 Pipeline intent 约束规划对比（proxy / route_aware / intent_relax）",
+        "",
+        f"- 生成命令：`python -m mp_place.pipeline --intent-benchmark`"
+        f"（schema `{result['schema']}`）",
+        f"- 协议：{len(config['templates'])} 模板 × seeds "
+        + ",".join(str(seed) for seed in config["seeds"])
+        + f"，steps={config['steps']}。"
+        "`proxy` = 默认多物理代理流水线（参考布局）；`route_aware` = 固定 w_route=2.0；"
+        "`intent_relax` = proxy 求解 → `intent.build_intent` → "
+        "`intent_solver.plan_from_intent(relax=True)` → verify。",
+        "- CCG 口径：三种最终布局均对**同一参考 intent**（由 proxy 布局构建）计 "
+        "`ccg_vs_reference`；`intent_relax` 另列 relaxed 硬语义违规（near/cluster/edge）"
+        "与原始严格界偏离（relax 的保真代价）。completion 为 solve 后离线网格路由器 oracle。",
+        "",
+        "## 组汇总",
+        "",
+        "| mode | runs | feasible | truth_v2 均值 | completion 均值 | 全布通率 | CCG vs 参考/run | 硬语义违规/run | soft 违规/run | 原始 intent 偏离/run | 耗时/run |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for group in result["groups"]:
+        lines.append(
+            "| {mode} | {runs} | {feasible_rate:.0%} | {mean_truth_v2:.4f} | "
+            "{mean_completion:.4f} | {fully_routed_rate:.0%} | "
+            "{mean_ccg_vs_reference:.2f} | {mean_intent_hard:.2f} | "
+            "{mean_intent_soft:.2f} | {mean_intent_original_deviations:.2f} | "
+            "{mean_runtime_s:.2f} s |".format(**group)
+        )
+    lines.extend(
+        [
+            "",
+            "## 逐案例（intent_relax vs proxy）",
+            "",
+            "| template | seed | truth_v2 proxy | truth_v2 route_aware | truth_v2 intent_relax | truth gap | completion proxy | completion route_aware | completion intent_relax | intent 硬/soft/原始偏离 | intent 耗时 |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        ]
+    )
+    rows = result["rows"]
+    lookup = {
+        (row["template"], row["seed"], row["mode"]): row for row in rows
+    }
+    templates = sorted({row["template"] for row in rows})
+    seeds = config["seeds"]
+    for template in templates:
+        for seed in seeds:
+            proxy_row = lookup[(template, int(seed), "proxy")]
+            route_row = lookup[(template, int(seed), "route_aware")]
+            intent_row = lookup[(template, int(seed), "intent_relax")]
+            gap = (
+                100.0
+                * (intent_row["truth_v2"] - proxy_row["truth_v2"])
+                / proxy_row["truth_v2"]
+                if proxy_row["truth_v2"]
+                else 0.0
+            )
+            lines.append(
+                "| {template} | {seed} | {pt:.4f} | {rt:.4f} | {it:.4f} | "
+                "{gap:+.2f}% | {pc:.3f} | {rc:.3f} | {ic:.3f} | "
+                "{hard}/{soft}/{orig} | {time:.2f} s |".format(
+                    template=template,
+                    seed=int(seed),
+                    pt=proxy_row["truth_v2"],
+                    rt=route_row["truth_v2"],
+                    it=intent_row["truth_v2"],
+                    gap=gap,
+                    pc=proxy_row["completion"],
+                    rc=route_row["completion"],
+                    ic=intent_row["completion"],
+                    hard=intent_row["intent_hard_violations"],
+                    soft=intent_row["intent_soft_violations"],
+                    orig=intent_row["intent_original_deviations"],
+                    time=intent_row["runtime_s"],
+                )
+            )
+    lines.extend(
+        [
+            "",
+            "## 目标",
+            "",
+            f"- 目标：{target['criteria']}",
+            f"- 达标：{'是' if target['met'] else '否'}",
+            f"- intent_relax 硬语义 CCG 违规/run：{target['ccg_hard_per_run']:.2f}"
+            f"（soft {target['ccg_soft_per_run']:.2f}，原始严格界偏离 "
+            f"{target['original_intent_deviations_per_run']:.2f}/run）",
+            f"- truth_v2：proxy {target['mean_truth_v2_proxy']:.4f} → intent_relax "
+            f"{target['mean_truth_v2_intent_relax']:.4f}（{target['mean_truth_gap_pct']:+.2f}%）",
+            f"- completion 不降（诊断）：{'是' if target['completion_not_lower'] else '否'}；"
+            f"proxy {proxy_group['mean_completion']:.4f} vs intent_relax "
+            f"{group_by_mode['intent_relax']['mean_completion']:.4f}",
+            "",
+            "## 推荐",
+            "",
+            f"- 需要意图约束保真时：`{result['recommendation']['recommended_when_intent_matters']}`"
+            "（relaxed near/cluster 硬语义 0 违规，truth 折衷在上表）。",
+            f"- 需要可布通性时：`{result['recommendation']['recommended_when_completion_matters']}`"
+            "（completion 提升）。",
+            f"- 默认：`{result['recommendation']['default']}`（向后兼容）。",
+            f"- 理由：{result['recommendation']['rationale']}",
+            "",
+            "## 边界",
+            "",
+            "- intent_relax 的 intent 由 proxy 最终布局构建；plan_from_intent 仅优化 "
+            "relaxed 硬语义约束（near/cluster/edge）+ soft clearance 权重，不感知 router；"
+            "router 仅事后作为 completion oracle。",
+            "- 边界：纯离线代理（无 EDA / DRC / 真实布线）；truth_v2 是离线感仿真器；"
+            "completion=1 仅表示离线 1 mm / 2 层迷宫 oracle 走通全部被评分网络。",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def write_intent_report(
+    result: Optional[Dict[str, Any]] = None, out_dir=None
+) -> Dict[str, str]:
+    """Write ``report_pipeline_intent.{md,json}`` and return their paths."""
+    import pathlib
+
+    if result is None:
+        result = benchmark_intent_planning()
+    out = (
+        pathlib.Path(out_dir)
+        if out_dir is not None
+        else pathlib.Path(__file__).resolve().parent.parent
+    )
+    out.mkdir(parents=True, exist_ok=True)
+    json_path = out / REPORT_INTENT_JSON
+    md_path = out / REPORT_INTENT_MD
+    json_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    md_path.write_text(_format_intent_markdown(result), encoding="utf-8")
+    return {"json": str(json_path), "md": str(md_path)}
+
+
 def write_objective_report(
     result: Optional[Dict[str, Any]] = None, out_dir=None
 ) -> Dict[str, str]:
@@ -1023,7 +1542,7 @@ def write_objective_report(
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    """``python -m mp_place.pipeline --objective-benchmark``."""
+    """``python -m mp_place.pipeline``: P2.11 / P3.8 benchmark entry point."""
     import argparse
     import sys
 
@@ -1033,7 +1552,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         except (AttributeError, ValueError):  # pragma: no cover - exotic streams
             pass
     parser = argparse.ArgumentParser(
-        description="Offline placement pipeline (proxy / route_aware / tuned objective benchmark)"
+        description="Offline placement pipeline benchmarks "
+        "(P2.11 objective comparison / P3.8 intent-constrained planning)"
     )
     parser.add_argument(
         "--objective-benchmark",
@@ -1041,32 +1561,60 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help=f"run the P2.11 proxy / route_aware / tuned objective benchmark and write "
         f"{REPORT_OBJECTIVE_MD}/{REPORT_OBJECTIVE_JSON}",
     )
+    parser.add_argument(
+        "--intent-benchmark",
+        action="store_true",
+        help=f"run the P3.8 proxy / route_aware / intent_relax planning benchmark and "
+        f"write {REPORT_INTENT_MD}/{REPORT_INTENT_JSON}",
+    )
     parser.add_argument("--steps", type=int, default=DEFAULT_BUDGET_STEPS)
     parser.add_argument("--seeds", default="0,1")
     parser.add_argument("--out", default=None)
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
-    if not args.objective_benchmark:
-        parser.error("nothing to do; pass --objective-benchmark")
+    if not args.objective_benchmark and not args.intent_benchmark:
+        parser.error(
+            "nothing to do; pass --objective-benchmark and/or --intent-benchmark"
+        )
     seeds = tuple(int(item) for item in str(args.seeds).split(",") if item.strip())
     if not seeds:
         parser.error("--seeds must be non-empty")
-    result = benchmark_objectives(seeds=seeds, steps=args.steps)
-    paths = write_objective_report(result, out_dir=args.out)
-    if args.json:
-        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
-    else:
-        print(_format_objective_markdown(result))
-    print(f"[pipeline] wrote {paths['md']} / {paths['json']}", file=sys.stderr)
-    return 0 if result["target"]["met"] else 1
+    status = 0
+    if args.objective_benchmark:
+        result = benchmark_objectives(seeds=seeds, steps=args.steps)
+        paths = write_objective_report(result, out_dir=args.out)
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+        else:
+            print(_format_objective_markdown(result))
+        print(f"[pipeline] wrote {paths['md']} / {paths['json']}", file=sys.stderr)
+        if not result["target"]["met"]:
+            status = 1
+    if args.intent_benchmark:
+        result = benchmark_intent_planning(seeds=seeds, steps=args.steps)
+        paths = write_intent_report(result, out_dir=args.out)
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+        else:
+            print(_format_intent_markdown(result))
+        print(
+            f"[pipeline] wrote {paths['md']} / {paths['json']}",
+            file=sys.stderr,
+        )
+        if not result["target"]["met"]:
+            status = 1
+    return status
 
 
 __all__ = [
     "run_pipeline",
     "benchmark_objectives",
     "write_objective_report",
+    "benchmark_intent_planning",
+    "write_intent_report",
     "PIPELINE_SCHEMA",
     "PIPELINE_OBJECTIVES",
+    "INTENT_PLANNING_MODES",
     "DEFAULT_TEMPLATE",
     "DEFAULT_BUDGET_STEPS",
     "DEFAULT_OBJECTIVE",

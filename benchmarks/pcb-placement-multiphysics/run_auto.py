@@ -28,6 +28,14 @@ The chosen objective is recorded in every report (``objective_mode`` /
 ``objective_generalization``) and in each ``--all-templates`` batch row under
 the ``objective`` field.
 
+``--intent-plan`` (P3.8) enables intent-constrained planning: proxy solve ->
+``intent.build_intent`` from that placement -> ``intent_solver.plan_from_intent
+(relax=True)`` -> verification.  It requires the default ``proxy`` objective and
+records ``planning_mode="intent_relax"`` plus an ``intent_planning`` stats block
+(hard-tier CCG violations, soft violations and deviations from the original
+strict bounds).  ``--all-templates`` batch rows carry ``intent_plan`` and
+``planning_mode`` as well.
+
 Output: a single JSON report on stdout (``--json`` -> one compact sorted line;
 otherwise indented).  Human-readable status goes to stderr, so piping stdout
 into ``jq``/``json`` keeps working.  Exit code is ``0`` when the resulting
@@ -127,6 +135,21 @@ def _build_parser() -> argparse.ArgumentParser:
         "does not generalise to held-out seeds, research/diagnostics only)",
     )
     parser.add_argument(
+        "--intent-plan",
+        action="store_true",
+        help="P3.8 intent-constrained planning: after the proxy solve, build the "
+        "layout intent from that placement and refine it with "
+        "plan_from_intent(relax=True) before verification; requires "
+        "--objective proxy (default)",
+    )
+    parser.add_argument(
+        "--intent-ccg-weight",
+        type=float,
+        default=25.0,
+        metavar="W",
+        help="CCG penalty weight for --intent-plan (default: 25.0)",
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="print exactly one compact JSON object on stdout (sorted keys)",
@@ -144,13 +167,24 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _batch(seeds: list[int], steps: int, objective: str = DEFAULT_OBJECTIVE) -> dict:
+def _batch(
+    seeds: list[int],
+    steps: int,
+    objective: str = DEFAULT_OBJECTIVE,
+    intent_plan: bool = False,
+    intent_ccg_weight: float = 25.0,
+) -> dict:
     rows = []
     for name in _known_templates():
         for seed in seeds:
             scenario = templates_mod.instantiate(name, seed=seed)
             report = run_pipeline(
-                scenario, budget_steps=steps, seed=seed, objective=objective
+                scenario,
+                budget_steps=steps,
+                seed=seed,
+                objective=objective,
+                intent_plan=intent_plan,
+                intent_ccg_weight=intent_ccg_weight,
             )
             router = report.get("router", {})
             rows.append(
@@ -159,6 +193,8 @@ def _batch(seeds: list[int], steps: int, objective: str = DEFAULT_OBJECTIVE) -> 
                     "seed": seed,
                     "objective": objective,
                     "objective_model": report.get("objective_model"),
+                    "intent_plan": bool(intent_plan),
+                    "planning_mode": report.get("planning_mode"),
                     "feasible": report.get("feasible"),
                     "truth_v1": report.get("truth_v1"),
                     "truth_v2": report.get("truth_v2"),
@@ -171,6 +207,7 @@ def _batch(seeds: list[int], steps: int, objective: str = DEFAULT_OBJECTIVE) -> 
     return {
         "schema": "mp_place.batch/v1",
         "objective": objective,
+        "intent_plan": bool(intent_plan),
         "n_runs": len(rows),
         "all_feasible": all(r["feasible"] for r in rows),
         "rows": rows,
@@ -192,6 +229,7 @@ def _summary(report: dict) -> str:
         "[run_auto] "
         f"scenario={scenario.get('name')} "
         f"objective={report.get('objective_mode')} "
+        f"planning={report.get('planning_mode')} "
         f"feasible={report.get('feasible')} "
         f"violations={len(report.get('violations', []))} "
         f"truth_v1={report.get('truth_v1')} truth_v2={report.get('truth_v2')} "
@@ -214,6 +252,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         parser.error("--steps must be >= 0")
     if args.seed < 0:
         parser.error("--seed must be >= 0")
+    if args.intent_plan and args.objective != DEFAULT_OBJECTIVE:
+        parser.error("--intent-plan requires --objective proxy")
 
     try:
         scenario = load_scenario(args.template, args.scenario, args.seed)
@@ -231,18 +271,22 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             parser.error("--seeds must be comma-separated integers")
         if not seeds or min(seeds) < 0:
             parser.error("--seeds must be non-empty and >= 0")
-        batch = _batch(seeds, args.steps, args.objective)
+        batch = _batch(seeds, args.steps, args.objective, args.intent_plan)
         _emit(batch, args.json)
         print(
             f"[run_auto] batch templates={len(_known_templates())} seeds={seeds} "
-            f"objective={args.objective} runs={batch['n_runs']} "
-            f"all_feasible={batch['all_feasible']}",
+            f"objective={args.objective} intent_plan={args.intent_plan} "
+            f"runs={batch['n_runs']} all_feasible={batch['all_feasible']}",
             file=sys.stderr,
         )
         return 0 if batch["all_feasible"] else 1
 
     report = run_pipeline(
-        scenario, budget_steps=args.steps, seed=args.seed, objective=args.objective
+        scenario,
+        budget_steps=args.steps,
+        seed=args.seed,
+        objective=args.objective,
+        intent_plan=args.intent_plan,
     )
     _emit(report, args.json)
     print(_summary(report), file=sys.stderr)

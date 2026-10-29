@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import pathlib
 import subprocess
 import sys
@@ -239,7 +240,7 @@ class SyntheticConversionTests(unittest.TestCase):
         self.assertEqual(self.report["components_total"], 9)
         self.assertEqual(self.report["components_kept"], 5)
         reasons = {item["ref"]: item["reason"] for item in self.report["dropped_components"]}
-        self.assertEqual(reasons["D1"], "out_of_board")
+        self.assertTrue(reasons["D1"].startswith("out_of_board"), reasons["D1"])
         self.assertEqual(reasons["D2"], "invalid_bbox")
         self.assertEqual(reasons["E1"], "no_usable_pads")
         self.assertEqual(reasons["C1"], "duplicate_designator")
@@ -464,6 +465,7 @@ class RunAllAndCliTests(unittest.TestCase):
                     sys.executable,
                     "-m",
                     "mp_place.realboard",
+                    "--v1",
                     "--source",
                     f"synthetic={dump_path}",
                     "--steps",
@@ -543,6 +545,345 @@ class RealDumpSmokeTests(unittest.TestCase):
         self.assertEqual(row["original"]["violations"], [])
         self.assertEqual(row["optimized"]["violations"], [])
         self.assertEqual(row["repair"]["violations"], [])
+        json.dumps(realboard._json_safe(row), ensure_ascii=False)
+
+
+# --------------------------------------------------------------------------- #
+# v2: polygon outline (ray casting), discovery, keepouts, edge overhang
+# --------------------------------------------------------------------------- #
+class PolygonTests(unittest.TestCase):
+    SQUARE = [(0.0, 0.0), (10.0, 0.0), (10.0, 10.0), (0.0, 10.0)]
+    LSHAPE = [(0.0, 0.0), (10.0, 0.0), (10.0, 3.0), (3.0, 3.0), (3.0, 10.0), (0.0, 10.0)]
+
+    def test_inside_and_outside(self):
+        self.assertTrue(realboard.point_in_polygon(5.0, 5.0, self.SQUARE))
+        self.assertFalse(realboard.point_in_polygon(11.0, 5.0, self.SQUARE))
+        self.assertFalse(realboard.point_in_polygon(-1.0, 5.0, self.SQUARE))
+        self.assertFalse(realboard.point_in_polygon(5.0, -1.0, self.SQUARE))
+        self.assertTrue(realboard.point_in_polygon(1.0, 1.0, self.LSHAPE))
+        self.assertFalse(realboard.point_in_polygon(8.0, 8.0, self.LSHAPE))  # notch
+
+    def test_boundary_counts_as_inside(self):
+        for point in ((0.0, 0.0), (5.0, 0.0), (10.0, 5.0), (0.0, 10.0), (10.0, 10.0)):
+            self.assertTrue(realboard.point_in_polygon(*point, self.SQUARE), point)
+        self.assertTrue(realboard.point_in_polygon(3.0, 3.0, self.LSHAPE))  # reflex corner
+        self.assertTrue(realboard.point_in_polygon(1.5, 3.0, self.LSHAPE))  # edge
+
+    def test_polygon_area(self):
+        self.assertAlmostEqual(realboard.polygon_area(self.SQUARE), 100.0)
+        self.assertAlmostEqual(realboard.polygon_area(self.LSHAPE), 51.0)
+
+    def test_board_polygon_rect_outside(self):
+        polygon = realboard.BoardPolygon(self.SQUARE)
+        self.assertEqual(polygon.rect_outside((1.0, 1.0, 2.0, 2.0)), (0, 0.0))
+        outside, worst = polygon.rect_outside((8.0, 8.0, 11.0, 11.0))
+        self.assertEqual(outside, 3)  # three corners outside the 0..10 square
+        self.assertAlmostEqual(worst, math.sqrt(2.0), places=6)
+        self.assertEqual(polygon.bbox, (0.0, 0.0, 10.0, 10.0))
+        self.assertAlmostEqual(polygon.boundary_distance(5.0, 5.0), 5.0, places=6)
+        self.assertAlmostEqual(polygon.boundary_distance(11.0, 5.0), 1.0, places=6)
+
+    def test_degenerate_polygon_is_rejected(self):
+        with self.assertRaises(ValueError):
+            realboard.BoardPolygon([(0.0, 0.0), (1.0, 1.0)])
+
+
+class DiscoveryTests(unittest.TestCase):
+    def _case(self, root, case_name):
+        evidence = pathlib.Path(root) / case_name / "evidence"
+        evidence.mkdir(parents=True)
+        return evidence
+
+    def test_auto_discovery_preference_and_skipped_cases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = self._case(tmp, "alpha-board-2026-01-01")
+            payload = synthetic_dump()
+            (evidence / "pcb-dump-after-reload.json").write_text(
+                json.dumps(payload), encoding="utf-8"
+            )
+            (evidence / "pcb-dump-final.json").write_text(json.dumps(payload), encoding="utf-8")
+            beta = pathlib.Path(tmp) / "beta-case-2026-01-02"
+            beta.mkdir(parents=True)
+            (beta / "notes.json").write_text(json.dumps({"note": "no dump"}), encoding="utf-8")
+            boards, skipped = realboard.discover_cases(tmp)
+            self.assertEqual(len(boards), 1)
+            source = boards[0]
+            self.assertEqual(source.name, "alpha-board")
+            self.assertEqual(source.case, "alpha-board-2026-01-01")
+            self.assertEqual(source.path.name, "pcb-dump-final.json")
+            self.assertTrue(source.alternatives and "after-reload" in source.alternatives[0])
+            self.assertEqual(len(skipped), 1)
+            self.assertEqual(skipped[0]["case"], "beta-case-2026-01-02")
+            self.assertIn("no dump-like JSON", skipped[0]["reason"])
+
+    def test_board_baseline_preference(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = pathlib.Path(tmp) / "buttons-20261027" / "negative"
+            folder.mkdir(parents=True)
+            (folder / "board-accepted-baseline.json").write_text(
+                json.dumps(synthetic_dump()), encoding="utf-8"
+            )
+            (folder / "board-baseline.json").write_text(
+                json.dumps(synthetic_dump()), encoding="utf-8"
+            )
+            boards, skipped = realboard.discover_cases(tmp)
+            self.assertEqual(skipped, [])
+            self.assertEqual(len(boards), 1)
+            self.assertEqual(boards[0].path.name, "board-baseline.json")
+
+    def test_missing_cases_root_is_reported(self):
+        boards, skipped = realboard.discover_cases(
+            pathlib.Path(tempfile.gettempdir()) / "definitely-missing-cases-root"
+        )
+        self.assertEqual(boards, [])
+        self.assertTrue(skipped)
+        self.assertIn("not found", skipped[0]["reason"])
+
+
+class KeepoutParsingTests(unittest.TestCase):
+    def _setup_case(self, tmp, plan_payload=None, plan_name="placement-plan-final.json"):
+        evidence = pathlib.Path(tmp) / "case-2026-01-01" / "evidence"
+        evidence.mkdir(parents=True)
+        dump_path = evidence / "pcb-dump-final.json"
+        dump_path.write_text(json.dumps(synthetic_dump()), encoding="utf-8")
+        if plan_payload is not None:
+            (evidence / plan_name).write_text(json.dumps(plan_payload), encoding="utf-8")
+        return dump_path
+
+    def test_plan_keepouts_are_applied(self):
+        plan = {
+            "project": "synthetic",
+            "keepouts": [
+                {"id": "MH-1", "center": [900, 150], "radius": 50, "source": "M3 washer"},
+                {"id": "MH-2", "center": [300, 150], "radius": 50, "source": "M3 washer"},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = self._setup_case(tmp, plan)
+            converted = realboard.load_and_convert(dump_path, name="keepout-board")
+            report = converted.report
+            self.assertEqual(report["keepouts"]["status"], "APPLIED")
+            self.assertEqual(report["keepouts"]["count"], 2)
+            self.assertEqual(len(converted.scenario.keepouts), 2)
+            self.assertTrue(report["keepouts"]["source"].endswith("placement-plan-final.json"))
+            self.assertEqual(report["original_violations"], [])
+            self.assertEqual(report["keepouts"].get("conflicts_with_original"), None)
+
+    def test_missing_plan_is_not_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = self._setup_case(tmp)
+            converted = realboard.load_and_convert(dump_path, name="no-plan")
+            self.assertEqual(converted.report["keepouts"]["status"], "NOT RUN")
+            self.assertEqual(converted.scenario.keepouts, [])
+            self.assertIn("no parseable placement-plan", converted.report["keepouts"]["reason"])
+
+    def test_unparseable_keepouts_are_not_run(self):
+        plan = {"keepouts": [{"garbage": True}, {"center": "nope"}]}
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = self._setup_case(tmp, plan)
+            converted = realboard.load_and_convert(dump_path, name="bad-plan")
+            self.assertEqual(converted.report["keepouts"]["status"], "NOT RUN")
+            self.assertEqual(converted.report["keepouts"]["count"], 0)
+            self.assertEqual(converted.scenario.keepouts, [])
+
+    def test_plan_preference_final_over_plain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan = {"keepouts": [{"id": "MH", "center": [900, 150], "radius": 40}]}
+            dump_path = self._setup_case(tmp, plan)
+            evidence = dump_path.parent
+            (evidence / "placement-plan.json").write_text(
+                json.dumps({"keepouts": []}), encoding="utf-8"
+            )
+            found_path, found_payload = realboard.find_keepout_plan(dump_path)
+            self.assertEqual(found_path.name, "placement-plan-final.json")
+            self.assertEqual(len(found_payload["keepouts"]), 1)
+
+
+class EdgeOverhangTests(unittest.TestCase):
+    def _overhang_payload(self):
+        payload = synthetic_dump()
+        for comp in payload["components"]:
+            if comp.get("designator") == "J1":
+                comp["bbox"] = _bbox(40, -40, 160, 200)  # 40 mil = 1.016 mm below the board
+                comp["y"] = 80
+        return payload
+
+    def test_small_overhang_is_kept_and_board_expands(self):
+        converted = realboard.convert_dump(self._overhang_payload(), name="overhang")
+        report = converted.report
+        self.assertIn("J1", converted.scenario.components)
+        self.assertAlmostEqual(report["board_expansion_mm"]["bottom"], 40 * MIL, places=4)
+        self.assertGreater(report["board_expansion_mm"]["total_mm"], 0.0)
+        self.assertEqual(report["edge_overhang_components"][0]["ref"], "J1")
+        self.assertEqual(report["original_violations"], [])
+        self.assertTrue(report["original_feasible_tolerant"])
+        self.assertEqual(converted.scenario.board_h, round(800 * MIL + 40 * MIL, 6))
+        self.assertTrue(converted.scenario.components["J1"].fixed)
+
+    def test_large_overhang_is_dropped(self):
+        payload = synthetic_dump()
+        for comp in payload["components"]:
+            if comp.get("designator") == "J1":
+                comp["bbox"] = _bbox(40, -300, 160, 200)  # 300 mil = 7.6 mm
+        converted = realboard.convert_dump(payload, name="big-overhang")
+        self.assertNotIn("J1", converted.scenario.components)
+        reasons = {item["ref"]: item["reason"] for item in converted.report["dropped_components"]}
+        self.assertTrue(reasons["J1"].startswith("out_of_board"))
+
+
+class PolygonConversionTests(unittest.TestCase):
+    def test_rectangular_outline_is_polygon_ok(self):
+        converted = realboard.convert_dump(synthetic_dump(), name="poly-rect")
+        polygon = converted.report["polygon"]
+        self.assertEqual(polygon["points"], 4)
+        self.assertTrue(converted.report["polygon_ok"])
+        self.assertEqual(polygon["components_outside"], [])
+        self.assertAlmostEqual(polygon["area_ratio"], 1.0, places=6)
+
+    def test_component_in_outline_notch_is_flagged(self):
+        payload = synthetic_dump()
+        payload["outline"]["points"] = [
+            [0, 0], [1200, 0], [1200, 800], [700, 800], [700, 500], [0, 500],
+        ]
+        payload["outline"]["bbox"] = _bbox(0, 0, 1200, 800)
+        for comp in payload["components"]:
+            if comp.get("designator") == "C1":
+                # top-left notch (x < 700, y > 500) is outside the L-shaped outline
+                comp["bbox"] = _bbox(112.6, 627.35, 187.4, 672.65)
+                comp["x"], comp["y"] = 150, 650
+                for pad in comp["pads"]:
+                    pad["x"], pad["y"] = 133.5, 650
+        converted = realboard.convert_dump(payload, name="poly-notch")
+        polygon = converted.report["polygon"]
+        self.assertEqual(polygon["points"], 6)
+        self.assertFalse(converted.report["polygon_ok"])
+        outside = {item["ref"]: item for item in polygon["components_outside"]}
+        self.assertIn("C1", outside)
+        self.assertFalse(outside["C1"]["allowed"])
+        self.assertGreater(outside["C1"]["max_outside_mm"], 2.0)
+        self.assertIn("C1", [item["ref"] for item in polygon["violations"]])
+
+
+# --------------------------------------------------------------------------- #
+# v2 run_all / CLI
+# --------------------------------------------------------------------------- #
+class RunAllV2Tests(unittest.TestCase):
+    def test_run_all_v2_explicit_source(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = _write_dump(tmp)
+            report = realboard.run_all_v2(
+                sources=[("synthetic", dump_path)], steps=0, max_routes=1
+            )
+            self.assertEqual(report["schema"], realboard.REALBOARD_SCHEMA_V2)
+            self.assertEqual(report["discovery"]["mode"], "explicit_sources")
+            self.assertEqual(report["aggregate"]["n_boards"], 1)
+            self.assertGreaterEqual(report["aggregate"]["n_polygon_ok"], 1)
+            self.assertTrue(report["aggregate"]["all_feasible_original_tolerant"])
+            board = report["boards"][0]
+            self.assertIn("polygon", board["conversion"])
+            self.assertIn("keepouts", board["conversion"])
+            self.assertEqual(board["conversion"]["keepouts"]["status"], "NOT RUN")
+            out_dir = pathlib.Path(tmp) / "out"
+            paths = realboard.write_reports_v2(report, out_dir=out_dir)
+            self.assertTrue(paths["markdown"].exists())
+            self.assertTrue(paths["json"].exists())
+            loaded = json.loads(paths["json"].read_text(encoding="utf-8"))
+            self.assertEqual(loaded["schema"], realboard.REALBOARD_SCHEMA_V2)
+            markdown = paths["markdown"].read_text(encoding="utf-8")
+            self.assertIn("# P4.6", markdown)
+            self.assertIn("多边形", markdown)
+
+    def test_cli_v2_default_writes_v2_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = _write_dump(tmp)
+            out_dir = pathlib.Path(tmp) / "out"
+            proc = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "mp_place.realboard",
+                    "--source",
+                    f"synthetic={dump_path}",
+                    "--steps",
+                    "0",
+                    "--max-routes",
+                    "1",
+                    "--out",
+                    str(out_dir),
+                    "--json",
+                ],
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=300,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr[-3000:])
+            report = json.loads(proc.stdout)
+            self.assertEqual(report["schema"], realboard.REALBOARD_SCHEMA_V2)
+            self.assertTrue((out_dir / realboard.REPORT_MD_V2).exists())
+            self.assertTrue((out_dir / realboard.REPORT_JSON_V2).exists())
+            self.assertFalse((out_dir / realboard.REPORT_MD).exists())
+
+
+# --------------------------------------------------------------------------- #
+# real dumps v2 smoke (read-only, optional)
+# --------------------------------------------------------------------------- #
+_CASES_ROOT_AVAILABLE = realboard.DEFAULT_CASES_ROOT.is_dir()
+
+
+@unittest.skipUnless(_CASES_ROOT_AVAILABLE, "EasyCirq cases root is not available on this machine")
+class RealBoardV2SmokeTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.boards, cls.skipped = realboard.discover_cases()
+
+    def test_discovery_finds_more_cases(self):
+        names = {source.name for source in self.boards}
+        self.assertGreaterEqual(len(self.boards), 4)
+        for expected in ("mcu-i2c", "photo-led", "dual-button", "temp-alarm"):
+            self.assertIn(expected, names)
+        self.assertTrue(
+            any(item.get("case") == "feedback-r12" for item in self.skipped),
+            self.skipped,
+        )
+
+    def test_all_discovered_boards_convert(self):
+        for source in self.boards:
+            with self.subTest(board=source.name):
+                converted = realboard.load_and_convert(source.path, name=source.name)
+                report = converted.report
+                self.assertEqual(report["components_kept"], report["components_total"])
+                self.assertGreater(report["polygon"]["points"], 0)
+                self.assertIn(report["polygon"]["validation"], ("ray casting; boundary counts as inside",))
+                self.assertIsNotNone(report["polygon_ok"])
+                self.assertTrue(report["original_feasible_tolerant"])
+                self.assertIn(report["keepouts"]["status"], ("APPLIED", "NOT RUN"))
+                self.assertGreaterEqual(converted.scenario.board_w, 10.0)
+                self.assertLessEqual(converted.scenario.board_w, 250.0)
+                for ref, comp in converted.scenario.components.items():
+                    if ref.upper().startswith(realboard.FIXED_PREFIXES):
+                        self.assertTrue(comp.fixed, ref)
+
+    def test_keepouts_follow_evidence(self):
+        by_name = {source.name: source for source in self.boards}
+        for name, expected in (("mcu-i2c", "APPLIED"), ("photo-led", "APPLIED"), ("temp-alarm", "NOT RUN")):
+            if name not in by_name:
+                continue
+            converted = realboard.load_and_convert(by_name[name].path, name=name)
+            self.assertEqual(converted.report["keepouts"]["status"], expected, name)
+            if expected == "APPLIED":
+                self.assertGreater(converted.report["keepouts"]["count"], 0)
+                self.assertEqual(len(converted.scenario.keepouts), converted.report["keepouts"]["count"])
+
+    def test_real_v2_run_board_smoke(self):
+        source = self.boards[0]
+        converted = realboard.load_and_convert(source.path, name=source.name)
+        row = realboard.run_board(converted, steps=0, seed=0, max_routes=1)
+        self.assertEqual(row["name"], source.name)
+        self.assertIn("feasible_tolerant", row["original"])
+        self.assertTrue(row["optimized"]["feasible"])
+        self.assertTrue(row["repair"]["feasible"])
         json.dumps(realboard._json_safe(row), ensure_ascii=False)
 
 
