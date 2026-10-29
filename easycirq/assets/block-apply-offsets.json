@@ -1,0 +1,162 @@
+{
+ "schema": "easycirq-block-apply-offsets/v1",
+ "measured_at": "2026-10-29",
+ "source": "block-apply <block> --at 300,300 on an empty page; offset = actual parts bbox min - passed at",
+ "caveat": "placement is context-dependent (block-apply may shift to avoid existing content); treat as best-estimate anchor correction and verify readback drift",
+ "blocks": {
+  "block.ams1117_ldo_3v3": {
+   "dx": -73.5,
+   "dy": -50.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    226.5,
+    249.5,
+    373.5,
+    340.5
+   ]
+  },
+  "block.mems_mic_analog": {
+   "dx": -25.5,
+   "dy": -8.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    274.5,
+    291.5,
+    670.5,
+    435.5
+   ]
+  },
+  "block.es8311_codec_i2s": {
+   "dx": -10.5,
+   "dy": -8.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    291.5,
+    810.5,
+    600.5
+   ]
+  },
+  "block.aw8737_classd_spk": {
+   "dx": -10.5,
+   "dy": -10.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    289.5,
+    745.5,
+    585.5
+   ]
+  },
+  "block.microsd_spi_pushpush": {
+   "dx": -10.5,
+   "dy": -50.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    249.5,
+    750.5,
+    464.5
+   ]
+  },
+  "block.bmi270_imu_i2c": {
+   "dx": -10.5,
+   "dy": -40.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    259.5,
+    695.5,
+    340.5
+   ]
+  },
+  "block.ina226_power_monitor": {
+   "dx": -10.5,
+   "dy": -8.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    291.5,
+    670.5,
+    450.5
+   ]
+  },
+  "block.sy7088_boost_5v": {
+   "dx": -10.5,
+   "dy": -8.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    291.5,
+    670.5,
+    580.5
+   ]
+  },
+  "block.pmos_highside_softstart": {
+   "dx": -10.5,
+   "dy": -10.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    289.5,
+    289.5,
+    670.5,
+    424.5
+   ]
+  },
+  "block.bq24074_powerpath_charger": {
+   "dx": -40.5,
+   "dy": -8.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    259.5,
+    291.5,
+    710.5,
+    835.5
+   ]
+  },
+  "block.esp32s3_wroom1_module": {
+   "dx": -139.5,
+   "dy": -130.5,
+   "measured_at": [
+    300,
+    300
+   ],
+   "parts_bbox": [
+    160.5,
+    169.5,
+    389.5,
+    590.5
+   ]
+  }
+ }
+}

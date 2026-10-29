@@ -147,10 +147,14 @@ def _normalise_frames(page_plan):
     return frames
 
 
-def _normalise_at(value, bbox, where):
+def _normalise_at(value, bbox, where, offset=None):
     if value is None:
         if bbox is None:
             return None
+        if offset is not None:
+            dx, dy = offset
+            return "%s,%s" % (_format_number(bbox[0] - dx),
+                              _format_number(bbox[1] - dy))
         return "%s,%s" % (_format_number(bbox[0] + 50),
                           _format_number(bbox[1] + 50))
     if isinstance(value, str):
@@ -166,7 +170,7 @@ def _normalise_at(value, bbox, where):
     raise ValueError("%s must be 'x,y' or [x,y]" % where)
 
 
-def _normalise_blocks(page_plan):
+def _normalise_blocks(page_plan, apply_offsets=None):
     raw = page_plan.get("blocks")
     if raw is None:
         return []
@@ -186,7 +190,12 @@ def _normalise_blocks(page_plan):
         seen.add(block_id)
         bbox = _rect(_pick(item, "bbox", None), where + ".bbox")
         zone = _rect(_pick(item, "zone", None), where + ".zone")
-        at = _normalise_at(_pick(item, "at", None), bbox, where + ".at")
+        offset = None
+        if isinstance(apply_offsets, dict):
+            raw_offset = apply_offsets.get(block_id)
+            if isinstance(raw_offset, dict) and "dx" in raw_offset and "dy" in raw_offset:
+                offset = (float(raw_offset["dx"]), float(raw_offset["dy"]))
+        at = _normalise_at(_pick(item, "at", None), bbox, where + ".at", offset)
         blocks.append({
             "id": block_id,
             "title": str(_pick(item, "title", block_id)),
@@ -498,7 +507,8 @@ def compile_apply_plan(page_plan, project):
     (id/title/bbox/zone/at) and ``labels`` (text/bbox/anchor), plus an optional
     ``title_block`` keep-out.  ``project`` carries ``project_uuid``, ``page``
     (document uuid/name) and ``parts_path``; ``out_dir`` / ``export_name`` /
-    ``window`` are optional.
+    ``window`` are optional, and ``apply_offsets`` (block id -> {dx,dy}) makes
+    ``at`` = bbox.min - offset so measured placement drift is compensated.
 
     Returns ``{schema, status, verdict, page, page_count, exec_spec, commands,
     artifacts, findings, decision_record}``.  ``status``/``verdict`` are
@@ -510,7 +520,8 @@ def compile_apply_plan(page_plan, project):
     project_uuid, page_ref, parts_path = _project_fields(project)
 
     frames = _normalise_frames(page_plan)
-    blocks = _normalise_blocks(page_plan)
+    offsets = project.get("apply_offsets") if isinstance(project, dict) else None
+    blocks = _normalise_blocks(page_plan, offsets)
     labels = _normalise_labels(page_plan)
     title_block = _title_block(page_plan, project)
     page_number = _page_number(page_plan, project)
