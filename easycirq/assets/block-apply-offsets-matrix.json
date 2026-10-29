@@ -215,6 +215,250 @@
     }
    ],
    "variable_offset": false
+  },
+  "block.ams1117_ldo_3v3": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      126.5,
+      329.5,
+      273.5,
+      420.5
+     ],
+     "offset": [
+      26.5,
+      229.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      441.5,
+      249.49999999999994,
+      703.5,
+      340.5
+     ],
+     "offset": [
+      -158.5,
+      -50.5
+     ]
+    }
+   ],
+   "variable_offset": true
+  },
+  "block.mems_mic_analog": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      74.5,
+      91.5,
+      470.5,
+      235.5
+     ],
+     "offset": [
+      -25.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      574.5,
+      291.5,
+      970.5,
+      435.5
+     ],
+     "offset": [
+      -25.5,
+      -8.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.aw8737_classd_spk": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      89.5,
+      545.5,
+      385.5
+     ],
+     "offset": [
+      -10.5,
+      -10.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      589.5,
+      289.5,
+      1045.5,
+      585.5
+     ],
+     "offset": [
+      -10.5,
+      -10.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.bmi270_imu_i2c": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      59.5,
+      495.5,
+      140.5
+     ],
+     "offset": [
+      -10.5,
+      -40.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      589.5,
+      259.5,
+      995.5,
+      340.5
+     ],
+     "offset": [
+      -10.5,
+      -40.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.ina226_power_monitor": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      91.5,
+      470.5,
+      250.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      589.5,
+      291.5,
+      970.5,
+      450.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.sy7088_boost_5v": {
+   "positions": [
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      589.5,
+      291.5,
+      970.5,
+      580.5
+     ],
+     "offset": [
+      -10.5,
+      -8.5
+     ]
+    }
+   ],
+   "variable_offset": false
+  },
+  "block.pmos_highside_softstart": {
+   "positions": [
+    {
+     "at": [
+      100,
+      100
+     ],
+     "parts_bbox": [
+      89.5,
+      89.5,
+      470.5,
+      224.5
+     ],
+     "offset": [
+      -10.5,
+      -10.5
+     ]
+    },
+    {
+     "at": [
+      600,
+      300
+     ],
+     "parts_bbox": [
+      589.5,
+      289.5,
+      970.5,
+      424.5
+     ],
+     "offset": [
+      -10.5,
+      -10.5
+     ]
+    }
+   ],
+   "variable_offset": false
   }
- }
+ },
+ "note": "blocks marked variable_offset clamp/shift near page edges or the title block (observed for ams1117 and wroom); plan them pinned or apply edge_clearance"
 }
