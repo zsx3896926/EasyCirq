@@ -335,3 +335,14 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 396 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 14. 第五轮同步（2026-10-29）
+
+- **solver 组合**（`report_solver_combo`）：五组；completion 优先 route_aware+repair（1.0/truth −0.7%）；v3+route_aware cost −2.63% 但 completion 0.910。
+- **少样本校准**（`report_transfer_calib`）：no-cal ρ 0.846；每板 k=8–16 校准 R² 0.878–0.972、regret 0.370→0.043；跨板不能替代本板。
+- **realboard 回归**（`docs/REALBOARD_BASELINE.json`）：4 板基线 + 31 项漂移检查。
+- **policy 可执行**（`policies.md` P4.10）：五档 `run_pipeline(policy=GOAL)`/`run_auto --policy`，recommend==pipeline 参数一致。
+- 测试：仓库内 472 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
