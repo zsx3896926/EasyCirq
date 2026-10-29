@@ -690,6 +690,7 @@ def plan_from_intent(
         "ccg_hard_final": int(len(final_hard_ccg)),
         "ccg_soft_initial": int(len(initial_soft_ccg)),
         "ccg_soft_final": int(len(final_soft_ccg)),
+        "ccg_residual": [str(v) for v in final_violations],
         "original_intent_ccg_final": int(original_ccg),
         "start_source": start_source,
         "initial_hard_violations": int(len(initial_hard)),
