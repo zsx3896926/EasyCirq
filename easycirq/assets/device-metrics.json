@@ -1,0 +1,561 @@
+{
+ "schema": "easycirq-device-metrics/v1",
+ "measured_at": "2026-10-29",
+ "source": {
+  "client": "EasyEDA Pro 4.1.78",
+  "site": "easyeda.com",
+  "method": "place each device on an empty page, read schematic.components.list includeBBox"
+ },
+ "parts": {
+  "res.10k_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 9.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "res.100k_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 9.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "res.0r_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 9.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "res.4k7_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 9.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "res.22r_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 9.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "cap.100nf_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 17.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "cap.1uf_0402": {
+   "symbol": {
+    "w": 21.0,
+    "h": 17.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "cap.10uf_0805": {
+   "symbol": {
+    "w": 21.0,
+    "h": 17.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "cap.22uf_0805": {
+   "symbol": {
+    "w": 21.0,
+    "h": 17.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "cap.33nf_0402": {
+   "symbol": {
+    "w": 11.0,
+    "h": 17.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ldo.ams1117_3v3": {
+   "symbol": {
+    "w": 71.0,
+    "h": 41.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ic.es8311": {
+   "symbol": {
+    "w": 201.0,
+    "h": 121.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ic.aw8737a": {
+   "symbol": {
+    "w": 71.0,
+    "h": 91.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "mcu.esp32s3_wroom1": {
+   "symbol": {
+    "w": 71.0,
+    "h": 421.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "sensor.bmi270": {
+   "symbol": {
+    "w": 71.0,
+    "h": 81.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ic.ina226_msop10": {
+   "symbol": {
+    "w": 61.0,
+    "h": 61.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ic.sy7088": {
+   "symbol": {
+    "w": 51.0,
+    "h": 81.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "charger.bq24074_qfn16": {
+   "symbol": {
+    "w": 81.0,
+    "h": 171.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "fb.120r_0603": {
+   "symbol": {
+    "w": 34.55,
+    "h": 5.28
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "ind.2u2h": {
+   "symbol": {
+    "w": 34.55,
+    "h": 5.28
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "pmos.si2301_sot23": {
+   "symbol": {
+    "w": 26.0,
+    "h": 21.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "bjt.s8050_sot23": {
+   "symbol": {
+    "w": 11.0,
+    "h": 21.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "conn.tf_socket_pushpush": {
+   "symbol": {
+    "w": 81.0,
+    "h": 101.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "conn.ph2_3p_ra": {
+   "symbol": {
+    "w": 21.0,
+    "h": 41.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  },
+  "mic.msm381a3729": {
+   "symbol": {
+    "w": 51.0,
+    "h": 31.0
+   },
+   "pins": null,
+   "designator": {
+    "size": 7,
+    "w": 7.7
+   },
+   "value": {
+    "size": 7,
+    "w": 7.7
+   },
+   "halo": {
+    "left": 22,
+    "right": 22,
+    "top": 16,
+    "bottom": 10
+   },
+   "provenance": "symbol bbox measured 2026-10-29 (easyeda.com, EasyEDA Pro 4.1.78, empty page placement + components.list includeBBox); pins/halo/designator widths are defaults pending measurement"
+  }
+ }
+}
