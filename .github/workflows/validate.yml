@@ -28,6 +28,12 @@ jobs:
         run: python benchmarks/task-launcher/run_benchmark.py
       - name: Run offline placement multi-physics smoke
         run: python benchmarks/pcb-placement-multiphysics/run_benchmark.py
+      - name: Run offline placement regression gates (quick)
+        run: python -m mp_place.gates --quick
+        working-directory: benchmarks/pcb-placement-multiphysics
+      - name: Run offline placement real-board baseline check
+        run: python -m mp_place.realboard_benchmark --check
+        working-directory: benchmarks/pcb-placement-multiphysics
   macos-smoke:
     runs-on: macos-latest
     timeout-minutes: 20
