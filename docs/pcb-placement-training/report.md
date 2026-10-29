@@ -21,7 +21,7 @@
 | 派生说明 | `docs/pcb-placement-training/derived-cases.md` | 源 SHA-256、mil→mm、原点/旋转/引脚换算规则、保留丢弃清单、阈值依据 |
 | 读法文档 | `easycirq/references/pcb-placement-benchmarks.md` | 15 案例表（含 synthetic/derived 来源列）+ 证据等级小节 + 五维评分 |
 | 习题集 | `easycirq/references/engineering-deepdives/exercises-pcb/` | 20 题 + 8 对 + 答案 + 盲测题面（v2）+ README（含第一轮盲测结果） |
-| 盲测证据 | `docs/evidence/pcb-placement-blind-2026-10-29/` | README（方法/限制）+ responses.md（3 份原文）+ evaluation.md（逐题评分/统计/发现） |
+| 盲测证据 | `docs/evidence/pcb-placement-blind-2026-10-29/` | 两轮：README（方法/限制/总览）+ responses/evaluation（第一轮，单评审）+ round2-responses/round2-scoring-a/round2-scoring-b/round2-evaluation（第二轮，双评审交叉、裁决） |
 | 测试 | `tests/pcb_placement_benchmark/` | 9 文件，121 条；冻结集合测试改为按案例文件动态计数 |
 | 冻结基准 | `benchmarks/pcb-placement-benchmark/` | `run_benchmark.py` + `expected.json`（15 条 + 源 SHA）+ `results.json` + README |
 | 接线 | `SKILL.md` §3（2 行）、`pcb-placement-details.md`（1 行）、`engineering-deepdives/README.md`（文件地图）、`skill_selftest.py`（7 个必需路径）、`skill_knowledge_audit/catalog/rules.json`（R-GATE-003 证据窗口） | — |
@@ -70,13 +70,22 @@
 | `python -m skill_knowledge_audit scan`（经测试） | errors 0（修复了 exercises-pcb 指向仓库 docs/ 的越界链接） |
 | `python tools/offline_suite.py` | `NOT RUN`（本轮未跑；测试层由官方 discovery 覆盖） |
 
-### 3.1 第一轮独立盲测（2026-10-29）
+### 3.1 独立盲测（两轮，2026-10-29）
+
+**第一轮（v1 题面，3 Agent + 单评审）**
 
 - 3 名隔离 Agent 试答 20 题（输入仅仓库外题目副本，禁止读仓库/答案/联网/运行命令；每人自报只读过题目副本），1 名独立评审对照 `answers.md` 按五维打分。
 - 结果：**结论类型 43/60 = 71.7%**、机制 57/60 = 95.0%、证据 60/60 = 100%（**泄题所致**）、行动 58/60 = 96.7%、未知 58/60 = 96.7%；60 份作答**没有**过度修改 / 臆造 code / 补默认坐标。
-- 关键发现：X01 题面缺"软检查、无硬检查命中"导致 B1/B2 把 review 判成 blocking（题面缺陷，非作答错误）；多题把"期望 verdict/codes、翻转后 verdict、PL 编号"写进题面（泄题）；X11 三人共弱但机制正确（答案口径问题）。
-- 已修订为 **v2 题面**：X01 补软检查声明；删除 PL 编号与 verdict/codes 提示；X11 加标记落点要求；X01/X08 过度例必答。v1/v2 分数不可直接比较。
-- 限制：3 样本、单评审、**约束式隔离**（非容器/权限强隔离）、三份作答高度同构——不证明模型能力，不作为认证。
+- 关键发现：X01 题面缺“软检查、无硬检查命中”导致 B1/B2 把 review 判成 blocking（题面缺陷）；多题把“期望 verdict/codes、翻转后 verdict、PL 编号”写进题面（泄题）；X11 三人共弱但机制正确（答案口径问题）。
+- 已修订为 **v2 题面**：X01 补软检查声明；删除 PL 编号与 verdict/codes 提示；X11 加标记落点要求；X01/X08 过度例必答。
+
+**第二轮（v2 题面，3 Agent + 2 名评审交叉评分）**
+
+- 3 名隔离 Agent 重答 v2 题面；2 名独立评审（互不可见、未见第一轮评审）各自输出 60 行评分 CSV，脚本逐格比对：**300 单元一致率 278/300 = 92.7%**（结论 86.7%、机制 98.3%、证据 95.0%、行动 96.7%、未知 86.7%），22 处冲突逐条裁决。
+- 结果（两评审并列，不平均）：结论类型 **A 61.7% / B 60.0%**；机制 A 96.7% / B 95.0%；证据 A 95.0% / B 100%；行动 A 100% / B 96.7%；未知 A 93.3% / B 90.0%。三人全 △：X01/X02/X11；无三人全 ✗；**X13 两人 ✗**（成对翻转未识别）是唯一内容错误。
+- 专项发现：**X05** 两评审一致指出答案证据句与案例 JSON 不符（`P4-COMM.checks` 只有 `ck-decoup`；`connector_off_edge` 来自 `board.connectors` + rubric 容差）→ 已修；**X11** 三人一致标 `可确认`（v2 目标达成），两评审一致认为答案 `条件` 主标记与“落在被问的事上”不一致 → 已改。
+- 据此产出 **v3 口径**：题面加“主标记落在判分器判定层”全局规则；`answers.md` 新增标记口径规则 0、X05 事实修正与适用范围、X10 主标记 → `待补`、X11 主标记 → `可确认` + 条件副注。**第二轮分数按 v2 口径计算，未追溯**。
+- 限制（两轮共同）：每轮 3 样本、**约束式隔离**（非容器/权限强隔离）、作答同构；第二轮结论类型双评审仍差 1.7 个百分点，说明该项有主观空间——不证明模型能力，不作为认证；v1/v2/v3 分数不可直接比较。第三轮未运行。
 
 ## 4. 已修问题
 
