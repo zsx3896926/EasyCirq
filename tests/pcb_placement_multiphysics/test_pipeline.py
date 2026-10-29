@@ -286,7 +286,7 @@ class ObjectiveOptionTests(unittest.TestCase):
 class AllTemplatesObjectiveSmokeTests(unittest.TestCase):
     def test_all_eight_templates_run_with_route_aware(self):
         names = template_names()
-        self.assertEqual(len(names), 8)
+        self.assertEqual(len(names), 10)
         for name in names:
             with self.subTest(template=name):
                 sc = instantiate(name, seed=0)
@@ -529,7 +529,7 @@ class IntentPlanOptionTests(unittest.TestCase):
 class AllTemplatesIntentPlanSmokeTests(unittest.TestCase):
     def test_all_eight_templates_run_with_intent_plan(self):
         names = template_names()
-        self.assertEqual(len(names), 8)
+        self.assertEqual(len(names), 10)
         for name in names:
             with self.subTest(template=name):
                 sc = instantiate(name, seed=0)

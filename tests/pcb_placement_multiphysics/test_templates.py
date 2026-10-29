@@ -38,8 +38,10 @@ EXPECTED_TEMPLATES = (
     "motor",
     "rs485",
     "wireless",
+    "usb-uart-bridge",
+    "audio-amp",
 )
-NEW_TEMPLATES = ("esp32-sensor", "can-node", "bldc-driver")
+NEW_TEMPLATES = ("esp32-sensor", "can-node", "bldc-driver", "usb-uart-bridge", "audio-amp")
 NET_CLASSES = {"power", "ground", "analog", "digital", "rf", "generic"}
 EDGES = {"left", "right", "top", "bottom"}
 KEEPOUT_KINDS = {"antenna_clearance", "connector_clearance"}
@@ -63,7 +65,7 @@ def _intent_case(name, seed=0):
 class TemplateRegistryTests(unittest.TestCase):
     def test_eight_parameterised_families_registered(self):
         self.assertEqual(set(TEMPLATES), set(EXPECTED_TEMPLATES))
-        self.assertEqual(len(TEMPLATES), 8)
+        self.assertEqual(len(TEMPLATES), 10)
         self.assertEqual(template_names(), sorted(EXPECTED_TEMPLATES))
         for name in EXPECTED_TEMPLATES:
             with self.subTest(template=name):
