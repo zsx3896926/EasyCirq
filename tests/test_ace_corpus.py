@@ -55,6 +55,8 @@ ADDITIVE_RULES = {
     "add-auto-net-name": "R09-auto-net-name",
     "add-connector-without-esd": "R07-esd-series",
     "add-floating-pin": "R01-floating-pin",
+    "add-cs-without-pullup": "R23-spi-cs-pullup",
+    "add-connector-without-tvs": "R27-connector-tvs",
 }
 
 TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2})?)?$")
