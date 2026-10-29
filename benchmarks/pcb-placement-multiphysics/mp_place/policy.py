@@ -9,10 +9,20 @@ cannot silently regress:
   ``objective`` / ``intent_plan`` / ``route_repair`` combination, rationale,
   expected trade-off numbers and boundaries;
 * :func:`recommend` -- return a JSON-safe copy of one policy entry;
+* :func:`resolve_pipeline_policy` -- P4.10 executable resolution: apply a goal
+  to ``objective`` / ``intent_plan`` / ``route_repair`` with explicit conflict
+  rules (see :func:`resolve_pipeline_policy`; default-looking values defer to
+  the policy, conflicting non-default values raise ``ValueError``);
 * :func:`assert_defaults` -- regression guard for the default tier: the
   pipeline default objective must stay ``proxy``, ``route_repair`` and
   ``intent_plan`` must default to ``False``, and the ``run_auto.py`` CLI default
   objective must stay ``proxy``.
+
+Execution entry points (P4.10): ``run_pipeline(..., policy="routability")``
+applies the table to the pipeline, and ``run_auto.py --policy GOAL`` executes it
+(``--recommend GOAL`` still only prints).  Consistency between
+:func:`recommend` and the executed mode is asserted by
+``tests/test_policy.py`` / ``tests/test_pipeline.py``.
 
 Decision table (evidence: ``report_pipeline_objective.md``,
 ``report_pipeline_intent.md``, ``report_route_cost.md``, ``report_holdout.md``;
@@ -216,12 +226,13 @@ POLICIES: Dict[str, Dict[str, Any]] = {
             },
             "heldout": None,
         },
-        "command_template": "python -c \"from mp_place.pipeline import run_pipeline; "
-        "run_pipeline('buck', route_repair=True)\"",
+        "command_template": "python run_auto.py --template <NAME> --seed <SEED> "
+        "--policy truth_sensitive",
         "evidence": ["report_route_cost.md", "report_route.md"],
         "warnings": [
             "not router-free: up to 60 offline router calls per run, ~1.8 s/run",
-            "API only (run_pipeline(..., route_repair=True)); run_auto has no flag",
+            "no dedicated --route-repair CLI flag; execute via --policy truth_sensitive "
+            "(or run_pipeline(..., route_repair=True))",
             "no held-out generalisation measurement for post-hoc repair yet",
         ],
         "boundaries": list(COMMON_BOUNDARIES),
@@ -290,7 +301,90 @@ def recommend(goal: str) -> Dict[str, Any]:
         raise ValueError(
             f"unknown policy goal {goal!r}; expected one of {POLICY_GOALS}"
         )
-    return copy.deepcopy(POLICIES[key])
+    entry = copy.deepcopy(POLICIES[key])
+    # P4.10 executable command (policy based) alongside the explicit-flag example.
+    entry["policy_command"] = (
+        f"python run_auto.py --template <NAME> --seed <SEED> --policy {key}"
+    )
+    return entry
+
+
+def resolve_pipeline_policy(
+    goal: str,
+    objective: str = DEFAULT_OBJECTIVE,
+    intent_plan: bool = False,
+    route_repair: bool = False,
+) -> Dict[str, Any]:
+    """Resolve an executable policy against explicit ``run_pipeline`` parameters.
+
+    P4.10 precedence / conflict rules (strict and explicit so that a policy can
+    never silently fight hand-written parameters):
+
+    1. ``policy`` is authoritative for ``objective`` / ``intent_plan`` /
+       ``route_repair``.
+    2. A hand-written argument is a **conflict** only when it is a
+       *non-default* value that differs from the policy value
+       (``objective`` not in ``{policy objective, "proxy"}``,
+       ``intent_plan=True`` when the policy says ``False``,
+       ``route_repair=True`` when the policy says ``False``); a conflict raises
+       ``ValueError`` instead of silently choosing a winner.
+    3. Default-looking values (``objective="proxy"``, ``intent_plan=False``,
+       ``route_repair=False``) are treated as "not specified"; the policy value
+       wins.  This is what lets ``run_auto.py --policy GOAL`` reuse the CLI
+       defaults.
+    4. To force a custom combination, pass ``policy=None`` and set the three
+       parameters explicitly (``run_pipeline(..., policy=None, objective=...)``).
+
+    Returns a JSON-safe resolution dict with the effective mode, the observed
+    explicit values and ``source="policy"``; the pipeline report records it so
+    consistency between :func:`recommend` and the executed mode is testable.
+    """
+    entry = recommend(goal)
+    if not isinstance(objective, str):
+        raise TypeError(f"objective must be a string, got {type(objective).__name__}")
+    objective_value = objective.strip()
+    if objective_value not in PIPELINE_OBJECTIVES:
+        raise ValueError(
+            f"unknown objective {objective!r}; expected one of {PIPELINE_OBJECTIVES}"
+        )
+    intent_value = bool(intent_plan)
+    repair_value = bool(route_repair)
+    conflicts: List[str] = []
+    if objective_value not in (entry["objective"], DEFAULT_OBJECTIVE):
+        conflicts.append(
+            f"objective={objective_value!r} conflicts with policy "
+            f"{entry['goal']!r} (objective={entry['objective']!r})"
+        )
+    if intent_value and not entry["intent_plan"]:
+        conflicts.append(
+            f"intent_plan=True conflicts with policy {entry['goal']!r} "
+            "(intent_plan=False)"
+        )
+    if repair_value and not entry["route_repair"]:
+        conflicts.append(
+            f"route_repair=True conflicts with policy {entry['goal']!r} "
+            "(route_repair=False)"
+        )
+    if conflicts:
+        raise ValueError(
+            "policy conflict: "
+            + "; ".join(conflicts)
+            + "; pass policy=None to set objective/intent_plan/route_repair explicitly"
+        )
+    return {
+        "goal": entry["goal"],
+        "objective": entry["objective"],
+        "intent_plan": bool(entry["intent_plan"]),
+        "route_repair": bool(entry["route_repair"]),
+        "intent_ccg_weight": entry.get("intent_ccg_weight"),
+        "explicit": {
+            "objective": objective_value,
+            "intent_plan": intent_value,
+            "route_repair": repair_value,
+        },
+        "source": "policy",
+        "schema": POLICY_SCHEMA,
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -448,7 +542,8 @@ def format_recommendation(goal: str) -> str:
         )
     else:
         lines.append("    held-out seeds: not measured for this mode (in-sample only)")
-    lines.append(f"  run: {entry['command_template']}")
+    lines.append(f"  run (policy executable): {entry['policy_command']}")
+    lines.append(f"  run (explicit flags/API): {entry['command_template']}")
     lines.append("  evidence: " + ", ".join(entry["evidence"]))
     if entry["warnings"]:
         lines.append("  warnings:")
@@ -545,6 +640,7 @@ __all__ = [
     "POLICIES",
     "EXPECTED_DEFAULTS",
     "recommend",
+    "resolve_pipeline_policy",
     "assert_defaults",
     "format_recommendation",
     "main",

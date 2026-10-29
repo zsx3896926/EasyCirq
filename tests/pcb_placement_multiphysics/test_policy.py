@@ -1,4 +1,4 @@
-"""Tests for the P4.8 end-to-end policy table and default-tier regression guard.
+"""Tests for the P4.8/P4.10 end-to-end policy table and default-tier guard.
 
 Run with::
 
@@ -340,6 +340,102 @@ class PolicyEvidenceTests(unittest.TestCase):
         self.assertIn(f"{tradeoff['truth_v2']:.4f}", text)
 
 
+class PolicyResolutionTests(unittest.TestCase):
+    """P4.10: policy -> executable run_pipeline parameters (consistency)."""
+
+    def test_resolution_matches_recommend(self):
+        for goal in EXPECTED_GOALS:
+            with self.subTest(goal=goal):
+                entry = policy.recommend(goal)
+                resolution = policy.resolve_pipeline_policy(goal)
+                self.assertEqual(resolution["goal"], goal)
+                self.assertEqual(resolution["objective"], entry["objective"])
+                self.assertEqual(resolution["intent_plan"], entry["intent_plan"])
+                self.assertEqual(resolution["route_repair"], entry["route_repair"])
+                self.assertEqual(resolution["source"], "policy")
+                self.assertEqual(resolution["schema"], policy.POLICY_SCHEMA)
+                json.loads(json.dumps(resolution, allow_nan=False))
+
+    def test_default_looking_values_defer_to_policy(self):
+        routed = policy.resolve_pipeline_policy("routability", objective="proxy")
+        self.assertEqual(routed["objective"], "route_aware")
+        intent = policy.resolve_pipeline_policy("intent_fidelity", intent_plan=False)
+        self.assertTrue(intent["intent_plan"])
+        repaired = policy.resolve_pipeline_policy(
+            "truth_sensitive", route_repair=False
+        )
+        self.assertTrue(repaired["route_repair"])
+
+    def test_matching_explicit_values_are_allowed(self):
+        routed = policy.resolve_pipeline_policy(
+            "routability", objective="route_aware"
+        )
+        self.assertEqual(routed["objective"], "route_aware")
+        intent = policy.resolve_pipeline_policy("intent_fidelity", intent_plan=True)
+        self.assertTrue(intent["intent_plan"])
+        repaired = policy.resolve_pipeline_policy(
+            "truth_sensitive", route_repair=True
+        )
+        self.assertTrue(repaired["route_repair"])
+
+    def test_conflicting_non_default_values_raise(self):
+        with self.assertRaises(ValueError):
+            policy.resolve_pipeline_policy("intent_fidelity", objective="route_aware")
+        with self.assertRaises(ValueError):
+            policy.resolve_pipeline_policy("experimental", objective="route_aware")
+        with self.assertRaises(ValueError):
+            policy.resolve_pipeline_policy("balanced", intent_plan=True)
+        with self.assertRaises(ValueError):
+            policy.resolve_pipeline_policy("routability", route_repair=True)
+        with self.assertRaises(ValueError):
+            policy.resolve_pipeline_policy("bogus")
+        with self.assertRaises(TypeError):
+            policy.resolve_pipeline_policy(123)
+        with self.assertRaises(TypeError):
+            policy.resolve_pipeline_policy("balanced", objective=123)
+
+    def test_pipeline_execution_consistency_for_all_five_goals(self):
+        from mp_place.pipeline import run_pipeline
+        from mp_place.templates import instantiate
+
+        sc = instantiate("buck", seed=0)
+        for goal in EXPECTED_GOALS:
+            with self.subTest(goal=goal):
+                entry = policy.recommend(goal)
+                report = run_pipeline(sc, budget_steps=80, seed=0, policy=goal)
+                self.assertTrue(report["feasible"])
+                self.assertEqual(report["policy_goal"], goal)
+                self.assertEqual(report["policy"]["goal"], goal)
+                # report policy block == recommend() combination
+                self.assertEqual(report["objective_mode"], entry["objective"])
+                self.assertEqual(bool(report["intent_plan"]), entry["intent_plan"])
+                self.assertEqual(
+                    bool(report["policy"]["route_repair"]), entry["route_repair"]
+                )
+                if entry["route_repair"]:
+                    self.assertEqual(report["solver"]["solver"], "route_repair")
+                else:
+                    self.assertNotEqual(report["solver"]["solver"], "route_repair")
+                self.assertEqual(json.loads(json.dumps(report)), report)
+
+    def test_default_is_balanced_proxy(self):
+        from mp_place.pipeline import run_pipeline
+        from mp_place.templates import instantiate
+
+        sc = instantiate("buck", seed=0)
+        default = run_pipeline(sc, budget_steps=80, seed=0)
+        balanced = run_pipeline(sc, budget_steps=80, seed=0, policy="balanced")
+        self.assertIsNone(default["policy"])
+        self.assertIsNone(default["policy_goal"])
+        self.assertEqual(default["objective_mode"], "proxy")
+        self.assertFalse(default["intent_plan"])
+        self.assertNotEqual(default["solver"]["solver"], "route_repair")
+        self.assertEqual(balanced["policy_goal"], "balanced")
+        self.assertEqual(balanced["objective_mode"], "proxy")
+        self.assertFalse(balanced["intent_plan"])
+        self.assertEqual(default["placement_digest"], balanced["placement_digest"])
+
+
 class PolicyCliTests(unittest.TestCase):
     def _run(self, *args, module=False):
         cmd = [sys.executable]
@@ -371,14 +467,20 @@ class PolicyCliTests(unittest.TestCase):
         self.assertIn("policy goal=routability", proc.stderr)
         self.assertNotIn("scenario=", proc.stderr)
 
-    def test_run_auto_policy_alias_human_output(self):
-        proc = self._run("--policy", "intent_fidelity")
+    def test_run_auto_recommend_human_output(self):
+        proc = self._run("--recommend", "intent_fidelity")
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn("intent_fidelity", proc.stdout)
         self.assertIn("--intent-plan", proc.stdout)
         self.assertIn("policy goal=intent_fidelity", proc.stderr)
         self.assertNotIn("placement_digest", proc.stdout)
         self.assertNotIn("certificate", proc.stdout)
+
+    def test_run_auto_recommend_and_policy_are_mutually_exclusive(self):
+        proc = self._run("--recommend", "balanced", "--policy", "balanced")
+        self.assertEqual(proc.returncode, 2)
+        self.assertEqual(proc.stdout.strip(), "")
+        self.assertIn("mutually exclusive", proc.stderr)
 
     def test_run_auto_recommend_invalid_goal_exits_2(self):
         proc = self._run("--recommend", "bogus")

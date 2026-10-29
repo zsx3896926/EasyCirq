@@ -228,6 +228,14 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **policy**：五档决策表 + `assert_defaults()` + `run_auto --recommend`；`policies.md` 含禁止事项。
 - `run_benchmark.py`：增加真实板转换冒烟（有 cases 时跑 mcu-i2c，无则 SKIP）。
 
+
+## P2.17–P2.20 / P4.9–P4.10（2026-10-29 第五轮同步）
+
+- **solver 组合**：五组对比；completion 优先 `route_aware+repair`（1.0、truth −0.7%）、零 router `v2/route_aware`（0.9755）、cost 优先 `v3/route_aware`（−2.63%）。
+- **少样本校准**：模板代理 no-cal 仅排序可用（ρ 0.846）；每板 k=8–16 真实样本校准后 R² 0.878–0.972、top-10 regret 0.370→0.043；跨板不可替代本板。
+- **realboard 回归**：4 板 suite 基线 + 31 项漂移检查（truth ≤5%/completion ≤0.02/板数不减少），`--update-baseline/--check`。
+- **policy 可执行**：`run_pipeline(policy=GOAL)` / `run_auto --policy GOAL` 五档执行，`recommend` 组合与 pipeline 实际参数一致，默认 balanced=proxy。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。

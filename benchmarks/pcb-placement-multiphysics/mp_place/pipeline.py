@@ -80,6 +80,17 @@ a lower router completion (0.8388) and deviations from the original strict
 intent bounds (4.69/run).  Use ``route_aware`` when completion matters most,
 ``intent_relax`` when the near/cluster/edge layout semantics must be honored.
 
+P4.10 executable policy
+-----------------------
+``run_pipeline(..., policy=GOAL)`` applies the P4.8/P4.10 policy table to the
+pipeline: the goal overrides ``objective`` / ``intent_plan`` / ``route_repair``
+with explicit conflict rules (default-looking arguments defer to the policy;
+conflicting non-default arguments raise ``ValueError``; use ``policy=None`` for
+full manual control).  The report records ``policy`` (resolved goal/mode,
+``None`` when not used) and ``config["policy"]``.  ``run_auto.py --policy GOAL``
+executes it, while ``--recommend GOAL`` only prints the recommendation.  See
+:mod:`mp_place.policy` and ``policies.md``.
+
 Safety contract
 ---------------
 Everything here is **offline**.  The pipeline never applies a placement, never
@@ -425,6 +436,7 @@ def run_pipeline(
     objective: str = DEFAULT_OBJECTIVE,
     intent_plan: bool = False,
     intent_ccg_weight: float = 25.0,
+    policy: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run the end-to-end offline pipeline for one scenario.
 
@@ -471,6 +483,17 @@ def run_pipeline(
         Penalty weight passed to ``plan_from_intent`` in intent-planning mode
         (default 25.0, the P3.7 ``DEFAULT_CCG_WEIGHT``).  Only used when
         ``intent_plan=True``.
+    policy:
+        P4.10 executable policy goal (``"balanced"``, ``"routability"``,
+        ``"intent_fidelity"``, ``"truth_sensitive"``, ``"experimental"``).
+        The policy is authoritative for ``objective`` / ``intent_plan`` /
+        ``route_repair``: default-looking arguments are ignored (the policy
+        value wins) and a conflicting non-default argument raises
+        ``ValueError`` (see
+        :func:`mp_place.policy.resolve_pipeline_policy`).  Pass ``policy=None``
+        (default) to control the three parameters explicitly.  The report
+        records the resolved block under ``policy`` and the goal under
+        ``config["policy"]``.
 
     Returns
     -------
@@ -480,8 +503,9 @@ def run_pipeline(
         fields and limits.  ``objective_mode`` / ``objective_model`` /
         ``objective_config`` / ``objective_recommended`` record which objective
         solved the placement; ``planning_mode`` / ``intent_planning`` record the
-        P3.8 intent-constrained refinement.  Deterministic for a fixed input;
-        see module notes.
+        P3.8 intent-constrained refinement; ``policy`` records the P4.10
+        executable policy resolution (``None`` when not used).  Deterministic
+        for a fixed input; see module notes.
     """
     sc = _coerce_scenario(scenario, seed=seed)
     seed = int(seed)
@@ -498,6 +522,31 @@ def run_pipeline(
         raise ValueError(
             f"unknown objective {objective!r}; expected one of {PIPELINE_OBJECTIVES}"
         )
+    # P4.10: an executable policy overrides objective/intent_plan/route_repair.
+    # Default-looking arguments defer to the policy; conflicting non-default
+    # arguments raise ValueError (rules live in policy.resolve_pipeline_policy).
+    policy_mode: Optional[Dict[str, Any]] = None
+    policy_goal: Optional[str] = None
+    if policy is not None:
+        from .policy import resolve_pipeline_policy
+
+        resolution = resolve_pipeline_policy(
+            policy, objective_mode, intent_plan, route_repair
+        )
+        policy_goal = str(resolution["goal"])
+        objective_mode = str(resolution["objective"])
+        intent_plan = bool(resolution["intent_plan"])
+        route_repair = bool(resolution["route_repair"])
+        policy_mode = {
+            key: resolution[key]
+            for key in (
+                "goal",
+                "objective",
+                "intent_plan",
+                "route_repair",
+                "source",
+            )
+        }
     intent_plan_flag = bool(intent_plan)
     if intent_plan_flag and objective_mode != "proxy":
         raise ValueError(
@@ -565,6 +614,8 @@ def run_pipeline(
     }
     if intent_plan_flag:
         solver_extra["planning_mode"] = planning_mode
+    if policy_goal is not None:
+        solver_extra["policy"] = policy_goal
     certificate = verify_mod.certificate(sc, placement, extra=solver_extra)
 
     routability = certificate.get("routability", {})
@@ -584,6 +635,7 @@ def run_pipeline(
             "objective_mode": objective_mode,
             "planning_mode": planning_mode,
             "intent_plan": intent_plan_flag,
+            "policy": policy_goal,
             "solver": stats.get("solver"),
             "restarts": int(stats.get("restarts", 0) or 0),
             "router": f"GridRouter(grid_mm={ROUTER_GRID_MM}, layers={ROUTER_LAYERS})",
@@ -596,6 +648,8 @@ def run_pipeline(
         "planning_mode": planning_mode,
         "intent_plan": intent_plan_flag,
         "intent_planning": intent_planning,
+        "policy": policy_mode,
+        "policy_goal": policy_goal,
         "placement": certificate.get("placement", {}),
         "placement_digest": certificate.get("placement_digest"),
         "feasible": bool(certificate.get("feasible", not violations)),

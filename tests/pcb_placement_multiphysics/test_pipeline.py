@@ -23,6 +23,10 @@ Covered contract
   ``objective_config`` / ``objective_recommended``; ``run_auto.py --objective``
   and batch rows carry the objective field.
 
+* P4.10: ``run_pipeline(..., policy=GOAL)`` applies the executable policy table
+  (goal overrides objective/intent_plan/route_repair; conflicting explicit
+  non-default values raise ``ValueError``) and ``run_auto.py --policy GOAL``
+  executes it while ``--recommend GOAL`` still only prints.
 * P3.8: ``run_pipeline(..., intent_plan=True)`` runs the proxy solve, builds the
   layout intent from it, refines it with ``plan_from_intent(relax=True)`` and
   verifies the result (``planning_mode="intent_relax"`` + ``intent_planning``
@@ -51,6 +55,7 @@ from mp_place.pipeline import (
     write_intent_report,
     write_objective_report,
 )
+from mp_place.policy import POLICY_GOALS, recommend
 from mp_place.templates import instantiate, template_names
 
 ROOT = pathlib.Path(__file__).resolve().parents[2] / "benchmarks" / "pcb-placement-multiphysics"
@@ -475,6 +480,7 @@ class IntentPlanOptionTests(unittest.TestCase):
             self.assertIn(key, planning)
         self.assertEqual(planning["mode"], "intent_relax")
         self.assertTrue(planning["relax"])
+        self.assertEqual(planning["ccg_weight"], 25.0)
         self.assertEqual(planning["ccg_hard_final"], 0)
         self.assertEqual(planning["ccg_soft_final"], 0)
         self.assertGreaterEqual(planning["original_intent_ccg_final"], 0)
@@ -496,6 +502,19 @@ class IntentPlanOptionTests(unittest.TestCase):
         self.assertNotEqual(
             report["placement_digest"], self.proxy_report["placement_digest"]
         )
+
+    def test_intent_ccg_weight_is_configurable(self):
+        report = run_pipeline(
+            self.scenario,
+            budget_steps=100,
+            seed=0,
+            intent_plan=True,
+            intent_ccg_weight=5.0,
+        )
+        self.assertEqual(report["intent_planning"]["ccg_weight"], 5.0)
+        self.assertEqual(report["intent_planning"]["ccg_hard_final"], 0)
+        self.assertTrue(report["feasible"])
+        self.assertEqual(report["planning_mode"], "intent_relax")
 
     def test_intent_plan_requires_proxy_objective(self):
         with self.assertRaises(ValueError):
@@ -596,13 +615,14 @@ class RunAutoIntentPlanCliTest(unittest.TestCase):
     def test_intent_plan_flag(self):
         proc = self._run(
             "--template", "buck", "--seed", "0", "--steps", "100",
-            "--intent-plan", "--json",
+            "--intent-plan", "--intent-ccg-weight", "5", "--json",
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
         report = json.loads(proc.stdout)
         self.assertEqual(report["planning_mode"], "intent_relax")
         self.assertTrue(report["intent_plan"])
         self.assertEqual(report["intent_planning"]["ccg_hard_final"], 0)
+        self.assertEqual(report["intent_planning"]["ccg_weight"], 5.0)
         self.assertEqual(report["fixed_fields"], FIXED_FIELDS)
         self.assertIn("planning=intent_relax", proc.stderr)
 
@@ -629,6 +649,178 @@ class RunAutoIntentPlanCliTest(unittest.TestCase):
             self.assertEqual(row["planning_mode"], "intent_relax")
             self.assertTrue(row["feasible"])
         self.assertIn("intent_plan=True", proc.stderr)
+
+
+
+class PolicyExecutionTests(unittest.TestCase):
+    """P4.10: ``run_pipeline(..., policy=GOAL)`` executable policy consistency."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.scenario = instantiate("buck", seed=0)
+        cls.reports = {
+            goal: run_pipeline(
+                cls.scenario, budget_steps=100, seed=0, policy=goal
+            )
+            for goal in POLICY_GOALS
+        }
+        cls.default = run_pipeline(cls.scenario, budget_steps=100, seed=0)
+
+    def test_all_policies_execute_and_match_recommend(self):
+        for goal in POLICY_GOALS:
+            with self.subTest(goal=goal):
+                entry = recommend(goal)
+                report = self.reports[goal]
+                self.assertTrue(report["feasible"])
+                self.assertEqual(report["policy_goal"], goal)
+                self.assertEqual(report["policy"]["goal"], goal)
+                # consistency: executed mode == recommend() combination
+                self.assertEqual(report["objective_mode"], entry["objective"])
+                self.assertEqual(bool(report["intent_plan"]), entry["intent_plan"])
+                self.assertEqual(
+                    bool(report["policy"]["route_repair"]), entry["route_repair"]
+                )
+                if entry["route_repair"]:
+                    self.assertEqual(report["solver"]["solver"], "route_repair")
+                else:
+                    self.assertNotEqual(report["solver"]["solver"], "route_repair")
+                if entry["intent_plan"]:
+                    self.assertEqual(report["planning_mode"], "intent_relax")
+                else:
+                    self.assertEqual(report["planning_mode"], "direct")
+                self.assertEqual(report["certificate"]["extra"]["policy"], goal)
+                self.assertEqual(json.loads(json.dumps(report, sort_keys=True)), report)
+
+    def test_default_unchanged_and_balanced_is_proxy(self):
+        default = self.default
+        self.assertIsNone(default["policy"])
+        self.assertIsNone(default["policy_goal"])
+        self.assertIsNone(default["config"]["policy"])
+        self.assertEqual(default["objective_mode"], "proxy")
+        self.assertFalse(default["intent_plan"])
+        self.assertNotEqual(default["solver"]["solver"], "route_repair")
+        balanced = self.reports["balanced"]
+        self.assertEqual(balanced["config"]["policy"], "balanced")
+        self.assertEqual(default["placement_digest"], balanced["placement_digest"])
+        self.assertEqual(default["truth_v2"], balanced["truth_v2"])
+        self.assertEqual(default["router"]["completion"], balanced["router"]["completion"])
+
+    def test_conflict_and_precedence_rules(self):
+        sc = self.scenario
+        with self.assertRaises(ValueError):
+            run_pipeline(sc, budget_steps=60, policy="balanced", intent_plan=True)
+        with self.assertRaises(ValueError):
+            run_pipeline(sc, budget_steps=60, policy="routability", route_repair=True)
+        with self.assertRaises(ValueError):
+            run_pipeline(
+                sc,
+                budget_steps=60,
+                policy="intent_fidelity",
+                objective="route_aware",
+            )
+        with self.assertRaises(ValueError):
+            run_pipeline(sc, budget_steps=60, policy="bogus")
+        with self.assertRaises(TypeError):
+            run_pipeline(sc, budget_steps=60, policy=123)
+        # default-looking explicit values defer to the policy
+        routed = run_pipeline(
+            sc, budget_steps=60, policy="routability", objective="proxy"
+        )
+        self.assertEqual(routed["objective_mode"], "route_aware")
+        # matching explicit values are allowed
+        intent = run_pipeline(
+            sc, budget_steps=60, policy="intent_fidelity", intent_plan=True
+        )
+        self.assertTrue(intent["intent_plan"])
+        # policy=None keeps explicit parameters (custom override path)
+        explicit = run_pipeline(
+            sc, budget_steps=60, policy=None, objective="route_aware"
+        )
+        self.assertEqual(explicit["objective_mode"], "route_aware")
+        self.assertIsNone(explicit["policy"])
+
+
+class RunAutoPolicyCliTest(unittest.TestCase):
+    """CLI: ``--policy GOAL`` executes, ``--recommend GOAL`` only prints."""
+
+    def _run(self, *args):
+        return subprocess.run(
+            [sys.executable, str(ROOT / "run_auto.py"), *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=180,
+        )
+
+    def test_policy_executes_pipeline(self):
+        proc = self._run(
+            "--template", "buck", "--seed", "0", "--steps", "80",
+            "--policy", "balanced", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        report = json.loads(proc.stdout)
+        self.assertEqual(report["policy_goal"], "balanced")
+        self.assertEqual(report["policy"]["goal"], "balanced")
+        self.assertEqual(report["objective_mode"], "proxy")
+        self.assertIn("placement", report)
+        self.assertIn("policy=balanced", proc.stderr)
+
+    def test_policy_intent_and_repair_modes(self):
+        intent_proc = self._run(
+            "--template", "buck", "--steps", "80",
+            "--policy", "intent_fidelity", "--json",
+        )
+        self.assertEqual(intent_proc.returncode, 0, intent_proc.stderr)
+        intent_report = json.loads(intent_proc.stdout)
+        self.assertEqual(intent_report["planning_mode"], "intent_relax")
+        self.assertEqual(intent_report["objective_mode"], "proxy")
+        repair_proc = self._run(
+            "--template", "buck", "--steps", "80",
+            "--policy", "truth_sensitive", "--json",
+        )
+        self.assertEqual(repair_proc.returncode, 0, repair_proc.stderr)
+        repair_report = json.loads(repair_proc.stdout)
+        self.assertEqual(repair_report["solver"]["solver"], "route_repair")
+
+    def test_recommend_is_print_only(self):
+        proc = self._run("--recommend", "balanced", "--json")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        payload = json.loads(proc.stdout)
+        self.assertEqual(payload["goal"], "balanced")
+        self.assertNotIn("placement", payload)
+        self.assertNotIn("policy_goal", payload)
+
+    def test_policy_conflict_exits_2(self):
+        proc = self._run(
+            "--template", "buck", "--intent-plan", "--policy", "balanced",
+            "--steps", "60", "--json",
+        )
+        self.assertEqual(proc.returncode, 2)
+        self.assertEqual(proc.stdout.strip(), "")
+        self.assertIn("policy conflict", proc.stderr)
+
+    def test_policy_invalid_goal_exits_2(self):
+        proc = self._run("--policy", "bogus")
+        self.assertEqual(proc.returncode, 2)
+        self.assertEqual(proc.stdout.strip(), "")
+        self.assertIn("--policy", proc.stderr)
+
+    def test_batch_rows_carry_policy(self):
+        proc = self._run(
+            "--all-templates", "--seeds", "0", "--steps", "50",
+            "--policy", "routability", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        batch = json.loads(proc.stdout)
+        self.assertEqual(batch["policy"], "routability")
+        self.assertEqual(batch["n_runs"], len(template_names()))
+        self.assertTrue(batch["all_feasible"])
+        for row in batch["rows"]:
+            self.assertEqual(row["policy_goal"], "routability")
+            self.assertEqual(row["objective_mode"], "route_aware")
+            self.assertTrue(row["feasible"])
+        self.assertIn("policy=routability", proc.stderr)
 
 
 
