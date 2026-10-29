@@ -54,6 +54,21 @@ python -m unittest tests.test_policy -v           # 表完整性 + 默认值 + C
 任何默认变更都必须同时更新 `mp_place/policy.py` 的 `EXPECTED_DEFAULTS`、
 本表、`tests/test_policy.py` 与相关报告；不得只改实现让断言失效。
 
+## 组合实验留出修正（P2.19）
+
+留出 seeds 2/3/4 的 combo_holdout 结论（`report_combo_holdout.json`）：
+
+| 目标 | 原推荐 | 留出结论 | 修正 |
+|---|---|---|---|
+| completion 优先 | route_aware+repair | 从不更差、常并列（worse_than_best 0/24） | 保持 |
+| 零 router | v2/route_aware | 从不更差、偶劣于最优（3/24） | 保持 |
+| **cost 优先** | v3/route_aware | **22/24 劣于 v3/proxy** | **改 v3/proxy**（代价：completion 塌；见 solver_combo） |
+| truth 优先 | route_aware+repair | 20/24 劣于最优 | 标注"不稳定，不推荐作为单一最优" |
+
+- `cost_first` 是**求解器选择**（solver_v3 + proxy），不在 pipeline 的 objective 五档里；执行方式见 `python -m mp_place.solver_combo`（v3/proxy 组）。
+- 禁止把上述留出数字当"精确保证"：它们仍是离线代理（伪物理 truth / 1mm 2层 grid router）。
+
+
 ## 可执行化（P4.10）
 
 ### Python API
