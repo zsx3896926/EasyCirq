@@ -219,6 +219,15 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **跨域迁移**：模板训练 → 真实板 raw ρ 0.925；仿射校准后 R² 0.888（原始 R² 不可用）。
 - 文档：`RESULTS.md` 同步。
 
+
+## P2.15–P2.16 / P4.7–P4.8（2026-10-29 第四轮同步）
+
+- **physics 校准（`calibrate.py`）**：分项 scale 最小二乘；合成扰动下分项测量每项 n≈5 收敛（留出 Spearman 0.940→1.000、top-10 0.80→1.00），仅总测量需 n≈43；过拟合 gap 0.0001。
+- **solver v3**：贪心构造起点 + 3 轨迹 portfolio，同预算 proxy cost −9.25%、truth −7.89%，completion 0.9019→0.7326 → 默认仍 solver_v2，v3 为质量优先备选。
+- **realboard v3**：4 板 + 全案例发现明细 + 机械固定 8 个 + 冲突如实记录；suite completion 0.8844→0.9615、truth −46.4%。
+- **policy**：五档决策表 + `assert_defaults()` + `run_auto --recommend`；`policies.md` 含禁止事项。
+- `run_benchmark.py`：增加真实板转换冒烟（有 cases 时跑 mcu-i2c，无则 SKIP）。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。

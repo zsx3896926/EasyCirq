@@ -6,6 +6,8 @@
     python run_auto.py --template buck --json > report.json
     python run_auto.py --template buck --objective route_aware --seed 0
     python run_auto.py --all-templates --seeds 0 --objective proxy --json
+    python run_auto.py --recommend routability
+    python run_auto.py --intent-plan --recommend intent_fidelity --json
 
 ``--template NAME`` instantiates a parameterised product-family template with
 ``--seed``; ``--scenario NAME`` loads one of the fixed P1 benchmark scenarios
@@ -36,6 +38,13 @@ records ``planning_mode="intent_relax"`` plus an ``intent_planning`` stats block
 strict bounds).  ``--all-templates`` batch rows carry ``intent_plan`` and
 ``planning_mode`` as well.
 
+``--recommend GOAL`` (alias ``--policy``) prints the P4.8 end-to-end policy
+recommendation for one of ``balanced`` / ``routability`` / ``intent_fidelity`` /
+``truth_sensitive`` / ``experimental`` and exits **without executing** the
+pipeline (human-readable block by default, JSON with ``--json``; one status
+line on stderr).  The goal -> mode mapping, expected trade-offs and boundaries
+are defined in :mod:`mp_place.policy` and summarised in ``policies.md``.
+
 Output: a single JSON report on stdout (``--json`` -> one compact sorted line;
 otherwise indented).  Human-readable status goes to stderr, so piping stdout
 into ``jq``/``json`` keeps working.  Exit code is ``0`` when the resulting
@@ -63,6 +72,7 @@ from mp_place.pipeline import (
     PIPELINE_OBJECTIVES,
     run_pipeline,
 )
+from mp_place.policy import POLICY_GOALS, format_recommendation, recommend
 
 DEFAULT_SEED = 0
 
@@ -150,6 +160,16 @@ def _build_parser() -> argparse.ArgumentParser:
         help="CCG penalty weight for --intent-plan (default: 25.0)",
     )
     parser.add_argument(
+        "--recommend",
+        "--policy",
+        dest="recommend",
+        metavar="GOAL",
+        choices=list(POLICY_GOALS),
+        default=None,
+        help="print the P4.8 policy recommendation for GOAL and exit without "
+        "executing the pipeline; goals: " + ", ".join(POLICY_GOALS),
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="print exactly one compact JSON object on stdout (sorted keys)",
@@ -208,6 +228,7 @@ def _batch(
         "schema": "mp_place.batch/v1",
         "objective": objective,
         "intent_plan": bool(intent_plan),
+        "intent_ccg_weight": float(intent_ccg_weight),
         "n_runs": len(rows),
         "all_feasible": all(r["feasible"] for r in rows),
         "rows": rows,
@@ -248,12 +269,38 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
+    if args.recommend is not None:
+        # P4.8 policy table: print the recommendation and exit (do not solve).
+        policy_entry = recommend(args.recommend)
+        if args.json:
+            print(
+                json.dumps(
+                    policy_entry,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+            )
+        else:
+            print(format_recommendation(args.recommend))
+        print(
+            f"[run_auto] policy goal={policy_entry['goal']} "
+            f"objective={policy_entry['objective']} "
+            f"intent_plan={policy_entry['intent_plan']} "
+            f"route_repair={policy_entry['route_repair']} "
+            f"recommended={policy_entry['recommended']}",
+            file=sys.stderr,
+        )
+        return 0
+
     if args.steps < 0:
         parser.error("--steps must be >= 0")
     if args.seed < 0:
         parser.error("--seed must be >= 0")
     if args.intent_plan and args.objective != DEFAULT_OBJECTIVE:
         parser.error("--intent-plan requires --objective proxy")
+    if not (args.intent_ccg_weight >= 0.0):
+        parser.error("--intent-ccg-weight must be >= 0")
 
     try:
         scenario = load_scenario(args.template, args.scenario, args.seed)
@@ -271,7 +318,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             parser.error("--seeds must be comma-separated integers")
         if not seeds or min(seeds) < 0:
             parser.error("--seeds must be non-empty and >= 0")
-        batch = _batch(seeds, args.steps, args.objective, args.intent_plan)
+        batch = _batch(
+            seeds,
+            args.steps,
+            args.objective,
+            args.intent_plan,
+            args.intent_ccg_weight,
+        )
         _emit(batch, args.json)
         print(
             f"[run_auto] batch templates={len(_known_templates())} seeds={seeds} "
@@ -287,6 +340,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         seed=args.seed,
         objective=args.objective,
         intent_plan=args.intent_plan,
+        intent_ccg_weight=args.intent_ccg_weight,
     )
     _emit(report, args.json)
     print(_summary(report), file=sys.stderr)

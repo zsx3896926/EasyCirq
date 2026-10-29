@@ -119,11 +119,14 @@ from .solver_v2 import solve
 MIL_TO_MM = 0.0254
 REALBOARD_SCHEMA = "mp_place.realboard/v1"
 REALBOARD_SCHEMA_V2 = "mp_place.realboard/v2"
+REALBOARD_SCHEMA_V3 = "mp_place.realboard/v3"
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPORT_MD = "report_realboard.md"
 REPORT_JSON = "report_realboard.json"
 REPORT_MD_V2 = "report_realboard_v2.md"
 REPORT_JSON_V2 = "report_realboard_v2.json"
+REPORT_MD_V3 = "report_realboard_v3.md"
+REPORT_JSON_V3 = "report_realboard_v3.json"
 
 def _resolve_cases_root() -> pathlib.Path:
     """Locate the EasyCirq ``easycirq/cases`` tree without hard-coding a machine path.
@@ -182,8 +185,9 @@ POLYGON_EPS_MM = 1e-6
 #: Body-overlap area below which a *captured* pair is reported as a courtyard
 #: approximation artifact (real boards are legal; capture bboxes include silk).
 CAPTURE_OVERLAP_TOL_MM2 = 1.0
-#: v2 default solver budget (larger real boards need more moves than the templates).
+#: v2/v3 default solver budget (larger real boards need more moves than the templates).
 DEFAULT_STEPS_V2 = 800
+DEFAULT_STEPS_V3 = 800
 #: Sibling evidence files that may carry placement keepouts (mil, circle/rect).
 KEEPOUT_PLAN_CANDIDATES: Tuple[str, ...] = (
     "placement-plan-final.json",
@@ -203,6 +207,7 @@ LIMITS: Tuple[str, ...] = (
     "polygon outline approximated from arc-polyline points; edge-overhang components are allowed up to 2.0 mm",
     "circular washer keepouts are approximated by axis-aligned squares",
     "capture bbox includes silkscreen/courtyard, so component bodies are conservative blockers",
+    "mechanical parts (J/SW/ANT prefixes) are pinned to their captured position; original-layout conflicts are reported, not fatal",
     "router completion is the offline 1mm/2-layer grid-maze oracle, not DRC and not a routability proof",
     "physics_v2 truth is an offline pseudo-physics model, not a measurement",
     "dual-button dump is a trimmed regression fixture (copper/silk requests trimmed; routedLines empty)",
@@ -210,12 +215,22 @@ LIMITS: Tuple[str, ...] = (
 )
 
 #: Reference-designator prefixes that stay fixed at the captured position.
-FIXED_PREFIXES: Tuple[str, ...] = ("J", "SW")
+#: Connectors (J), buttons/switches (SW) and antennas (ANT) are mechanical parts.
+MECHANICAL_PREFIXES: Tuple[str, ...] = ("ANT", "SW", "J")
+#: Role label per mechanical reference prefix (longest prefix first).
+MECHANICAL_ROLES: Tuple[Tuple[str, str], ...] = (
+    ("ANT", "antenna"),
+    ("SW", "switch"),
+    ("J", "connector"),
+)
+#: Backwards-compatible alias (v1/v2 reports used ``FIXED_PREFIXES``).
+FIXED_PREFIXES: Tuple[str, ...] = MECHANICAL_PREFIXES
 
 #: Reference prefixes treated as "passive/mechanical small parts" by the unit check.
 _PASSIVE_PREFIXES: Tuple[str, ...] = ("C", "R", "L", "D", "Q", "LED", "LDR", "RV")
 
 _PREFIX_KINDS: Tuple[Tuple[str, str], ...] = (
+    ("ANT", "antenna"),
     ("LED", "diode"),
     ("LDR", "sensor"),
     ("RV", "analog"),
@@ -690,6 +705,106 @@ def _capture_body_overlaps(
     return overlaps
 
 
+def _mechanical_role(ref: str) -> Optional[str]:
+    """Role of a mechanical reference (connector/switch/antenna) or ``None``."""
+    upper = ref.upper()
+    for prefix, role in MECHANICAL_ROLES:
+        if upper.startswith(prefix):
+            return role
+    return None
+
+
+def _mechanical_fixed_entries(
+    components: Dict[str, Component],
+    placements: Placement,
+) -> List[Dict[str, Any]]:
+    """List the mechanically pinned parts (J/SW/ANT) of the captured layout."""
+    entries: List[Dict[str, Any]] = []
+    for ref in sorted(components):
+        if not components[ref].fixed:
+            continue
+        role = _mechanical_role(ref) or "mechanical"
+        prefix = next(
+            (item_prefix for item_prefix, _role in MECHANICAL_ROLES if ref.upper().startswith(item_prefix)),
+            None,
+        )
+        x, y, rot = placements[ref]
+        entries.append(
+            {
+                "ref": ref,
+                "role": role,
+                "prefix": prefix,
+                "x_mm": round(x, 6),
+                "y_mm": round(y, 6),
+                "rotation": int(rot),
+                "source": "captured_layout",
+            }
+        )
+    return entries
+
+
+def _original_conflict_entries(report: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Collect every captured-layout conflict (reported, never fatal)."""
+    conflicts: List[Dict[str, Any]] = []
+    tolerated_pairs = {
+        tuple(item.get("pair") or ())
+        for item in (report.get("original_capture_overlaps") or [])
+    }
+    for violation in report.get("original_violations") or []:
+        tolerated = False
+        if violation.startswith("body_overlap:"):
+            parts = violation[len("body_overlap:"):].split(":")
+            tolerated = tuple(sorted(parts)) in tolerated_pairs
+        conflicts.append(
+            {
+                "kind": "hard_violation",
+                "detail": violation,
+                "tolerated": bool(tolerated),
+                "note": "capture-bbox courtyard artifact"
+                if tolerated
+                else "captured layout does not satisfy the bbox model",
+            }
+        )
+    for item in report.get("edge_overhang_components") or []:
+        conflicts.append(
+            {
+                "kind": "edge_overhang",
+                "ref": item.get("ref"),
+                "detail": f"{item.get('overhang_mm')} mm beyond the outline bbox",
+                "tolerated": True,
+                "note": "mechanical part overhangs the board edge; board rect expanded",
+            }
+        )
+    polygon = report.get("polygon") or {}
+    for item in polygon.get("components_outside") or []:
+        conflicts.append(
+            {
+                "kind": "polygon_outside",
+                "ref": item.get("ref"),
+                "detail": (
+                    f"corners_outside={item.get('corners_outside')} "
+                    f"max_outside={item.get('max_outside_mm')} mm"
+                ),
+                "tolerated": bool(item.get("allowed")),
+                "note": "within edge-overhang allowance"
+                if item.get("allowed")
+                else "outside the real outline polygon",
+            }
+        )
+    keepouts = report.get("keepouts") or {}
+    for item in keepouts.get("conflicts_with_original") or []:
+        conflicts.append(
+            {
+                "kind": "keepout_overlap",
+                "ref": item.get("ref"),
+                "detail": f"keepout #{item.get('keepout_index')}",
+                "tolerated": False,
+                "note": "captured part overlaps a parsed keepout",
+            }
+        )
+    return conflicts
+
+
 def convert_dump(
     payload: Dict[str, Any],
     name: str,
@@ -1021,10 +1136,18 @@ def convert_dump(
             keepout_report["conflicts_with_original"] = conflicts
 
     fixed_refs = sorted(ref for ref, comp in components.items() if comp.fixed)
-    fixed_mode = "j_sw_prefix" if fixed_refs else "all_movable"
+    has_non_jsw_mechanical = any(
+        not ref.upper().startswith(("J", "SW")) for ref in fixed_refs
+    )
+    if has_non_jsw_mechanical:
+        fixed_mode = "mechanical_prefix"
+    elif fixed_refs:
+        fixed_mode = "j_sw_prefix"
+    else:
+        fixed_mode = "all_movable"
     if not fixed_refs:
         report["fixed_mode_note"] = (
-            "no J/SW reference present; all components are movable, original layout "
+            "no J/SW/ANT reference present; all components are movable, original layout "
             "is not preserved by any fixed part"
         )
     base_placement = {ref: placements[ref] for ref in fixed_refs}
@@ -1059,6 +1182,7 @@ def convert_dump(
             "nets_dropped": len(report["dropped_nets"]),
             "fixed_refs": fixed_refs,
             "fixed_mode": fixed_mode,
+            "mechanical_fixed": _mechanical_fixed_entries(components, placements),
             "movable_refs": sorted(ref for ref in components if ref not in fixed_refs),
             "keepouts_applied": len(keepout_rects),
             "original_violations": violations,
@@ -1069,6 +1193,12 @@ def convert_dump(
                 sum(comp.w * comp.h for comp in components.values()) / (board_w * board_h)
             ),
         }
+    )
+    report["mechanical_fixed_count"] = len(report["mechanical_fixed"])
+    report["original_conflicts"] = _original_conflict_entries(report)
+    report["original_conflicts_count"] = len(report["original_conflicts"])
+    report["original_conflicts_tolerated"] = all(
+        bool(item.get("tolerated")) for item in report["original_conflicts"]
     )
     report["components_type_counts"] = _type_counts(components)
     report["net_class_counts"] = _net_class_counts(nets)
@@ -1179,25 +1309,47 @@ class BoardSource:
     path: pathlib.Path
     alternatives: List[str] = field(default_factory=list)
     rank: int = 4
+    candidates: List[Dict[str, Any]] = field(default_factory=list)
+    selection_reason: str = ""
+
+
+def _dump_rank_label(rank: int) -> str:
+    return {
+        0: "preferred_final",
+        1: "preferred_baseline",
+        2: "baseline_variant",
+        3: "final_variant",
+        4: "other_dump",
+    }.get(int(rank), "other_dump")
 
 
 def discover_cases(
     cases_root: Optional[object] = None,
-) -> Tuple[List[BoardSource], List[Dict[str, Any]]]:
+    *,
+    detailed: bool = False,
+):
     """Auto-discover one preferred dump per EasyCirq case directory.
 
     Every ``*.json`` under the cases root is parsed (read-only); a file qualifies
     as a dump when it has a non-empty ``components`` list and an ``outline``
     object.  Per case the preferred file wins (``pcb-dump-final`` >
     ``pcb-board-final`` > ``board-baseline`` > other dumps); the rest are kept as
-    ``alternatives`` in the report.  Cases without any dump are returned in the
-    skipped list with a reason.
+    ``alternatives`` in the report and as ranked ``candidates`` on the board
+    source.  Cases without any dump are returned in the skipped list with a
+    reason.  With ``detailed=True`` a third list with one record per case
+    (``BOARD``/``SKIPPED``, chosen file, ranked candidates, reason) is returned
+    for the v3 report.
     """
     root = pathlib.Path(cases_root) if cases_root is not None else DEFAULT_CASES_ROOT
     boards: List[BoardSource] = []
     skipped: List[Dict[str, Any]] = []
+    case_reports: List[Dict[str, Any]] = []
     if not root.is_dir():
-        return [], [{"case": str(root), "reason": f"cases root not found: {root}"}]
+        skipped.append({"case": str(root), "reason": f"cases root not found: {root}"})
+        case_reports.append(
+            {"case": str(root), "status": "SKIPPED", "reason": f"cases root not found: {root}"}
+        )
+        return (boards, skipped, case_reports) if detailed else (boards, skipped)
     for case_dir in sorted(path for path in root.iterdir() if path.is_dir()):
         candidates: List[Tuple[Tuple[int, int, str], pathlib.Path]] = []
         json_count = 0
@@ -1210,28 +1362,61 @@ def discover_cases(
             if _is_dump_payload(payload):
                 candidates.append((_dump_preference(json_path), json_path))
         if not candidates:
-            skipped.append(
+            reason = "no dump-like JSON (components+outline) found"
+            skipped.append({"case": case_dir.name, "reason": reason, "json_files": json_count})
+            case_reports.append(
                 {
                     "case": case_dir.name,
-                    "reason": "no dump-like JSON (components+outline) found",
+                    "status": "SKIPPED",
+                    "reason": reason,
                     "json_files": json_count,
+                    "candidates": [],
                 }
             )
             continue
         candidates.sort(key=lambda item: item[0])
+        candidate_records: List[Dict[str, Any]] = []
+        for index, (key, path) in enumerate(candidates):
+            candidate_records.append(
+                {
+                    "file": str(path.relative_to(root)),
+                    "rank": int(key[0]),
+                    "rank_label": _dump_rank_label(key[0]),
+                    "selected": index == 0,
+                }
+            )
         chosen_path = candidates[0][1]
-        alternatives = [
-            str(path.relative_to(root)) for _key, path in candidates[1:]
-        ]
+        alternatives = [str(path.relative_to(root)) for _key, path in candidates[1:]]
+        chosen_rank = int(candidates[0][0][0])
+        board_name = _short_case_name(case_dir.name)
+        selection_reason = (
+            f"preferred among {len(candidates)} dump-like file(s) "
+            f"({_dump_rank_label(chosen_rank)})"
+        )
         boards.append(
             BoardSource(
-                name=_short_case_name(case_dir.name),
+                name=board_name,
                 case=case_dir.name,
                 path=chosen_path,
                 alternatives=alternatives,
-                rank=candidates[0][0][0],
+                rank=chosen_rank,
+                candidates=candidate_records,
+                selection_reason=selection_reason,
             )
         )
+        case_reports.append(
+            {
+                "case": case_dir.name,
+                "status": "BOARD",
+                "name": board_name,
+                "chosen": str(chosen_path.relative_to(root)),
+                "candidates": candidate_records,
+                "json_files": json_count,
+                "reason": None,
+            }
+        )
+    if detailed:
+        return boards, skipped, case_reports
     return boards, skipped
 
 
@@ -1340,6 +1525,11 @@ def run_board(
 ) -> Dict[str, Any]:
     """Compare original / solver_v2(tuned route_cost) / route_opt repair."""
     scenario = converted.scenario
+    timings: Dict[str, float] = {}
+    started = time.perf_counter()
+    original_metrics = evaluate_placement(scenario, converted.original_placement, seed=seed)
+    timings["original"] = round(time.perf_counter() - started, 3)
+    original_metrics["elapsed_s"] = timings["original"]
     row: Dict[str, Any] = {
         "name": converted.name,
         "source": converted.report.get("source"),
@@ -1349,7 +1539,7 @@ def run_board(
         "captured_at": converted.report.get("captured_at"),
         "fixture_note": converted.report.get("fixture_note"),
         "conversion": converted.report,
-        "original": evaluate_placement(scenario, converted.original_placement, seed=seed),
+        "original": original_metrics,
     }
     row["original"]["feasible_tolerant"] = bool(
         converted.report.get("original_feasible_tolerant")
@@ -1357,8 +1547,11 @@ def run_board(
     row["original"]["capture_model_overlaps"] = list(
         converted.report.get("original_capture_overlaps") or []
     )
+    row["mechanical_fixed"] = list(converted.report.get("mechanical_fixed") or [])
+    row["original_conflicts"] = list(converted.report.get("original_conflicts") or [])
     row["optimized"] = {"status": "NOT RUN"}
     row["repair"] = {"status": "NOT RUN"}
+    row["timings_s"] = timings
     if not optimise:
         return row
 
@@ -1372,12 +1565,21 @@ def run_board(
             "source": str(config.get("source")),
             "reason": str(config.get("reason")),
         }
+        started = time.perf_counter()
         optimized_placement, proxy_cost, solver_stats = solve(
             scenario, objective.cost, seed=seed, steps=steps
         )
-        row["optimized"] = evaluate_placement(scenario, optimized_placement, seed=seed)
+        solve_elapsed = round(time.perf_counter() - started, 3)
+        started = time.perf_counter()
+        optimized_metrics = evaluate_placement(scenario, optimized_placement, seed=seed)
+        eval_elapsed = round(time.perf_counter() - started, 3)
+        optimized_metrics["solve_elapsed_s"] = solve_elapsed
+        optimized_metrics["elapsed_s"] = round(solve_elapsed + eval_elapsed, 3)
+        row["optimized"] = optimized_metrics
         row["optimized"]["proxy_cost"] = _round(proxy_cost)
         row["solver_stats"] = _strip_volatile(solver_stats)
+        timings["optimize_solve"] = solve_elapsed
+        timings["optimized"] = optimized_metrics["elapsed_s"]
     except Exception as exc:  # noqa: BLE001
         row["optimized"] = {"status": "ERROR", "error": f"{type(exc).__name__}: {exc}"}
         objective = None
@@ -1385,6 +1587,7 @@ def run_board(
 
     if objective is not None:
         try:
+            started = time.perf_counter()
             repaired_placement, _truth, _route_result, repair_stats = repair_routes(
                 scenario,
                 objective.cost,
@@ -1392,8 +1595,16 @@ def run_board(
                 steps=steps,
                 max_routes=max_routes,
             )
-            row["repair"] = evaluate_placement(scenario, repaired_placement, seed=seed)
+            repair_elapsed = round(time.perf_counter() - started, 3)
+            started = time.perf_counter()
+            repair_metrics = evaluate_placement(scenario, repaired_placement, seed=seed)
+            repair_eval_elapsed = round(time.perf_counter() - started, 3)
+            repair_metrics["repair_stage_s"] = repair_elapsed
+            repair_metrics["elapsed_s"] = round(repair_elapsed + repair_eval_elapsed, 3)
+            row["repair"] = repair_metrics
             row["repair_stats"] = _strip_volatile(repair_stats)
+            timings["repair_stage"] = repair_elapsed
+            timings["repair"] = repair_metrics["elapsed_s"]
         except Exception as exc:  # noqa: BLE001
             row["repair"] = {"status": "ERROR", "error": f"{type(exc).__name__}: {exc}"}
 
@@ -2163,6 +2374,591 @@ def write_reports_v2(
 
 
 # --------------------------------------------------------------------------- #
+# v3: mechanical constraints + board-level suite
+# --------------------------------------------------------------------------- #
+#: Keys removed by :func:`strip_volatile_report` for determinism assertions.
+_VOLATILE_KEYS = frozenset(
+    {
+        "runtime_s",
+        "elapsed_s",
+        "timings_s",
+        "solve_elapsed_s",
+        "repair_stage_s",
+        "eval_elapsed_s",
+        "generated_at",
+        "total_runtime_s",
+    }
+)
+
+
+def strip_volatile_report(report: Dict[str, Any]) -> Dict[str, Any]:
+    """Deep copy of a report without wall-clock / generation fields.
+
+    Used by the determinism test: the comparison itself (conversion, solver,
+    router, truth) is deterministic, only wall-clock fields are not.
+    """
+
+    def clean(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {
+                str(key): clean(item)
+                for key, item in value.items()
+                if key not in _VOLATILE_KEYS
+            }
+        if isinstance(value, list):
+            return [clean(item) for item in value]
+        return value
+
+    return clean(_json_safe(report))
+
+
+def _board_suite_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    original = row.get("original") or {}
+    optimized = row.get("optimized") or {}
+    repair = row.get("repair") or {}
+    conversion = _conversion_of(row)
+
+    def completion(metrics: Dict[str, Any]) -> Optional[float]:
+        return _metrics_value(metrics, ("router", "completion"))
+
+    def truth(metrics: Dict[str, Any]) -> Optional[float]:
+        return _metrics_value(metrics, ("truth_v2",))
+
+    orig_c, opt_c, rep_c = completion(original), completion(optimized), completion(repair)
+    orig_t, opt_t, rep_t = truth(original), truth(optimized), truth(repair)
+    reduction = None
+    if orig_t is not None and rep_t is not None and orig_t > 0:
+        reduction = round(100.0 * (orig_t - rep_t) / orig_t, 2)
+    reduction_opt = None
+    if orig_t is not None and opt_t is not None and orig_t > 0:
+        reduction_opt = round(100.0 * (orig_t - opt_t) / orig_t, 2)
+    return {
+        "name": row.get("name"),
+        "case": row.get("case"),
+        "completion_original": orig_c,
+        "completion_optimized": opt_c,
+        "completion_repair": rep_c,
+        "truth_v2_original": orig_t,
+        "truth_v2_optimized": opt_t,
+        "truth_v2_repair": rep_t,
+        "completion_gain_optimized": _delta(opt_c, orig_c),
+        "completion_gain_repair": _delta(rep_c, orig_c),
+        "truth_gain_optimized": _delta(orig_t, opt_t),
+        "truth_gain_repair": _delta(orig_t, rep_t),
+        "truth_reduction_pct_optimized": reduction_opt,
+        "truth_reduction_pct_repair": reduction,
+        "feasible_original": bool(original.get("feasible")),
+        "feasible_original_tolerant": bool(original.get("feasible_tolerant")),
+        "feasible_optimized": bool(optimized.get("feasible")),
+        "feasible_repair": bool(repair.get("feasible")),
+        "mechanical_fixed_count": len(conversion.get("mechanical_fixed") or []),
+        "original_conflicts_count": int(conversion.get("original_conflicts_count") or 0),
+    }
+
+
+def _suite_summary(rows: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
+    """Board-level suite: means plus best/worst board under a documented ranking."""
+    per_board = [_board_suite_row(row) for row in rows]
+    if not per_board:
+        return {
+            "n_boards": 0,
+            "mean_completion": {"original": None, "optimized": None, "repair": None},
+            "mean_truth_v2": {"original": None, "optimized": None, "repair": None},
+            "mean_completion_gain": {"optimized": None, "repair": None},
+            "mean_truth_reduction_pct": {"optimized": None, "repair": None},
+            "all_feasible": {
+                "original": None,
+                "original_tolerant": None,
+                "optimized": None,
+                "repair": None,
+            },
+            "best_board": None,
+            "worst_board": None,
+            "ranking": "",
+            "boards": [],
+        }
+
+    def mean(key: str) -> Optional[float]:
+        values = [item[key] for item in per_board if item.get(key) is not None]
+        return _round(sum(values) / len(values)) if values else None
+
+    def as_float(item: Dict[str, Any], key: str, default: float) -> float:
+        value = _finite(item.get(key))
+        return default if value is None else value
+
+    def rank_key(item: Dict[str, Any]):
+        return (
+            as_float(item, "completion_gain_repair", -1.0),
+            as_float(item, "truth_gain_repair", -1e9),
+        )
+
+    ordered = sorted(per_board, key=rank_key)
+    return {
+        "n_boards": len(per_board),
+        "mean_completion": {
+            "original": mean("completion_original"),
+            "optimized": mean("completion_optimized"),
+            "repair": mean("completion_repair"),
+        },
+        "mean_truth_v2": {
+            "original": mean("truth_v2_original"),
+            "optimized": mean("truth_v2_optimized"),
+            "repair": mean("truth_v2_repair"),
+        },
+        "mean_completion_gain": {
+            "optimized": mean("completion_gain_optimized"),
+            "repair": mean("completion_gain_repair"),
+        },
+        "mean_truth_reduction_pct": {
+            "optimized": mean("truth_reduction_pct_optimized"),
+            "repair": mean("truth_reduction_pct_repair"),
+        },
+        "all_feasible": {
+            "original": all(item.get("feasible_original") for item in per_board),
+            "original_tolerant": all(
+                item.get("feasible_original_tolerant") for item in per_board
+            ),
+            "optimized": all(item.get("feasible_optimized") for item in per_board),
+            "repair": all(item.get("feasible_repair") for item in per_board),
+        },
+        "best_board": ordered[-1],
+        "worst_board": ordered[0],
+        "ranking": (
+            "repair completion gain first, then repair truth_v2 gain "
+            "(higher is better); best=max, worst=min"
+        ),
+        "boards": per_board,
+    }
+
+
+def _aggregate_v3(
+    rows: Sequence[Dict[str, Any]],
+    skipped: Sequence[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """v3 aggregate: v2 metrics plus mechanical/conflict counters."""
+    aggregate = _aggregate_v2(rows, skipped)
+    conversions = [_conversion_of(row) for row in rows]
+    aggregate.update(
+        {
+            "n_mechanical_fixed": sum(
+                len(conversion.get("mechanical_fixed") or []) for conversion in conversions
+            ),
+            "n_original_conflicts": sum(
+                int(conversion.get("original_conflicts_count") or 0)
+                for conversion in conversions
+            ),
+            "all_original_conflicts_tolerated": all(
+                bool(conversion.get("original_conflicts_tolerated"))
+                for conversion in conversions
+            )
+            if rows
+            else None,
+            "mechanical_policy": "J/SW/ANT prefixes pinned to their captured position",
+            "original_conflict_policy": (
+                "captured-layout conflicts are listed with a tolerated flag and are never fatal"
+            ),
+        }
+    )
+    return aggregate
+
+
+def run_all_v3(
+    sources: Optional[Sequence[object]] = None,
+    *,
+    cases_root: Optional[object] = None,
+    steps: int = DEFAULT_STEPS_V3,
+    seed: int = DEFAULT_SEED,
+    max_routes: int = DEFAULT_MAX_ROUTES,
+    optimise: bool = True,
+) -> Dict[str, Any]:
+    """Full-case board suite: discover every dump, compare, and summarise.
+
+    Unlike v2, this variant records the complete case -> dump selection
+    (ranked candidates + selection reason), skips cases/dumps that cannot be
+    converted with a reason instead of aborting, pins mechanical parts
+    (J/SW/ANT), lists every captured-layout conflict, and adds a board-level
+    suite summary (means + best/worst board).  Returns the
+    ``mp_place.realboard/v3`` report.
+    """
+    started_wall = datetime.datetime.now().astimezone()
+    t_start = time.perf_counter()
+    board_sources: List[BoardSource] = []
+    skipped: List[Dict[str, Any]] = []
+    case_reports: List[Dict[str, Any]] = []
+    root: Optional[pathlib.Path] = None
+    if sources:
+        for item in sources:
+            if isinstance(item, BoardSource):
+                board_sources.append(item)
+            else:
+                try:
+                    name, path = item  # type: ignore[misc]
+                except (TypeError, ValueError) as exc:
+                    raise ValueError(
+                        f"sources entries must be BoardSource or (name, path), got {item!r}"
+                    ) from exc
+                target = pathlib.Path(path)
+                board_sources.append(
+                    BoardSource(name=str(name), case=target.parent.name, path=target)
+                )
+        case_reports = [
+            {
+                "case": source.case,
+                "status": "BOARD",
+                "name": source.name,
+                "chosen": str(source.path),
+                "candidates": list(source.candidates),
+                "json_files": None,
+                "reason": None,
+            }
+            for source in board_sources
+        ]
+        discovery_mode = "explicit_sources"
+    else:
+        root = pathlib.Path(cases_root) if cases_root is not None else DEFAULT_CASES_ROOT
+        board_sources, skipped, case_reports = discover_cases(root, detailed=True)
+        discovery_mode = "auto_discovery"
+
+    rows: List[Dict[str, Any]] = []
+    for source in board_sources:
+        if not source.path.exists():
+            skipped.append(
+                {
+                    "case": source.case,
+                    "name": source.name,
+                    "source": str(source.path),
+                    "reason": f"dump missing: {source.path}",
+                }
+            )
+            continue
+        try:
+            converted = load_and_convert(source.path, name=source.name)
+        except (OSError, ValueError, KeyError) as exc:
+            skipped.append(
+                {
+                    "case": source.case,
+                    "name": source.name,
+                    "source": str(source.path),
+                    "reason": f"conversion failed: {type(exc).__name__}: {exc}",
+                }
+            )
+            continue
+        row = run_board(
+            converted,
+            steps=steps,
+            seed=seed,
+            max_routes=max_routes,
+            optimise=optimise,
+        )
+        row["case"] = source.case
+        row["alternatives"] = list(source.alternatives)
+        row["candidates"] = list(source.candidates)
+        row["selection_reason"] = source.selection_reason
+        row["mechanical_fixed"] = list(converted.report.get("mechanical_fixed") or [])
+        row["original_conflicts"] = list(converted.report.get("original_conflicts") or [])
+        rows.append(row)
+
+    suite = _suite_summary(rows)
+    aggregate = _aggregate_v3(rows, skipped)
+    n_cases = len(case_reports) if case_reports else len(board_sources) + len(skipped)
+    return {
+        "schema": REALBOARD_SCHEMA_V3,
+        "generated_at": started_wall.strftime("%Y-%m-%d %H:%M:%S %z"),
+        "runtime_s": round(time.perf_counter() - t_start, 2),
+        "config": {
+            "steps": int(steps),
+            "seed": int(seed),
+            "max_routes": int(max_routes),
+            "optimise": bool(optimise),
+            "solver": "solver_v2.solve",
+            "objective": "route_cost.tuned_objective (adaptive RouteAwareObjective over ProxyObjective)",
+            "repair": "route_opt.repair_routes",
+            "router": f"GridRouter(grid_mm={ROUTER_GRID_MM}, layers={ROUTER_LAYERS})",
+            "truth": "physics_v2.PhysicsSimulatorV2 (seed) + v1 PhysicsSimulator",
+            "unit_scale_mm_per_mil": MIL_TO_MM,
+            "edge_overhang_limit_mm": EDGE_OVERHANG_MM,
+            "capture_overlap_tolerance_mm2": CAPTURE_OVERLAP_TOL_MM2,
+            "mechanical_prefixes": list(MECHANICAL_PREFIXES),
+            "mechanical_roles": {prefix: role for prefix, role in MECHANICAL_ROLES},
+            "keepout_plan_candidates": list(KEEPOUT_PLAN_CANDIDATES),
+        },
+        "discovery": {
+            "mode": discovery_mode,
+            "cases_root": str(root) if root is not None else None,
+            "n_cases": n_cases,
+            "n_boards": len(rows),
+            "n_skipped": len(skipped),
+            "selection_rules": {
+                "dump_like": "JSON object with a non-empty 'components' list and an 'outline' object",
+                "preference": [
+                    "pcb-dump-final",
+                    "pcb-board-final",
+                    "board-baseline",
+                    "other baselines/finals",
+                    "other dumps",
+                ],
+                "per_case": "exactly one preferred dump; the rest are alternatives",
+            },
+            "case_reports": case_reports,
+            "boards": [
+                {
+                    "name": row.get("name"),
+                    "case": row.get("case"),
+                    "source": row.get("source"),
+                    "source_sha256": row.get("source_sha256"),
+                    "alternatives": row.get("alternatives"),
+                    "candidates": row.get("candidates"),
+                    "selection_reason": row.get("selection_reason"),
+                }
+                for row in rows
+            ],
+            "skipped_cases": list(skipped),
+        },
+        "boards": rows,
+        "skipped_cases": list(skipped),
+        "suite": suite,
+        "aggregate": aggregate,
+        "limits": list(LIMITS),
+    }
+
+
+def render_markdown_v3(report: Dict[str, Any]) -> str:
+    """Render the P4.7 real-board suite report (mechanical + multi-board suite)."""
+    config = report.get("config") or {}
+    discovery = report.get("discovery") or {}
+    boards = report.get("boards") or []
+    suite = report.get("suite") or {}
+    skipped = report.get("skipped_cases") or []
+    aggregate = report.get("aggregate") or {}
+    lines: List[str] = []
+    lines.append("# P4.7 真实板 suite v3（全案例 + 机械约束 + 板级基准）\n")
+    lines.append(f"- schema：`{report.get('schema')}`")
+    lines.append(
+        f"- 配置：steps={config.get('steps')}，seed={config.get('seed')}，max_routes={config.get('max_routes')}；"
+        f"机械固定前缀 {config.get('mechanical_prefixes')}；"
+        f"solver=`{config.get('solver')}`，objective=`{config.get('objective')}`，router=`{config.get('router')}`"
+    )
+    lines.append(
+        f"- 发现：{discovery.get('mode')}，cases root=`{discovery.get('cases_root')}`；"
+        f"case {discovery.get('n_cases')} 个 → 板 {discovery.get('n_boards')}，跳过 {discovery.get('n_skipped')}"
+    )
+    lines.append(f"- 运行耗时：{report.get('runtime_s')} s\n")
+
+    lines.append("## case → dump 选择\n")
+    lines.append("| case | 状态 | 选中 dump | 候选（rank/选中） | json 文件数 | 原因 |")
+    lines.append("|---|---|---|---|---|---|")
+    for record in discovery.get("case_reports") or []:
+        candidates = record.get("candidates") or []
+        candidate_text = "，".join(
+            f"`{item.get('file')}`({item.get('rank_label')}{',selected' if item.get('selected') else ''})"
+            for item in candidates
+        ) or "—"
+        lines.append(
+            f"| `{record.get('case')}` | {record.get('status')} | `{record.get('chosen') or '—'}` | "
+            f"{candidate_text} | {record.get('json_files')} | {record.get('reason') or '—'} |"
+        )
+    lines.append("")
+    if skipped:
+        lines.append("### 跳过的 case/dump\n")
+        for item in skipped:
+            lines.append(
+                f"- `{item.get('case')}`" + (f" `{item.get('name')}`" if item.get("name") else "")
+                + f"：{item.get('reason')}"
+            )
+        lines.append("")
+
+    lines.append("## 真实板 suite 汇总\n")
+    mean_completion = suite.get("mean_completion") or {}
+    mean_truth = suite.get("mean_truth_v2") or {}
+    mean_gain = suite.get("mean_completion_gain") or {}
+    mean_red = suite.get("mean_truth_reduction_pct") or {}
+    feasible = suite.get("all_feasible") or {}
+    lines.append("| 指标 | original | optimized (route_aware) | repair (+repair) |")
+    lines.append("|---|---|---|---|")
+    lines.append(
+        f"| mean completion | {_fmt(mean_completion.get('original'))} | "
+        f"{_fmt(mean_completion.get('optimized'))} | {_fmt(mean_completion.get('repair'))} |"
+    )
+    lines.append(
+        f"| mean truth_v2 | {_fmt(mean_truth.get('original'))} | "
+        f"{_fmt(mean_truth.get('optimized'))} | {_fmt(mean_truth.get('repair'))} |"
+    )
+    lines.append(
+        f"| completion 增益 | — | {_fmt_delta(mean_gain.get('optimized'))} | {_fmt_delta(mean_gain.get('repair'))} |"
+    )
+    lines.append(
+        f"| truth_v2 降幅 | — | {_fmt(mean_red.get('optimized'), 2)}% | {_fmt(mean_red.get('repair'), 2)}% |"
+    )
+    lines.append(
+        f"| 全部硬可行 | {feasible.get('original')}（tolerant {feasible.get('original_tolerant')}） | "
+        f"{feasible.get('optimized')} | {feasible.get('repair')} |"
+    )
+    lines.append(f"\n- 排名规则：{suite.get('ranking') or '—'}\n")
+
+    lines.append("### 最好板 / 最差板\n")
+    lines.append("| 排名 | 板 | case | completion 原→repair | truth_v2 原→repair | repair completion 增益 | repair truth 增益 |")
+    lines.append("|---|---|---|---|---|---|---|")
+    for label, item in (("best", suite.get("best_board")), ("worst", suite.get("worst_board"))):
+        if not item:
+            continue
+        lines.append(
+            f"| {label} | {item.get('name')} | `{item.get('case')}` | "
+            f"{_fmt(item.get('completion_original'))}→{_fmt(item.get('completion_repair'))} | "
+            f"{_fmt(item.get('truth_v2_original'))}→{_fmt(item.get('truth_v2_repair'))} | "
+            f"{_fmt_delta(item.get('completion_gain_repair'))} | "
+            f"{_fmt(item.get('truth_reduction_pct_repair'), 2)}% |"
+        )
+    lines.append("")
+
+    lines.append("## 板级总表\n")
+    lines.append("| 板 | case | sha256 | 器件 | pads | nets | 多边形点 | keepouts | 机械固定 | 原始冲突 | completion 原→opt→rep | truth_v2 原→opt→rep | repair 耗时 s |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    for item in suite.get("boards") or []:
+        row = next((row for row in boards if row.get("name") == item.get("name")), {})
+        conversion = _conversion_of(row)
+        keepouts = _keepouts_of(row)
+        keepout_label = keepouts.get("status") or "NOT RUN"
+        if keepout_label == "APPLIED":
+            keepout_label = f"APPLIED×{keepouts.get('count')}"
+        lines.append(
+            f"| {item.get('name')} | `{item.get('case')}` | `{str(row.get('source_sha256') or '')[:12]}` | "
+            f"{conversion.get('components_kept')}/{conversion.get('components_total')} | "
+            f"{conversion.get('pads_used')} | {conversion.get('nets_kept')}/{conversion.get('nets_total')} | "
+            f"{(conversion.get('polygon') or {}).get('points')} | {keepout_label} | "
+            f"{item.get('mechanical_fixed_count')} | {item.get('original_conflicts_count')} | "
+            f"{_fmt(item.get('completion_original'))}→{_fmt(item.get('completion_optimized'))}→{_fmt(item.get('completion_repair'))} | "
+            f"{_fmt(item.get('truth_v2_original'))}→{_fmt(item.get('truth_v2_optimized'))}→{_fmt(item.get('truth_v2_repair'))} | "
+            f"{_fmt((row.get('timings_s') or {}).get('repair'))} |"
+        )
+    lines.append("")
+
+    for row in boards:
+        conversion = _conversion_of(row)
+        polygon = _polygon_of(row)
+        keepouts = _keepouts_of(row)
+        units = conversion.get("units") or {}
+        lines.append(f"## {row.get('name')}（case `{row.get('case')}`）\n")
+        lines.append(f"- 源：`{row.get('source')}`（{conversion.get('source_bytes')} bytes）")
+        lines.append(f"- SHA256：`{row.get('source_sha256')}`")
+        lines.append(
+            f"- project={conversion.get('project')} capturedAt={conversion.get('captured_at')} "
+            f"semanticSha256=`{str(conversion.get('semantic_sha256') or '')[:16]}`"
+        )
+        if conversion.get("fixture_note"):
+            lines.append(f"- fixture note：{conversion.get('fixture_note')}")
+        lines.append(f"- dump 选择：{row.get('selection_reason')}；alternatives={row.get('alternatives')}")
+        lines.append(
+            f"- 对象：器件 {conversion.get('components_kept')}/{conversion.get('components_total')} 保留"
+            f"（丢弃 {conversion.get('components_dropped')}），pads {conversion.get('pads_used')}/"
+            f"{conversion.get('pads_total')}（合并 {conversion.get('pads_merged')}），"
+            f"nets {conversion.get('nets_kept')}/{conversion.get('nets_total')}（丢弃 {conversion.get('nets_dropped')}）"
+        )
+        mechanical = conversion.get("mechanical_fixed") or []
+        lines.append(f"- 机械固定（J/SW/ANT）：{len(mechanical)} 个")
+        for item in mechanical:
+            lines.append(
+                f"  - {item.get('ref')}（{item.get('role')}）：位置 "
+                f"({_fmt(item.get('x_mm'), 3)}, {_fmt(item.get('y_mm'), 3)}) mm rot={item.get('rotation')}"
+            )
+        conflicts = conversion.get("original_conflicts") or []
+        lines.append(
+            f"- 原布局冲突：{len(conflicts)} 项（tolerated={conversion.get('original_conflicts_tolerated')}，"
+            f"如实记录、不判死）"
+        )
+        for item in conflicts:
+            lines.append(
+                f"  - [{item.get('kind')}] {item.get('ref') or ''} {item.get('detail')}"
+                f" tolerated={item.get('tolerated')}（{item.get('note')}）"
+            )
+        lines.append(
+            f"- 板框：{_fmt((conversion.get('outline') or {}).get('board_mm', [None, None])[0], 2)} × "
+            f"{_fmt((conversion.get('outline') or {}).get('board_mm', [None, None])[1], 2)} mm；"
+            f"多边形 {polygon.get('points')} 点，polygon_ok={conversion.get('polygon_ok')}，"
+            f"violations={polygon.get('violations')}"
+        )
+        lines.append(
+            f"- keepouts：**{keepouts.get('status')}**"
+            + (
+                f"（{keepouts.get('count')} 个，源 `{keepouts.get('source')}`）"
+                if keepouts.get("status") == "APPLIED"
+                else f"（{keepouts.get('reason')}）"
+            )
+        )
+        lines.append(
+            f"- 单位验证：mil × {MIL_TO_MM} → mm；passive bbox 长边 "
+            f"{units.get('passive_bbox_long_side_mm')}；可信={units.get('mil_interpretation_plausible')}，"
+            f"mm 解释被否={units.get('mm_interpretation_rejected')}"
+        )
+        lines.append("")
+        lines.append("| 组 | 硬可行 | truth_v1 | truth_v2 | router completion | vias | wirelength mm | failed_nets | 耗时 s |")
+        lines.append("|---|---|---|---|---|---|---|---|---|")
+        for label, group in (
+            ("original", "original"),
+            ("optimized (solver_v2+route_aware)", "optimized"),
+            ("repair (route_opt)", "repair"),
+        ):
+            metrics = row.get(group) or {}
+            router = metrics.get("router") or {}
+            lines.append(
+                f"| {label} | {_fmt(metrics.get('feasible'))} | {_fmt(metrics.get('truth_v1'))} | "
+                f"{_fmt(metrics.get('truth_v2'))} | {_fmt(router.get('completion'))} | "
+                f"{_fmt(router.get('vias'))} | {_fmt(router.get('wirelength_mm'), 1)} | "
+                f"`{router.get('failed_nets')}` | {_fmt(metrics.get('elapsed_s'), 2)} |"
+            )
+        deltas = row.get("deltas") or {}
+        lines.append(
+            f"\n- Δ vs original：optimized truth_v2 {_fmt_delta(deltas.get('optimized_truth_v2'))}，"
+            f"completion {_fmt_delta(deltas.get('optimized_completion'))}；"
+            f"repair truth_v2 {_fmt_delta(deltas.get('repair_truth_v2'))}，"
+            f"completion {_fmt_delta(deltas.get('repair_completion'))}"
+        )
+        objective = row.get("objective") or {}
+        if objective:
+            lines.append(
+                f"- tuned objective：w_route={objective.get('w_route')} profile={objective.get('profile')} "
+                f"source={objective.get('source')}（{objective.get('reason')}）"
+            )
+        solver_stats = row.get("solver_stats") or {}
+        repair_stats = row.get("repair_stats") or {}
+        if solver_stats:
+            lines.append(
+                f"- solver：{solver_stats.get('solver')} steps={solver_stats.get('steps')} "
+                f"restarts={solver_stats.get('restarts')} accepted={solver_stats.get('accepted')}"
+            )
+        if repair_stats:
+            lines.append(
+                f"- repair：route_calls={repair_stats.get('routes_calls')} "
+                f"moves_accepted={repair_stats.get('moves_accepted')} "
+                f"completion {repair_stats.get('initial_completion')}→{repair_stats.get('final_completion')}"
+            )
+        lines.append("")
+
+    lines.append("## 边界与限制\n")
+    for item in report.get("limits") or []:
+        lines.append(f"- {item}")
+    lines.append("")
+    lines.append("> 本报告由 `python -m mp_place.realboard`（v3）自动生成；源 dump 只读、未施加布局、未运行 DRC/EDA。")
+    return "\n".join(lines) + "\n"
+
+
+def write_reports_v3(
+    report: Dict[str, Any],
+    out_dir: Optional[object] = None,
+) -> Dict[str, pathlib.Path]:
+    """Write ``report_realboard_v3.md`` + ``.json``; return the paths."""
+    target_dir = pathlib.Path(out_dir) if out_dir is not None else PROJECT_ROOT
+    target_dir.mkdir(parents=True, exist_ok=True)
+    json_path = target_dir / REPORT_JSON_V3
+    md_path = target_dir / REPORT_MD_V3
+    json_path.write_text(
+        json.dumps(_json_safe(report), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    md_path.write_text(render_markdown_v3(report), encoding="utf-8")
+    return {"markdown": md_path, "json": json_path}
+
+
+# --------------------------------------------------------------------------- #
 # CLI
 # --------------------------------------------------------------------------- #
 def _build_parser() -> argparse.ArgumentParser:
@@ -2170,10 +2966,10 @@ def _build_parser() -> argparse.ArgumentParser:
         prog="python -m mp_place.realboard",
         description=(
             "Convert real EasyCirq PCB dumps to Scenarios and compare original vs optimised vs "
-            "repaired layouts (v2: polygon outline validation + auto-discovery + keepouts)."
+            "repaired layouts (v3: full-case suite + mechanical constraints + polygon/keepout)."
         ),
     )
-    parser.add_argument("--steps", type=int, default=None, help=f"solver move budget (v2 default: {DEFAULT_STEPS_V2}; v1 default: {DEFAULT_STEPS})")
+    parser.add_argument("--steps", type=int, default=None, help=f"solver move budget (v2/v3 default: {DEFAULT_STEPS_V3}; v1 default: {DEFAULT_STEPS})")
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED, help="solver/truth seed (default: 0)")
     parser.add_argument("--max-routes", type=int, default=DEFAULT_MAX_ROUTES, help=f"route_opt router-call budget (default: {DEFAULT_MAX_ROUTES})")
     parser.add_argument(
@@ -2191,7 +2987,12 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--v1",
         action="store_true",
-        help="write the legacy v1 report (report_realboard.md/json) instead of the v2 report",
+        help="write the legacy v1 report (report_realboard.md/json) instead of the v3 report",
+    )
+    parser.add_argument(
+        "--v2",
+        action="store_true",
+        help="write the v2 report (report_realboard_v2.md/json) instead of the v3 report",
     )
     parser.add_argument("--out", default=None, help="report output directory (default: project root)")
     parser.add_argument("--json", action="store_true", help="print the compact JSON report on stdout")
@@ -2206,9 +3007,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             pass
     parser = _build_parser()
     args = parser.parse_args(argv)
+    if args.v1 and args.v2:
+        parser.error("--v1 and --v2 are mutually exclusive")
     steps = args.steps
     if steps is None:
-        steps = DEFAULT_STEPS if args.v1 else DEFAULT_STEPS_V2
+        if args.v1:
+            steps = DEFAULT_STEPS
+        elif args.v2:
+            steps = DEFAULT_STEPS_V2
+        else:
+            steps = DEFAULT_STEPS_V3
     if steps < 0:
         parser.error("--steps must be >= 0")
     if args.seed < 0:
@@ -2237,7 +3045,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 max_routes=args.max_routes,
             )
             paths = write_reports(report, out_dir=out_dir)
-        else:
+        elif args.v2:
             report = run_all_v2(
                 sources=sources,
                 cases_root=cases_root,
@@ -2246,6 +3054,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 max_routes=args.max_routes,
             )
             paths = write_reports_v2(report, out_dir=out_dir)
+        else:
+            report = run_all_v3(
+                sources=sources,
+                cases_root=cases_root,
+                steps=steps,
+                seed=args.seed,
+                max_routes=args.max_routes,
+            )
+            paths = write_reports_v3(report, out_dir=out_dir)
     except (OSError, ValueError, KeyError) as exc:
         print(f"error: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 2
@@ -2265,7 +3082,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 f"repair={aggregate.get('mean_repair_truth_v2')} "
                 f"runtime={report.get('runtime_s')}s"
             )
-        else:
+        elif args.v2:
             discovery = report.get("discovery") or {}
             print(
                 f"realboard v2: mode={discovery.get('mode')} cases={discovery.get('n_cases')} "
@@ -2280,6 +3097,27 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 f"repair={aggregate.get('mean_repair_truth_v2')} "
                 f"runtime={report.get('runtime_s')}s"
             )
+        else:
+            discovery = report.get("discovery") or {}
+            suite = report.get("suite") or {}
+            best = suite.get("best_board") or {}
+            worst = suite.get("worst_board") or {}
+            mean_completion = suite.get("mean_completion") or {}
+            mean_truth = suite.get("mean_truth_v2") or {}
+            print(
+                f"realboard v3: mode={discovery.get('mode')} cases={discovery.get('n_cases')} "
+                f"boards={discovery.get('n_boards')} skipped={discovery.get('n_skipped')} "
+                f"mechanical_fixed={aggregate.get('n_mechanical_fixed')} "
+                f"original_conflicts={aggregate.get('n_original_conflicts')} "
+                f"completion original={mean_completion.get('original')} "
+                f"optimized={mean_completion.get('optimized')} "
+                f"repair={mean_completion.get('repair')} "
+                f"truth_v2 original={mean_truth.get('original')} "
+                f"optimized={mean_truth.get('optimized')} "
+                f"repair={mean_truth.get('repair')} "
+                f"best={best.get('name')} worst={worst.get('name')} "
+                f"runtime={report.get('runtime_s')}s"
+            )
     print(f"[realboard] wrote {paths['markdown']} / {paths['json']}", file=sys.stderr)
     return 0 if (report.get("boards") or []) else 1
 
@@ -2292,12 +3130,18 @@ __all__ = [
     "MIL_TO_MM",
     "REALBOARD_SCHEMA",
     "REALBOARD_SCHEMA_V2",
+    "REALBOARD_SCHEMA_V3",
     "DEFAULT_SOURCES",
     "DEFAULT_STEPS",
+    "DEFAULT_STEPS_V2",
+    "DEFAULT_STEPS_V3",
     "DEFAULT_SEED",
     "DEFAULT_MAX_ROUTES",
     "EDGE_OVERHANG_MM",
+    "CAPTURE_OVERLAP_TOL_MM2",
     "FIXED_PREFIXES",
+    "MECHANICAL_PREFIXES",
+    "MECHANICAL_ROLES",
     "KEEPOUT_PLAN_CANDIDATES",
     "BoardPolygon",
     "BoardSource",
@@ -2316,9 +3160,13 @@ __all__ = [
     "run_board",
     "run_all",
     "run_all_v2",
+    "run_all_v3",
+    "strip_volatile_report",
     "render_markdown",
     "render_markdown_v2",
+    "render_markdown_v3",
     "write_reports",
     "write_reports_v2",
+    "write_reports_v3",
     "main",
 ]

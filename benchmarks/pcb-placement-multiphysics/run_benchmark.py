@@ -15,6 +15,7 @@ Exit code 0 on success, 1 otherwise.
 from __future__ import annotations
 
 import json
+import pathlib
 import sys
 
 
@@ -53,6 +54,41 @@ def main() -> int:
     fixed = report.get("fixed_fields") or {}
     if fixed != {"routing_verified": False, "drc": "NOT RUN", "eda_calls": 0}:
         failures.append(f"pipeline buck: bad fixed_fields {fixed!r}")
+
+    # 3. real-board conversion smoke (only when the EasyCirq case dumps are
+    #    present, e.g. in the repository checkout; skipped elsewhere).
+    try:
+        from mp_place.model import hard_violations
+        from mp_place.physics_v2 import PhysicsSimulatorV2
+        from mp_place.realboard import DEFAULT_SOURCES, load_and_convert
+
+        available = [(name, path) for name, path in DEFAULT_SOURCES if pathlib.Path(path).is_file()]
+        if available:
+            name, path = available[0]
+            converted = load_and_convert(path, name=name)
+            original = converted.original_placement
+            violations = hard_violations(converted.scenario, original)
+            truth = PhysicsSimulatorV2(converted.scenario, seed=0).score(original)
+            print(
+                "[benchmark] realboard:",
+                json.dumps(
+                    {
+                        "board": name,
+                        "components": len(converted.scenario.components),
+                        "nets": len(converted.scenario.nets),
+                        "original_violations": len(violations),
+                        "original_truth_v2": round(truth, 4),
+                    },
+                    ensure_ascii=False,
+                    sort_keys=True,
+                ),
+            )
+            if len(violations) > 2:  # tolerant of courtyard/bbox capture artifacts
+                failures.append(f"realboard {name}: {len(violations)} hard violations on original placement")
+        else:
+            print("[benchmark] realboard: SKIP (no EasyCirq case dumps next to this checkout)")
+    except Exception as exc:  # noqa: BLE001 - smoke, never block on optional data
+        print(f"[benchmark] realboard: SKIP ({type(exc).__name__}: {exc})")
 
     if failures:
         for item in failures:

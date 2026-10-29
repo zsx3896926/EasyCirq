@@ -323,3 +323,15 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 328 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 13. 第四轮同步（2026-10-29）
+
+- **physics 校准**（`report_calibration`）：分项测量 n≈5 收敛（Spearman 0.940→1.000、top-10 0.80→1.00）；仅总测量 n≈43；过拟合 gap 0.0001。
+- **solver v3**（`report_solver_v3`）：同预算 proxy cost −9.25%、truth −7.89%、completion 0.9019→0.7326（默认仍 v2，v3 需配 route-aware/repair）。
+- **realboard v3**（`report_realboard_v3`）：4 板、机械固定 8 个、原布局冲突 3 项如实记录；suite completion 0.8844→0.9615、truth 4.0083→2.1167（−46.4%），最好 mcu-i2c、最差 dual-button。
+- **policy**（`policies.md`）：五档决策表（balanced/routability/intent_fidelity/truth_sensitive/experimental）+ 默认断言 + 禁止事项；`run_auto --recommend`。
+- **CI**：`run_benchmark.py` 增加真实板转换冒烟。
+- 测试：仓库内 396 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
