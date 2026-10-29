@@ -63,5 +63,27 @@ class ReplayPlanTests(unittest.TestCase):
         self.assertEqual(a, b)
 
 
+class ReplayBatchTests(unittest.TestCase):
+    def test_plan_is_split_into_batches(self):
+        plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg",
+                                 batch_size=2)
+        self.assertGreaterEqual(len(plan["batches"]), 2)
+        self.assertEqual(plan["counts"]["batches"], len(plan["batches"]))
+        for batch in plan["batches"]:
+            self.assertLessEqual(len(batch["commands"]), 2)
+            self.assertTrue(batch["checkpoint"])
+            self.assertIn("doc reload", batch["checkpoint"][0])
+
+    def test_batches_cover_every_command_once(self):
+        plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg",
+                                 batch_size=3)
+        flat = [c for batch in plan["batches"] for c in batch["commands"]]
+        self.assertEqual(flat, plan["commands"])
+
+    def test_default_batch_size(self):
+        plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg")
+        self.assertEqual(plan["batch_size"], replay_page.DEFAULT_BATCH_SIZE)
+
+
 if __name__ == "__main__":
     unittest.main()
