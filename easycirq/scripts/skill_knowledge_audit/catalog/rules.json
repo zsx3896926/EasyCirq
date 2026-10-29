@@ -74,8 +74,8 @@
       "text": "门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。",
       "source": {
         "path": "easycirq/SKILL.md",
-        "line_start": 278,
-        "line_end": 285
+        "line_start": 279,
+        "line_end": 286
       },
       "condition": "G0–G6 阶段退出证据判定",
       "task_scope": [

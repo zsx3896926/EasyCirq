@@ -57,7 +57,7 @@
 | 选型 | 核对完整型号、条件、边界 | 设计卡 + 对应专题的“必须先知道的条件” |
 | 原理图 | 逐脚/逐网络/状态表 | 专题 §3 + 设计卡逐脚 + F23–F33 |
 | PCB | 回路、参考平面、热路径、连接器 | 专题 §4 + pcb-placement/routing-details |
-| 评审 | 先问“结论类型”，再给证据 | [审图练习](exercises/README.md) |
+| 评审 | 先问“结论类型”，再给证据 | [审图练习](exercises/README.md)、[预布局审题练习](exercises-pcb/README.md) |
 | 调试 | 先区分测量假象 vs 真实故障 | C4、F33、simulation-measurement §5 |
 | 改板/替代 | 只改一个条件，重算边界 | F31、selection/replacement-classes |
 
@@ -101,12 +101,13 @@ engineering-deepdives/
 │   ├── audio-analog-precision.md
 │   ├── high-speed-rf-fpga.md
 │   └── hmi-connectors-thermal.md
-└── exercises/
-    ├── README.md
-    ├── exercises.md           # 20 题
-    ├── paired-cases.md        # 8 对
-    ├── answers.md             # 参考答案
-    └── blind-prompts.md       # 无题型提示的独立输入（尚未运行）
+├── exercises/
+│   ├── README.md
+│   ├── exercises.md           # 20 题
+│   ├── paired-cases.md        # 8 对
+│   ├── answers.md             # 参考答案
+│   └── blind-prompts.md       # 无题型提示的独立输入（尚未运行）
+└── exercises-pcb/             # PCB 预布局审题练习（同结构，绑定离线案例集）
 ```
 
 ## 7. Agent 使用规则

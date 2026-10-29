@@ -1,0 +1,98 @@
+{
+  "schema": "easycirq.pcb-placement-benchmark.expected/v1",
+  "frozen_from": "easycirq/assets/pcb-placement-benchmarks/benchmarks.json",
+  "frozen_from_sha256": "49906f8efdd096499f0918be8bc51912ea2cfdc4093dfa0121c66de8b93470a0",
+  "policy": "人工评审后冻结的期望判定；不得用判分器输出反推。修订须先改契约并重新评审。",
+  "cases": {
+    "P1-MCU-MIN": {
+      "verdict": "review",
+      "codes": [
+        "distance_far"
+      ],
+      "soft_fail": [
+        "ck-decoup",
+        "ck-decoup2"
+      ]
+    },
+    "P1b-MCU-MIN-PAIR": {
+      "verdict": "acceptable",
+      "codes": [],
+      "soft_fail": []
+    },
+    "P2-BUCK": {
+      "verdict": "review",
+      "codes": [
+        "loop_large"
+      ],
+      "soft_fail": [
+        "ck-loop"
+      ]
+    },
+    "P2b-BUCK-PAIR": {
+      "verdict": "acceptable",
+      "codes": [],
+      "soft_fail": []
+    },
+    "P3-ANALOG": {
+      "verdict": "review",
+      "codes": [
+        "distance_far"
+      ],
+      "soft_fail": [
+        "ck-analog"
+      ]
+    },
+    "P3b-ANALOG-PAIR": {
+      "verdict": "acceptable",
+      "codes": [],
+      "soft_fail": []
+    },
+    "P4-COMM": {
+      "verdict": "blocking",
+      "codes": [
+        "connector_off_edge"
+      ],
+      "soft_fail": []
+    },
+    "P5-BATTERY": {
+      "verdict": "review",
+      "codes": [
+        "distance_far"
+      ],
+      "soft_fail": [
+        "ck-prot",
+        "ck-ntc"
+      ]
+    },
+    "P6-MOTOR": {
+      "verdict": "review",
+      "codes": [
+        "loop_large"
+      ],
+      "soft_fail": [
+        "ck-gate",
+        "ck-shunt"
+      ]
+    },
+    "P7-WIRELESS": {
+      "verdict": "blocking",
+      "codes": [
+        "keepout_violation"
+      ],
+      "soft_fail": []
+    },
+    "P8-MULTI": {
+      "verdict": "blocking",
+      "codes": [
+        "connector_off_edge",
+        "body_overlap"
+      ],
+      "soft_fail": []
+    },
+    "P8b-MULTI-PAIR": {
+      "verdict": "acceptable",
+      "codes": [],
+      "soft_fail": []
+    }
+  }
+}

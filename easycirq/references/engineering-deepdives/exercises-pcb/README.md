@@ -1,0 +1,93 @@
+# PCB 预布局审题练习使用说明
+
+> 20 道单题 + 8 对成对案例。目标不是“找错越多越好”，而是学会区分五类判断：**明确错误、条件风险、有意取舍、看似异常实际合理、信息不足**。
+>
+> 题目在 [exercises.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md)，参考答案在 [answers.md](answers.md)，独立试答输入在 [blind-prompts.md](blind-prompts.md)。
+>
+> 所有题都绑定 [PCB 预布局基准集](../../pcb-placement-benchmarks.md) 的案例 id，或明确标为“构造题，不对应案例”。判据引用 [PCB 布局细节](../../pcb-placement-details.md) 的 PL 条目；机制解释见 [PCB 机制卡](../../pcb-lessons.md) 和 [PCB 工程习惯](../../pcb.md)。
+
+## 怎么用
+
+1. **先独立作答**：每题写结论类型（`可确认` / `条件` / `待补`）、机制、依据（案例 id / code / PL 编号）、还需补什么、建议动作，以及哪些是 `过度` 修改。
+2. **再读答案**：对照四类标记，重点看自己有没有把“条件风险”写成“明确错误”，或把 `review` 写成 `acceptable`。
+3. **对成对案例**：先写出“只改的那一个条件”，再判断结论是否翻转；没翻转时，说明该条件不是主导项，或说明离线判分没覆盖它。
+4. **盲测**：用 [blind-prompts.md](blind-prompts.md)（已去掉题型提示）独立试答，不读 [exercises.md](exercises.md) 的类型标签和答案。
+5. **不要背答案**：题目不抄案例坐标；换板/换叠层/换器件后必须重新判，不能把练习结论直接搬到真实工程。
+
+## 评分维度
+
+沿用基准集读法的五维（详见 [读法文档 §4](../../pcb-placement-benchmarks.md#4-五维评分维度)）：
+
+| 维度 | 看什么 |
+|---|---|
+| 结论类型 | 是否区分 `可确认` / `条件` / `待补`，是否把软代理超阈值写成“已证实失效” |
+| 机制 | 能否说出电流回路/回流、耦合路径、热路径、机械干涉，而不是只报 code |
+| 证据 | 能否指到案例 id、finding code、检查 id、PL 条目；真实工程再指手册/网表 |
+| 行动 | 修复是否与结论匹配；`blocking` 先改硬约束，`review` 先改主导项，不过度整板重排 |
+| 未知 | 是否列出离线判分答不了的项（DRC/布线/阻抗/热/装配）并写 `NOT RUN` |
+
+## 题目 ↔ 案例 ↔ PL 对应
+
+详细题面见 [exercises.md](exercises.md)；答案与标记见 [answers.md](answers.md)。
+
+| 题 | 类型 | 绑定案例 | 主要 PL | 相关 finding code |
+|---|---|---|---|---|
+| X01 | 明确错误 | `P1-MCU-MIN` | PL17、PL18 | `distance_far` |
+| X02 | 明确错误 | `P2-BUCK` | PL09、PL10 | `loop_large` |
+| X03 | 明确错误 | `P7-WIRELESS` | PL27 | `keepout_violation` |
+| X04 | 明确错误 | `P8-MULTI` | PL03 | `connector_off_edge` |
+| X05 | 明确错误 | `P4-COMM` | PL03、PL04 | `connector_off_edge` |
+| X06 | 明确错误 | `P5-BATTERY` | PL16 | `distance_far` |
+| X07 | 条件风险 | `P3-ANALOG` | PL21、PL22、PL23 | `distance_far` |
+| X08 | 条件风险 | `P6-MOTOR` | PL13、PL14 | `loop_large` |
+| X09 | 条件风险 | `P1-MCU-MIN` | PL19 | `distance_far`（P1 晶体在阈值内） |
+| X10 | 条件风险 | `P4-COMM` | PL03、PL15 | `connector_off_edge`（容差边界） |
+| X11 | 条件风险 | `P2-BUCK` | PL12 | `loop_large`（取样点） |
+| X12 | 有意取舍 | `P2b-BUCK-PAIR` | PL09、PL11 | `loop_large`（翻转后无） |
+| X13 | 有意取舍 | `P3b-ANALOG-PAIR` | PL21 | `distance_far`（翻转后无） |
+| X14 | 有意取舍 | `P8b-MULTI-PAIR` | PL03、PL29 | `connector_off_edge`（翻转后无） |
+| X15 | 有意取舍 | `P1b-MCU-MIN-PAIR` | PL17、PL18 | `distance_far`（翻转后无） |
+| X16 | 看似异常实际合理 | `P1b-MCU-MIN-PAIR` | PL17、PL18 | 无（案例为 acceptable） |
+| X17 | 看似异常实际合理 | `P3b-ANALOG-PAIR` | PL21、PL22、PL23 | 无（案例为 acceptable） |
+| X18 | 看似异常实际合理 | 构造题，不对应案例 | PL27 | `keepout_violation`（仅器件层） |
+| X19 | 信息不足 | 构造题，不对应案例 | PL09、PL28 | 不判（离线快照缺叠层/阻抗） |
+| X20 | 信息不足 | 构造题，不对应案例 | PL18、PL29 | `missing_placement`（数据缺口） |
+
+分布：明确错误 6、条件风险 5、有意取舍 4、看似异常实际合理 3、信息不足 2。
+
+> code 口径：`expected.codes` = 硬检查 code ∪ 软检查具体 code（`distance_far`/`loop_large`/`hpwl_high`/`congestion_hotspot`）；v1 没有笼统兜底 code。全局 HPWL/拥塞只在 `metrics` 里，超限才以 `hpwl_high`/`congestion_hotspot` 进 `codes`。
+
+## 成对案例
+
+8 对，每对只改一个条件（4 对来自基准集的 `*-PAIR` 变体，4 对是构造对照）。逐对写“改了什么 / 结论是否翻转 / 为什么”在 [paired-cases.md](paired-cases.md)：
+
+| 对 | 基准 | 只改的条件 | 结论 |
+|---|---|---|---|
+| PC01 | `P1-MCU-MIN` → `P1b-MCU-MIN-PAIR` | 只移去耦电容到 `VDD`/`GND` 焊盘旁 | review → acceptable，翻转 |
+| PC02 | `P2-BUCK` → `P2b-BUCK-PAIR` | 只把输入电容与 `SW` 电感靠拢 | review → acceptable，翻转 |
+| PC03 | `P3-ANALOG` → `P3b-ANALOG-PAIR` | 只把模拟链整体挪离功率级 | review → acceptable，翻转 |
+| PC04 | `P8-MULTI` → `P8b-MULTI-PAIR` | 只把连接器推到板边并让开固定件 | blocking → acceptable，翻转 |
+| PC05 | `P7-WIRELESS`（构造对照） | 判定口径从包围盒改为“中心点落在净空内” | 同一布局 blocking → acceptable，翻转（假通过） |
+| PC06 | `P1-MCU-MIN`（构造对照） | 判定口径从焊盘回路改为器件中心距 | 同一布局失败 → 通过，翻转（假通过） |
+| PC07 | `P5-BATTERY`（构造变体） | 只把 NTC 从充电 IC 旁移到电池端子旁 | 工程结论翻转；离线 verdict 不翻转（`ck-prot` 仍失败） |
+| PC08 | `P2-BUCK`（构造对照） | 只把叠层从 2 层改 4 层 | 离线 verdict 不翻转——离线代理不覆盖可布通/阻抗 |
+
+## 完成级别与盲测状态
+
+- 题目、成对案例、参考答案：**作者编写完成**（基于契约 v1 与 PL 条目）。
+- 独立试答/盲测：**NOT RUN**（未运行）。当前没有独立 Agent 的盲测记录，也没有人工评分记录；`blind-prompts.md` 只是待用输入。
+- 这些题不是认证考试，也不证明 Agent 在真实工程中判断正确；它们只覆盖本组题面的判断类型，且全部基于离线几何/网表代理。
+- 真实工程未做的检查一律写 `NOT RUN`：DRC、布线/可布通、阻抗、EMC、热、机械/装配、打样与真机验证。
+
+## 与专题/机制的关系
+
+| 内容 | 对应 |
+|---|---|
+| 去耦、晶振、参考与采样 | [PCB 机制卡](../../pcb-lessons.md) BL02/BL06、PL17–PL19、PL23 |
+| 功率回路、栅驱、分流器 | BL03、PL09–PL14 |
+| 连接器/接口/可插拔 | BL05、PL03–PL06、PL29 |
+| 天线/无线 | BL06、PL26–PL27 |
+| 热与测温位置 | PL16、PL24 |
+| 原理图侧的练习 | [原理图审图练习](../exercises/README.md) |
+
+> 边界：本练习集只训练“预布局判断”，不训练布线与制造；案例数据是教学构造，坐标不代表任何真实板。真实任务仍按 [PCB 工程习惯](../../pcb.md) 的顺序执行并回读实际工程。

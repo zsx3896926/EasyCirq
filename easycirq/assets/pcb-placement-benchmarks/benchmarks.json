@@ -1,0 +1,6844 @@
+{
+  "schema": "easycirq.pcb-placement-benchmarks/v1",
+  "cases": [
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P1-MCU-MIN",
+      "title": "MCU 最小系统：去耦电容回路过长",
+      "domain": "mcu",
+      "pair_with": "P1b-MCU-MIN-PAIR",
+      "problem": "两条 3V3 去耦电容 C1/C2 放在板子对角的远端（焊盘到 VDD/GND 焊盘约 16–19 mm），高频去耦回路实际不存在。",
+      "target": "去耦电容焊盘到 VDD 与 GND 焊盘的回路距离 ≤ 4 mm，且回路不绕行；晶体保持靠近 XIN/XOUT。",
+      "inspection": "真实工程还要看：去耦回路的地过孔位置与共用段、电容在层叠中的位置、晶体的地屏蔽与禁布区；本案例未在 EDA 中叠层/DRC/回读。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "U1",
+          "kind": "mcu",
+          "package": "LQFP-48",
+          "size_mm": {
+            "w": 7.0,
+            "h": 7.0
+          },
+          "height_mm": 1.6,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "XIN",
+              "x_mm": -3.5,
+              "y_mm": -2.0
+            },
+            {
+              "name": "XOUT",
+              "x_mm": -3.5,
+              "y_mm": -3.0
+            },
+            {
+              "name": "NRST",
+              "x_mm": -3.5,
+              "y_mm": 3.0
+            },
+            {
+              "name": "PA0",
+              "x_mm": 3.5,
+              "y_mm": 2.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "Y1",
+          "kind": "crystal",
+          "package": "3225",
+          "size_mm": {
+            "w": 3.2,
+            "h": 2.5
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x4-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "J1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "J1",
+              "4"
+            ]
+          ]
+        },
+        {
+          "name": "NRST",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "NRST"
+            ],
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "J1",
+              "3"
+            ]
+          ]
+        },
+        {
+          "name": "SWDIO",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "PA0"
+            ],
+            [
+              "J1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "XTAL1",
+          "class": "analog",
+          "pins": [
+            [
+              "Y1",
+              "1"
+            ],
+            [
+              "U1",
+              "XIN"
+            ]
+          ]
+        },
+        {
+          "name": "XTAL2",
+          "class": "analog",
+          "pins": [
+            [
+              "Y1",
+              "2"
+            ],
+            [
+              "U1",
+              "XOUT"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "U1": {
+          "x_mm": 20.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 31.0,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 33.0,
+          "y_mm": 26.0,
+          "rot_deg": 0
+        },
+        "Y1": {
+          "x_mm": 14.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 2.5,
+          "y_mm": 6.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 14.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U1",
+              "GND"
+            ]
+          ],
+          "max_mm": 4.0,
+          "basis": "PL17",
+          "reasoning": "去耦按焊盘回路算：C1 的电源焊盘到 VDD/GND 焊盘最大间距 > 4 mm 即高频去耦不成立"
+        },
+        {
+          "id": "ck-decoup2",
+          "code": "max_distance",
+          "refs": [
+            "C2",
+            "U1"
+          ],
+          "pins": [
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U1",
+              "GND"
+            ]
+          ],
+          "max_mm": 4.0,
+          "basis": "PL17/PL18",
+          "reasoning": "第二颗去耦同样按焊盘距离判，不能用器件中心距离代替"
+        },
+        {
+          "id": "ck-xtal",
+          "code": "max_distance",
+          "refs": [
+            "Y1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "Y1",
+              "1"
+            ],
+            [
+              "U1",
+              "XIN"
+            ],
+            [
+              "Y1",
+              "2"
+            ],
+            [
+              "U1",
+              "XOUT"
+            ]
+          ],
+          "max_mm": 6.0,
+          "basis": "PL19",
+          "reasoning": "晶体与时钟脚保持局部靠近，限制环路与串扰；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 260.0,
+        "congestion_max": 9
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-decoup",
+          "ck-decoup2"
+        ]
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "mcu",
+          "clock",
+          "io"
+        ],
+        "key_placements": [
+          {
+            "ref": "C1",
+            "rule": "U1 VDD 焊盘 2 mm 内，回路到 GND 焊盘不绕行",
+            "basis": "PL17"
+          },
+          {
+            "ref": "Y1",
+            "rule": "靠近 XIN/XOUT，负载电容与地就地处理",
+            "basis": "PL19"
+          },
+          {
+            "ref": "J1",
+            "rule": "贴板边、插拔方向朝外",
+            "basis": "PL03"
+          }
+        ],
+        "acceptable_alternatives": [
+          "C1/C2 可放背面正对 VDD/GND 焊盘，但必须同版图可连、回路等效",
+          "去耦顺序 大容量近、小容量近管脚，不能以细长支路连到同网"
+        ],
+        "rationale": [
+          "C1 焊盘到 VDD/GND 焊盘最大 16.3 mm、C2 为 19.1 mm，均远超 4 mm 阈值 → ck-decoup/ck-decoup2 同时失败 → distance_far，verdict=review。",
+          "ck-xtal 最大焊盘间距 3.8 mm（Y1.1→XOUT）≤ 6 mm，本案例不作为失败项，只作人工复核项（见 inspection）。",
+          "无硬检查命中：所有器件在板内、本体不交叠、连接器贴边。",
+          "全局阈值依据：本板 6 个 ≥2 脚网络，HPWL 实测 167 mm，hpwl_max 取 260 mm（≈1.56×）用于抓明显绕远；2 mm 网格 congestion 实测 6，congestion_max 取 9。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P1b-MCU-MIN-PAIR",
+      "title": "MCU 最小系统（成对：去耦归位）",
+      "domain": "mcu",
+      "pair_with": "P1-MCU-MIN",
+      "problem": "（成对对照）本变体无目标缺陷：相对 P1 只把 C1/C2 移到 U1 左侧 VDD/GND 焊盘旁。",
+      "target": "去耦电容焊盘与 VDD/GND 焊盘回路 ≤ 4 mm；除坐标外其余条件与 P1 完全相同。",
+      "inspection": "真实工程还要看：去耦回路的地过孔位置与共用段、电容在层叠中的位置、晶体的地屏蔽与禁布区；本案例未在 EDA 中叠层/DRC/回读。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "U1",
+          "kind": "mcu",
+          "package": "LQFP-48",
+          "size_mm": {
+            "w": 7.0,
+            "h": 7.0
+          },
+          "height_mm": 1.6,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "XIN",
+              "x_mm": -3.5,
+              "y_mm": -2.0
+            },
+            {
+              "name": "XOUT",
+              "x_mm": -3.5,
+              "y_mm": -3.0
+            },
+            {
+              "name": "NRST",
+              "x_mm": -3.5,
+              "y_mm": 3.0
+            },
+            {
+              "name": "PA0",
+              "x_mm": 3.5,
+              "y_mm": 2.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "Y1",
+          "kind": "crystal",
+          "package": "3225",
+          "size_mm": {
+            "w": 3.2,
+            "h": 2.5
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x4-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "J1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "J1",
+              "4"
+            ]
+          ]
+        },
+        {
+          "name": "NRST",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "NRST"
+            ],
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "J1",
+              "3"
+            ]
+          ]
+        },
+        {
+          "name": "SWDIO",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "PA0"
+            ],
+            [
+              "J1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "XTAL1",
+          "class": "analog",
+          "pins": [
+            [
+              "Y1",
+              "1"
+            ],
+            [
+              "U1",
+              "XIN"
+            ]
+          ]
+        },
+        {
+          "name": "XTAL2",
+          "class": "analog",
+          "pins": [
+            [
+              "Y1",
+              "2"
+            ],
+            [
+              "U1",
+              "XOUT"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "U1": {
+          "x_mm": 20.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 15.6,
+          "y_mm": 17.8,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 15.6,
+          "y_mm": 16.2,
+          "rot_deg": 0
+        },
+        "Y1": {
+          "x_mm": 14.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 2.5,
+          "y_mm": 6.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 14.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U1",
+              "GND"
+            ]
+          ],
+          "max_mm": 4.0,
+          "basis": "PL17",
+          "reasoning": "去耦按焊盘回路算：C1 的电源焊盘到 VDD/GND 焊盘最大间距 > 4 mm 即高频去耦不成立"
+        },
+        {
+          "id": "ck-decoup2",
+          "code": "max_distance",
+          "refs": [
+            "C2",
+            "U1"
+          ],
+          "pins": [
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U1",
+              "GND"
+            ]
+          ],
+          "max_mm": 4.0,
+          "basis": "PL17/PL18",
+          "reasoning": "第二颗去耦同样按焊盘距离判，不能用器件中心距离代替"
+        },
+        {
+          "id": "ck-xtal",
+          "code": "max_distance",
+          "refs": [
+            "Y1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "Y1",
+              "1"
+            ],
+            [
+              "U1",
+              "XIN"
+            ],
+            [
+              "Y1",
+              "2"
+            ],
+            [
+              "U1",
+              "XOUT"
+            ]
+          ],
+          "max_mm": 6.0,
+          "basis": "PL19",
+          "reasoning": "晶体与时钟脚保持局部靠近，限制环路与串扰；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 260.0,
+        "congestion_max": 9
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "mcu",
+          "clock",
+          "io"
+        ],
+        "key_placements": [
+          {
+            "ref": "C1",
+            "rule": "U1 VDD 焊盘 2 mm 内，回路到 GND 焊盘不绕行",
+            "basis": "PL17"
+          },
+          {
+            "ref": "Y1",
+            "rule": "靠近 XIN/XOUT，负载电容与地就地处理",
+            "basis": "PL19"
+          }
+        ],
+        "acceptable_alternatives": [
+          "C1/C2 可放背面正对 VDD/GND 焊盘，但必须同版图可连、回路等效"
+        ],
+        "rationale": [
+          "相对 P1-MCU-MIN 只改一组坐标：C1 (31,24)→(15.6,17.8)，C2 (33,26)→(15.6,16.2)；器件、网络、检查项与阈值完全不变。",
+          "C1 焊盘到 VDD/GND 焊盘最大 2.75 mm（P1 为 16.3 mm）、C2 为 1.70 mm（P1 为 19.1 mm），均 ≤ 4 mm → distance_far 消失；ck-xtal 最大 3.8 mm 两条都通过。",
+          "无硬检查命中 → verdict 从 review 翻转为 acceptable。",
+          "仅坐标变化，说明『去耦焊盘回路距离』是该案例结论的主导条件，符合契约 §7.6 的成对翻转要求。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P2-BUCK",
+      "title": "Buck 功率回路：输入电容远离 SW",
+      "domain": "power",
+      "pair_with": "P2b-BUCK-PAIR",
+      "problem": "输入电容 C1 放在板子上侧远端、电感 L1 在下侧远端，C1→SW→L1 的高频脉动回路跨度约 18 mm，输入电容端子不在回路里。",
+      "target": "输入电容与 SW/电感构成的高 di/dt 回路跨度 ≤ 8 mm，电容端子到开关器件的回路不绕行；反馈分压件靠近 FB。",
+      "inspection": "真实工程还要看：回路在铜层上的实际回流路径、输入电容地过孔与 SW 铜面积、反馈取样点是否在输出电容之后；本案例未做 DRC/布线/仿真。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "U1",
+          "kind": "regulator",
+          "package": "QFN-16",
+          "size_mm": {
+            "w": 5.0,
+            "h": 5.0
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VIN",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "SW",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "FB",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "1206",
+          "size_mm": {
+            "w": 3.2,
+            "h": 1.6
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "L1",
+          "kind": "inductor",
+          "package": "6x6",
+          "size_mm": {
+            "w": 6.0,
+            "h": 6.0
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "D1",
+          "kind": "diode",
+          "package": "SOD-123",
+          "size_mm": {
+            "w": 2.8,
+            "h": 1.8
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R2",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "1206",
+          "size_mm": {
+            "w": 3.2,
+            "h": 1.6
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "VIN",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VIN"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "D1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "R2",
+              "1"
+            ],
+            [
+              "J1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SW",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "SW"
+            ],
+            [
+              "L1",
+              "1"
+            ],
+            [
+              "D1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "VOUT",
+          "class": "power",
+          "pins": [
+            [
+              "L1",
+              "2"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "J1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "FB",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "FB"
+            ],
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "R2",
+              "2"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "U1": {
+          "x_mm": 20.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 33.0,
+          "y_mm": 26.0,
+          "rot_deg": 0
+        },
+        "L1": {
+          "x_mm": 33.0,
+          "y_mm": 8.0,
+          "rot_deg": 0
+        },
+        "D1": {
+          "x_mm": 26.0,
+          "y_mm": 22.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 14.8,
+          "y_mm": 13.5,
+          "rot_deg": 0
+        },
+        "R2": {
+          "x_mm": 14.8,
+          "y_mm": 11.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 34.0,
+          "y_mm": 16.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 37.5,
+          "y_mm": 2.5,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-loop",
+          "code": "loop_span",
+          "refs": [
+            "C1",
+            "U1",
+            "L1"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U1",
+              "SW"
+            ],
+            [
+              "L1",
+              "1"
+            ]
+          ],
+          "max_mm": 8.0,
+          "basis": "PL09/PL10",
+          "reasoning": "Buck 关键脉动回路：输入电容端子—SW—电感端子，两两最大间距即回路跨度代理"
+        },
+        {
+          "id": "ck-fb",
+          "code": "max_distance",
+          "refs": [
+            "R1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "U1",
+              "FB"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL12",
+          "reasoning": "反馈分压靠近 FB，取样不回到功率脉动地；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 210.0,
+        "congestion_max": 7
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-loop"
+        ]
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "control",
+          "output"
+        ],
+        "key_placements": [
+          {
+            "ref": "C1",
+            "rule": "输入电容端子在 SW 与 GND 之间，回路最短",
+            "basis": "PL09/PL10"
+          },
+          {
+            "ref": "L1",
+            "rule": "电感端子紧邻 SW",
+            "basis": "PL09"
+          },
+          {
+            "ref": "R1",
+            "rule": "反馈分压靠近 FB，取样点在输出电容之后",
+            "basis": "PL12"
+          }
+        ],
+        "acceptable_alternatives": [
+          "输入电容可放 IC 背面正对 SW/GND 焊盘，但回路跨度仍需 ≤ 阈值",
+          "电感可旋转 180°，但端子到 SW 的间距不变差"
+        ],
+        "rationale": [
+          "C1.1 到 SW 为 13.3 mm、C1.1 到 L1.1 为 18.0 mm、SW 到 L1.1 为 12.0 mm，最大 18.0 mm > 8 mm → ck-loop 失败 → loop_large，verdict=review。",
+          "反馈分压 R1 到 FB 为 3.3 mm ≤ 5 mm，本案例不作为失败项；『反馈取样从远端取』只写进 inspection 作为人工复核点。",
+          "无硬检查命中：C1 在板内、D1 与 L1/C2 本体不交叠、J1 贴右边。",
+          "全局阈值依据：本板 5 个 ≥2 脚网络，HPWL 实测 134 mm，hpwl_max 取 210 mm（≈1.57×）；congestion 实测 4，congestion_max 取 7。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P2b-BUCK-PAIR",
+      "title": "Buck 功率回路（成对：电容与电感靠拢）",
+      "domain": "power",
+      "pair_with": "P2-BUCK",
+      "problem": "（成对对照）本变体无目标缺陷：相对 P2 只把输入电容 C1 与电感 L1 靠拢到 SW 附近。",
+      "target": "C1—SW—L1 回路跨度 ≤ 8 mm；除这两个坐标外其余条件与 P2 完全相同。",
+      "inspection": "真实工程还要看：回路在铜层上的实际回流路径、输入电容地过孔与 SW 铜面积、反馈取样点是否在输出电容之后；本案例未做 DRC/布线/仿真。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "U1",
+          "kind": "regulator",
+          "package": "QFN-16",
+          "size_mm": {
+            "w": 5.0,
+            "h": 5.0
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VIN",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "SW",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "FB",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "1206",
+          "size_mm": {
+            "w": 3.2,
+            "h": 1.6
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "L1",
+          "kind": "inductor",
+          "package": "6x6",
+          "size_mm": {
+            "w": 6.0,
+            "h": 6.0
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "D1",
+          "kind": "diode",
+          "package": "SOD-123",
+          "size_mm": {
+            "w": 2.8,
+            "h": 1.8
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R2",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "1206",
+          "size_mm": {
+            "w": 3.2,
+            "h": 1.6
+          },
+          "height_mm": 0.8,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.2,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.2,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "VIN",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VIN"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "D1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "R2",
+              "1"
+            ],
+            [
+              "J1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SW",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "SW"
+            ],
+            [
+              "L1",
+              "1"
+            ],
+            [
+              "D1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "VOUT",
+          "class": "power",
+          "pins": [
+            [
+              "L1",
+              "2"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "J1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "FB",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "FB"
+            ],
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "R2",
+              "2"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "U1": {
+          "x_mm": 20.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 21.0,
+          "y_mm": 19.5,
+          "rot_deg": 90
+        },
+        "L1": {
+          "x_mm": 29.0,
+          "y_mm": 16.5,
+          "rot_deg": 0
+        },
+        "D1": {
+          "x_mm": 26.0,
+          "y_mm": 22.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 14.8,
+          "y_mm": 13.5,
+          "rot_deg": 0
+        },
+        "R2": {
+          "x_mm": 14.8,
+          "y_mm": 11.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 34.0,
+          "y_mm": 16.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 37.5,
+          "y_mm": 2.5,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-loop",
+          "code": "loop_span",
+          "refs": [
+            "C1",
+            "U1",
+            "L1"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U1",
+              "SW"
+            ],
+            [
+              "L1",
+              "1"
+            ]
+          ],
+          "max_mm": 8.0,
+          "basis": "PL09/PL10",
+          "reasoning": "Buck 关键脉动回路：输入电容端子—SW—电感端子，两两最大间距即回路跨度代理"
+        },
+        {
+          "id": "ck-fb",
+          "code": "max_distance",
+          "refs": [
+            "R1",
+            "U1"
+          ],
+          "pins": [
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "U1",
+              "FB"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL12",
+          "reasoning": "反馈分压靠近 FB，取样不回到功率脉动地；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 210.0,
+        "congestion_max": 7
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "control",
+          "output"
+        ],
+        "key_placements": [
+          {
+            "ref": "C1",
+            "rule": "输入电容端子在 SW 与 GND 之间，回路最短",
+            "basis": "PL09/PL10"
+          },
+          {
+            "ref": "L1",
+            "rule": "电感端子紧邻 SW",
+            "basis": "PL09"
+          }
+        ],
+        "acceptable_alternatives": [
+          "输入电容可放 IC 背面正对 SW/GND 焊盘，但回路跨度仍需 ≤ 阈值"
+        ],
+        "rationale": [
+          "相对 P2-BUCK 只改一组坐标：输入电容 C1 (33,26)→(21,19.5) 并旋转 90°，电感 L1 (33,8)→(29,16.5)；其余器件、网络、检查项与阈值完全不变。",
+          "回路跨度从 18.0 mm 降到 6.27 mm（C1.1↔L1.1），SW↔C1.1 为 2.34 mm、SW↔L1.1 为 4.5 mm，均 ≤ 8 mm → loop_large 消失。",
+          "ck-fb 仍为 3.3 mm ≤ 5 mm 通过；无硬检查命中（C1 旋转后 bbox 仍不压 U1）→ verdict 从 review 翻转为 acceptable。",
+          "只改功率回路一件组坐标即翻转，说明回路跨度是该案例的主导条件。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P3-ANALOG",
+      "title": "模拟链：传感器入口与基准件挤在功率级旁",
+      "domain": "analog",
+      "pair_with": "P3b-ANALOG-PAIR",
+      "problem": "模拟链（滤波 R1/C2、运放 U2、ADC U3、基准 U4）整体停在板子右侧 Buck 电感 L2/二极管 D2 旁，传感器连接器 J1 到模拟入口的最短焊盘距离约 21–23 mm，入口保护与参考都远离各自回路。",
+      "target": "模拟链按 传感器入口→保护/滤波→放大→ADC→基准 的顺序靠近 J1 并与功率级保持距离；入口到模拟入口焊盘 ≤ 14 mm，基准紧邻 ADC。",
+      "inspection": "真实工程还要看：功率级到模拟前端的实际耦合路径与地分割、参考旁路回流、高阻节点污染与护环；本案例未做 DRC/布线/EMC 仿真。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x3-2.54",
+          "size_mm": {
+            "w": 7.5,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 2.5,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "opamp",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "IN+",
+              "x_mm": -2.5,
+              "y_mm": 1.0
+            },
+            {
+              "name": "OUT",
+              "x_mm": 2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "V+",
+              "x_mm": 0.0,
+              "y_mm": 2.0
+            },
+            {
+              "name": "V-",
+              "x_mm": 0.0,
+              "y_mm": -2.0
+            }
+          ]
+        },
+        {
+          "ref": "U3",
+          "kind": "adc",
+          "package": "QFN-32",
+          "size_mm": {
+            "w": 5.0,
+            "h": 5.0
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "AIN",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "VREF",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "VDD",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": 2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "U4",
+          "kind": "reference",
+          "package": "SOT-23",
+          "size_mm": {
+            "w": 3.0,
+            "h": 1.7
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            180
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "L2",
+          "kind": "inductor",
+          "package": "6x6",
+          "size_mm": {
+            "w": 6.0,
+            "h": 6.0
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "D2",
+          "kind": "diode",
+          "package": "SOD-123",
+          "size_mm": {
+            "w": 2.8,
+            "h": 1.8
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "V+"
+            ],
+            [
+              "U3",
+              "VDD"
+            ],
+            [
+              "U4",
+              "1"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "3"
+            ],
+            [
+              "U2",
+              "V-"
+            ],
+            [
+              "U3",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "D2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SENSOR_IN",
+          "class": "analog",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "R1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "AIN_F",
+          "class": "analog",
+          "pins": [
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "U2",
+              "IN+"
+            ],
+            [
+              "C2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "AOUT",
+          "class": "analog",
+          "pins": [
+            [
+              "U2",
+              "OUT"
+            ],
+            [
+              "U3",
+              "AIN"
+            ]
+          ]
+        },
+        {
+          "name": "VREF",
+          "class": "analog",
+          "pins": [
+            [
+              "U3",
+              "VREF"
+            ],
+            [
+              "U4",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SW_5V",
+          "class": "power",
+          "pins": [
+            [
+              "L2",
+              "1"
+            ],
+            [
+              "D2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "VOUT_5V",
+          "class": "power",
+          "pins": [
+            [
+              "L2",
+              "2"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 3.75,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 25.0,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "U3": {
+          "x_mm": 29.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        },
+        "U4": {
+          "x_mm": 24.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 24.0,
+          "y_mm": 19.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 21.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 28.0,
+          "y_mm": 17.0,
+          "rot_deg": 0
+        },
+        "L2": {
+          "x_mm": 31.0,
+          "y_mm": 23.0,
+          "rot_deg": 0
+        },
+        "D2": {
+          "x_mm": 34.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-analog",
+          "code": "max_distance",
+          "refs": [
+            "J1",
+            "U2",
+            "U3"
+          ],
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "U2",
+              "IN+"
+            ],
+            [
+              "U3",
+              "AIN"
+            ]
+          ],
+          "max_mm": 14.0,
+          "basis": "PL21/PL22",
+          "reasoning": "传感器入口—放大入口—ADC 入口的最大焊盘跨度：链被挪到功率级旁时该跨度被拉长"
+        },
+        {
+          "id": "ck-ref",
+          "code": "max_distance",
+          "refs": [
+            "U4",
+            "U3"
+          ],
+          "pins": [
+            [
+              "U4",
+              "2"
+            ],
+            [
+              "U3",
+              "VREF"
+            ]
+          ],
+          "max_mm": 8.0,
+          "basis": "PL23",
+          "reasoning": "基准输出靠近 ADC 参考脚与旁路；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 225.0,
+        "congestion_max": 7
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-analog"
+        ]
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "sensor_io",
+          "analog",
+          "adc"
+        ],
+        "key_placements": [
+          {
+            "ref": "J1",
+            "rule": "传感器入口贴板边，入口保护与滤波就地",
+            "basis": "PL21/PL22"
+          },
+          {
+            "ref": "U2",
+            "rule": "放大级紧跟滤波，输入节点短",
+            "basis": "PL21"
+          },
+          {
+            "ref": "U3",
+            "rule": "ADC 与基准 U4 就近，参考旁路短",
+            "basis": "PL23"
+          },
+          {
+            "ref": "L2",
+            "rule": "功率级单独一侧，SW 铜不扩进模拟区",
+            "basis": "PL11"
+          }
+        ],
+        "acceptable_alternatives": [
+          "模拟链可整体镜像到左侧，只要入口与 ADC/基准仍按顺序靠近",
+          "模拟地与功率地单点汇合的具体位置需按实际叠层核对"
+        ],
+        "rationale": [
+          "J1.2 到 U2.IN+ 为 21.3 mm、到 U3.AIN 为 22.8 mm，最大 22.8 mm > 14 mm → ck-analog 失败 → distance_far，verdict=review。",
+          "基准 U4 到 ADC VREF 为 1.5 mm ≤ 8 mm，本案例不失败；『基准件贴着功率级』的噪声耦合只写进 inspection。",
+          "无硬检查命中：模拟链与 L2/D2 本体不交叠（U2 右缘 27.5 < L2 左缘 28.0）、所有件在板内、J1 贴左边。",
+          "全局阈值依据：本板 7 个 ≥2 脚网络，HPWL 实测 145 mm，hpwl_max 取 225 mm（≈1.55×）；congestion 实测 4，congestion_max 取 7。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P3b-ANALOG-PAIR",
+      "title": "模拟链（成对：整链挪离功率级）",
+      "domain": "analog",
+      "pair_with": "P3-ANALOG",
+      "problem": "（成对对照）本变体无目标缺陷：相对 P3 只把模拟链六件整体平移 (−12.5, −7) 到远离功率级一侧。",
+      "target": "模拟链靠近传感器入口、基准紧邻 ADC；除模拟链坐标外其余条件与 P3 完全相同。",
+      "inspection": "真实工程还要看：功率级到模拟前端的实际耦合路径与地分割、参考旁路回流、高阻节点污染与护环；本案例未做 DRC/布线/EMC 仿真。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x3-2.54",
+          "size_mm": {
+            "w": 7.5,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 2.5,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "opamp",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "IN+",
+              "x_mm": -2.5,
+              "y_mm": 1.0
+            },
+            {
+              "name": "OUT",
+              "x_mm": 2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "V+",
+              "x_mm": 0.0,
+              "y_mm": 2.0
+            },
+            {
+              "name": "V-",
+              "x_mm": 0.0,
+              "y_mm": -2.0
+            }
+          ]
+        },
+        {
+          "ref": "U3",
+          "kind": "adc",
+          "package": "QFN-32",
+          "size_mm": {
+            "w": 5.0,
+            "h": 5.0
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "AIN",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "VREF",
+              "x_mm": -2.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "VDD",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": 2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "U4",
+          "kind": "reference",
+          "package": "SOT-23",
+          "size_mm": {
+            "w": 3.0,
+            "h": 1.7
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            180
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "L2",
+          "kind": "inductor",
+          "package": "6x6",
+          "size_mm": {
+            "w": 6.0,
+            "h": 6.0
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "D2",
+          "kind": "diode",
+          "package": "SOD-123",
+          "size_mm": {
+            "w": 2.8,
+            "h": 1.8
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "V+"
+            ],
+            [
+              "U3",
+              "VDD"
+            ],
+            [
+              "U4",
+              "1"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "3"
+            ],
+            [
+              "U2",
+              "V-"
+            ],
+            [
+              "U3",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "D2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SENSOR_IN",
+          "class": "analog",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "R1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "AIN_F",
+          "class": "analog",
+          "pins": [
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "U2",
+              "IN+"
+            ],
+            [
+              "C2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "AOUT",
+          "class": "analog",
+          "pins": [
+            [
+              "U2",
+              "OUT"
+            ],
+            [
+              "U3",
+              "AIN"
+            ]
+          ]
+        },
+        {
+          "name": "VREF",
+          "class": "analog",
+          "pins": [
+            [
+              "U3",
+              "VREF"
+            ],
+            [
+              "U4",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "SW_5V",
+          "class": "power",
+          "pins": [
+            [
+              "L2",
+              "1"
+            ],
+            [
+              "D2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "VOUT_5V",
+          "class": "power",
+          "pins": [
+            [
+              "L2",
+              "2"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 3.75,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 12.5,
+          "y_mm": 17.0,
+          "rot_deg": 0
+        },
+        "U3": {
+          "x_mm": 16.5,
+          "y_mm": 6.0,
+          "rot_deg": 0
+        },
+        "U4": {
+          "x_mm": 11.5,
+          "y_mm": 6.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 11.5,
+          "y_mm": 12.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 8.5,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 15.5,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "L2": {
+          "x_mm": 31.0,
+          "y_mm": 23.0,
+          "rot_deg": 0
+        },
+        "D2": {
+          "x_mm": 34.0,
+          "y_mm": 13.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-analog",
+          "code": "max_distance",
+          "refs": [
+            "J1",
+            "U2",
+            "U3"
+          ],
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "U2",
+              "IN+"
+            ],
+            [
+              "U3",
+              "AIN"
+            ]
+          ],
+          "max_mm": 14.0,
+          "basis": "PL21/PL22",
+          "reasoning": "传感器入口—放大入口—ADC 入口的最大焊盘跨度：链被挪到功率级旁时该跨度被拉长"
+        },
+        {
+          "id": "ck-ref",
+          "code": "max_distance",
+          "refs": [
+            "U4",
+            "U3"
+          ],
+          "pins": [
+            [
+              "U4",
+              "2"
+            ],
+            [
+              "U3",
+              "VREF"
+            ]
+          ],
+          "max_mm": 8.0,
+          "basis": "PL23",
+          "reasoning": "基准输出靠近 ADC 参考脚与旁路；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 225.0,
+        "congestion_max": 7
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "sensor_io",
+          "analog",
+          "adc"
+        ],
+        "key_placements": [
+          {
+            "ref": "J1",
+            "rule": "传感器入口贴板边，入口保护与滤波就地",
+            "basis": "PL21/PL22"
+          },
+          {
+            "ref": "U2",
+            "rule": "放大级紧跟滤波，输入节点短",
+            "basis": "PL21"
+          },
+          {
+            "ref": "U3",
+            "rule": "ADC 与基准 U4 就近，参考旁路短",
+            "basis": "PL23"
+          }
+        ],
+        "acceptable_alternatives": [
+          "模拟链可整体镜像到左侧，只要入口与 ADC/基准仍按顺序靠近"
+        ],
+        "rationale": [
+          "相对 P3-ANALOG 只改一组坐标：模拟链六件（U2/U3/U4/R1/C1/C2）整体平移 dx=−12.5、dy=−7；功率级 L2/D2、连接器 J1、网络、检查项与阈值完全不变。",
+          "J1.2 到 U2.IN+ 从 21.3 mm 降到 6.9 mm，ck-analog 最大跨度从 22.8 mm 降到 12.7 mm ≤ 14 mm → distance_far 消失；ck-ref 仍为 1.5 mm 通过。",
+          "平移后 U2 与 C1、U3 与 C2、J1 与 C1 均无本体交叠（最近间隙 0.2 mm），连接器仍贴左边，无硬检查命中 → verdict 从 review 翻转为 acceptable。",
+          "只改模拟链一组坐标即翻转，说明『模拟链贴近入口、远离功率级』是该案例的主导条件。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P4-COMM",
+      "title": "隔离 RS-485：连接器未贴板边且终端跨隔离侧",
+      "domain": "comm",
+      "pair_with": null,
+      "problem": "现场侧连接器 J1 放在板内 x≈12 mm 处、离左侧板边 9.5 mm，插头根本无法从边缘插入；终端电阻 R1 又放在隔离器逻辑侧 / 现场侧之间，终端跨隔离两侧。",
+      "target": "现场侧连接器包围盒外沿到声明板边 ≤ 2 mm、插拔方向朝外；终端电阻紧邻收发器 A/B 且在同一隔离侧。",
+      "inspection": "真实工程还要看：隔离栅两侧爬电/电气间隙、TVS 泄放路径、终端与偏置的位置、连接器机械壳体与线缆弯曲；本案例未做 DRC/3D 装配检查。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          },
+          {
+            "ref": "J2",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x4-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U1",
+          "kind": "isolator",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VCC1",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND1",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            },
+            {
+              "name": "TXD",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "RXD",
+              "x_mm": 2.5,
+              "y_mm": -1.5
+            },
+            {
+              "name": "VCC2",
+              "x_mm": 2.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "GND2",
+              "x_mm": -2.5,
+              "y_mm": 0.5
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "transceiver",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "A",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "B",
+              "x_mm": 2.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "VCC",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            },
+            {
+              "name": "DI",
+              "x_mm": -2.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "RO",
+              "x_mm": 2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R2",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J2",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "RS485_A",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "A"
+            ],
+            [
+              "R1",
+              "1"
+            ],
+            [
+              "R2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "RS485_B",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "U2",
+              "B"
+            ],
+            [
+              "R1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "RS485_GND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "3"
+            ],
+            [
+              "U2",
+              "GND"
+            ]
+          ]
+        },
+        {
+          "name": "TXD_ISO",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "TXD"
+            ],
+            [
+              "U2",
+              "DI"
+            ]
+          ]
+        },
+        {
+          "name": "RXD_ISO",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "RXD"
+            ],
+            [
+              "U2",
+              "RO"
+            ]
+          ]
+        },
+        {
+          "name": "3V3_ISO",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VCC2"
+            ],
+            [
+              "U2",
+              "VCC"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND1"
+            ],
+            [
+              "U1",
+              "GND2"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "J2",
+              "2"
+            ],
+            [
+              "J1",
+              "4"
+            ],
+            [
+              "R2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "3V3_LOGIC",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VCC1"
+            ],
+            [
+              "J2",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 12.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "U1": {
+          "x_mm": 22.0,
+          "y_mm": 22.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 31.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 15.0,
+          "y_mm": 21.0,
+          "rot_deg": 0
+        },
+        "R2": {
+          "x_mm": 15.0,
+          "y_mm": 9.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 26.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "J2": {
+          "x_mm": 37.5,
+          "y_mm": 6.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "U2"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U2",
+              "VCC"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL17",
+          "reasoning": "隔离侧电源去耦按焊盘距离判；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 340.0,
+        "congestion_max": 11
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "connector_off_edge"
+        ],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "field_io",
+          "isolation",
+          "transceiver",
+          "logic_io"
+        ],
+        "key_placements": [
+          {
+            "ref": "J1",
+            "rule": "现场侧连接器贴左边，插拔方向朝板外",
+            "basis": "PL03/PL06"
+          },
+          {
+            "ref": "U1",
+            "rule": "隔离器居中，栅两侧不交叉",
+            "basis": "PL04"
+          },
+          {
+            "ref": "R1",
+            "rule": "终端电阻紧邻收发器 A/B，同一隔离侧",
+            "basis": "PL21"
+          }
+        ],
+        "acceptable_alternatives": [
+          "J1 若为弯针/卧式座，可用本体外沿贴边，但仍要满足插拔方向与壳体让位",
+          "终端可放在 J1 与 U2 之间的现场侧走线末端，但必须与 A/B 同侧"
+        ],
+        "rationale": [
+          "J1 包围盒 [9.5,13.75,14.5,16.25]，到声明左边距离 9.5 mm > 2 mm 容差 → connector_off_edge，verdict=blocking（硬检查）。",
+          "终端电阻 R1/R2 位于 x≈15 mm 的左侧区域，而收发器 U2 在 x≈31 mm 的右侧；『终端跨隔离侧』在 v1 里没有对应几何检查，只写进 problem/inspection 作为人工复核点。",
+          "无其它硬检查命中：J1 本体在板内、不与其它件交叠；J2 贴右边距离 0。",
+          "ck-decoup 通过（4.68 mm ≤ 5 mm）；全局阈值依据：本板 8 个 ≥2 脚网络，HPWL 实测 219 mm，hpwl_max 取 340 mm（≈1.55×），congestion 实测 8 取上限 11，均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P5-BATTERY",
+      "title": "电池管理：保护/检流远离端子、热敏贴错热源",
+      "domain": "battery",
+      "pair_with": null,
+      "problem": "保护 IC U1 与检流电阻 Rshunt 放在板子右下远端（电池端子到保护约 37 mm、到检流约 30 mm），保护采样回路绕整板；热敏电阻 TH1 贴在充电 IC U2 正上方而不是电池端子旁。",
+      "target": "保护 IC 与检流电阻紧邻电池端子（端子到保护/检流焊盘 ≤ 12 mm），采样从规定端子引出；热敏电阻贴电池端子（≤ 8 mm）以测电池温度。",
+      "inspection": "真实工程还要看：电池充放电回路铜宽与热耦合、保护 IC 采样线与功率回路的分段、热敏与电池的实际热阻/壳体气流；本案例未做热仿真与 DRC。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "BT1",
+            "edge": "left",
+            "insert_dir": "left"
+          },
+          {
+            "ref": "J1",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "BT1",
+          "kind": "connector",
+          "package": "BAT-2PIN-2.0",
+          "size_mm": {
+            "w": 6.0,
+            "h": 4.0
+          },
+          "height_mm": 4.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U1",
+          "kind": "protection_ic",
+          "package": "SOT-23-6",
+          "size_mm": {
+            "w": 3.0,
+            "h": 1.7
+          },
+          "height_mm": 1.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            180
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -1.0,
+              "y_mm": 0.6
+            },
+            {
+              "name": "VM",
+              "x_mm": 1.0,
+              "y_mm": 0.6
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "charger_ic",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VIN",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "BAT",
+              "x_mm": 2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            },
+            {
+              "name": "NTC",
+              "x_mm": 2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "Rshunt",
+          "kind": "resistor",
+          "package": "2512",
+          "size_mm": {
+            "w": 4.0,
+            "h": 2.0
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.5,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "TH1",
+          "kind": "thermistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "BAT_PLUS",
+          "class": "power",
+          "pins": [
+            [
+              "BT1",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U2",
+              "BAT"
+            ]
+          ]
+        },
+        {
+          "name": "PACK_MINUS",
+          "class": "power",
+          "pins": [
+            [
+              "BT1",
+              "2"
+            ],
+            [
+              "Rshunt",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "SYS_GND",
+          "class": "ground",
+          "pins": [
+            [
+              "Rshunt",
+              "2"
+            ],
+            [
+              "U1",
+              "VM"
+            ],
+            [
+              "U2",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "TH1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "VCHG",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "VIN"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "NTC",
+          "class": "signal",
+          "pins": [
+            [
+              "TH1",
+              "1"
+            ],
+            [
+              "U2",
+              "NTC"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "BT1": {
+          "x_mm": 3.0,
+          "y_mm": 25.0,
+          "rot_deg": 0
+        },
+        "U1": {
+          "x_mm": 34.0,
+          "y_mm": 5.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 20.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "Rshunt": {
+          "x_mm": 30.0,
+          "y_mm": 12.0,
+          "rot_deg": 0
+        },
+        "TH1": {
+          "x_mm": 20.0,
+          "y_mm": 23.5,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 26.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 26.0,
+          "y_mm": 9.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 37.5,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-prot",
+          "code": "max_distance",
+          "refs": [
+            "BT1",
+            "U1",
+            "Rshunt"
+          ],
+          "pins": [
+            [
+              "BT1",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "Rshunt",
+              "1"
+            ]
+          ],
+          "max_mm": 12.0,
+          "basis": "PL15/PL14",
+          "reasoning": "保护与检流必须贴着电池端子；采样焊盘跨度即保护回路代理"
+        },
+        {
+          "id": "ck-ntc",
+          "code": "max_distance",
+          "refs": [
+            "TH1",
+            "BT1"
+          ],
+          "pins": [
+            [
+              "TH1",
+              "1"
+            ],
+            [
+              "BT1",
+              "2"
+            ]
+          ],
+          "max_mm": 8.0,
+          "basis": "PL16/PL24",
+          "reasoning": "温度传感器应测目标（电池端子）而非隔壁充电 IC"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 260.0,
+        "congestion_max": 8
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-prot",
+          "ck-ntc"
+        ]
+      },
+      "reference": {
+        "module_order": [
+          "battery_io",
+          "protection",
+          "charger",
+          "sense"
+        ],
+        "key_placements": [
+          {
+            "ref": "U1",
+            "rule": "保护 IC 贴电池端子，采样线短",
+            "basis": "PL15"
+          },
+          {
+            "ref": "Rshunt",
+            "rule": "检流电阻在功率流上，采样从规定端子取",
+            "basis": "PL14"
+          },
+          {
+            "ref": "TH1",
+            "rule": "热敏贴电池/连接器，不贴充电 IC",
+            "basis": "PL16/PL24"
+          }
+        ],
+        "acceptable_alternatives": [
+          "保护可放在电池座背面正对端子，但采样回路仍需短且与功率回路分开",
+          "热敏可用引线/柔性板贴到电池表面，端子侧仍需有对应焊盘"
+        ],
+        "rationale": [
+          "BT1.1 到 U1.VDD 为 37.4 mm、到 Rshunt.1 为 30.4 mm，最大 37.4 mm > 12 mm → ck-prot 失败。",
+          "TH1.1 到 BT1.2 为 14.5 mm > 8 mm → ck-ntc 失败。两项均为 max_distance → distance_far，verdict=review。",
+          "无硬检查命中：BT1 贴左边、J1 贴右边，所有器件在板内且本体不交叠。",
+          "全局阈值依据：本板 5 个 ≥2 脚网络，HPWL 实测 166 mm，hpwl_max 取 260 mm（≈1.56×）；congestion 实测 5，congestion_max 取 8。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P6-MOTOR",
+      "title": "电机驱动：栅极回路跨越大电流地、分流采样绕回",
+      "domain": "motor",
+      "pair_with": null,
+      "problem": "栅极电阻 Rg 被丢在左下角，驱动器 GH→Rg→Q1 栅极回路跨度约 17 mm 且穿过功率地；检流电阻 Rshunt 在 (26,7)，采样放大器 U2 在 (12,20)，两条 Kelvin 采样线跨过整块功率区绕回。",
+      "target": "驱动器—栅阻—MOS 栅/源作为一组就近摆放（回路跨度 ≤ 10 mm），驱动地按 Kelvin 回源极；分流器采样线从规定端子短距离到采样放大器（≤ 10 mm）。",
+      "inspection": "真实工程还要看：栅极回路在铜层上的实际环路与源极 Kelvin 点、分流器方向与功率流、采样线是否与功率回路共段；本案例未做 DRC/环路仿真。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          },
+          {
+            "ref": "J2",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J2",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "Q1",
+          "kind": "mosfet",
+          "package": "SOT-23",
+          "size_mm": {
+            "w": 3.0,
+            "h": 2.0
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "G",
+              "x_mm": -1.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "D",
+              "x_mm": 1.5,
+              "y_mm": 0.7
+            },
+            {
+              "name": "S",
+              "x_mm": 1.5,
+              "y_mm": -0.7
+            }
+          ]
+        },
+        {
+          "ref": "U1",
+          "kind": "gate_driver",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "GH",
+              "x_mm": 2.5,
+              "y_mm": 1.0
+            },
+            {
+              "name": "VCC",
+              "x_mm": -2.5,
+              "y_mm": 1.5
+            },
+            {
+              "name": "GND",
+              "x_mm": -2.5,
+              "y_mm": -1.5
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "current_sense_amp",
+          "package": "SOIC-8",
+          "size_mm": {
+            "w": 5.0,
+            "h": 4.0
+          },
+          "height_mm": 1.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "INP",
+              "x_mm": -2.5,
+              "y_mm": 1.0
+            },
+            {
+              "name": "INN",
+              "x_mm": -2.5,
+              "y_mm": -1.0
+            },
+            {
+              "name": "VCC",
+              "x_mm": 0.0,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": 0.0,
+              "y_mm": -2.0
+            }
+          ]
+        },
+        {
+          "ref": "Rg",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "Rshunt",
+          "kind": "resistor",
+          "package": "2512",
+          "size_mm": {
+            "w": 4.0,
+            "h": 2.0
+          },
+          "height_mm": 1.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.5,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.5,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "VBAT",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "Q1",
+              "D"
+            ]
+          ]
+        },
+        {
+          "name": "PHASE",
+          "class": "power",
+          "pins": [
+            [
+              "Q1",
+              "S"
+            ],
+            [
+              "J2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "PGND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "J2",
+              "2"
+            ],
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "U2",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "DRV",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "GH"
+            ],
+            [
+              "Rg",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "GATE",
+          "class": "signal",
+          "pins": [
+            [
+              "Rg",
+              "2"
+            ],
+            [
+              "Q1",
+              "G"
+            ]
+          ]
+        },
+        {
+          "name": "12V",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VCC"
+            ],
+            [
+              "C2",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "5V",
+          "class": "power",
+          "pins": [
+            [
+              "U2",
+              "VCC"
+            ],
+            [
+              "C1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "CSP",
+          "class": "analog",
+          "pins": [
+            [
+              "Rshunt",
+              "1"
+            ],
+            [
+              "U2",
+              "INP"
+            ]
+          ]
+        },
+        {
+          "name": "CSN",
+          "class": "analog",
+          "pins": [
+            [
+              "Rshunt",
+              "2"
+            ],
+            [
+              "U2",
+              "INN"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 2.5,
+          "y_mm": 25.0,
+          "rot_deg": 0
+        },
+        "J2": {
+          "x_mm": 37.5,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "Q1": {
+          "x_mm": 31.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "U1": {
+          "x_mm": 20.0,
+          "y_mm": 22.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 12.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "Rg": {
+          "x_mm": 14.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "Rshunt": {
+          "x_mm": 26.0,
+          "y_mm": 7.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 20.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 20.0,
+          "y_mm": 16.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-gate",
+          "code": "loop_span",
+          "refs": [
+            "U1",
+            "Rg",
+            "Q1"
+          ],
+          "pins": [
+            [
+              "U1",
+              "GH"
+            ],
+            [
+              "Rg",
+              "1"
+            ],
+            [
+              "Q1",
+              "G"
+            ]
+          ],
+          "max_mm": 10.0,
+          "basis": "PL13",
+          "reasoning": "栅极回路作为一组：驱动器输出—栅阻—MOS 栅，两两最大跨度即回路跨度代理"
+        },
+        {
+          "id": "ck-shunt",
+          "code": "loop_span",
+          "refs": [
+            "Rshunt",
+            "U2"
+          ],
+          "pins": [
+            [
+              "Rshunt",
+              "1"
+            ],
+            [
+              "Rshunt",
+              "2"
+            ],
+            [
+              "U2",
+              "INP"
+            ],
+            [
+              "U2",
+              "INN"
+            ]
+          ],
+          "max_mm": 10.0,
+          "basis": "PL14",
+          "reasoning": "分流器两条 Kelvin 采样线到采样放大器的最大跨度；从远端绕回会拉大跨度"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 350.0,
+        "congestion_max": 11
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-gate",
+          "ck-shunt"
+        ]
+      },
+      "reference": {
+        "module_order": [
+          "power_in",
+          "gate_drive",
+          "power_switch",
+          "motor_out",
+          "sense"
+        ],
+        "key_placements": [
+          {
+            "ref": "U1",
+            "rule": "驱动器与栅阻、MOS 栅极成组就近",
+            "basis": "PL13"
+          },
+          {
+            "ref": "Rg",
+            "rule": "栅阻紧邻驱动器输出与 MOS 栅极",
+            "basis": "PL13"
+          },
+          {
+            "ref": "Rshunt",
+            "rule": "分流器在功率流上，采样从规定端子取两条短线",
+            "basis": "PL14"
+          },
+          {
+            "ref": "Q1",
+            "rule": "功率开关靠近电机输出连接器",
+            "basis": "PL09"
+          }
+        ],
+        "acceptable_alternatives": [
+          "栅阻可放在 MOS 栅极旁或驱动器输出旁，只要整组跨度 ≤ 阈值",
+          "分流器可旋转 180°，但两条采样线仍须从采样端子短距离引出"
+        ],
+        "rationale": [
+          "U1.GH 到 Rg.1 为 15.9 mm、Rg.1 到 Q1.G 为 16.9 mm，最大 16.9 mm > 10 mm → ck-gate 失败。",
+          "Rshunt 焊盘到 U2.INP/INN 最大 22.8 mm > 10 mm → ck-shunt 失败。两项均为 loop_span → loop_large，verdict=review。",
+          "无硬检查命中：J1/J2 分别贴左右边，Q1 与 J2、Rshunt 与 C1/C2 本体均不交叠。",
+          "全局阈值依据：本板 9 个 ≥2 脚网络，HPWL 实测 225 mm，hpwl_max 取 350 mm（≈1.56×）；congestion 实测 8，congestion_max 取 11。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P7-WIRELESS",
+      "title": "无线模组：压进天线净空、净空区被电容占用",
+      "domain": "wireless",
+      "pair_with": null,
+      "problem": "模组 MOD1 的 10×8 本体整个压在 10×10 天线净空区 [30,0]–[40,10] 内（相交 80 mm²），RF 匹配电容 C3 也落在净空区里，天线前方没有无铜指示区。",
+      "target": "模组本体与任何器件、铜、螺钉都不进入天线净空区；RF 匹配件放在净空之外并紧邻模组 ANT 焊盘，净空边距按模组指南留足。",
+      "inspection": "真实工程还要看：模组具体天线指南要求的净空尺寸与层（含背面铜/电池/外壳）、馈线阻抗与参考地、匹配件位置；本案例未做 RF 仿真与 DRC。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "keepouts": [
+          {
+            "id": "ko-antenna",
+            "rect_mm": [
+              30.0,
+              0.0,
+              40.0,
+              10.0
+            ],
+            "kind": "antenna_clearance",
+            "reason": "板载模组天线净空：模组下方与前方不得有铜、过孔、器件与螺钉"
+          }
+        ],
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "MOD1",
+          "kind": "wireless_module",
+          "package": "MOD-CASTELLATED-10x8",
+          "size_mm": {
+            "w": 10.0,
+            "h": 8.0
+          },
+          "height_mm": 2.4,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VCC",
+              "x_mm": -5.0,
+              "y_mm": 3.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -5.0,
+              "y_mm": 1.5
+            },
+            {
+              "name": "TX",
+              "x_mm": -5.0,
+              "y_mm": -1.0
+            },
+            {
+              "name": "RX",
+              "x_mm": -5.0,
+              "y_mm": -2.5
+            },
+            {
+              "name": "ANT",
+              "x_mm": -5.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U1",
+          "kind": "mcu",
+          "package": "LQFP-48",
+          "size_mm": {
+            "w": 7.0,
+            "h": 7.0
+          },
+          "height_mm": 1.6,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "TX",
+              "x_mm": 3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "RX",
+              "x_mm": 3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "EN",
+              "x_mm": 3.5,
+              "y_mm": -1.0
+            },
+            {
+              "name": "VIN",
+              "x_mm": -3.5,
+              "y_mm": -1.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C3",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "HDR-1x4-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "MOD1",
+              "VCC"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "U1",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "C3",
+              "2"
+            ],
+            [
+              "MOD1",
+              "GND"
+            ],
+            [
+              "R1",
+              "2"
+            ],
+            [
+              "J1",
+              "4"
+            ]
+          ]
+        },
+        {
+          "name": "UART_TX",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "TX"
+            ],
+            [
+              "MOD1",
+              "RX"
+            ]
+          ]
+        },
+        {
+          "name": "UART_RX",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "RX"
+            ],
+            [
+              "MOD1",
+              "TX"
+            ]
+          ]
+        },
+        {
+          "name": "RF_ANT",
+          "class": "rf",
+          "pins": [
+            [
+              "MOD1",
+              "ANT"
+            ],
+            [
+              "C3",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "EN_SW",
+          "class": "signal",
+          "pins": [
+            [
+              "U1",
+              "EN"
+            ],
+            [
+              "R1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "VBUS",
+          "class": "power",
+          "pins": [
+            [
+              "U1",
+              "VIN"
+            ],
+            [
+              "J1",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "MOD1": {
+          "x_mm": 35.0,
+          "y_mm": 5.0,
+          "rot_deg": 0
+        },
+        "U1": {
+          "x_mm": 18.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 12.5,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 12.5,
+          "y_mm": 23.5,
+          "rot_deg": 0
+        },
+        "C3": {
+          "x_mm": 38.0,
+          "y_mm": 9.5,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 14.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "J1": {
+          "x_mm": 2.5,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "C2",
+            "U1"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "U1",
+              "VDD"
+            ],
+            [
+              "U1",
+              "GND"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL17",
+          "reasoning": "模组电源去耦与 MCU 去耦按焊盘距离判；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 290.0,
+        "congestion_max": 8
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "keepout_violation"
+        ],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "power",
+          "mcu",
+          "wireless",
+          "antenna"
+        ],
+        "key_placements": [
+          {
+            "ref": "MOD1",
+            "rule": "模组本体与净空区完全分离，天线前方无铜",
+            "basis": "PL26/PL27"
+          },
+          {
+            "ref": "C3",
+            "rule": "RF 匹配件放在净空外、紧邻 ANT 焊盘",
+            "basis": "PL26"
+          },
+          {
+            "ref": "J1",
+            "rule": "USB/供电连接器贴左边",
+            "basis": "PL03"
+          }
+        ],
+        "acceptable_alternatives": [
+          "模组可整体左移/旋转，只要天线净空区与馈线走向满足指南",
+          "天线净空可按模组要求的真实形状（如 L 形）声明为多个 keepout"
+        ],
+        "rationale": [
+          "MOD1 包围盒 [30,1,40,9] 与 keepout [30,0,40,10] 相交 80 mm² > 0 → keepout_violation；C3 包围盒 [37.2,9.1,38.8,9.9] 也完整落在净空内（相交 1.28 mm²）→ 同一 code 的第二对象。",
+          "所有 keepout 相交都归入 keepout_violation（按 code+对象去重），verdict=blocking。",
+          "无其它硬检查：MOD1/C3 在板内，C3 与模组本体不交叠（C3 底边 9.1 > 模组顶边 9.0），J1 贴左边距离 0。",
+          "ck-decoup 通过（3.97 mm ≤ 5 mm）；全局阈值依据：本板 7 个 ≥2 脚网络，HPWL 实测 185 mm，hpwl_max 取 290 mm（≈1.57×），congestion 实测 5 取上限 8，均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P8-MULTI",
+      "title": "综合板：连接器不在板边、压住固定件、逃线通道被堵",
+      "domain": "multi",
+      "pair_with": "P8b-MULTI-PAIR",
+      "problem": "USB 连接器 J1 放在板内 x≈15 mm 处，到左边板边 12.5 mm，无法插拔；J1 本体 [12.5,2.75]–[17.5,5.25] 同时压住固定安装孔 H1 的 4×4 让位区 [11,2]–[15,6]，重叠 6.25 mm²；8×8 电感 L1 又压在 MCU 与右侧连接器之间的逃线通道上。",
+      "target": "连接器本体外沿到声明板边 ≤ 2 mm 且插拔方向朝外；任何器件不进入固定件让位区；大件不堵死 MCU↔连接器的逃线通道。",
+      "inspection": "真实工程还要看：USB 座壳体与外壳开口、螺钉头/工具扫掠区、固定件周边禁布、MCU 逃线通道的层与过孔；本案例未做 3D 装配、DRC 或布线。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          },
+          {
+            "ref": "J2",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "H1",
+          "kind": "mounting_hole",
+          "package": "NPTH-M4",
+          "size_mm": {
+            "w": 4.0,
+            "h": 4.0
+          },
+          "fixed": true,
+          "fixed_xy_mm": [
+            13.0,
+            4.0
+          ],
+          "allowed_rotations": [
+            0
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "USB-C-16P-SMD",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 3.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J2",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "mcu",
+          "package": "LQFP-48",
+          "size_mm": {
+            "w": 7.0,
+            "h": 7.0
+          },
+          "height_mm": 1.6,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "DP",
+              "x_mm": -3.5,
+              "y_mm": -2.0
+            },
+            {
+              "name": "DM",
+              "x_mm": -3.5,
+              "y_mm": -3.0
+            },
+            {
+              "name": "TX",
+              "x_mm": 3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "RX",
+              "x_mm": 3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "EN",
+              "x_mm": 3.5,
+              "y_mm": -1.0
+            }
+          ]
+        },
+        {
+          "ref": "L1",
+          "kind": "inductor",
+          "package": "8x8",
+          "size_mm": {
+            "w": 8.0,
+            "h": 8.0
+          },
+          "height_mm": 3.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R2",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "USB_DP",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "DP"
+            ]
+          ]
+        },
+        {
+          "name": "USB_DM",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "U2",
+              "DM"
+            ]
+          ]
+        },
+        {
+          "name": "VBUS",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "4"
+            ],
+            [
+              "L1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "U2",
+              "VDD"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "L1",
+              "2"
+            ],
+            [
+              "R2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "3"
+            ],
+            [
+              "U2",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "J2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "UART_TX",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "TX"
+            ],
+            [
+              "R1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "UART_RX",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "RX"
+            ],
+            [
+              "R1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "PWR_EN",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "EN"
+            ],
+            [
+              "J2",
+              "1"
+            ],
+            [
+              "R2",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 15.0,
+          "y_mm": 4.0,
+          "rot_deg": 0
+        },
+        "J2": {
+          "x_mm": 37.5,
+          "y_mm": 26.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 22.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "L1": {
+          "x_mm": 33.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 18.0,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 27.5,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 27.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "R2": {
+          "x_mm": 16.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "U2"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U2",
+              "VDD"
+            ],
+            [
+              "U2",
+              "GND"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL17",
+          "reasoning": "MCU 去耦按焊盘距离判；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 390.0,
+        "congestion_max": 9
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "connector_off_edge",
+          "body_overlap"
+        ],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "usb_io",
+          "mcu",
+          "power",
+          "aux_io"
+        ],
+        "key_placements": [
+          {
+            "ref": "J1",
+            "rule": "USB 座贴左边、本体在板内，壳体朝外",
+            "basis": "PL03/PL06"
+          },
+          {
+            "ref": "H1",
+            "rule": "固定孔让位区不被任何器件侵入",
+            "basis": "PL02"
+          },
+          {
+            "ref": "L1",
+            "rule": "大件让开 MCU↔连接器逃线通道",
+            "basis": "PL29"
+          },
+          {
+            "ref": "U2",
+            "rule": "MCU 居中，去耦贴 VDD/GND",
+            "basis": "PL17/PL18"
+          }
+        ],
+        "acceptable_alternatives": [
+          "J1 可用卧式贴片座，本体全部在板内但要贴边；固定件可用螺钉+垫圈让位或改板边缺口",
+          "L1 可移到板子下侧，只要不压固定件与连接器插拔区"
+        ],
+        "rationale": [
+          "J1 包围盒 [12.5,2.75,17.5,5.25] 到声明左边距离 12.5 mm > 2 mm → connector_off_edge。",
+          "J1 与固定件 H1 的让位盒 [11,2,15,6] 相交 6.25 mm² > 0 → body_overlap（H1 为 fixed:true，fixed_xy_mm=[13,4]，placement 不覆盖它）。",
+          "无其它硬检查：J2 贴右边距离 0；所有件在板内；L1 与 U2/C2/R1 本体不交叠。",
+          "ck-decoup 通过（3.67 mm ≤ 5 mm）；全局阈值依据：8 个 ≥2 脚网络中 HPWL 最大 252 mm（成对变体 P8b），hpwl_max 取 390 mm（≈1.55×）；congestion 实测 6，congestion_max 取 9。两条全局代理均未触发。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    },
+    {
+      "schema": "easycirq.pcb-placement-case/v1",
+      "id": "P8b-MULTI-PAIR",
+      "title": "综合板（成对：连接器归位让开固定件）",
+      "domain": "multi",
+      "pair_with": "P8-MULTI",
+      "problem": "（成对对照）本变体无目标缺陷：相对 P8 只把 USB 连接器 J1 移到左边板边，同时让开固定件让位区。",
+      "target": "J1 贴左边（≤ 2 mm）且不与固定件 H1 相交；除 J1 坐标外其余条件与 P8 完全相同。",
+      "inspection": "真实工程还要看：USB 座壳体与外壳开口、螺钉头/工具扫掠区、固定件周边禁布、MCU 逃线通道的层与过孔；本案例未做 3D 装配、DRC 或布线。",
+      "evidence_level": "synthetic",
+      "provenance": {
+        "kind": "synthetic",
+        "source": "authored for offline training",
+        "source_sha256": null,
+        "note": "坐标与器件为教学构造，不代表任何真实板；未在 EDA 中放置/导图/DRC"
+      },
+      "units": {
+        "length": "mm"
+      },
+      "board": {
+        "width_mm": 40.0,
+        "height_mm": 30.0,
+        "connectors": [
+          {
+            "ref": "J1",
+            "edge": "left",
+            "insert_dir": "left"
+          },
+          {
+            "ref": "J2",
+            "edge": "right",
+            "insert_dir": "right"
+          }
+        ]
+      },
+      "components": [
+        {
+          "ref": "H1",
+          "kind": "mounting_hole",
+          "package": "NPTH-M4",
+          "size_mm": {
+            "w": 4.0,
+            "h": 4.0
+          },
+          "fixed": true,
+          "fixed_xy_mm": [
+            13.0,
+            4.0
+          ],
+          "allowed_rotations": [
+            0
+          ]
+        },
+        {
+          "ref": "J1",
+          "kind": "connector",
+          "package": "USB-C-16P-SMD",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 3.2,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.9,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "3",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "4",
+              "x_mm": 1.9,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "J2",
+          "kind": "connector",
+          "package": "HDR-1x2-2.54",
+          "size_mm": {
+            "w": 5.0,
+            "h": 2.5
+          },
+          "height_mm": 2.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -1.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 1.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "U2",
+          "kind": "mcu",
+          "package": "LQFP-48",
+          "size_mm": {
+            "w": 7.0,
+            "h": 7.0
+          },
+          "height_mm": 1.6,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "VDD",
+              "x_mm": -3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "GND",
+              "x_mm": -3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "DP",
+              "x_mm": -3.5,
+              "y_mm": -2.0
+            },
+            {
+              "name": "DM",
+              "x_mm": -3.5,
+              "y_mm": -3.0
+            },
+            {
+              "name": "TX",
+              "x_mm": 3.5,
+              "y_mm": 2.0
+            },
+            {
+              "name": "RX",
+              "x_mm": 3.5,
+              "y_mm": 0.5
+            },
+            {
+              "name": "EN",
+              "x_mm": 3.5,
+              "y_mm": -1.0
+            }
+          ]
+        },
+        {
+          "ref": "L1",
+          "kind": "inductor",
+          "package": "8x8",
+          "size_mm": {
+            "w": 8.0,
+            "h": 8.0
+          },
+          "height_mm": 3.0,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -2.0,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 2.0,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C1",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "C2",
+          "kind": "capacitor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R1",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        },
+        {
+          "ref": "R2",
+          "kind": "resistor",
+          "package": "0603",
+          "size_mm": {
+            "w": 1.6,
+            "h": 0.8
+          },
+          "height_mm": 0.5,
+          "fixed": false,
+          "fixed_xy_mm": null,
+          "allowed_rotations": [
+            0,
+            90,
+            180,
+            270
+          ],
+          "pins": [
+            {
+              "name": "1",
+              "x_mm": -0.6,
+              "y_mm": 0.0
+            },
+            {
+              "name": "2",
+              "x_mm": 0.6,
+              "y_mm": 0.0
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "USB_DP",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "1"
+            ],
+            [
+              "U2",
+              "DP"
+            ]
+          ]
+        },
+        {
+          "name": "USB_DM",
+          "class": "signal",
+          "pins": [
+            [
+              "J1",
+              "2"
+            ],
+            [
+              "U2",
+              "DM"
+            ]
+          ]
+        },
+        {
+          "name": "VBUS",
+          "class": "power",
+          "pins": [
+            [
+              "J1",
+              "4"
+            ],
+            [
+              "L1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "3V3",
+          "class": "power",
+          "pins": [
+            [
+              "U2",
+              "VDD"
+            ],
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "C2",
+              "1"
+            ],
+            [
+              "L1",
+              "2"
+            ],
+            [
+              "R2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "GND",
+          "class": "ground",
+          "pins": [
+            [
+              "J1",
+              "3"
+            ],
+            [
+              "U2",
+              "GND"
+            ],
+            [
+              "C1",
+              "2"
+            ],
+            [
+              "C2",
+              "2"
+            ],
+            [
+              "J2",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "UART_TX",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "TX"
+            ],
+            [
+              "R1",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "UART_RX",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "RX"
+            ],
+            [
+              "R1",
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "PWR_EN",
+          "class": "signal",
+          "pins": [
+            [
+              "U2",
+              "EN"
+            ],
+            [
+              "J2",
+              "1"
+            ],
+            [
+              "R2",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "placement": {
+        "J1": {
+          "x_mm": 2.5,
+          "y_mm": 4.0,
+          "rot_deg": 0
+        },
+        "J2": {
+          "x_mm": 37.5,
+          "y_mm": 26.0,
+          "rot_deg": 0
+        },
+        "U2": {
+          "x_mm": 22.0,
+          "y_mm": 20.0,
+          "rot_deg": 0
+        },
+        "L1": {
+          "x_mm": 33.0,
+          "y_mm": 15.0,
+          "rot_deg": 0
+        },
+        "C1": {
+          "x_mm": 18.0,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "C2": {
+          "x_mm": 27.5,
+          "y_mm": 24.0,
+          "rot_deg": 0
+        },
+        "R1": {
+          "x_mm": 27.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        },
+        "R2": {
+          "x_mm": 16.0,
+          "y_mm": 10.0,
+          "rot_deg": 0
+        }
+      },
+      "checks": [
+        {
+          "id": "ck-decoup",
+          "code": "max_distance",
+          "refs": [
+            "C1",
+            "U2"
+          ],
+          "pins": [
+            [
+              "C1",
+              "1"
+            ],
+            [
+              "U2",
+              "VDD"
+            ],
+            [
+              "U2",
+              "GND"
+            ]
+          ],
+          "max_mm": 5.0,
+          "basis": "PL17",
+          "reasoning": "MCU 去耦按焊盘距离判；本案例该检查通过"
+        }
+      ],
+      "rubric": {
+        "connector_edge_tol_mm": 2.0,
+        "overlap_tol_mm2": 0.0,
+        "hpwl_max_mm": 390.0,
+        "congestion_max": 9
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "reference": {
+        "module_order": [
+          "usb_io",
+          "mcu",
+          "power",
+          "aux_io"
+        ],
+        "key_placements": [
+          {
+            "ref": "J1",
+            "rule": "USB 座贴左边、本体在板内，壳体朝外",
+            "basis": "PL03/PL06"
+          },
+          {
+            "ref": "H1",
+            "rule": "固定孔让位区不被任何器件侵入",
+            "basis": "PL02"
+          },
+          {
+            "ref": "L1",
+            "rule": "大件让开 MCU↔连接器逃线通道",
+            "basis": "PL29"
+          }
+        ],
+        "acceptable_alternatives": [
+          "J1 可用卧式贴片座，本体全部在板内但要贴边"
+        ],
+        "rationale": [
+          "相对 P8-MULTI 只改一组坐标：J1 (15,4)→(2.5,4)；其余器件（含 fixed:true 的 H1）、网络、检查项与阈值完全不变。",
+          "J1 包围盒变为 [0,2.75,5,5.25]：到左边距离 0 ≤ 2 mm；与 H1 让位盒 [11,2,15,6] 不再相交（x 方向间隔 6 mm）→ connector_off_edge 与 body_overlap 同时消失。",
+          "ck-decoup 仍为 3.67 mm ≤ 5 mm 通过；『逃线通道被大件堵死』在 v1 无对应检查，只作人工复核项。无硬检查命中 → verdict 从 blocking 翻转为 acceptable。",
+          "只改连接器一组坐标即同时清掉两条硬检查，说明接口区归位是该案例的主导条件。"
+        ],
+        "not_checked": [
+          "实际 DRC",
+          "布线/可布通",
+          "阻抗",
+          "热",
+          "EMC",
+          "制造装配"
+        ]
+      },
+      "limits": [
+        "离线几何/网表代理；不是 DRC，不是可布通证明",
+        "不判阻抗/EMC/热/制造；输出固定 drc:NOT RUN、routing_verified:false、eda_calls:0"
+      ]
+    }
+  ]
+}
