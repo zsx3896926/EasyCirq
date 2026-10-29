@@ -746,6 +746,9 @@ def _parser():
                         help="emit <name>.autofix.json playbook when available")
     parser.add_argument("--accept", action="store_true",
                         help="emit <name>.accept.json plan when available")
+    parser.add_argument("--net-audit", action="store_true",
+                        help="run the deterministic net-integrity audit and gate "
+                             "on dead (single-pin) nets")
     return parser
 
 
@@ -778,8 +781,30 @@ def main(argv=None):
               file=sys.stderr)
         return 2
 
+    snapshot_data = None
+    if spec.get("snapshot"):
+        snap_path = _resolve_against(spec_path, spec.get("snapshot"))
+        if snap_path.is_file():
+            try:
+                snapshot_data = _read_json(snap_path)
+            except (OSError, ValueError):
+                snapshot_data = None
+
     review = run_review(spec, spec_path, warnings)
+    net_audit = None
+    if args.net_audit and snapshot_data is not None:
+        try:
+            import net_integrity
+            net_audit = net_integrity.audit(snapshot_data)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("net audit unavailable (%s)" % type(exc).__name__)
     gate = gate_decision(plan, review)
+    if net_audit is not None and net_audit.get("counts", {}).get("errors"):
+        gate = {"decision": "block",
+                "reason": "net audit: %d dead net(s)"
+                          % net_audit["counts"]["errors"],
+                "review_errors": review.get("errors", 0),
+                "review_warnings": review.get("warnings", 0)}
     score, components = compute_score(plan, review, gate)
     apply_document = None
     placements_total = 0
@@ -791,15 +816,6 @@ def main(argv=None):
                  "apply": (name + ".apply.json") if apply_document else None,
                  "fix_plan": None, "autofix": None, "accept": None,
                  "dashboard": "dashboard.md"}
-
-    snapshot_data = None
-    if spec.get("snapshot"):
-        snap_path = _resolve_against(spec_path, spec.get("snapshot"))
-        if snap_path.is_file():
-            try:
-                snapshot_data = _read_json(snap_path)
-            except (OSError, ValueError):
-                snapshot_data = None
 
     if args.fix_plan or review.get("status") == "blocked":
         if snapshot_data is not None:
@@ -832,6 +848,9 @@ def main(argv=None):
         except Exception as exc:  # noqa: BLE001
             warnings.append("accept unavailable (%s)" % type(exc).__name__)
 
+    if net_audit is not None:
+        artifacts["net_audit"] = name + ".net-audit.json"
+        _write_json(out_dir / artifacts["net_audit"], net_audit)
     _write_json(out_dir / artifacts["plan"], plan)
     if apply_document is not None:
         _write_json(out_dir / artifacts["apply"], apply_document)
