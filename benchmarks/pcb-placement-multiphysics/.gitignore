@@ -1,0 +1,8 @@
+# Generated offline artifacts from the P2-P4 experiments (not tracked).
+__pycache__/
+*.pyc
+data/
+report*.json
+report*.md
+batch_demo.json
+scoreboard_snapshot.json
