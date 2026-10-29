@@ -1,0 +1,9 @@
+{
+  "errors": 0,
+  "review_schema": "easycirq-ace-review/v1",
+  "rules": [],
+  "schema": "easycirq-ace-expected/v1",
+  "snapshot": "clean-reference.json",
+  "verdict": "pass",
+  "warnings": 0
+}
