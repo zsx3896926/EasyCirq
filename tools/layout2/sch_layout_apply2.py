@@ -195,6 +195,20 @@ def _normalise_blocks(page_plan, apply_offsets=None):
             raw_offset = apply_offsets.get(block_id)
             if isinstance(raw_offset, dict) and "dx" in raw_offset and "dy" in raw_offset:
                 offset = (float(raw_offset["dx"]), float(raw_offset["dy"]))
+            elif isinstance(raw_offset, dict) and isinstance(raw_offset.get("positions"), list):
+                # nearest measured anchor wins; clamp/shift blocks are marked variable
+                target = bbox
+                best, best_d = None, None
+                for pos in raw_offset["positions"]:
+                    at = pos.get("at") or []
+                    off = pos.get("offset") or []
+                    if len(at) != 2 or len(off) != 2 or target is None:
+                        continue
+                    d = (at[0] - target[0]) ** 2 + (at[1] - target[1]) ** 2
+                    if best_d is None or d < best_d:
+                        best, best_d = off, d
+                if best is not None:
+                    offset = (float(best[0]), float(best[1]))
         at = _normalise_at(_pick(item, "at", None), bbox, where + ".at", offset)
         blocks.append({
             "id": block_id,

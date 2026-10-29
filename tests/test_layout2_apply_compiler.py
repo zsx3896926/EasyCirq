@@ -307,3 +307,19 @@ class ApplyOffsetTests(unittest.TestCase):
         placements = bundle["exec_spec"]["plan_payload"]["placements"]
         self.assertEqual(placements[0]["at"], "110,220")
 
+class ApplyOffsetMatrixTests(unittest.TestCase):
+    def test_nearest_matrix_position_wins(self):
+        from tools.layout2.sch_layout_apply2 import compile_apply_plan
+        page = {"page": 1, "frames": [], "labels": [],
+                "blocks": [{"id": "w", "title": "t",
+                            "bbox": [300, 300, 500, 500],
+                            "zone": [290, 290, 510, 540]}]}
+        project = {"project_uuid": "p", "page": "pg", "parts_path": "parts.json",
+                   "apply_offsets": {"w": {"positions": [
+                       {"at": [100, 100], "offset": [60.5, 69.5]},
+                       {"at": [300, 300], "offset": [-139.5, -130.5]},
+                       {"at": [600, 400], "offset": [-159.5, -210.5]}]}}}
+        bundle = compile_apply_plan(page, project)
+        at = bundle["exec_spec"]["plan_payload"]["placements"][0]["at"]
+        self.assertEqual(at, "439.5,430.5")
+
