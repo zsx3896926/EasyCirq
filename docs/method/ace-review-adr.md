@@ -23,11 +23,13 @@
 |---|---|---|
 | 快照 + 10 条确定性规则 | 已入 main（#210） | `easycirq-ace-snapshot/v1`、`easycirq-ace-review/v1`；`tests/test_ace_review.py` |
 | 错误注入 harness（`applicable/detected`） | 已入 main（#210） | `easycirq-ace-injection/v1`；clean 语料 9/9 检出 |
-| 规则扩充 10 → 30 条 | 本轮并行分支（合并前 PENDING） | 30 条口径见评审清单；每条扩展规则至少 1 个注入用例为验收条件 |
-| 评审门禁（gate）阻塞 apply | 本轮并行分支（PENDING） | 本文 ADR-003 定义 fail-closed 条件与绑定字段 |
-| 非矩形可打印区 + 矩形并集 zones | 资产/规则已入 main，通用判定本轮补齐 | `easycirq/assets/page-template.json` 的 `regions[]`；`hard_rules` R1/R2 |
-| 块模板 role→(dx,dy) | 实测偏移矩阵已入 main；role 模板本轮（PENDING） | `easycirq-block-apply-offsets/v1`、`easycirq-block-apply-offsets-matrix/v1` |
-| save-after-apply（`doc reload`） | 本轮并行分支（PENDING）；真机 **NOT RUN** | 本文 ADR-006 定义流水线尾部与证据字段 |
+| 干净/变异语料（golden corpus） | 已入 main（#211） | `easycirq/assets/ace-corpus/`：`clean-reference.json` + expected + 3 个 bad 快照；`tests/test_ace_corpus.py` 13 tests OK |
+| 自由布局（freeform L 形 + 矩形并集 zones） | 已入 main（#212） | `tools/layout2/freeform.py`（`subtract_rect` → L 形/矩形补集，zone 按 `rects` + `zone_kind=rect/union` 输出）；`tests/test_layout2_freeform.py` 21 tests OK |
+| 规则扩充 10 → 30 条 | 并行分支（PENDING） | 30 条口径见评审清单；每条扩展规则至少 1 个注入用例为验收条件 |
+| 评审门禁（gate）阻塞 apply | 并行分支（PENDING，PR #214） | 本文 ADR-003 定义 fail-closed 条件与绑定字段 |
+| 非矩形可打印区 + 矩形并集 zones | 资产/规则已入 main，通用判定由 freeform 实现覆盖 | `easycirq/assets/page-template.json` 的 `regions[]`；`hard_rules` R1/R2；freeform 的 `rects[]` |
+| 块模板 role→(dx,dy) | 实测偏移矩阵已入 main；role resolver/模板 PENDING（PR #215） | `easycirq-block-apply-offsets/v1`、`easycirq-block-apply-offsets-matrix/v1` |
+| save-after-apply（`doc reload`） | 并行分支（PENDING，PR #214 pipeline）；真机 **NOT RUN** | 本文 ADR-006 定义流水线尾部与证据字段 |
 
 ## ADR-001 确定性快照评审，不用 LLM
 
@@ -172,6 +174,10 @@
 3. **跨 region 的 zone 不允许**：允许"跨区"会让一个矩形 frame 同时压标题栏或跨越空白，回读难解释；需要更大区域时，应调整 region 分解或改模板，而不是放宽判定。
 4. R1/R2 均以并集为准：R1 判 zone ⊆ U，R2 判 `area(zone ∩ title_block) == 0`；两条都要过。
 5. region 分解允许人工覆盖，但覆盖结果必须过同一套校验；分解算法变化（如标题栏换角）要同步 fixture。
+6. **已落地实现**（#212）：自由布局 `tools/layout2/freeform.py` 用 `subtract_rect` 从内框减去标题栏得到
+   L 形/一般矩形补集，模块在 free-rect 列表上做确定性 first-fit（放置后把剩余拆成 right strip / top strip）；
+   凹角处的 zone 跨 region 分割，输出 `rects[]` 并标 `zone_kind=rect|union`，规划 schema 为
+   `easycirq-sch-layout-freeform/v1`（`verdict` pass/blocked，带 `title_block_hits`/`page_utilization`/`zone_fill` 指标）。
 
 ### 备选与不采用理由
 
@@ -197,7 +203,7 @@
 
 ## ADR-005 块模板 role→(dx,dy) 消除落点漂移
 
-- **状态**：accepted（2026-10-29）；role 模板与编译器绑定属本轮并行分支（PENDING）
+- **状态**：accepted（2026-10-29）；实测偏移矩阵已入 main，role resolver/块模板属 PR #215（PENDING）
 - **决策域**：L1 资产 + L3 工具
 - **关联**：设计文档 [layout-engine-v2.md](layout-engine-v2.md) §6.1；本文 ADR-006
 
@@ -238,7 +244,7 @@
 
 ## ADR-006 save-after-apply 作为流水线不变量
 
-- **状态**：accepted（2026-10-29）；真机验证 **NOT RUN**
+- **状态**：accepted（2026-10-29）；实现属 PR #214 pipeline（PENDING）；真机验证 **NOT RUN**
 - **决策域**：L3 工具 + L6 复盘
 - **关联**：设计文档 [layout-engine-v2.md](layout-engine-v2.md) §4、§6.4；[failure-taxonomy.md](failure-taxonomy.md) FT-01
 

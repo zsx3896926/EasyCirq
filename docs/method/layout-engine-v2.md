@@ -293,7 +293,7 @@ page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触
 - 输出：`easycirq-ace-gate/v1`（verdict、errors/warnings、findings、snapshot_sha256、plan_sha256、checked_at），
   与 apply 报告一起落证据目录；
 - 边界：R1–R7 管几何，ACE gate 管电气/结构完整性；**两条都过**才允许生成落点命令。
-  门禁细节与不采用备选见 [ace-review-adr.md](ace-review-adr.md) ADR-003。
+  门禁细节与不采用备选见 [ace-review-adr.md](ace-review-adr.md) ADR-003（实现 PR #214，PENDING）。
 
 ### 9.2 非矩形可打印区与矩形并集 zones
 
@@ -306,6 +306,8 @@ page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触
 - R1/R2 的判定式不变，但几何来源固定为 `regions[]`；apply 回读复用同一并集谓词，
   避免"离线判 pass、真机框压标题栏"两套口径。
   模板资产示例：`easycirq/assets/page-template.json`（`inner_border` + `title_block.rect` + `regions[]`）；
+  自由布局已按本形式化实现（#212）：`tools/layout2/freeform.py` 的 `subtract_rect` 生成矩形补集，
+  zone 输出 `rects[]` 并标 `zone_kind=rect|union`，schema 为 `easycirq-sch-layout-freeform/v1`；
   决策与边界 fixture 见 [ace-review-adr.md](ace-review-adr.md) ADR-004。
 
 ### 9.3 块模板（role → dx,dy）与落点漂移
@@ -323,7 +325,7 @@ page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触
 - 编译期换算：`at = bbox.min − (dx, dy)`；编译器只做算术，不试错、不猜默认 0；
 - `variable_offset` 块优先 `pinned_at`（实测 parts bbox）固定，再退化为多点模板；
 - 回读 drift（实测 bbox − 计划 bbox 的最大边差）超容差 → `failed`，不自动重挪。
-  备选与复测触发见 [ace-review-adr.md](ace-review-adr.md) ADR-005。
+  备选与复测触发见 [ace-review-adr.md](ace-review-adr.md) ADR-005（role resolver/模板 PR #215，PENDING）。
 
 ### 9.4 save-after-apply（`doc reload`）作为流水线不变量
 
@@ -337,7 +339,7 @@ apply → save → doc reload → 回读（parts/bbox/net/标题栏）→ 对比
 - save/reload/回读任一步失败 → 停止留证，**不允许**用同一个 plan 再 apply 一次；
 - 没有回读证据的 apply 只能记 `NOT RUN`/`failed`，不能把"命令返回 0"写成布局通过。
   背景与反例（clear 返回 ok 但页面残留）见 [ace-review-adr.md](ace-review-adr.md) ADR-006 与
-  [failure-taxonomy.md](failure-taxonomy.md) FT-01。
+  [failure-taxonomy.md](failure-taxonomy.md) FT-01（实现属 PR #214 pipeline，PENDING）。
 
 ### 9.5 指标与报告的衔接
 

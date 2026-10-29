@@ -32,6 +32,7 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
 > 状态口径：R11–R30 是本轮自主迭代的**验收口径**（ID/级别/判定），由并行分支实现；
 > 合并前在清单里标 PENDING，不写成"已实现"。每条扩展规则至少要有 1 个
 > `applicable` 变异（见下节），否则视为"未证明有效"。需要快照扩展的条目在备注里写明。
+> 当前进度：语料/注入器已入 main（#211），规则实现 PR 尚未提交（PENDING）。
 
 | ID | 规则 | 级别 | 王牌问题 | 快照要求/备注 |
 |---|---|---|---|---|
@@ -80,7 +81,7 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
 
 ## 评审门禁（gate）
 
-评审结果不是建议，是 apply 前置门禁（ADR-003，当前实现 PENDING）：
+评审结果不是建议，是 apply 前置门禁（ADR-003，实现 PR #214 PENDING）：
 
 - **位置**：`plan → apply` 之间；gate 自己执行评审或读取已绑定快照的报告，不信任调用方自报 verdict。
 - **fail-closed**：评审 `verdict != pass`、快照/plan 绑定不匹配（hash、页 UUID）、快照缺失/过期，任一成立即拒绝 apply。
@@ -90,14 +91,24 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
 
 ## 语料库（corpus）
 
-- **干净语料**：合成参考设计（电源/接口/去耦/地/反馈结构齐全），用于注入基线；要求评审 0 error。
-- **变异语料**：对干净语料逐条单点变异，覆盖每条规则至少 1 个 `applicable` 变体；冻结并记哈希。
-- **验收线**：干净语料 0 error；`applicable` 变异 100% detected；语料变更必须能解释（新增结构/规则/缺陷）。
-- **边界**：合成语料不是真实板；真实板只作补充验证，不能替代注入回归。
+已入 main（#211）：`easycirq/assets/ace-corpus/`
+
+| 文件 | 用途 |
+|---|---|
+| `clean-reference.json` | 干净参考设计（电源/接口/去耦/地/反馈结构齐全，评审 0 error / 0 warning） |
+| `clean-reference.expected.json` | 期望评审（`easycirq-ace-expected/v1`：verdict pass、errors/warnings 0、rules []） |
+| `bad-decoupling-too-far.json` | 去耦距离负例（预期 R03） |
+| `bad-ground-tie-broken.json` | 地 tie 负例（预期 R04） |
+| `bad-missing-i2c-pullup.json` | I2C 上拉缺失负例（预期 R02） |
+
+- 语料是**规范 JSON、无时间戳**，可逐字节比对；`tests/test_ace_corpus.py`（13 tests）校验：文件齐全、schema 合法、expected 与评审一致、bad 快照各自命中预期规则、删除类与**追加类**（additive）变异都能检出、输出可复现。
+- 注入器同时支持**删除类**（删结构）与**追加类**（在干净设计上施加额外错误）变异；两类 `applicable` 都必须 100% detected。
+- 验收线：干净参考 0 error；新增规则要么扩语料、要么加变异，否则视为未证明有效。
+- 边界：合成语料不是真实板；真实板只作补充验证，不能替代注入回归。
 
 ## 当前结果
 
-- 干净参考设计（合成基准）：**9/9 可测变异全部检出（100%）**。
+- 干净参考设计 `easycirq/assets/ace-corpus/clean-reference.json`（#211）：评审 **0 error / 0 warning**；注入测试断言删除类与追加类的可测变异全部检出（`detection_rate=1.0`；本分支复跑测试 fixture 为 9/9）。
 - 真实 A/B/C 页面（2026-10-29 快照）：
   - A：7 errors / 19 warnings（6×去耦距离、1×地 tie、2×电源测试点、17×自动网名）
   - B：4 errors / 52 warnings（2×I2C 无上拉、1×去耦、1×地 tie）
@@ -105,7 +116,7 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
   - 注入可测数 A 3/3、B 2/2、C 2/2，全部检出；
   - 其余变异"不可测"——因为设计本身已缺失该结构（没有上拉/测试点/ESD，去耦已太远）。
     **这本身就是结论：当前设计与王牌水准的差距首先在"结构完整性"，不在"能不能画出来"。**
-- 门禁/语料/30 条规则：属本轮并行分支，合并前 PENDING；真机 apply 验证 **NOT RUN**。
+- 门禁/30 条规则：PENDING（gate 见 PR #214；规则实现尚未提交）；真机 apply 验证 **NOT RUN**。
 
 ## 下一步（剩余债务）
 
