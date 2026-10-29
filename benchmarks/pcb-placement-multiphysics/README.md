@@ -284,6 +284,12 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - `scoreboard`：10 模板 × seeds 0/1 × baseline/repair = 40 次 pipeline；`all_feasible=True`，completion **0.901 → 0.997**，truth_v2 **2.174 → 1.996（−8.23%）**。
 - nightly `--update-baseline`：全量 PASS（约 253 s），基线含 10 模板。
 
+
+## P4.16 推荐组合最终快照（2026-10-29 第十六轮同步）
+
+- `mp_place/final_combo.py`：推荐组合（route_aware w=2.0 + post-hoc route repair）在 10 模板 + 真实板上的唯一快照。
+- 模板 **20/20 全布通**（completion 1.0，truth 1.927）；真实板 **4/6 全布通**（completion 0.949，truth 2.018）。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
