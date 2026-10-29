@@ -56,6 +56,14 @@ def build(apply_document, *, project_uuid, page, parts_path=None):
                         "%s sch place --designator %s --x %s --y %s --rotation %s"
                         % (BIN, part.get("ref"), part.get("x"),
                            part.get("y"), part.get("rotation", 0)))
+                # wire template nets: connect every member pin to its net name
+                for net in placement.get("nets") or []:
+                    name = net.get("name")
+                    for member in net.get("members") or []:
+                        ref, pin = member[0], member[1]
+                        commands.append(
+                            '%s sch connect --pin %s:%s --kind net_label --net "%s"'
+                            % (BIN, ref, pin, name))
             else:
                 commands.append("%s sch block-apply --at %s --project %s"
                                 % (BIN, placement.get("at"),

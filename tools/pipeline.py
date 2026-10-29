@@ -491,6 +491,8 @@ def build_apply_document(name, plan, spec):
             })
             if block.get("parts"):
                 placements[-1]["parts"] = block["parts"]
+            if block.get("nets"):
+                placements[-1]["nets"] = block["nets"]
             placements_total += 1
         labels = []
         for label in page.get("labels") or []:
