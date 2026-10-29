@@ -60,6 +60,9 @@ def run(quick: bool = False) -> Dict:
     # 4. realboard check (SKIP when cases absent -> exit 0)
     results["realboard_check"] = _run_cmd([py, "-m", "mp_place.realboard_benchmark", "--check"], OUT_DIR)
 
+    # 5. router resolution smoke on real boards (SKIP when cases absent -> exit 0)
+    results["route_resolution"] = _run_cmd([py, "-m", "mp_place.route_resolution", "--quick", "--steps", "300"], OUT_DIR)
+
     return {
         "results": results,
         "all_pass": all(v["exit"] == 0 for v in results.values()),

@@ -424,3 +424,8 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 
 - **route_resolution**（P4.17）：真实板 router 分辨率/层数扫描。
 - **定量结论**：`mcu-i2c` 的 1mm/2 层 completion 天花板 **0.846 → 0.923（grid 0.5mm）**，限制网从 `+3V3`/`GND` 收敛到单一电源网（`GND` 或 `VBUS_5V`）；纯加层（2→4）不单独改善，**网格分辨率才是主因**。`photo-led`/`dual-button` 在 1mm/2 层即 1.0。
+
+
+## 25. 第二十轮同步（2026-10-29）
+
+- **gates 增加第 5 道闸**：`route_resolution`（真实板分辨率扫描冒烟），至此 gates 全量 = policy 默认断言 / run_full leaderboard / consolidate / realboard --check / route_resolution。
