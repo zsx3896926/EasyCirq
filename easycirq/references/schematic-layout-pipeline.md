@@ -88,8 +88,19 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 7. 按**实测 bbox** 重建每块 zone（标题净空、重叠修剪、坐标取整），一次性 `frame apply`；
 8. `layout-lint` → 导出 PNG → 写 `.report.json`。
 
-环境坑：daemon 的 write-transition guard 会卡死 → `daemon stop/start`；frame 回读
-不接受浮点坐标 → zone 全部取整。
+### 3.1 常见失败与处理
+
+| 现象 | 原因 | 处理 |
+|---|---|---|
+| `project open failed: window ... is not connected` | daemon 重启/连接器重连后 window id 变了 | 先 `project info` 取 **live windowId**，不硬编码 |
+| `block-apply --json` 长时间不返回 | 真实落块加 `--json` 会卡分钟级 | 去掉 `--json`，用落块前后 designator 差集识别新器件 |
+| `sch clear` 返回 ok 但零件数 > 0 | 页面残留未清空 | 落块前校验 parts=0，否则中止，先清理再放 |
+| `frame apply` 报 `width: got ..., expected ...` | zone 坐标带小数 | zone 坐标全部取整 |
+| 写入长时间挂起、guard 不释放 | daemon write-transition guard 卡死 | `easycirq daemon stop/start`，等连接器重连再继续 |
+| 块间重叠多 | 多来自桩线/netflag 等附件占位，不是器件本体 | 加大 gap（实测 80 有效），比反复微调原点稳 |
+| 块被挤掉/越出页边距 | `--at` 锚点解释与包络偏移因块而异 | 读实测 bbox → `group-move` 校正 → margin clamp |
+
+真机现象与逐轮处置记录见 `docs/nightly-training/2026-10-29.md`；这些处理不改变"落点后必须回读 + 按实测重建 zone"的协议。
 
 ## 4. 指标自动化
 
