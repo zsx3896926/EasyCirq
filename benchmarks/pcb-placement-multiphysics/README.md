@@ -236,6 +236,13 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **realboard 回归**：4 板 suite 基线 + 31 项漂移检查（truth ≤5%/completion ≤0.02/板数不减少），`--update-baseline/--check`。
 - **policy 可执行**：`run_pipeline(policy=GOAL)` / `run_auto --policy GOAL` 五档执行，`recommend` 组合与 pipeline 实际参数一致，默认 balanced=proxy。
 
+
+## P2.19–P2.20（2026-10-29 第六轮同步）
+
+- **combo_holdout**：留出 seeds 2/3/4——completion/zero-router 推荐"不更差、常并列"；**cost 优先改为 v3/proxy**（v3/route_aware 22/24 劣于最优）；truth 优先标注不稳定。
+- **calibrated_objective**：3 真实板，calibrated（fine-tune k=16）truth 2.2267 vs proxy 2.2427（−0.7%）、completion 持平；模板 surrogate 未校准最差 2.3801。
+- `policies.md` 增加"组合实验留出修正（P2.19）"小节。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
