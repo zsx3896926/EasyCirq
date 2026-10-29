@@ -130,11 +130,14 @@
 - 超时不保证无残留：一次 6 网超时走线数不变，一次 USB 对超时多出 12 段走线。超时后先用 `track-list` 和 DRC 比对前后，再决定保留还是按网 `rip-up`；同一批不原样重发（SKILL §5 第 14 条失败预算），改为更小批次或离线补线。
 - 布完或回导后必须重新检查网络、规则、层与机械约束（RT35），不能把“路由完成”当 PCB 完成。
 - 路由器不了解你的 G3/G4 约束，跳过的网络、错误的层、过孔与平面冲突都要自己复核。
+- 外部路由器（`--router` / `FREEROUTING_CMD`）的结果进入 A/B 对比前，先做 **DSN 保真三查**（pin 唯一 / 焊盘层 / 规则传达），并记录板身份哈希与两套口径的违规数；详见 [路由器 A/B 可比性](pcb-router-ab.md) §1–§4。
+- 旧 DSN 把 SMD 盘写成通孔时会出现“0 过孔 + 高连通”的假象：先修板层数据再比较，0 过孔不能当优点汇报（同页 §2–§3）。
 
 ### 3.4 候选的验收动作
 
 无论哪种自动布线，采纳前至少完成：
 
+0. 先记录板身份哈希与规则口径；外部 DSN 与原生规则不同时并列两套数字，交付按原生口径验收（见 [路由器 A/B 可比性](pcb-router-ab.md) §1/§4）。
 1. `easycirq pcb drc --json` 并读取完整结果，不用截断文件；布线期间用 `python scripts/pcb_evidence.py drc-summary <drc.json>` 汇总（与 `pcb_gate.py` 同一解析器，读取失败会非零退出，不要自写解析器）。
 2. `easycirq pcb check --json` 查 `dangling-end`、`acute-angle`、`width-under-spec`、`power-not-poured` 等。
 3. 关键网逐条 `easycirq pcb net-path`。
