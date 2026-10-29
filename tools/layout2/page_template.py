@@ -324,8 +324,8 @@ def derive_regions(
             min(title_block.maxY, usable_area.maxY),
         )
         regions = (
-            Region("left", Rect(usable_area.minX, usable_area.minY, keepout.minX, usable_area.maxY)),
-            Region("top-right", Rect(keepout.minX, keepout.maxY, usable_area.maxX, usable_area.maxY)),
+            Region("left", Rect(usable_area.minX, usable_area.minY, keepout.minX, keepout.maxY)),
+            Region("top-right", Rect(usable_area.minX, keepout.maxY, usable_area.maxX, usable_area.maxY)),
         )
     elif normalized == "bottom-left":
         if title_block.minX > usable_area.minX + _EPS:
@@ -347,8 +347,8 @@ def derive_regions(
             min(title_block.maxY, usable_area.maxY),
         )
         regions = (
-            Region("right", Rect(keepout.maxX, usable_area.minY, usable_area.maxX, usable_area.maxY)),
-            Region("top-left", Rect(usable_area.minX, keepout.maxY, keepout.maxX, usable_area.maxY)),
+            Region("right", Rect(keepout.maxX, usable_area.minY, usable_area.maxX, keepout.maxY)),
+            Region("top-left", Rect(usable_area.minX, keepout.maxY, usable_area.maxX, usable_area.maxY)),
         )
     else:  # pragma: no cover - _normalize_corner already raises
         raise AssertionError("unreachable")
