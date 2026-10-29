@@ -137,15 +137,31 @@ connectivity（pin→net）、title block；多页时用 `ace_snapshot.merge(...
 
 ## 评审门禁（gate）
 
-评审结果不是建议，是 apply 前置门禁（ADR-003，`tools/review_gate.py` 已实现）：
+评审结果不是建议，是 apply 前置门禁（ADR-003，`tools/review_gate.py` 已入 main #214）：
 
-- **位置**：`plan → apply` 之间；gate 自己执行评审或读取已绑定快照的报告，不信任调用方自报 verdict。
-- **fail-closed**：评审 `verdict != pass`、快照/plan 绑定不匹配（hash、页 UUID）、
-  快照缺失/过期，任一成立即拒绝 apply；**未知 severity 也按阻塞证据处理**。
-- **输出** `easycirq-review-gate/v1`：`verdict`、`errors/warnings`、`findings`、
-  `snapshot_sha256`、`plan_sha256`、`checked_at`；写入 apply 证据目录。
-- `warn` 默认不阻塞但必须在报告里可见；升级为阻塞要改级别并写 ADR，不做运行时静默忽略。
-- 未留痕 override 不支持（PENDING）；确需带风险 apply 必须显式记录人员/理由/有效期。
+- **位置**：`plan → apply` 之间；gate 自己调 `ace_review.py` 重跑规则，不信任调用方自报 verdict。
+- **strict（默认）**：任一 `error` → `blocked/allowed=False`；**未知 severity 也按 error 处理**；`warn` 不阻塞但保留在 `warnings`。
+- **fail-closed**：`--require-review` 且快照缺失/不可读 → 项目 `review-blocked`；快照 JSON/schema 非法 → 输入错误（exit 2），不是通过。
+- **输出** `easycirq-review-gate/v1`（实际字段）：`mode`、`strict`、`verdict`、`blocked`、`allowed`、
+  `errors`、`warnings`、`findings`、`counts`、`rules`、`review_verdict`、`review_schema`
+  （advisory 有 error 时另带 `advisory_errors_allowed`）。
+- **CLI**：`python tools/review_gate.py snapshot.json [--json] [--advisory]`，exit 0 放行 / 1 阻塞 / 2 非法输入。
+- **流水线**：`tools/run_layout_pipeline.py` 在离线规划后、写 apply exec spec 前 gate，支持 `--require-review` / `--review-advisory`；review-blocked 项目无 exec spec、不碰 EDA，批次继续；pipeline-report 有 `review` 汇总、dashboard 有 Review gate 段。
+- **advisory**：只用于练习/推广，永不阻塞但保留 `review_verdict` 与放行错误数，不能当发布依据。
+- **尚未实现（债务）**：snapshot/plan 的 SHA-256 绑定与 `checked_at` 证据字段（当前 gate 结果里**没有**这两个字段）、未留痕 override、真机 apply 路径（`sch_layout_apply.py` / `sch_layout_apply2.py`）全部接 gate。
+
+## 修复计划生成（fix plan）
+
+被 gate 阻塞后，下一步不是让人凭感觉改图，而是把 finding 变成**确定性、有序的修复动作**
+（`tools/ace_fix_plan.py`，schema `easycirq-ace-fix-plan/v1`；已入 main #217）：
+
+- 输入同一份 ACE 快照（可选 review 报告）；输出 `actions[{id: fx-01…, rule, action{type,kind,…}}]` + `counts.actions`；
+- 动作是具体建议（如 `add_component` resistor/capacitor、`add_tie`、`rename_net`、移动/补去耦位置），
+  顺序稳定、同快照同计划；**不调用 EDA、不用 LLM、不自动写入**——执行仍由 Agent 按计划做并回读；
+- 验收：`tests/test_ace_fix_plan.py` 6 tests（clean 无动作、缺上拉→加电阻、缺地 tie→补 tie、
+  自动网名→改名、缺去耦→补/移电容、确定性）；
+- 真实页产出规模（2026-10-29 快照）：A **22 actions**、B **13 actions**、C **17 actions**；
+  数量只说明"待修结构"的规模，不代表电气正确性或已修复。
 
 ## 语料库（corpus）
 
@@ -176,13 +192,15 @@ connectivity（pin→net）、title block；多页时用 `ace_snapshot.merge(...
 | 错误注入（synthetic clean） | **17/17 全部检出**（13 deletion + 4 additive，`detection_rate=1.0`） |
 | 错误注入（corpus clean） | **16/16 全部检出**（12 deletion + 4 additive，`detection_rate=1.0`） |
 | 单元测试 | `test_ace_review.py` **64 tests OK**；`test_ace_corpus.py` **13 tests OK**；`test_review_gate.py` **24 tests OK** |
+| 块模板/角色解析（#215） | `test_layout2_templates.py` **31 tests OK**；`tools/layout2/role_resolver.py` + `templates.py`，与评审清单的 R11–R30 互不替代 |
+| 修复计划生成 | `tests/test_ace_fix_plan.py` **6 tests OK**；同一快照 → 同一 `easycirq-ace-fix-plan/v1` 动作序列 |
 | 缺数据行为 | 空/畸形快照不崩；缺属性→跳过或 `warn`（含 `unknown`）；无连通性数据不凭空报 R04 |
 
 真实 A/B/C 页面（2026-10-29 快照，10 条规则版本的历史记录，R11–R30 未重跑）：
 
-- A：7 errors / 19 warnings（6×去耦距离、1×地 tie、2×电源测试点、17×自动网名）
-- B：4 errors / 52 warnings（2×I2C 无上拉、1×去耦、1×地 tie）
-- C：1 error / 16 warnings（地 tie）
+- A：7 errors / 19 warnings（6×去耦距离、1×地 tie、2×电源测试点、17×自动网名）；fix plan **22 actions**
+- B：4 errors / 52 warnings（2×I2C 无上拉、1×去耦、1×地 tie）；fix plan **13 actions**
+- C：1 error / 16 warnings（地 tie）；fix plan **17 actions**
 - 注入可测数 A 3/3、B 2/2、C 2/2，全部检出。
 - 其余变异"不可测"——因为设计本身已缺失该结构（没有上拉/测试点/ESD，去耦已太远）。
   **这本身就是结论：当前设计与王牌水准的差距首先在"结构完整性"，不在"能不能画出来"。**
@@ -203,3 +221,5 @@ connectivity（pin→net）、title block；多页时用 `ace_snapshot.merge(...
    CS/I2C 上拉范围等用真实板/原厂资料校准，结果写 ADR 复测触发。
 5. **不含 zone/模块/评审元数据的条目**（旧口径的模块归属、评审元数据）仍需快照扩展，
    当前明确 NOT RUN，不用截图猜。
+6. **流水线 save-after-apply 尚未实现**（apply → save → `doc reload` → 回读 → 对比；
+   见 ADR-006）；没有回读证据前不能把 apply 记成 `verified`。
