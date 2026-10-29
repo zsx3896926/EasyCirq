@@ -2,14 +2,17 @@
 
 目的：把"王牌工程师签板前会问的问题"变成**确定性、可回归、离线**的检查；
 LLM 只负责把用户意图变成 block/netlist spec，评审由脚本完成。
+决策记录见 [ace-review-adr.md](ace-review-adr.md)；布局侧约束见 [layout-engine-v2.md](layout-engine-v2.md)。
 
 ## 数据来源
 
 `tools/ace_snapshot.py` 从活动页抓只读快照：components（ref/bbox/pins）、
 connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/v1`。
-评审器 `tools/ace_review.py` 只读快照，不碰 EDA。
+评审器 `tools/ace_review.py` 只读快照，不碰 EDA；输出 `easycirq-ace-review/v1`
+（`findings[{rule,severity,message,refs}]` + `metrics{errors,warnings,rules}` + `verdict`）。
+任一 `error` 级 finding → `verdict=blocked`，否则 `pass`。
 
-## 规则（当前 10 条，均为纯函数）
+## 已实现规则（R01–R10，main #210）
 
 | ID | 规则 | 级别 | 王牌问题 |
 |---|---|---|---|
@@ -23,6 +26,36 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
 | R08 | 电源网络无测试点 | warn | 上电怎么量？产线怎么测？ |
 | R09 | 自动生成网络名（C1_N9 之类） | warn | 网络名能不能表达意图、方便评审？ |
 | R10 | 标题栏字段为空 | warn | 版本/页/作者/日期齐全吗？ |
+
+## 扩展规则（R11–R30，本轮 10→30 目标）
+
+> 状态口径：R11–R30 是本轮自主迭代的**验收口径**（ID/级别/判定），由并行分支实现；
+> 合并前在清单里标 PENDING，不写成"已实现"。每条扩展规则至少要有 1 个
+> `applicable` 变异（见下节），否则视为"未证明有效"。需要快照扩展的条目在备注里写明。
+> 当前进度：语料/注入器已入 main（#211），规则实现 PR 尚未提交（PENDING）。
+
+| ID | 规则 | 级别 | 王牌问题 | 快照要求/备注 |
+|---|---|---|---|---|
+| R11 | 电源输入无反接/极性保护 | error | 反接会烧什么？防反二极管/MOS/TVS 在哪？ | 连接器 + 电源网；需器件类型 |
+| R12 | 外部接口有串阻但无 TVS 钳位 | error | ESD 打进来钳到哪？TVS 电压选对了吗？ | 与 R07 互补：R07 查有无保护，R12 查钳位 |
+| R13 | 晶振无负载电容 | error | Y/X 两个对地电容在哪？CL 算过吗？ | 晶体器件 + 邻近电容（含距离） |
+| R14 | 复位/EN 直驱 GPIO 且无默认态 | error | MCU 复位期间这脚是什么电平？ | EN/RST 网络；R06 的扩展（悬空→直驱无上下拉） |
+| R15 | 电源域缺 bulk 储能 | warn | 每域至少一个 bulk？瞬态谁来顶？ | 电源网 + 电容集合（按域分组） |
+| R16 | I2C 上拉阻值超范围 | warn | 1.5–4.7k 与速率/容性匹配吗？ | **需 value 字段**（当前快照未含值） |
+| R17 | USB 差分/CC 保护缺失 | error | D+/D− 串阻、CC 5.1k、ESD 阵列在哪？ | USB 网名 + 连接器 |
+| R18 | 电流采样未按 Kelvin/回流未分开 | warn | 分流器两端怎么接到采样 IC？ | 分流器 + 采样 IC + 几何 |
+| R19 | 反馈节点无分压电阻 | error | FB 电压从哪来？分压比算过吗？ | FB 网络（R05 查电容，R19 查电阻） |
+| R20 | 外部接口保护覆盖率不足 | warn | 外部信号脚里多少有串阻/ESD？ | 连接器信号脚统计 |
+| R21 | 电源/关键信号测试点覆盖不足 | warn | 关键网怎么上电、怎么测？ | TP 命名 + 网络（R08 的全局化） |
+| R22 | 浮空脚未标显式 NC | warn | 这是有意 NC 还是漏连？ | pin.net=null + NC 标记（R01 的可判定化） |
+| R23 | 同名网络跨页连接数不一致 | error | 跨页网到底连了几处？ | **需多页快照** |
+| R24 | 网络命名不规范 | warn | 差分/总线/极性命名能表达意图吗？ | net 名（差分 _P/_N、总线编号、无空格） |
+| R25 | 分区/模块不完整（器件无归属或 zone 未覆盖） | error | 每个器件属于哪个功能块？ | **需 zone/模块数据**；结构完整性主项 |
+| R26 | 不同电源域直连（无电平/隔离） | error | 这俩域为什么直接连？ | 电源网 + 器件类型 |
+| R27 | 地分割处无单点桥接 | warn | AGND/DGND 在哪汇合？ | 地网（R04 扩展：tie 位置/桥接件） |
+| R28 | 去耦电容地端跨地域/回路过长 | warn | 去耦回路多大？地和脚同域吗？ | 电容 bbox + 地域/引脚位置 |
+| R29 | 标题栏版本/页码/日期不一致 | warn | 这份图是哪个版本、第几页？ | titleblock（R10 查空字段，R29 查一致性） |
+| R30 | 评审元数据不完整 | warn | 谁审的、什么结论、风险谁接受？ | review 元数据（评审状态/签核/override） |
 
 ## 错误注入（能力度量）
 
@@ -38,14 +71,44 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
 - 把网络改成自动名 → R09
 - 清空标题栏 → R10
 
-度量口径：
+度量口径（ADR-002）：
+
 - `applicable`：目标结构存在且基线未违规（否则无法"移除"来注入）；
 - `detected`：变异后预期规则出现（且计数增加或新规则出现）；
-- `detection_rate = detected / applicable`。
+- `detection_rate = detected / applicable`；
+- 不可注入的变异**单列**，不混进分母——它是"结构完整性"证据，不是评审器缺陷。
+- 新增规则必须至少带 1 个 `applicable` 变异，否则该规则视为未证明有效。
+
+## 评审门禁（gate）
+
+评审结果不是建议，是 apply 前置门禁（ADR-003，实现 PR #214 PENDING）：
+
+- **位置**：`plan → apply` 之间；gate 自己执行评审或读取已绑定快照的报告，不信任调用方自报 verdict。
+- **fail-closed**：评审 `verdict != pass`、快照/plan 绑定不匹配（hash、页 UUID）、快照缺失/过期，任一成立即拒绝 apply。
+- **输出** `easycirq-ace-gate/v1`：`verdict`、`errors/warnings`、`findings`、`snapshot_sha256`、`plan_sha256`、`checked_at`；写入 apply 证据目录。
+- `warn` 默认不阻塞但必须在报告里可见；升级为阻塞要改级别并写 ADR，不做运行时静默忽略。
+- 未留痕 override 不支持（PENDING）；确需带风险 apply 必须显式记录人员/理由/有效期。
+
+## 语料库（corpus）
+
+已入 main（#211）：`easycirq/assets/ace-corpus/`
+
+| 文件 | 用途 |
+|---|---|
+| `clean-reference.json` | 干净参考设计（电源/接口/去耦/地/反馈结构齐全，评审 0 error / 0 warning） |
+| `clean-reference.expected.json` | 期望评审（`easycirq-ace-expected/v1`：verdict pass、errors/warnings 0、rules []） |
+| `bad-decoupling-too-far.json` | 去耦距离负例（预期 R03） |
+| `bad-ground-tie-broken.json` | 地 tie 负例（预期 R04） |
+| `bad-missing-i2c-pullup.json` | I2C 上拉缺失负例（预期 R02） |
+
+- 语料是**规范 JSON、无时间戳**，可逐字节比对；`tests/test_ace_corpus.py`（13 tests）校验：文件齐全、schema 合法、expected 与评审一致、bad 快照各自命中预期规则、删除类与**追加类**（additive）变异都能检出、输出可复现。
+- 注入器同时支持**删除类**（删结构）与**追加类**（在干净设计上施加额外错误）变异；两类 `applicable` 都必须 100% detected。
+- 验收线：干净参考 0 error；新增规则要么扩语料、要么加变异，否则视为未证明有效。
+- 边界：合成语料不是真实板；真实板只作补充验证，不能替代注入回归。
 
 ## 当前结果
 
-- 干净参考设计（合成基准）：**9/9 可测变异全部检出（100%）**。
+- 干净参考设计 `easycirq/assets/ace-corpus/clean-reference.json`（#211）：评审 **0 error / 0 warning**；注入测试断言删除类与追加类的可测变异全部检出（`detection_rate=1.0`；本分支复跑测试 fixture 为 9/9）。
 - 真实 A/B/C 页面（2026-10-29 快照）：
   - A：7 errors / 19 warnings（6×去耦距离、1×地 tie、2×电源测试点、17×自动网名）
   - B：4 errors / 52 warnings（2×I2C 无上拉、1×去耦、1×地 tie）
@@ -53,9 +116,12 @@ connectivity（pin→net）、title block。快照格式 `easycirq-ace-snapshot/
   - 注入可测数 A 3/3、B 2/2、C 2/2，全部检出；
   - 其余变异"不可测"——因为设计本身已缺失该结构（没有上拉/测试点/ESD，去耦已太远）。
     **这本身就是结论：当前设计与王牌水准的差距首先在"结构完整性"，不在"能不能画出来"。**
+- 门禁/30 条规则：PENDING（gate 见 PR #214；规则实现尚未提交）；真机 apply 验证 **NOT RUN**。
 
-## 下一步扩展（30 条路线）
+## 下一步（剩余债务）
 
-极性/耐压降额、USB 差分阻抗与 ESD、晶振负载电容、上电时序/使能链、
-反馈点位置、LDO/DC-DC 稳定性、电流采样开尔文、热设计、连接器防反、
-BOM 可采购性、测试点覆盖率、跨页网络一致性、命名规范、可读性 rubric。
+1. 实现 R11–R30；需要 value/封装/多页/zone 的规则先扩快照字段，不从截图猜。
+2. gate 接入全部 apply 路径（含 `tools/sch_layout_apply.py` 与布局引擎 v2 的 apply），并补"gate pass 但落点有问题"的回归负例。
+3. 语料从合成扩到"真实干净板"基线：先找一块结构完整、评审 0 error 的真实页面，再接注入。
+4. 规则阈值（去耦距离、上拉范围、测试点覆盖率）用基准/真实板校准，校准结果写 ADR 复测触发。
+5. freeform 与块模板在真机上验证落点 drift；save-after-apply 的回读证据补齐后才允许写"verified"。

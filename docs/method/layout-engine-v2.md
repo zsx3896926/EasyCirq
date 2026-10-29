@@ -274,3 +274,83 @@ Halo 的定义：自动连线后 stub / flag / net label 的典型外扩，按�
 - [failure-taxonomy.md](failure-taxonomy.md) — FG-01（halo）、FG-02（zone 重叠）、FG-03（标题/标签碰撞）等现场失败。
 - [sedimentation-protocol.md](sedimentation-protocol.md) — L0–L6 分层与资产过期检查。
 - [README.md](README.md) — `docs/method/` 索引。
+
+## 9. 自主迭代补充（2026-10-29，追加节）
+
+> 本节是追补，不改变 §1–§8 的既有设计。实现状态（哪些已入 main、哪些本轮并行分支 PENDING、哪些 NOT RUN）
+> 见 [ace-review-adr.md](ace-review-adr.md) 的实现状态表；这里只写 v2 流水线必须满足的补充约束。
+
+### 9.1 评审门禁（ACE gate）进入 apply 前置
+
+在 §1 的第 6 步（硬规则门禁）与第 7 步（落点）之间，再加一道**评审门禁**；两者是**与**关系，不是替代：
+
+```text
+page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触点）
+```
+
+- 输入：page plan + 现场只读快照（`easycirq-ace-snapshot/v1`），或与同一快照 hash 绑定的评审报告；
+- fail-closed 条件：评审 `verdict != pass`、快照/plan 绑定不匹配、快照缺失/过期 → 拒绝 apply；
+- 输出：`easycirq-ace-gate/v1`（verdict、errors/warnings、findings、snapshot_sha256、plan_sha256、checked_at），
+  与 apply 报告一起落证据目录；
+- 边界：R1–R7 管几何，ACE gate 管电气/结构完整性；**两条都过**才允许生成落点命令。
+  门禁细节与不采用备选见 [ace-review-adr.md](ace-review-adr.md) ADR-003（实现 PR #214，PENDING）。
+
+### 9.2 非矩形可打印区与矩形并集 zones
+
+把 §1 第 1/4 步的"可用区"形式化：
+
+- `U = (inner_border − title_block)`。标题栏在右下角（y-up）时 `U` 是 **L 形**，由 `regions[]` 的**矩形并集**表达；
+- zone 仍是矩形（EDA frame 限制），判定 `zone ⊆ U`：`Σ area(zone ∩ region_i) == area(zone)`，
+  边界相切允许、正面积相交才计；
+- **不允许跨 region 的 zone**：需要更大区域时改 region 分解/模板，而不是放宽判定；
+- R1/R2 的判定式不变，但几何来源固定为 `regions[]`；apply 回读复用同一并集谓词，
+  避免"离线判 pass、真机框压标题栏"两套口径。
+  模板资产示例：`easycirq/assets/page-template.json`（`inner_border` + `title_block.rect` + `regions[]`）；
+  自由布局已按本形式化实现（#212）：`tools/layout2/freeform.py` 的 `subtract_rect` 生成矩形补集，
+  zone 输出 `rects[]` 并标 `zone_kind=rect|union`，schema 为 `easycirq-sch-layout-freeform/v1`；
+  决策与边界 fixture 见 [ace-review-adr.md](ace-review-adr.md) ADR-004。
+
+### 9.3 块模板（role → dx,dy）与落点漂移
+
+`block-apply --at` 是锚点语义，实际 parts bbox 相对锚点有偏移；偏移随块/位置变化（近边会被 EDA 移位）。
+在 §6.1 资产清单新增**块模板**：
+
+| 字段 | 含义 | 失败口径 |
+|---|---|---|
+| `role` | 工程角色（codec/amp/mems/module/charger/boost/switch/monitor/microsd/imu…） | 未收录 → `blocked` |
+| `dx, dy` | 目标 bbox min → `--at` 锚点的确定性偏移（raw） | 缺项/非数值 → `blocked` |
+| `halo` | 该角色四边净空（与 device-metrics 的 halo 一致） | 缺边 → `blocked` |
+| `provenance` | `multi-point` / `single-point` / `pinned` | `single-point` 只允许离线规划 |
+
+- 编译期换算：`at = bbox.min − (dx, dy)`；编译器只做算术，不试错、不猜默认 0；
+- `variable_offset` 块优先 `pinned_at`（实测 parts bbox）固定，再退化为多点模板；
+- 回读 drift（实测 bbox − 计划 bbox 的最大边差）超容差 → `failed`，不自动重挪。
+  备选与复测触发见 [ace-review-adr.md](ace-review-adr.md) ADR-005（role resolver/模板 PR #215，PENDING）。
+
+### 9.4 save-after-apply（`doc reload`）作为流水线不变量
+
+§4 的"一次落点 + 回读"补成固定尾部，缺一步不能写 `verified`：
+
+```text
+apply → save → doc reload → 回读（parts/bbox/net/标题栏）→ 对比 → verified | failed
+```
+
+- 回读证据必须与 `plan_sha256`、快照/回读 hash、页 UUID、EDA/连接器版本绑定；
+- save/reload/回读任一步失败 → 停止留证，**不允许**用同一个 plan 再 apply 一次；
+- 没有回读证据的 apply 只能记 `NOT RUN`/`failed`，不能把"命令返回 0"写成布局通过。
+  背景与反例（clear 返回 ok 但页面残留）见 [ace-review-adr.md](ace-review-adr.md) ADR-006 与
+  [failure-taxonomy.md](failure-taxonomy.md) FT-01（实现属 PR #214 pipeline，PENDING）。
+
+### 9.5 指标与报告的衔接
+
+上述补充不新增"放行"指标，只把既有门禁串起来；报告里需额外记录：
+
+| 字段 | 含义 | 性质 |
+|---|---|---|
+| `hard_rules.verdict` | R1–R7 几何门禁 | 门禁 |
+| `ace_gate.verdict` | 评审门禁 | 门禁 |
+| `ace_errors` / `ace_warnings` | 评审 error/warn 数 | 质量/复盘 |
+| `placement_drift` | 回读 bbox 与计划的最大边差 | 验收 |
+| `save_reload_ok` | save + `doc reload` + 回读是否完成 | 验收 |
+
+门禁不过就不产生落点命令；质量指标只用于排序与复盘，不能互相抵消（§5 的口径不变）。
