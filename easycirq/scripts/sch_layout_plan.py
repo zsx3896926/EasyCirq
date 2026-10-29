@@ -13,19 +13,41 @@ Input (easycirq-sch-layout-plan/v1):
   "options": {"gap": 40, "zonePad": 16, "titleGap": 36}
 }
 
+Each block may carry an optional `halo` (extra clearance for net labels and
+pin stubs around the block). The zone padding is `max(zonePad, halo)`, so a
+block that needs label room gets a roomier frame without changing the page
+options; plans without `halo` behave exactly as before.
+
 The planner:
   1. splits the usable page into a left strip (full height, left of the
      title block) and a top-right strip (above the title block);
-  2. shelf-packs the blocks by descending height/width with `gap`;
-  3. derives one zone frame per block: block bbox + padding, with the zone
-     top raised by `titleGap` so the zone title sits above the block;
+  2. shelf-packs the blocks by descending height/width with `gap`; when a
+     block does not fit, it retries with progressively tighter gaps and with
+     the region order reversed before declaring the block unplaced (the
+     attempt that places the most blocks wins, preferring the largest gap and
+     the natural region order, so output stays deterministic);
+  3. derives one zone frame per block: block bbox + `max(zonePad, halo)`, with
+     the zone top raised by `titleGap` so the zone title sits above the block;
   4. caps each zone edge at the midpoint to its nearest neighbour, so zones can
      never overlap (frame apply refuses overlapping zones);
-  5. reports metrics and a verdict.
+  5. reports metrics — including `zone_fill_ratio` (block area / zone area) and
+     `layout_balance` (largest / smallest zone) — and a verdict.
 
-Output (easycirq-sch-layout/v1): frames, placements (bbox/at/zone), metrics.
-Exit codes: 0 pass, 1 review, 2 blocked/invalid.
+Output (easycirq-sch-layout/v1): frames, placements (bbox/at/zone/halo),
+metrics. Exit codes: 0 pass, 1 review, 2 blocked/invalid.
 """
+# Planner invariants — keep these true when changing the code:
+#   (a) every zone edge is capped at the midpoint to its nearest neighbour, so
+#       zone frames never overlap (the frame-apply step refuses overlaps);
+#   (b) the nominal packing gap is >= titleGap + 6, so a stacked zone always
+#       has room for its title above the block. Adaptive fallback gaps may go
+#       tighter only to avoid an unplaced block, and every resulting loss of
+#       title clearance is counted in `title_clearance_violations`;
+#   (c) the overlap metric compares block bbox edges only (touching is not an
+#       overlap; `ix * iy > 0`);
+#   (d) no coordinate may come from a guessed envelope: every block needs a
+#       spec `envelope` or a measured entry in assets/block-envelopes.json,
+#       otherwise planning is blocked with a ValueError.
 from __future__ import annotations
 
 import argparse
@@ -40,6 +62,14 @@ for _s in (sys.stdout, sys.stderr):
 SCHEMA = "easycirq-sch-layout/v1"
 INPUT_SCHEMA = "easycirq-sch-layout-plan/v1"
 DEFAULT_ENVELOPES = Path(__file__).resolve().parent.parent / "assets" / "block-envelopes.json"
+
+# Tighter gaps tried, in order, when the nominal gap cannot place a block.
+FALLBACK_GAP_FACTORS = (0.75, 0.5, 0.25)
+# Zone fill band rewarded by the quality score.
+ZONE_FILL_MIN = 0.55
+ZONE_FILL_MAX = 0.85
+# Beyond this largest/smallest zone ratio the layout is penalised.
+BALANCE_LIMIT = 1.6
 
 
 def load_envelopes(path=None):
@@ -79,6 +109,28 @@ def _regions(page, title_block):
     return [r for r in regions if r["w"] > 0 and r["h"] > 0]
 
 
+def _resolve_halo(block, envelopes):
+    """Effective halo for a block: spec `halo`, else measured envelope `halo`."""
+    halo = block.get("halo")
+    if halo is None:
+        measured = (envelopes or {}).get(block.get("id"))
+        if isinstance(measured, dict):
+            halo = measured.get("halo")
+    if halo is None:
+        return 0
+    if isinstance(halo, bool) or not isinstance(halo, (int, float)) or halo < 0:
+        raise ValueError("block %r halo must be a non-negative number" % block.get("id"))
+    return int(round(halo))
+
+
+def _placement(block, bbox):
+    item = {"id": block["id"], "title": block["title"], "bbox": bbox}
+    halo = int(block.get("halo") or 0)
+    if halo:
+        item["halo"] = halo
+    return item
+
+
 def _shelf_pack(blocks, regions, gap):
     ordered = sorted(blocks, key=lambda b: (b["envelope"]["h"], b["envelope"]["w"]), reverse=True)
     shelves = {r["name"]: [] for r in regions}
@@ -94,8 +146,7 @@ def _shelf_pack(blocks, regions, gap):
                     x = region["x"] + row["used_w"] + extra
                     y = region["y"] + row["y_off"]
                     row["used_w"] += extra + bw
-                    placements.append({"id": block["id"], "title": block["title"],
-                                       "bbox": [x, y, x + bw, y + bh]})
+                    placements.append(_placement(block, [x, y, x + bw, y + bh]))
                     placed = True
                     break
             if placed:
@@ -105,13 +156,77 @@ def _shelf_pack(blocks, regions, gap):
                 rows.append({"y_off": used_h, "h": bh, "used_w": bw})
                 x = region["x"]
                 y = region["y"] + used_h
-                placements.append({"id": block["id"], "title": block["title"],
-                                   "bbox": [x, y, x + bw, y + bh]})
+                placements.append(_placement(block, [x, y, x + bw, y + bh]))
                 placed = True
                 break
         if not placed:
-            placements.append({"id": block["id"], "title": block["title"], "bbox": None})
+            placements.append(_placement(block, None))
     return placements
+
+
+def _gap_candidates(gap):
+    """Nominal gap first, then progressively tighter gaps, then zero."""
+    candidates = [max(0, int(gap))]
+    for factor in FALLBACK_GAP_FACTORS:
+        tighter = max(0, int(round(gap * factor)))
+        if tighter not in candidates:
+            candidates.append(tighter)
+    if 0 not in candidates:
+        candidates.append(0)
+    return candidates
+
+
+def _region_orders(regions):
+    """Natural region order first, reversed order second (deterministic)."""
+    orders = [list(regions)]
+    if len(regions) > 1:
+        reversed_order = list(reversed(regions))
+        if reversed_order != list(regions):
+            orders.append(reversed_order)
+    return orders
+
+
+def _pack(blocks, regions, gap):
+    """Pack with deterministic fallbacks instead of giving up immediately.
+
+    Tries the nominal gap and region order first, then tighter gaps and the
+    reversed region order. Keeps the attempt that places the most blocks,
+    preferring the largest gap and then the natural region order.
+    """
+    best = None
+    best_key = None
+    for candidate_gap in _gap_candidates(gap):
+        for order in _region_orders(regions):
+            placements = _shelf_pack(blocks, order, candidate_gap)
+            placed = sum(1 for p in placements if p["bbox"] is not None)
+            key = (placed, -candidate_gap)
+            if best_key is None or key > best_key:
+                best, best_key = placements, key
+            if placed == len(blocks):
+                return placements
+    return best if best is not None else []
+
+
+def _score(metrics, block_count):
+    """Deterministic 0-100 quality score (higher is better).
+
+    Penalises block overlaps, unplaced blocks, area usage away from 0.45,
+    zone fill outside the 0.55-0.85 band, unbalanced zones, excessive zone
+    slack and title-clearance violations.
+    """
+    score = 100.0
+    score -= metrics.get("overlaps", 0) * 25
+    score -= (block_count - metrics.get("fits", 0)) * 30
+    score -= abs(metrics.get("area_usage", 0.0) - 0.45) * 40
+    fill = metrics.get("zone_fill_ratio", 0.0)
+    if fill < ZONE_FILL_MIN:
+        score -= (ZONE_FILL_MIN - fill) * 70
+    elif fill > ZONE_FILL_MAX:
+        score -= (fill - ZONE_FILL_MAX) * 70
+    score -= max(0.0, metrics.get("layout_balance", 1.0) - BALANCE_LIMIT) * 8
+    score -= max(0.0, metrics.get("zone_slack", 0.0) - 0.25) * 60
+    score -= metrics.get("title_clearance_violations", 0) * 8
+    return max(0.0, round(score, 1))
 
 
 def plan(spec, envelopes=None):
@@ -141,13 +256,16 @@ def plan(spec, envelopes=None):
                 env = b["envelope"]
         if not isinstance(env.get("w"), (int, float)) or not isinstance(env.get("h"), (int, float)):
             raise ValueError("block %r needs envelope {w,h} (no measured entry found)" % b.get("id"))
+        halo = _resolve_halo(b, envelopes)
+        if halo:
+            b["halo"] = halo
 
     page_w, page_h, margin = page["width"], page["height"], page["margin"]
     regions = _regions(page, title_block)
-    raw = _shelf_pack(blocks, regions, gap)
+    raw = _pack(blocks, regions, gap)
 
     # caps: a zone never extends past the midpoint to its nearest neighbour
-    frames, placements = [], []
+    frames, placements, framed = [], [], []
     metrics = {"fits": 0, "zones_contain_blocks": 0, "overlaps": 0, "area_usage": 0.0,
                "zones_trimmed": 0, "regions": [r["name"] for r in regions]}
     boxes = []
@@ -160,6 +278,7 @@ def plan(spec, envelopes=None):
             placements.append(p)
             continue
         metrics["fits"] += 1
+        pad = max(zone_pad, int(p.get("halo") or 0))
         cap_above, cap_below = page_h - margin, margin
         cap_left, cap_right = margin, page_w - margin
         for o in raw:
@@ -174,10 +293,10 @@ def plan(spec, envelopes=None):
                 cap_right = min(cap_right, ob[0] - 2)
             if ob[2] <= x1:
                 cap_left = max(cap_left, ob[2] + 2)
-        zx1 = max(margin, cap_left, x1 - zone_pad)
-        zy1 = max(margin, cap_below, y1 - zone_pad)
-        zx2 = min(page_w - margin, cap_right, x2 + zone_pad)
-        zy2 = min(page_h - margin, cap_above, y2 + zone_pad + title_gap)
+        zx1 = max(margin, cap_left, x1 - pad)
+        zy1 = max(margin, cap_below, y1 - pad)
+        zx2 = min(page_w - margin, cap_right, x2 + pad)
+        zy2 = min(page_h - margin, cap_above, y2 + pad + title_gap)
         if zy2 - 8 < y2 + 8:
             zy2 = min(page_h - margin, y2 + 20)
         p["zone"] = [zx1, zy1, zx2, zy2]
@@ -188,6 +307,7 @@ def plan(spec, envelopes=None):
                        "rect": {"minX": zx1, "minY": zy1, "maxX": zx2, "maxY": zy2},
                        "titleX": zx1 + 8, "titleY": zy2 - 8, "fontSize": 20,
                        "color": "#AA00AA", "lineType": 1})
+        framed.append(p)
         metrics["zones_contain_blocks"] += 1
 
     # safety trim (should be a no-op thanks to caps)
@@ -220,25 +340,24 @@ def plan(spec, envelopes=None):
             if ix * iy > 0:
                 metrics["overlaps"] += 1
 
-    page_area = page_w * page_h
-    metrics["area_usage"] = round(
-        sum((b[2] - b[0]) * (b[3] - b[1]) for b in boxes) / page_area, 3)
-
-    # quality score: penalise overlaps, unplaced blocks, extreme area usage,
-    # excessive zone slack (empty frame space) and title-clearance violations
+    block_area = sum((b[2] - b[0]) * (b[3] - b[1]) for b in boxes)
     zone_area = sum((fr["rect"]["maxX"] - fr["rect"]["minX"]) *
                     (fr["rect"]["maxY"] - fr["rect"]["minY"]) for fr in frames)
+    page_area = page_w * page_h
+    metrics["area_usage"] = round(block_area / page_area, 3)
     metrics["zone_slack"] = round(zone_area / page_area - metrics["area_usage"], 3)
-    violations = sum(1 for p, fr in zip([p for p in placements if p.get("bbox")], frames)
-                     if fr["titleY"] < p["bbox"][3] + 10)
-    metrics["title_clearance_violations"] = violations
-    score = 100.0
-    score -= metrics["overlaps"] * 25
-    score -= (len(blocks) - metrics["fits"]) * 30
-    score -= abs(metrics["area_usage"] - 0.45) * 40
-    score -= max(0.0, metrics["zone_slack"] - 0.25) * 60
-    score -= violations * 8
-    metrics["score"] = max(0.0, round(score, 1))
+    metrics["zone_fill_ratio"] = round(block_area / zone_area, 3) if zone_area else 0.0
+    zone_areas = [(fr["rect"]["maxX"] - fr["rect"]["minX"]) *
+                  (fr["rect"]["maxY"] - fr["rect"]["minY"]) for fr in frames]
+    if len(zone_areas) > 1 and min(zone_areas) > 0:
+        metrics["layout_balance"] = round(max(zone_areas) / min(zone_areas), 3)
+    else:
+        metrics["layout_balance"] = 1.0
+
+    # quality score: see _score() for the reward/penalty bands
+    metrics["title_clearance_violations"] = sum(
+        1 for p, fr in zip(framed, frames) if fr["rect"]["maxY"] - 8 < p["bbox"][3] + 10)
+    metrics["score"] = _score(metrics, len(blocks))
 
     unplaced = [p["id"] for p in placements if p["bbox"] is None]
     verdict = "blocked" if unplaced else ("review" if metrics["overlaps"] else "pass")
