@@ -86,3 +86,21 @@
 - 本页结论只作 G5 布线退出证据的输入；G5 仍按 [阶段门禁](design-gates.md) 判。
 - 外部路由器结果只是候选；`PASS_WITH_WAIVER` 必须写明理由、条件与剩余风险，不能当 `PASS`。
 - 本页不替代原生 DRC、SI/PI、热、EMC 与制造签核。
+
+## 9. 实测案例（2026-10-29 离线实验场，routing_lab v1.1）
+
+> 同一 quality-cost 口径（未连通 1000 / 违规 100 / 过孔 5 / 长度 0.01 / 折弯 0.1），5 core 板 + 4 层冒烟 + 1 张 241 盘大板。数字为条件结论，不外推。
+
+- **core 4 板 + 4 层冒烟**：我方（网格 A* + 后优化器）优于 Freerouting+optimizer
+  （photo −18.87 / mcu −79.70 / dual −5.78 / temp −23.07 / 4 层 −117.28）。
+- **bbclaw（241 盘 2 层）**：顺序 A* 只到 214/241；**PathFinder 式历史成本协商**（给 A* 每单元
+  加历史代价，逐网对着当前铜重布）推到 **226/241 · 0 违规**，追平 Freerouting 自身连通（226 · 17 违规）；
+  仅落后“Freerouting 解 + 我方后优化器”的 228（8 违规），Δ +1238.97。
+- **协商技巧的适用边界**：只在**顺序布线布不满的大/密集板**上优于常规 tuned；小板上反而多打 via
+  （4 层冒烟 negotiate 45/46 vs tuned 46/46；temp 32 via vs tuned 23 via）→ **难板兜底，非普遍提升**。
+- **后优化器 attach repair**：能把 Freerouting 解从 226 推到 228、违规 17→8。
+- **规模上限**：585 盘 4 层板 Freerouting partial 374/585、我方 grid8 323/585，均未完成 → 4 层大板
+  单次运行不可靠，记 `NOT RUN`，不得外推“4 层支持”。
+
+> 完整数据与复现：`routing_lab`（实验场仓库）`out/final/v11/final-table.md`、`docs/PR-rules.md`。
+
