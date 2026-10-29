@@ -323,3 +323,16 @@ class ApplyOffsetMatrixTests(unittest.TestCase):
         at = bundle["exec_spec"]["plan_payload"]["placements"][0]["at"]
         self.assertEqual(at, "439.5,430.5")
 
+class PinnedAtTests(unittest.TestCase):
+    def test_pinned_at_overrides_bbox_anchor(self):
+        from tools.layout2.sch_layout_apply2 import compile_apply_plan
+        page = {"page": 1, "frames": [], "labels": [],
+                "blocks": [{"id": "w", "title": "w",
+                            "bbox": [40, 200, 280, 620],
+                            "zone": [30, 190, 290, 660]}]}
+        project = {"project_uuid": "p", "page": "pg", "parts_path": "p.json",
+                   "pinned_at": {"w": [300, 300]}}
+        bundle = compile_apply_plan(page, project)
+        self.assertEqual(bundle["exec_spec"]["plan_payload"]["placements"][0]["at"],
+                         "300,300")
+
