@@ -1,0 +1,346 @@
+{
+ "schema": "easycirq-block-template/v1",
+ "block": "block.aw8737_classd_spk",
+ "origin": {
+  "role": "U",
+  "ref": "U2",
+  "x": 480,
+  "y": 450
+ },
+ "parts": [
+  {
+   "role": "U",
+   "designator": "U2",
+   "dx": 0,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -35.5,
+    "minY": -45.5,
+    "maxX": 35.5,
+    "maxY": 45.5
+   }
+  },
+  {
+   "role": "R_INP",
+   "designator": "R3",
+   "dx": -290,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -300.5,
+    "minY": -4.5,
+    "maxX": -279.5,
+    "maxY": 4.5
+   }
+  },
+  {
+   "role": "R_INN",
+   "designator": "R2",
+   "dx": -410,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -420.5,
+    "minY": -4.5,
+    "maxX": -399.5,
+    "maxY": 4.5
+   }
+  },
+  {
+   "role": "R_SHDN",
+   "designator": "R4",
+   "dx": -170,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -180.5,
+    "minY": -4.5,
+    "maxX": -159.5,
+    "maxY": 4.5
+   }
+  },
+  {
+   "role": "C_VDD1",
+   "designator": "C15",
+   "dx": -410,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -420.5,
+    "minY": -128.5,
+    "maxX": -399.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_VDD2",
+   "designator": "C16",
+   "dx": -290,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -300.5,
+    "minY": -128.5,
+    "maxX": -279.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_C1",
+   "designator": "C11",
+   "dx": -410,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -418.5,
+    "minY": -250.5,
+    "maxX": -401.5,
+    "maxY": -229.5
+   }
+  },
+  {
+   "role": "C_C2",
+   "designator": "C12",
+   "dx": -290,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -298.5,
+    "minY": -250.5,
+    "maxX": -281.5,
+    "maxY": -229.5
+   }
+  },
+  {
+   "role": "FB_P",
+   "designator": "FB2",
+   "dx": -50.109015,
+   "dy": -117.80620999999996,
+   "rotation": 0,
+   "bbox": {
+    "minX": -67.38211000000001,
+    "minY": -120.44531999999998,
+    "maxX": -32.83591999999999,
+    "maxY": -115.1671
+   }
+  },
+  {
+   "role": "FB_N",
+   "designator": "FB1",
+   "dx": -170.109015,
+   "dy": -117.80620999999996,
+   "rotation": 0,
+   "bbox": {
+    "minX": -187.38211,
+    "minY": -120.44531999999998,
+    "maxX": -152.83592,
+    "maxY": -115.1671
+   }
+  },
+  {
+   "role": "C_EMI_P",
+   "designator": "C13",
+   "dx": -170,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -175.5,
+    "minY": -248.5,
+    "maxX": -164.5,
+    "maxY": -231.5
+   }
+  },
+  {
+   "role": "C_EMI_N",
+   "designator": "C14",
+   "dx": -50,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -55.5,
+    "minY": -248.5,
+    "maxX": -44.5,
+    "maxY": -231.5
+   }
+  }
+ ],
+ "pins": [
+  {
+   "role": "U",
+   "pin": "INP",
+   "net": "block.aw8737_classd_spk_N1"
+  },
+  {
+   "role": "R_INP",
+   "pin": "2",
+   "net": "block.aw8737_classd_spk_N1"
+  },
+  {
+   "role": "R_INP",
+   "pin": "1",
+   "net": "DAC_L_P"
+  },
+  {
+   "role": "U",
+   "pin": "INN",
+   "net": "block.aw8737_classd_spk_N3"
+  },
+  {
+   "role": "R_INN",
+   "pin": "2",
+   "net": "block.aw8737_classd_spk_N3"
+  },
+  {
+   "role": "R_INN",
+   "pin": "1",
+   "net": "DAC_L_N"
+  },
+  {
+   "role": "U",
+   "pin": "SHDN",
+   "net": "SPK_PULSE"
+  },
+  {
+   "role": "R_SHDN",
+   "pin": "1",
+   "net": "SPK_PULSE"
+  },
+  {
+   "role": "R_SHDN",
+   "pin": "2",
+   "net": "GND"
+  },
+  {
+   "role": "U",
+   "pin": "VDD*",
+   "net": "5V"
+  },
+  {
+   "role": "U",
+   "pin": "PVDD",
+   "net": "5V"
+  },
+  {
+   "role": "C_VDD1",
+   "pin": "1",
+   "net": "5V"
+  },
+  {
+   "role": "C_VDD2",
+   "pin": "1",
+   "net": "5V"
+  },
+  {
+   "role": "U",
+   "pin": "C1P",
+   "net": "block.aw8737_classd_spk_N8"
+  },
+  {
+   "role": "C_C1",
+   "pin": "1",
+   "net": "block.aw8737_classd_spk_N8"
+  },
+  {
+   "role": "U",
+   "pin": "C1N",
+   "net": "block.aw8737_classd_spk_N9"
+  },
+  {
+   "role": "C_C1",
+   "pin": "2",
+   "net": "block.aw8737_classd_spk_N9"
+  },
+  {
+   "role": "U",
+   "pin": "C2P",
+   "net": "block.aw8737_classd_spk_N10"
+  },
+  {
+   "role": "C_C2",
+   "pin": "1",
+   "net": "block.aw8737_classd_spk_N10"
+  },
+  {
+   "role": "U",
+   "pin": "C2N*",
+   "net": "block.aw8737_classd_spk_N11"
+  },
+  {
+   "role": "C_C2",
+   "pin": "2",
+   "net": "block.aw8737_classd_spk_N11"
+  },
+  {
+   "role": "U",
+   "pin": "VOP",
+   "net": "block.aw8737_classd_spk_N12"
+  },
+  {
+   "role": "FB_P",
+   "pin": "1",
+   "net": "block.aw8737_classd_spk_N12"
+  },
+  {
+   "role": "FB_P",
+   "pin": "2",
+   "net": "SPK_P"
+  },
+  {
+   "role": "C_EMI_P",
+   "pin": "1",
+   "net": "SPK_P"
+  },
+  {
+   "role": "U",
+   "pin": "VON",
+   "net": "block.aw8737_classd_spk_N14"
+  },
+  {
+   "role": "FB_N",
+   "pin": "1",
+   "net": "block.aw8737_classd_spk_N14"
+  },
+  {
+   "role": "FB_N",
+   "pin": "2",
+   "net": "SPK_N"
+  },
+  {
+   "role": "C_EMI_N",
+   "pin": "1",
+   "net": "SPK_N"
+  },
+  {
+   "role": "U",
+   "pin": "GND*",
+   "net": "GND"
+  },
+  {
+   "role": "C_VDD1",
+   "pin": "2",
+   "net": "GND"
+  },
+  {
+   "role": "C_VDD2",
+   "pin": "2",
+   "net": "GND"
+  },
+  {
+   "role": "C_EMI_P",
+   "pin": "2",
+   "net": "GND"
+  },
+  {
+   "role": "C_EMI_N",
+   "pin": "2",
+   "net": "GND"
+  }
+ ],
+ "bbox": {
+  "minX": -420.5,
+  "minY": -250.5,
+  "maxX": 35.5,
+  "maxY": 45.5
+ }
+}

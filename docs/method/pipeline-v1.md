@@ -214,3 +214,26 @@ the A/B/C acceptance runs). Any EDA executor consuming the bundle MUST run the
 save step (``doc reload`` = save + close + reopen) before reporting success;
 offline dry-runs are unaffected.
 
+
+
+## Planning engines (`--engine` / `spec.engine`)
+
+| engine | planner | output |
+|---|---|---|
+| `layout` (default) | `tools/layout2/layout_engine.py` (rect regions, hard rules) | `easycirq-sch-layout-v2/v1` |
+| `freeform` | `tools/layout2/freeform.py` (L-shaped printable region, rect-union zones) | `easycirq-sch-layout-freeform/v1`, adapted to the pipeline page shape |
+| `templates` | `layout` plan + `tools/layout2/templates.py` instantiation of `easycirq-block-template/v1` assets | adds absolute per-part placements to the apply bundle |
+
+`templates` maps `spec.templates = {module_id: path}` (paths relative to the spec
+file).  Each template is extracted once from a real, well-placed instance
+(`tools/layout2/role_resolver.py` + `templates.extract_template`) and then
+rigidly translated to the planned bbox origin — this removes the block-apply
+placement drift that used to require manual corrections.
+
+Shipped templates in `easycirq/assets/block-templates/`:
+
+- `aw8737_classd_spk.template.json` — 12 parts, origin U2 (extracted from the A-audio page; explicit role map from net topology).
+- `mems_mic_analog.template.json` — 5 parts, origin MK1.
+
+Live demo: `pipeline-demo/A-templates.spec.json` → `engine=templates`,
+12+5 absolute part placements, review gate pass, score 73.2.
