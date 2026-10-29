@@ -292,3 +292,18 @@ class CompileApplyPlan(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ApplyOffsetTests(unittest.TestCase):
+    def test_offsets_back_calculate_at(self):
+        from tools.layout2.sch_layout_apply2 import compile_apply_plan
+        page = {"page": 1, "frames": [], "labels": [],
+                "blocks": [{"id": "b1", "title": "t",
+                            "bbox": [100, 200, 300, 400],
+                            "zone": [90, 190, 310, 440]}]}
+        project = {"project_uuid": "p", "page": "pg", "parts_path": "parts.json",
+                   "apply_offsets": {"b1": {"dx": -10, "dy": -20}}}
+        bundle = compile_apply_plan(page, project)
+        placements = bundle["exec_spec"]["plan_payload"]["placements"]
+        self.assertEqual(placements[0]["at"], "110,220")
+
