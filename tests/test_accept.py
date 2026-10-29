@@ -22,6 +22,7 @@ BUNDLE = {
             "zone": [10, 10, 300, 200], "at": "20,20",
             "parts": [{"ref": "U1", "x": 20, "y": 20, "rotation": 0},
                       {"ref": "C1", "x": 40, "y": 20, "rotation": 0}],
+            "nets": [{"name": "3V3", "members": [["U1", "1"], ["C1", "1"]]}],
         }],
     }],
 }
@@ -41,6 +42,13 @@ class AcceptTests(unittest.TestCase):
         result = accept.build(BUNDLE, project_uuid="p", page="pg")
         self.assertTrue(any("sch place --designator U1" in c
                             for c in result["commands"]))
+
+    def test_template_nets_emit_connect_commands(self):
+        result = accept.build(BUNDLE, project_uuid="p", page="pg")
+        connects = [c for c in result["commands"] if "sch connect --pin" in c]
+        self.assertEqual(len(connects), 2)
+        self.assertTrue(any("U1:1" in c and "3V3" in c for c in connects))
+        self.assertTrue(any("C1:1" in c and "3V3" in c for c in connects))
 
     def test_no_parts_uses_block_apply(self):
         bundle = {"schema": "easycirq-sch-apply/v1", "project": "d",
