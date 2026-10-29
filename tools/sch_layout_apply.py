@@ -81,7 +81,13 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
     # activate project + page
     if not window:
         raise ValueError("spec.window is required (use `easycirq doctor` to find it)")
-    cli("project", "open", "--window", window, "--project-uuid", project_uuid,
+    # window ids change when the connector reconnects; resolve the live one
+    c, o, e = cli("project", "info")
+    info = parse(o) or {}
+    live_window = info.get("windowId") or (info.get("context") or {}).get("windowId") or window
+    if not live_window:
+        raise ValueError("no connected EasyEDA window (run `easycirq doctor`)")
+    cli("project", "open", "--window", live_window, "--project-uuid", project_uuid,
         "--allow-discard-unsaved")
     time.sleep(4)
     cli("call", "document.open", "--payload", json.dumps({"uuid": page}))
@@ -94,13 +100,21 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
     time.sleep(5)
 
     # clear must actually succeed and the page must report zero parts
+    cleared = False
     for attempt in range(10):
         code, out, err = cli("sch", "clear", *doc)
         time.sleep(5)
         comps = [c for c in components() if c.get("componentType") == "part"]
         if code == 0 and not comps:
+            cleared = True
             break
     report["clear"] = code
+    if not cleared:
+        report["error"] = "clear did not empty the page; refusing to place blocks on top of stale parts"
+        report["metrics"] = {"blocks": 0, "fits": 0, "overlaps": 0, "verdict": "blocked"}
+        (out_dir / (export_name + ".report.json")).write_text(
+            json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+        return report
 
     # place blocks one at a time, snapping each onto its planned bbox
     for i, p in enumerate(plan["placements"]):
