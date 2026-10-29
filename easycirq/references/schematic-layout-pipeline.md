@@ -46,6 +46,24 @@ python easycirq/scripts/sch_layout_plan.py spec.json --envelopes easycirq/assets
 `--envelopes` 也可省略：脚本默认读 `easycirq/assets/block-envelopes.json`；写成 `assets/...`
 只有当前目录是 `easycirq/` 时才有效，否则报 `No such file or directory` 并 `blocked`（exit 2）。
 
+spec 最小示例（`easycirq-sch-layout-plan/v1`）：
+
+```json
+{
+  "schema": "easycirq-sch-layout-plan/v1",
+  "page": {"width": 1170, "height": 825, "margin": 12},
+  "titleBlock": {"minX": 610, "minY": 12, "maxX": 1170, "maxY": 380},
+  "blocks": [
+    {"id": "block.es8311_codec_i2s", "title": "音频编解码 ES8311", "halo": 24}
+  ],
+  "options": {"gap": 40, "zonePad": 16, "titleGap": 36}
+}
+```
+
+块只给 `id/title` 时由 `--envelopes` 补包络；`envelope`、`halo`、`options` 都可省
+（options 缺省 gap 40 / zonePad 16 / titleGap 36，且 gap 会被抬到至少 `titleGap + 6`）。
+`block-envelopes.json` 目前不含 `halo` 字段，需要净空时在 spec 里给。
+
 ### 2.1 离线自检（2026-10-29 实测）
 
 在仓库根目录跑这三个命令，确认工具与本节的输出字段仍一致（planner workstream 合并后复测）：
