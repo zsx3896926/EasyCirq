@@ -255,6 +255,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 
 - `python -m mp_place.gates`（或 `--quick`）跑四道附加闸：policy 默认断言、`run_full --all-goals` leaderboard、`consolidate` 总表、`realboard --check`（缺 cases 自动 SKIP）；全 PASS 退出 0，写 `docs/GATES.md`。
 
+
+## P4.14 结构化 CCG 诊断（2026-10-29 第十轮同步）
+
+- `mp_place/ccg_diag.py`：把 `intent_violations` 的可读串解析成结构化记录（type/a/b/actual/limit），`diagnose_template(name)` 跑严格模式并输出 `ccg_residual` 明细，用于定位"严格 CCG 不满足"的具体约束。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。

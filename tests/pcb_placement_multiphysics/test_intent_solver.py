@@ -138,9 +138,9 @@ class PlanFromIntentTests(unittest.TestCase):
                 self.assertTrue(stats["ccg_target_met"])
 
     def test_ccg_repaired_from_jiggled_intent(self):
-        rng = random.Random(42)
         for name in template_names():
             with self.subTest(template=name):
+                rng = random.Random(42 + sum(ord(c) for c in name))
                 sc, reference, intent = _reference_case(name)
                 jiggled = _jiggle(sc, reference, rng)
                 self.assertEqual(hard_violations(sc, jiggled), [])
