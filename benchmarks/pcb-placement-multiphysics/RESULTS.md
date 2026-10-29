@@ -356,3 +356,13 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 479 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 16. 第七轮同步（2026-10-29）
+
+- **run_full**（`report_full`）：五档 policy × 8 模板 leaderboard，默认 balanced 并断言 defaults。
+- **consolidate**（`docs/CONSOLIDATED.md`）：全部报告一键总览。
+- **solver_realboard**（`report_solver_realboard`）：真实板 route_aware v3 truth −4.9%、completion −5.2pp → 默认仍 v2。
+- 测试：仓库内 485 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
