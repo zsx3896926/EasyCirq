@@ -37,6 +37,7 @@ class AcceptTests(unittest.TestCase):
         self.assertLess(text.index("sch place --designator C1"),
                         text.index("doc reload"))
         self.assertIn("export-image", text)
+        self.assertIn("net_integrity.py", text)
 
     def test_parts_are_placed_individually(self):
         result = accept.build(BUNDLE, project_uuid="p", page="pg")
