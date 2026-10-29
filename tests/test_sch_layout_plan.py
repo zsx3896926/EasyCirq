@@ -1,4 +1,5 @@
 import copy
+import itertools
 import json
 import subprocess
 import sys
@@ -120,9 +121,12 @@ class LayoutPlan(unittest.TestCase):
         below_pad = plan_one(4)
         bzone = base["placements"][0]["zone"]
         hzone = haloed["placements"][0]["zone"]
-        # zone padding is max(zonePad=18, halo=60): each free edge grows by 42
-        self.assertEqual((hzone[2] - hzone[0]) - (bzone[2] - bzone[0]), 60 - 18)
-        self.assertEqual((hzone[3] - hzone[1]) - (bzone[3] - bzone[1]), 60 - 18)
+        # the haloed block is inset from the sheet edges so its zone reaches
+        # bbox + max(zonePad, halo)=60 on every side, clamped by the page
+        self.assertEqual(haloed["placements"][0]["bbox"], [72, 72, 372, 272])
+        self.assertEqual(tuple(hzone), (12, 12, 432, 366))
+        self.assertEqual(tuple(bzone), (12, 12, 330, 264))
+        self.assertEqual(haloed["metrics"]["halo_clipped"], 0)
         self.assertLess(haloed["metrics"]["zone_fill_ratio"],
                         base["metrics"]["zone_fill_ratio"])
         # a halo below zonePad must not shrink the zone
@@ -157,7 +161,9 @@ class LayoutPlan(unittest.TestCase):
     def test_output_is_deterministic(self):
         fallback_blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
                             "envelope": {"w": 600, "h": 260}} for i in range(3)]
-        for data in (spec(), make_spec(fallback_blocks)):
+        halo_blocks = [{"id": "h%d" % i, "title": "块 %d" % i,
+                        "envelope": {"w": 300, "h": 200}, "halo": 60} for i in range(2)]
+        for data in (spec(), make_spec(fallback_blocks), make_spec(halo_blocks)):
             first = planner.plan(copy.deepcopy(data))
             second = planner.plan(copy.deepcopy(data))
             self.assertEqual(json.dumps(first, ensure_ascii=False, sort_keys=True),
@@ -232,12 +238,108 @@ class LayoutPlan(unittest.TestCase):
         gap = max(options["gap"], options["titleGap"] + 6)
         natural = planner._shelf_pack(blocks, regions, gap,
                                       options["zonePad"], options["titleGap"])
-        natural_rep = planner._frame_placements(natural, data["page"],
+        natural_rep = planner._frame_placements(natural, data["page"], data["titleBlock"],
                                                 options["zonePad"], options["titleGap"],
                                                 len(blocks))
         self.assertEqual(natural_rep["verdict"], "pass")
         self.assertGreater(rep["metrics"]["score"], natural_rep["metrics"]["score"],
                            "planner must prefer the higher-scoring candidate")
+
+    # --- residual risk cleanup / systematic invariants ------------------
+    def test_halo_reservation_degrades_instead_of_dropping_block(self):
+        # a page too tight for two full halos must still place both blocks:
+        # the planner degrades the halo reservation and reports the clipping
+        blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
+                   "envelope": {"w": 600, "h": 200}, "halo": 60} for i in range(2)]
+        data = {
+            "schema": "easycirq-sch-layout-plan/v1",
+            "page": {"width": 1170, "height": 520, "margin": 12},
+            "titleBlock": None,
+            "blocks": blocks,
+            "options": {"gap": 24, "zonePad": 18, "titleGap": 34},
+        }
+        rep = planner.plan(copy.deepcopy(data))
+        self.assertEqual(rep["verdict"], "pass", rep)
+        self.assertEqual(rep["metrics"]["fits"], 2)
+        self.assertFalse(rep["unplaced"])
+        self.assertGreater(rep["metrics"]["halo_clipped"], 0,
+                           "degraded halo must be reported, not hidden")
+        for i in range(len(rep["frames"])):
+            for j in range(i + 1, len(rep["frames"])):
+                a, b = rep["frames"][i]["rect"], rep["frames"][j]["rect"]
+                ox = max(0, min(a["maxX"], b["maxX"]) - max(a["minX"], b["minX"]))
+                oy = max(0, min(a["maxY"], b["maxY"]) - max(a["minY"], b["minY"]))
+                self.assertEqual(ox * oy, 0)
+
+    def test_zone_frames_stay_clear_of_title_block(self):
+        rep = planner.plan(spec())
+        tb = spec()["titleBlock"]
+        self.assertEqual(rep["metrics"]["zone_title_block_overlaps"], 0)
+        for fr in rep["frames"]:
+            r = fr["rect"]
+            ox = max(0, min(r["maxX"], tb["maxX"]) - max(r["minX"], tb["minX"]))
+            oy = max(0, min(r["maxY"], tb["maxY"]) - max(r["minY"], tb["minY"]))
+            self.assertEqual(ox * oy, 0, "zone covers title block: %s" % (r,))
+
+    def test_wide_block_never_overflows_page_margin(self):
+        # regression: a block wider than the top-right strip used to be placed
+        # past the page margin and still reported as a pass
+        blocks = [
+            {"id": "block.es8311_codec_i2s", "title": "ES8311",
+             "envelope": {"w": 560, "h": 340}},
+            {"id": "block.bq24074_powerpath_charger", "title": "BQ24074",
+             "envelope": {"w": 590, "h": 550}},
+        ]
+        title_block = {"minX": 610, "minY": 12, "maxX": 1170, "maxY": 380}
+        options = {"gap": 24, "zonePad": 16, "titleGap": 36}
+        code, rep = self.run_plan(make_spec(copy.deepcopy(blocks), title_block, options))
+        self.assertEqual(code, 2)
+        self.assertEqual(rep["verdict"], "blocked")
+        self.assertTrue(rep["unplaced"])
+        for p in rep["placements"]:
+            if not p["bbox"]:
+                continue
+            x1, y1, x2, y2 = p["bbox"]
+            self.assertTrue(x1 >= 12 and y1 >= 12 and x2 <= 1158 and y2 <= 813, p)
+
+    def test_measured_envelope_matrix_invariants(self):
+        # systematic offline check over the measured envelope table: every plan
+        # must satisfy the invariants, not just the hand-picked fixtures
+        envelopes = planner.load_envelopes()
+        ids = sorted(envelopes)
+        page = {"width": 1170, "height": 825, "margin": 12}
+        title_block = {"minX": 610, "minY": 12, "maxX": 1170, "maxY": 380}
+        options = {"gap": 24, "zonePad": 16, "titleGap": 36}
+        combos = list(itertools.combinations(ids, 1)) + list(itertools.combinations(ids, 2))
+        self.assertGreaterEqual(len(combos), 60)
+        for combo in combos:
+            data = {"schema": "easycirq-sch-layout-plan/v1", "page": dict(page),
+                    "titleBlock": dict(title_block), "options": dict(options),
+                    "blocks": [{"id": key, "title": key} for key in combo]}
+            rep = planner.plan(copy.deepcopy(data), envelopes)
+            self.assertIn(rep["verdict"], ("pass", "blocked"))
+            m = rep["metrics"]
+            self.assertEqual(m["zone_title_block_overlaps"], 0)
+            self.assertEqual(m["halo_clipped"], 0)
+            self.assertEqual(m["overlaps"], 0)
+            self.assertTrue(0.0 <= m["score"] <= 100.0)
+            if rep["verdict"] == "blocked":
+                self.assertTrue(rep["unplaced"])
+            for p in rep["placements"]:
+                if not p["bbox"]:
+                    continue
+                x1, y1, x2, y2 = p["bbox"]
+                self.assertTrue(x1 >= page["margin"] and y1 >= page["margin"]
+                                and x2 <= page["width"] - page["margin"]
+                                and y2 <= page["height"] - page["margin"], p)
+                zx1, zy1, zx2, zy2 = p["zone"]
+                self.assertTrue(zx1 <= x1 and zy1 <= y1 and zx2 >= x2 and zy2 >= y2, p)
+            for i in range(len(rep["frames"])):
+                for j in range(i + 1, len(rep["frames"])):
+                    a, b = rep["frames"][i]["rect"], rep["frames"][j]["rect"]
+                    ox = max(0, min(a["maxX"], b["maxX"]) - max(a["minX"], b["minX"]))
+                    oy = max(0, min(a["maxY"], b["maxY"]) - max(a["minY"], b["minY"]))
+                    self.assertEqual(ox * oy, 0)
 
     # --- metrics / score -----------------------------------------------
     def test_zone_fill_and_balance_metrics(self):
@@ -246,9 +348,11 @@ class LayoutPlan(unittest.TestCase):
         m = rep["metrics"]
         for key in ("fits", "overlaps", "area_usage", "zone_slack",
                     "title_clearance_violations", "score",
-                    "zone_fill_ratio", "layout_balance", "halo_clipped"):
+                    "zone_fill_ratio", "layout_balance", "halo_clipped",
+                    "zone_title_block_overlaps"):
             self.assertIn(key, m)
         self.assertEqual(m["halo_clipped"], 0, "no halos in this fixture")
+        self.assertEqual(m["zone_title_block_overlaps"], 0)
         zone_area = sum((f["rect"]["maxX"] - f["rect"]["minX"]) *
                         (f["rect"]["maxY"] - f["rect"]["minY"]) for f in rep["frames"])
         block_area = sum((p["bbox"][2] - p["bbox"][0]) * (p["bbox"][3] - p["bbox"][1])
