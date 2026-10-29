@@ -78,10 +78,8 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
     doc = ["--doc", page]
     report = {"page": page, "blocks": [], "moves": []}
 
-    # activate project + page
-    if not window:
-        raise ValueError("spec.window is required (use `easycirq doctor` to find it)")
-    # window ids change when the connector reconnects; resolve the live one
+    # activate project + page; window ids change when the connector reconnects
+    # so resolve the live one instead of trusting spec.window
     c, o, e = cli("project", "info")
     info = parse(o) or {}
     live_window = info.get("windowId") or (info.get("context") or {}).get("windowId") or window
@@ -157,6 +155,25 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
                 time.sleep(5)
                 actual = union_bbox(components(), set(desig))
                 moved = {"dx": dx, "dy": dy, "exit": code2}
+        # keep the corrected block inside the sheet margins
+        if actual:
+            mx = 0
+            my = 0
+            if actual[0] < 12:
+                mx = 12 - actual[0]
+            if actual[1] < 12:
+                my = 12 - actual[1]
+            if actual[2] > 1158:
+                mx = 1158 - actual[2]
+            if actual[3] > 813:
+                my = 813 - actual[3]
+            if (mx or my) and block_groups:
+                c3, o3, e3 = cli("sch", "group-move", "--groups", ",".join(block_groups),
+                                 "--dx", str(round(mx, 1)), "--dy", str(round(my, 1)), *doc)
+                time.sleep(4)
+                actual = union_bbox(components(), set(desig))
+                moved = (moved or {})
+                moved["margin"] = {"dx": mx, "dy": my, "exit": c3}
         report["blocks"].append({"id": p["id"], "group": group, "groups": locals().get("block_groups", []), "designators": desig,
                                  "apply": code, "actual": actual, "moved": moved})
         report["moves"].append(moved)
