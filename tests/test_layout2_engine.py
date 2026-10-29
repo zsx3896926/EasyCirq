@@ -376,3 +376,35 @@ class EdgeClearanceTests(unittest.TestCase):
         self.assertEqual(base["pages"][0]["blocks"][0]["bbox"],
                          with_zero["pages"][0]["blocks"][0]["bbox"])
 
+class PinnedPlacementTests(unittest.TestCase):
+    def _pinned(self, bbox):
+        return {"id": "wroom", "title": "wroom", "w": bbox[2] - bbox[0],
+                "h": bbox[3] - bbox[1], "halo": 8, "pinned_bbox": bbox}
+
+    def test_pinned_block_keeps_its_bbox_and_others_avoid_it(self):
+        plan = layout_engine.plan_project(
+            {"name": "pin", "modules": [
+                self._pinned([160, 169, 389, 590]),
+                {"id": "m1", "title": "m1", "w": 150, "h": 100}]})
+        self.assertEqual(plan["verdict"], "pass")
+        page = plan["pages"][0]
+        pinned = next(b for b in page["blocks"] if b["id"] == "wroom")
+        other = next(b for b in page["blocks"] if b["id"] == "m1")
+        self.assertAlmostEqual(pinned["bbox"][0], 160, delta=0.5)
+        self.assertAlmostEqual(pinned["bbox"][1], 169, delta=0.5)
+        self.assertFalse(intersects(pinned["zone"], other["zone"]))
+
+    def test_pinned_outside_page_is_blocked(self):
+        plan = layout_engine.plan_project(
+            {"name": "pin", "modules": [
+                self._pinned([1000, 700, 1400, 900])]})
+        self.assertEqual(plan["verdict"], "blocked")
+        self.assertEqual(plan["findings"][0]["code"], "pinned_outside_page")
+
+    def test_pinned_on_title_block_is_blocked(self):
+        plan = layout_engine.plan_project(
+            {"name": "pin", "modules": [
+                self._pinned([500, 60, 700, 160])]})
+        self.assertEqual(plan["verdict"], "blocked")
+        self.assertEqual(plan["findings"][0]["code"], "pinned_title_block")
+

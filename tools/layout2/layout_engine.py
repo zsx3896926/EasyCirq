@@ -118,6 +118,7 @@ class Module:
     h: float
     halo: dict
     affinity_group: str | None = None
+    pinned: list | None = None
 
 
 @dataclass
@@ -607,8 +608,19 @@ def normalize_modules(project) -> list:
                 f"module {module_id!r} affinity_group must be a non-empty "
                 "string",
                 {"id": module_id})
+        pinned = None
+        raw_pinned = entry.get("pinned_bbox")
+        if raw_pinned is not None:
+            rect = _as_rect(raw_pinned)
+            if rect is None or not _rect_positive(rect):
+                raise LayoutBlocked(
+                    "invalid_module",
+                    f"module {module_id!r} pinned_bbox must be "
+                    "[minX, minY, maxX, maxY]",
+                    {"id": module_id})
+            pinned = list(rect)
         modules.append(Module(module_id, title.strip(), width, height, halo,
-                              group.strip() if group else None))
+                              group.strip() if group else None, pinned))
     return modules
 
 
@@ -801,6 +813,25 @@ def _external_zone_solver(modules, tpl, cfg, items):
     return placements, unplaced
 
 
+def _split_region(region, cut, gap: float = 0.0):
+    """Partition one region into rectangles covering it minus ``cut``."""
+    x0, y0, x1, y1 = region
+    cx0, cy0, cx1, cy1 = cut
+    pieces = []
+    if cx0 > x0 + EPS:
+        pieces.append((x0, y0, cx0 - gap, y1))
+    if cx1 < x1 - EPS:
+        pieces.append((cx1 + gap, y0, x1, y1))
+    mx0, mx1 = max(x0, cx0), min(x1, cx1)
+    if mx1 > mx0 + EPS:
+        if cy0 > y0 + EPS:
+            pieces.append((mx0, y0, mx1, cy0 - gap))
+        if cy1 < y1 - EPS:
+            pieces.append((mx0, cy1 + gap, mx1, y1))
+    return [piece for piece in pieces
+            if piece[2] - piece[0] > 20 and piece[3] - piece[1] > 20]
+
+
 def _pack_page(modules, tpl, cfg):
     aff_index = {}
     for index, module in enumerate(modules):
@@ -815,13 +846,42 @@ def _pack_page(modules, tpl, cfg):
         items.append(_Item(module, zone_w, zone_h, order))
     items.sort(key=lambda item: (item.affinity_index, -item.zone_h,
                                  -item.zone_w, item.module.id))
-    external = _external_zone_solver(modules, tpl, cfg, items)
+    pad = float(cfg["zone_pad"])
+    pinned_placements = []
+    pinned_modules = [module for module in modules if module.pinned]
+    regions = [dict(region) for region in tpl["regions"]]
+    for module in pinned_modules:
+        zone_w, zone_h = zone_size(module, cfg)
+        x = module.pinned[0] - module.halo["left"] - pad
+        y = (module.pinned[1] - float(cfg["header_h"])
+             - module.halo["bottom"] - pad)
+        zone = (x, y, x + zone_w, y + zone_h)
+        if not _rect_within(tpl["usable"], zone):
+            raise LayoutBlocked(
+                "pinned_outside_page",
+                f"pinned module {module.id!r} zone leaves the usable page",
+                {"id": module.id, "zone": zone})
+        if tpl.get("title_block") is not None and _rect_intersects(
+                zone, tpl["title_block"]["rect"]):
+            raise LayoutBlocked(
+                "pinned_title_block",
+                f"pinned module {module.id!r} overlaps the title block",
+                {"id": module.id, "zone": zone})
+        item = _Item(module, zone_w, zone_h, 0)
+        pinned_placements.append((item, x, y))
+        regions = [piece for region in regions
+                   for piece in _split_region(region["rect"], zone,
+                                                    float(cfg["min_gap"]))]
+    regular = [item for item in items if not item.module.pinned]
+    external = _external_zone_solver([item.module for item in regular], tpl,
+                                     cfg, regular)
     if external is not None:
-        return external
-    remaining = items
-    placements = []
-    for region in tpl["regions"]:
-        placed, remaining = _shelf_pack(region["rect"], remaining,
+        return external, []
+    remaining = regular
+    placements = list(pinned_placements)
+    for region in tpl["regions"] if not pinned_modules else regions:
+        placed, remaining = _shelf_pack(region if isinstance(region, tuple)
+                                        else region["rect"], remaining,
                                         float(cfg["min_gap"]))
         placements.extend(placed)
         if not remaining:
