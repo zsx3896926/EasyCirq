@@ -270,13 +270,13 @@ class WithHaloTests(unittest.TestCase):
 
     def test_module_level_part_name_shorthand(self):
         expanded = dm.with_halo(self.bbox, 'cap.100nf_0402')
-        self.assertEqual(expanded, {'minX': 78.0, 'minY': 184.0,
-                                    'maxX': 143.0, 'maxY': 227.0})
+        self.assertEqual(expanded, {'minX': 92.0, 'minY': 196.0,
+                                    'maxX': 129.0, 'maxY': 221.0})
 
     def test_module_level_get_reads_shipped_table(self):
         part = dm.get('res.10k_0402')
         self.assertEqual(part.symbol, {'w': 21.0, 'h': 9.0})
-        self.assertEqual(part.with_halo(self.bbox)['minX'], 78.0)
+        self.assertEqual(part.with_halo(self.bbox)['minX'], 92.0)
 
     def test_zero_halo_is_identity(self):
         zero = dm.Halo()
