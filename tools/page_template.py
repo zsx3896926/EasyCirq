@@ -28,11 +28,17 @@ def build(snapshot, *, page=None):
     parts = []
     for comp in components:
         bbox = _bbox(comp)
+        cx = (bbox["minX"] + bbox["maxX"]) / 2.0
+        cy = (bbox["minY"] + bbox["maxY"]) / 2.0
+        sx = round(cx / GRID) * GRID   # EDA refuses stubs from off-grid pins
+        sy = round(cy / GRID) * GRID
+        dx, dy = sx - cx, sy - cy
         parts.append({
             "ref": comp["ref"],
-            "bbox": bbox,
-            "x": round((bbox["minX"] + bbox["maxX"]) / 2.0, 3),
-            "y": round((bbox["minY"] + bbox["maxY"]) / 2.0, 3),
+            "bbox": {"minX": bbox["minX"] + dx, "minY": bbox["minY"] + dy,
+                     "maxX": bbox["maxX"] + dx, "maxY": bbox["maxY"] + dy},
+            "x": sx,
+            "y": sy,
             "value": comp.get("value"),
             "mpn": comp.get("mpn"),
         })
