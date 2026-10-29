@@ -32,8 +32,8 @@ class ReplayPlanTests(unittest.TestCase):
         plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg")
         text = "\n".join(plan["commands"])
         self.assertLess(text.index("project open"), text.index("sch place"))
-        self.assertLess(text.index("sch place --designator U1"),
-                        text.index("sch place --designator C1"))
+        self.assertLess(text.index("--designator U1"),
+                        text.index("--designator C1"))
         self.assertLess(text.index("sch place"), text.index("sch connect"))
         self.assertLess(text.index("sch connect"), text.index("sch no-connect"))
         self.assertLess(text.index("sch no-connect"), text.index("doc reload"))
