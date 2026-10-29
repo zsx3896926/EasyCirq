@@ -1,0 +1,68 @@
+{
+ "schema": "easycirq-text-metrics/v1",
+ "measured_at": "2026-10-29",
+ "source": {
+  "method": "render 16 frame titles (ASCII x10, CJK x8) at sizes 6-20 on a scratch page, export PNG, measure pixel bbox",
+  "client": "EasyEDA Pro 4.1.78",
+  "site": "easyeda.com"
+ },
+ "safety_margin": 0.1,
+ "sizes": {
+  "6": {
+   "height": 12.65,
+   "ascii_char_w": 3.28,
+   "cjk_char_w": 47.71,
+   "space_w": 1.8,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "7": {
+   "height": 14.67,
+   "ascii_char_w": 3.83,
+   "cjk_char_w": 52.44,
+   "space_w": 2.11,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "8": {
+   "height": 6.58,
+   "ascii_char_w": 4.39,
+   "cjk_char_w": 6.87,
+   "space_w": 2.41,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "9": {
+   "height": 7.08,
+   "ascii_char_w": 4.94,
+   "cjk_char_w": 7.75,
+   "space_w": 2.72,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "10": {
+   "height": 8.6,
+   "ascii_char_w": 5.5,
+   "cjk_char_w": 8.57,
+   "space_w": 3.03,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "12": {
+   "height": 10.12,
+   "ascii_char_w": 6.55,
+   "cjk_char_w": 10.34,
+   "space_w": 3.6,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "14": {
+   "height": 11.64,
+   "ascii_char_w": 7.66,
+   "cjk_char_w": 12.1,
+   "space_w": 4.21,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  },
+  "20": {
+   "height": 12.65,
+   "ascii_char_w": 10.89,
+   "cjk_char_w": 17.27,
+   "space_w": 5.99,
+   "provenance": "measured from rendered PNG samples (2026-10-29)"
+  }
+ }
+}

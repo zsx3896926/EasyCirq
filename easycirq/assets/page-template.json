@@ -1,0 +1,35 @@
+{
+ "schema": "easycirq-page-template/v1",
+ "measured_at": "2026-10-29",
+ "provenance": {
+  "live": "easycirq sch sheet-geometry (known-template-ratio)",
+  "exact": "easycirq sch sheet-geometry --from-svg (official-svg-vectors)",
+  "client": "EasyEDA Pro 4.1.78",
+  "site": "easyeda.com"
+ },
+ "page": {
+  "width": 1170,
+  "height": 825,
+  "margin": 10
+ },
+ "inner_border": {
+  "minX": 10,
+  "minY": 10,
+  "maxX": 1160,
+  "maxY": 815
+ },
+ "title_block": {
+  "rect": {
+   "minX": 460,
+   "minY": 10,
+   "maxX": 1160,
+   "maxY": 190
+  },
+  "corner": "bottom-right",
+  "visible": true
+ },
+ "notes": [
+  "live mode reported title block [468,0]-[1170,198]; SVG vector mode reported [460,10]-[1160,190]; use SVG mode for planning, add stroke clearance.",
+  "The user's stated bottom-left annotation box was not observed on this template; title_block is data and can be overridden per customer template."
+ ]
+}
