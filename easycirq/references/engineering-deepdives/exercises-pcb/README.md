@@ -2,16 +2,16 @@
 
 > 20 道单题 + 8 对成对案例。目标不是“找错越多越好”，而是学会区分五类判断：**明确错误、条件风险、有意取舍、看似异常实际合理、信息不足**。
 >
-> 题目在 [exercises.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md)，参考答案在 [answers.md](answers.md)，独立试答输入在 [blind-prompts.md](blind-prompts.md)。
+> 题目在 [exercises.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md)，参考答案在 [answers.md](answers.md)，独立试答输入在 [blind-prompts.md](blind-prompts.md)（v2 题面）。
 >
-> 所有题都绑定 [PCB 预布局基准集](../../pcb-placement-benchmarks.md) 的案例 id，或明确标为“构造题，不对应案例”。判据引用 [PCB 布局细节](../../pcb-placement-details.md) 的 PL 条目；机制解释见 [PCB 机制卡](../../pcb-lessons.md) 和 [PCB 工程习惯](../../pcb.md)。
+> 所有题都绑定 [PCB 预布局基准集](../../pcb-placement-benchmarks.md) 的案例 id，或明确标为“构造题，不对应案例”。判据引用 [PCB 布局细节](../../pcb-placement-details.md) 的 PL 条目；机制解释见 [PCB 机制卡](../../pcb-lessons.md) 和 [PCB 工程习惯](../../pcb.md)。基准集为 15 条案例：12 条 `synthetic` + 3 条真实板派生（`D1`–`D3`，见[读法文档 §1.1](../../pcb-placement-benchmarks.md#11-证据等级synthetic-与-derived)），派生案例只用于跨案例对照，不新增题目。
 
 ## 怎么用
 
 1. **先独立作答**：每题写结论类型（`可确认` / `条件` / `待补`）、机制、依据（案例 id / code / PL 编号）、还需补什么、建议动作，以及哪些是 `过度` 修改。
 2. **再读答案**：对照四类标记，重点看自己有没有把“条件风险”写成“明确错误”，或把 `review` 写成 `acceptable`。
 3. **对成对案例**：先写出“只改的那一个条件”，再判断结论是否翻转；没翻转时，说明该条件不是主导项，或说明离线判分没覆盖它。
-4. **盲测**：用 [blind-prompts.md](blind-prompts.md)（已去掉题型提示）独立试答，不读 [exercises.md](exercises.md) 的类型标签和答案。
+4. **盲测**：用 [blind-prompts.md](blind-prompts.md) v2（v1 已试答、v2 已按评审修订）独立试答，不读 [exercises.md](exercises.md) 的类型标签和答案。
 5. **不要背答案**：题目不抄案例坐标；换板/换叠层/换器件后必须重新判，不能把练习结论直接搬到真实工程。
 
 ## 评分维度
@@ -25,6 +25,8 @@
 | 证据 | 能否指到案例 id、finding code、检查 id、PL 条目；真实工程再指手册/网表 |
 | 行动 | 修复是否与结论匹配；`blocking` 先改硬约束，`review` 先改主导项，不过度整板重排 |
 | 未知 | 是否列出离线判分答不了的项（DRC/布线/阻抗/热/装配）并写 `NOT RUN` |
+
+> 第一轮盲测的经验：结论类型是主要失分维度，且失分几乎全是“条件/待补/可确认”标记位移。v2 题面已要求“结论类型只写一个主标记 + 一句附加说明，并落在被问的那件事上”。
 
 ## 题目 ↔ 案例 ↔ PL 对应
 
@@ -57,6 +59,18 @@
 
 > code 口径：`expected.codes` = 硬检查 code ∪ 软检查具体 code（`distance_far`/`loop_large`/`hpwl_high`/`congestion_hotspot`）；v1 没有笼统兜底 code。全局 HPWL/拥塞只在 `metrics` 里，超限才以 `hpwl_high`/`congestion_hotspot` 进 `codes`。
 
+### 派生练习案例（D1–D3，不新增题目）
+
+基准集新增的 3 条 `derived` 案例来自真实板回读 dump（8/23 器件子集、19 器件整板基线、一次被拒绝的直接移动），不是新的合成题。它们用来验证“**真实尺寸/单位换算（mil→mm）后判分是否仍成立**”，也可作为 X01/X04/X09/X19 的跨案例对照；**不改变 20 题数量与题型分布**。
+
+| 派生案例 | 域 | 期望判定（以 `benchmarks.json` 为准） | 可用来练什么 |
+|---|---|---|---|
+| `D1-MCU-LDO-DECAP` | mcu | review：`distance_far` | 真实板 100 mil 去耦规则的换算；按焊盘距离而非中心距（对照 X01/X09） |
+| `D2-PHOTO-LED-SENSE` | analog | acceptable：无 | “真实板基线在选定检查内通过 ≠ 整板无缺陷/已签核”；补 X19 的 `NOT RUN` 边界 |
+| `D3-DUAL-BTN-D4-MOVE` | multi | blocking：`body_overlap` | 真实被拒绝的单件移动；移动前硬几何预检（对照 X04） |
+
+用法：`python scripts/pcb_placement_benchmark.py --case D1-MCU-LDO-DECAP`（在 `easycirq/` 下）看 scorecard；判据与派生边界见[读法文档 §1.1](../../pcb-placement-benchmarks.md#11-证据等级synthetic-与-derived) 与 `docs/pcb-placement-training/derived-cases.md`。**不要**把这三条的子集结论写成“整板已验证/能打样”。
+
 ## 成对案例
 
 8 对，每对只改一个条件（4 对来自基准集的 `*-PAIR` 变体，4 对是构造对照）。逐对写“改了什么 / 结论是否翻转 / 为什么”在 [paired-cases.md](paired-cases.md)：
@@ -74,8 +88,14 @@
 
 ## 完成级别与盲测状态
 
-- 题目、成对案例、参考答案：**作者编写完成**（基于契约 v1 与 PL 条目）。
-- 独立试答/盲测：**NOT RUN**（未运行）。当前没有独立 Agent 的盲测记录，也没有人工评分记录；`blind-prompts.md` 只是待用输入。
+- 题目、成对案例、参考答案：**作者编写完成**（基于契约与 PL 条目）。
+- **独立盲测：已运行一轮**（2026-10-29，3 名 Agent 试答 + 单评审），原始作答与评审见仓库开发环境的 `docs/evidence/pcb-placement-blind-2026-10-29/README.md` 与同目录 `evaluation.md`（证据目录不随 Skill 安装，故此处不设外链）。
+  摘要（60 份作答 / 5 维）：
+  - 结论类型 **43/60 = 71.7%**（失分几乎全是标记位移；真正内容错误只有 X01 的 review→blocking，属题面缺“软检查”信息）；
+  - 机制 **57/60 = 95%**；行动 **58/60 = 96.7%**；未知 **58/60 = 96.7%**；
+  - 证据 **60/60 = 100%**，但**存在泄题**（题面直接给案例 id + PL 编号，个别题还写了期望 verdict/codes）——v2 已修：场景来源只留案例 id、删除 PL 与 verdict/codes 提示。
+- 题面状态：`blind-prompts.md` 已按评审改为 **v2 题面**（X01 补软检查前提、移除泄题、X11 标记落点、X01/X08 过度例必答）；**第二轮盲测尚未运行**，v1/v2 分数不可直接比较。
+- 限制：**3 个样本、单评审人**（无第二评分人交叉校验）；隔离是**约束式**（禁读仓库/答案/联网/运行命令，不是容器/权限强隔离），无法排除对训练语料的记忆；三份作答高度同构，**不能**据此推断模型能力，也不作为认证或对外能力声明。
 - 这些题不是认证考试，也不证明 Agent 在真实工程中判断正确；它们只覆盖本组题面的判断类型，且全部基于离线几何/网表代理。
 - 真实工程未做的检查一律写 `NOT RUN`：DRC、布线/可布通、阻抗、EMC、热、机械/装配、打样与真机验证。
 
@@ -90,4 +110,4 @@
 | 热与测温位置 | PL16、PL24 |
 | 原理图侧的练习 | [原理图审图练习](../exercises/README.md) |
 
-> 边界：本练习集只训练“预布局判断”，不训练布线与制造；案例数据是教学构造，坐标不代表任何真实板。真实任务仍按 [PCB 工程习惯](../../pcb.md) 的顺序执行并回读实际工程。
+> 边界：本练习集只训练“预布局判断”，不训练布线与制造；12 条 `synthetic` 是教学构造，3 条 `derived` 来自真实板回读但只覆盖子集/选定检查（见[读法文档 §1.1](../../pcb-placement-benchmarks.md#11-证据等级synthetic-与-derived)），坐标不代表任何可直接复用的真实布局。真实任务仍按 [PCB 工程习惯](../../pcb.md) 的顺序执行并回读实际工程。

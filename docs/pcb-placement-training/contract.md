@@ -206,7 +206,7 @@ python scripts/pcb_placement_benchmark.py --all [--json] [--out results.json]
 }
 ```
 
-## 5. 案例清单（12 条：8 主例 + 4 成对变体）
+## 5. 案例清单（15 条：12 条合成 + 3 条真实板派生）
 
 | id | 域 | 候选布局的缺陷（问题） | 期望 verdict | 期望 codes（草案，实施时可微调但必须与 expected 一致） |
 |---|---|---|---|---|
@@ -226,6 +226,22 @@ python scripts/pcb_placement_benchmark.py --all [--json] [--out results.json]
 > 4 个成对变体各自只改一组坐标（写进 `pair_with` 与 `reference.rationale`），用于训练「只改一个条件、结论翻转」。8 主例里必须有 **≥3 个 blocking、≥4 个 review**，且至少各 1 个 `keepout_violation`、`body_overlap`、`connector_off_edge`、`loop_large`、`distance_far`。
 >
 > 固定件（`fixed:true`）没有独立的旋转字段：判分时其 `rot_deg` 视为 `0`，位置以 `fixed_xy_mm` 为准；这是 schema 缺省而不是为凑 `acceptable` 补数据。
+
+### 5.1 真实板派生案例（`evidence_level:"derived"`）
+
+| id | 域 | 派生源 | 期望 verdict | 期望 codes | 说明 |
+|---|---|---|---|---|---|
+| `D1-MCU-LDO-DECAP` | mcu | `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json` | review | `distance_far` | 保留 8/23 器件；3 条去耦焊盘距离 316/213/128 mil > 100 mil 规则 |
+| `D2-PHOTO-LED-SENSE` | analog | `easycirq/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json` | acceptable | 无 | 19/19 器件；5 条 tracked near-pin 全部合格，用于训练「真实板基线 ≠ 可签核」 |
+| `D3-DUAL-BTN-D4-MOVE` | multi | `easycirq/cases/dual-button-led-night-20261027/negative-direct-move/board-baseline.json` | blocking | `body_overlap` | D4 移动后与 R3 重叠 0.484 mm² |
+
+派生规则（实现见 `benchmarks/pcb-placement-benchmark/derive_cases.py`，说明见 `docs/pcb-placement-training/derived-cases.md`）：
+
+1. 只用 git 跟踪的证据文件；`provenance.source_sha256` 由脚本对源文件字节计算，不手填。
+2. 单位与坐标：mil → mm（× 0.0254，精确英寸）；dump 的 x/y 是 footprint 原点而非中心 → 中心取 bbox 中心、`size_mm` 取 bbox 反旋尺寸、引脚偏移 = `R(-rot)·(pad_abs − 中心)`；脚本断言 bbox 复现 ≤1e-6 mm、焊盘复现 ≤1e-14 mm。
+3. 只做坐标/单位换算与对象筛选；缺 pad/net 的器件、旋转非 0/90/180/270 的器件一律丢弃并记入 `unknowns`/`limits`，不猜。
+4. 阈值必须取自 tracked 证据（如 decap ≤100 mil 规则、`constraints.json` 的 `near_pin.max_mil`）或契约默认容差；禁止为凑 verdict 调阈值。
+5. 全局代理（HPWL/congestion）阈值只作**本布局基线回归界**，不参与这 3 条案例的 verdict，并写入 `limits`。
 
 ## 6. 证据与边界
 
@@ -247,11 +263,12 @@ python scripts/pcb_placement_benchmark.py --all [--json] [--out results.json]
 
 ## 8. 验收标准（本任务）
 
-- [ ] `benchmarks.json` 12 条案例，全部通过 schema 校验，`--all` exit 0（12/12 与 expected 匹配）。
+- [ ] `benchmarks.json` 15 条案例（12 synthetic + 3 derived），全部通过 schema 校验，`--all` exit 0（15/15 与 expected 匹配）。
 - [ ] `python -m unittest discover -s tests` 全绿，新增 `tests/pcb_placement_benchmark/` 测试 ≥ 25 条并被官方 discovery 发现。
 - [ ] `python easycirq/scripts/skill_selftest.py` 全部 PASS、0 FAIL（新增文件已接入必需清单）。
-- [ ] `python benchmarks/pcb-placement-benchmark/run_benchmark.py` exit 0，`simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`。
-- [ ] 文档：`references/pcb-placement-benchmarks.md` + 习题集（20 题 + 8 对 + 答案 + blind prompts）齐全，相对链接全部可解析。
+- [ ] `python benchmarks/pcb-placement-benchmark/run_benchmark.py` exit 0（15/15），`simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`。
+- [ ] 文档：`references/pcb-placement-benchmarks.md`（15 案例）+ 习题集（20 题 + 8 对 + 答案 + blind prompts）齐全，相对链接全部可解析。
+- [ ] 盲测轮：至少 1 轮 2–3 名隔离 Agent 试答 + 独立评审，响应/评估/修订记录进 `docs/evidence/pcb-placement-blind-<date>/`，限制（样本数/单评审/约束式隔离）写明。
 - [ ] SKILL.md 至少 2 处接线（PCB 训练入口 + 深潜训练入口），gate 文档未被污染。
 - [ ] 清洁 checkout 可复现（`git archive` 或新 worktree 复跑）。
 - [ ] 未改禁止路径；不合并 PR。
@@ -260,9 +277,11 @@ python scripts/pcb_placement_benchmark.py --all [--json] [--out results.json]
 
 | 角色 | 写作用域 |
 |---|---|
-| Lead | `docs/pcb-placement-training/`、`SKILL.md`、`easycirq/scripts/skill_selftest.py`、`easycirq/references/engineering-deepdives/README.md`、`benchmarks/pcb-placement-benchmark/`、`easycirq/references/offline-regression.md`（如需接线） |
+| Lead | `docs/pcb-placement-training/`、`docs/evidence/pcb-placement-blind-<date>/`、`SKILL.md`、`easycirq/scripts/skill_selftest.py`、`easycirq/references/engineering-deepdives/README.md`、`benchmarks/pcb-placement-benchmark/`、`easycirq/references/offline-regression.md`（如需接线） |
 | 案例（A） | `easycirq/assets/pcb-placement-benchmarks/` |
 | 判分器（B） | `easycirq/scripts/pcb_placement_benchmark.py`、`tests/pcb_placement_benchmark/` |
 | 文档/习题（C） | `easycirq/references/pcb-placement-benchmarks.md`、`easycirq/references/engineering-deepdives/exercises-pcb/` |
+| 派生案例（D，第二轮） | `easycirq/assets/pcb-placement-benchmarks/`（追加）、`benchmarks/pcb-placement-benchmark/derive_cases.py`、`docs/pcb-placement-training/derived-cases.md` |
+| 文档/题面修订（E，第二轮） | `easycirq/references/pcb-placement-benchmarks.md`、`easycirq/references/engineering-deepdives/exercises-pcb/` |
 
 改动越界或需要改契约时，先在本文件登记再动。

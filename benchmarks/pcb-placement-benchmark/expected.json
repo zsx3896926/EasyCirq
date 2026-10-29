@@ -1,7 +1,7 @@
 {
   "schema": "easycirq.pcb-placement-benchmark.expected/v1",
   "frozen_from": "easycirq/assets/pcb-placement-benchmarks/benchmarks.json",
-  "frozen_from_sha256": "49906f8efdd096499f0918be8bc51912ea2cfdc4093dfa0121c66de8b93470a0",
+  "frozen_from_sha256": "b378efb8a282cb3985b2199f6b113cf611a4b9ec68384650d151c7905b70831a",
   "policy": "人工评审后冻结的期望判定；不得用判分器输出反推。修订须先改契约并重新评审。",
   "cases": {
     "P1-MCU-MIN": {
@@ -92,6 +92,29 @@
     "P8b-MULTI-PAIR": {
       "verdict": "acceptable",
       "codes": [],
+      "soft_fail": []
+    },
+    "D1-MCU-LDO-DECAP": {
+      "verdict": "review",
+      "codes": [
+        "distance_far"
+      ],
+      "soft_fail": [
+        "ck-decoup-c1",
+        "ck-decoup-c3",
+        "ck-decoup-c90"
+      ]
+    },
+    "D2-PHOTO-LED-SENSE": {
+      "verdict": "acceptable",
+      "codes": [],
+      "soft_fail": []
+    },
+    "D3-DUAL-BTN-D4-MOVE": {
+      "verdict": "blocking",
+      "codes": [
+        "body_overlap"
+      ],
       "soft_fail": []
     }
   }

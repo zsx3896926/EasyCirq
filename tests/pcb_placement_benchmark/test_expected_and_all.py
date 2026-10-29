@@ -1,4 +1,5 @@
 """Expected reconciliation, verdict mapping and the --all summary."""
+import json
 import unittest
 
 from . import fixtures as f
@@ -195,10 +196,16 @@ class FrozenCollectionTests(support.CliTestCase):
         payload = self.assert_single_json(result)
         self.assertEqual(payload["schema"],
                          "easycirq.pcb-placement-benchmark.summary/v1")
-        self.assertEqual(payload["case_count"], 12,
-                         msg="the frozen collection must contain 12 cases\n"
+        # Count comes from the frozen collection itself so that adding reviewed
+        # cases (e.g. derived ones) does not silently keep a stale hard-coded
+        # expectation; --all must still reconcile every case.
+        frozen = json.loads(support.DEFAULT_CASES.read_text(encoding="utf-8"))
+        expected_count = len(frozen["cases"])
+        self.assertGreaterEqual(expected_count, 12)
+        self.assertEqual(payload["case_count"], expected_count,
+                         msg=f"the frozen collection must contain {expected_count} cases\n"
                              + result.context())
-        self.assertEqual(payload["matched_count"], 12,
-                         msg="12/12 cases must reproduce expected\n"
+        self.assertEqual(payload["matched_count"], expected_count,
+                         msg=f"{expected_count}/{expected_count} cases must reproduce expected\n"
                              + result.context())
         self.assertIs(payload["all_matched"], True)
