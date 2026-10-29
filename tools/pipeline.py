@@ -255,13 +255,36 @@ def _expand_templates(plan, spec, spec_dir):
             if not template_path.is_absolute():
                 template_path = spec_dir / template_path
             data = json.loads(template_path.read_text(encoding="utf-8"))
+            rel_min_x, rel_min_y, _, _ = _bbox_minmax(data.get("bbox"))
+            # align the template's bounding-box min corner to the block bbox min
+            # so an instance never emits negative coordinates.
+            origin_xy = [block["bbox"][0] - rel_min_x,
+                         block["bbox"][1] - rel_min_y]
             placed = templates.instantiate_template(
-                data, page.get("page"), [block["bbox"][0], block["bbox"][1]])
+                data, page.get("page"), origin_xy)
             block["parts"] = placed.get("parts") or []
             block["nets"] = placed.get("nets") or []
             block["template"] = data.get("block")
     plan["engine"] = "templates"
     return plan
+
+
+def _bbox_minmax(bbox):
+    if isinstance(bbox, dict):
+        return (float(bbox.get("minX", 0)), float(bbox.get("minY", 0)),
+                float(bbox.get("maxX", 0)), float(bbox.get("maxY", 0)))
+    if isinstance(bbox, (list, tuple)) and len(bbox) == 4:
+        return (float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3]))
+    return (0.0, 0.0, 0.0, 0.0)
+
+
+def _template_span(path, spec_dir):
+    p = Path(path)
+    if not p.is_absolute():
+        p = spec_dir / p
+    data = json.loads(p.read_text(encoding="utf-8"))
+    min_x, min_y, max_x, max_y = _bbox_minmax(data.get("bbox"))
+    return (max_x - min_x, max_y - min_y)
 
 
 def run_plan(name, spec, engine="layout", spec_dir=None):
@@ -271,6 +294,24 @@ def run_plan(name, spec, engine="layout", spec_dir=None):
         if engine == "freeform":
             plan = freeform.plan_project_freeform(project)
             return _adapt_freeform(plan)
+        if engine == "templates":
+            mapping = spec.get("templates") or {}
+            modules = []
+            for module in spec["modules"]:
+                span = None
+                rel = mapping.get(module["id"])
+                if rel:
+                    try:
+                        span = _template_span(rel, spec_dir or Path("."))
+                    except (OSError, ValueError):
+                        span = None
+                if span:
+                    copy = dict(module)
+                    copy["w"], copy["h"] = span
+                    modules.append(copy)
+                else:
+                    modules.append(dict(module))
+            project = {"name": name, "modules": modules}
         plan = layout_engine.plan_project(project, spec.get("page_template"))
         if engine == "templates":
             plan = _expand_templates(plan, spec, spec_dir or Path("."))
