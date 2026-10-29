@@ -418,3 +418,9 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 
 - **final_combo 增强**：每行暴露 `failed_nets`，聚合新增 `unrouted_nets`。
 - **结构发现**：真实板 `mcu-i2c` 在 2 层 1mm 网格 oracle 上，`+3V3` / `GND` / `USB_DP_CONN` 无法完全布线（completion 0.846，与 repair 预算无关）—— 真实板需要 4+ 层或电源/地平面，符合"router 是简化 oracle，非 DRC"的边界。
+
+
+## 24. 第十八轮同步（2026-10-29）
+
+- **route_resolution**（P4.17）：真实板 router 分辨率/层数扫描。
+- **定量结论**：`mcu-i2c` 的 1mm/2 层 completion 天花板 **0.846 → 0.923（grid 0.5mm）**，限制网从 `+3V3`/`GND` 收敛到单一电源网（`GND` 或 `VBUS_5V`）；纯加层（2→4）不单独改善，**网格分辨率才是主因**。`photo-led`/`dual-button` 在 1mm/2 层即 1.0。
