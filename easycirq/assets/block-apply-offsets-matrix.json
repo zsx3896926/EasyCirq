@@ -55,7 +55,20 @@
      ]
     }
    ],
-   "variable_offset": true
+   "variable_offset": true,
+   "pinned": {
+    "at": [
+     300,
+     300
+    ],
+    "parts_bbox": [
+     160.5,
+     169.5,
+     389.5,
+     590.5
+    ],
+    "note": "block-apply clamps WROOM to this area; plan it as pinned and lay the rest around it"
+   }
   },
   "block.es8311_codec_i2s": {
    "positions": [
@@ -251,7 +264,20 @@
      ]
     }
    ],
-   "variable_offset": true
+   "variable_offset": true,
+   "pinned": {
+    "at": [
+     300,
+     300
+    ],
+    "parts_bbox": [
+     226.5,
+     249.5,
+     373.5,
+     340.5
+    ],
+    "note": "near-edge placement shifts ams1117; pin it at a mid-page anchor (measured at 300,300)"
+   }
   },
   "block.mems_mic_analog": {
    "positions": [
@@ -460,5 +486,6 @@
    "variable_offset": false
   }
  },
- "note": "blocks marked variable_offset clamp/shift near page edges or the title block (observed for ams1117 and wroom); plan them pinned or apply edge_clearance"
+ "note": "blocks marked variable_offset clamp/shift near page edges or the title block (observed for ams1117 and wroom); plan them pinned or apply edge_clearance",
+ "pinned_usage": "compiler: project.pinned_at = {block_id: 'x,y'} forces the measured anchor; planner: treat pinned blocks as fixed obstacles"
 }

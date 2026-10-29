@@ -536,6 +536,16 @@ def compile_apply_plan(page_plan, project):
     frames = _normalise_frames(page_plan)
     offsets = project.get("apply_offsets") if isinstance(project, dict) else None
     blocks = _normalise_blocks(page_plan, offsets)
+    pinned_at = project.get("pinned_at") if isinstance(project, dict) else None
+    if isinstance(pinned_at, dict):
+        for block in blocks:
+            forced = pinned_at.get(block["id"])
+            if isinstance(forced, str) and _AT_PATTERN.match(forced.strip()):
+                block["at"] = forced.strip()
+            elif isinstance(forced, (list, tuple)) and len(forced) == 2:
+                block["at"] = "%s,%s" % (
+                    _format_number(_number(forced[0], "project.pinned_at")),
+                    _format_number(_number(forced[1], "project.pinned_at")))
     labels = _normalise_labels(page_plan)
     title_block = _title_block(page_plan, project)
     page_number = _page_number(page_plan, project)
