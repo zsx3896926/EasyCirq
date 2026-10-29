@@ -7,20 +7,41 @@
   "site": "easyeda.com"
  },
  "safety_margin": 0.1,
+ "anchors": {
+  "coordinate_system": "EasyEDA raw units (1 unit = 0.01 inch), y-up; measured A4 sheet 0..1170 x 0..825 with the title block bottom-right (small y)",
+  "left_top": "anchor point is the top-left corner of the line box; bbox extends +x and -y",
+  "left_center": "anchor point is the left edge midpoint; bbox extends +x and is centred in y",
+  "center": "anchor point is the line-box centre",
+  "right_top": "anchor point is the top-right corner of the line box; bbox extends -x and -y",
+  "rotation": "not supported by easycirq-text-metrics/v1; rotated text must be blocked, not silently guessed"
+ },
+ "extrapolation": {
+  "method": "least-squares linear fit over the measured sizes (ASCII/CJK/space: 8-20, height: 8-14); the fit residual on measured sizes is <= 0.34 raw units",
+  "estimated_sizes": [6, 7],
+  "estimated_fields": {
+   "6": ["height", "cjk_char_w"],
+   "7": ["height", "cjk_char_w"],
+   "20": ["height"]
+  },
+  "reason": "the merged rendering samples for sizes 6/7 carried a CJK/height unit error (6 -> cjk 47.71, height 12.65; 7 -> cjk 52.44, height 14.67) and the size-20 height (12.65) broke the 8-14 trend; values are extrapolated and marked, not measured - re-measure before treating them as evidence",
+  "retrigger": "next EasyEDA text-list/SVG measurement run"
+ },
  "sizes": {
   "6": {
-   "height": 12.65,
+   "height": 4.81,
    "ascii_char_w": 3.28,
-   "cjk_char_w": 47.71,
+   "cjk_char_w": 5.13,
    "space_w": 1.8,
-   "provenance": "measured from rendered PNG samples (2026-10-29)"
+   "extrapolated": true,
+   "provenance": "extrapolated initial estimate; re-measure from EasyEDA text-list/SVG exports (size 6 not in the rendered sample set)"
   },
   "7": {
-   "height": 14.67,
+   "height": 5.68,
    "ascii_char_w": 3.83,
-   "cjk_char_w": 52.44,
+   "cjk_char_w": 6.0,
    "space_w": 2.11,
-   "provenance": "measured from rendered PNG samples (2026-10-29)"
+   "extrapolated": true,
+   "provenance": "extrapolated initial estimate; re-measure from EasyEDA text-list/SVG exports (size 7 not in the rendered sample set)"
   },
   "8": {
    "height": 6.58,
@@ -58,11 +79,12 @@
    "provenance": "measured from rendered PNG samples (2026-10-29)"
   },
   "20": {
-   "height": 12.65,
+   "height": 16.97,
    "ascii_char_w": 10.89,
    "cjk_char_w": 17.27,
    "space_w": 5.99,
-   "provenance": "measured from rendered PNG samples (2026-10-29)"
+   "extrapolated_fields": ["height"],
+   "provenance": "ascii/cjk/space measured from rendered PNG samples (2026-10-29); height extrapolated from the measured 8-14 size trend because the merged 12.65 sample contradicted it - re-measure from EasyEDA text-list/SVG exports"
   }
  }
 }
