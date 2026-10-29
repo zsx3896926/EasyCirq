@@ -31,11 +31,13 @@ def _check_inside_page(bbox):
 def build(apply_document, *, project_uuid, page, parts_path=None):
     commands = []
     checks = []
-    # 0) open + clear page
+    # 0) open + clear page (explicit placeholders when ids are unknown)
+    pu = project_uuid or "<PROJECT_UUID>"
+    pg = page or "<PAGE_UUID>"
     commands.append("%s project open --project-uuid %s --allow-discard-unsaved"
-                    % (BIN, project_uuid))
+                    % (BIN, pu))
     commands.append('%s call document.open --payload "{\\"uuid\\":\\"%s\\"}"'
-                    % (BIN, page))
+                    % (BIN, pg))
     commands.append("%s sch clear-page" % BIN)
     checks.append({"check": "parts_count", "expect": 0})
     # 1) frames then placements
@@ -61,7 +63,7 @@ def build(apply_document, *, project_uuid, page, parts_path=None):
     # 2) save-after-apply invariant
     post = apply_document.get("post_apply") or {}
     if post.get("save"):
-        commands.append("%s %s" % (BIN, post["save"]))
+        commands.append(str(post["save"]))
     # 3) verify: snapshot + review + image
     commands.append("%s tools/ace_snapshot.py %s snapshot.json" % ("python", page))
     commands.append("python tools/ace_review.py snapshot.json --gate")
