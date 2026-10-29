@@ -37,6 +37,32 @@ Artifacts written to ``--out-dir`` (default ``./pipeline-out``)::
     dashboard.md                 markdown table: project, blocks, fits, overlaps,
                                  zones, export, wire rate, score, PNG link
 
+ACE-review gate (``tools/review_gate.py``, ``easycirq-review-gate/v1``)
+-----------------------------------------------------------------------
+A project can be gated on the deterministic ACE checklist before any apply
+command is emitted. The gate runs after offline planning and **before**
+``<name>.exec.json`` is written, in dry-run and apply mode alike:
+
+* a spec may declare ``"snapshot": "relative/ace.snapshot.json"``
+  (``easycirq-ace-snapshot/v1``); ``--snapshot PATH`` supplies a default for
+  specs that do not declare their own;
+* without ``--require-review`` a project with no snapshot is simply not
+  reviewed (``review.status = skipped``) and the pipeline behaves exactly as
+  before;
+* ``--require-review`` fails closed: a project without a usable snapshot is
+  ``review-blocked``;
+* strict mode (default) marks a project ``review-blocked`` when the reviewer
+  reports any ``error`` finding; ``--review-advisory`` records the same errors
+  as advisory and lets the project continue;
+* a review-blocked project is skipped (no apply exec spec, no EDA) but the
+  batch keeps going; its status counts as a failure for the exit code.
+
+``pipeline-report.json`` gains a top-level ``review`` summary (mode, required,
+checked/passed/blocked, default snapshot) and a per-project ``review`` object
+(status/mode/snapshot/verdict/errors/warnings). ``dashboard.md`` gains a
+``## Review gate`` section and review lines in the plan details. Exit codes are
+unchanged: 0 clean, 1 any failed/blocked/review-blocked project, 2 invalid input.
+
 In dry-run mode the CLI prints ``offline plan OK, EDA would run`` so the pipeline
 can be demonstrated without the one live EasyEDA window.
 
@@ -66,6 +92,7 @@ PLANNER_TOOL = SCRIPTS / "sch_layout_plan.py"
 BATCH_TOOL = SCRIPTS / "sch_layout_batch.py"
 APPLY_TOOL = ROOT / "tools" / "sch_layout_apply.py"
 SCOREBOARD_TOOL = ROOT / "tools" / "metrics_scoreboard.py"
+REVIEW_GATE_TOOL = ROOT / "tools" / "review_gate.py"
 DEFAULT_ENVELOPES = ROOT / "easycirq" / "assets" / "block-envelopes.json"
 
 PIPELINE_SCHEMA = "easycirq-layout-pipeline/v1"
@@ -89,6 +116,7 @@ def _load_module(name, path):
 planner = _load_module("easycirq_sch_layout_plan", PLANNER_TOOL)
 batch = _load_module("easycirq_sch_layout_batch", BATCH_TOOL)
 metrics = _load_module("easycirq_metrics_scoreboard", SCOREBOARD_TOOL)
+review_gate = _load_module("easycirq_review_gate", REVIEW_GATE_TOOL)
 DRY_RUN_NOTICE = "offline plan OK, EDA would run"
 
 
@@ -310,7 +338,7 @@ def _empty_project(name, spec_path):
             "plan_source": None, "verdict": None, "score": None, "metrics": {},
             "gap": None, "decision": None, "unplaced": [],
             "apply": {"attempted": False}, "report": None, "png": None,
-            "error": None}
+            "review": {"status": "not-run"}, "error": None}
 
 
 def _collect_report(project, out_dir):
@@ -335,7 +363,102 @@ def _collect_png(project, out_dir):
         project["png"] = png.name
 
 
-def _run_project(spec_path, spec, name, out_dir, envelope_data, dry_run, args):
+# ── ACE-review gate (runs before any exec spec / EDA apply) ─────────────────
+
+def _snapshot_path_for(spec, spec_path):
+    """Return (path, source) for the project's snapshot, or (None, None)."""
+    raw = spec.get("snapshot")
+    if isinstance(raw, str) and raw.strip():
+        return _resolve_against(spec_path, raw.strip()), "spec"
+    return None, None
+
+
+def _run_review_gate(project, spec, spec_path, args, default_snapshot=None):
+    """Gate one planned project on the ACE checklist.
+
+    Returns ``True`` when the project may continue, ``False`` when it is
+    ``review-blocked`` and must be skipped. The gate never emits an apply spec:
+    it runs before ``_run_apply`` and only records a decision on the project.
+    """
+    mode = "advisory" if getattr(args, "review_advisory", False) else "strict"
+    raw_snapshot = spec.get("snapshot")
+    if raw_snapshot not in (None, "") and not isinstance(raw_snapshot, str):
+        project["review"] = {
+            "status": "invalid", "reason": "spec.snapshot must be a non-empty path string",
+            "mode": mode, "snapshot": None, "source": "spec", "verdict": "blocked",
+            "allowed": False, "errors": [], "warnings": 0, "rules": [],
+        }
+        project["status"] = "review-blocked"
+        project["error"] = ("ACE review snapshot invalid: spec.snapshot must be a "
+                            "non-empty path string, got %r" % (raw_snapshot,))
+        project["apply"] = {"attempted": False, "skipped": "review-blocked"}
+        return False
+    snapshot_path, source = _snapshot_path_for(spec, spec_path)
+    if snapshot_path is None and default_snapshot is not None:
+        source = "cli"
+
+    if snapshot_path is None and default_snapshot is None:
+        if getattr(args, "require_review", False):
+            project["review"] = {
+                "status": "blocked", "reason": "missing-snapshot", "mode": mode,
+                "snapshot": None, "source": None, "verdict": "blocked",
+                "allowed": False, "errors": [], "warnings": 0, "rules": [],
+            }
+            project["status"] = "review-blocked"
+            project["error"] = ("ACE review required (--require-review) but the spec "
+                                "declares no `snapshot` and --snapshot was not given")
+            project["apply"] = {"attempted": False, "skipped": "review-blocked"}
+            return False
+        project["review"] = {"status": "skipped", "reason": "no-snapshot",
+                             "mode": mode, "snapshot": None, "source": None}
+        return True
+
+    try:
+        snapshot = (default_snapshot if source == "cli"
+                    else review_gate.load_snapshot(snapshot_path))
+        gate = review_gate.gate_snapshot(
+            snapshot, strict=not getattr(args, "review_advisory", False))
+    except review_gate.ReviewGateError as exc:
+        location = str(snapshot_path) if snapshot_path is not None else str(args.snapshot)
+        project["review"] = {
+            "status": "invalid", "reason": str(exc), "mode": mode,
+            "snapshot": location, "source": source, "verdict": "blocked",
+            "allowed": False, "errors": [], "warnings": 0, "rules": [],
+        }
+        project["status"] = "review-blocked"
+        project["error"] = "ACE review snapshot invalid (%s): %s" % (location, exc)
+        project["apply"] = {"attempted": False, "skipped": "review-blocked"}
+        return False
+
+    location = str(snapshot_path) if snapshot_path is not None else str(args.snapshot)
+    errors = [{"rule": finding.get("rule"), "message": finding.get("message"),
+               "refs": finding.get("refs") or []}
+              for finding in gate["errors"]]
+    project["review"] = {
+        "status": "pass" if gate["allowed"] else "blocked",
+        "mode": gate["mode"],
+        "snapshot": location,
+        "source": source,
+        "verdict": gate["verdict"],
+        "allowed": gate["allowed"],
+        "errors": errors,
+        "warnings": len(gate["warnings"]),
+        "rules": gate["rules"],
+        "advisory_errors_allowed": gate.get("advisory_errors_allowed", 0),
+    }
+    if not gate["allowed"]:
+        rules = ", ".join(gate["rules"]) or "unknown rule"
+        project["status"] = "review-blocked"
+        project["error"] = (
+            "ACE review blocked: %d error(s) [%s] in snapshot %s — project skipped "
+            "before EDA apply" % (len(errors), rules, location))
+        project["apply"] = {"attempted": False, "skipped": "review-blocked"}
+        return False
+    return True
+
+
+def _run_project(spec_path, spec, name, out_dir, envelope_data, dry_run, args,
+                 default_snapshot=None):
     project = _empty_project(name, spec_path)
     project["project_uuid"] = spec.get("project_uuid")
     page = spec.get("page")
@@ -366,6 +489,14 @@ def _run_project(spec_path, spec, name, out_dir, envelope_data, dry_run, args):
         _collect_report(project, out_dir)
         _collect_png(project, out_dir)
         return project
+
+    # The ACE-review gate runs before any exec spec is written or apply runs,
+    # in dry-run and apply mode alike. A blocked project is skipped, not fatal.
+    if not _run_review_gate(project, spec, spec_path, args, default_snapshot):
+        _collect_report(project, out_dir)
+        _collect_png(project, out_dir)
+        return project
+
     if dry_run:
         # Still collect evidence a previous EDA run left in the out-dir, so the
         # dashboard and scoreboard agree on what is on disk.
@@ -614,15 +745,20 @@ def _dashboard_markdown(report):
     by_name = {row.get("project"): row for row in scoreboard_rows}
     used = set()
     average = summary.get("average_score")
+    review = report.get("review") or {}
+    review_active = bool(review.get("checked") or review.get("required"))
+    review_note = (" · review %s: %d checked, %d blocked"
+                   % (review.get("mode", "strict"), review.get("checked", 0),
+                      review.get("blocked", 0)) if review_active else "")
     lines = ["# EasyCirq layout pipeline", ""]
     if report["dry_run"]:
         lines += ["> **%s**" % DRY_RUN_NOTICE, ""]
     lines += [
-             "Mode: **%s** · out: `%s` · %d project(s) · %d planned · %d applied · "
+             "Mode: **%s**%s · out: `%s` · %d project(s) · %d planned · %d applied · "
              "%d failed · avg score %s"
-             % (report["mode"], _cell(report["out_dir"]), summary["projects"],
-                summary["planned"], summary["applied"], summary["failed"],
-                "-" if average is None else "%.1f" % average),
+             % (report["mode"], review_note, _cell(report["out_dir"]),
+                summary["projects"], summary["planned"], summary["applied"],
+                summary["failed"], "-" if average is None else "%.1f" % average),
              "",
              "| project | blocks | fits | overlaps | zones | export | wire rate | score | PNG |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -651,12 +787,41 @@ def _dashboard_markdown(report):
         decision = project.get("decision") or {}
         if decision.get("file"):
             bits.append("decision [record](%s)" % quote(decision["file"]))
+        project_review = project.get("review") or {}
+        if project_review.get("status") in ("pass", "blocked", "invalid"):
+            bits.append("review %s" % project_review["status"])
         if project.get("status") == "applied":
             bits.append("applied")
         if project.get("error"):
             bits.append("**%s**: %s" % (project["status"], project["error"]))
         lines.append("- **%s** — %s" % (_cell(project["name"]),
                                         " · ".join(bits) if bits else "-"))
+
+    reviewed = [p for p in projects
+                if (p.get("review") or {}).get("status") in ("pass", "blocked", "invalid")]
+    if reviewed or review_active:
+        lines += ["", "## Review gate", "",
+                  "Mode **%s** · required %s · %d checked · %d blocked%s"
+                  % (review.get("mode", "strict"),
+                     "yes" if review.get("required") else "no",
+                     review.get("checked", 0), review.get("blocked", 0),
+                     "" if not review.get("default_snapshot")
+                     else " · default snapshot `%s`" % _cell(review["default_snapshot"]))]
+        if reviewed:
+            lines += ["", "| project | review | errors | warnings | snapshot |",
+                      "|---|---|---|---|---|"]
+            for project in reviewed:
+                item = project["review"]
+                lines.append("| %s | %s | %s | %s | %s |"
+                             % (_cell(project["name"]), _cell(item.get("status")),
+                                _fmt(len(item.get("errors") or [])),
+                                _fmt(item.get("warnings")),
+                                _cell(item.get("snapshot") or "-")))
+        skipped = [p for p in projects
+                   if (p.get("review") or {}).get("reason") == "missing-snapshot"]
+        if skipped:
+            lines += ["", "- review-blocked (no snapshot, --require-review): %s"
+                      % ", ".join(_cell(p["name"]) for p in skipped)]
 
     decided = [p for p in projects if (p.get("decision") or {}).get("file")]
     if decided:
@@ -685,11 +850,12 @@ def _dashboard_markdown(report):
 def _summarize(projects):
     planned = sum(1 for p in projects if p["status"] in ("planned", "applied"))
     applied = sum(1 for p in projects if p["status"] == "applied")
-    failed = sum(1 for p in projects if p["status"] in ("failed", "blocked"))
+    review_blocked = sum(1 for p in projects if p["status"] == "review-blocked")
+    failed = sum(1 for p in projects if p["status"] in ("failed", "blocked", "review-blocked"))
     scores = [p["score"] for p in projects
               if isinstance(p.get("score"), (int, float))]
     return {"projects": len(projects), "planned": planned, "applied": applied,
-            "failed": failed,
+            "failed": failed, "review_blocked": review_blocked,
             "average_score": round(sum(scores) / len(scores), 1) if scores else None}
 
 
@@ -714,6 +880,16 @@ def _parser():
                         help="override the apply command (default tools/sch_layout_apply.py)")
     parser.add_argument("--timeout", type=int, default=APPLY_TIMEOUT_S,
                         help="per-project EDA apply timeout in seconds")
+    parser.add_argument("--snapshot",
+                        help="default ACE-review snapshot JSON "
+                             "(easycirq-ace-snapshot/v1) for specs without their own "
+                             "`snapshot`; validated before any project is planned")
+    parser.add_argument("--require-review", action="store_true",
+                        help="fail closed: a project with no usable ACE snapshot is "
+                             "review-blocked and skipped")
+    parser.add_argument("--review-advisory", action="store_true",
+                        help="record ACE-review errors as advisory instead of blocking "
+                             "(practice runs only)")
     return parser
 
 
@@ -724,6 +900,8 @@ def main(argv=None):
     try:
         envelope_data = load_envelope_data(args.envelopes)
         spec_paths = _discover_specs(args)
+        review_default = (review_gate.load_snapshot(args.snapshot)
+                          if args.snapshot else None)
         out_dir.mkdir(parents=True, exist_ok=True)
     except (OSError, ValueError) as exc:
         print("layout pipeline: %s" % exc, file=sys.stderr)
@@ -745,7 +923,7 @@ def main(argv=None):
                                  % (name, seen_names[name]))
             seen_names[name] = spec_path
             project = _run_project(spec_path, spec, name, out_dir, envelope_data,
-                                   dry_run, args)
+                                   dry_run, args, review_default)
             if project.get("plan_file"):
                 try:
                     project["decision"] = build_decision(
@@ -767,6 +945,29 @@ def main(argv=None):
                                         for p in projects if p.get("plan_file")) else "mixed",
                   "files": [p["decision"]["file"] for p in projects
                             if (p.get("decision") or {}).get("file")]})
+
+    reviewed = [p for p in projects
+                if (p.get("review") or {}).get("status") in ("pass", "blocked", "invalid")]
+    review_blocked = [p for p in projects if p["status"] == "review-blocked"]
+    review_summary = {
+        "mode": "advisory" if args.review_advisory else "strict",
+        "required": bool(args.require_review),
+        "default_snapshot": (str(Path(args.snapshot).resolve())
+                             if args.snapshot else None),
+        "checked": len(reviewed),
+        "passed": sum(1 for p in reviewed
+                      if (p.get("review") or {}).get("status") == "pass"),
+        "blocked": len(review_blocked),
+        "snapshots": sorted({(p.get("review") or {}).get("snapshot")
+                             for p in reviewed
+                             if (p.get("review") or {}).get("snapshot")}),
+    }
+    steps.append({"step": "review",
+                  "status": "skipped" if not reviewed else
+                            ("blocked" if review_blocked else "ok"),
+                  "mode": review_summary["mode"],
+                  "required": review_summary["required"],
+                  "checked": len(reviewed), "blocked": len(review_blocked)})
 
     if dry_run:
         steps.append({"step": "apply", "status": "skipped", "reason": "dry-run"})
@@ -796,6 +997,7 @@ def main(argv=None):
                              "chosen_score": (p["decision"].get("chosen") or {}).get("score"),
                              "alternatives": len(p["decision"].get("alternatives") or [])}
                             for p in projects if (p.get("decision") or {}).get("file")],
+              "review": review_summary,
               "scoreboard": scoreboard,
               "summary": _summarize(projects),
               "dashboard": "dashboard.md"}
@@ -813,6 +1015,7 @@ def main(argv=None):
                       "planned": report["summary"]["planned"],
                       "applied": report["summary"]["applied"],
                       "failed": report["summary"]["failed"],
+                      "review_blocked": report["summary"].get("review_blocked", 0),
                       "average_score": report["summary"]["average_score"],
                       "dashboard": str((out_dir / "dashboard.md").resolve()),
                       "pipeline_report": str((out_dir / "pipeline-report.json").resolve())},
