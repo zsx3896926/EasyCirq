@@ -1,4 +1,4 @@
-"""Tests for P3.6 intent-constrained placement planner (stdlib unittest only).
+"""Tests for P3.6/P3.7 intent-constrained placement planner (stdlib unittest).
 
 Run with::
 
@@ -6,18 +6,30 @@ Run with::
 """
 
 import json
+import os
+import pathlib
 import random
+import tempfile
 import unittest
 
-from mp_place.intent import build_intent, intent_to_plan, intent_violations
+from mp_place.intent import CCG_TYPES, build_intent, intent_to_plan, intent_violations
 from mp_place.intent_solver import (
     CCG_PENALTY,
+    DEFAULT_CCG_WEIGHT,
+    DEFAULT_CCG_WEIGHTS,
     DEFAULT_STEPS,
+    RELAX_CLUSTER_FACTOR,
+    RELAX_HARD_TYPES,
+    RELAX_NEAR_FACTOR,
+    SOFT_VIOLATION_WEIGHT,
     benchmark,
+    pareto_experiment,
     plan_from_intent,
+    write_pareto_report,
 )
 from mp_place.model import hard_violations
 from mp_place.objective import HPWLObjective, ProxyObjective
+from mp_place.physics_v2 import PhysicsSimulatorV2
 from mp_place.solver import feasible_partial, random_feasible_placement
 from mp_place.templates import instantiate, template_names
 
@@ -70,6 +82,15 @@ def _with_coordinates(intent, placement):
         ref: [float(x), float(y), int(rot)] for ref, (x, y, rot) in placement.items()
     }
     return payload
+
+
+def _benchmark_case(name, seed):
+    """Same reference layout / intent the P3.7 Pareto report uses."""
+    sc = instantiate(name, seed=seed)
+    reference = random_feasible_placement(
+        sc, random.Random(f"intent-benchmark-ref:{name}:{seed}")
+    )
+    return sc, reference, build_intent(sc, reference)
 
 
 class PlanFromIntentTests(unittest.TestCase):
@@ -239,6 +260,216 @@ class BenchmarkSmokeTests(unittest.TestCase):
         self.assertIn("mean_truth_v2_pipeline", aggregate)
         # The default budget is exposed for reproducible CLI runs.
         self.assertEqual(DEFAULT_STEPS, 800)
+
+
+class ConstraintRelaxationTests(unittest.TestCase):
+    """P3.7 constraint tiering: near/cluster stay hard, clearance can be soft."""
+
+    def test_default_parameters_reproduce_p36_behaviour(self):
+        for name in ("buck", "wireless"):
+            with self.subTest(template=name):
+                sc, _reference, intent = _reference_case(name)
+                plan_a, stats_a = plan_from_intent(sc, intent, seed=0, steps=250)
+                plan_b, stats_b = plan_from_intent(
+                    sc,
+                    intent,
+                    seed=0,
+                    steps=250,
+                    ccg_weight=DEFAULT_CCG_WEIGHT,
+                    relax=False,
+                    hard_constraints=None,
+                )
+                self.assertEqual(plan_a, plan_b)
+                self.assertEqual(stats_a, stats_b)
+                # P3.6 semantics and stats stay intact.
+                self.assertEqual(stats_a["ccg_weight"], DEFAULT_CCG_WEIGHT)
+                self.assertEqual(stats_a["penalty"], CCG_PENALTY)
+                self.assertFalse(stats_a["relax"])
+                self.assertEqual(stats_a["hard_constraints"], sorted(CCG_TYPES))
+                self.assertEqual(stats_a["soft_constraints"], [])
+                self.assertEqual(stats_a["ccg_final"], 0)
+                self.assertEqual(stats_a["ccg_hard_final"], 0)
+                self.assertEqual(stats_a["ccg_soft_final"], 0)
+                self.assertEqual(stats_a["soft_penalty_weight"], SOFT_VIOLATION_WEIGHT)
+
+    def test_relax_tiering_keeps_near_cluster_hard(self):
+        sc, _reference, intent = _reference_case("wireless")
+        plan, stats = plan_from_intent(sc, intent, seed=0, steps=600, relax=True)
+        self.assertTrue(stats["relax"])
+        self.assertEqual(stats["hard_constraints"], sorted(RELAX_HARD_TYPES))
+        self.assertEqual(stats["soft_constraints"], ["clearance"])
+        self.assertEqual(stats["ccg_weight"], DEFAULT_CCG_WEIGHT)
+        self.assertEqual(stats["ccg_hard_final"], 0)
+        self.assertTrue(stats["ccg_target_met"])
+        self.assertEqual(hard_violations(sc, plan), [])
+        # the reported original-intent deviation is the real one
+        expected_original = len(intent_violations(sc, plan, intent))
+        self.assertEqual(stats["original_intent_ccg_final"], expected_original)
+
+    def test_hard_constraints_override(self):
+        sc, _reference, intent = _reference_case("buck")
+        plan, stats = plan_from_intent(
+            sc,
+            intent,
+            seed=0,
+            steps=200,
+            hard_constraints=["near", "cluster", "edge"],
+        )
+        self.assertEqual(stats["hard_constraints"], ["cluster", "edge", "near"])
+        self.assertEqual(stats["soft_constraints"], ["clearance"])
+        self.assertEqual(stats["ccg_hard_final"], 0)
+        self.assertTrue(stats["ccg_target_met"])
+        self.assertEqual(hard_violations(sc, plan), [])
+
+    def test_invalid_relaxation_parameters_rejected(self):
+        sc, _reference, intent = _reference_case("buck")
+        # near/cluster are hard semantics and cannot be dropped.
+        with self.assertRaises(ValueError):
+            plan_from_intent(sc, intent, steps=0, hard_constraints=["clearance"])
+        with self.assertRaises(ValueError):
+            plan_from_intent(sc, intent, steps=0, hard_constraints=["near", "bogus"])
+        with self.assertRaises(ValueError):
+            plan_from_intent(sc, intent, steps=0, ccg_weight=-1.0)
+        with self.assertRaises(ValueError):
+            plan_from_intent(sc, intent, steps=0, ccg_weight=float("nan"))
+        with self.assertRaises(ValueError):
+            plan_from_intent(sc, intent, steps=0, ccg_weight="heavy")
+
+    def test_relaxed_parameters_are_deterministic(self):
+        sc, _reference, intent = _reference_case("can-node")
+        plan_a, stats_a = plan_from_intent(
+            sc, intent, seed=7, steps=250, ccg_weight=5.0, relax=True
+        )
+        plan_b, stats_b = plan_from_intent(
+            sc, intent, seed=7, steps=250, ccg_weight=5.0, relax=True
+        )
+        self.assertEqual(plan_a, plan_b)
+        self.assertEqual(stats_a, stats_b)
+
+    def test_all_eight_templates_smoke_with_relax(self):
+        for name in template_names():
+            with self.subTest(template=name):
+                sc, _reference, intent = _reference_case(name)
+                plan, stats = plan_from_intent(
+                    sc, intent, seed=0, steps=150, ccg_weight=5.0, relax=True
+                )
+                self.assertEqual(set(plan), set(sc.components))
+                self.assertEqual(hard_violations(sc, plan), [])
+                self.assertTrue(stats["relax"])
+                self.assertEqual(stats["ccg_hard_final"], 0)
+                self.assertTrue(stats["ccg_target_met"])
+                self.assertIn("ccg_hard_initial", stats)
+                self.assertIn("original_intent_ccg_final", stats)
+
+    def test_relax_reduces_truth_on_verified_case(self):
+        """Deterministic report case: rs485 seed 0, strict vs relaxed truth."""
+        sc, reference, intent = _benchmark_case("rs485", 0)
+        self.assertEqual(hard_violations(sc, reference), [])
+        truth = PhysicsSimulatorV2(sc, seed=0)
+        strict_plan, strict_stats = plan_from_intent(
+            sc, intent, cost=ProxyObjective(sc).cost, seed=0, steps=800
+        )
+        relax_plan, relax_stats = plan_from_intent(
+            sc,
+            intent,
+            cost=ProxyObjective(sc).cost,
+            seed=0,
+            steps=800,
+            relax=True,
+        )
+        self.assertEqual(strict_stats["ccg_hard_final"], 0)
+        self.assertEqual(relax_stats["ccg_hard_final"], 0)
+        self.assertLess(truth.score(relax_plan), truth.score(strict_plan))
+        self.assertGreaterEqual(relax_stats["original_intent_ccg_final"], 0)
+
+    def test_ccg_weight_changes_search_on_verified_case(self):
+        """Weight 5 vs 100 gives different hard-feasible plans (bldc seed 0)."""
+        sc, _reference, intent = _benchmark_case("bldc-driver", 0)
+        plan_low, stats_low = plan_from_intent(
+            sc,
+            intent,
+            cost=ProxyObjective(sc).cost,
+            seed=0,
+            steps=800,
+            ccg_weight=5.0,
+        )
+        plan_high, stats_high = plan_from_intent(
+            sc,
+            intent,
+            cost=ProxyObjective(sc).cost,
+            seed=0,
+            steps=800,
+            ccg_weight=100.0,
+        )
+        self.assertNotEqual(plan_low, plan_high)
+        self.assertEqual(stats_low["ccg_weight"], 5.0)
+        self.assertEqual(stats_high["ccg_weight"], 100.0)
+        self.assertEqual(stats_low["ccg_final"], 0)
+        self.assertEqual(stats_high["ccg_final"], 0)
+        self.assertEqual(hard_violations(sc, plan_low), [])
+        self.assertEqual(hard_violations(sc, plan_high), [])
+
+    def test_pareto_constants(self):
+        self.assertEqual(tuple(DEFAULT_CCG_WEIGHTS), (5.0, 25.0, 100.0))
+        self.assertEqual(RELAX_HARD_TYPES, ("near", "cluster", "edge"))
+        self.assertNotIn("clearance", RELAX_HARD_TYPES)
+        self.assertGreater(RELAX_NEAR_FACTOR, 1.0)
+        self.assertGreater(RELAX_CLUSTER_FACTOR, 1.0)
+        self.assertGreater(SOFT_VIOLATION_WEIGHT, 0.0)
+        self.assertLessEqual(SOFT_VIOLATION_WEIGHT, 1.0)
+
+
+class ParetoExperimentTests(unittest.TestCase):
+    def test_small_pareto_sweep_structure(self):
+        result = pareto_experiment(
+            names=("buck",),
+            seeds=(0,),
+            ccg_weights=(5.0, 100.0),
+            relax_values=(False, True),
+            steps=120,
+            pipeline_steps=80,
+        )
+        self.assertEqual(result["schema"], "mp_place.intent_pareto/v1")
+        self.assertEqual(len(result["groups"]), 4)
+        self.assertEqual(len(result["rows"]), 4)
+        self.assertEqual(len(result["cases"]), 1)
+        self.assertIn("target", result)
+        self.assertIn("criteria", result["target"])
+        self.assertIsInstance(result["target"]["met"], bool)
+        for group in result["groups"]:
+            self.assertEqual(group["runs"], 1)
+            self.assertIn("ccg_hard_per_run", group)
+            self.assertIn("ccg_soft_per_run", group)
+            self.assertIn("mean_truth_vs_pipeline_pct", group)
+            self.assertLessEqual(group["ccg_hard_per_run"], 0.5)
+            self.assertEqual(group["hard_feasible_rate"], 1.0)
+        for row in result["rows"]:
+            self.assertTrue(row["hard_feasible"])
+            self.assertEqual(row["ccg_hard_violations"], 0)
+            self.assertIn("truth_vs_pipeline_pct", row)
+            self.assertIn("original_intent_violations", row)
+
+    def test_report_writer_writes_json_and_markdown(self):
+        result = pareto_experiment(
+            names=("buck",),
+            seeds=(0,),
+            ccg_weights=(5.0,),
+            relax_values=(False, True),
+            steps=80,
+            pipeline_steps=80,
+        )
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            paths = write_pareto_report(result, out_dir=tmp_dir)
+            self.assertEqual(set(paths), {"json", "md"})
+            self.assertTrue(os.path.isfile(paths["json"]))
+            self.assertTrue(os.path.isfile(paths["md"]))
+            loaded = json.loads(pathlib.Path(paths["json"]).read_text(encoding="utf-8"))
+            self.assertEqual(loaded, result)
+            markdown = pathlib.Path(paths["md"]).read_text(encoding="utf-8")
+            self.assertIn("# P3.7 Intent 约束松弛 Pareto 报告", markdown)
+            self.assertIn("| ccg_weight |", markdown)
+            self.assertIn("达标", markdown)
+            self.assertIn("truth 折衷", markdown)
 
 
 if __name__ == "__main__":

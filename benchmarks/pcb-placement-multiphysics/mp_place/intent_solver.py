@@ -1,16 +1,21 @@
-"""Intent-constrained placement planner (P3.6).
+"""Intent-constrained placement planner (P3.6 + P3.7 relaxation/Pareto).
 
 ``plan_from_intent`` turns a stored *layout intent* (HMT module tree + CCG
 relative constraints, see :mod:`mp_place.intent`) back into a placement, while
 optimising an optional multi-physics cost inside the constraint region.  The
 intent coordinates are the initial guess; the search objective is
 
-    total = cost(placement) + CCG_PENALTY * n_ccg_violations
+    total = cost(placement)
+            + ccg_weight * n_hard_ccg_violations
+            + ccg_weight * SOFT_VIOLATION_WEIGHT * n_soft_ccg_violations
 
-where ``n_ccg_violations`` is ``len(intent_violations(sc, placement, intent))``.
-Every accepted move passes :func:`mp_place.solver.feasible_partial`, so the
-returned placement is always hard-feasible (unless the scenario itself is
-unplaceable, in which case the P1 placement helper raises).
+where the hard/soft split comes from the P3.7 constraint tiering (``near`` /
+``cluster`` / ``edge`` hard by default; ``clearance`` soft when ``relax=True``
+or when an explicit ``hard_constraints`` list drops it) and the violation
+counts are ``len(intent_violations(...))`` filtered by constraint type.  Every
+accepted move passes :func:`mp_place.solver.feasible_partial`, so the returned
+placement is always hard-feasible (unless the scenario itself is unplaceable,
+in which case the P1 placement helper raises).
 
 If the intent coordinates replay to a hard-infeasible placement (stale intent,
 different scenario, moved fixed connector), the planner falls back to
@@ -63,8 +68,40 @@ planning buys constraint fidelity with a bounded cost hit.  Unit tests
 additionally perturb the stored intent coordinates to check that a *violating*
 start is repaired (``ccg_initial > 0`` -> ``ccg_final == 0``).
 
-Determinism: same ``(sc, intent, cost, seed, steps, max_violations)`` gives the
-same placement and stats.  Pure standard library; no EDA, DRC or network.
+P3.7 constraint tiering and Pareto (task-22)
+--------------------------------------------
+``relax=True`` keeps ``near`` / ``cluster`` as *hard semantic* relations but
+widens their reference-derived numeric bounds (``RELAX_NEAR_FACTOR`` /
+``RELAX_CLUSTER_FACTOR``) and turns ``clearance`` into a weighted soft
+constraint.  ``ccg_weight`` weights hard violations (soft ones cost
+``ccg_weight * SOFT_VIOLATION_WEIGHT``); ``hard_constraints`` lets the caller
+override the hard tier (``near`` / ``cluster`` can never be dropped).
+
+Pareto sweep (``pareto_experiment`` / ``python -m mp_place.intent_solver
+--pareto``, 8 templates x seeds 0/1, 800 plan steps vs 800-step pipeline,
+16 runs per group; hard-tier violations/run, soft violations/run, deviation
+from the original tautological bounds and mean ``truth_v2`` gap):
+
+| ccg_weight | relax | hard/run | soft/run | orig. deviation/run | truth_v2 plan | truth gap |
+| --- | --- | --- | --- | --- | --- | --- |
+| 5 | False | 0.00 | 0.00 | 0.00 | 2.958 | +54.7% |
+| 25 | False | 0.00 | 0.00 | 0.00 | 2.907 | +52.8% |
+| 100 | False | 0.00 | 0.00 | 0.00 | 2.907 | +52.8% |
+| 5 | True | 0.00 | 0.00 | 3.88 | 2.318 | +16.8% |
+| 25 | True | 0.00 | 0.00 | 3.88 | 2.318 | +16.8% |
+| 100 | True | 0.00 | 0.00 | 3.88 | 2.318 | +16.8% |
+
+The P3.7 target ("hard CCG violations <= 0.5/run and truth trade-off <= 20%")
+is met by the relaxed groups: 0.00 hard violations/run at +16.8% mean truth
+gap (vs +52.8% strict).  The active Pareto lever on these 8 synthetic
+templates is ``relax``; ``ccg_weight`` is inactive because the soft clearance
+preferences align with the proxy's noise/decoupling terms (soft violations stay
+0).  Full table, per-run rows and reproduction config are written to
+``report_intent_pareto.md`` / ``report_intent_pareto.json``.
+
+Determinism: same ``(sc, intent, cost, seed, steps, max_violations,
+ccg_weight, relax, hard_constraints)`` gives the same placement and stats.
+Pure standard library; no EDA, DRC or network.
 """
 
 from __future__ import annotations
@@ -73,21 +110,41 @@ import math
 import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
-from .intent import build_intent, intent_to_plan, intent_violations
+from .intent import CCG_TYPES, build_intent, intent_to_plan, intent_violations
 from .model import Placement, Scenario, hard_violations, pad_position
 from .objective import ProxyObjective
 from .solver import feasible_partial, random_feasible_placement
 
 #: Default move budget of :func:`plan_from_intent`.
 DEFAULT_STEPS = 800
-#: Penalty per CCG violation in the search objective (cost is O(1-10), so a
-#: violation costs more than any realistic placement improvement).
-CCG_PENALTY = 25.0
+#: Default penalty per CCG violation in the search objective (cost is O(1-10),
+#: so a violation costs more than any realistic placement improvement).
+DEFAULT_CCG_WEIGHT = 25.0
+#: Backwards-compatible alias of the P3.6 default penalty.
+CCG_PENALTY = DEFAULT_CCG_WEIGHT
 #: SA temperature schedule (same scale as the P1 ``Annealer``).
 INITIAL_TEMPERATURE = 0.08
 FINAL_TEMPERATURE = 0.002
 #: Std-dev (mm) scale of the translation move.
 MOVE_SIGMA_MM = 4.0
+
+#: P3.7 constraint tiering: ``near``/``cluster`` are hard *semantic* relations
+#: and must always hold (even in relaxed mode); ``edge`` ties fixed connectors
+#: to the board outline and stays hard by default; ``clearance`` is the
+#: softenable "keep sensitive modules apart" preference.
+STRUCTURAL_HARD_TYPES = frozenset({"near", "cluster"})
+#: Hard constraint types used when ``relax=True`` (``clearance`` becomes soft).
+RELAX_HARD_TYPES: Tuple[str, ...] = ("near", "cluster", "edge")
+#: Multiplier applied to ``near`` upper bounds in relaxed mode.  The bounds
+#: produced by :func:`mp_place.intent.build_intent` are tautologically tight
+#: (``max_mm = measured_distance + 0.5``); multiplying them restores a real
+#: "parts stay nearby" tolerance while keeping the near relation as a hard
+#: semantic upper bound.
+RELAX_NEAR_FACTOR = 3.2
+#: Multiplier applied to ``cluster`` radii in relaxed mode.
+RELAX_CLUSTER_FACTOR = 2.0
+#: Relative penalty of a *soft* CCG violation w.r.t. ``ccg_weight``.
+SOFT_VIOLATION_WEIGHT = 0.2
 
 CostFn = Callable[[Placement], float]
 
@@ -128,6 +185,46 @@ def _move(
 def _ccg_violations(sc: Scenario, placement: Placement, intent: dict) -> List[str]:
     """CCG violations of ``placement`` against ``intent`` (list of strings)."""
     return list(intent_violations(sc, placement, intent))
+
+
+def _effective_intent(intent: dict, relax: bool) -> dict:
+    """Return the intent used for acceptance, widened when ``relax`` is set.
+
+    Relaxed mode keeps the *semantics* of ``near`` / ``cluster`` constraints
+    (parts of a net stay near each other, module members stay clustered around
+    the module centroid) but enlarges their numeric bounds so the cost
+    optimiser has room to move.  ``clearance`` bounds are left untouched: they
+    are handled as a weighted soft penalty instead of a hard requirement.
+    """
+    if not relax:
+        return intent
+    payload = dict(intent)
+    adjusted: List[dict] = []
+    for constraint in intent.get("constraints", []):
+        item = dict(constraint)
+        ctype = item.get("type")
+        if ctype == "near":
+            item["max_mm"] = round(float(item["max_mm"]) * RELAX_NEAR_FACTOR, 3)
+        elif ctype == "cluster":
+            item["radius_mm"] = round(float(item["radius_mm"]) * RELAX_CLUSTER_FACTOR, 3)
+        adjusted.append(item)
+    payload["constraints"] = adjusted
+    return payload
+
+
+def _split_ccg_violations(
+    violations: Sequence[str],
+    constraint_types: Dict[str, str],
+    hard_types: Sequence[str],
+) -> Tuple[List[str], List[str]]:
+    """Split violation strings into ``(hard, soft)`` by constraint type."""
+    hard_set = set(hard_types)
+    hard: List[str] = []
+    soft: List[str] = []
+    for text in violations:
+        ctype = constraint_types.get(text.split(":", 1)[0])
+        (hard if ctype in hard_set else soft).append(text)
+    return hard, soft
 
 
 # --------------------------------------------------------------------------- #
@@ -173,12 +270,16 @@ def _repair_move(
     placement: Placement,
     intent: dict,
     movable_set: set,
+    constraint_types: Optional[Dict[str, str]] = None,
+    allowed_types: Optional[Sequence[str]] = None,
 ) -> Optional[Placement]:
     """Propose a move that targets one currently violated CCG constraint.
 
     The move is a *proposal* only -- the caller's SA acceptance still decides.
     This lets the search repair tight ``near`` / ``cluster`` / ``clearance``
-    relations instead of waiting for a lucky random translation.
+    relations instead of waiting for a lucky random translation.  When
+    ``allowed_types`` is given (relaxed mode) only those constraint types are
+    proposed; soft clearance violations are left to the weighted objective.
     """
     constraints = intent.get("constraints") or []
     if not constraints:
@@ -186,7 +287,16 @@ def _repair_move(
     violated_ids = {
         text.split(":", 1)[0] for text in _ccg_violations(sc, placement, intent)
     }
-    candidates = [c for c in constraints if c.get("id") in violated_ids]
+    allowed = set(allowed_types) if allowed_types is not None else None
+    candidates = []
+    for constraint in constraints:
+        cid = constraint.get("id")
+        if cid not in violated_ids:
+            continue
+        if allowed is not None:
+            if constraint_types is not None and constraint_types.get(cid) not in allowed:
+                continue
+        candidates.append(constraint)
     if not candidates:
         return None
     constraint = rng.choice(candidates)
@@ -298,10 +408,14 @@ def _propose(
     movable: Sequence[str],
     intent: dict,
     movable_set: set,
+    constraint_types: Optional[Dict[str, str]] = None,
+    allowed_types: Optional[Sequence[str]] = None,
 ) -> Optional[Placement]:
     """Mix constraint-guided repair proposals with random SA moves."""
     if rng.random() < 0.6:
-        repaired = _repair_move(sc, rng, placement, intent, movable_set)
+        repaired = _repair_move(
+            sc, rng, placement, intent, movable_set, constraint_types, allowed_types
+        )
         if repaired is not None:
             return repaired
     return _move(sc, rng, placement, movable)
@@ -317,8 +431,23 @@ def plan_from_intent(
     seed: int = 0,
     steps: int = DEFAULT_STEPS,
     max_violations: int = 0,
+    ccg_weight: float = DEFAULT_CCG_WEIGHT,
+    relax: bool = False,
+    hard_constraints: Optional[Sequence[str]] = None,
 ) -> Tuple[Placement, Dict]:
     """Plan a hard-feasible placement from ``intent``, satisfying its CCG.
+
+    P3.7 adds constraint **tiering and relaxation**:
+
+    * ``near`` / ``cluster`` (and ``edge``) are *hard semantic* constraints and
+      are always required in the returned placement;
+    * ``clearance`` (and anything else not listed in ``hard_constraints``) is a
+      **soft** constraint: it enters the objective with
+      ``ccg_weight * SOFT_VIOLATION_WEIGHT`` but is allowed to be violated;
+    * ``relax=True`` widens the numeric ``near`` / ``cluster`` bounds by
+      :data:`RELAX_NEAR_FACTOR` / :data:`RELAX_CLUSTER_FACTOR` (semantics are
+      preserved, the layout simply gets more room) and uses
+      :data:`RELAX_HARD_TYPES` as the default hard set.
 
     Parameters
     ----------
@@ -337,10 +466,23 @@ def plan_from_intent(
     steps:
         Move budget (candidate proposals; hard-infeasible ones are discarded).
     max_violations:
-        Maximum number of CCG violations accepted in the returned placement
-        (0 = every constraint must hold).  If the budget cannot reach the
-        target the planner returns its best effort, with ``ccg_final`` in
-        ``stats`` and ``stats["ccg_target_met"] = False``.
+        Maximum number of **hard** CCG violations accepted in the returned
+        placement (0 = every hard constraint must hold).  If the budget cannot
+        reach the target the planner returns its best effort, with
+        ``stats["ccg_target_met"] = False``.
+    ccg_weight:
+        Penalty weight of one hard CCG violation (default 25.0, unchanged from
+        P3.6).  Soft violations cost ``ccg_weight * SOFT_VIOLATION_WEIGHT``.
+    relax:
+        ``False`` (default) keeps the strict P3.6 behaviour: every CCG type is
+        hard and no bounds are widened.  ``True`` enables semantic relaxation
+        as described above.
+    hard_constraints:
+        Optional explicit list of CCG types that must hold (subset of
+        ``near`` / ``cluster`` / ``clearance`` / ``edge``).  ``near`` and
+        ``cluster`` are always required, otherwise ``ValueError``.  ``None``
+        means "all types when ``relax=False``, :data:`RELAX_HARD_TYPES` when
+        ``relax=True``".
 
     Returns
     -------
@@ -351,20 +493,23 @@ def plan_from_intent(
         diagnostics (``moves_accepted``, ``start_source``, ``cost_initial``,
         ``cost_final``, ``hard_feasible``, ``ccg_target_met``, ...).
 
-        Stats semantics: ``ccg_initial`` / ``ccg_final`` are the number of CCG
-        violation strings before / after planning; ``violations`` is the number
-        of P1 hard-constraint violations in the returned placement (always 0
-        unless the scenario itself cannot be placed); ``moves`` is the number
-        of proposed moves evaluated in the budget and ``moves_accepted`` the
-        number the simulated annealer accepted.  ``start_source`` is
-        ``"intent"`` (coordinates replayed to a hard-feasible layout) or
-        ``"random_fallback"`` (stale intent -> random feasible start).
+        Stats semantics: ``ccg_initial`` / ``ccg_final`` count all CCG
+        violations against the *effective* (relaxed) intent; the hard / soft
+        split is exposed as ``ccg_hard_initial`` / ``ccg_hard_final`` and
+        ``ccg_soft_initial`` / ``ccg_soft_final``.  ``original_intent_ccg_final``
+        counts violations against the original un-relaxed intent (equal to
+        ``ccg_final`` in strict mode).  ``violations`` is the number of P1 hard
+        violations in the returned placement; ``moves`` is the number of
+        proposed moves evaluated in the budget and ``moves_accepted`` the number
+        the simulated annealer accepted.  New P3.7 diagnostics: ``ccg_weight``,
+        ``relax`` and ``hard_constraints`` mirror the effective settings.
 
     Raises
     ------
     ValueError
-        For a negative budget/target or an intent that does not replay onto
-        this scenario (via :func:`mp_place.intent.intent_to_plan`).
+        For a negative budget/target, a bad ``ccg_weight``/``hard_constraints``
+        or an intent that does not replay onto this scenario (via
+        :func:`mp_place.intent.intent_to_plan`).
     TypeError
         If ``cost`` is neither ``None`` nor callable.
     """
@@ -382,6 +527,36 @@ def plan_from_intent(
         raise ValueError(f"max_violations must be an integer, got {max_violations!r}") from exc
     if target < 0:
         raise ValueError(f"max_violations must be >= 0, got {target}")
+    try:
+        weight = float(ccg_weight)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"ccg_weight must be a number, got {ccg_weight!r}") from exc
+    if not math.isfinite(weight) or weight < 0.0:
+        raise ValueError(f"ccg_weight must be a finite value >= 0, got {ccg_weight!r}")
+    relax_flag = bool(relax)
+
+    if hard_constraints is None:
+        hard_types = set(CCG_TYPES) if not relax_flag else set(RELAX_HARD_TYPES)
+    else:
+        try:
+            hard_types = {str(item) for item in hard_constraints}
+        except TypeError as exc:
+            raise ValueError(
+                f"hard_constraints must be a sequence of CCG types, got {hard_constraints!r}"
+            ) from exc
+        unknown = hard_types - set(CCG_TYPES)
+        if unknown:
+            raise ValueError(
+                f"unknown hard constraint types {sorted(unknown)}; "
+                f"expected a subset of {sorted(CCG_TYPES)}"
+            )
+        missing_structural = STRUCTURAL_HARD_TYPES - hard_types
+        if missing_structural:
+            raise ValueError(
+                "near/cluster are hard semantic constraints and cannot be relaxed; "
+                f"missing {sorted(missing_structural)}"
+            )
+    soft_types = [ctype for ctype in CCG_TYPES if ctype not in hard_types]
 
     if cost is None:
         objective_name = "multiphysics_proxy"
@@ -394,10 +569,21 @@ def plan_from_intent(
 
     rng = random.Random(f"intent-plan:{sc.name}:{int(seed)}")
 
+    # Constraints are tiered: hard semantics stay required, soft ones are
+    # weighted penalties.  Relaxed mode widens near/cluster numeric bounds.
+    effective_intent = _effective_intent(intent, relax_flag)
+    constraint_types: Dict[str, str] = {
+        constraint.get("id"): constraint.get("type")
+        for constraint in effective_intent.get("constraints", [])
+    }
+
     # --- initial guess: the intent coordinates ---------------------------
     reference = intent_to_plan(sc, intent)
     initial_hard = list(hard_violations(sc, reference))
-    initial_ccg = len(_ccg_violations(sc, reference, intent))
+    initial_violations = _ccg_violations(sc, reference, effective_intent)
+    initial_hard_ccg, initial_soft_ccg = _split_ccg_violations(
+        initial_violations, constraint_types, hard_types
+    )
     if initial_hard:
         start = random_feasible_placement(sc, rng)
         start_source = "random_fallback"
@@ -409,68 +595,113 @@ def plan_from_intent(
     movable_set = set(movable)
     cur = dict(start)
     cur_cost = float(cost_fn(cur))
-    cur_ccg = len(_ccg_violations(sc, cur, intent))
-    cur_obj = cur_cost + CCG_PENALTY * cur_ccg
+    cur_violations = _ccg_violations(sc, cur, effective_intent)
+    cur_hard_ccg, cur_soft_ccg = _split_ccg_violations(
+        cur_violations, constraint_types, hard_types
+    )
+    cur_obj = (
+        cur_cost
+        + weight * len(cur_hard_ccg)
+        + weight * SOFT_VIOLATION_WEIGHT * len(cur_soft_ccg)
+    )
 
-    # Track (a) the cheapest target-satisfying placement seen, and (b) the
-    # overall best-effort placement (fewest violations, then cheapest).
-    best_sat: Optional[Tuple[int, float, Placement]] = None
-    best_any: Optional[Tuple[int, float, Placement]] = None
+    # Track (a) the cheapest hard-satisfying placement seen (soft violations
+    # are traded through their weighted penalty, so the selection score is
+    # cost + soft penalty), and (b) the overall best-effort placement (fewest
+    # hard/soft violations, then cost).
+    best_sat: Optional[Tuple[int, int, float, float, Placement]] = None
+    best_any: Optional[Tuple[int, int, float, Placement]] = None
 
-    def _consider(placement: Placement, pl_cost: float, pl_ccg: int) -> None:
+    def _consider(
+        placement: Placement, pl_cost: float, hard_ccg: int, soft_ccg: int
+    ) -> None:
         nonlocal best_sat, best_any
-        if pl_ccg <= target:
-            if best_sat is None or pl_cost < best_sat[1] - 1e-12:
-                best_sat = (pl_ccg, pl_cost, dict(placement))
-        key = (pl_ccg, pl_cost)
-        if best_any is None or key < (best_any[0], best_any[1]):
-            best_any = (pl_ccg, pl_cost, dict(placement))
+        score = pl_cost + weight * SOFT_VIOLATION_WEIGHT * soft_ccg
+        if hard_ccg <= target:
+            if best_sat is None or score < best_sat[3] - 1e-12:
+                best_sat = (hard_ccg, soft_ccg, pl_cost, score, dict(placement))
+        key = (hard_ccg, soft_ccg, pl_cost)
+        if best_any is None or key < (best_any[0], best_any[1], best_any[2]):
+            best_any = (hard_ccg, soft_ccg, pl_cost, dict(placement))
 
-    _consider(cur, cur_cost, cur_ccg)
+    _consider(cur, cur_cost, len(cur_hard_ccg), len(cur_soft_ccg))
 
+    # Soft constraints are not actively repaired: their trade-off is decided by
+    # the weighted objective.  Hard constraints keep the guided repair moves.
+    repair_types = hard_types if soft_types else None
     moves = 0
     accepted = 0
     for index in range(n_steps):
-        trial = _propose(sc, rng, cur, movable, intent, movable_set)
+        trial = _propose(
+            sc,
+            rng,
+            cur,
+            movable,
+            effective_intent,
+            movable_set,
+            constraint_types,
+            repair_types,
+        )
         moves += 1
         if trial is None or not feasible_partial(sc, trial):
             continue
         trial_cost = float(cost_fn(trial))
-        trial_ccg = len(_ccg_violations(sc, trial, intent))
-        trial_obj = trial_cost + CCG_PENALTY * trial_ccg
+        trial_violations = _ccg_violations(sc, trial, effective_intent)
+        trial_hard_ccg, trial_soft_ccg = _split_ccg_violations(
+            trial_violations, constraint_types, hard_types
+        )
+        trial_obj = (
+            trial_cost
+            + weight * len(trial_hard_ccg)
+            + weight * SOFT_VIOLATION_WEIGHT * len(trial_soft_ccg)
+        )
         frac = index / max(1, n_steps - 1)
         temperature = INITIAL_TEMPERATURE * ((FINAL_TEMPERATURE / INITIAL_TEMPERATURE) ** frac)
         delta = trial_obj - cur_obj
         if delta <= 0.0 or rng.random() < math.exp(-delta / max(temperature, 1e-12)):
-            cur, cur_cost, cur_ccg, cur_obj = trial, trial_cost, trial_ccg, trial_obj
+            cur, cur_cost, cur_obj = trial, trial_cost, trial_obj
             accepted += 1
-            _consider(cur, cur_cost, cur_ccg)
+            _consider(cur, cur_cost, len(trial_hard_ccg), len(trial_soft_ccg))
 
     if best_sat is not None:
-        _chosen_ccg, chosen_cost, chosen = best_sat
+        _hard_seen, _soft_seen, chosen_cost, _score, chosen = best_sat
     else:  # best effort: fewest violations, then lowest cost
-        _chosen_ccg, chosen_cost, chosen = best_any  # type: ignore[misc]
+        _hard_seen, _soft_seen, chosen_cost, chosen = best_any  # type: ignore[misc]
 
-    final_hard = list(hard_violations(sc, chosen))
-    final_ccg = len(_ccg_violations(sc, chosen, intent))
+    final_p1 = list(hard_violations(sc, chosen))
+    final_violations = _ccg_violations(sc, chosen, effective_intent)
+    final_hard_ccg, final_soft_ccg = _split_ccg_violations(
+        final_violations, constraint_types, hard_types
+    )
+    original_ccg = len(_ccg_violations(sc, chosen, intent))
     stats: Dict = {
         # --- the four required counters -----------------------------------
-        "ccg_initial": int(initial_ccg),
-        "ccg_final": int(final_ccg),
-        "violations": int(len(final_hard)),
+        "ccg_initial": int(len(initial_violations)),
+        "ccg_final": int(len(final_violations)),
+        "violations": int(len(final_p1)),
         "moves": int(moves),
         # --- diagnostics ---------------------------------------------------
         "moves_accepted": int(accepted),
-        "violation_details": final_hard,
-        "hard_feasible": not final_hard,
-        "ccg_target_met": final_ccg <= target,
+        "violation_details": final_p1,
+        "hard_feasible": not final_p1,
+        "ccg_target_met": len(final_hard_ccg) <= target,
         "max_violations": target,
+        "ccg_hard_initial": int(len(initial_hard_ccg)),
+        "ccg_hard_final": int(len(final_hard_ccg)),
+        "ccg_soft_initial": int(len(initial_soft_ccg)),
+        "ccg_soft_final": int(len(final_soft_ccg)),
+        "original_intent_ccg_final": int(original_ccg),
         "start_source": start_source,
         "initial_hard_violations": int(len(initial_hard)),
         "cost_initial": round(float(cost_fn(start)), 6),
         "cost_final": round(float(chosen_cost), 6),
         "objective": objective_name,
-        "penalty": CCG_PENALTY,
+        "penalty": weight,
+        "ccg_weight": weight,
+        "relax": relax_flag,
+        "hard_constraints": sorted(hard_types),
+        "soft_constraints": sorted(soft_types),
+        "soft_penalty_weight": SOFT_VIOLATION_WEIGHT,
         "steps": n_steps,
         "seed": int(seed),
     }
@@ -608,18 +839,364 @@ def _format_markdown(result: Dict) -> str:
     return "\n".join(lines)
 
 
+# --------------------------------------------------------------------------- #
+# P3.7 Pareto experiment: ccg_weight x relax
+# --------------------------------------------------------------------------- #
+PARETO_SCHEMA = "mp_place.intent_pareto/v1"
+#: ccg_weight sweep of the P3.7 Pareto experiment.
+DEFAULT_CCG_WEIGHTS: Tuple[float, ...] = (5.0, 25.0, 100.0)
+#: Target: hard-tier CCG violations per run ...
+TARGET_MAX_CCG_VIOLATIONS_PER_RUN = 0.5
+#: ... while the mean truth_v2 gap vs the unconstrained pipeline stays below this.
+TARGET_MAX_TRUTH_GAP_PCT = 20.0
+
+
+def _mean(rows: Sequence[Dict], key: str) -> float:
+    return sum(row[key] for row in rows) / len(rows) if rows else 0.0
+
+
+def pareto_experiment(
+    names: Optional[Sequence[str]] = None,
+    seeds: Sequence[int] = (0, 1),
+    ccg_weights: Sequence[float] = DEFAULT_CCG_WEIGHTS,
+    relax_values: Sequence[bool] = (False, True),
+    steps: int = DEFAULT_STEPS,
+    pipeline_steps: int = 800,
+) -> Dict:
+    """Run the P3.7 ``(ccg_weight x relax)`` Pareto sweep.
+
+    Protocol: for every ``(template, seed)`` a hard-feasible *reference* layout
+    is drawn, ``intent = build_intent(sc, reference)``, and the P4 pipeline
+    (``run_pipeline``, same scenario) provides the unconstrained ``truth_v2``
+    baseline.  Then ``plan_from_intent(..., ccg_weight=w, relax=r, steps=steps)``
+    is run for every configuration in the grid and each placement is scored.
+
+    The returned dict contains per-configuration ``groups`` (aggregated Pareto
+    points), every per-run ``rows`` entry, the ``target`` verdict and the
+    ``config`` needed to reproduce the run.  Soft constraints are tracked
+    separately: ``ccg_hard_per_run`` are violations of the must-hold tier,
+    ``ccg_soft_per_run`` violations of the soft (clearance) tier and
+    ``original_intent_violations_per_run`` the deviation w.r.t. the *original*
+    tautologically-tight reference bounds (the fidelity price of relaxation).
+    """
+    from .physics_v2 import PhysicsSimulatorV2
+    from .pipeline import run_pipeline
+    from .templates import instantiate, template_names
+
+    template_names_ = list(template_names() if names is None else names)
+    weights = [float(item) for item in ccg_weights]
+    relax_flags = [bool(item) for item in relax_values]
+
+    cases = []
+    for name in template_names_:
+        for seed in seeds:
+            seed = int(seed)
+            sc = instantiate(name, seed=seed)
+            reference = random_feasible_placement(
+                sc, random.Random(f"intent-benchmark-ref:{name}:{seed}")
+            )
+            intent = build_intent(sc, reference)
+            pipeline_report = run_pipeline(sc, budget_steps=pipeline_steps, seed=seed)
+            pipeline_placement = _as_placement(pipeline_report["placement"])
+            cases.append(
+                {
+                    "template": name,
+                    "seed": seed,
+                    "scenario": sc,
+                    "intent": intent,
+                    "reference_truth": float(PhysicsSimulatorV2(sc, seed=seed).score(reference)),
+                    "pipeline_truth": float(pipeline_report["truth_v2"]),
+                    "pipeline_ccg": int(
+                        len(intent_violations(sc, pipeline_placement, intent))
+                    ),
+                }
+            )
+
+    rows: List[Dict] = []
+    groups: List[Dict] = []
+    for relax_flag in relax_flags:
+        for weight in weights:
+            group_rows: List[Dict] = []
+            for case in cases:
+                sc = case["scenario"]
+                intent = case["intent"]
+                plan, stats = plan_from_intent(
+                    sc,
+                    intent,
+                    cost=ProxyObjective(sc).cost,
+                    seed=case["seed"],
+                    steps=steps,
+                    ccg_weight=weight,
+                    relax=relax_flag,
+                )
+                truth = float(PhysicsSimulatorV2(sc, seed=case["seed"]).score(plan))
+                baseline = case["pipeline_truth"]
+                gap = 100.0 * (truth - baseline) / baseline if baseline else 0.0
+                row = {
+                    "ccg_weight": weight,
+                    "relax": relax_flag,
+                    "template": case["template"],
+                    "seed": case["seed"],
+                    "truth_v2": truth,
+                    "truth_v2_pipeline": baseline,
+                    "truth_vs_pipeline_pct": gap,
+                    "ccg_hard_violations": int(stats["ccg_hard_final"]),
+                    "ccg_soft_violations": int(stats["ccg_soft_final"]),
+                    "ccg_total_violations": int(stats["ccg_final"]),
+                    "original_intent_violations": int(stats["original_intent_ccg_final"]),
+                    "hard_feasible": bool(stats["hard_feasible"]),
+                    "ccg_target_met": bool(stats["ccg_target_met"]),
+                    "cost_final": float(stats["cost_final"]),
+                }
+                rows.append(row)
+                group_rows.append(row)
+            n = len(group_rows)
+            group = {
+                "ccg_weight": weight,
+                "relax": relax_flag,
+                "runs": n,
+                "ccg_hard_per_run": _mean(group_rows, "ccg_hard_violations"),
+                "ccg_soft_per_run": _mean(group_rows, "ccg_soft_violations"),
+                "ccg_total_per_run": _mean(group_rows, "ccg_total_violations"),
+                "original_intent_violations_per_run": _mean(
+                    group_rows, "original_intent_violations"
+                ),
+                "hard_feasible_rate": (
+                    sum(1 for row in group_rows if row["hard_feasible"]) / n if n else 0.0
+                ),
+                "ccg_zero_rate": (
+                    sum(1 for row in group_rows if row["ccg_total_violations"] == 0) / n
+                    if n
+                    else 0.0
+                ),
+                "mean_truth_v2": _mean(group_rows, "truth_v2"),
+                "mean_truth_v2_pipeline": _mean(group_rows, "truth_v2_pipeline"),
+                "mean_truth_vs_pipeline_pct": _mean(group_rows, "truth_vs_pipeline_pct"),
+                "max_truth_vs_pipeline_pct": (
+                    max(row["truth_vs_pipeline_pct"] for row in group_rows) if n else 0.0
+                ),
+            }
+            group["target_met"] = bool(
+                group["ccg_hard_per_run"] <= TARGET_MAX_CCG_VIOLATIONS_PER_RUN
+                and group["mean_truth_vs_pipeline_pct"] <= TARGET_MAX_TRUTH_GAP_PCT
+            )
+            groups.append(group)
+
+    target_groups = [group for group in groups if group["target_met"]]
+    best_group = None
+    if target_groups:
+        best_group = min(
+            target_groups,
+            key=lambda group: (
+                group["ccg_hard_per_run"],
+                group["mean_truth_vs_pipeline_pct"],
+            ),
+        )
+    return {
+        "schema": PARETO_SCHEMA,
+        "created_by": "mp_place.intent_solver.pareto_experiment",
+        "config": {
+            "templates": template_names_,
+            "seeds": [int(item) for item in seeds],
+            "ccg_weights": weights,
+            "relax": relax_flags,
+            "steps": int(steps),
+            "pipeline_steps": int(pipeline_steps),
+            "hard_constraints_strict": sorted(CCG_TYPES),
+            "hard_constraints_relaxed": sorted(RELAX_HARD_TYPES),
+            "relax_near_factor": RELAX_NEAR_FACTOR,
+            "relax_cluster_factor": RELAX_CLUSTER_FACTOR,
+            "soft_violation_weight": SOFT_VIOLATION_WEIGHT,
+            "pipeline_baseline": "pipeline.run_pipeline(budget_steps=pipeline_steps)",
+        },
+        "target": {
+            "criteria": (
+                "hard-tier CCG violations per run <= "
+                f"{TARGET_MAX_CCG_VIOLATIONS_PER_RUN} and mean truth_v2 gap vs "
+                f"pipeline <= {TARGET_MAX_TRUTH_GAP_PCT}%"
+            ),
+            "max_ccg_violations_per_run": TARGET_MAX_CCG_VIOLATIONS_PER_RUN,
+            "max_truth_gap_pct": TARGET_MAX_TRUTH_GAP_PCT,
+            "met": bool(target_groups),
+            "best_group": best_group,
+        },
+        "cases": [
+            {
+                "template": case["template"],
+                "seed": case["seed"],
+                "reference_truth": case["reference_truth"],
+                "pipeline_truth": case["pipeline_truth"],
+                "pipeline_ccg": case["pipeline_ccg"],
+            }
+            for case in cases
+        ],
+        "groups": groups,
+        "rows": rows,
+    }
+
+
+def _format_pareto_markdown(result: Dict) -> str:
+    """Render :func:`pareto_experiment` output as ``report_intent_pareto.md``."""
+    config = result["config"]
+    target = result["target"]
+    strict_groups = [group for group in result["groups"] if not group["relax"]]
+    relax_groups = [group for group in result["groups"] if group["relax"]]
+    strict_gap = _mean(strict_groups, "mean_truth_vs_pipeline_pct") if strict_groups else 0.0
+    relax_gap = _mean(relax_groups, "mean_truth_vs_pipeline_pct") if relax_groups else 0.0
+    strict_hard = _mean(strict_groups, "ccg_hard_per_run") if strict_groups else 0.0
+    relax_hard = _mean(relax_groups, "ccg_hard_per_run") if relax_groups else 0.0
+    relax_original = (
+        _mean(relax_groups, "original_intent_violations_per_run") if relax_groups else 0.0
+    )
+    lines = [
+        "# P3.7 Intent 约束松弛 Pareto 报告",
+        "",
+        "- 生成命令：`python -m mp_place.intent_solver --pareto`"
+        f"（schema `{result['schema']}`）",
+        f"- 协议：{len(config['templates'])} 模板 × seeds "
+        + ",".join(str(seed) for seed in config["seeds"])
+        + "；随机可行参考布局 → `intent.build_intent` → "
+        "`plan_from_intent(..., ccg_weight, relax, steps="
+        + str(config["steps"])
+        + ")`；truth_v2 由 `physics_v2.PhysicsSimulatorV2` 计算（越低越好）；"
+        "pipeline 基线为 `pipeline.run_pipeline(budget_steps="
+        + str(config["pipeline_steps"])
+        + ")` 的 `truth_v2`。truth 折衷 = (plan − pipeline) / pipeline。",
+        "- 约束分级：硬语义 = "
+        + ", ".join(config["hard_constraints_relaxed"])
+        + "（relax=True）/ "
+        + ", ".join(config["hard_constraints_strict"])
+        + "（relax=False）；relax=True 时 clearance 变为软惩罚，near / cluster 的数值界放宽 ×"
+        + f"{config['relax_near_factor']:g}"
+        + " / ×"
+        + f"{config['relax_cluster_factor']:g}"
+        + "（near/cluster 仍是必须满足的硬语义关系）。",
+        "",
+        "## 分组结果（每组 " + str(result["groups"][0]["runs"] if result["groups"] else 0) + " runs）",
+        "",
+        "| ccg_weight | relax | hard 违规/run | soft 违规/run | 总 CCG 违规/run | 原始 intent 偏离/run | truth_v2 plan | truth_v2 pipeline | truth 折衷 | hard 可行率 | 达标 |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for group in result["groups"]:
+        lines.append(
+            "| {ccg_weight:g} | {relax} | {ccg_hard_per_run:.2f} | {ccg_soft_per_run:.2f} | "
+            "{ccg_total_per_run:.2f} | {original_intent_violations_per_run:.2f} | "
+            "{mean_truth_v2:.3f} | {mean_truth_v2_pipeline:.3f} | "
+            "{mean_truth_vs_pipeline_pct:+.1f}% | {hard_feasible_rate:.0%} | "
+            "{target_met} |".format(**group)
+        )
+    lines.extend(
+        [
+            "",
+            "## 目标",
+            "",
+            f"- 目标：{target['criteria']}",
+            f"- 达标：{'是' if target['met'] else '否'}",
+        ]
+    )
+    if target.get("best_group"):
+        best = target["best_group"]
+        lines.append(
+            "- 最佳组：ccg_weight={ccg_weight:g}，relax={relax}，hard 违规/run="
+            "{ccg_hard_per_run:.2f}，truth 折衷 {mean_truth_vs_pipeline_pct:+.1f}%".format(
+                **best
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "## 结论与边界",
+            "",
+            f"- relax=False 复现 P3.6 严格行为：hard 违规 {strict_hard:.2f}/run，"
+            f"truth 折衷约 {strict_gap:+.1f}%。",
+            f"- relax=True 保持 near/cluster 硬语义、仅放宽由参考布局推导出的紧致数值界，"
+            f"并把 clearance 降为软惩罚：hard 违规 {relax_hard:.2f}/run，"
+            f"truth 折衷降到 {relax_gap:+.1f}%"
+            + ("，达到目标。" if target["met"] else "。"),
+            "- `ccg_weight` 在 "
+            + "/".join(f"{weight:g}" for weight in config["ccg_weights"])
+            + " 之间对本批模板几乎无差异：clearance 软约束与 ProxyObjective 的"
+            "噪声/去耦偏好方向一致，软违规在搜索中始终为 0；权重只在 clearance 与"
+            " cost 冲突的 intent 上才会改变取舍（见单测）。",
+            f"- “原始 intent 偏离/run”≈{relax_original:.1f}：相对 P3.6 的严格参考界"
+            "（max_mm=实测+0.5mm）有偏离，这是用约束保真换 truth 的代价；"
+            "硬语义（near/cluster）仍全部满足。",
+            "- 边界：纯离线代理（无 EDA / DRC / 布线证明）；合成产品族模板；"
+            "truth_v2 是离线感仿真器，不是真实多物理场求解。",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def write_pareto_report(result: Optional[Dict] = None, out_dir=None) -> Dict[str, str]:
+    """Write ``report_intent_pareto.{md,json}`` and return their paths.
+
+    ``result`` defaults to a fresh :func:`pareto_experiment` run; ``out_dir``
+    defaults to the project root (the parent directory of ``mp_place/``).
+    """
+    import json
+    import pathlib
+
+    if result is None:
+        result = pareto_experiment()
+    out = (
+        pathlib.Path(out_dir)
+        if out_dir is not None
+        else pathlib.Path(__file__).resolve().parent.parent
+    )
+    out.mkdir(parents=True, exist_ok=True)
+    json_path = out / "report_intent_pareto.json"
+    md_path = out / "report_intent_pareto.md"
+    json_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    md_path.write_text(_format_pareto_markdown(result), encoding="utf-8")
+    return {"json": str(json_path), "md": str(md_path)}
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    """``python -m mp_place.intent_solver`` -> print the benchmark table."""
+    """``python -m mp_place.intent_solver`` -> benchmark table / P3.7 Pareto."""
     import argparse
     import json
 
-    parser = argparse.ArgumentParser(description="P3.6 intent-constrained planner benchmark")
+    parser = argparse.ArgumentParser(description="P3.6/P3.7 intent-constrained planner benchmark")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
     parser.add_argument("--pipeline-steps", type=int, default=800)
     parser.add_argument("--seeds", default="0,1")
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--pareto",
+        action="store_true",
+        help="run the P3.7 (ccg_weight x relax) sweep and write report_intent_pareto.{md,json}",
+    )
+    parser.add_argument("--out", default=None, help="--pareto output directory (default: project root)")
+    parser.add_argument("--weights", default="5,25,100", help="--pareto ccg_weight values")
+    parser.add_argument("--relax", default="0,1", help="--pareto relax values (0/1)")
     args = parser.parse_args(argv)
     seeds = tuple(int(item) for item in str(args.seeds).split(",") if item.strip())
+    if args.pareto:
+        weights = tuple(float(item) for item in str(args.weights).split(",") if item.strip())
+        relax_values = tuple(bool(int(item)) for item in str(args.relax).split(",") if item.strip())
+        result = pareto_experiment(
+            seeds=seeds,
+            ccg_weights=weights,
+            relax_values=relax_values,
+            steps=args.steps,
+            pipeline_steps=args.pipeline_steps,
+        )
+        paths = write_pareto_report(result, out_dir=args.out)
+        target = result["target"]
+        print(f"[pareto] target_met={target['met']} groups={len(result['groups'])}")
+        if target.get("best_group"):
+            best = target["best_group"]
+            print(
+                "[pareto] best group: ccg_weight={ccg_weight} relax={relax} "
+                "hard_violations_per_run={ccg_hard_per_run:.2f} "
+                "truth_gap={mean_truth_vs_pipeline_pct:+.1f}%".format(**best)
+            )
+        print(f"[pareto] wrote {paths['md']} / {paths['json']}")
+        return 0
     result = benchmark(steps=args.steps, pipeline_steps=args.pipeline_steps, seeds=seeds)
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
@@ -631,8 +1208,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 __all__ = [
     "plan_from_intent",
     "benchmark",
+    "pareto_experiment",
+    "write_pareto_report",
     "DEFAULT_STEPS",
     "CCG_PENALTY",
+    "DEFAULT_CCG_WEIGHT",
+    "DEFAULT_CCG_WEIGHTS",
+    "RELAX_HARD_TYPES",
+    "RELAX_NEAR_FACTOR",
+    "RELAX_CLUSTER_FACTOR",
+    "SOFT_VIOLATION_WEIGHT",
 ]
 
 if __name__ == "__main__":

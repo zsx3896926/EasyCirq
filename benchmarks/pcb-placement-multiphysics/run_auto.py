@@ -4,11 +4,29 @@
     python run_auto.py --template buck --seed 0
     python run_auto.py --scenario buck --seed 0 --steps 800
     python run_auto.py --template buck --json > report.json
+    python run_auto.py --template buck --objective route_aware --seed 0
+    python run_auto.py --all-templates --seeds 0 --objective proxy --json
 
 ``--template NAME`` instantiates a parameterised product-family template with
 ``--seed``; ``--scenario NAME`` loads one of the fixed P1 benchmark scenarios
 (``mcu-min``/``buck``/``rs485``/``motor``/``wireless``).  Default: template
-``buck``, seed ``0``, budget ``800`` solver steps.
+``buck``, seed ``0``, budget ``800`` solver steps, objective ``proxy``.
+
+``--objective {proxy,route_aware,tuned}`` selects the solver cost objective
+(P2.11 / task-27 update):
+
+* ``proxy`` (default) -- P1/P2 multi-physics proxy, backwards compatible;
+* ``route_aware`` (**recommended safe** option) -- fixed ``w_route=2.0``
+  ``route_cost.RouteAwareObjective`` (no per-template table; P2.10 held-out
+  seeds 2/3/4: completion 0.9502 vs 0.8424, truth_v2 +0.48% vs baseline);
+* ``tuned`` (**experimental / in-sample only, not recommended**) -- P2.9
+  ``route_cost.tuned_objective`` table lookup (does not generalise: held-out
+  truth_v2 +7.47%, 0/8 templates meeting the target).  Research/diagnostics only.
+
+The chosen objective is recorded in every report (``objective_mode`` /
+``objective_model`` / ``objective_config`` / ``objective_recommended`` /
+``objective_generalization``) and in each ``--all-templates`` batch row under
+the ``objective`` field.
 
 Output: a single JSON report on stdout (``--json`` -> one compact sorted line;
 otherwise indented).  Human-readable status goes to stderr, so piping stdout
@@ -30,7 +48,13 @@ from typing import List, Optional, Sequence
 from mp_place import scenarios as scenarios_mod
 from mp_place import templates as templates_mod
 from mp_place.model import Scenario
-from mp_place.pipeline import DEFAULT_BUDGET_STEPS, DEFAULT_TEMPLATE, run_pipeline
+from mp_place.pipeline import (
+    DEFAULT_BUDGET_STEPS,
+    DEFAULT_OBJECTIVE,
+    DEFAULT_TEMPLATE,
+    PIPELINE_OBJECTIVES,
+    run_pipeline,
+)
 
 DEFAULT_SEED = 0
 
@@ -92,6 +116,17 @@ def _build_parser() -> argparse.ArgumentParser:
         help=f"total solver move budget (default: {DEFAULT_BUDGET_STEPS})",
     )
     parser.add_argument(
+        "--objective",
+        choices=list(PIPELINE_OBJECTIVES),
+        default=DEFAULT_OBJECTIVE,
+        help="solver cost objective (default: %(default)s); "
+        "'proxy' = P1/P2 multi-physics proxy (backwards compatible); "
+        "'route_aware' = RECOMMENDED SAFE option, fixed w_route=2.0 "
+        "RouteAwareObjective (no per-template table, held-out safe); "
+        "'tuned' = EXPERIMENTAL / in-sample only (P2.9 per-template table; "
+        "does not generalise to held-out seeds, research/diagnostics only)",
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="print exactly one compact JSON object on stdout (sorted keys)",
@@ -109,17 +144,21 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _batch(seeds: list[int], steps: int) -> dict:
+def _batch(seeds: list[int], steps: int, objective: str = DEFAULT_OBJECTIVE) -> dict:
     rows = []
     for name in _known_templates():
         for seed in seeds:
             scenario = templates_mod.instantiate(name, seed=seed)
-            report = run_pipeline(scenario, budget_steps=steps, seed=seed)
+            report = run_pipeline(
+                scenario, budget_steps=steps, seed=seed, objective=objective
+            )
             router = report.get("router", {})
             rows.append(
                 {
                     "template": name,
                     "seed": seed,
+                    "objective": objective,
+                    "objective_model": report.get("objective_model"),
                     "feasible": report.get("feasible"),
                     "truth_v1": report.get("truth_v1"),
                     "truth_v2": report.get("truth_v2"),
@@ -131,6 +170,7 @@ def _batch(seeds: list[int], steps: int) -> dict:
             )
     return {
         "schema": "mp_place.batch/v1",
+        "objective": objective,
         "n_runs": len(rows),
         "all_feasible": all(r["feasible"] for r in rows),
         "rows": rows,
@@ -151,6 +191,7 @@ def _summary(report: dict) -> str:
     return (
         "[run_auto] "
         f"scenario={scenario.get('name')} "
+        f"objective={report.get('objective_mode')} "
         f"feasible={report.get('feasible')} "
         f"violations={len(report.get('violations', []))} "
         f"truth_v1={report.get('truth_v1')} truth_v2={report.get('truth_v2')} "
@@ -190,16 +231,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             parser.error("--seeds must be comma-separated integers")
         if not seeds or min(seeds) < 0:
             parser.error("--seeds must be non-empty and >= 0")
-        batch = _batch(seeds, args.steps)
+        batch = _batch(seeds, args.steps, args.objective)
         _emit(batch, args.json)
         print(
             f"[run_auto] batch templates={len(_known_templates())} seeds={seeds} "
-            f"runs={batch['n_runs']} all_feasible={batch['all_feasible']}",
+            f"objective={args.objective} runs={batch['n_runs']} "
+            f"all_feasible={batch['all_feasible']}",
             file=sys.stderr,
         )
         return 0 if batch["all_feasible"] else 1
 
-    report = run_pipeline(scenario, budget_steps=args.steps, seed=args.seed)
+    report = run_pipeline(
+        scenario, budget_steps=args.steps, seed=args.seed, objective=args.objective
+    )
     _emit(report, args.json)
     print(_summary(report), file=sys.stderr)
     return 0 if report.get("feasible") else 1
