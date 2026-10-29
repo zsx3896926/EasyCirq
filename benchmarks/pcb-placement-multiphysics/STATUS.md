@@ -24,7 +24,7 @@
 - route-aware repair：completion **0.882→0.996**、truth **−4.9%**。
 - 40 维特征 R² **0.998**、top-100 regret **−98%**；分项校准每项 **n≈5** 收敛。
 - 真实板（4 块）：优化后 completion 0.884→0.962、truth **−46.4%**。
-- router 分辨率扫描：`mcu-i2c` 0.5mm 网格 completion 0.846→0.923（限制网 `GND`/`VBUS_5V`）。
+- router 分辨率扫描：`mcu-i2c` 0.5mm 网格 completion 0.846→0.923（限制网 `GND`/`VBUS_5V`）；真实板端到端 completion 0.9487→0.9615，但 `fully_routed` 仍 4/6。
 - certificate 审计 **16/16 通过、144/144 检查**。
 
 ## 入口命令

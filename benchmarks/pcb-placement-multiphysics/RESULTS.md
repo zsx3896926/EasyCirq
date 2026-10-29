@@ -429,3 +429,8 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 ## 25. 第二十轮同步（2026-10-29）
 
 - **gates 增加第 5 道闸**：`route_resolution`（真实板分辨率扫描冒烟），至此 gates 全量 = policy 默认断言 / run_full leaderboard / consolidate / realboard --check / route_resolution。
+
+
+## 26. 第二十一轮同步（2026-10-29，仅文档）
+
+- **自适应分辨率端到端**：推荐组合 + 0.5mm 网格在真实板上 completion 均值 **0.9487 → 0.9615**，但 `fully_routed` 仍 **4/6**（`mcu-i2c` 的 `GND` 仍无法在 0.5mm/2 层完全布线）。结论：更细网格对 straggler 板有边际收益，但不改变二值全布通数量；默认仍 1mm 以换取速度。
