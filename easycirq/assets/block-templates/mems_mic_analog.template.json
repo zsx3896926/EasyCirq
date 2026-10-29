@@ -1,0 +1,140 @@
+{
+ "schema": "easycirq-block-template/v1",
+ "block": "block.mems_mic_analog",
+ "origin": {
+  "role": "U",
+  "ref": "MK1",
+  "x": 725,
+  "y": 330
+ },
+ "parts": [
+  {
+   "role": "U",
+   "designator": "MK1",
+   "dx": 0,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -25.5,
+    "minY": -15.5,
+    "maxX": 25.5,
+    "maxY": 15.5
+   }
+  },
+  {
+   "role": "R_OUT",
+   "designator": "R6",
+   "dx": 240,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 229.5,
+    "minY": -124.5,
+    "maxX": 250.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "R_REF",
+   "designator": "R7",
+   "dx": 360,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 349.5,
+    "minY": -124.5,
+    "maxX": 370.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "R_FILT",
+   "designator": "R5",
+   "dx": 120,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 109.5,
+    "minY": -124.5,
+    "maxX": 130.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "C_VDD",
+   "designator": "C17",
+   "dx": 0,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -10.5,
+    "minY": -128.5,
+    "maxX": 10.5,
+    "maxY": -111.5
+   }
+  }
+ ],
+ "pins": [
+  {
+   "role": "U",
+   "pin": "OUT",
+   "net": "block.mems_mic_analog_N1"
+  },
+  {
+   "role": "R_OUT",
+   "pin": "1",
+   "net": "block.mems_mic_analog_N1"
+  },
+  {
+   "role": "R_OUT",
+   "pin": "2",
+   "net": "MIC1_P"
+  },
+  {
+   "role": "U",
+   "pin": "VDD",
+   "net": "block.mems_mic_analog_N3"
+  },
+  {
+   "role": "C_VDD",
+   "pin": "1",
+   "net": "block.mems_mic_analog_N3"
+  },
+  {
+   "role": "R_FILT",
+   "pin": "2",
+   "net": "block.mems_mic_analog_N3"
+  },
+  {
+   "role": "R_FILT",
+   "pin": "1",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "U",
+   "pin": "GND*",
+   "net": "AGND"
+  },
+  {
+   "role": "R_REF",
+   "pin": "1",
+   "net": "AGND"
+  },
+  {
+   "role": "C_VDD",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "R_REF",
+   "pin": "2",
+   "net": "MIC1_N"
+  }
+ ],
+ "bbox": {
+  "minX": -25.5,
+  "minY": -128.5,
+  "maxX": 370.5,
+  "maxY": 15.5
+ }
+}

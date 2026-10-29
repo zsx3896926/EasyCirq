@@ -64,7 +64,7 @@ TOOLS_DIR = ROOT / "tools"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from tools.layout2 import layout_engine  # noqa: E402
+from tools.layout2 import freeform, layout_engine, templates  # noqa: E402
 
 PIPELINE_SCHEMA = "easycirq-pipeline/v1"
 PLAN_SCHEMA = "easycirq-sch-layout-v2/v1"
@@ -172,6 +172,18 @@ def validate_spec(data):
                                   or not title.strip()):
             raise ValueError("module %r title must be a non-empty string"
                              % module_id)
+    engine = data.get("engine")
+    if engine is not None and engine not in ENGINE_CHOICES:
+        raise ValueError("spec.engine must be one of %s" % ", ".join(ENGINE_CHOICES))
+    templates_map = data.get("templates")
+    if templates_map is not None:
+        if not isinstance(templates_map, dict):
+            raise ValueError("spec.templates must be an object of module->template path")
+        for module_id, template_path in templates_map.items():
+            if not isinstance(module_id, str) or not isinstance(template_path, str) \
+                    or not template_path.strip():
+                raise ValueError("spec.templates[%r] must be a template path string"
+                                 % module_id)
     template = data.get("page_template")
     if template is not None and not isinstance(template, dict):
         raise ValueError("spec.page_template must be an object")
@@ -197,11 +209,72 @@ def validate_spec(data):
 
 # ── stage 1: layout plan ─────────────────────────────────────────────────────
 
-def run_plan(name, spec):
-    """Plan the project offline with the v2 engine (never raises for bad input)."""
+ENGINE_CHOICES = ("layout", "freeform", "templates")
+
+
+def _adapt_freeform(plan):
+    """Normalize an easycirq-sch-layout-freeform/v1 plan to the pipeline shape."""
+    blocks = []
+    frames = []
+    for index, block in enumerate(plan.get("blocks") or []):
+        zone = block.get("zone")
+        rects = [[float(v) for v in rect] for rect in zone] if isinstance(zone, list) else []
+        rect = rects[0] if rects else [float(v) for v in block["bbox"]]
+        blocks.append({"id": block["id"], "title": block.get("title", block["id"]),
+                       "bbox": [float(v) for v in block["bbox"]],
+                       "zone": rect, "zone_rects": rects or [rect],
+                       "footprint": block.get("footprint"),
+                       "zone_kind": block.get("zone_kind", "rect"),
+                       "region": block.get("region")})
+        frames.append({"id": block["id"], "title": block.get("title", block["id"]),
+                       "order": index + 1, "zone": rect,
+                       "zone_rects": rects or [rect]})
+    metrics = dict(plan.get("metrics") or {})
+    metrics.setdefault("page_count", 1 if blocks else 0)
+    return {"schema": plan.get("schema", "easycirq-sch-layout-freeform/v1"),
+            "project": plan.get("project"), "engine": "freeform",
+            "verdict": plan.get("verdict", "blocked"),
+            "findings": plan.get("findings") or [],
+            "pages": [{"page": 1, "regions": plan.get("regions") or [],
+                       "frames": frames, "blocks": blocks, "labels": []}]
+            if blocks else [],
+            "metrics": metrics}
+
+
+def _expand_templates(plan, spec, spec_dir):
+    """Attach absolute part placements from block templates (deterministic)."""
+    mapping = spec.get("templates") or {}
+    if not mapping:
+        return plan
+    for page in plan.get("pages") or []:
+        for block in page.get("blocks") or []:
+            rel = mapping.get(block["id"])
+            if rel is None:
+                continue
+            template_path = Path(rel)
+            if not template_path.is_absolute():
+                template_path = spec_dir / template_path
+            data = json.loads(template_path.read_text(encoding="utf-8"))
+            placed = templates.instantiate_template(
+                data, page.get("page"), [block["bbox"][0], block["bbox"][1]])
+            block["parts"] = placed.get("parts") or []
+            block["nets"] = placed.get("nets") or []
+            block["template"] = data.get("block")
+    plan["engine"] = "templates"
+    return plan
+
+
+def run_plan(name, spec, engine="layout", spec_dir=None):
+    """Plan the project offline with the selected engine (never raises)."""
     project = {"name": name, "modules": spec["modules"]}
     try:
-        return layout_engine.plan_project(project, spec.get("page_template"))
+        if engine == "freeform":
+            plan = freeform.plan_project_freeform(project)
+            return _adapt_freeform(plan)
+        plan = layout_engine.plan_project(project, spec.get("page_template"))
+        if engine == "templates":
+            plan = _expand_templates(plan, spec, spec_dir or Path("."))
+        return plan
     except Exception as exc:  # noqa: BLE001 - keep the pipeline fail-closed
         return {"schema": PLAN_SCHEMA, "project": name, "verdict": "blocked",
                 "template": None, "pages": [], "metrics": _zero_metrics(),
@@ -375,6 +448,8 @@ def build_apply_document(name, plan, spec):
                 "w": round(bbox[2] - bbox[0], 3),
                 "h": round(bbox[3] - bbox[1], 3),
             })
+            if block.get("parts"):
+                placements[-1]["parts"] = block["parts"]
             placements_total += 1
         labels = []
         for label in page.get("labels") or []:
@@ -400,6 +475,7 @@ def build_apply_document(name, plan, spec):
         "project_uuid": spec.get("project_uuid"),
         "page": spec.get("page"),
         "plan": name + ".plan.json",
+        "engine": plan.get("engine") or "layout",
         "pages": pages,
     }
     return document, placements_total
@@ -616,6 +692,8 @@ def _parser():
                     "apply-ready bundle, no LLM/EDA).")
     parser.add_argument("--spec", required=True, help="pipeline spec JSON")
     parser.add_argument("--out-dir", required=True, help="artifact directory")
+    parser.add_argument("--engine", choices=ENGINE_CHOICES,
+                        help="planning engine (default: spec.engine or layout)")
     parser.add_argument("--dry-run", action="store_true",
                         help="plan + review only; print one line, write no "
                              "apply bundle")
@@ -628,6 +706,9 @@ def main(argv=None):
     try:
         spec = _read_json(spec_path)
         name = validate_spec(spec)
+        engine = args.engine or spec.get("engine") or "layout"
+        if engine not in ENGINE_CHOICES:
+            raise ValueError("engine must be one of %s" % ", ".join(ENGINE_CHOICES))
     except (OSError, ValueError) as exc:
         print("pipeline: invalid spec: %s" % exc, file=sys.stderr)
         return 2
@@ -640,7 +721,7 @@ def main(argv=None):
 
     mode = "dry-run" if args.dry_run else "write"
     warnings = []
-    plan = run_plan(name, spec)
+    plan = run_plan(name, spec, engine, spec_path.parent)
     if plan.get("verdict") != "pass" and _plan_invalid(plan):
         messages = "; ".join(finding.get("message", finding.get("code", "?"))
                              for finding in plan.get("findings") or [])
