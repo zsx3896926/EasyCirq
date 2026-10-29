@@ -576,3 +576,40 @@ class GroundDomainTests(unittest.TestCase):
         rules = {f["rule"] for f in report["findings"]}
         self.assertNotIn("R04-ground-tie", rules)
 
+
+class ChipSelectRuleTests(unittest.TestCase):
+    def _snap(self, pins, extra=None):
+        components = [{"ref": "U9", "bbox": {"minX": 0, "minY": 0, "maxX": 10, "maxY": 10},
+                       "pins": pins}]
+        components.extend(extra or [])
+        return {"schema": "easycirq-ace-snapshot/v1", "page": "t",
+                "titleblock": {"fields": {"Title": "x", "Rev": "A", "Sheet": "1"}},
+                "components": components}
+
+    def test_chip_enable_is_not_chip_select(self):
+        report = ace_review.review(self._snap(
+            [{"number": "1", "name": "CE#", "net": "AGND"}]))
+        self.assertNotIn("R23-spi-cs-pullup",
+                         {f["rule"] for f in report["findings"]})
+
+    def test_ground_strapped_cs_is_not_a_pullup_violation(self):
+        report = ace_review.review(self._snap(
+            [{"number": "2", "name": "CS#", "net": "GND"}]))
+        self.assertNotIn("R23-spi-cs-pullup",
+                         {f["rule"] for f in report["findings"]})
+
+    def test_signal_cs_without_pullup_warns(self):
+        report = ace_review.review(self._snap(
+            [{"number": "3", "name": "CS#", "net": "SPI_CS"}]))
+        self.assertIn("R23-spi-cs-pullup",
+                      {f["rule"] for f in report["findings"]})
+
+    def test_signal_cs_with_pullup_passes(self):
+        extra = [{"ref": "R90", "bbox": {"minX": 0, "minY": 0, "maxX": 4, "maxY": 4},
+                  "pins": [{"number": "1", "name": "1", "net": "SPI_CS"},
+                           {"number": "2", "name": "2", "net": "3V3"}]}]
+        report = ace_review.review(self._snap(
+            [{"number": "3", "name": "CS#", "net": "SPI_CS"}], extra))
+        self.assertNotIn("R23-spi-cs-pullup",
+                         {f["rule"] for f in report["findings"]})
+

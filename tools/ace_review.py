@@ -45,7 +45,7 @@ POWER_PIN_NAMES = ("VDD", "VDDIO", "VCC", "AVDD", "DVDD", "PVDD",
 RESET_BOOT_RE = re.compile(
     r"(?i)^(?:N?RESET|NRST|RST|RESET#|BOOT0|BOOT_[0-9A-Z]+|STRAP[0-9]*|IO0|GPIO0)$")
 UNUSED_PIN_RE = re.compile(r"(?i)^(?:NC|DNU|DNI|RESERVED|RSVD)(?:[0-9_#/() -].*)?$")
-CS_PIN_RE = re.compile(r"(?i)^(?:CS|CS#|NCS|SS|SS#|NSS|SSN|CE|CE#|CHIP_?SELECT)$")
+CS_PIN_RE = re.compile(r"(?i)^(?:CS|CS#|NCS|SS|SS#|NSS|SSN|CHIP_?SELECT)$")
 ADDR_PIN_RE = re.compile(r"(?i)^(?:ADDR|ADDRESS|A[0-2]|SEL|SA[0-1]|I2C_ADDR|ADDR[0-9])$")
 INPUT_RAIL_RE = re.compile(
     r"(?i)^(?:VBUS|VIN|VIN_[A-Z0-9_]+|DC_?IN|PWR_?IN|BAT\+?|VBAT|VBAT_[A-Z0-9_]+|"
@@ -884,6 +884,8 @@ def rule_spi_cs_pullup(snapshot, findings):
                  "chip-select pin %s:%s (%s) is floating"
                  % (_ref(comp), pin.get("number"), pname), [_ref(comp)])
             continue
+        if _is_ground(net) or _is_power(net):
+            continue  # hard-strapped select is a deliberate configuration
         has_pull = False
         for ref, _ in _members(snapshot, net):
             part = _comp(snapshot, ref)
