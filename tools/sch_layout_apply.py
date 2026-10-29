@@ -78,10 +78,14 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
     doc = ["--doc", page]
     report = {"page": page, "blocks": [], "moves": []}
 
-    # activate project + page
-    if not window:
-        raise ValueError("spec.window is required (use `easycirq doctor` to find it)")
-    cli("project", "open", "--window", window, "--project-uuid", project_uuid,
+    # activate project + page; window ids change when the connector reconnects
+    # so resolve the live one instead of trusting spec.window
+    c, o, e = cli("project", "info")
+    info = parse(o) or {}
+    live_window = info.get("windowId") or (info.get("context") or {}).get("windowId") or window
+    if not live_window:
+        raise ValueError("no connected EasyEDA window (run `easycirq doctor`)")
+    cli("project", "open", "--window", live_window, "--project-uuid", project_uuid,
         "--allow-discard-unsaved")
     time.sleep(4)
     cli("call", "document.open", "--payload", json.dumps({"uuid": page}))
@@ -94,13 +98,21 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
     time.sleep(5)
 
     # clear must actually succeed and the page must report zero parts
+    cleared = False
     for attempt in range(10):
         code, out, err = cli("sch", "clear", *doc)
         time.sleep(5)
         comps = [c for c in components() if c.get("componentType") == "part"]
         if code == 0 and not comps:
+            cleared = True
             break
     report["clear"] = code
+    if not cleared:
+        report["error"] = "clear did not empty the page; refusing to place blocks on top of stale parts"
+        report["metrics"] = {"blocks": 0, "fits": 0, "overlaps": 0, "verdict": "blocked"}
+        (out_dir / (export_name + ".report.json")).write_text(
+            json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+        return report
 
     # place blocks one at a time, snapping each onto its planned bbox
     for i, p in enumerate(plan["placements"]):
@@ -143,6 +155,25 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
                 time.sleep(5)
                 actual = union_bbox(components(), set(desig))
                 moved = {"dx": dx, "dy": dy, "exit": code2}
+        # keep the corrected block inside the sheet margins
+        if actual:
+            mx = 0
+            my = 0
+            if actual[0] < 12:
+                mx = 12 - actual[0]
+            if actual[1] < 12:
+                my = 12 - actual[1]
+            if actual[2] > 1158:
+                mx = 1158 - actual[2]
+            if actual[3] > 813:
+                my = 813 - actual[3]
+            if (mx or my) and block_groups:
+                c3, o3, e3 = cli("sch", "group-move", "--groups", ",".join(block_groups),
+                                 "--dx", str(round(mx, 1)), "--dy", str(round(my, 1)), *doc)
+                time.sleep(4)
+                actual = union_bbox(components(), set(desig))
+                moved = (moved or {})
+                moved["margin"] = {"dx": mx, "dy": my, "exit": c3}
         report["blocks"].append({"id": p["id"], "group": group, "groups": locals().get("block_groups", []), "designators": desig,
                                  "apply": code, "actual": actual, "moved": moved})
         report["moves"].append(moved)
