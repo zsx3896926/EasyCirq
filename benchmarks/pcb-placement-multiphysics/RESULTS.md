@@ -434,3 +434,8 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 ## 26. 第二十一轮同步（2026-10-29，仅文档）
 
 - **自适应分辨率端到端**：推荐组合 + 0.5mm 网格在真实板上 completion 均值 **0.9487 → 0.9615**，但 `fully_routed` 仍 **4/6**（`mcu-i2c` 的 `GND` 仍无法在 0.5mm/2 层完全布线）。结论：更细网格对 straggler 板有边际收益，但不改变二值全布通数量；默认仍 1mm 以换取速度。
+
+
+## 27. 第二十三轮同步（2026-10-30）
+
+- **consolidate 数据完整性闸**：新增 `--check`（任一 report JSON 不可读即退出 1）；gates 第 3 道改用 `consolidate --check`。

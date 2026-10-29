@@ -68,13 +68,24 @@ def write_markdown(rows: List[Dict], out: pathlib.Path = OUT_DIR / "docs" / "CON
     print(f"[consolidate] wrote {out} ({len(rows)} reports)")
 
 
+def unreadable_reports(rows: List[Dict]) -> List[str]:
+    return [r["report"] for r in rows if r.get("summary", "").startswith("unreadable")]
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Consolidate report JSONs into one table")
     parser.add_argument("--root", default=str(OUT_DIR))
     parser.add_argument("--out", default=str(OUT_DIR / "docs" / "CONSOLIDATED.md"))
+    parser.add_argument("--check", action="store_true", help="exit 1 if any report is unreadable")
     args = parser.parse_args(argv)
     rows = collect(pathlib.Path(args.root))
     write_markdown(rows, pathlib.Path(args.out))
+    if args.check:
+        bad = unreadable_reports(rows)
+        if bad:
+            print(f"[consolidate] UNREADABLE: {bad}")
+            return 1
+        print("[consolidate] check: all reports readable")
     return 0
 
 
