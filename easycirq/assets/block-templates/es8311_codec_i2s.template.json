@@ -1,0 +1,391 @@
+{
+ "schema": "easycirq-block-template/v1",
+ "block": "block.es8311_codec_i2s",
+ "origin": {
+  "role": "U",
+  "ref": "U1",
+  "x": 480,
+  "y": 750
+ },
+ "parts": [
+  {
+   "role": "U",
+   "designator": "U1",
+   "dx": 0,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -100.5,
+    "minY": -60.5,
+    "maxX": 100.5,
+    "maxY": 60.5
+   }
+  },
+  {
+   "role": "C_PVDD",
+   "designator": "C1",
+   "dx": -410,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -420.5,
+    "minY": -248.5,
+    "maxX": -399.5,
+    "maxY": -231.5
+   }
+  },
+  {
+   "role": "C_DVDD",
+   "designator": "C2",
+   "dx": -290,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -300.5,
+    "minY": -248.5,
+    "maxX": -279.5,
+    "maxY": -231.5
+   }
+  },
+  {
+   "role": "C_MIC1P",
+   "designator": "C6",
+   "dx": -290,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -300.5,
+    "minY": -128.5,
+    "maxX": -279.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_MIC1N",
+   "designator": "C5",
+   "dx": -410,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -420.5,
+    "minY": -128.5,
+    "maxX": -399.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_VMID",
+   "designator": "C10",
+   "dx": -290,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -300.5,
+    "minY": -8.5,
+    "maxX": -279.5,
+    "maxY": 8.5
+   }
+  },
+  {
+   "role": "C_ADCVREF",
+   "designator": "C9",
+   "dx": -410,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -420.5,
+    "minY": -8.5,
+    "maxX": -399.5,
+    "maxY": 8.5
+   }
+  },
+  {
+   "role": "C_DACVREF",
+   "designator": "C3",
+   "dx": -170,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -180.5,
+    "minY": -248.5,
+    "maxX": -159.5,
+    "maxY": -231.5
+   }
+  },
+  {
+   "role": "C_OUTP",
+   "designator": "C8",
+   "dx": -50,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -55.5,
+    "minY": -128.5,
+    "maxX": -44.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_OUTN",
+   "designator": "C7",
+   "dx": -170,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -175.5,
+    "minY": -128.5,
+    "maxX": -164.5,
+    "maxY": -111.5
+   }
+  },
+  {
+   "role": "C_AVDD",
+   "designator": "C4",
+   "dx": -50,
+   "dy": -240,
+   "rotation": 0,
+   "bbox": {
+    "minX": -60.5,
+    "minY": -248.5,
+    "maxX": -39.5,
+    "maxY": -231.5
+   }
+  },
+  {
+   "role": "R_AGND",
+   "designator": "R1",
+   "dx": -170,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -180.5,
+    "minY": -4.5,
+    "maxX": -159.5,
+    "maxY": 4.5
+   }
+  }
+ ],
+ "pins": [
+  {
+   "role": "U",
+   "pin": "CCLK",
+   "net": "AUDIO_I2C_SCL"
+  },
+  {
+   "role": "U",
+   "pin": "CDATA",
+   "net": "AUDIO_I2C_SDA"
+  },
+  {
+   "role": "U",
+   "pin": "MCLK",
+   "net": "I2S_MCLK"
+  },
+  {
+   "role": "U",
+   "pin": "SCLK/DMIC_SCL",
+   "net": "I2S_BCLK"
+  },
+  {
+   "role": "U",
+   "pin": "LRCK",
+   "net": "I2S_LRCK"
+  },
+  {
+   "role": "U",
+   "pin": "DSDIN",
+   "net": "I2S_DIN"
+  },
+  {
+   "role": "U",
+   "pin": "ASDOUT",
+   "net": "I2S_DOUT"
+  },
+  {
+   "role": "U",
+   "pin": "MIC1P/DMIC_SDA",
+   "net": "block.es8311_codec_i2s_N8"
+  },
+  {
+   "role": "C_MIC1P",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N8"
+  },
+  {
+   "role": "C_MIC1P",
+   "pin": "2",
+   "net": "MIC1_P"
+  },
+  {
+   "role": "U",
+   "pin": "MIC1N",
+   "net": "block.es8311_codec_i2s_N10"
+  },
+  {
+   "role": "C_MIC1N",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N10"
+  },
+  {
+   "role": "C_MIC1N",
+   "pin": "2",
+   "net": "MIC1_N"
+  },
+  {
+   "role": "U",
+   "pin": "OUTP",
+   "net": "block.es8311_codec_i2s_N12"
+  },
+  {
+   "role": "C_OUTP",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N12"
+  },
+  {
+   "role": "C_OUTP",
+   "pin": "2",
+   "net": "DAC_L_P"
+  },
+  {
+   "role": "U",
+   "pin": "OUTN",
+   "net": "block.es8311_codec_i2s_N14"
+  },
+  {
+   "role": "C_OUTN",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N14"
+  },
+  {
+   "role": "C_OUTN",
+   "pin": "2",
+   "net": "DAC_L_N"
+  },
+  {
+   "role": "U",
+   "pin": "VMID",
+   "net": "block.es8311_codec_i2s_N16"
+  },
+  {
+   "role": "C_VMID",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N16"
+  },
+  {
+   "role": "U",
+   "pin": "ADCVREF",
+   "net": "block.es8311_codec_i2s_N17"
+  },
+  {
+   "role": "C_ADCVREF",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N17"
+  },
+  {
+   "role": "U",
+   "pin": "DACVREF",
+   "net": "block.es8311_codec_i2s_N18"
+  },
+  {
+   "role": "C_DACVREF",
+   "pin": "1",
+   "net": "block.es8311_codec_i2s_N18"
+  },
+  {
+   "role": "U",
+   "pin": "CE",
+   "net": "AGND"
+  },
+  {
+   "role": "U",
+   "pin": "PVDD",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "C_PVDD",
+   "pin": "1",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "U",
+   "pin": "DVDD",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "C_DVDD",
+   "pin": "1",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "U",
+   "pin": "AVDD",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "C_AVDD",
+   "pin": "1",
+   "net": "3V3_L3B_AU"
+  },
+  {
+   "role": "U",
+   "pin": "AGND",
+   "net": "AGND"
+  },
+  {
+   "role": "U",
+   "pin": "DGND",
+   "net": "AGND"
+  },
+  {
+   "role": "U",
+   "pin": "EP",
+   "net": "AGND"
+  },
+  {
+   "role": "C_PVDD",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "C_DVDD",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "C_VMID",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "C_ADCVREF",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "C_DACVREF",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "C_AVDD",
+   "pin": "2",
+   "net": "AGND"
+  },
+  {
+   "role": "R_AGND",
+   "pin": "1",
+   "net": "AGND"
+  },
+  {
+   "role": "R_AGND",
+   "pin": "2",
+   "net": "GND"
+  }
+ ],
+ "bbox": {
+  "minX": -420.5,
+  "minY": -248.5,
+  "maxX": 100.5,
+  "maxY": 60.5
+ }
+}
