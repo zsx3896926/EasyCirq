@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "bbox": {
+        "maxX": 240,
+        "maxY": 160,
+        "minX": 200,
+        "minY": 100
+      },
+      "pins": [
+        {
+          "name": "D+",
+          "net": "USB_DP",
+          "number": "1"
+        },
+        {
+          "name": "GND",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "J1"
+    }
+  ],
+  "page": "1",
+  "schema": "easycirq-ace-snapshot/v1",
+  "titleblock": {
+    "fields": {
+      "Rev": "A",
+      "Sheet": "1",
+      "Title": "bad"
+    }
+  }
+}

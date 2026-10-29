@@ -36,8 +36,19 @@ BAD_CASES = {
     "bad-ground-tie-broken.json": ("R04-ground-tie", 1),
 }
 
+EXTENDED_BAD_FILES = [
+    "bad-floating-pin.json",
+    "bad-enable-float.json",
+    "bad-esd-missing.json",
+    "bad-testpoint-missing.json",
+    "bad-auto-net.json",
+    "bad-titleblock.json",
+    "bad-cs-no-pullup.json",
+    "bad-bom-placeholder.json",
+]
 CORPUS_FILES = sorted(
-    ["clean-reference.json", "clean-reference.expected.json"] + list(BAD_CASES))
+    ["clean-reference.json", "clean-reference.expected.json"]
+    + list(BAD_CASES) + EXTENDED_BAD_FILES)
 
 ADDITIVE_RULES = {
     "add-second-ground-tie": "R04-ground-tie",
@@ -63,7 +74,7 @@ class CorpusLoadTests(unittest.TestCase):
         self.assertTrue(CORPUS.is_dir(), "missing corpus dir %s" % CORPUS)
         names = sorted(p.name for p in CORPUS.glob("*.json"))
         self.assertEqual(names, CORPUS_FILES)
-        self.assertEqual(len(list(CORPUS.glob("bad-*.json"))), 3)
+        self.assertEqual(len(list(CORPUS.glob("bad-*.json"))), 11)
 
     def test_snapshots_are_valid_ace_snapshots(self):
         for name in ["clean-reference.json"] + list(BAD_CASES):
@@ -200,3 +211,31 @@ class DeterminismTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+EXPECTED_RULE = {
+    "bad-floating-pin.json": "R01-floating-pin",
+    "bad-enable-float.json": "R06-enable-net",
+    "bad-esd-missing.json": "R07-esd-series",
+    "bad-testpoint-missing.json": "R08-power-testpoint",
+    "bad-auto-net.json": "R09-auto-net-name",
+    "bad-titleblock.json": "R10-titleblock",
+    "bad-cs-no-pullup.json": "R23-spi-cs-pullup",
+    "bad-bom-placeholder.json": "R29-bom-value",
+}
+
+
+class ExtendedCorpusTests(unittest.TestCase):
+    def test_each_bad_snapshot_triggers_its_rule(self):
+        for filename, rule in EXPECTED_RULE.items():
+            path = CORPUS / filename
+            self.assertTrue(path.exists(), path)
+            snapshot = json.loads(path.read_text(encoding="utf-8"))
+            rules = {f["rule"] for f in ace_review.review(snapshot)["findings"]}
+            self.assertIn(rule, rules, "%s -> %s" % (filename, sorted(rules)))
+
+    def test_new_bad_snapshots_are_deterministic_json(self):
+        for filename in EXPECTED_RULE:
+            raw = (CORPUS / filename).read_bytes()
+            self.assertEqual(raw, (CORPUS / filename).read_bytes())
+
