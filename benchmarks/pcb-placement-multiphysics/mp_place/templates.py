@@ -742,7 +742,99 @@ TEMPLATES: Dict[str, dict] = {
             {"name": "PWM_C", "cls": "digital", "pins": [["U2", "8"], ["U1", "8"]]},
         ],
     },
+
+    "usb-uart-bridge": {
+        "family": "usb-uart-bridge",
+        "title": "USB-C UART bridge",
+        "description": "USB-C to UART bridge with TVS, MCU and LDO between two edge connectors.",
+        "board": {"w": (66.0, 76.0), "h": (42.0, 50.0)},
+        "edge_tol": 2.0,
+        "connectors": [
+            {"ref": "J1", "w": (6.5, 7.5), "h": (4.5, 5.5), "pins": 4, "pin_style": "ic", "edge": "left", "center_frac": (0.38, 0.62)},
+            {"ref": "J2", "w": (6.5, 7.5), "h": (4.5, 5.5), "pins": 4, "pin_style": "ic", "edge": "right", "center_frac": (0.38, 0.62)},
+        ],
+        "antenna": None,
+        "parts": [
+            {"ref": "U1", "kind": "mcu", "w": (5.5, 6.5), "h": (5.5, 6.5), "pins": 6, "pin_style": "ic", "power_w": 0.10},
+            {"ref": "U2", "kind": "analog", "w": (4.6, 5.4), "h": (3.6, 4.4), "pins": 4, "pin_style": "ic"},
+            {"ref": "U3", "kind": "power_switch", "w": (3.6, 4.4), "h": (3.6, 4.4), "pins": 4, "pin_style": "ic", "power_w": (0.3, 0.6)},
+            {"ref": "C1", "kind": "decap", "w": 1.6, "h": 0.8, "pins": 2},
+            {"ref": "C2", "kind": "decap", "w": 1.6, "h": 0.8, "pins": 2},
+            {"ref": "C3", "kind": "input_cap", "w": (1.8, 2.2), "h": (1.1, 1.3), "pins": 2},
+            {"ref": "Y1", "kind": "crystal", "w": 3.2, "h": 2.5, "pins": 2},
+            {"ref": "D1", "kind": "analog", "w": 1.6, "h": 0.8, "pins": 2},
+        ],
+        "modules": {
+            "power": {"stage": "ldo", "vin_v": 5.0, "vout_v": 3.3, "iout_a": (0.10, 0.25), "efficiency": 0.75},
+            "analog": {"transceiver": "usb_uart", "baud": (9600, 115200)},
+            "digital": {"core": "mcu", "uart": 1, "usb": 1},
+            "interface": {"connectors": ["J1", "J2"], "signals": 4},
+            "rf": None,
+        },
+        "keepout_rules": [
+            {"kind": "connector_clearance", "linked": "J1", "depth_mm": (2.0, 3.0), "side_mm": 1.0},
+            {"kind": "connector_clearance", "linked": "J2", "depth_mm": (2.0, 3.0), "side_mm": 1.0},
+        ],
+        "nets": [
+            {"name": "VIN", "cls": "power", "pins": [["J1", "1"], ["C3", "1"], ["U3", "1"]]},
+            {"name": "VDD", "cls": "power", "pins": [["U3", "2"], ["C1", "1"], ["C2", "1"], ["U1", "1"]]},
+            {"name": "GND", "cls": "ground", "pins": [["J1", "2"], ["C3", "2"], ["C1", "2"], ["C2", "2"], ["U1", "4"], ["D1", "2"]]},
+            {"name": "USB_DP", "cls": "digital", "pins": [["J1", "3"], ["U2", "1"]]},
+            {"name": "USB_DM", "cls": "digital", "pins": [["J1", "4"], ["U2", "2"]]},
+            {"name": "UART_TX", "cls": "digital", "pins": [["U2", "3"], ["U1", "2"]]},
+            {"name": "RXD", "cls": "digital", "pins": [["U2", "4"], ["U1", "3"]]},
+            {"name": "XTAL_IN", "cls": "analog", "pins": [["Y1", "1"], ["U1", "5"]]},
+            {"name": "XTAL_OUT", "cls": "analog", "pins": [["Y1", "2"], ["U1", "6"]]},
+            {"name": "TVS", "cls": "analog", "pins": [["D1", "1"], ["U3", "3"]]},
+            {"name": "UART_TO_J2", "cls": "digital", "pins": [["U3", "4"], ["J2", "1"]]},
+        ],
+    },
+
+    "audio-amp": {
+        "family": "audio-amp",
+        "title": "Headphone audio amplifier",
+        "description": "3.5 mm in/out audio amp with LDO and gain resistors between two edge connectors.",
+        "board": {"w": (66.0, 76.0), "h": (42.0, 50.0)},
+        "edge_tol": 2.0,
+        "connectors": [
+            {"ref": "J1", "w": (6.5, 7.5), "h": (4.5, 5.5), "pins": 4, "pin_style": "ic", "edge": "left", "center_frac": (0.38, 0.62)},
+            {"ref": "J2", "w": (6.5, 7.5), "h": (4.5, 5.5), "pins": 4, "pin_style": "ic", "edge": "right", "center_frac": (0.38, 0.62)},
+        ],
+        "antenna": None,
+        "parts": [
+            {"ref": "U1", "kind": "analog", "w": (5.0, 6.0), "h": (5.0, 6.0), "pins": 6, "pin_style": "ic"},
+            {"ref": "U2", "kind": "power_switch", "w": (3.6, 4.4), "h": (3.6, 4.4), "pins": 4, "pin_style": "ic", "power_w": (0.3, 0.6)},
+            {"ref": "C1", "kind": "decap", "w": 1.6, "h": 0.8, "pins": 2},
+            {"ref": "C2", "kind": "decap", "w": 1.6, "h": 0.8, "pins": 2},
+            {"ref": "C3", "kind": "input_cap", "w": (1.8, 2.2), "h": (1.1, 1.3), "pins": 2},
+            {"ref": "R1", "kind": "analog", "w": 1.6, "h": 0.8, "pins": 2},
+            {"ref": "R2", "kind": "analog", "w": 1.6, "h": 0.8, "pins": 2},
+        ],
+        "modules": {
+            "power": {"stage": "ldo", "vin_v": 5.0, "vout_v": 3.3, "iout_a": (0.20, 0.40), "efficiency": 0.75},
+            "analog": {"amp": "headphone", "gain_db": (6, 24), "channels": 2},
+            "digital": None,
+            "interface": {"connectors": ["J1", "J2"], "signals": 4},
+            "rf": None,
+        },
+        "keepout_rules": [
+            {"kind": "connector_clearance", "linked": "J1", "depth_mm": (2.0, 3.0), "side_mm": 1.0},
+            {"kind": "connector_clearance", "linked": "J2", "depth_mm": (2.0, 3.0), "side_mm": 1.0},
+        ],
+        "nets": [
+            {"name": "VIN", "cls": "power", "pins": [["J1", "1"], ["C3", "1"], ["U2", "1"]]},
+            {"name": "VDD", "cls": "power", "pins": [["U2", "2"], ["C1", "1"], ["C2", "1"], ["U1", "1"]]},
+            {"name": "GND", "cls": "ground", "pins": [["J1", "2"], ["C3", "2"], ["C1", "2"], ["C2", "2"], ["U1", "4"], ["U2", "4"], ["J2", "2"]]},
+            {"name": "IN_L", "cls": "analog", "pins": [["J1", "3"], ["U1", "2"]]},
+            {"name": "IN_R", "cls": "analog", "pins": [["J1", "4"], ["U1", "3"]]},
+            {"name": "OUT_L", "cls": "analog", "pins": [["U1", "5"], ["J2", "1"], ["R1", "1"]]},
+            {"name": "OUT_R", "cls": "analog", "pins": [["U1", "6"], ["J2", "3"], ["R2", "1"]]},
+            {"name": "FB_A", "cls": "analog", "pins": [["R1", "2"], ["U2", "3"]]},
+            {"name": "FB_B", "cls": "analog", "pins": [["R2", "2"], ["U2", "4"]]},
+        ],
+    },
 }
+
 
 
 # --------------------------------------------------------------------------- #

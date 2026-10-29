@@ -185,7 +185,7 @@ class RunAuditTests(unittest.TestCase):
 
     def test_default_grid_covers_the_eight_registered_templates(self):
         names = sorted(templates.template_names())
-        self.assertEqual(len(names), 8)
+        self.assertEqual(len(names), 10)
         self.assertEqual(autonomy._normalise_templates(None), names)
         self.assertEqual(tuple(autonomy.DEFAULT_SEEDS), (0, 1))
 

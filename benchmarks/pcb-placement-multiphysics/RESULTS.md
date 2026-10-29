@@ -390,3 +390,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 493 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 20. 第十二轮同步（2026-10-29）
+
+- **模板扩充**：8 → 10（`usb-uart-bridge`、`audio-amp`），桥接类拓扑在 intent 测试走 `relax=True`（严格 CCG 不可满足）；`test_route_cost` 同步为 `TUNED_TABLE` 子集断言（新模板走 tier fallback）。
+- 测试：仓库内 493 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。

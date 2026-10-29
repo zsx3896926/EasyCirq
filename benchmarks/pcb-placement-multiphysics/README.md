@@ -265,6 +265,12 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 
 - `mp_place/ccg_study.py`：跨对边连接器拓扑的可满足性研究 + `suggest_mode()` 启发式（residual near 涉及固定连接器或跨对边 → 建议 relax），并输出 strict/relax 两模式的 `ccg_residual` 明细。
 
+
+## P3.9 桥接类模板扩充（2026-10-29 第十二轮同步）
+
+- 模板 8 → **10**：新增 `usb-uart-bridge`（USB-C↔UART 桥 + TVS + MCU + LDO，双对边连接器）与 `audio-amp`（3.5mm 耳机功放 + LDO + 增益电阻）。
+- 桥接类模板（跨对边连接器 + 密集 near 链）在**严格 CCG 下不可满足**，故 intent 测试对这两类走 `relax=True`；`suggest_mode`（P4.15）已在研究层给出该判断。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
