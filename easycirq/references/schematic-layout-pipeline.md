@@ -29,11 +29,24 @@ python easycirq/scripts/sch_layout_batch.py --sizes 2,3 --top 10 --out batch.jso
 - 输出：`fits / overlaps / area_usage / zone_slack / title_clearance_violations / score`；
 - 只把 `top` 的 1–3 个方案拿去真机验收。
 
-单工程规划：
+单工程规划（在**仓库根目录**执行；包络路径相对仓库根）：
 
 ```bash
-python easycirq/scripts/sch_layout_plan.py spec.json --envelopes assets/block-envelopes.json
+python easycirq/scripts/sch_layout_plan.py spec.json --envelopes easycirq/assets/block-envelopes.json
 ```
+
+`--envelopes` 也可省略：脚本默认读 `easycirq/assets/block-envelopes.json`；写成 `assets/...`
+只有当前目录是 `easycirq/` 时才有效，否则报 `No such file or directory` 并 `blocked`（exit 2）。
+
+### 2.1 离线自检（2026-10-29 实测）
+
+在仓库根目录跑这三个命令，确认工具与本节的输出字段仍一致：
+
+- `sch_layout_batch.py --sizes 2,3 --top 5`：`pool_size=11, evaluated=220, passed=210`，top 分 `99.9`，前 3 个组合均 `fits=3, overlaps=0, area_usage≈0.45, title_clearance_violations=0`；
+- 音频三块（ES8311 + MEMS + AW8737）单工程规划：`verdict=pass, fits=3, zones_contain_blocks=3, overlaps=0, area_usage=0.366, zones_trimmed=1, title_clearance_violations=0, score=96.6`；
+- scoreboard 对 1 个通过 + 2 个 review 的报告：`reports=3, passed=1`，exit `1`；全部通过时 exit `0`，Markdown 表含 `wires ok/total` 与 `rate` 列。
+
+这些数字只证明离线规划/汇总在该快照上可复现，不是真机落点结果。
 
 ## 3. 真机落点（每个工程一次）
 
@@ -85,7 +98,7 @@ zone 空白超出 0.25 −60×超出，标题净空违规 −8/处。
 | `unplaced[]` | planner | 排不进任何可用区或越出页边距的块 id 列表 | 必须为空，否则 `verdict=blocked`、exit 2 |
 | `metrics.overlaps` | planner | 块 bbox 两两相交对数（交面积 > 0） | 必须为 0，否则 `verdict=review`、exit 1 |
 | `metrics.zones_contain_blocks` | planner | 成功生成"包含块"分区框的块数 | 等于 `fits` 时分区完整 |
-| `metrics.zones_trimmed` | planner | 安全裁剪分区框的次数；边缘已按最近邻中点封顶，正常应为 0 | 仅诊断，不单独判失败 |
+| `metrics.zones_trimmed` | planner | 安全裁剪分区框的次数；边缘按最近邻中点封顶不足时，由兜底裁剪消除重叠。0 是理想值，音频三块规划实测为 1 | 仅诊断，不单独判失败 |
 | `metrics.area_usage` | planner | Σ 块 bbox 面积 / 页面面积，保留 3 位小数 | 目标 0.45，偏离进入 `score` 罚分 |
 | `metrics.zone_slack` | planner | Σ 分区框面积 / 页面面积 − `area_usage`（分区内空余占比） | > 0.25 开始按 60×超出罚分 |
 | `metrics.title_clearance_violations` | planner | 分区标题压到块上方的块数（`titleY < bbox.maxY + 10`） | 0，否则每处 −8 分 |
