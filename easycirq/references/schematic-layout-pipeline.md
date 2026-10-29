@@ -105,6 +105,29 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 
 真机现象与逐轮处置记录见 `docs/nightly-training/2026-10-29.md`；这些处理不改变"落点后必须回读 + 按实测重建 zone"的协议。
 
+### 3.2 一键流水线（run_layout_pipeline.py）
+
+把"读包络 → 规划 → 打分排序 →（真机 apply）→ scoreboard"串成一条命令：
+
+```bash
+python tools/run_layout_pipeline.py --project specs/demo.project.json --dry-run
+python tools/run_layout_pipeline.py --projects specs --out-dir pipeline-out
+python tools/run_layout_pipeline.py --projects specs --skip-eda   # --dry-run 别名
+```
+
+`*.project.json` 形如 `{name, project_uuid, page, blocks[], gap}`；也可给
+`{"plan": "out/x.plan.json"}` 复用已有计划。输出到 `--out-dir`（默认 `./pipeline-out`）：
+`<name>.plan.json`、`<name>.decision-record.md`（选中方案 + top-3 离线候选 + 一句理由）、
+`<name>.exec.json`（仅真机 apply）、`<name>.report.json` / `<name>.png`、`scoreboard.json`、
+`pipeline-report.json`、`dashboard.md`。
+
+- `--dry-run` / `--skip-eda` 只做离线规划与打分，打印 `offline plan OK, EDA would run`，
+  不需要 daemon 或 EasyEDA 窗口；
+- 去掉这两个 flag 才对每个工程跑 `tools/sch_layout_apply.py`，需要 daemon + 已连接窗口，
+  以及 spec 里的 `project_uuid` / `page`；
+- 退出码：全部规划（或 apply）无管线错误 0；任一工程失败或 `blocked` 1；参数/输入非法 2。
+  `review` 仍是 0——管线只报布局质量，不冒充验收证据。
+
 ## 4. 指标自动化
 
 ```bash
