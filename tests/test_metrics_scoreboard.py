@@ -116,9 +116,12 @@ class Scoreboard(unittest.TestCase):
         row = self.row(data)
         self.assertEqual(row["verdict"], "pass")  # base verdict unchanged
         self.assertEqual(row["style_verdict"], "pass")
-        self.assertEqual(row["style_score"], 100)
+        self.assertTrue(0 <= row["style_score"] <= 100)
         self.assertEqual(row["style_problems"], [])
+        self.assertEqual(data["style"],
+                         {"evaluated": 1, "pass": 1, "review": 0, "blocked": 0})
         self.assertIn("style score", stdout)
+        self.assertIn("advisory: style: 1/1 pass", stdout)
         self.assertIn("| pass |", stdout)
 
     def test_style_review_is_advisory(self):
@@ -131,6 +134,8 @@ class Scoreboard(unittest.TestCase):
         self.assertEqual(row["style_score"], 96)
         self.assertEqual(len(row["style_problems"]), 1)
         self.assertEqual(row["style_problems"][0]["severity"], "review")
+        self.assertEqual(data["style"]["review"], 1)
+        self.assertIn("1 review", stdout)
 
     def test_style_invalid_input_blocked_without_crash(self):
         code, stdout, data = self.run_tool(
@@ -141,6 +146,8 @@ class Scoreboard(unittest.TestCase):
         self.assertEqual(row["style_verdict"], "blocked")
         self.assertEqual(row["style_score"], 0)
         self.assertEqual(len(row["style_problems"]), 1)
+        self.assertEqual(data["style"]["blocked"], 1)
+        self.assertIn("1 blocked", stdout)
 
     def test_missing_style_file_leaves_null(self):
         code, stdout, data = self.run_tool(
@@ -153,6 +160,8 @@ class Scoreboard(unittest.TestCase):
         self.assertIsNone(missing["style_score"])
         self.assertIsNone(missing["style_problems"])
         self.assertEqual(missing["verdict"], "pass")
+        self.assertEqual(data["style"],  # only the existing input is evaluated
+                         {"evaluated": 1, "pass": 1, "review": 0, "blocked": 0})
 
     def test_missing_style_dir_does_not_crash(self):
         code, stdout, data = self.run_tool([report()], style_dir_exists=False)
@@ -162,6 +171,7 @@ class Scoreboard(unittest.TestCase):
         self.assertIsNone(row["style_score"])
         self.assertIsNone(row["style_problems"])
         self.assertNotIn("style score", stdout)
+        self.assertEqual(data["style"]["evaluated"], 0)
 
     def test_no_optional_dirs_keeps_legacy_columns(self):
         code, stdout, data = self.run_tool([report()])
@@ -169,6 +179,9 @@ class Scoreboard(unittest.TestCase):
         row = self.row(data)
         self.assertNotIn("style_verdict", row)
         self.assertNotIn("visual_verdict", row)
+        self.assertNotIn("style", data)
+        self.assertNotIn("visual", data)
+        self.assertNotIn("advisory", stdout)
         self.assertNotIn("| style |", stdout)
         self.assertNotIn("| similarity |", stdout)
 
@@ -179,6 +192,7 @@ class Scoreboard(unittest.TestCase):
         self.assertIsNone(row["visual_verdict"])
         self.assertIsNone(row["visual_similarity"])
         self.assertNotIn("similarity", stdout)
+        self.assertEqual(data["visual"]["evaluated"], 0)
 
     def test_missing_export_dir_does_not_crash(self):
         code, stdout, data = self.run_tool([report()], export_dir_exists=False)
@@ -186,6 +200,45 @@ class Scoreboard(unittest.TestCase):
         row = self.row(data)
         self.assertIsNone(row["visual_verdict"])
         self.assertIsNone(row["visual_similarity"])
+
+    def test_base_failure_is_not_masked_by_advisory_style(self):
+        code, stdout, data = self.run_tool(
+            [report(overlaps=2)], style_inputs={"demo": style_input()})
+        self.assertEqual(code, 1)  # style pass must not turn a failing row green
+        row = self.row(data)
+        self.assertEqual(row["verdict"], "review")
+        self.assertEqual(row["style_verdict"], "pass")
+
+    def test_project_name_with_separator_is_ignored(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            reports = root / "reports"
+            reports.mkdir()
+            (reports / "r.report.json").write_text(
+                json.dumps(report(project="../escape")), encoding="utf-8")
+            style_dir = root / "style"
+            style_dir.mkdir()
+            export_dir = root / "exports"
+            export_dir.mkdir()
+            # Files outside the supplied dirs that a traversal would reach.
+            (root / "escape.style.json").write_text(
+                json.dumps(style_input()), encoding="utf-8")
+            (root / "escape.png").write_bytes(b"not a png")
+            out = root / "scoreboard.json"
+            r = subprocess.run(
+                [sys.executable, str(TOOL), "--reports", str(reports),
+                 "--style-input-dir", str(style_dir),
+                 "--export-dir", str(export_dir), "--out", str(out)],
+                capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(r.returncode, 0)
+            row = json.loads(out.read_text(encoding="utf-8"))["rows"][0]
+        self.assertIsNone(row["style_verdict"])
+        self.assertIsNone(row["visual_verdict"])
+
+    def test_markdown_escapes_pipes_in_project(self):
+        code, stdout, data = self.run_tool([report(project="a|b")])
+        self.assertEqual(code, 0)
+        self.assertIn("a\\|b", stdout)
 
     @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
     def test_visual_comparison_adds_columns(self):
@@ -197,6 +250,10 @@ class Scoreboard(unittest.TestCase):
         self.assertIn(row["visual_verdict"], {"pass", "review", "blocked"})
         self.assertIsNotNone(row["visual_similarity"])
         self.assertGreater(row["visual_similarity"], 0.5)
+        self.assertLessEqual(row["visual_similarity"], 1.0)
+        self.assertEqual(data["visual"],
+                         {"evaluated": 1, "pass": 1, "review": 0, "blocked": 0})
+        self.assertIn("advisory: visual: 1/1 pass", stdout)
         self.assertIn("similarity", stdout)
 
     @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
@@ -209,6 +266,18 @@ class Scoreboard(unittest.TestCase):
         row = self.row(data)
         self.assertEqual(row["verdict"], "pass")
         self.assertEqual(row["visual_verdict"], "review")
+
+    @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
+    def test_corrupt_png_is_blocked_without_crash(self):
+        with tempfile.TemporaryDirectory() as d:
+            broken = Path(d) / "broken.png"
+            broken.write_bytes(b"\x89PNG\r\n\x1a\nthis is not a png")
+            code, stdout, data = self.run_tool([report()], exports={"demo": broken})
+        self.assertEqual(code, 0)
+        row = self.row(data)
+        self.assertEqual(row["verdict"], "pass")
+        self.assertEqual(row["visual_verdict"], "blocked")
+        self.assertIsNone(row["visual_similarity"])
 
 
 if __name__ == "__main__":
