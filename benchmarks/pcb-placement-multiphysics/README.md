@@ -260,6 +260,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 
 - `mp_place/ccg_diag.py`：把 `intent_violations` 的可读串解析成结构化记录（type/a/b/actual/limit），`diagnose_template(name)` 跑严格模式并输出 `ccg_residual` 明细，用于定位"严格 CCG 不满足"的具体约束。
 
+
+## P4.15 跨对边 CCG 可满足性研究（2026-10-29 第十一轮同步）
+
+- `mp_place/ccg_study.py`：跨对边连接器拓扑的可满足性研究 + `suggest_mode()` 启发式（residual near 涉及固定连接器或跨对边 → 建议 relax），并输出 strict/relax 两模式的 `ccg_residual` 明细。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
