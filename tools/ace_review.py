@@ -397,6 +397,25 @@ def rule_ground_tie(snapshot, findings):
     """AGND/DGND/PGND must be tied to GND exactly once (0R / net-tie)."""
     if not any(True for _ in _pins_iter(snapshot)):
         return  # no connectivity data: cannot judge, do not invent an error
+    # A single-ground design (only GND / VSS) needs no tie; the rule only
+    # applies when at least one non-plain ground domain (AGND/DGND/PGND/...)
+    # exists and must be stitched to the plain ground exactly once.
+    ground_names = set()
+    for comp, pin in _pins_iter(snapshot):
+        net = _net_str(pin.get("net"))
+        if net and _is_ground(net):
+            ground_names.add(net.upper())
+    declared = list(snapshot.get("nets") or [])
+    for page_nets in (snapshot.get("nets_by_page") or {}).values():
+        declared.extend(page_nets or [])
+    for net in declared:
+        name = net.get("name") if isinstance(net, dict) else net
+        if isinstance(name, str) and _is_ground(name):
+            ground_names.add(name.upper())
+    plain = {"GND", "VSS", "0V", "GNDA", "GNDD"}
+    non_plain = {n for n in ground_names if n not in plain and not n.startswith("GND")}
+    if not non_plain:
+        return
     tie_refs = []
     for comp in _components(snapshot):
         if designator_kind(_ref(comp)) not in ("resistor", "ferrite"):
