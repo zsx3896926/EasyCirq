@@ -61,6 +61,18 @@ class FixPlanTests(unittest.TestCase):
         self.assertTrue(fixes)
         self.assertIn(fixes[0]["action"]["type"], ("move_component", "add_component"))
 
+    def test_insufficient_decoupling_yields_add_cap(self):
+        # remove the only nearby cap for U1 so R30 reports 3 pins / 0 caps
+        snap = copy.deepcopy(fixture.clean_snapshot())
+        snap["components"] = [c for c in snap["components"]
+                              if c["ref"] not in ("C1", "C2", "C10")]
+        plan = ace_fix_plan.build(snap)
+        fixes = [a for a in plan["actions"]
+                 if a["rule"] == "R30-decoupling-count"]
+        self.assertTrue(fixes)
+        self.assertTrue(all(a["action"]["type"] == "add_component"
+                            and a["action"]["kind"] == "capacitor" for a in fixes))
+
     def test_determinism(self):
         snap = fixture.clean_snapshot()
         a = ace_fix_plan.build(copy.deepcopy(snap))

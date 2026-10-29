@@ -168,6 +168,34 @@ def build(snapshot):
             add(rule, {"type": "declare_nc_or_connect", "ref": finding["refs"][0]
                        if finding.get("refs") else None},
                 "decide NC vs connect for floating pins: %s" % msg)
+        elif rule == "R30-decoupling-count":
+            # message: "IC <ref> has <N> power pin(s) but only <M> nearby decoupling cap(s) (need >= <K>)"
+            import re
+            m = re.search(r"IC (\S+) has (\d+) power pin\(s\) but only (\d+) nearby "
+                          r"decoupling cap\(s\) \(need >= (\d+)\)", msg)
+            if m:
+                ref = m.group(1)
+                need = int(m.group(4))
+                have = int(m.group(3))
+                missing = max(0, need - have)
+                ic = next((c for c in snapshot["components"] if c["ref"] == ref), None)
+                pos = _suggested_cap_position(ic) if ic else None
+                # net from the IC's first power pin
+                net = None
+                if ic:
+                    for pin in ic.get("pins") or []:
+                        if str(pin.get("name") or "").upper() in (
+                                "VDD", "VDDIO", "VCC", "AVDD", "DVDD", "PVDD",
+                                "VDDA", "VDDD", "VBAT", "VSYS", "VIN") and pin.get("net"):
+                            net = pin.get("net")
+                            break
+                for i in range(missing):
+                    add(rule, {"type": "add_component", "kind": "capacitor",
+                               "value": DEFAULT_CAP_VALUE,
+                               "pins": [[net or "?", "GND"]],
+                               "near": ref, "target_xy": pos},
+                        "add decoupling cap %d/%d for %s (power pins need >= %d)"
+                        % (i + 1, missing, ref, need))
 
     return {
         "schema": SCHEMA,
