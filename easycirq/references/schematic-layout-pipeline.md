@@ -33,12 +33,13 @@ python easycirq/scripts/sch_layout_batch.py --sizes 2,3 --top 10 --out batch.jso
 
 - 每块可带可选 `halo`（网络标签/引脚桩净空，spec 或实测包络里给）：分区 padding 取
   `max(zonePad, halo)`，且该块与货架邻居的水平间距抬到 `prev_pad + next_pad + 2`、上下层间距抬到
-  `titleGap + upper_pad + lower_pad + 2`，避免 halo 被中点封顶削掉；仍被页边或邻居削掉的块数计入
-  `halo_clipped`。负数 `halo` 直接报错、`blocked`；placement 会带 `halo` 便于审计。
-- 候选生成：nominal gap 起步，再按 `0.75/0.5/0.25/0` 倍 gap 与反向区域顺序生成去重候选；只保留
-  "放置块数最多"的候选（nominal gap 已能放满时只保留 nominal gap 候选），再对每个候选算完整指标、
-  取 `(fits, score)` 最优上报，因此输出确定且是这一批候选里最好的布局。收紧 gap 造成的标题净空损失
-  计入 `title_clearance_violations`。
+  `titleGap + upper_pad + lower_pad + 2`。halo 预留不会被"排不下"直接吃掉：先按
+  full → half → plain gap 逐级降级预留，降级后仍排不下才 unplaced，残余压缩计入 `halo_clipped`。
+  负数 `halo` 直接报错、`blocked`；placement 会带 `halo` 便于审计。
+- 候选生成：nominal gap 起步，再按 `0.75/0.5/0.25/0` 倍 gap × halo 预留比例 × 反向区域顺序生成去重候选。
+  选择层级：放置块数最多 → 优先 nominal gap → halo 保留最多 → `score` 最高（同分保留更早的确定性候选），
+  因此输出确定且是这批候选里最好的布局。收紧 gap 造成的标题净空损失计入 `title_clearance_violations`。
+- 分区框不得压标题栏：面向标题栏的边会被裁到净空外，`zone_title_block_overlaps` 是回归守卫（应为 0）。
 
 单工程规划（在**仓库根目录**执行；包络路径相对仓库根）：
 
@@ -69,10 +70,10 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 
 ### 2.1 离线自检（2026-10-29 实测）
 
-在仓库根目录跑这三个命令，确认工具与本节的输出字段仍一致（planner workstream 合并后复测）：
+在仓库根目录跑这三个命令，确认工具与本节的输出字段仍一致（planner-v3 合并后复测）：
 
 - `sch_layout_batch.py --sizes 2,3 --top 5`：`pool_size=11, evaluated=220, passed=210`，top 分 `99.9`，前 3 个组合均 `fits=3, overlaps=0, area_usage≈0.45, title_clearance_violations=0`；
-- 音频三块（ES8311 + MEMS + AW8737）单工程规划：`verdict=pass, fits=3, zones_contain_blocks=3, overlaps=0, area_usage=0.366, zones_trimmed=1, halo_clipped=0, zone_slack=0.091, zone_fill_ratio=0.8, layout_balance=2.065, title_clearance_violations=0, score=92.9`（`layout_balance>1.6` 扣 3.7 分）；
+- 音频三块（ES8311 + MEMS + AW8737）单工程规划：`verdict=pass, fits=3, zones_contain_blocks=3, overlaps=0, area_usage=0.366, zones_trimmed=1, halo_clipped=0, zone_title_block_overlaps=0, zone_slack=0.09, zone_fill_ratio=0.803, layout_balance=2.105, title_clearance_violations=0, score=92.6`（面积偏离扣 3.4、`layout_balance>1.6` 扣 4.0）；
 - scoreboard 对 1 个通过 + 2 个 review 的报告：`reports=3, passed=1`，exit `1`；全部通过时 exit `0`，Markdown 表含 `wires ok/total` 与 `rate` 列。
 
 这些数字只证明离线规划/汇总在该快照上可复现，不是真机落点结果。
@@ -159,7 +160,8 @@ style 输入坏掉不崩溃，记 `blocked` / 0 分并把报错放进 `style_pro
 
 规划器 `score`（0–100，`_score()` 实现）：重叠 −25/对，未落块 −30/个，面积占比偏离 0.45
 −40×差；`zone_fill_ratio` 偏离 0.55–0.85 区间 −70×偏离；`layout_balance` 超过 1.6
-−8×超出；zone 空白超出 0.25 −60×超出；标题净空违规 −8/处。
+−8×超出；zone 空白超出 0.25 −60×超出；标题净空违规 −8/处；`halo_clipped` −4/块；
+`zone_title_block_overlaps` −10/处。
 
 - `score ≥ 90`：可直接进真机验收；
 - `70–90`：先调整块组合/gap/zonePad；
@@ -172,12 +174,13 @@ style 输入坏掉不崩溃，记 `blocked` / 0 分并把报错放进 `style_pro
 
 | 字段 | 出现在 | 定义 / 计算 | 通过条件 |
 |---|---|---|---|
-| `blocks[].halo` | planner 输入 | 每块可选净空（给网络标签/引脚桩）；分区 padding 取 `max(zonePad, halo)`，placement 回带 `halo` | 缺省 0；负数 → 报错、`blocked` |
+| `blocks[].halo` | planner 输入 | 每块可选净空（给网络标签/引脚桩）；分区 padding 取 `max(zonePad, halo)`，排不下时按 full→half→plain gap 降级预留，placement 回带 `halo` | 缺省 0；负数 → 报错、`blocked` |
 | `metrics.fits` | planner | 规划 bbox 完整落在页边距内的块数 | `fits == len(blocks)` |
 | `unplaced[]` | planner | 排不进任何可用区或越出页边距的块 id 列表 | 必须为空，否则 `verdict=blocked`、exit 2 |
 | `metrics.overlaps` | planner | 块 bbox 两两相交对数（交面积 > 0） | 必须为 0，否则 `verdict=review`、exit 1 |
 | `metrics.zones_contain_blocks` | planner | 成功生成"包含块"分区框的块数 | 等于 `fits` 时分区完整 |
-| `metrics.halo_clipped` | planner | halo 净空被页边或邻居削掉的块数（实际 zone 与 `bbox + max(zonePad, halo)` 差 > 0.5 即计） | 0 表示 halo 全部保住；>0 只能说明该块净空被压缩，不单独判失败 |
+| `metrics.halo_clipped` | planner | halo 预留降级后仍被页边或邻居削掉的块数（实际 zone 与 `bbox + 预留` 差 > 0.5 即计） | 0 最理想；>0 只说明净空被压缩，不单独判失败，每块 −4 分 |
+| `metrics.zone_title_block_overlaps` | planner | 分区框覆盖标题栏矩形的个数；面向标题栏的边会被裁开 | 回归守卫，必须 0，否则每处 −10 分 |
 | `metrics.zones_trimmed` | planner | 安全裁剪分区框的次数；边缘按最近邻中点封顶不足时，由兜底裁剪消除重叠。0 是理想值，音频三块规划实测为 1 | 仅诊断，不单独判失败 |
 | `metrics.area_usage` | planner | Σ 块 bbox 面积 / 页面面积，保留 3 位小数 | 目标 0.45，偏离进入 `score` 罚分 |
 | `metrics.zone_slack` | planner | Σ 分区框面积 / 页面面积 − `area_usage`（分区内空余占比） | > 0.25 开始按 60×超出罚分 |
