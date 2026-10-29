@@ -75,6 +75,21 @@ class LayoutPlan(unittest.TestCase):
         self.assertEqual(code, 0, rep)
         self.assertEqual(rep["metrics"]["area_usage"] > 0.3, True)
 
+    def test_envelope_table_fills_missing_sizes(self):
+        import sch_layout_plan as planner
+        data = spec()
+        for b in data["blocks"]:
+            b.pop("envelope", None)
+        rep = planner.plan(data, planner.load_envelopes())
+        self.assertEqual(rep["verdict"], "pass")
+        self.assertEqual(len(rep["placements"]), 3)
+
+    def test_missing_envelope_is_blocked(self):
+        data = spec()
+        data["blocks"] = [{"id": "block.unknown", "title": "x"}]
+        code, rep = self.run_plan(data)
+        self.assertEqual(code, 2)
+
     def test_invalid_spec_blocked(self):
         code, rep = self.run_plan({"schema": "wrong"})
         self.assertEqual(code, 2)
