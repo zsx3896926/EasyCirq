@@ -201,6 +201,14 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 
 复现：（全量 PASS，写 `docs/NIGHTLY.md`）；`python -m mp_place.autonomy`；`python -m mp_place.features_v2`；`python -m mp_place.datascale`；`python -m mp_place.route_cost`；`python -m mp_place.intent_solver`。
 
+
+## P2.10–P2.11 与真实板（2026-10-29 第二轮扩展）
+
+- **留出泛化（seeds 2/3/4）**：P2.9 的 tuned 权重表 **不泛化**（truth +7.47% vs baseline；fixed w=2.0 仅 +0.48%）→ 仓库推荐 `route_aware`（fixed w=2.0），`tuned` 仅实验档。
+- **intent 松弛**：relax=True 在留出 seeds 上 hard/soft 违规 0、truth 折衷 +13.1%（可泛化）。
+- **真实板**：3 块 EasyCirq 真实回读板（mil→mm）转换后优化：router completion 0.8697→0.9231，physics_v2 truth 3.7283→2.4955（−33.1%）；三组全部硬可行。
+- **pipeline**：`run_pipeline(objective="proxy"|"route_aware"|"tuned")`、`run_auto.py --objective`；`run_benchmark.py` 作为 CI 冒烟（benchmark job）。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。

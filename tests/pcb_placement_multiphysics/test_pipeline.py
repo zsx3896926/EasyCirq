@@ -15,6 +15,13 @@ Covered contract
   passes ``hard_violations`` and ``intent_violations``.
 * The pipeline is deterministic for a fixed ``(scenario, steps, seed)``.
 * ``run_auto.py --template buck --seed 0`` and ``--scenario/--json`` work.
+* P2.11/task-27 update: ``run_pipeline(..., objective=...)`` accepts three
+  tiers -- ``"proxy"`` (default, backwards compatible), ``"route_aware"``
+  (recommended safe: fixed ``w_route=2.0``, no per-template table) and
+  ``"tuned"`` (experimental: P2.9 table lookup, in-sample only, not
+  recommended).  Reports record ``objective_mode`` / ``objective_model`` /
+  ``objective_config`` / ``objective_recommended``; ``run_auto.py --objective``
+  and batch rows carry the objective field.
 
 The pipeline is offline: no EDA, DRC or network is exercised here either.
 """
@@ -24,12 +31,19 @@ import math
 import pathlib
 import subprocess
 import sys
+import tempfile
 import unittest
 
 from mp_place import intent as intent_mod
 from mp_place.model import hard_violations
-from mp_place.pipeline import PIPELINE_SCHEMA, run_pipeline
-from mp_place.templates import instantiate
+from mp_place.pipeline import (
+    PIPELINE_OBJECTIVES,
+    PIPELINE_SCHEMA,
+    benchmark_objectives,
+    run_pipeline,
+    write_objective_report,
+)
+from mp_place.templates import instantiate, template_names
 
 ROOT = pathlib.Path(__file__).resolve().parents[2] / "benchmarks" / "pcb-placement-multiphysics"
 FIXED_FIELDS = {"routing_verified": False, "drc": "NOT RUN", "eda_calls": 0}
@@ -169,6 +183,241 @@ class RunAutoCliTest(unittest.TestCase):
         self.assertEqual(proc.returncode, 2)
         self.assertEqual(proc.stdout.strip(), "")
         self.assertIn("unknown template", proc.stderr)
+
+
+class ObjectiveOptionTests(unittest.TestCase):
+    """P2.11/task-27 update: ``run_pipeline(..., objective=...)`` three modes."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.scenario = instantiate("buck", seed=0)
+        cls.default_report = run_pipeline(cls.scenario, budget_steps=150, seed=0)
+        cls.proxy_report = run_pipeline(
+            cls.scenario, budget_steps=150, seed=0, objective="proxy"
+        )
+        cls.route_report = run_pipeline(
+            cls.scenario, budget_steps=150, seed=0, objective="route_aware"
+        )
+        cls.tuned_report = run_pipeline(
+            cls.scenario, budget_steps=150, seed=0, objective="tuned"
+        )
+
+    def test_default_objective_is_proxy_and_compatible(self):
+        report = self.default_report
+        self.assertEqual(report["objective_mode"], "proxy")
+        self.assertEqual(report["objective_model"], "multiphysics_proxy")
+        self.assertEqual(
+            report["objective_config"]["generalization"], "baseline"
+        )
+        self.assertTrue(report["objective_recommended"])
+        self.assertEqual(report["config"]["objective_mode"], "proxy")
+        self.assertEqual(report["config"]["objective"], "multiphysics_proxy")
+        # Explicit objective="proxy" is byte-identical to the default call.
+        self.assertEqual(canonical(report), canonical(self.proxy_report))
+        self.assertEqual(report["schema"], PIPELINE_SCHEMA)
+        self.assertTrue(report["feasible"])
+
+    def test_route_aware_is_the_recommended_safe_option(self):
+        report = self.route_report
+        self.assertEqual(report["objective_mode"], "route_aware")
+        self.assertEqual(report["objective_model"], "route_aware_proxy")
+        config = report["objective_config"]
+        self.assertEqual(config["mode"], "route_aware")
+        self.assertEqual(config["w_route"], 2.0)
+        self.assertEqual(config["profile"], "default")
+        self.assertEqual(config["source"], "fixed_weight")
+        self.assertTrue(config["recommended"])
+        self.assertEqual(config["generalization"], "heldout_safe")
+        self.assertTrue(report["objective_recommended"])
+        self.assertEqual(report["objective_generalization"], "heldout_safe")
+        self.assertTrue(report["feasible"])
+        self.assertEqual(report["violations"], [])
+        self.assertEqual(report["router"]["status"], "ROUTED")
+        self.assertTrue(report["intent_replay_ok"])
+        self.assertEqual(json.loads(json.dumps(report, sort_keys=True)), report)
+        # w_route=2.0 changes the solve: the placement differs from the proxy.
+        self.assertNotEqual(
+            report["placement_digest"], self.proxy_report["placement_digest"]
+        )
+
+    def test_tuned_is_experimental_in_sample_only(self):
+        report = self.tuned_report
+        self.assertEqual(report["objective_mode"], "tuned")
+        self.assertEqual(report["objective_model"], "route_aware_proxy")
+        config = report["objective_config"]
+        self.assertEqual(config["mode"], "tuned")
+        self.assertEqual(config["source"], "tuned_table")
+        self.assertFalse(config["recommended"])
+        self.assertEqual(config["generalization"], "in_sample_only")
+        self.assertFalse(report["objective_recommended"])
+        self.assertEqual(report["objective_generalization"], "in_sample_only")
+        self.assertIn("in-sample", config["note"])
+        self.assertIn("7.47", config["note"])
+        self.assertTrue(report["feasible"])
+        self.assertEqual(json.loads(json.dumps(report, sort_keys=True)), report)
+        # buck's P2.9 tuned entry has w_route=0.0 -> identical proxy solve.
+        self.assertEqual(config["w_route"], 0.0)
+        self.assertEqual(report["placement_digest"], self.proxy_report["placement_digest"])
+
+    def test_invalid_objectives_rejected(self):
+        for bad in ("bogus", "", "tuned_route"):
+            with self.assertRaises(ValueError):
+                run_pipeline(self.scenario, budget_steps=60, objective=bad)
+        with self.assertRaises(TypeError):
+            run_pipeline(self.scenario, budget_steps=60, objective=123)
+        self.assertEqual(
+            PIPELINE_OBJECTIVES, ("proxy", "route_aware", "tuned")
+        )
+
+
+class AllTemplatesObjectiveSmokeTests(unittest.TestCase):
+    def test_all_eight_templates_run_with_route_aware(self):
+        names = template_names()
+        self.assertEqual(len(names), 8)
+        for name in names:
+            with self.subTest(template=name):
+                sc = instantiate(name, seed=0)
+                report = run_pipeline(
+                    sc, budget_steps=80, seed=0, objective="route_aware"
+                )
+                self.assertEqual(report["scenario"]["name"], name)
+                self.assertEqual(report["objective_mode"], "route_aware")
+                config = report["objective_config"]
+                self.assertEqual(config["w_route"], 2.0)
+                self.assertEqual(config["profile"], "default")
+                self.assertTrue(report["objective_recommended"])
+                self.assertTrue(report["feasible"])
+                self.assertEqual(report["violations"], [])
+                self.assertEqual(report["router"]["status"], "ROUTED")
+                placement = plan_from_report(report)
+                self.assertEqual(set(placement), set(sc.components))
+                self.assertEqual(hard_violations(sc, placement), [])
+
+
+class ObjectiveBenchmarkTests(unittest.TestCase):
+    def test_benchmark_and_report_writer(self):
+        result = benchmark_objectives(
+            names=("buck",), seeds=(0,), heldout_seeds=(2,), steps=200
+        )
+        self.assertEqual(result["schema"], "mp_place.pipeline_objective/v2")
+        self.assertEqual(set(result["cohorts"]), {"in_sample", "heldout"})
+        self.assertEqual(len(result["rows"]), 6)  # 2 cohorts x 1 case x 3 modes
+        for cohort in ("in_sample", "heldout"):
+            block = result["cohorts"][cohort]
+            self.assertEqual(
+                [group["objective"] for group in block["groups"]],
+                ["proxy", "route_aware", "tuned"],
+            )
+            self.assertIsNotNone(block["route_aware_vs_proxy"])
+            self.assertIsNotNone(block["tuned_vs_proxy"])
+            for group in block["groups"]:
+                self.assertEqual(group["runs"], 1)
+                self.assertIn("mean_completion", group)
+                self.assertIn("mean_truth_v2", group)
+        for row in result["rows"]:
+            self.assertIn(row["objective"], PIPELINE_OBJECTIVES)
+            self.assertTrue(row["feasible"])
+            self.assertIsNotNone(row["completion"])
+            self.assertGreaterEqual(row["runtime_s"], 0.0)
+            self.assertIsInstance(row["truth_v2"], float)
+        target = result["target"]
+        self.assertEqual(target["cohort"], "heldout")
+        for key in (
+            "criteria",
+            "completion_per_case_not_lower",
+            "aggregate_completion_not_lower",
+            "aggregate_truth_ratio",
+            "truth_within_1pct",
+            "met",
+        ):
+            self.assertIn(key, target)
+        self.assertIn("in_sample_route_aware", target)
+        tuned = result["tuned_status"]
+        self.assertFalse(tuned["recommended"])
+        self.assertEqual(tuned["label"], "in_sample_only")
+        self.assertIn("in-sample", tuned["note"])
+        self.assertIsNotNone(tuned["heldout_truth_pct"])
+        self.assertEqual(result["recommendation"]["recommended"], "route_aware")
+        self.assertEqual(result["recommendation"]["not_recommended"], "tuned")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            paths = write_objective_report(result, out_dir=tmp_dir)
+            self.assertEqual(set(paths), {"json", "md"})
+            self.assertTrue(pathlib.Path(paths["json"]).is_file())
+            self.assertTrue(pathlib.Path(paths["md"]).is_file())
+            loaded = json.loads(
+                pathlib.Path(paths["json"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(loaded, result)
+            markdown = pathlib.Path(paths["md"]).read_text(encoding="utf-8")
+            self.assertIn("# P2.11 Pipeline objective 对比", markdown)
+            self.assertIn("route_aware", markdown)
+            self.assertIn("tuned", markdown)
+            self.assertIn("不推荐", markdown)
+            self.assertIn("达标", markdown)
+
+
+class RunAutoObjectiveCliTest(unittest.TestCase):
+    """CLI: ``--objective`` flag and batch ``objective`` field."""
+
+    def _run(self, *args):
+        return subprocess.run(
+            [sys.executable, str(ROOT / "run_auto.py"), *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=180,
+        )
+
+    def test_route_aware_flag(self):
+        proc = self._run(
+            "--template", "buck", "--seed", "0", "--steps", "100",
+            "--objective", "route_aware", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        report = json.loads(proc.stdout)
+        self.assertEqual(report["objective_mode"], "route_aware")
+        self.assertEqual(report["objective_model"], "route_aware_proxy")
+        self.assertEqual(report["objective_config"]["w_route"], 2.0)
+        self.assertTrue(report["objective_recommended"])
+        self.assertEqual(report["fixed_fields"], FIXED_FIELDS)
+        self.assertIn("objective=route_aware", proc.stderr)
+
+    def test_tuned_flag_accepted_but_not_recommended(self):
+        proc = self._run(
+            "--template", "buck", "--seed", "0", "--steps", "80",
+            "--objective", "tuned", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        report = json.loads(proc.stdout)
+        self.assertEqual(report["objective_mode"], "tuned")
+        self.assertFalse(report["objective_recommended"])
+        self.assertEqual(report["objective_generalization"], "in_sample_only")
+        self.assertEqual(report["objective_config"]["source"], "tuned_table")
+
+    def test_bad_objective_exits_2(self):
+        proc = self._run("--objective", "bogus", "--json")
+        self.assertEqual(proc.returncode, 2)
+        self.assertEqual(proc.stdout.strip(), "")
+        self.assertIn("--objective", proc.stderr)
+
+    def test_batch_rows_carry_objective(self):
+        proc = self._run(
+            "--all-templates", "--seeds", "0", "--steps", "60",
+            "--objective", "route_aware", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        batch = json.loads(proc.stdout)
+        self.assertEqual(batch["schema"], "mp_place.batch/v1")
+        self.assertEqual(batch["objective"], "route_aware")
+        self.assertEqual(batch["n_runs"], len(template_names()))
+        self.assertTrue(batch["all_feasible"])
+        for row in batch["rows"]:
+            self.assertEqual(row["objective"], "route_aware")
+            self.assertTrue(row["feasible"])
+        self.assertIn("objective=route_aware", proc.stderr)
+
 
 
 if __name__ == "__main__":

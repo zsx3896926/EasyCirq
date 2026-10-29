@@ -58,7 +58,7 @@
 
 **测试合计**：8 个测试文件、**136 tests OK**（`test_core` 10、`test_dataset` 26、`test_physics_v2` 15、`test_router` 13、`test_solver_v2` 10、`test_templates` **20**、`test_verify` 31、`test_pipeline` 11）。
 
-**本快照中不存在的模块**：`mp_place/route_opt.py`、`mp_place/datascale.py` → 相关实验**未落地/未运行**，不要按名字引用其结果。
+**后续已补齐的模块**：`route_opt.py`、`datascale.py`、`features_v2.py`、`route_cost.py`、`intent_solver.py`、`holdout.py`、`realboard.py`（见文末第二轮扩展）。
 
 ## 3. P1 基线结果（`report.json`）
 
@@ -299,3 +299,15 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 4. 真实 EDA/DRC 接入：`verify.py` 明确固定 `drc:"NOT RUN"`，尚未接真实工具。
 5. 严格同实例 P1/P2 对照：需用同一批 `build_scenarios` 实例 + 同一 seed 集重跑 P1/P2 后，才能把 §5 的趋势数字升级成对照结论。
 6. 更严的模板 router：当前 1 mm/2 层代理对 GND/ISENSE/VIN/PWM 这类长网的判定偏粗；需用真实布线器或更细网格复核后才可谈“可布通”。
+
+
+## 11. 第二轮扩展（2026-10-29，仓库同步）
+
+- **留出泛化（seeds 2/3/4，8 模板）**：P2.9 按模板 tuned 权重表不泛化——completion 0.9113、truth_v2 +7.47%（vs baseline 1.7734）；fixed `w=2.0` 为 completion 0.9502、truth +0.48% → **仓库推荐安全档 `route_aware`（fixed w=2.0）**，`tuned` 仅实验档。
+- **intent 松弛**：`relax=True` 在留出 seeds 上 hard/soft 违规 0、truth 折衷 +13.1%（≤20% 目标），可泛化。
+- **真实板**（3 块 EasyCirq 回读 dump，mil→mm）：router completion 0.8697→0.9231，physics_v2 truth 3.7283→2.4955（**−33.1%**），三组全部硬可行。
+- **pipeline 目标**：`run_pipeline(objective="proxy"|"route_aware"|"tuned")`；`run_auto.py --objective`。
+- **CI**：`benchmarks/pcb-placement-multiphysics/run_benchmark.py` 作为 benchmark job 冒烟（P1 quick 目标对比 + buck 流水线证书字段）。
+- **测试**：仓库内 260 tests（`tests/pcb_placement_multiphysics`）。
+
+> 边界不变：物理感代理不是 SPICE/FEA；router 是 1 mm/2 层离线 oracle，不是 DRC/可布通证明；真实布线/DRC/SI/PI/热/制造全部 `NOT RUN`。

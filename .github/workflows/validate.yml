@@ -26,6 +26,8 @@ jobs:
           python-version: '3.13'
       - name: Run frozen task-launcher benchmark (offline, fake agent)
         run: python benchmarks/task-launcher/run_benchmark.py
+      - name: Run offline placement multi-physics smoke
+        run: python benchmarks/pcb-placement-multiphysics/run_benchmark.py
   macos-smoke:
     runs-on: macos-latest
     timeout-minutes: 20

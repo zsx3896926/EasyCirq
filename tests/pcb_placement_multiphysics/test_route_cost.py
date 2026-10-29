@@ -1,24 +1,39 @@
-"""Tests for the P2.8 route-aware objective ``mp_place.route_cost``.
+"""Tests for the P2.8/P2.9 route-aware objective ``mp_place.route_cost``.
 
 Run with::
 
     python -m unittest tests.test_route_cost -v
 
-The three-group benchmark (proxy / RouteAware / proxy+post-hoc repair, 8
-templates x seeds 0/1) is recorded in ``report_route_cost.{md,json}`` at the
-project root (see ``python -m mp_place.route_cost``); these tests are the fast
+The three-group benchmark (proxy / RouteAware / proxy+post-hoc repair) is
+recorded in ``report_route_cost.{md,json}`` and the P2.9 adaptive-weight
+four-group benchmark in ``report_route_cost_tuned.{md,json}`` at the project
+root (see ``python -m mp_place.route_cost --tuned``).  These tests are the fast
 behavioural guards: cost decomposition, determinism, crowding monotonicity,
+router-free costs, deterministic tuning/selection, the embedded tuned table,
 feasibility and a smoke run on every registered template.
 """
 
+import json
 import math
 import random
+import tempfile
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from mp_place.model import Component, Net, Scenario, hard_violations
 from mp_place.objective import ProxyObjective
-from mp_place.route_cost import RouteAwareObjective
+from mp_place.route_cost import (
+    PROFILE_TERM_WEIGHTS,
+    TUNED_TABLE,
+    RouteAwareObjective,
+    run_tuned_benchmark,
+    select_candidate,
+    select_config,
+    tune_template,
+    tuned_objective,
+    write_tuned_reports,
+)
 from mp_place.router import GridRouter
 from mp_place.solver import random_feasible_placement
 from mp_place.solver_v2 import solve
@@ -131,6 +146,151 @@ class SolverIntegrationTests(unittest.TestCase):
         second = solve(sc, objective.cost, seed=4, steps=120, restarts=2)
         self.assertEqual(first[0], second[0])
         self.assertEqual(first[1], second[1])
+
+
+class AdaptiveWeightTests(unittest.TestCase):
+    """P2.9: deterministic per-template tuning and router-free weight selection."""
+
+    def test_select_candidate_rule_is_deterministic(self):
+        proxy_truth = 10.0
+        evaluations = [
+            {"config": {"w_route": 0.0, "profile": "default"}, "completion_mean": 1.0, "truth_mean": 10.0},
+            {"config": {"w_route": 2.0, "profile": "default"}, "completion_mean": 1.0, "truth_mean": 10.05},
+            {"config": {"w_route": 1.0, "profile": "default"}, "completion_mean": 0.95, "truth_mean": 9.0},
+            {"config": {"w_route": 3.0, "profile": "default"}, "completion_mean": 1.0, "truth_mean": 10.5},
+        ]
+        first = select_candidate(proxy_truth, evaluations)
+        second = select_candidate(proxy_truth, evaluations)
+        self.assertEqual(first, second)
+        config, feasible, _best = first
+        self.assertTrue(feasible)
+        # w=0 keeps completion 1.0 with zero truth change -> minimal intervention.
+        self.assertEqual(config, {"w_route": 0.0, "profile": "default"})
+        # No feasible candidate -> deterministic fallback, never a crash.
+        infeasible = [evaluations[2], evaluations[3]]
+        fallback_a = select_candidate(proxy_truth, infeasible)
+        fallback_b = select_candidate(proxy_truth, infeasible)
+        self.assertEqual(fallback_a, fallback_b)
+        self.assertFalse(fallback_a[1])
+
+    def test_tune_template_deterministic_with_injected_evaluator(self):
+        calls = []
+
+        def evaluator(name, config, seeds, steps):
+            calls.append(
+                (str(name), float(config["w_route"]), str(config["profile"]))
+            )
+            w_route = float(config["w_route"])
+            completion = min(1.0, 0.8 + 0.1 * w_route)
+            truth = 100.0 + 0.5 * w_route
+            return {
+                "config": dict(config),
+                "completion": [completion],
+                "truth": [truth],
+                "completion_mean": completion,
+                "truth_mean": truth,
+            }
+
+        first = tune_template("fake-template", seeds=(0,), steps=1, evaluator=evaluator)
+        first_calls = list(calls)
+        calls.clear()
+        second = tune_template("fake-template", seeds=(0,), steps=1, evaluator=evaluator)
+        self.assertEqual(first_calls, calls)
+        self.assertEqual(_evaluation_signature(first), _evaluation_signature(second))
+        # completion target needs w>=2, truth budget allows exactly w=2.0.
+        self.assertEqual(first["selected"], {"w_route": 2.0, "profile": "default"})
+        self.assertTrue(first["feasible"])
+        self.assertEqual(first["stage"], "weight_grid")
+
+    def test_tuned_table_covers_all_templates(self):
+        self.assertEqual(set(TUNED_TABLE), set(template_names()))
+        for name, config in TUNED_TABLE.items():
+            self.assertIn(config["profile"], PROFILE_TERM_WEIGHTS, name)
+            self.assertGreaterEqual(float(config["w_route"]), 0.0, name)
+
+    def test_select_config_table_and_tier_fallback_are_deterministic(self):
+        for name in template_names():
+            sc = instantiate(name, seed=0)
+            config = select_config(sc)
+            self.assertEqual(config["source"], "tuned_table", name)
+            self.assertEqual(float(config["w_route"]), float(TUNED_TABLE[name]["w_route"]), name)
+            self.assertEqual(str(config["profile"]), str(TUNED_TABLE[name]["profile"]), name)
+            self.assertEqual(select_config(sc), config, name)
+        unknown = _crowding_scenario()  # name "crowd-test" is not in the table
+        fallback_a = select_config(unknown)
+        fallback_b = select_config(unknown)
+        self.assertEqual(fallback_a, fallback_b)
+        self.assertEqual(fallback_a["source"], "tier_fallback")
+        self.assertIn(fallback_a["profile"], PROFILE_TERM_WEIGHTS)
+
+    def test_tuned_objective_matches_table_and_never_calls_router(self):
+        def _forbidden(*_args, **_kwargs):
+            raise AssertionError("tuned_objective must not call the grid router")
+
+        rng = random.Random(9)
+        for name in template_names():
+            sc = instantiate(name, seed=0)
+            objective = tuned_objective(sc)
+            self.assertEqual(objective.w_route, float(TUNED_TABLE[name]["w_route"]), name)
+            self.assertEqual(objective.profile, str(TUNED_TABLE[name]["profile"]), name)
+            placement = random_feasible_placement(sc, rng)
+            with mock.patch.object(GridRouter, "route", _forbidden):
+                value = objective.cost(placement)
+            self.assertTrue(math.isfinite(value), name)
+
+    def test_tuned_smoke_solve_on_all_templates(self):
+        for name in template_names():
+            sc = instantiate(name, seed=1)
+            objective = tuned_objective(sc)
+            first = solve(sc, objective.cost, seed=2, steps=100, restarts=2)
+            second = solve(sc, objective.cost, seed=2, steps=100, restarts=2)
+            self.assertEqual(hard_violations(sc, first[0]), [], name)
+            self.assertTrue(math.isfinite(first[1]), name)
+            self.assertEqual(first[0], second[0], name)
+            self.assertEqual(first[1], second[1], name)
+
+    def test_run_tuned_benchmark_quick_retune_and_report(self):
+        data = run_tuned_benchmark(seeds=(0,), steps=120, retune=True, names=("buck",))
+        self.assertIsNotNone(data["tuning"])
+        aggregate = data["aggregate"]
+        for group in ("baseline", "route_aware", "fixed_weight", "tuned"):
+            self.assertIn(group, aggregate)
+            self.assertIn(group, aggregate["per_template"]["buck"])
+        self.assertEqual(
+            data["config"]["tuned_table"]["buck"],
+            {
+                "w_route": float(TUNED_TABLE["buck"]["w_route"]),
+                "profile": str(TUNED_TABLE["buck"]["profile"]),
+            },
+        )
+        self.assertIsNone(data["holdout"])
+        with tempfile.TemporaryDirectory() as tmp:
+            md_path, json_path = write_tuned_reports(data, Path(tmp))
+            self.assertTrue(md_path.exists())
+            self.assertTrue(json_path.exists())
+            loaded = json.loads(json_path.read_text(encoding="utf-8"))
+            self.assertEqual(loaded["schema"], "mp_place.route_cost.tuned_report/v1")
+            self.assertIn("tuned", loaded["aggregate"])
+            text = md_path.read_text(encoding="utf-8")
+            self.assertIn("baseline", text)
+            self.assertIn("tuned", text)
+
+
+def _evaluation_signature(result):
+    """Hashable-ish digest of a tuning result for determinism assertions."""
+    return {
+        "selected": result["selected"],
+        "feasible": result["feasible"],
+        "stage": result["stage"],
+        "evaluations": [
+            (
+                record["config"],
+                round(float(record["completion_mean"]), 12),
+                round(float(record["truth_mean"]), 12),
+            )
+            for record in result["evaluations"]
+        ],
+    }
 
 
 def _crowding_scenario() -> Scenario:
