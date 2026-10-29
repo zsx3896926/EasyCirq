@@ -793,7 +793,7 @@ class RunAllV2Tests(unittest.TestCase):
             self.assertIn("# P4.6", markdown)
             self.assertIn("多边形", markdown)
 
-    def test_cli_v2_default_writes_v2_report(self):
+    def test_cli_v2_flag_writes_v2_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             dump_path = _write_dump(tmp)
             out_dir = pathlib.Path(tmp) / "out"
@@ -802,6 +802,7 @@ class RunAllV2Tests(unittest.TestCase):
                     sys.executable,
                     "-m",
                     "mp_place.realboard",
+                    "--v2",
                     "--source",
                     f"synthetic={dump_path}",
                     "--steps",
@@ -884,6 +885,352 @@ class RealBoardV2SmokeTests(unittest.TestCase):
         self.assertIn("feasible_tolerant", row["original"])
         self.assertTrue(row["optimized"]["feasible"])
         self.assertTrue(row["repair"]["feasible"])
+        json.dumps(realboard._json_safe(row), ensure_ascii=False)
+
+
+# --------------------------------------------------------------------------- #
+# v3: full-case discovery, mechanical constraints, board-level suite
+# --------------------------------------------------------------------------- #
+def _synthetic_with_antenna():
+    payload = synthetic_dump()
+    payload["components"].append(
+        {
+            "designator": "ANT1",
+            "device": "chip-antenna",
+            "x": 1100,
+            "y": 700,
+            "rotation": 0,
+            "bbox": _bbox(1050, 650, 1150, 750),
+            "pads": [
+                _pad("1", "VIN", 1100, 700),
+                _pad("2", "GND", 1100, 725),
+            ],
+        }
+    )
+    return payload
+
+
+class MechanicalFixedTests(unittest.TestCase):
+    def test_prefixes_include_connector_switch_antenna(self):
+        for prefix in ("J", "SW", "ANT"):
+            self.assertIn(prefix, realboard.MECHANICAL_PREFIXES)
+        roles = dict(realboard.MECHANICAL_ROLES)
+        self.assertEqual(roles["J"], "connector")
+        self.assertEqual(roles["SW"], "switch")
+        self.assertEqual(roles["ANT"], "antenna")
+
+    def test_j_sw_mechanical_list(self):
+        converted = realboard.convert_dump(synthetic_dump(), name="mech")
+        mechanical = {item["ref"]: item for item in converted.report["mechanical_fixed"]}
+        self.assertEqual(sorted(mechanical), ["J1", "SW1"])
+        self.assertEqual(mechanical["J1"]["role"], "connector")
+        self.assertEqual(mechanical["SW1"]["role"], "switch")
+        self.assertEqual(converted.report["mechanical_fixed_count"], 2)
+        self.assertEqual(converted.report["fixed_mode"], "j_sw_prefix")
+        for ref in ("J1", "SW1"):
+            self.assertTrue(converted.scenario.components[ref].fixed)
+            self.assertIn(ref, converted.scenario.base_placement)
+
+    def test_antenna_is_fixed(self):
+        converted = realboard.convert_dump(_synthetic_with_antenna(), name="antenna")
+        report = converted.report
+        self.assertIn("ANT1", report["fixed_refs"])
+        self.assertEqual(report["fixed_mode"], "mechanical_prefix")
+        self.assertTrue(converted.scenario.components["ANT1"].fixed)
+        self.assertEqual(converted.scenario.components["ANT1"].kind, "antenna")
+        mechanical = {item["ref"]: item for item in report["mechanical_fixed"]}
+        self.assertEqual(mechanical["ANT1"]["role"], "antenna")
+        self.assertEqual(mechanical["ANT1"]["prefix"], "ANT")
+        self.assertEqual(report["mechanical_fixed_count"], 3)
+        self.assertEqual(report["original_conflicts"], [])
+
+    def test_original_conflicts_are_reported_not_fatal(self):
+        payload = synthetic_dump()
+        # Move D2 into a degenerate bbox? Use a small overlap between J1 and SW1:
+        for comp in payload["components"]:
+            if comp.get("designator") == "SW1":
+                comp["bbox"] = _bbox(40, 300, 160, 500)  # same area as J1 -> body overlap
+                comp["x"], comp["y"] = 100, 400
+        converted = realboard.convert_dump(payload, name="conflict")
+        report = converted.report
+        self.assertFalse(report["original_feasible"])
+        self.assertTrue(report["original_conflicts"])
+        kinds = {item["kind"] for item in report["original_conflicts"]}
+        self.assertIn("hard_violation", kinds)
+        # The conversion still succeeds and the conflicts carry explicit tolerance flags.
+        for item in report["original_conflicts"]:
+            self.assertIn("tolerated", item)
+
+
+class DiscoveryDetailedTests(unittest.TestCase):
+    def _case(self, root, case_name):
+        evidence = pathlib.Path(root) / case_name / "evidence"
+        evidence.mkdir(parents=True)
+        return evidence
+
+    def test_case_reports_record_selection_and_skip_reasons(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = self._case(tmp, "alpha-board-2026-01-01")
+            payload = synthetic_dump()
+            (evidence / "pcb-dump-after-reload.json").write_text(
+                json.dumps(payload), encoding="utf-8"
+            )
+            (evidence / "pcb-dump-final.json").write_text(json.dumps(payload), encoding="utf-8")
+            beta = pathlib.Path(tmp) / "beta-case-2026-01-02"
+            beta.mkdir(parents=True)
+            (beta / "notes.json").write_text(json.dumps({"note": "no dump"}), encoding="utf-8")
+            boards, skipped, case_reports = realboard.discover_cases(tmp, detailed=True)
+            self.assertEqual(len(boards), 1)
+            self.assertEqual(len(case_reports), 2)
+            by_case = {item["case"]: item for item in case_reports}
+            alpha = by_case["alpha-board-2026-01-01"]
+            self.assertEqual(alpha["status"], "BOARD")
+            self.assertTrue(alpha["chosen"].endswith("pcb-dump-final.json"))
+            self.assertEqual(len(alpha["candidates"]), 2)
+            self.assertEqual(sum(1 for item in alpha["candidates"] if item["selected"]), 1)
+            selected = next(item for item in alpha["candidates"] if item["selected"])
+            self.assertEqual(selected["file"], alpha["chosen"])
+            self.assertEqual(selected["rank_label"], "preferred_final")
+            beta_report = by_case["beta-case-2026-01-02"]
+            self.assertEqual(beta_report["status"], "SKIPPED")
+            self.assertIn("no dump-like JSON", beta_report["reason"])
+            self.assertEqual(beta_report["json_files"], 1)
+            self.assertEqual(beta_report["candidates"], [])
+
+    def test_missing_root_reports_skip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            boards, skipped, case_reports = realboard.discover_cases(
+                pathlib.Path(tmp) / "does-not-exist", detailed=True
+            )
+            self.assertEqual(boards, [])
+            self.assertTrue(skipped)
+            self.assertEqual(case_reports[0]["status"], "SKIPPED")
+            self.assertIn("not found", case_reports[0]["reason"])
+
+
+class ReportV3StructureTests(unittest.TestCase):
+    def test_run_all_v3_report_structure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = _write_dump(tmp)
+            report = realboard.run_all_v3(
+                sources=[("synthetic", dump_path)], steps=0, max_routes=1
+            )
+            self.assertEqual(report["schema"], realboard.REALBOARD_SCHEMA_V3)
+            discovery = report["discovery"]
+            self.assertEqual(discovery["mode"], "explicit_sources")
+            self.assertEqual(len(discovery["case_reports"]), 1)
+            self.assertEqual(discovery["case_reports"][0]["status"], "BOARD")
+            suite = report["suite"]
+            self.assertEqual(suite["n_boards"], 1)
+            for key in (
+                "mean_completion",
+                "mean_truth_v2",
+                "mean_completion_gain",
+                "mean_truth_reduction_pct",
+                "all_feasible",
+                "best_board",
+                "worst_board",
+                "ranking",
+            ):
+                self.assertIn(key, suite)
+            self.assertEqual(suite["best_board"]["name"], "synthetic")
+            self.assertEqual(suite["worst_board"]["name"], "synthetic")
+            self.assertTrue(suite["all_feasible"]["optimized"])
+            board = report["boards"][0]
+            for key in (
+                "case",
+                "source_sha256",
+                "conversion",
+                "mechanical_fixed",
+                "original_conflicts",
+                "timings_s",
+                "candidates",
+                "selection_reason",
+            ):
+                self.assertIn(key, board)
+            conversion = board["conversion"]
+            for key in (
+                "polygon",
+                "keepouts",
+                "units",
+                "dropped_components",
+                "mechanical_fixed",
+                "original_conflicts",
+                "original_feasible_tolerant",
+            ):
+                self.assertIn(key, conversion)
+            self.assertGreaterEqual(conversion["polygon"]["points"], 4)
+            self.assertIn("original", board["timings_s"])
+            self.assertIn("optimized", board["timings_s"])
+            self.assertIn("repair", board["timings_s"])
+            out_dir = pathlib.Path(tmp) / "out"
+            paths = realboard.write_reports_v3(report, out_dir=out_dir)
+            self.assertTrue(paths["markdown"].exists())
+            self.assertTrue(paths["json"].exists())
+            loaded = json.loads(paths["json"].read_text(encoding="utf-8"))
+            self.assertEqual(loaded["schema"], realboard.REALBOARD_SCHEMA_V3)
+            markdown = paths["markdown"].read_text(encoding="utf-8")
+            for token in (
+                "# P4.7",
+                "case → dump 选择",
+                "真实板 suite 汇总",
+                "最好板 / 最差板",
+                "机械固定",
+                "原布局冲突",
+            ):
+                self.assertIn(token, markdown)
+
+    def test_case_selection_and_skip_in_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "cases"
+            evidence = root / "good-board-2026-01-01" / "evidence"
+            evidence.mkdir(parents=True)
+            (evidence / "pcb-dump-final.json").write_text(
+                json.dumps(synthetic_dump()), encoding="utf-8"
+            )
+            empty = root / "empty-case-2026-01-02"
+            empty.mkdir(parents=True)
+            (empty / "notes.json").write_text("{}", encoding="utf-8")
+            report = realboard.run_all_v3(cases_root=root, steps=0, max_routes=1)
+            self.assertEqual(report["schema"], realboard.REALBOARD_SCHEMA_V3)
+            self.assertEqual(len(report["boards"]), 1)
+            self.assertEqual(report["discovery"]["mode"], "auto_discovery")
+            statuses = {item["case"]: item["status"] for item in report["discovery"]["case_reports"]}
+            self.assertEqual(statuses["good-board-2026-01-01"], "BOARD")
+            self.assertEqual(statuses["empty-case-2026-01-02"], "SKIPPED")
+            skipped = {item["case"]: item["reason"] for item in report["skipped_cases"]}
+            self.assertIn("empty-case-2026-01-02", skipped)
+
+    def test_conversion_failure_is_skipped(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "cases"
+            good = root / "good-2026-01-01" / "evidence"
+            good.mkdir(parents=True)
+            (good / "pcb-dump-final.json").write_text(
+                json.dumps(synthetic_dump()), encoding="utf-8"
+            )
+            bad = root / "bad-2026-01-02" / "evidence"
+            bad.mkdir(parents=True)
+            bad_payload = synthetic_dump()
+            bad_payload["outline"]["bbox"] = _bbox(0, 0, 100, 80)
+            bad_payload["outline"]["points"] = [[0, 0], [100, 0], [100, 80], [0, 80]]
+            (bad / "pcb-dump-final.json").write_text(
+                json.dumps(bad_payload), encoding="utf-8"
+            )
+            report = realboard.run_all_v3(cases_root=root, steps=0, max_routes=1)
+            self.assertEqual(len(report["boards"]), 1)
+            skipped = {item["case"]: item["reason"] for item in report["skipped_cases"]}
+            self.assertIn("bad-2026-01-02", skipped)
+            self.assertIn("conversion failed", skipped["bad-2026-01-02"])
+
+    def test_v3_report_is_deterministic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = _write_dump(tmp)
+            first = realboard.run_all_v3(
+                sources=[("synthetic", dump_path)], steps=0, max_routes=1
+            )
+            second = realboard.run_all_v3(
+                sources=[("synthetic", dump_path)], steps=0, max_routes=1
+            )
+            self.assertEqual(
+                json.dumps(realboard.strip_volatile_report(first), sort_keys=True),
+                json.dumps(realboard.strip_volatile_report(second), sort_keys=True),
+            )
+            # volatile fields are present in the raw report but stripped for comparison
+            self.assertIn("generated_at", first)
+            self.assertNotIn("generated_at", realboard.strip_volatile_report(first))
+            self.assertIn("timings_s", first["boards"][0])
+            self.assertNotIn("timings_s", realboard.strip_volatile_report(first)["boards"][0])
+
+
+class CliV3Tests(unittest.TestCase):
+    def _run(self, *args):
+        return subprocess.run(
+            [sys.executable, "-m", "mp_place.realboard", *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=300,
+        )
+
+    def test_cli_default_v3(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dump_path = _write_dump(tmp)
+            out_dir = pathlib.Path(tmp) / "out"
+            proc = self._run(
+                "--source",
+                f"synthetic={dump_path}",
+                "--steps",
+                "0",
+                "--max-routes",
+                "1",
+                "--out",
+                str(out_dir),
+                "--json",
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr[-3000:])
+            report = json.loads(proc.stdout)
+            self.assertEqual(report["schema"], realboard.REALBOARD_SCHEMA_V3)
+            self.assertTrue((out_dir / realboard.REPORT_MD_V3).exists())
+            self.assertTrue((out_dir / realboard.REPORT_JSON_V3).exists())
+            self.assertFalse((out_dir / realboard.REPORT_MD_V2).exists())
+            self.assertFalse((out_dir / realboard.REPORT_MD).exists())
+
+    def test_cli_v1_v2_are_mutually_exclusive(self):
+        proc = self._run("--v1", "--v2")
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("mutually exclusive", proc.stderr)
+
+
+# --------------------------------------------------------------------------- #
+# real dumps v3 smoke (read-only, optional)
+# --------------------------------------------------------------------------- #
+@unittest.skipUnless(_CASES_ROOT_AVAILABLE, "EasyCirq cases root is not available on this machine")
+class RealBoardV3SmokeTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.boards, cls.skipped, cls.case_reports = realboard.discover_cases(
+            detailed=True
+        )
+
+    def test_detailed_discovery_records_choices(self):
+        self.assertGreaterEqual(len(self.boards), 4)
+        statuses = {item["case"]: item["status"] for item in self.case_reports}
+        self.assertEqual(statuses.get("feedback-r12"), "SKIPPED")
+        for source in self.boards:
+            self.assertTrue(source.candidates)
+            self.assertEqual(sum(1 for item in source.candidates if item["selected"]), 1)
+            self.assertTrue(source.selection_reason)
+        report = next(item for item in self.case_reports if item["status"] == "BOARD")
+        self.assertTrue(report["chosen"])
+        self.assertIn("candidates", report)
+
+    def test_real_boards_have_mechanical_parts(self):
+        for source in self.boards:
+            with self.subTest(board=source.name):
+                converted = realboard.load_and_convert(source.path, name=source.name)
+                report = converted.report
+                self.assertGreater(report["mechanical_fixed_count"], 0)
+                for item in report["mechanical_fixed"]:
+                    self.assertTrue(item["ref"].upper().startswith(realboard.MECHANICAL_PREFIXES))
+                    self.assertIn(item["role"], {"connector", "switch", "antenna"})
+                    self.assertTrue(converted.scenario.components[item["ref"]].fixed)
+                self.assertGreater(report["polygon"]["points"], 0)
+                self.assertIn(report["keepouts"]["status"], ("APPLIED", "NOT RUN"))
+                self.assertIsInstance(report["original_conflicts"], list)
+
+    def test_real_v3_run_board_timings(self):
+        source = self.boards[0]
+        converted = realboard.load_and_convert(source.path, name=source.name)
+        row = realboard.run_board(converted, steps=0, seed=0, max_routes=1)
+        self.assertIn("timings_s", row)
+        self.assertIn("original", row["timings_s"])
+        self.assertIn("optimized", row["timings_s"])
+        self.assertIn("repair", row["timings_s"])
+        self.assertGreaterEqual(row["timings_s"]["original"], 0.0)
+        self.assertTrue(row["mechanical_fixed"])
+        self.assertIsInstance(row["original_conflicts"], list)
         json.dumps(realboard._json_safe(row), ensure_ascii=False)
 
 
