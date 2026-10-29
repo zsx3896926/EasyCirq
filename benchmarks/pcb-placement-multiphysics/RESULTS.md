@@ -374,3 +374,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 487 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 18. 第十轮同步（2026-10-29）
+
+- **ccg_diag**（P4.14）：结构化 CCG 诊断，输出 `ccg_residual` 明细；`test_intent_solver` 修正共享 RNG 顺序耦合（顺序无关）。
+- 测试：仓库内 490 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
