@@ -34,6 +34,9 @@ jobs:
       - name: Run offline placement real-board baseline check
         run: python -m mp_place.realboard_benchmark --check
         working-directory: benchmarks/pcb-placement-multiphysics
+      - name: Run offline placement router resolution smoke
+        run: python -m mp_place.route_resolution --quick --steps 300
+        working-directory: benchmarks/pcb-placement-multiphysics
   macos-smoke:
     runs-on: macos-latest
     timeout-minutes: 20
