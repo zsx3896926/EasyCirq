@@ -12,6 +12,7 @@ before the next block consumes space.
 """
 import json
 import pathlib
+import re
 import subprocess
 import sys
 import time
@@ -125,6 +126,19 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
         # NOTE: --json on a real apply can stall for minutes; diff designators instead
         code, out, err = cli("sch", "block-apply", p["id"], "--at", p["at"],
                              "--parts", parts, *doc)
+        wire_total = 0
+        wire_ok = 0
+        wire_failed = 0
+        m = re.search(r"autoconnect:\s*(\d+)\s*connection", out or "")
+        if m:
+            wire_total = int(m.group(1))
+            wire_ok = wire_total
+        m = re.search(r"PARTIAL:\s*(\d+)\s*succeeded,\s*(\d+)\s*failed", out or "")
+        if m:
+            wire_ok = int(m.group(1))
+            wire_failed = int(m.group(2))
+            if not wire_total:
+                wire_total = wire_ok + wire_failed
         time.sleep(3)
         after = [c for c in components() if c.get("componentType") == "part"]
         desig = [c.get("designator") for c in after
@@ -175,7 +189,8 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
                 moved = (moved or {})
                 moved["margin"] = {"dx": mx, "dy": my, "exit": c3}
         report["blocks"].append({"id": p["id"], "group": group, "groups": locals().get("block_groups", []), "designators": desig,
-                                 "apply": code, "actual": actual, "moved": moved})
+                                 "apply": code, "actual": actual, "moved": moved,
+                                 "wires": {"total": wire_total, "ok": wire_ok, "failed": wire_failed}})
         report["moves"].append(moved)
 
     # rebuild zones from measured bboxes (single frame apply)
@@ -228,7 +243,12 @@ def run(project_uuid, page, plan_path, parts, out_dir, export_name, window):
             iy = max(0, min(a[3], b[3]) - max(a[1], b[1]))
             if ix * iy > 0:
                 overlaps += 1
+    wires_total = sum(b.get("wires", {}).get("total", 0) for b in report["blocks"])
+    wires_ok = sum(b.get("wires", {}).get("ok", 0) for b in report["blocks"])
+    wires_failed = sum(b.get("wires", {}).get("failed", 0) for b in report["blocks"])
     report["metrics"] = {"blocks": len(boxes), "fits": fits, "overlaps": overlaps,
+                         "wires_total": wires_total, "wires_ok": wires_ok,
+                         "wires_failed": wires_failed,
                          "verdict": "pass" if fits == len(boxes) and overlaps == 0 else "review"}
     code, out, err = cli("sch", "layout-lint", *doc)
     report["layout_lint"] = (out or err)[-1000:]
