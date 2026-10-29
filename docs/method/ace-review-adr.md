@@ -21,15 +21,16 @@
 
 | 组件 | 状态 | 证据/口径 |
 |---|---|---|
-| 快照 + 10 条确定性规则 | 已入 main（#210） | `easycirq-ace-snapshot/v1`、`easycirq-ace-review/v1`；`tests/test_ace_review.py` |
-| 错误注入 harness（`applicable/detected`） | 已入 main（#210） | `easycirq-ace-injection/v1`；clean 语料 9/9 检出 |
+| 快照 + 确定性规则（#210 起 10 条，#219 扩到 30 条） | 已入 main（#210/#219） | `easycirq-ace-snapshot/v1`、`easycirq-ace-review/v1`；`RULES` 表 30 条；`tests/test_ace_review.py` 64 tests OK |
+| 错误注入 harness（`applicable/detected`） | 已入 main（#210；#211 增 additive） | `easycirq-ace-injection/v1`；synthetic clean **17/17**、corpus clean **16/16** 全部检出 |
 | 干净/变异语料（golden corpus） | 已入 main（#211） | `easycirq/assets/ace-corpus/`：`clean-reference.json` + expected + 3 个 bad 快照；`tests/test_ace_corpus.py` 13 tests OK |
 | 自由布局（freeform L 形 + 矩形并集 zones） | 已入 main（#212） | `tools/layout2/freeform.py`（`subtract_rect` → L 形/矩形补集，zone 按 `rects` + `zone_kind=rect/union` 输出）；`tests/test_layout2_freeform.py` 21 tests OK |
-| 规则扩充 10 → 30 条 | 并行分支（PENDING） | 30 条口径见评审清单；每条扩展规则至少 1 个注入用例为验收条件 |
-| 评审门禁（gate）阻塞 apply | 并行分支（PENDING，PR #214） | 本文 ADR-003 定义 fail-closed 条件与绑定字段 |
+| 规则扩充 10 → 30 条 | 已入 main（#219） | `tools/ace_review.py` 的 `RULES` 表（ID 稳定 R01–R30）；R11–R30 各带正/反例单测（`test_ace_review.py`）；注入器补 R11–R30 变异仍在债务里 |
+| 确定性修复计划（fix plan） | 已入 main（#217） | `tools/ace_fix_plan.py`（`easycirq-ace-fix-plan/v1`，有序 `fx-NN` 动作）；`tests/test_ace_fix_plan.py` 6 tests；真实页 actions A/B/C = 22/13/17 |
+| 评审门禁（gate）阻塞 apply | 已入 main（#214） | `tools/review_gate.py`（`easycirq-review-gate/v1`，strict 默认 / advisory）；已接入 `tools/run_layout_pipeline.py`（`--require-review`/`--review-advisory`）；`tests/test_review_gate.py` 24 tests OK |
 | 非矩形可打印区 + 矩形并集 zones | 资产/规则已入 main，通用判定由 freeform 实现覆盖 | `easycirq/assets/page-template.json` 的 `regions[]`；`hard_rules` R1/R2；freeform 的 `rects[]` |
-| 块模板 role→(dx,dy) | 实测偏移矩阵已入 main；role resolver/模板 PENDING（PR #215） | `easycirq-block-apply-offsets/v1`、`easycirq-block-apply-offsets-matrix/v1` |
-| save-after-apply（`doc reload`） | 并行分支（PENDING，PR #214 pipeline）；真机 **NOT RUN** | 本文 ADR-006 定义流水线尾部与证据字段 |
+| 块模板 role→(dx,dy) | 已入 main（#215） | `tools/layout2/role_resolver.py`（确定性 1-1 角色绑定）+ `tools/layout2/templates.py`（`easycirq-block-template/v1`，相对几何 + 纯平移实例化）；`tests/test_layout2_templates.py` 31 tests OK |
+| save-after-apply（`doc reload`） | **尚未实现（PENDING）**；真机 **NOT RUN** | 本文 ADR-006 定义流水线尾部与证据字段；当前 apply 路径未接 save/reload/回读 |
 
 ## ADR-001 确定性快照评审，不用 LLM
 
@@ -89,7 +90,7 @@
    - `detected`：变异后**预期规则**出现，且相对基线计数增加或新规则出现（不能只看 verdict 变 blocked）。
 3. `detection_rate = detected / applicable`；报告 schema `easycirq-ace-injection/v1`，逐条列出 `mutation / rule / applicable / detected / baseline_verdict / mutated_verdict`。
 4. **不可注入项单列**，不混进分母，并作为"结构完整性"证据输出——这是度量设计质量的部分，不是评审器缺陷。
-5. 能力验收线：干净语料上 `applicable` 全部 detected（当前 9/9）；新增规则必须至少带 1 个 applicable 变异，否则规则视为"未证明有效"。
+5. 能力验收线：干净语料上 `applicable` 全部 detected（当前 synthetic clean **17/17**、corpus clean **16/16**）；新增规则必须至少带 1 个 applicable 变异，否则规则视为"未证明有效"。R11–R30 目前只有单测正/反例、注入器变异仍是债务（见评审清单）。
 
 ### 备选与不采用理由
 
@@ -115,7 +116,7 @@
 
 ## ADR-003 评审门禁在 apply 前 fail-closed
 
-- **状态**：accepted（2026-10-29）；门禁实现属本轮并行分支，合并前 PENDING
+- **状态**：accepted（2026-10-29）；门禁已入 main（#214，`tools/review_gate.py`）并接入一键流水线；hash 绑定/override 仍是剩余债务
 - **决策域**：L2 规则 + L3 工具 + L6 复盘
 - **关联**：设计文档 [layout-engine-v2.md](layout-engine-v2.md) §4；本文 ADR-001/002
 
@@ -126,14 +127,31 @@
 ### 决策
 
 1. **位置**：gate 位于 `plan → apply` 之间，是 apply 的前置条件，不是事后报告。
-2. **输入**：ACE 快照 + page plan（或待 apply 的工程身份）。gate 自己执行评审（或读取已绑定快照的评审报告），不信任调用方自报的 verdict。
-3. **fail-closed 条件**（任一成立即拒绝 apply）：
-   - 评审 `verdict != pass`（存在 error 级 finding）；
-   - 报告与快照/plan 的绑定不匹配（快照 hash、页 UUID、plan hash 任一不符）；
-   - 快照缺失、过期或无法复算。
-4. **输出** `easycirq-ace-gate/v1`：`verdict`（`pass`/`blocked`）、`errors/warnings`、`findings`、`snapshot_sha256`、`plan_sha256`、`checked_at`；报告写入 apply 证据目录。
-5. `warn` 默认不阻塞，但必须在报告里可见；需要升级为阻塞时改规则级别并写 ADR，不做"运行时静默忽略"。
-6. 不允许未留痕的 override：确需带风险 apply 时，必须显式记录 override 人员、理由、有效期与受影响 findings（当前未实现，标 PENDING 而不是假装支持）。
+2. **输入**：ACE 快照（`easycirq-ace-snapshot/v1`）。gate 自己调 `tools/ace_review.py` 重新评审，
+   不信任调用方自报的 verdict；也可独立当 CLI 用（`python tools/review_gate.py snapshot.json`）。
+3. **fail-closed（strict 默认模式）**：
+   - 任一 `error` 级 finding → `blocked=True`、`allowed=False`；**未知 severity 按 error 处理**（保守，
+     未知不是放行理由）；
+   - `--require-review` 且快照缺失/不可读 → 该项目 `review-blocked`（不产生 apply exec spec）；
+   - 快照 JSON/结构非法 → 输入错误（exit 2），不是"通过"。
+4. **输出** `easycirq-review-gate/v1`（实际字段）：`mode`（strict/advisory）、`strict`、`verdict`
+   （pass/blocked）、`blocked`、`allowed`、`errors`、`warnings`、`findings`、`counts`、`rules`、
+   `review_verdict`、`review_schema`；advisory 下若有 error 另带 `advisory_errors_allowed`。
+   CLI 退出码：0 放行 / 1 阻塞 / 2 非法输入。
+5. **两种模式**：strict 是默认与发布路径；advisory 只用于练习/推广，永不阻塞但必须记录
+   `review_verdict` 与放行错误数——不能把 advisory 当验收依据。
+6. **流水线接线**：`tools/run_layout_pipeline.py` 在离线规划后、写 apply exec spec **前**调用 gate；
+   `--require-review` 缺快照即 fail-closed，`--review-advisory` 放行但记录；review-blocked 项目
+   跳过（无 exec spec、不碰 EDA），批次继续；`pipeline-report.json` 增加 `review` 汇总，
+   dashboard 增加 Review gate 段；退出码 0/1/2 语义不变。
+7. **尚未实现（债务，不写成已支持）**：snapshot/plan 的 SHA-256 绑定与 `checked_at` 证据字段；
+   未留痕 override 记录；真机 apply 路径（`tools/sch_layout_apply.py`、`tools/layout2/sch_layout_apply2.py`）
+   尚未全部接入 gate。
+8. **阻塞后的下一步是确定性修复计划**：被 gate 拒绝时，用 `tools/ace_fix_plan.py`
+   （schema `easycirq-ace-fix-plan/v1`）把 findings 变成有序、可执行的修复动作
+   （`actions[{id: fx-01…, rule, action}]`，同快照同计划）。它**不自动写入** EDA：
+   执行仍由 Agent 按计划做并回读；因此 gate（判定）+ fix plan（整改）是同一条确定性链路上的两段，
+   不能把 fix plan 的"有动作"当成"已修复"。
 
 ### 备选与不采用理由
 
@@ -146,16 +164,16 @@
 
 ### 后果
 
-- **正面**：error 级问题在写 EDA 前被拦住；gate 报告与 plan/快照绑定，可审计；离线可重复执行。
-- **代价/风险**：可能拦住"能画但电气不完整"的板，短期降低落点速度；gate 误报会阻塞流程，需要规则级别与 fixture 校准。
-- **缓解**：error 级规则必须有正/负 fixture；误报走"改规则 + 留 ADR"而不是临时 override；gate 拒绝时输出可直接定位的 findings。
+- **正面**：error 级问题在写 EDA 前被拦住；gate 报告可机读、可审计；离线可重复执行；流水线里被阻塞的项目不会产生 exec spec。
+- **代价/风险**：可能拦住"能画但电气不完整"的板，短期降低落点速度；gate 误报会阻塞流程，需要规则级别与 fixture 校准；advisory 模式可能被误用成"放行开关"。
+- **缓解**：error 级规则必须有正/负 fixture；误报走"改规则 + 留 ADR"而不是临时 override；advisory 只用于练习/推广并在报告里保留 review_verdict。
 
 ### 复测触发
 
-1. 新增 error 级规则或调整级别。
-2. apply 入口变化（新脚本/新路径未接入 gate）。
+1. 新增 error 级规则或调整级别（尤其"未知 severity 按 error"的口径）。
+2. apply 入口变化（新脚本/新路径未接入 gate，或真机 apply 路径开始接入）。
 3. 出现"gate pass 但落点后仍有 error 级问题"（说明快照或规则有盲区）。
-4. 绑定字段/哈希口径变化。
+4. hash 绑定/证据字段接入后（当前债务）需重测审计链路。
 
 ## ADR-004 非矩形可打印区用矩形并集表达
 
@@ -203,7 +221,7 @@
 
 ## ADR-005 块模板 role→(dx,dy) 消除落点漂移
 
-- **状态**：accepted（2026-10-29）；实测偏移矩阵已入 main，role resolver/块模板属 PR #215（PENDING）
+- **状态**：accepted（2026-10-29）；已入 main（#215，`tools/layout2/role_resolver.py` + `tools/layout2/templates.py`）；真机落点验证仍 **NOT RUN**
 - **决策域**：L1 资产 + L3 工具
 - **关联**：设计文档 [layout-engine-v2.md](layout-engine-v2.md) §6.1；本文 ADR-006
 
@@ -213,16 +231,27 @@
 
 ### 决策
 
-1. 引入**块模板**（block template）资产：按**角色**（codec / amp / mems / module / charger / boost / switch / monitor / microsd / imu 等）给出 `(dx,dy)` 偏移与 `halo`；同一角色下若封装/偏移不同，拆成两个 role，不共用一个平均值。
-2. 编译期换算：目标 bbox 已知时，`at = bbox.min − (dx, dy)`；编译器只做确定性算术，不猜、不试错。
-3. 模板来源是**实测资产**（偏移矩阵，多点测量）；单点测量的块标 `provenance=single-point`，只允许离线规划，进 EDA 前要求多点或 `pinned`。
-4. `variable_offset` 块优先走 `pinned_at` 固定锚点（实测 parts bbox），把"会变的偏移"变成"固定的目标框"；没有 pinned 且 role 未收录 → `blocked`，不允许默认 0。
-5. 回读校验：落点后实测 bbox 与计划 bbox 的边差（drift）必须 ≤ 容差；超差判失败并留证，不回退成"再挪一次试试"。
+1. **角色绑定是数据问题，不是 LLM 问题**：`tools/layout2/role_resolver.py` 把 block manifest 的语义角色
+   确定性绑定到快照里真实存在的器件：按 MPN（可选 `standard-parts.resolved.json`）出候选，再用
+   `internal_nets` 拓扑剪枝，最后做确定性的 1-1 回溯分配；无候选/歧义/拓扑不一致 → 显式
+   `RoleResolutionError`，不猜。
+2. **块模板冻结相对几何**：`tools/layout2/templates.py` 的 `easycirq-block-template/v1` 记录一个块实例的
+   相对布局——`origin{role,ref,x,y}`、`parts[{role,designator,dx,dy,rotation,bbox}]`（`dx/dy` 是相对
+   origin 器件的 **bbox 中心偏移**，`bbox` 也相对 origin）、`pins[{role,pin,net}]`（保留 manifest 的
+   `PIN`/`PORT:`/`*` 语义）与整体相对 `bbox`。
+3. **实例化只做平移**：`instantiate_template(template, page, origin_xy)` 把同一份相对几何平移到新页原点，
+   网络成员逐字复制，`zone_union` 取绝对 part bbox 的并集；输出顺序跟 manifest/自然位号，确定性。
+4. **不再依赖锚点偏移试错**：相对几何来自实测模板，落点坐标 = 模板相对坐标 + 页原点；旧 `block-apply`
+   的锚点偏移（`easycirq-block-apply-offsets/v1` 的 `dx/dy`、`variable_offset`、`pinned`）只保留给
+   既有执行器的锚点校正，不再作为 plan 的几何来源。role 未收录/解析失败 → `blocked`，不允许默认 0。
+5. **回读校验**：落点后实测 part bbox 与模板实例化结果的最大边差（drift）必须 ≤ 容差；超差判失败并留证，
+   不回退成"再挪一次试试"。
 
 ### 备选与不采用理由
 
 | 备选 | 不采用理由 |
 |---|---|
+| 让 LLM 猜"哪个件是 U、哪个是第二个 22uF" | 不可复现、不可审计；一个位号猜错，整个模板几何平移错位 |
 | 落点后 group-move 校正 | 慢、真机循环、不可离线；校正量本身还需再回读 |
 | 用 dry-run/经验常数估偏移 | 已证不可靠（dry-run 块估算会低估高度；偏移还随位置变） |
 | 把偏移写死进代码 | 换块即错；无法按项目/EDA 版本更新 |
@@ -231,20 +260,20 @@
 
 ### 后果
 
-- **正面**：落点可离线预算，drift 从"每次试"变成"可判定的算术"；同一角色模板可跨工程复用；pinned 块可稳定复现。
-- **代价/风险**：模板需要测量与版本化；EDA 钳制/移位行为变化会让模板失效；role 归类需要工程判断。
-- **缓解**：矩阵资产（多点 + `variable_offset` + `pinned`）；drift 回读阈值；模板过期触发重测（见复测触发）。
+- **正面**：角色绑定与相对几何都可离线复算、可审计；同一块模板跨工程复用时几何一致；drift 从"每次试"变成"模板平移 + 回读比对"。
+- **代价/风险**：模板与 manifest/resolved-parts 必须同步；快照缺 `mpn`/拓扑信息时角色无法解析（显式失败）；EDA 钳制/移位行为变化会让落点偏移失效。
+- **缓解**：role resolver 的错误信息带 role/候选；模板走 schema 校验；保留 `block-apply-offsets-matrix` 做锚点校正；drift 回读阈值；模板过期触发重测。
 
 ### 复测触发
 
-1. 新增块/新封装/新角色。
-2. EDA 或 `block-apply` 版本升级（锚点语义、近边钳制、标题栏避让可能变化）。
-3. 偏移矩阵重测结果变化（尤其 `variable_offset` 块）。
-4. 任一工程回读 drift 超容差。
+1. 新增块/新封装/新角色，或 manifest 的 `parts`/`internal_nets` 变化。
+2. `standard-parts.resolved.json` 或 MPN 映射变化（角色候选集变化）。
+3. EDA 或 `block-apply` 版本升级（锚点语义、近边钳制、标题栏避让可能变化）。
+4. 任一工程回读 drift 超容差，或 role resolver 出现新的歧义/无候选。
 
 ## ADR-006 save-after-apply 作为流水线不变量
 
-- **状态**：accepted（2026-10-29）；实现属 PR #214 pipeline（PENDING）；真机验证 **NOT RUN**
+- **状态**：accepted（2026-10-29）；流水线 save-after-apply 步骤**尚未实现（PENDING）**；真机验证 **NOT RUN**
 - **决策域**：L3 工具 + L6 复盘
 - **关联**：设计文档 [layout-engine-v2.md](layout-engine-v2.md) §4、§6.4；[failure-taxonomy.md](failure-taxonomy.md) FT-01
 

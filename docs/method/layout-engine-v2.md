@@ -288,12 +288,17 @@ Halo 的定义：自动连线后 stub / flag / net label 的典型外扩，按�
 page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触点）
 ```
 
-- 输入：page plan + 现场只读快照（`easycirq-ace-snapshot/v1`），或与同一快照 hash 绑定的评审报告；
-- fail-closed 条件：评审 `verdict != pass`、快照/plan 绑定不匹配、快照缺失/过期 → 拒绝 apply；
-- 输出：`easycirq-ace-gate/v1`（verdict、errors/warnings、findings、snapshot_sha256、plan_sha256、checked_at），
-  与 apply 报告一起落证据目录；
+- 输入：现场只读快照 `easycirq-ace-snapshot/v1`；gate 自己重跑 `tools/ace_review.py`，不信任调用方自报 verdict；
+- 判定（strict 默认）：任一 `error` finding → `blocked`（未知 severity 也按 error 处理）；
+  `--require-review` 且快照缺失/不可读 → 该项目 `review-blocked`；非法输入 → exit 2；
+  advisory 模式只记录不阻塞，不能当发布路径；
+- 输出：`easycirq-review-gate/v1`（mode/strict/verdict/blocked/allowed/errors/warnings/findings/counts/rules/
+  review_verdict/review_schema）；已接入 `tools/run_layout_pipeline.py`：规划后、写 apply exec spec 前 gate，
+  被阻塞项目不产生 exec spec、不碰 EDA，批次继续；pipeline-report 增加 `review` 汇总；
 - 边界：R1–R7 管几何，ACE gate 管电气/结构完整性；**两条都过**才允许生成落点命令。
-  门禁细节与不采用备选见 [ace-review-adr.md](ace-review-adr.md) ADR-003（实现 PR #214，PENDING）。
+  门禁细节、债务（hash 绑定/override）见 [ace-review-adr.md](ace-review-adr.md) ADR-003（已入 main，#214）。
+  gate 拒绝后的整改走确定性修复计划（`tools/ace_fix_plan.py`，`easycirq-ace-fix-plan/v1`）：
+  同一快照产出同一有序动作序列，但不自动写入，执行后仍需回读。
 
 ### 9.2 非矩形可打印区与矩形并集 zones
 
@@ -310,22 +315,22 @@ page plan → hard_rules(R1–R7) → ACE review gate → apply（唯一 EDA 触
   zone 输出 `rects[]` 并标 `zone_kind=rect|union`，schema 为 `easycirq-sch-layout-freeform/v1`；
   决策与边界 fixture 见 [ace-review-adr.md](ace-review-adr.md) ADR-004。
 
-### 9.3 块模板（role → dx,dy）与落点漂移
+### 9.3 块模板（角色绑定 + 相对几何）与落点漂移
 
-`block-apply --at` 是锚点语义，实际 parts bbox 相对锚点有偏移；偏移随块/位置变化（近边会被 EDA 移位）。
-在 §6.1 资产清单新增**块模板**：
+落点漂移有两个来源：LLM 猜"哪个件是 U / 第二个 22uF 电容"，以及 `block-apply` 的锚点偏移随块/位置变化。
+v2 的处理是**先确定角色、再冻结相对几何**：
 
-| 字段 | 含义 | 失败口径 |
+| 资产/模块 | 内容 | 失败口径 |
 |---|---|---|
-| `role` | 工程角色（codec/amp/mems/module/charger/boost/switch/monitor/microsd/imu…） | 未收录 → `blocked` |
-| `dx, dy` | 目标 bbox min → `--at` 锚点的确定性偏移（raw） | 缺项/非数值 → `blocked` |
-| `halo` | 该角色四边净空（与 device-metrics 的 halo 一致） | 缺边 → `blocked` |
-| `provenance` | `multi-point` / `single-point` / `pinned` | `single-point` 只允许离线规划 |
+| `tools/layout2/role_resolver.py` | 语义角色 → 快照真实器件的确定性 1-1 绑定：MPN 候选 + `internal_nets` 拓扑剪枝 + 回溯分配 | 无候选/歧义/拓扑不一致 → `RoleResolutionError` |
+| `tools/layout2/templates.py` | `easycirq-block-template/v1`：`origin{role,ref,x,y}`、`parts[{role,designator,dx,dy,rotation,bbox}]`（dx/dy 为相对 origin 器件的 **bbox 中心偏移**，bbox 相对 origin）、`pins[{role,pin,net}]`、整体相对 `bbox` | schema/角色/网络不一致 → `BlockTemplateError` |
+| `instantiate_template()` | 把相对几何**纯平移**到新页原点：part 中心/bbox 平移、网络成员逐字复制、`zone_union` = 绝对 part bbox 并集 | 非确定性或坐标越界 → 拒绝 |
 
-- 编译期换算：`at = bbox.min − (dx, dy)`；编译器只做算术，不试错、不猜默认 0；
-- `variable_offset` 块优先 `pinned_at`（实测 parts bbox）固定，再退化为多点模板；
-- 回读 drift（实测 bbox − 计划 bbox 的最大边差）超容差 → `failed`，不自动重挪。
-  备选与复测触发见 [ace-review-adr.md](ace-review-adr.md) ADR-005（role resolver/模板 PR #215，PENDING）。
+- 落点坐标 = 模板相对坐标 + `origin_xy`，不再靠"锚点 + 猜测偏移"试错；
+- 旧 `block-apply` 锚点偏移（`easycirq-block-apply-offsets/v1` 的 `dx/dy`、`variable_offset`、`pinned`）
+  只保留给既有执行器的锚点校正，不作为 plan 的几何来源；
+- 回读 drift（实测 part bbox 与实例化结果的最大边差）超容差 → `failed`，不自动重挪。
+  备选与复测触发见 [ace-review-adr.md](ace-review-adr.md) ADR-005（已入 main，#215）。
 
 ### 9.4 save-after-apply（`doc reload`）作为流水线不变量
 
@@ -339,7 +344,7 @@ apply → save → doc reload → 回读（parts/bbox/net/标题栏）→ 对比
 - save/reload/回读任一步失败 → 停止留证，**不允许**用同一个 plan 再 apply 一次；
 - 没有回读证据的 apply 只能记 `NOT RUN`/`failed`，不能把"命令返回 0"写成布局通过。
   背景与反例（clear 返回 ok 但页面残留）见 [ace-review-adr.md](ace-review-adr.md) ADR-006 与
-  [failure-taxonomy.md](failure-taxonomy.md) FT-01（实现属 PR #214 pipeline，PENDING）。
+  [failure-taxonomy.md](failure-taxonomy.md) FT-01（本条**尚未实现**，save-after-apply 仍是 PENDING）。
 
 ### 9.5 指标与报告的衔接
 
