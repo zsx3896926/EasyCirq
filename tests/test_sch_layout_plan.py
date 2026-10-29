@@ -163,6 +163,82 @@ class LayoutPlan(unittest.TestCase):
             self.assertEqual(json.dumps(first, ensure_ascii=False, sort_keys=True),
                              json.dumps(second, ensure_ascii=False, sort_keys=True))
 
+    # --- halo-aware packing / candidate selection ----------------------
+    def test_halo_aware_packing_keeps_clearance_between_neighbours(self):
+        # two wide haloed blocks stack vertically: packing must reserve room for
+        # both halos, otherwise the midpoint cap trims the lower zone
+        blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
+                   "envelope": {"w": 600, "h": 200}, "halo": 60} for i in range(2)]
+        rep = planner.plan(make_spec(blocks))
+        self.assertEqual(rep["verdict"], "pass", rep)
+        m = rep["metrics"]
+        self.assertEqual(m["halo_clipped"], 0)
+        self.assertEqual(m["zones_trimmed"], 0)
+        self.assertEqual(m["fits"], 2)
+        upper, lower = rep["placements"]
+        self.assertGreater(lower["bbox"][1] - upper["bbox"][3], 40,
+                           "halo spacing must exceed the nominal gap")
+        self.assertGreaterEqual(rep["frames"][0]["rect"]["maxY"] - 8,
+                                upper["bbox"][3] + 10)
+        # both zones reach bbox + max(zonePad, halo), clamped only by the page
+        for p in rep["placements"]:
+            x1, y1, x2, y2 = p["bbox"]
+            expected = (max(12, x1 - 60), max(12, y1 - 60),
+                        min(1170 - 12, x2 + 60), min(825 - 12, y2 + 60 + 34))
+            self.assertEqual(tuple(p["zone"]), expected)
+
+    def test_halo_zones_do_not_overlap_side_by_side(self):
+        blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
+                   "envelope": {"w": 300, "h": 200}, "halo": 60} for i in range(2)]
+        rep = planner.plan(make_spec(blocks))
+        self.assertEqual(rep["verdict"], "pass", rep)
+        m = rep["metrics"]
+        self.assertEqual(m["halo_clipped"], 0)
+        self.assertEqual(m["zones_trimmed"], 0)
+        for i in range(len(rep["frames"])):
+            for j in range(i + 1, len(rep["frames"])):
+                a, b = rep["frames"][i]["rect"], rep["frames"][j]["rect"]
+                ox = max(0, min(a["maxX"], b["maxX"]) - max(a["minX"], b["minX"]))
+                oy = max(0, min(a["maxY"], b["maxY"]) - max(a["minY"], b["minY"]))
+                self.assertEqual(ox * oy, 0, "halo zones overlap: %s %s" % (a, b))
+        for p in rep["placements"]:
+            x1, y1, x2, y2 = p["bbox"]
+            self.assertGreaterEqual(p["zone"][2] - x2, 60)
+            self.assertGreaterEqual(x1 - p["zone"][0], 0)
+
+    def test_no_halo_spacing_stays_backwards_compatible(self):
+        blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
+                   "envelope": {"w": 300, "h": 200}} for i in range(2)]
+        rep = planner.plan(make_spec(blocks))
+        a, b = rep["placements"]
+        # same row, nominal gap = max(gap=24, titleGap+6=40): no halo, no change
+        self.assertEqual(b["bbox"][0] - a["bbox"][2], 40)
+        self.assertEqual(rep["metrics"]["halo_clipped"], 0)
+
+    def test_plan_selects_best_scoring_candidate(self):
+        blocks = [
+            {"id": "block.mems_mic_analog", "title": "mems", "envelope": {"w": 460, "h": 220}},
+            {"id": "block.esp32s3_wroom1_module", "title": "wroom", "envelope": {"w": 460, "h": 100}},
+            {"id": "block.ina226_power_monitor", "title": "ina", "envelope": {"w": 540, "h": 260}},
+            {"id": "block.sy7088_boost_5v", "title": "sy", "envelope": {"w": 460, "h": 340}},
+        ]
+        options = {"gap": 24, "zonePad": 16, "titleGap": 36}
+        title_block = {"minX": 610, "minY": 12, "maxX": 1170, "maxY": 380}
+        data = make_spec(copy.deepcopy(blocks), title_block, options)
+        rep = planner.plan(copy.deepcopy(data))
+        self.assertEqual(rep["verdict"], "pass", rep)
+        # the plain single-attempt packing scores worse than the selected one
+        regions = planner._regions(data["page"], data["titleBlock"])
+        gap = max(options["gap"], options["titleGap"] + 6)
+        natural = planner._shelf_pack(blocks, regions, gap,
+                                      options["zonePad"], options["titleGap"])
+        natural_rep = planner._frame_placements(natural, data["page"],
+                                                options["zonePad"], options["titleGap"],
+                                                len(blocks))
+        self.assertEqual(natural_rep["verdict"], "pass")
+        self.assertGreater(rep["metrics"]["score"], natural_rep["metrics"]["score"],
+                           "planner must prefer the higher-scoring candidate")
+
     # --- metrics / score -----------------------------------------------
     def test_zone_fill_and_balance_metrics(self):
         code, rep = self.run_plan(spec())
@@ -170,8 +246,9 @@ class LayoutPlan(unittest.TestCase):
         m = rep["metrics"]
         for key in ("fits", "overlaps", "area_usage", "zone_slack",
                     "title_clearance_violations", "score",
-                    "zone_fill_ratio", "layout_balance"):
+                    "zone_fill_ratio", "layout_balance", "halo_clipped"):
             self.assertIn(key, m)
+        self.assertEqual(m["halo_clipped"], 0, "no halos in this fixture")
         zone_area = sum((f["rect"]["maxX"] - f["rect"]["minX"]) *
                         (f["rect"]["maxY"] - f["rect"]["minY"]) for f in rep["frames"])
         block_area = sum((p["bbox"][2] - p["bbox"][0]) * (p["bbox"][3] - p["bbox"][1])

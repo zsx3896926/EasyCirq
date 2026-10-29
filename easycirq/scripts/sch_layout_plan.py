@@ -21,17 +21,22 @@ options; plans without `halo` behave exactly as before.
 The planner:
   1. splits the usable page into a left strip (full height, left of the
      title block) and a top-right strip (above the title block);
-  2. shelf-packs the blocks by descending height/width with `gap`; when a
-     block does not fit, it retries with progressively tighter gaps and with
-     the region order reversed before declaring the block unplaced (the
-     attempt that places the most blocks wins, preferring the largest gap and
-     the natural region order, so output stays deterministic);
+  2. shelf-packs the blocks by descending height/width with `gap`; blocks with
+     a `halo` reserve that clearance from their neighbours, so the halo
+     survives the midpoint caps instead of being trimmed away. When a block
+     does not fit, the planner retries with progressively tighter gaps and with
+     the region order reversed before declaring the block unplaced;
   3. derives one zone frame per block: block bbox + `max(zonePad, halo)`, with
      the zone top raised by `titleGap` so the zone title sits above the block;
   4. caps each zone edge at the midpoint to its nearest neighbour, so zones can
      never overlap (frame apply refuses overlapping zones);
-  5. reports metrics — including `zone_fill_ratio` (block area / zone area) and
-     `layout_balance` (largest / smallest zone) — and a verdict.
+  5. scores every deterministic packing candidate with the same metrics and
+     keeps the best one (most blocks placed, then highest score), so the
+     reported layout is the best the planner can produce rather than the first
+     attempt;
+  6. reports metrics — including `zone_fill_ratio` (block area / zone area),
+     `layout_balance` (largest / smallest zone) and `halo_clipped` (halo zones
+     still trimmed by a neighbour or page edge) — and a verdict.
 
 Output (easycirq-sch-layout/v1): frames, placements (bbox/at/zone/halo),
 metrics. Exit codes: 0 pass, 1 review, 2 blocked/invalid.
@@ -47,7 +52,10 @@ metrics. Exit codes: 0 pass, 1 review, 2 blocked/invalid.
 #       overlap; `ix * iy > 0`);
 #   (d) no coordinate may come from a guessed envelope: every block needs a
 #       spec `envelope` or a measured entry in assets/block-envelopes.json,
-#       otherwise planning is blocked with a ValueError.
+#       otherwise planning is blocked with a ValueError;
+#   (e) a haloed block reserves `halo` clearance from its shelf neighbours, so
+#       the halo is not silently trimmed; page-edge clamping and residual
+#       neighbour clipping are reported in `halo_clipped`.
 from __future__ import annotations
 
 import argparse
@@ -131,31 +139,70 @@ def _placement(block, bbox):
     return item
 
 
-def _shelf_pack(blocks, regions, gap):
+def _block_pad(block, zone_pad):
+    """Zone padding actually applied to a block: max(zonePad, halo)."""
+    return max(int(zone_pad), int(block.get("halo") or 0))
+
+
+def _col_spacing(gap, zone_pad, prev_pad, next_pad):
+    """Horizontal spacing between shelf neighbours.
+
+    Without halos this is exactly `gap` (backward compatible). A haloed block
+    widens it to `prev_pad + next_pad + 2`, so both zone frames keep their full
+    padding and still meet with a 2-unit gap instead of being trimmed at the
+    midpoint cap.
+    """
+    if prev_pad <= zone_pad and next_pad <= zone_pad:
+        return int(gap)
+    return max(int(gap), int(prev_pad) + int(next_pad) + 2)
+
+
+def _row_spacing(gap, title_gap, zone_pad, upper_pad, lower_pad):
+    """Vertical spacing between shelves.
+
+    Without halos this is exactly `gap` (backward compatible). A haloed upper
+    block needs `titleGap + pad` above its bbox for the zone title, and a
+    haloed lower block needs `pad` below the upper block's bbox, so the shelves
+    are separated by `titleGap + upper_pad + lower_pad + 2`.
+    """
+    if upper_pad <= zone_pad and lower_pad <= zone_pad:
+        return int(gap)
+    return max(int(gap), int(title_gap) + int(upper_pad) + int(lower_pad) + 2)
+
+
+def _shelf_pack(blocks, regions, gap, zone_pad=16, title_gap=36):
     ordered = sorted(blocks, key=lambda b: (b["envelope"]["h"], b["envelope"]["w"]), reverse=True)
     shelves = {r["name"]: [] for r in regions}
     placements = []
     for block in ordered:
         bw, bh = block["envelope"]["w"], block["envelope"]["h"]
+        pad = _block_pad(block, zone_pad)
         placed = False
         for region in regions:
             rows = shelves[region["name"]]
             for row in rows:
-                extra = gap if row["used_w"] else 0
-                if row["used_w"] + extra + bw <= region["w"] and bh <= row["h"]:
-                    x = region["x"] + row["used_w"] + extra
+                spacing = _col_spacing(gap, zone_pad, row["last_pad"], pad) if row["used_w"] else 0
+                if row["used_w"] + spacing + bw <= region["w"] and bh <= row["h"]:
+                    x = region["x"] + row["used_w"] + spacing
                     y = region["y"] + row["y_off"]
-                    row["used_w"] += extra + bw
+                    row["used_w"] += spacing + bw
+                    row["last_pad"] = pad
+                    row["max_pad"] = max(row["max_pad"], pad)
                     placements.append(_placement(block, [x, y, x + bw, y + bh]))
                     placed = True
                     break
             if placed:
                 break
-            used_h = sum(r["h"] + gap for r in rows)
-            if used_h + bh <= region["h"]:
-                rows.append({"y_off": used_h, "h": bh, "used_w": bw})
+            if rows:
+                spacing = _row_spacing(gap, title_gap, zone_pad, rows[-1]["max_pad"], pad)
+                y_off = rows[-1]["y_off"] + rows[-1]["h"] + spacing
+            else:
+                y_off = 0
+            if y_off + bh <= region["h"]:
+                rows.append({"y_off": y_off, "h": bh, "used_w": bw,
+                             "last_pad": pad, "max_pad": pad})
                 x = region["x"]
-                y = region["y"] + used_h
+                y = region["y"] + y_off
                 placements.append(_placement(block, [x, y, x + bw, y + bh]))
                 placed = True
                 break
@@ -186,24 +233,38 @@ def _region_orders(regions):
     return orders
 
 
-def _pack(blocks, regions, gap):
-    """Pack with deterministic fallbacks instead of giving up immediately.
+def _pack_candidates(blocks, regions, gap, zone_pad=16, title_gap=36):
+    """Yield unique deterministic packing attempts: (gap, placements).
 
-    Tries the nominal gap and region order first, then tighter gaps and the
-    reversed region order. Keeps the attempt that places the most blocks,
-    preferring the largest gap and then the natural region order.
+    Order: nominal gap first with the natural region order, then tighter gaps
+    and the reversed region order. Duplicate layouts are skipped.
+    """
+    seen = set()
+    for candidate_gap in _gap_candidates(gap):
+        for order in _region_orders(regions):
+            placements = _shelf_pack(blocks, order, candidate_gap, zone_pad, title_gap)
+            signature = tuple(tuple(p["bbox"]) if p["bbox"] else None for p in placements)
+            if signature in seen:
+                continue
+            seen.add(signature)
+            yield candidate_gap, placements
+
+
+def _pack(blocks, regions, gap, zone_pad=16, title_gap=36):
+    """Best packing by placement count (then largest gap); kept for reuse.
+
+    `plan()` scores the full metric set across all candidates instead, which
+    usually picks the same layout but prefers a better-scoring one on ties.
     """
     best = None
     best_key = None
-    for candidate_gap in _gap_candidates(gap):
-        for order in _region_orders(regions):
-            placements = _shelf_pack(blocks, order, candidate_gap)
-            placed = sum(1 for p in placements if p["bbox"] is not None)
-            key = (placed, -candidate_gap)
-            if best_key is None or key > best_key:
-                best, best_key = placements, key
-            if placed == len(blocks):
-                return placements
+    for candidate_gap, placements in _pack_candidates(blocks, regions, gap, zone_pad, title_gap):
+        placed = sum(1 for p in placements if p["bbox"] is not None)
+        key = (placed, -candidate_gap)
+        if best_key is None or key > best_key:
+            best, best_key = placements, key
+        if placed == len(blocks):
+            return placements
     return best if best is not None else []
 
 
@@ -229,59 +290,28 @@ def _score(metrics, block_count):
     return max(0.0, round(score, 1))
 
 
-def plan(spec, envelopes=None):
-    if not isinstance(spec, dict) or spec.get("schema") != INPUT_SCHEMA:
-        raise ValueError("schema must be %s" % INPUT_SCHEMA)
-    page = spec.get("page") or {}
-    for k in ("width", "height", "margin"):
-        if not isinstance(page.get(k), (int, float)) or page[k] <= 0:
-            raise ValueError("page.%s must be positive" % k)
-    title_block = spec.get("titleBlock")
-    opts = spec.get("options") or {}
-    zone_pad = int(opts.get("zonePad", 16))
-    title_gap = int(opts.get("titleGap", 36))
-    # stacked blocks must leave room for the upper zone's title above the block
-    gap = max(int(opts.get("gap", 40)), title_gap + 6)
-
-    blocks = spec.get("blocks") or []
-    if not isinstance(blocks, list) or not blocks:
-        raise ValueError("blocks must be a non-empty list")
-    for b in blocks:
-        env = b.get("envelope") or {}
-        if not (isinstance(env.get("w"), (int, float)) and isinstance(env.get("h"), (int, float))):
-            measured = (envelopes or {}).get(b.get("id"))
-            if isinstance(measured, dict) and isinstance(measured.get("w"), (int, float)) \
-                    and isinstance(measured.get("h"), (int, float)):
-                b["envelope"] = {"w": measured["w"], "h": measured["h"]}
-                env = b["envelope"]
-        if not isinstance(env.get("w"), (int, float)) or not isinstance(env.get("h"), (int, float)):
-            raise ValueError("block %r needs envelope {w,h} (no measured entry found)" % b.get("id"))
-        halo = _resolve_halo(b, envelopes)
-        if halo:
-            b["halo"] = halo
-
+def _frame_placements(placements, page, zone_pad, title_gap, block_count):
+    """Turn one packed placement list into frames, metrics and a verdict."""
     page_w, page_h, margin = page["width"], page["height"], page["margin"]
-    regions = _regions(page, title_block)
-    raw = _pack(blocks, regions, gap)
 
     # caps: a zone never extends past the midpoint to its nearest neighbour
-    frames, placements, framed = [], [], []
+    frames, final, framed = [], [], []
     metrics = {"fits": 0, "zones_contain_blocks": 0, "overlaps": 0, "area_usage": 0.0,
-               "zones_trimmed": 0, "regions": [r["name"] for r in regions]}
+               "zones_trimmed": 0, "regions": [], "halo_clipped": 0}
     boxes = []
-    for p in raw:
+    for p in placements:
         if p["bbox"] is None:
-            placements.append(p)
+            final.append(p)
             continue
         x1, y1, x2, y2 = p["bbox"]
         if x1 < margin or y1 < margin or x2 > page_w - margin or y2 > page_h - margin:
-            placements.append(p)
+            final.append(p)
             continue
         metrics["fits"] += 1
-        pad = max(zone_pad, int(p.get("halo") or 0))
+        pad = _block_pad(p, zone_pad)
         cap_above, cap_below = page_h - margin, margin
         cap_left, cap_right = margin, page_w - margin
-        for o in raw:
+        for o in placements:
             ob = o.get("bbox")
             if not ob or o is p:
                 continue
@@ -301,7 +331,7 @@ def plan(spec, envelopes=None):
             zy2 = min(page_h - margin, y2 + 20)
         p["zone"] = [zx1, zy1, zx2, zy2]
         p["at"] = "%d,%d" % (x1 + 50, y1 + 50)
-        placements.append(p)
+        final.append(p)
         boxes.append(p["bbox"])
         frames.append({"id": "zone-%02d" % len(frames), "title": p["title"],
                        "rect": {"minX": zx1, "minY": zy1, "maxX": zx2, "maxY": zy2},
@@ -354,15 +384,89 @@ def plan(spec, envelopes=None):
     else:
         metrics["layout_balance"] = 1.0
 
+    # halo clearance audit: a zone should reach bbox + max(zonePad, halo), only
+    # clamped by the page margin; anything tighter was trimmed by a neighbour
+    for p, fr in zip(framed, frames):
+        halo = int(p.get("halo") or 0)
+        if not halo:
+            continue
+        x1, y1, x2, y2 = p["bbox"]
+        pad = _block_pad(p, zone_pad)
+        expected = (max(margin, x1 - pad), max(margin, y1 - pad),
+                    min(page_w - margin, x2 + pad),
+                    min(page_h - margin, y2 + pad + title_gap))
+        actual = (fr["rect"]["minX"], fr["rect"]["minY"],
+                  fr["rect"]["maxX"], fr["rect"]["maxY"])
+        if any(abs(a - e) > 0.5 for a, e in zip(actual, expected)):
+            metrics["halo_clipped"] += 1
+
     # quality score: see _score() for the reward/penalty bands
     metrics["title_clearance_violations"] = sum(
         1 for p, fr in zip(framed, frames) if fr["rect"]["maxY"] - 8 < p["bbox"][3] + 10)
-    metrics["score"] = _score(metrics, len(blocks))
+    metrics["score"] = _score(metrics, block_count)
 
-    unplaced = [p["id"] for p in placements if p["bbox"] is None]
+    unplaced = [p["id"] for p in final if p["bbox"] is None]
     verdict = "blocked" if unplaced else ("review" if metrics["overlaps"] else "pass")
     return {"schema": SCHEMA, "verdict": verdict, "frames": frames,
-            "placements": placements, "metrics": metrics, "unplaced": unplaced}
+            "placements": final, "metrics": metrics, "unplaced": unplaced}
+
+
+def plan(spec, envelopes=None):
+    if not isinstance(spec, dict) or spec.get("schema") != INPUT_SCHEMA:
+        raise ValueError("schema must be %s" % INPUT_SCHEMA)
+    page = spec.get("page") or {}
+    for k in ("width", "height", "margin"):
+        if not isinstance(page.get(k), (int, float)) or page[k] <= 0:
+            raise ValueError("page.%s must be positive" % k)
+    title_block = spec.get("titleBlock")
+    opts = spec.get("options") or {}
+    zone_pad = int(opts.get("zonePad", 16))
+    title_gap = int(opts.get("titleGap", 36))
+    # stacked blocks must leave room for the upper zone's title above the block
+    gap = max(int(opts.get("gap", 40)), title_gap + 6)
+
+    blocks = spec.get("blocks") or []
+    if not isinstance(blocks, list) or not blocks:
+        raise ValueError("blocks must be a non-empty list")
+    for b in blocks:
+        env = b.get("envelope") or {}
+        if not (isinstance(env.get("w"), (int, float)) and isinstance(env.get("h"), (int, float))):
+            measured = (envelopes or {}).get(b.get("id"))
+            if isinstance(measured, dict) and isinstance(measured.get("w"), (int, float)) \
+                    and isinstance(measured.get("h"), (int, float)):
+                b["envelope"] = {"w": measured["w"], "h": measured["h"]}
+                env = b["envelope"]
+        if not isinstance(env.get("w"), (int, float)) or not isinstance(env.get("h"), (int, float)):
+            raise ValueError("block %r needs envelope {w,h} (no measured entry found)" % b.get("id"))
+        halo = _resolve_halo(b, envelopes)
+        if halo:
+            b["halo"] = halo
+
+    regions = _regions(page, title_block)
+    candidates = list(_pack_candidates(blocks, regions, gap, zone_pad, title_gap))
+    fits_of = lambda raw: sum(1 for p in raw if p["bbox"] is not None)
+    best_fits = max(fits_of(placements) for _g, placements in candidates)
+    # inviolable: a tighter fallback gap may only be used to rescue unplaced
+    # blocks; if the nominal gap already places everything, keep it
+    if any(g == gap and fits_of(raw) == best_fits for g, raw in candidates):
+        candidates = [(g, raw) for g, raw in candidates
+                      if g == gap and fits_of(raw) == best_fits]
+    else:
+        candidates = [(g, raw) for g, raw in candidates if fits_of(raw) == best_fits]
+
+    best_report = None
+    best_key = None
+    for _candidate_gap, placements in candidates:
+        report = _frame_placements(placements, page, zone_pad, title_gap, len(blocks))
+        metrics = report["metrics"]
+        key = (metrics["fits"], metrics["score"])
+        if best_key is None or key > best_key:
+            best_report, best_key = report, key
+    if best_report is None:  # no regions at all: report every block as unplaced
+        best_report = _frame_placements([_placement(b, None) for b in blocks],
+                                        page, zone_pad, title_gap, len(blocks))
+    best_report["metrics"]["regions"] = [r["name"] for r in regions]
+    return best_report
 
 
 def main(argv=None):
