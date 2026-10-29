@@ -54,8 +54,8 @@ def run(quick: bool = False) -> Dict:
     # 2. leaderboard
     results["run_full_all_goals"] = _run_cmd([py, "-m", "mp_place.run_full", "--all-goals", "--steps", "300"], OUT_DIR)
 
-    # 3. consolidate
-    results["consolidate"] = _run_cmd([py, "-m", "mp_place.consolidate"], OUT_DIR)
+    # 3. consolidate (+ data-integrity check: fail on unreadable reports)
+    results["consolidate"] = _run_cmd([py, "-m", "mp_place.consolidate", "--check"], OUT_DIR)
 
     # 4. realboard check (SKIP when cases absent -> exit 0)
     results["realboard_check"] = _run_cmd([py, "-m", "mp_place.realboard_benchmark", "--check"], OUT_DIR)
