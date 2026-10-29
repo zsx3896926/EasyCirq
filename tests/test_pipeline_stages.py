@@ -105,5 +105,54 @@ class PipelineStagesTests(unittest.TestCase):
             self.assertTrue((tmp / "out" / "pipeline-report.json").is_file())
 
 
+    def test_replay_flag_writes_plan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = pathlib.Path(tmp)
+            template = {
+                "schema": "easycirq-page-template/v1", "page": "x",
+                "parts": [{"ref": "U1", "x": 100, "y": 100,
+                           "bbox": {"minX": 90, "minY": 90, "maxX": 110, "maxY": 110}}],
+                "nets": [{"name": "GND", "members": [["U1", "1"]]}],
+            }
+            devices = {"U1": {"lib": "lib", "dev": "dev"}}
+            _write(tmp / "tpl.json", template)
+            _write(tmp / "dev.json", devices)
+            _write(tmp / "spec.json", {"name": "rp",
+                                       "modules": [{"id": "m1", "w": 300, "h": 200}],
+                                       "project_uuid": "p", "page": "pg"})
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "tools" / "pipeline.py"),
+                 "--spec", str(tmp / "spec.json"), "--out-dir", str(tmp / "out"),
+                 "--replay", "tpl.json", "--device-map", "dev.json"],
+                capture_output=True, text=True, encoding="utf-8", errors="replace")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            plan = json.loads((tmp / "out" / "rp.replay-plan.json")
+                              .read_text(encoding="utf-8"))
+            self.assertEqual(plan["counts"]["parts"], 1)
+            self.assertEqual(plan["project"], "p")
+
+    def test_replay_without_device_map_warns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = pathlib.Path(tmp)
+            _write(tmp / "tpl.json", {"schema": "easycirq-page-template/v1",
+                                      "page": "x",
+                                      "parts": [{"ref": "U1", "x": 100, "y": 100,
+                                                 "bbox": {"minX": 90, "minY": 90,
+                                                          "maxX": 110, "maxY": 110}}],
+                                      "nets": []})
+            _write(tmp / "spec.json", {"name": "rp2",
+                                       "modules": [{"id": "m1", "w": 300, "h": 200}]})
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "tools" / "pipeline.py"),
+                 "--spec", str(tmp / "spec.json"), "--out-dir", str(tmp / "out"),
+                 "--replay", "tpl.json"],
+                capture_output=True, text=True, encoding="utf-8", errors="replace")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertFalse((tmp / "out" / "rp2.replay-plan.json").exists())
+            report = json.loads((tmp / "out" / "pipeline-report.json")
+                                .read_text(encoding="utf-8"))
+            self.assertIn("replay plan unavailable", json.dumps(report))
+
+
 if __name__ == "__main__":
     unittest.main()

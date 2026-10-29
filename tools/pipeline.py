@@ -747,6 +747,11 @@ def _parser():
                         help="emit <name>.autofix.json playbook when available")
     parser.add_argument("--accept", action="store_true",
                         help="emit <name>.accept.json plan when available")
+    parser.add_argument("--replay", metavar="PAGE_TEMPLATE",
+                        help="emit a deterministic page-replay plan from an "
+                             "easycirq-page-template/v1 file")
+    parser.add_argument("--device-map", metavar="JSON",
+                        help="reference->device map for --replay")
     parser.add_argument("--net-audit", action="store_true",
                         help="run the deterministic net-integrity audit and gate "
                              "on dead (single-pin) nets")
@@ -816,6 +821,7 @@ def main(argv=None):
                  "decision_record": name + ".decision-record.md",
                  "apply": (name + ".apply.json") if apply_document else None,
                  "fix_plan": None, "autofix": None, "accept": None,
+                 "replay": None,
                  "dashboard": "dashboard.md"}
 
     if args.fix_plan or review.get("status") == "blocked":
@@ -848,6 +854,24 @@ def main(argv=None):
             _write_json(out_dir / artifacts["accept"], accept_plan)
         except Exception as exc:  # noqa: BLE001
             warnings.append("accept unavailable (%s)" % type(exc).__name__)
+
+    if args.replay:
+        try:
+            import replay_page  # noqa: F401
+            template_path = _resolve_against(spec_path, args.replay)
+            template_data = _read_json(template_path)
+            devices = {}
+            if args.device_map:
+                devices = _read_json(_resolve_against(spec_path, args.device_map))
+            replay_plan = replay_page.build(
+                template_data, devices,
+                project=spec.get("project_uuid") or "<PROJECT_UUID>",
+                page=spec.get("page") or "<PAGE_UUID>")
+            artifacts["replay"] = name + ".replay-plan.json"
+            _write_json(out_dir / artifacts["replay"], replay_plan)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("replay plan unavailable (%s: %s)"
+                            % (type(exc).__name__, exc))
 
     if net_audit is not None:
         artifacts["net_audit"] = name + ".net-audit.json"
