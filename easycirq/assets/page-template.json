@@ -28,6 +28,26 @@
   "corner": "bottom-right",
   "visible": true
  },
+ "regions": [
+  {
+   "name": "left",
+   "rect": {
+    "minX": 10,
+    "minY": 10,
+    "maxX": 460,
+    "maxY": 815
+   }
+  },
+  {
+   "name": "top-right",
+   "rect": {
+    "minX": 460,
+    "minY": 190,
+    "maxX": 1160,
+    "maxY": 815
+   }
+  }
+ ],
  "notes": [
   "live mode reported title block [468,0]-[1170,198]; SVG vector mode reported [460,10]-[1160,190]; use SVG mode for planning, add stroke clearance.",
   "The user's stated bottom-left annotation box was not observed on this template; title_block is data and can be overridden per customer template."
