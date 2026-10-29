@@ -196,3 +196,21 @@ warnings 放行、blocked layout、apply_offsets 锚点、确定性、invalid sp
 | 评审 error（R02/R03/R04/R06 等） | 电路未收敛 | 按 checklist 修快照对应网表，再跑 |
 | 评审 warn（R01/R05/R07/R08/R09/R10） | 评审提示 | 允许出 apply；在决策记录中留痕 |
 | spec invalid | 输入错误 | 按 stderr 修 spec，退出码 2 不写任何 artifact |
+
+
+## post_apply: save-after-apply invariant
+
+The apply bundle (``easycirq-sch-apply/v1``) now carries an explicit
+``post_apply`` block:
+
+```json
+{"save": "easycirq doc reload", "required": true,
+ "reason": "EasyEDA keeps mutations in memory; doc reload = save + reopen"}
+```
+
+Reason: EasyEDA keeps schematic mutations in editor memory only; without a
+save step a restart silently loses the applied layout (observed twice during
+the A/B/C acceptance runs). Any EDA executor consuming the bundle MUST run the
+save step (``doc reload`` = save + close + reopen) before reporting success;
+offline dry-runs are unaffected.
+

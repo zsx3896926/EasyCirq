@@ -337,3 +337,21 @@ class PipelineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PostApplySaveTests(unittest.TestCase):
+    def test_apply_bundle_carries_save_step(self):
+        # build a minimal plan + apply document through the public helpers
+        spec = {"name": "save-demo",
+                "modules": [{"id": "m1", "title": "m1", "w": 100, "h": 80}]}
+        import pathlib, sys
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "tools"))
+        import pipeline
+        plan = {"pages": [{"page": 1, "frames": [], "blocks": [],
+                           "labels": []}],
+                "metrics": {"page_count": 1}}
+        doc, placements = pipeline.build_apply_document("save-demo", plan, spec)
+        self.assertGreaterEqual(placements, 0)
+        self.assertEqual(doc["post_apply"]["save"], "easycirq doc reload")
+        self.assertTrue(doc["post_apply"]["required"])
+
