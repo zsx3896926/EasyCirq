@@ -250,6 +250,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **consolidate**：`python -m mp_place.consolidate` 把全部 report*.json/docs*.json 合并成总表（`docs/CONSOLIDATED.md`）。
 - **solver_realboard**：真实板 route_aware 下 v3 vs v2：truth 2.111 vs 2.220（−4.9%）、completion 0.884 vs 0.936 —— 与模板同向权衡，默认仍 v2。
 
+
+## P4.13 附加回归 gates（2026-10-29 第八轮同步）
+
+- `python -m mp_place.gates`（或 `--quick`）跑四道附加闸：policy 默认断言、`run_full --all-goals` leaderboard、`consolidate` 总表、`realboard --check`（缺 cases 自动 SKIP）；全 PASS 退出 0，写 `docs/GATES.md`。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
