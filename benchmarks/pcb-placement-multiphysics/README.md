@@ -243,6 +243,13 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - **calibrated_objective**：3 真实板，calibrated（fine-tune k=16）truth 2.2267 vs proxy 2.2427（−0.7%）、completion 持平；模板 surrogate 未校准最差 2.3801。
 - `policies.md` 增加"组合实验留出修正（P2.19）"小节。
 
+
+## P2.21 / P4.11–P4.12（2026-10-29 第七轮同步）
+
+- **run_full**：`run_full.py --template buck [--policy GOAL] [--all-goals]` 端到端无人流水线 + 五档 policy × 8 模板 leaderboard（`report_full.md/json`），默认 balanced 并断言 defaults。
+- **consolidate**：`python -m mp_place.consolidate` 把全部 report*.json/docs*.json 合并成总表（`docs/CONSOLIDATED.md`）。
+- **solver_realboard**：真实板 route_aware 下 v3 vs v2：truth 2.111 vs 2.220（−4.9%）、completion 0.884 vs 0.936 —— 与模板同向权衡，默认仍 v2。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
