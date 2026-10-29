@@ -31,11 +31,14 @@ python easycirq/scripts/sch_layout_batch.py --sizes 2,3 --top 10 --out batch.jso
 
 规划器排布细节（planner workstream 合并后）：
 
-- 每块可带可选 `halo`（网络标签/引脚桩净空，spec 或实测包络里给），分区 padding 取
-  `max(zonePad, halo)`；负数 `halo` 直接报错、`blocked`。placement 会带 `halo` 便于审计。
-- 正常 gap 排不下时，按 `0.75/0.5/0.25/0` 倍 gap 与反向区域顺序重试，取"放置块数最多（同分取大 gap、
-  自然区域顺序）"的方案，因此输出确定；收紧 gap 造成的标题净空损失计入
-  `title_clearance_violations`。
+- 每块可带可选 `halo`（网络标签/引脚桩净空，spec 或实测包络里给）：分区 padding 取
+  `max(zonePad, halo)`，且该块与货架邻居的水平间距抬到 `prev_pad + next_pad + 2`、上下层间距抬到
+  `titleGap + upper_pad + lower_pad + 2`，避免 halo 被中点封顶削掉；仍被页边或邻居削掉的块数计入
+  `halo_clipped`。负数 `halo` 直接报错、`blocked`；placement 会带 `halo` 便于审计。
+- 候选生成：nominal gap 起步，再按 `0.75/0.5/0.25/0` 倍 gap 与反向区域顺序生成去重候选；只保留
+  "放置块数最多"的候选（nominal gap 已能放满时只保留 nominal gap 候选），再对每个候选算完整指标、
+  取 `(fits, score)` 最优上报，因此输出确定且是这一批候选里最好的布局。收紧 gap 造成的标题净空损失
+  计入 `title_clearance_violations`。
 
 单工程规划（在**仓库根目录**执行；包络路径相对仓库根）：
 
@@ -69,7 +72,7 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 在仓库根目录跑这三个命令，确认工具与本节的输出字段仍一致（planner workstream 合并后复测）：
 
 - `sch_layout_batch.py --sizes 2,3 --top 5`：`pool_size=11, evaluated=220, passed=210`，top 分 `99.9`，前 3 个组合均 `fits=3, overlaps=0, area_usage≈0.45, title_clearance_violations=0`；
-- 音频三块（ES8311 + MEMS + AW8737）单工程规划：`verdict=pass, fits=3, zones_contain_blocks=3, overlaps=0, area_usage=0.366, zones_trimmed=1, zone_slack=0.091, zone_fill_ratio=0.8, layout_balance=2.065, title_clearance_violations=0, score=92.9`（`layout_balance>1.6` 扣 3.7 分）；
+- 音频三块（ES8311 + MEMS + AW8737）单工程规划：`verdict=pass, fits=3, zones_contain_blocks=3, overlaps=0, area_usage=0.366, zones_trimmed=1, halo_clipped=0, zone_slack=0.091, zone_fill_ratio=0.8, layout_balance=2.065, title_clearance_violations=0, score=92.9`（`layout_balance>1.6` 扣 3.7 分）；
 - scoreboard 对 1 个通过 + 2 个 review 的报告：`reports=3, passed=1`，exit `1`；全部通过时 exit `0`，Markdown 表含 `wires ok/total` 与 `rate` 列。
 
 这些数字只证明离线规划/汇总在该快照上可复现，不是真机落点结果。
@@ -106,14 +109,28 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 
 ```bash
 python tools/metrics_scoreboard.py --reports <dir> --out scoreboard.json
+python tools/metrics_scoreboard.py --reports <dir> \
+  --style-input-dir <dir> --export-dir <dir> --out scoreboard.json
 ```
 
 汇总每个工程的：块数、fits、overlaps、zones ok、export ok、连线成功率
 （`wires_ok / wires_total`，从 autoconnect 输出的 `new/already/PARTIAL` 解析）。
 字段含义、缺失值回退与通过条件见 §6。
 
+可选风格/视觉列（**只作参考，不改通过判定和退出码**）：
+
+- `--style-input-dir`：对每个工程读 `<project>.style.json`（`easycirq-sch-style-input/v1`），
+  用 `easycirq/scripts/sch_style_audit.py` 审计，行上增加 `style_verdict / style_score / style_problems`；
+- `--export-dir`：对每个工程读 `<project>.png`，与参考图
+  `easycirq/assets/style-reference/esp32-schematic.png` 用 `easycirq/scripts/sch_style_visual.py` 粗比，
+  行上增加 `visual_verdict / visual_similarity`。
+
+文件缺失、未装 Pillow 或视觉比较失败 → 对应字段为 `null`（Markdown 列只在至少一行有值时出现）；
+style 输入坏掉不崩溃，记 `blocked` / 0 分并把报错放进 `style_problems`。风格分只对同一份
+`<project>.style.json` 有效，相似度只对同页/同修订导出的 PNG 有效，都不能当作电气或制造证据。
+
 验收通过条件：`fits == blocks && overlaps == 0 && zones_ok && export_ok`；
-连线成功率单独看趋势，不单独阻断。
+连线成功率、风格分与视觉相似度单独看趋势，不单独阻断。
 
 ## 5. 评分与阈值
 
@@ -137,6 +154,7 @@ python tools/metrics_scoreboard.py --reports <dir> --out scoreboard.json
 | `unplaced[]` | planner | 排不进任何可用区或越出页边距的块 id 列表 | 必须为空，否则 `verdict=blocked`、exit 2 |
 | `metrics.overlaps` | planner | 块 bbox 两两相交对数（交面积 > 0） | 必须为 0，否则 `verdict=review`、exit 1 |
 | `metrics.zones_contain_blocks` | planner | 成功生成"包含块"分区框的块数 | 等于 `fits` 时分区完整 |
+| `metrics.halo_clipped` | planner | halo 净空被页边或邻居削掉的块数（实际 zone 与 `bbox + max(zonePad, halo)` 差 > 0.5 即计） | 0 表示 halo 全部保住；>0 只能说明该块净空被压缩，不单独判失败 |
 | `metrics.zones_trimmed` | planner | 安全裁剪分区框的次数；边缘按最近邻中点封顶不足时，由兜底裁剪消除重叠。0 是理想值，音频三块规划实测为 1 | 仅诊断，不单独判失败 |
 | `metrics.area_usage` | planner | Σ 块 bbox 面积 / 页面面积，保留 3 位小数 | 目标 0.45，偏离进入 `score` 罚分 |
 | `metrics.zone_slack` | planner | Σ 分区框面积 / 页面面积 − `area_usage`（分区内空余占比） | > 0.25 开始按 60×超出罚分 |
@@ -156,7 +174,16 @@ python tools/metrics_scoreboard.py --reports <dir> --out scoreboard.json
 | `rows[].export_ok` | scoreboard | `report.export == 0`（导出 PNG 退出码 0） | `true` |
 | `rows[].wires_total/ok/failed` | scoreboard | 优先取 `metrics.wires_*`；缺失时按 `blocks[].wires` 求和 | 只记趋势，不阻断 |
 | `rows[].wire_rate` | scoreboard | `wires_ok / wires_total`，保留 3 位小数；总数为 0 时为 `null` | 只记趋势，不单独阻断 |
+| `rows[].style_verdict` | scoreboard（`--style-input-dir`） | `<project>.style.json` 经 `sch_style_audit.py` 的 `pass/review/blocked` | advisory，不改行 `verdict` 与退出码 |
+| `rows[].style_score` | scoreboard | `100 − 15×blocked 问题数 − 4×review 问题数`，0–100 | advisory，只看趋势 |
+| `rows[].style_problems` | scoreboard | 扣分背后的 `[{severity, message}]`；坏 style 输入时记 `blocked`/0 分并带报错 | advisory |
+| `rows[].visual_verdict` | scoreboard（`--export-dir`） | `<project>.png` 与参考图经 `sch_style_visual.py` 的 `pass/review/blocked` | advisory |
+| `rows[].visual_similarity` | scoreboard | 0–1 粗相似度（0.4 灰度相关 + 0.3 直方图余弦 + 0.3 色板出现率），不是审美判断 | advisory |
 | `rows[].verdict` | scoreboard | `fits == blocks && overlaps == 0 && zones_ok && export_ok` 为 `pass`，否则 `review` | `pass` 才算验收通过 |
+
+风格/视觉字段在未给目录、文件缺失、未装 Pillow 或比较失败时为 `null`；Markdown 的 style/visual 列
+只在至少一行有值时出现。这两类字段只作参考，row `verdict` 和进程退出码仍只看
+`fits/overlaps/zones_ok/export_ok`。
 
 两个口径的区别：planner 的 `blocked` 只在有块排不下时出现，scoreboard 只有 `pass/review`；
 planner 的 `overlaps` 是规划 bbox 的重叠，scoreboard 是落块后实测 bbox 的重叠。
@@ -223,4 +250,6 @@ python -m unittest discover -s tests -p "test_sch_style_visual.py"
 
 布局流水线只保证"块在页内、分区框包含块、不重叠"；审美与规范仍由
 `sch_style_audit.py`（色板/字号/标题栏）和 `sch_style_visual.py`（参考图并排+粗相似度）
-在交付前检查。
+在交付前检查。scoreboard 可用 `--style-input-dir / --export-dir` 把这两项汇总成
+`style_* / visual_*` 列，但那是**参考指标**：行 `verdict` 与退出码仍只看
+`fits/overlaps/zones_ok/export_ok`，交付门禁以 `sch_delivery_check.py` / `sch_delivery_hook.py` 为准。
