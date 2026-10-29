@@ -210,6 +210,7 @@ def validate_spec(data):
 # ── stage 1: layout plan ─────────────────────────────────────────────────────
 
 ENGINE_CHOICES = ("layout", "freeform", "templates")
+GRID = 5.0  # schematic grid unit; template parts must land on it for EDA stubs
 
 
 def _adapt_freeform(plan):
@@ -261,7 +262,7 @@ def _expand_templates(plan, spec, spec_dir):
             origin_xy = [block["bbox"][0] - rel_min_x,
                          block["bbox"][1] - rel_min_y]
             placed = templates.instantiate_template(
-                data, page.get("page"), origin_xy)
+                data, page.get("page"), origin_xy, grid=GRID)
             block["parts"] = placed.get("parts") or []
             block["nets"] = placed.get("nets") or []
             block["template"] = data.get("block")

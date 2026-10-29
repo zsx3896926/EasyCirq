@@ -61,9 +61,9 @@ class EngineTests(unittest.TestCase):
             self.assertEqual(bundle.get("engine"), "templates")
             placement = bundle["pages"][0]["placements"][0]
             self.assertEqual(placement["parts"][0]["ref"], "U1")
-            # min-origin alignment: part x = bbox.minX - template.bbox.minX
-            self.assertEqual(placement["parts"][0]["x"],
-                             placement["bbox"][0] + 10)
+            # parts are snapped to the 5-unit schematic grid
+            self.assertTrue(all(p["x"] % 5 == 0 and p["y"] % 5 == 0
+                                for p in placement["parts"]))
             self.assertTrue(all(p["x"] >= 0 and p["y"] >= 0
                                 for p in placement["parts"]))
 
