@@ -398,3 +398,9 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 493 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 21. 第十三轮同步（2026-10-29，仅文档）
+
+- **10 模板回归快照**：scoreboard 40 次 pipeline `all_feasible=True`，completion 0.901→0.997、truth_v2 2.174→1.996（−8.23%）；run_full 五档 leaderboard 更新。
+- nightly `--update-baseline` 全量 PASS（约 253 s）。
