@@ -55,6 +55,7 @@ def run(quick: bool = False, seeds: Sequence[int] = (0, 1), steps: int = 800) ->
                     "truth_v2": round(float(truth), 4),
                     "feasible": not hard_violations(sc, pl),
                     "routes_calls": int(stats.get("routes_calls", 0)),
+                    "failed_nets": list(getattr(route, "failed_nets", [])),
                 }
             )
             print(f"[final-combo] template {name} seed={seed}: comp={route.completion:.3f} truth={truth:.3f}")
@@ -79,6 +80,7 @@ def run(quick: bool = False, seeds: Sequence[int] = (0, 1), steps: int = 800) ->
                     "truth_v2": round(float(truth), 4),
                     "feasible": not hard_violations(sc, pl),
                     "routes_calls": int(stats.get("routes_calls", 0)),
+                    "failed_nets": list(getattr(route, "failed_nets", [])),
                 }
             )
             print(f"[final-combo] realboard {name} seed={seed}: comp={route.completion:.3f} truth={truth:.3f}")
@@ -102,6 +104,7 @@ def _aggregate(rows: List[Dict]) -> Dict:
             "truth_v2": round(sum(truth) / len(truth), 4) if truth else None,
             "all_feasible": all(r["feasible"] for r in rs),
             "fully_routed": f"{sum(1 for r in rs if r['completion'] == 1.0)}/{len(rs)}",
+            "unrouted_nets": sorted({n for r in rs for n in r.get("failed_nets", [])}),
         }
     return out
 

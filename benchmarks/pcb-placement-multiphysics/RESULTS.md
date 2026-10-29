@@ -412,3 +412,9 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 495 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 23. 第十七轮同步（2026-10-29）
+
+- **final_combo 增强**：每行暴露 `failed_nets`，聚合新增 `unrouted_nets`。
+- **结构发现**：真实板 `mcu-i2c` 在 2 层 1mm 网格 oracle 上，`+3V3` / `GND` / `USB_DP_CONN` 无法完全布线（completion 0.846，与 repair 预算无关）—— 真实板需要 4+ 层或电源/地平面，符合"router 是简化 oracle，非 DRC"的边界。
