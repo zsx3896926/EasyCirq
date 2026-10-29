@@ -224,6 +224,22 @@ def plan(spec, envelopes=None):
     metrics["area_usage"] = round(
         sum((b[2] - b[0]) * (b[3] - b[1]) for b in boxes) / page_area, 3)
 
+    # quality score: penalise overlaps, unplaced blocks, extreme area usage,
+    # excessive zone slack (empty frame space) and title-clearance violations
+    zone_area = sum((fr["rect"]["maxX"] - fr["rect"]["minX"]) *
+                    (fr["rect"]["maxY"] - fr["rect"]["minY"]) for fr in frames)
+    metrics["zone_slack"] = round(zone_area / page_area - metrics["area_usage"], 3)
+    violations = sum(1 for p, fr in zip([p for p in placements if p.get("bbox")], frames)
+                     if fr["titleY"] < p["bbox"][3] + 10)
+    metrics["title_clearance_violations"] = violations
+    score = 100.0
+    score -= metrics["overlaps"] * 25
+    score -= (len(blocks) - metrics["fits"]) * 30
+    score -= abs(metrics["area_usage"] - 0.45) * 40
+    score -= max(0.0, metrics["zone_slack"] - 0.25) * 60
+    score -= violations * 8
+    metrics["score"] = max(0.0, round(score, 1))
+
     unplaced = [p["id"] for p in placements if p["bbox"] is None]
     verdict = "blocked" if unplaced else ("review" if metrics["overlaps"] else "pass")
     return {"schema": SCHEMA, "verdict": verdict, "frames": frames,
