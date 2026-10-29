@@ -311,3 +311,15 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - **测试**：仓库内 260 tests（`tests/pcb_placement_multiphysics`）。
 
 > 边界不变：物理感代理不是 SPICE/FEA；router 是 1 mm/2 层离线 oracle，不是 DRC/可布通证明；真实布线/DRC/SI/PI/热/制造全部 `NOT RUN`。
+
+
+## 12. 第三轮同步（2026-10-29）
+
+- **CV 调参**：`report_tune_cv`——2-fold CV 选中配置折间 0/8 一致；外样本 truth：CV-tuned +5.48%、fixed w=2.0 −2.50%、baseline 0% → 关闭 tuned 表，route_aware 为安全默认。
+- **physics v3**：`report_physics_v3`——层/铜厚/网络类感知；v2↔v3 Spearman 0.928、top-10 重叠 0.79；2→6 层 −39.5%、1→2 oz −6.6%；8 个差异案例与物理解释。
+- **realboard v2**：`report_realboard_v2`——4 板（mcu-i2c/photo-led/dual-button/temp-alarm）、多边形板框、keepout 2/4 APPLIED；原布局→route_aware→repair：completion 0.8844→0.9052→0.9615，truth 4.0083→2.4721→2.1167（−47.2%）。
+- **pipeline intent ��式**：`run_pipeline(intent_plan=True)`——硬 CCG 0/run、truth −6.51% vs proxy；completion 0.8388。
+- **跨域迁移**：`report_transfer`——模板→真实板 raw ρ 0.925、仿射校准 R² 0.888。
+- 测试：仓库内 328 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。

@@ -23,6 +23,12 @@ Covered contract
   ``objective_config`` / ``objective_recommended``; ``run_auto.py --objective``
   and batch rows carry the objective field.
 
+* P3.8: ``run_pipeline(..., intent_plan=True)`` runs the proxy solve, builds the
+  layout intent from it, refines it with ``plan_from_intent(relax=True)`` and
+  verifies the result (``planning_mode="intent_relax"`` + ``intent_planning``
+  stats; hard-tier CCG violations 0).  ``run_auto.py --intent-plan`` enables
+  it; batch rows carry ``intent_plan`` / ``planning_mode``.
+
 The pipeline is offline: no EDA, DRC or network is exercised here either.
 """
 
@@ -39,8 +45,10 @@ from mp_place.model import hard_violations
 from mp_place.pipeline import (
     PIPELINE_OBJECTIVES,
     PIPELINE_SCHEMA,
+    benchmark_intent_planning,
     benchmark_objectives,
     run_pipeline,
+    write_intent_report,
     write_objective_report,
 )
 from mp_place.templates import instantiate, template_names
@@ -417,6 +425,210 @@ class RunAutoObjectiveCliTest(unittest.TestCase):
             self.assertEqual(row["objective"], "route_aware")
             self.assertTrue(row["feasible"])
         self.assertIn("objective=route_aware", proc.stderr)
+
+
+
+class IntentPlanOptionTests(unittest.TestCase):
+    """P3.8: ``run_pipeline(..., intent_plan=True)`` proxy -> intent -> replan."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.scenario = instantiate("buck", seed=0)
+        cls.proxy_report = run_pipeline(cls.scenario, budget_steps=150, seed=0)
+        cls.intent_report = run_pipeline(
+            cls.scenario, budget_steps=150, seed=0, intent_plan=True
+        )
+
+    def test_default_planning_mode_is_direct(self):
+        report = self.proxy_report
+        self.assertEqual(report["planning_mode"], "direct")
+        self.assertFalse(report["intent_plan"])
+        self.assertIsNone(report["intent_planning"])
+        self.assertEqual(report["config"]["planning_mode"], "direct")
+        # explicit intent_plan=False is identical to the default call
+        explicit = run_pipeline(
+            self.scenario, budget_steps=150, seed=0, intent_plan=False
+        )
+        self.assertEqual(canonical(explicit), canonical(report))
+
+    def test_intent_plan_report_shape(self):
+        report = self.intent_report
+        self.assertEqual(report["planning_mode"], "intent_relax")
+        self.assertTrue(report["intent_plan"])
+        self.assertEqual(report["config"]["planning_mode"], "intent_relax")
+        planning = report["intent_planning"]
+        self.assertIsNotNone(planning)
+        for key in (
+            "mode",
+            "relax",
+            "reference_intent_digest",
+            "reference_intent_constraints",
+            "ccg_hard_final",
+            "ccg_soft_final",
+            "original_intent_ccg_final",
+            "hard_feasible",
+            "moves",
+            "moves_accepted",
+            "cost_initial",
+            "cost_final",
+        ):
+            self.assertIn(key, planning)
+        self.assertEqual(planning["mode"], "intent_relax")
+        self.assertTrue(planning["relax"])
+        self.assertEqual(planning["ccg_hard_final"], 0)
+        self.assertEqual(planning["ccg_soft_final"], 0)
+        self.assertGreaterEqual(planning["original_intent_ccg_final"], 0)
+        self.assertTrue(planning["hard_feasible"])
+        self.assertTrue(report["feasible"])
+        self.assertEqual(report["violations"], [])
+        self.assertEqual(report["router"]["status"], "ROUTED")
+        self.assertTrue(report["intent_replay_ok"])
+        self.assertEqual(
+            report["certificate"]["extra"]["planning_mode"], "intent_relax"
+        )
+        self.assertEqual(json.loads(json.dumps(report, sort_keys=True)), report)
+        # deterministic for the same inputs
+        again = run_pipeline(
+            self.scenario, budget_steps=150, seed=0, intent_plan=True
+        )
+        self.assertEqual(canonical(report), canonical(again))
+        # the relaxed intent refinement moves parts away from the proxy layout
+        self.assertNotEqual(
+            report["placement_digest"], self.proxy_report["placement_digest"]
+        )
+
+    def test_intent_plan_requires_proxy_objective(self):
+        with self.assertRaises(ValueError):
+            run_pipeline(
+                self.scenario,
+                budget_steps=60,
+                objective="route_aware",
+                intent_plan=True,
+            )
+
+
+class AllTemplatesIntentPlanSmokeTests(unittest.TestCase):
+    def test_all_eight_templates_run_with_intent_plan(self):
+        names = template_names()
+        self.assertEqual(len(names), 8)
+        for name in names:
+            with self.subTest(template=name):
+                sc = instantiate(name, seed=0)
+                report = run_pipeline(
+                    sc, budget_steps=80, seed=0, intent_plan=True
+                )
+                self.assertEqual(report["scenario"]["name"], name)
+                self.assertEqual(report["planning_mode"], "intent_relax")
+                planning = report["intent_planning"]
+                self.assertIsNotNone(planning)
+                self.assertEqual(planning["ccg_hard_final"], 0)
+                self.assertEqual(planning["ccg_soft_final"], 0)
+                self.assertTrue(report["feasible"])
+                self.assertEqual(report["violations"], [])
+                self.assertEqual(report["router"]["status"], "ROUTED")
+                placement = plan_from_report(report)
+                self.assertEqual(set(placement), set(sc.components))
+                self.assertEqual(hard_violations(sc, placement), [])
+
+
+class IntentBenchmarkTests(unittest.TestCase):
+    def test_benchmark_and_report_writer(self):
+        result = benchmark_intent_planning(names=("buck",), seeds=(0,), steps=150)
+        self.assertEqual(result["schema"], "mp_place.pipeline_intent/v1")
+        self.assertEqual(
+            [group["mode"] for group in result["groups"]],
+            ["proxy", "route_aware", "intent_relax"],
+        )
+        self.assertEqual(len(result["rows"]), 3)
+        for row in result["rows"]:
+            self.assertIn(row["mode"], ("proxy", "route_aware", "intent_relax"))
+            self.assertTrue(row["feasible"])
+            self.assertIsNotNone(row["completion"])
+            self.assertGreaterEqual(row["runtime_s"], 0.0)
+            self.assertIsInstance(row["truth_v2"], float)
+        target = result["target"]
+        for key in (
+            "criteria",
+            "ccg_hard_per_run",
+            "ccg_soft_per_run",
+            "original_intent_deviations_per_run",
+            "mean_truth_v2_proxy",
+            "mean_truth_v2_intent_relax",
+            "mean_truth_gap_pct",
+            "ccg_target_met",
+            "truth_target_met",
+            "met",
+        ):
+            self.assertIn(key, target)
+        self.assertTrue(target["ccg_target_met"])
+        self.assertEqual(target["ccg_hard_per_run"], 0.0)
+        self.assertEqual(result["recommendation"]["recommended_when_intent_matters"], "intent_relax")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            paths = write_intent_report(result, out_dir=tmp_dir)
+            self.assertEqual(set(paths), {"json", "md"})
+            self.assertTrue(pathlib.Path(paths["json"]).is_file())
+            self.assertTrue(pathlib.Path(paths["md"]).is_file())
+            loaded = json.loads(
+                pathlib.Path(paths["json"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(loaded, result)
+            markdown = pathlib.Path(paths["md"]).read_text(encoding="utf-8")
+            self.assertIn("# P3.8 Pipeline intent 约束规划对比", markdown)
+            self.assertIn("intent_relax", markdown)
+            self.assertIn("达标", markdown)
+            self.assertIn("推荐", markdown)
+
+
+class RunAutoIntentPlanCliTest(unittest.TestCase):
+    """CLI: ``--intent-plan`` flag and batch ``intent_plan`` fields."""
+
+    def _run(self, *args):
+        return subprocess.run(
+            [sys.executable, str(ROOT / "run_auto.py"), *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=180,
+        )
+
+    def test_intent_plan_flag(self):
+        proc = self._run(
+            "--template", "buck", "--seed", "0", "--steps", "100",
+            "--intent-plan", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        report = json.loads(proc.stdout)
+        self.assertEqual(report["planning_mode"], "intent_relax")
+        self.assertTrue(report["intent_plan"])
+        self.assertEqual(report["intent_planning"]["ccg_hard_final"], 0)
+        self.assertEqual(report["fixed_fields"], FIXED_FIELDS)
+        self.assertIn("planning=intent_relax", proc.stderr)
+
+    def test_intent_plan_requires_proxy_objective(self):
+        proc = self._run(
+            "--template", "buck", "--intent-plan", "--objective", "route_aware"
+        )
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("--intent-plan", proc.stderr)
+
+    def test_batch_rows_carry_intent_plan(self):
+        proc = self._run(
+            "--all-templates", "--seeds", "0", "--steps", "60",
+            "--intent-plan", "--json",
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        batch = json.loads(proc.stdout)
+        self.assertEqual(batch["schema"], "mp_place.batch/v1")
+        self.assertTrue(batch["intent_plan"])
+        self.assertEqual(batch["n_runs"], len(template_names()))
+        self.assertTrue(batch["all_feasible"])
+        for row in batch["rows"]:
+            self.assertTrue(row["intent_plan"])
+            self.assertEqual(row["planning_mode"], "intent_relax")
+            self.assertTrue(row["feasible"])
+        self.assertIn("intent_plan=True", proc.stderr)
 
 
 
