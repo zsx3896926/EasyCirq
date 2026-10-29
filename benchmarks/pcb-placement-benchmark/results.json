@@ -1,0 +1,355 @@
+{
+  "schema": "easycirq.pcb-placement-benchmark.results/v1",
+  "offline_only": "OFFLINE BENCHMARK ONLY — not a hardware verification",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "eda_calls": 0,
+  "cases_file": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\assets\\pcb-placement-benchmarks\\benchmarks.json",
+  "judge": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py",
+  "summary": {
+    "total": 15,
+    "matched": 15,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "cases": [
+    {
+      "case_id": "P1-MCU-MIN",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P1-MCU-MIN --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-decoup",
+          "ck-decoup2"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-decoup",
+          "ck-decoup2"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P1b-MCU-MIN-PAIR",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P1b-MCU-MIN-PAIR --json",
+      "exit_code": 0,
+      "matched": true,
+      "actual": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P2-BUCK",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P2-BUCK --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-loop"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-loop"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P2b-BUCK-PAIR",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P2b-BUCK-PAIR --json",
+      "exit_code": 0,
+      "matched": true,
+      "actual": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P3-ANALOG",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P3-ANALOG --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-analog"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-analog"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P3b-ANALOG-PAIR",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P3b-ANALOG-PAIR --json",
+      "exit_code": 0,
+      "matched": true,
+      "actual": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P4-COMM",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P4-COMM --json",
+      "exit_code": 2,
+      "matched": true,
+      "actual": {
+        "verdict": "blocking",
+        "codes": [
+          "connector_off_edge"
+        ],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "connector_off_edge"
+        ],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P5-BATTERY",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P5-BATTERY --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-ntc",
+          "ck-prot"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-prot",
+          "ck-ntc"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P6-MOTOR",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P6-MOTOR --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-gate",
+          "ck-shunt"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "loop_large"
+        ],
+        "soft_fail": [
+          "ck-gate",
+          "ck-shunt"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P7-WIRELESS",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P7-WIRELESS --json",
+      "exit_code": 2,
+      "matched": true,
+      "actual": {
+        "verdict": "blocking",
+        "codes": [
+          "keepout_violation"
+        ],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "keepout_violation"
+        ],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P8-MULTI",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P8-MULTI --json",
+      "exit_code": 2,
+      "matched": true,
+      "actual": {
+        "verdict": "blocking",
+        "codes": [
+          "body_overlap",
+          "connector_off_edge"
+        ],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "connector_off_edge",
+          "body_overlap"
+        ],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "P8b-MULTI-PAIR",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case P8b-MULTI-PAIR --json",
+      "exit_code": 0,
+      "matched": true,
+      "actual": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "D1-MCU-LDO-DECAP",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case D1-MCU-LDO-DECAP --json",
+      "exit_code": 1,
+      "matched": true,
+      "actual": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-decoup-c1",
+          "ck-decoup-c3",
+          "ck-decoup-c90"
+        ]
+      },
+      "expected": {
+        "verdict": "review",
+        "codes": [
+          "distance_far"
+        ],
+        "soft_fail": [
+          "ck-decoup-c1",
+          "ck-decoup-c3",
+          "ck-decoup-c90"
+        ]
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "D2-PHOTO-LED-SENSE",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case D2-PHOTO-LED-SENSE --json",
+      "exit_code": 0,
+      "matched": true,
+      "actual": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "acceptable",
+        "codes": [],
+        "soft_fail": []
+      },
+      "mismatches": []
+    },
+    {
+      "case_id": "D3-DUAL-BTN-D4-MOVE",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hardware-design-skill\\.agents\\worktrees\\feat\\pcb-placement-training\\easycirq\\scripts\\pcb_placement_benchmark.py --case D3-DUAL-BTN-D4-MOVE --json",
+      "exit_code": 2,
+      "matched": true,
+      "actual": {
+        "verdict": "blocking",
+        "codes": [
+          "body_overlap"
+        ],
+        "soft_fail": []
+      },
+      "expected": {
+        "verdict": "blocking",
+        "codes": [
+          "body_overlap"
+        ],
+        "soft_fail": []
+      },
+      "mismatches": []
+    }
+  ],
+  "limits": [
+    "offline geometry/net proxy only",
+    "not DRC",
+    "not routability",
+    "not impedance/thermal/EMC",
+    "not a real board verification"
+  ]
+}

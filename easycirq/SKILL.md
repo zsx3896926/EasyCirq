@@ -223,6 +223,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
 | 已有原理图重排、自动布局、提高整页可读性 | [原理图排版引擎](references/schematic-layout-engine.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 网表/导图复核；先读该文件的并发与工具限制 |
 | 用8类典型任务校准排版检查、准备前后对比 | [原理图排版基准集](references/schematic-benchmarks.md)，运行 `python scripts/schematic_benchmark.py`；基准是离线示意，不是真机验收 |
+| 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
 | 真实读写嘉立创EDA工程、恢复超时/重复执行、保存重开 | [EDA执行](references/eda-execution.md)；先 `easycirq doctor`+`capabilities` 预检，再用 `easycirq sch/pcb/project/doc` typed 命令先读后写；写入必须在已授权副本上，保存后 `doc reload` + 回读验证持久化；`netlist_diff.py` 做纯排版网表门禁 |
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
@@ -251,7 +252,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 两个模块单独正常但组合失败、接口契约 | [组合与接口契约](references/module-integration.md) |
 | 器件选型、替代分级、立创商城检索顺序 | [器件选型与替代](references/selection/README.md) |
 | 故障现象、根因证据、修复与复验 | [故障与反例库](references/failures/README.md) |
-| 真实设计为什么这样、为什么失败、跨模块失效与审图训练 | [工程深潜](references/engineering-deepdives/README.md)、[审图练习](references/engineering-deepdives/exercises/README.md) |
+| 真实设计为什么这样、为什么失败、跨模块失效与审图训练 | [工程深潜](references/engineering-deepdives/README.md)、[审图练习](references/engineering-deepdives/exercises/README.md)、[预布局审题练习](references/engineering-deepdives/exercises-pcb/README.md) |
 | 热预算、结温/瞬态、PCB散热/外壳、温度测量 | [板级热设计](references/thermal/topic.md)、[热算例](references/thermal/cases.md)、[热来源](references/thermal/sources.md)，S编号仅本专题有效 |
 | 带条件的计算、可执行仿真与测量方法 | [计算手册](references/calculations/README.md)、[仿真与测量](references/simulation-measurement.md) |
 | 商城购料自焊、嘉立创 PCB+SMT、整机交付 | [制造与交付路线](references/manufacturing-routes.md) |
