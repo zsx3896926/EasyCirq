@@ -24,6 +24,7 @@
 - route-aware repair：completion **0.882→0.996**、truth **−4.9%**。
 - 40 维特征 R² **0.998**、top-100 regret **−98%**；分项校准每项 **n≈5** 收敛。
 - 真实板（4 块）：优化后 completion 0.884→0.962、truth **−46.4%**。
+- router 分辨率扫描：`mcu-i2c` 0.5mm 网格 completion 0.846→0.923（限制网 `GND`/`VBUS_5V`）。
 - certificate 审计 **16/16 通过、144/144 检查**。
 
 ## 入口命令
@@ -46,7 +47,7 @@ python -m mp_place.realboard_benchmark --check                   # 真实板基�
 ## 诚实边界（务必保留）
 
 1. 真值是**解析伪物理/物理感代理**，改善幅度只对这些代理成立；未做 SPICE/FEA/EMC/热/机械实测。
-2. router 是 1 mm/2 层离线网格迷宫，**不是 DRC、不是可布通证明**。
+2. router 是离线网格迷宫 oracle，**不是 DRC、不是可布通证明**。分辨率/层数是可调旋钮：实测 `mcu-i2c` 从 1mm→0.5mm 网格 completion 0.846→0.923，而单纯 2→4 层不单独改善——**分辨率比层数更关键**；电源/地网（`GND`/`+3V3`/`VBUS_5V`）是 2 层网格的固有瓶颈。
 3. 模板为合成产品族；真实板覆盖 4 块 EasyCirq 回读 dump 的子集，不是整板复刻。
 4. 留出实验反复表明**调参易过拟合**（tuned 表、CV 均不泛化）→ 默认档保守（proxy / fixed route_aware / relax intent），tuned/experimental 仅研究用。
 5. 不证明模型能力，不作为认证或对外能力声明。

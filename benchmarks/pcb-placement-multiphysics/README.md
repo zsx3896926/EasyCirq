@@ -19,7 +19,7 @@
 >
 > **边界**：这里的"仿真"是**离线伪物理仿真器**（回路/PDN/热/耦合的几何代理组合 + 隐藏系数 + 非线性项），不是 SPICE/FEA/DRC/布线。真实 `routing_verified:false`、`drc:NOT RUN`；框架只用于验证方法，不代表可制造。
 
-> **P2/P3/P4 已落地（2026-10-29）**：在 P1 基线上新增物理感真值（`physics_v2`）、离线布线 oracle（`router`，1 mm / 2 层代理，**不是 DRC、不是可布通证明**）、portfolio 求解器（`solver_v2`）、流式数据集（`dataset`）、参数化模板（`templates`，8 个产品族）与意图（`intent`）、验证/证书（`verify`）与无人流水线（`pipeline` + `run_auto.py`，含 `--all-templates` 批量）。全量单测 **136 条**。P2 结果、模块表、用法、GND/ISENSE 失败案例与边界见 **[docs/P2-RESULTS.md](docs/P2-RESULTS.md)**；下文 P1 内容保留为历史基线。
+> **P2/P3/P4 已落地（2026-10-29）**：在 P1 基线上新增物理感真值（`physics_v2`）、离线布线 oracle（`router`，1 mm / 2 层代理，**不是 DRC、不是可布通证明**；分辨率比层数更关键，见 `route_resolution`）、portfolio 求解器（`solver_v2`）、流式数据集（`dataset`）、参数化模板（`templates`，10 个产品族）与意图（`intent`）、验证/证书（`verify`）与无人流水线（`pipeline` + `run_auto.py`，含 `--all-templates` 批量）。全量单测 **136 条**。P2 结果、模块表、用法、GND/ISENSE 失败案例与边界见 **[docs/P2-RESULTS.md](docs/P2-RESULTS.md)**；下文 P1 内容保留为历史基线。
 
 ## 快速开始
 
