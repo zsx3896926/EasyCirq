@@ -1,0 +1,304 @@
+{
+  "components": [
+    {
+      "bbox": {
+        "maxX": 140,
+        "maxY": 440,
+        "minX": 120,
+        "minY": 420
+      },
+      "mpn": "GRM155R71C104KA88D",
+      "pins": [
+        {
+          "name": "1",
+          "net": "3V3",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "C1",
+      "value": "100nF"
+    },
+    {
+      "bbox": {
+        "maxX": 220,
+        "maxY": 320,
+        "minX": 200,
+        "minY": 300
+      },
+      "mpn": "GRM188R61A106ME69D",
+      "pins": [
+        {
+          "name": "1",
+          "net": "FB_VOUT",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "C2",
+      "value": "10uF"
+    },
+    {
+      "bbox": {
+        "maxX": 340,
+        "maxY": 400,
+        "minX": 320,
+        "minY": 380
+      },
+      "mpn": "GRM155R71C104KA88D",
+      "pins": [
+        {
+          "name": "1",
+          "net": "3V3",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "C3",
+      "value": "100nF"
+    },
+    {
+      "bbox": {
+        "maxX": 580,
+        "maxY": 340,
+        "minX": 560,
+        "minY": 300
+      },
+      "mpn": "USBLC6-2SC6",
+      "pins": [
+        {
+          "name": "1",
+          "net": "USB_D+",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "D1",
+      "value": "TVS array"
+    },
+    {
+      "bbox": {
+        "maxX": 640,
+        "maxY": 360,
+        "minX": 600,
+        "minY": 300
+      },
+      "mpn": "USB4105-GF-A",
+      "pins": [
+        {
+          "name": "D+",
+          "net": "USB_D+",
+          "number": "1"
+        },
+        {
+          "name": "GND",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "J1",
+      "value": "USB-C"
+    },
+    {
+      "bbox": {
+        "maxX": 220,
+        "maxY": 520,
+        "minX": 200,
+        "minY": 500
+      },
+      "mpn": "RC0402FR-070RL",
+      "pins": [
+        {
+          "name": "1",
+          "net": "AGND",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "GND",
+          "number": "2"
+        }
+      ],
+      "ref": "R3",
+      "value": "0R"
+    },
+    {
+      "bbox": {
+        "maxX": 520,
+        "maxY": 360,
+        "minX": 500,
+        "minY": 340
+      },
+      "mpn": "RC0402FR-0722RL",
+      "pins": [
+        {
+          "name": "1",
+          "net": "USB_D+",
+          "number": "1"
+        },
+        {
+          "name": "2",
+          "net": "MCU_D+",
+          "number": "2"
+        }
+      ],
+      "ref": "R4",
+      "value": "22R"
+    },
+    {
+      "bbox": {
+        "maxX": 720,
+        "maxY": 320,
+        "minX": 700,
+        "minY": 300
+      },
+      "mpn": "TP-0402",
+      "pins": [
+        {
+          "name": "1",
+          "net": "3V3",
+          "number": "1"
+        }
+      ],
+      "ref": "TP1",
+      "value": "3V3"
+    },
+    {
+      "bbox": {
+        "maxX": 160,
+        "maxY": 360,
+        "minX": 100,
+        "minY": 300
+      },
+      "mpn": "ESP32-S3-WROOM-1",
+      "pins": [
+        {
+          "name": "VDD",
+          "net": "3V3",
+          "number": "1"
+        },
+        {
+          "name": "GND",
+          "net": "GND",
+          "number": "2"
+        },
+        {
+          "name": "EN",
+          "net": "3V3",
+          "number": "3"
+        },
+        {
+          "name": "SCL",
+          "net": "I2C_SCL",
+          "number": "4"
+        },
+        {
+          "name": "SDA",
+          "net": "I2C_SDA",
+          "number": "5"
+        }
+      ],
+      "ref": "U1",
+      "value": "ESP32-S3"
+    },
+    {
+      "bbox": {
+        "maxX": 340,
+        "maxY": 340,
+        "minX": 300,
+        "minY": 300
+      },
+      "mpn": "TLV75533PDBV",
+      "pins": [
+        {
+          "name": "VIN",
+          "net": "3V3",
+          "number": "1"
+        },
+        {
+          "name": "GND",
+          "net": "GND",
+          "number": "2"
+        },
+        {
+          "name": "EN",
+          "net": "3V3",
+          "number": "3"
+        },
+        {
+          "name": "VOUT",
+          "net": "FB_VOUT",
+          "number": "4"
+        },
+        {
+          "name": "FB",
+          "net": "FB_VOUT",
+          "number": "5"
+        }
+      ],
+      "ref": "U2",
+      "value": "LDO 3.3V"
+    }
+  ],
+  "nets": [
+    {
+      "name": "3V3",
+      "role": "power"
+    },
+    {
+      "name": "AGND",
+      "role": "ground"
+    },
+    {
+      "name": "FB_VOUT",
+      "role": "power"
+    },
+    {
+      "name": "GND",
+      "role": "ground"
+    },
+    {
+      "name": "I2C_SCL",
+      "role": "signal"
+    },
+    {
+      "name": "I2C_SDA",
+      "role": "signal"
+    },
+    {
+      "name": "MCU_D+",
+      "role": "signal"
+    },
+    {
+      "name": "USB_D+",
+      "role": "signal"
+    }
+  ],
+  "page": "ace-corpus-clean",
+  "schema": "easycirq-ace-snapshot/v1",
+  "titleblock": {
+    "fields": {
+      "Project": "ace-corpus",
+      "Rev": "A",
+      "Sheet": "1/1",
+      "Size": "A4",
+      "Title": "ACE corpus clean reference"
+    }
+  }
+}

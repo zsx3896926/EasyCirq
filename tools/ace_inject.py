@@ -2,6 +2,18 @@
 
 Loads a snapshot, applies one deterministic mutation at a time, and checks
 whether the reviewer detects the injected defect with the expected rule.
+
+Mutations come in two classes:
+
+- ``deletion``: break an existing good structure (remove a pull-up, move a
+  decoupling cap away, clear the title block, ...).  This is the original set
+  and is kept intact.
+- ``additive``: append a defect to an otherwise clean design (add a second
+  ground tie, add an auto-named net, add an unguarded connector, add a
+  floating pin) so the corpus can regress on over-permissive reviewers too.
+
+Every mutation is a pure function over a deep copy of the snapshot; nothing is
+written to disk and no EDA/model access happens.
 """
 
 from __future__ import annotations
@@ -68,6 +80,29 @@ def decoupling_candidates(snap):
             for ref in caps:
                 near.setdefault(ref, (comp["ref"], pin.get("number"), pname, pnet))
     return near
+
+
+def tie_refs(snap):
+    """Refs of R/FB parts that tie an AGND/DGND/PGND net to GND (mirrors R04)."""
+    ties = []
+    for comp in snap["components"]:
+        if ar.designator_kind(comp["ref"]) not in ("resistor", "ferrite"):
+            continue
+        nets = {str(p.get("net")) for p in comp.get("pins") or [] if p.get("net")}
+        if any(ar.GROUND_RE.match(n.replace("-", "_")) for n in nets) and any(
+                ar.GROUND_RE.match(n.replace("-", "_"))
+                and n.upper().startswith(("A", "D", "P")) for n in nets):
+            ties.append(comp["ref"])
+    return ties
+
+
+def free_ref(snap, prefix):
+    """First unused ref with the given prefix family ("R9" -> R91, R92, ...)."""
+    used = {c["ref"] for c in snap["components"]}
+    index = 1
+    while prefix + str(index) in used:
+        index += 1
+    return prefix + str(index)
 
 
 def mutations(snap):
@@ -196,7 +231,65 @@ def mutations(snap):
         s["titleblock"] = {"fields": fields or {"Title": ""}}
     out.append(("clear-titleblock", "R10-titleblock", clear_titleblock))
 
+    # --- additive mutations: append a defect instead of deleting a good part ---
+
+    def add_second_ground_tie(s=snap):
+        ties = tie_refs(s)
+        if len(ties) != 1:
+            return None  # only meaningful when the baseline tie is unambiguous
+        ref = free_ref(s, "R9")
+        s["components"].append({
+            "ref": ref, "mpn": "0R-0603", "value": "0R",
+            "bbox": {"minX": 20, "minY": 20, "maxX": 30, "maxY": 30},
+            "pins": [{"number": "1", "name": "1", "net": "AGND"},
+                     {"number": "2", "name": "2", "net": "GND"}],
+        })
+        return ref
+    out.append(("add-second-ground-tie", "R04-ground-tie", add_second_ground_tie))
+
+    def add_auto_net_name(s=snap):
+        ref = free_ref(s, "TP")
+        net = free_ref(s, "U9") + "_N7"
+        s["components"].append({
+            "ref": ref, "mpn": None, "value": "TP",
+            "bbox": {"minX": 40, "minY": 40, "maxX": 50, "maxY": 50},
+            "pins": [{"number": "1", "name": "1", "net": net}],
+        })
+        return net
+    out.append(("add-auto-net-name", "R09-auto-net-name", add_auto_net_name))
+
+    def add_connector_without_esd(s=snap):
+        ref = free_ref(s, "J")
+        net = "EXT_" + ref
+        s["components"].append({
+            "ref": ref, "mpn": "HDR-1X1", "value": "HDR",
+            "bbox": {"minX": 60, "minY": 60, "maxX": 70, "maxY": 70},
+            "pins": [{"number": "1", "name": "1", "net": net}],
+        })
+        return ref + ":1"
+    out.append(("add-connector-without-esd", "R07-esd-series",
+                add_connector_without_esd))
+
+    def add_floating_pin(s=snap):
+        for comp in s["components"]:
+            if ar.designator_kind(comp["ref"]) != "ic":
+                continue
+            used = {str(p.get("number")) for p in comp.get("pins") or []}
+            number = 90
+            while str(number) in used:
+                number += 1
+            comp.setdefault("pins", []).append(
+                {"number": str(number), "name": "SPARE", "net": None})
+            return "%s:%s" % (comp["ref"], number)
+        return None
+    out.append(("add-floating-pin", "R01-floating-pin", add_floating_pin))
+
     return out
+
+
+def mutation_kind(name):
+    """Classify a mutation name: additive prefix or classic deletion."""
+    return "additive" if name.startswith("add-") else "deletion"
 
 
 def run(snapshot):
@@ -221,7 +314,8 @@ def run(snapshot):
         token_hit = bool(target) and str(target).split(":")[0] in messages
         detected = changed and count > 0 and (
             count > base or expected not in base_rules or token_hit)
-        rows.append({"mutation": name, "expected_rule": expected,
+        rows.append({"mutation": name, "kind": mutation_kind(name),
+                     "expected_rule": expected,
                      "applicable": changed, "detected": bool(detected),
                      "target": target, "findings_of_rule": count,
                      "baseline_of_rule": base, "delta": count - base,
@@ -229,6 +323,15 @@ def run(snapshot):
     applicable = [r for r in rows if r["applicable"]]
     total = len(applicable)
     hit = sum(1 for r in applicable if r["detected"])
+    classes = {}
+    for kind in ("deletion", "additive"):
+        rows_of = [r for r in rows if r["kind"] == kind]
+        applicable_of = [r for r in rows_of if r["applicable"]]
+        classes[kind] = {
+            "mutations": len(rows_of),
+            "applicable": len(applicable_of),
+            "detected": sum(1 for r in applicable_of if r["detected"]),
+        }
     return {
         "schema": "easycirq-ace-injection/v1",
         "baseline": {"verdict": baseline["verdict"],
@@ -236,6 +339,7 @@ def run(snapshot):
                      "warnings": baseline["metrics"]["warnings"],
                      "rules": baseline["metrics"]["rules"]},
         "mutations": rows,
+        "classes": classes,
         "detected": hit, "total": total,
         "not_applicable": [r["mutation"] for r in rows if not r["applicable"]],
         "detection_rate": round(hit / total, 3) if total else None,
