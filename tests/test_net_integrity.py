@@ -69,5 +69,29 @@ class NetIntegrityTests(unittest.TestCase):
         self.assertEqual(net_integrity.audit(snapshot()), net_integrity.audit(snapshot()))
 
 
+class DeadNetActionTests(unittest.TestCase):
+    def test_interface_net_is_port_ized(self):
+        self.assertEqual(net_integrity.classify("I2S_MCLK", "U1", "MCLK"),
+                         "port_ize")
+        self.assertEqual(net_integrity.classify("SD_SCK", "J1", "CLX"),
+                         "port_ize")
+
+    def test_enable_net_gets_driver(self):
+        self.assertEqual(net_integrity.classify("EXT_5V_EN", "U2", "EN"),
+                         "connect_driver")
+        self.assertEqual(net_integrity.classify("PWR_EN", "R1", "1"),
+                         "connect_driver")
+
+    def test_dangling_part_action(self):
+        self.assertEqual(net_integrity.classify("TP_C13_1", "C13", "1"),
+                         "remove_dangling_part_or_connect")
+
+    def test_audit_emits_one_action_per_dead_net(self):
+        report = net_integrity.audit(snapshot())
+        dead = [f for f in report["findings"] if f["code"] == "single-pin-net"]
+        self.assertEqual(len(report["actions"]), len(dead))
+        self.assertTrue(all(a["net"] and a["type"] for a in report["actions"]))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -75,9 +75,11 @@ def build(apply_document, *, project_uuid, page, parts_path=None):
     # 3) verify: snapshot + review + image
     commands.append("%s tools/ace_snapshot.py %s snapshot.json" % ("python", page))
     commands.append("python tools/ace_review.py snapshot.json --gate")
+    commands.append("python tools/net_integrity.py snapshot.json")
     commands.append("%s sch export-image --format png --scope page --out out.png --doc %s"
                     % (BIN, page))
     checks.append({"check": "save_after_apply", "required": bool(post.get("required"))})
+    checks.append({"check": "net_integrity", "expect": "no single-pin nets"})
     return {"schema": SCHEMA, "commands": commands, "checks": checks,
             "counts": {"commands": len(commands), "checks": len(checks)}}
 
