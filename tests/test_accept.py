@@ -64,6 +64,19 @@ class AcceptTests(unittest.TestCase):
         b = accept.build(BUNDLE, project_uuid="p", page="pg")
         self.assertEqual(a, b)
 
+    def test_save_command_is_not_double_prefixed(self):
+        result = accept.build(BUNDLE, project_uuid="p", page="pg")
+        save = [c for c in result["commands"] if "doc reload" in c]
+        self.assertEqual(save, ["doc reload"])
+
+    def test_missing_ids_emit_placeholders(self):
+        bundle = {"schema": "easycirq-sch-apply/v1", "project": "d",
+                  "post_apply": {}, "pages": [{"page": 1, "frames": [],
+                  "placements": []}]}
+        result = accept.build(bundle, project_uuid=None, page=None)
+        self.assertTrue(any("<PROJECT_UUID>" in c for c in result["commands"]))
+
 
 if __name__ == "__main__":
     unittest.main()
+
