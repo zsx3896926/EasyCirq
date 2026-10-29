@@ -271,6 +271,13 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800   # schema mp_
 - 模板 8 → **10**：新增 `usb-uart-bridge`（USB-C↔UART 桥 + TVS + MCU + LDO，双对边连接器）与 `audio-amp`（3.5mm 耳机功放 + LDO + 增益电阻）。
 - 桥接类模板（跨对边连接器 + 密集 near 链）在**严格 CCG 下不可满足**，故 intent 测试对这两类走 `relax=True`；`suggest_mode`（P4.15）已在研究层给出该判断。
 
+
+## 10 模板回归快照（2026-10-29）
+
+- `run_full --all-goals`：五档 policy × 10 模板 leaderboard（`report_full`）。
+- `scoreboard`：10 模板 × seeds 0/1 × baseline/repair = 40 次 pipeline；`all_feasible=True`，completion **0.901 → 0.997**，truth_v2 **2.174 → 1.996（−8.23%）**。
+- nightly `--update-baseline`：全量 PASS（约 253 s），基线含 10 模板。
+
 ## 可布通性入环（route-aware repair，`report_route.json`）
 
 - `mp_place/route_opt.py`：solver → router → 失败网邻域局部移动 → 重布，按 `(completion, -truth_v2)` 接受。
