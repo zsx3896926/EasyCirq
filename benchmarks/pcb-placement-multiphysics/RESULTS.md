@@ -366,3 +366,11 @@ python run_auto.py --all-templates --seeds 0,1 --json --steps 800
 - 测试：仓库内 485 tests。
 
 > 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
+
+
+## 17. 第八轮同步（2026-10-29）
+
+- **gates**（P4.13）：`mp_place.gates` 四道附加闸（policy 默认断言 / run_full leaderboard / consolidate / realboard --check），缺 cases 自动 SKIP；写 `docs/GATES.md`。
+- 测试：仓库内 487 tests。
+
+> 边界不变：伪物理代理非 SPICE/FEA；router 是 1mm/2层离线 oracle，非 DRC/可布通证明；真实 EDA/DRC/SI-PI/热/制造 `NOT RUN`。
