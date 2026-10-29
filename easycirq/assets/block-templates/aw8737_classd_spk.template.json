@@ -169,172 +169,278 @@
   {
    "role": "U",
    "pin": "INP",
-   "net": "block.aw8737_classd_spk_N1"
+   "net": "block.aw8737_classd_spk_N1",
+   "numbers": [
+    "A1"
+   ]
   },
   {
    "role": "R_INP",
    "pin": "2",
-   "net": "block.aw8737_classd_spk_N1"
+   "net": "block.aw8737_classd_spk_N1",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "R_INP",
    "pin": "1",
-   "net": "DAC_L_P"
+   "net": "DAC_L_P",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "INN",
-   "net": "block.aw8737_classd_spk_N3"
+   "net": "block.aw8737_classd_spk_N3",
+   "numbers": [
+    "A2"
+   ]
   },
   {
    "role": "R_INN",
    "pin": "2",
-   "net": "block.aw8737_classd_spk_N3"
+   "net": "block.aw8737_classd_spk_N3",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "R_INN",
    "pin": "1",
-   "net": "DAC_L_N"
+   "net": "DAC_L_N",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "SHDN",
-   "net": "SPK_PULSE"
+   "net": "SPK_PULSE",
+   "numbers": [
+    "A4"
+   ]
   },
   {
    "role": "R_SHDN",
    "pin": "1",
-   "net": "SPK_PULSE"
+   "net": "SPK_PULSE",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "R_SHDN",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "VDD*",
-   "net": "5V"
+   "net": "5V",
+   "numbers": [
+    "A3",
+    "B3"
+   ]
   },
   {
    "role": "U",
    "pin": "PVDD",
-   "net": "5V"
+   "net": "5V",
+   "numbers": [
+    "D3"
+   ]
   },
   {
    "role": "C_VDD1",
    "pin": "1",
-   "net": "5V"
+   "net": "5V",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_VDD2",
    "pin": "1",
-   "net": "5V"
+   "net": "5V",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "C1P",
-   "net": "block.aw8737_classd_spk_N8"
+   "net": "block.aw8737_classd_spk_N8",
+   "numbers": [
+    "D2"
+   ]
   },
   {
    "role": "C_C1",
    "pin": "1",
-   "net": "block.aw8737_classd_spk_N8"
+   "net": "block.aw8737_classd_spk_N8",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "C1N",
-   "net": "block.aw8737_classd_spk_N9"
+   "net": "block.aw8737_classd_spk_N9",
+   "numbers": [
+    "C1"
+   ]
   },
   {
    "role": "C_C1",
    "pin": "2",
-   "net": "block.aw8737_classd_spk_N9"
+   "net": "block.aw8737_classd_spk_N9",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "C2P",
-   "net": "block.aw8737_classd_spk_N10"
+   "net": "block.aw8737_classd_spk_N10",
+   "numbers": [
+    "D1"
+   ]
   },
   {
    "role": "C_C2",
    "pin": "1",
-   "net": "block.aw8737_classd_spk_N10"
+   "net": "block.aw8737_classd_spk_N10",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "C2N*",
-   "net": "block.aw8737_classd_spk_N11"
+   "net": "block.aw8737_classd_spk_N11",
+   "numbers": [
+    "B1",
+    "B2"
+   ]
   },
   {
    "role": "C_C2",
    "pin": "2",
-   "net": "block.aw8737_classd_spk_N11"
+   "net": "block.aw8737_classd_spk_N11",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "VOP",
-   "net": "block.aw8737_classd_spk_N12"
+   "net": "block.aw8737_classd_spk_N12",
+   "numbers": [
+    "B4"
+   ]
   },
   {
    "role": "FB_P",
    "pin": "1",
-   "net": "block.aw8737_classd_spk_N12"
+   "net": "block.aw8737_classd_spk_N12",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "FB_P",
    "pin": "2",
-   "net": "SPK_P"
+   "net": "SPK_P",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_EMI_P",
    "pin": "1",
-   "net": "SPK_P"
+   "net": "SPK_P",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "VON",
-   "net": "block.aw8737_classd_spk_N14"
+   "net": "block.aw8737_classd_spk_N14",
+   "numbers": [
+    "D4"
+   ]
   },
   {
    "role": "FB_N",
    "pin": "1",
-   "net": "block.aw8737_classd_spk_N14"
+   "net": "block.aw8737_classd_spk_N14",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "FB_N",
    "pin": "2",
-   "net": "SPK_N"
+   "net": "SPK_N",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_EMI_N",
    "pin": "1",
-   "net": "SPK_N"
+   "net": "SPK_N",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "GND*",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "C2",
+    "C3",
+    "C4"
+   ]
   },
   {
    "role": "C_VDD1",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_VDD2",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_EMI_P",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_EMI_N",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   }
  ],
  "bbox": {

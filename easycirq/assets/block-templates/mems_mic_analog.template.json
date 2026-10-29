@@ -78,57 +78,91 @@
   {
    "role": "U",
    "pin": "OUT",
-   "net": "block.mems_mic_analog_N1"
+   "net": "block.mems_mic_analog_N1",
+   "numbers": [
+    "4"
+   ]
   },
   {
    "role": "R_OUT",
    "pin": "1",
-   "net": "block.mems_mic_analog_N1"
+   "net": "block.mems_mic_analog_N1",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "R_OUT",
    "pin": "2",
-   "net": "MIC1_P"
+   "net": "MIC1_P",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "VDD",
-   "net": "block.mems_mic_analog_N3"
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_VDD",
    "pin": "1",
-   "net": "block.mems_mic_analog_N3"
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "R_FILT",
    "pin": "2",
-   "net": "block.mems_mic_analog_N3"
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "R_FILT",
    "pin": "1",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "GND*",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2",
+    "3"
+   ]
   },
   {
    "role": "R_REF",
    "pin": "1",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_VDD",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "R_REF",
    "pin": "2",
-   "net": "MIC1_N"
+   "net": "MIC1_N",
+   "numbers": [
+    "2"
+   ]
   }
  ],
  "bbox": {

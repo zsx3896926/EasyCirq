@@ -292,11 +292,13 @@ def _extract_template_impl(
         if role not in resolved:
             _fail("net member role %r is not part of the role map" % role)
         member = _rr._PinRef("%s.%s" % (role, raw_pin), role, _star_stripped(raw_pin), raw_pin, False)
-        if _rr._match_pin(resolved[role], member) is None:
+        matched = _rr._match_pin(resolved[role], member)
+        if matched is None:
             _fail(
                 "pin ref %r: component %r has no matching pin"
                 % (member.token, designators[role])
             )
+        numbers = sorted({str(pin.number) for pin in matched if pin.number})
         key = (role, raw_pin)
         previous = net_of_pin.get(key)
         if previous is not None and previous != net_name:
@@ -307,7 +309,10 @@ def _extract_template_impl(
         if previous is not None:
             return
         net_of_pin[key] = net_name
-        pin_entries.append({"role": role, "pin": raw_pin, "net": net_name})
+        entry = {"role": role, "pin": raw_pin, "net": net_name}
+        if numbers:
+            entry["numbers"] = numbers
+        pin_entries.append(entry)
 
     for index, net in enumerate(nets, start=1):
         port_name = next((member.token[len("PORT:"):] for member in net if member.is_port), None)
@@ -417,7 +422,7 @@ def _validate_template(template: Any) -> Mapping:
     for index, raw_pin in enumerate(pins):
         field = "template.pins[%d]" % index
         pin = _rr._mapping(raw_pin, field)
-        pin_unknown = sorted(set(pin.keys()) - {"role", "pin", "net"})
+        pin_unknown = sorted(set(pin.keys()) - {"role", "pin", "net", "numbers"})
         if pin_unknown:
             _fail("%s: unknown field(s) %s" % (field, ", ".join(repr(key) for key in pin_unknown)))
         role = _rr._string(pin.get("role"), "%s.role" % field)
@@ -425,6 +430,12 @@ def _validate_template(template: Any) -> Mapping:
             _fail("%s: role %r is not in template.parts" % (field, role))
         _rr._string(pin.get("pin"), "%s.pin" % field)
         _rr._string(pin.get("net"), "%s.net" % field)
+        numbers = pin.get("numbers")
+        if numbers is not None:
+            if not isinstance(numbers, list) or not numbers:
+                _fail("%s.numbers: expected a non-empty list" % field)
+            for number in numbers:
+                _rr._string(number, "%s.numbers[]" % field)
     _parse_bbox(data.get("bbox"), "template.bbox")
     return data
 
@@ -484,7 +495,8 @@ def _instantiate_template_impl(template: Any, page: Any, origin_xy: Any) -> Dict
         if net not in net_members:
             net_members[net] = []
             nets.append({"name": net, "members": net_members[net]})
-        net_members[net].append([designator, pin])
+        for number in raw_pin.get("numbers") or [pin]:
+            net_members[net].append([designator, str(number)])
 
     return {
         "page": page,

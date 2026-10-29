@@ -169,217 +169,346 @@
   {
    "role": "U",
    "pin": "CCLK",
-   "net": "AUDIO_I2C_SCL"
+   "net": "AUDIO_I2C_SCL",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "CDATA",
-   "net": "AUDIO_I2C_SDA"
+   "net": "AUDIO_I2C_SDA",
+   "numbers": [
+    "19"
+   ]
   },
   {
    "role": "U",
    "pin": "MCLK",
-   "net": "I2S_MCLK"
+   "net": "I2S_MCLK",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "SCLK/DMIC_SCL",
-   "net": "I2S_BCLK"
+   "net": "I2S_BCLK",
+   "numbers": [
+    "6"
+   ]
   },
   {
    "role": "U",
    "pin": "LRCK",
-   "net": "I2S_LRCK"
+   "net": "I2S_LRCK",
+   "numbers": [
+    "8"
+   ]
   },
   {
    "role": "U",
    "pin": "DSDIN",
-   "net": "I2S_DIN"
+   "net": "I2S_DIN",
+   "numbers": [
+    "9"
+   ]
   },
   {
    "role": "U",
    "pin": "ASDOUT",
-   "net": "I2S_DOUT"
+   "net": "I2S_DOUT",
+   "numbers": [
+    "7"
+   ]
   },
   {
    "role": "U",
    "pin": "MIC1P/DMIC_SDA",
-   "net": "block.es8311_codec_i2s_N8"
+   "net": "block.es8311_codec_i2s_N8",
+   "numbers": [
+    "18"
+   ]
   },
   {
    "role": "C_MIC1P",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N8"
+   "net": "block.es8311_codec_i2s_N8",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_MIC1P",
    "pin": "2",
-   "net": "MIC1_P"
+   "net": "MIC1_P",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "MIC1N",
-   "net": "block.es8311_codec_i2s_N10"
+   "net": "block.es8311_codec_i2s_N10",
+   "numbers": [
+    "17"
+   ]
   },
   {
    "role": "C_MIC1N",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N10"
+   "net": "block.es8311_codec_i2s_N10",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_MIC1N",
    "pin": "2",
-   "net": "MIC1_N"
+   "net": "MIC1_N",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "OUTP",
-   "net": "block.es8311_codec_i2s_N12"
+   "net": "block.es8311_codec_i2s_N12",
+   "numbers": [
+    "12"
+   ]
   },
   {
    "role": "C_OUTP",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N12"
+   "net": "block.es8311_codec_i2s_N12",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_OUTP",
    "pin": "2",
-   "net": "DAC_L_P"
+   "net": "DAC_L_P",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "OUTN",
-   "net": "block.es8311_codec_i2s_N14"
+   "net": "block.es8311_codec_i2s_N14",
+   "numbers": [
+    "13"
+   ]
   },
   {
    "role": "C_OUTN",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N14"
+   "net": "block.es8311_codec_i2s_N14",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "C_OUTN",
    "pin": "2",
-   "net": "DAC_L_N"
+   "net": "DAC_L_N",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "U",
    "pin": "VMID",
-   "net": "block.es8311_codec_i2s_N16"
+   "net": "block.es8311_codec_i2s_N16",
+   "numbers": [
+    "16"
+   ]
   },
   {
    "role": "C_VMID",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N16"
+   "net": "block.es8311_codec_i2s_N16",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "ADCVREF",
-   "net": "block.es8311_codec_i2s_N17"
+   "net": "block.es8311_codec_i2s_N17",
+   "numbers": [
+    "15"
+   ]
   },
   {
    "role": "C_ADCVREF",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N17"
+   "net": "block.es8311_codec_i2s_N17",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "DACVREF",
-   "net": "block.es8311_codec_i2s_N18"
+   "net": "block.es8311_codec_i2s_N18",
+   "numbers": [
+    "14"
+   ]
   },
   {
    "role": "C_DACVREF",
    "pin": "1",
-   "net": "block.es8311_codec_i2s_N18"
+   "net": "block.es8311_codec_i2s_N18",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "CE",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "20"
+   ]
   },
   {
    "role": "U",
    "pin": "PVDD",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "3"
+   ]
   },
   {
    "role": "C_PVDD",
    "pin": "1",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "DVDD",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "4"
+   ]
   },
   {
    "role": "C_DVDD",
    "pin": "1",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "AVDD",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "11"
+   ]
   },
   {
    "role": "C_AVDD",
    "pin": "1",
-   "net": "3V3_L3B_AU"
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "U",
    "pin": "AGND",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "10"
+   ]
   },
   {
    "role": "U",
    "pin": "DGND",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "5"
+   ]
   },
   {
    "role": "U",
    "pin": "EP",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "21"
+   ]
   },
   {
    "role": "C_PVDD",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_DVDD",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_VMID",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_ADCVREF",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_DACVREF",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "C_AVDD",
    "pin": "2",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
   },
   {
    "role": "R_AGND",
    "pin": "1",
-   "net": "AGND"
+   "net": "AGND",
+   "numbers": [
+    "1"
+   ]
   },
   {
    "role": "R_AGND",
    "pin": "2",
-   "net": "GND"
+   "net": "GND",
+   "numbers": [
+    "2"
+   ]
   }
  ],
  "bbox": {
