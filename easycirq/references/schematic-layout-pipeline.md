@@ -108,7 +108,7 @@ spec 最小示例（`easycirq-sch-layout-plan/v1`）：
 
 ### 3.2 一键流水线（run_layout_pipeline.py）
 
-把"读包络 → 规划 → 打分排序 →（真机 apply）→ scoreboard"串成一条命令：
+把"读包络 → 规划 → 打分排序 →（ACE 复核门禁 → 真机 apply）→ scoreboard"串成一条命令：
 
 ```bash
 python tools/run_layout_pipeline.py --project specs/demo.project.json --dry-run
@@ -126,8 +126,57 @@ python tools/run_layout_pipeline.py --projects specs --skip-eda   # --dry-run �
   不需要 daemon 或 EasyEDA 窗口；
 - 去掉这两个 flag 才对每个工程跑 `tools/sch_layout_apply.py`，需要 daemon + 已连接窗口，
   以及 spec 里的 `project_uuid` / `page`；
-- 退出码：全部规划（或 apply）无管线错误 0；任一工程失败或 `blocked` 1；参数/输入非法 2。
-  `review` 仍是 0——管线只报布局质量，不冒充验收证据。
+- 退出码：全部规划（或 apply）无管线错误 0；任一工程失败、`blocked` 或
+  `review-blocked` 1；参数/输入非法 2。`review`（布局器 verdict）仍是 0——管线只报布局
+  质量，不冒充验收证据。
+
+### 3.3 ACE 复核门禁（review gate）
+
+真机 apply 之前先跑**确定性 ACE 复核**（`tools/ace_review.py` 的 10 条规则），把
+"结构完整性"问题挡在 EDA 之外。门禁本身是纯离线脚本，只读
+`easycirq-ace-snapshot/v1` 快照（`tools/ace_snapshot.py` 从活动页只读抓取）。
+
+单独使用：
+
+```bash
+python tools/review_gate.py snapshot.json              # strict（默认），人类可读
+python tools/review_gate.py snapshot.json --json       # easycirq-review-gate/v1
+python tools/review_gate.py snapshot.json --advisory   # 只报不挡（练习/接入期）
+```
+
+`easycirq-review-gate/v1` 结果：`{schema, mode, strict, verdict, blocked, allowed,
+errors, warnings, findings, counts{errors,warnings}, rules, review_verdict,
+review_schema}`。
+
+- **strict**（默认）：任一 `error` finding → `blocked=true, allowed=false`，CLI exit 1；
+  只有 warning 不挡；`verdict` 为 `pass` / `blocked`；
+- **advisory**：`blocked=false, allowed=true, verdict=pass`，但 `errors` 仍完整给出，
+  `review_verdict` 保留复核器原始结论，并带 `advisory_errors_allowed` 计数；CLI exit 0；
+- 快照缺失 / JSON 非法 / schema 不对 / 组件结构不可读 → `ReviewGateError`，CLI exit 2。
+
+流水线接入（**在生成 `<name>.exec.json` 和调用 apply 之前**执行，dry-run 与真机模式一致）：
+
+- spec 可声明 `"snapshot": "相对路径/ace.snapshot.json"`；`--snapshot PATH` 为没有声明
+  `snapshot` 的 spec 提供默认快照（批处理时建议逐 spec 声明，避免所有工程共用一份）；
+- 默认只对"有快照"的工程复核；没有快照 → `review.status=skipped`，行为与旧版一致；
+- `--require-review` 失败关闭：没有可用快照的工程标记 `review-blocked`；
+- `--review-advisory` 把复核错误降级为 advisory（记录但不挡），演练用，不用于放行；
+- 复核不通过的工程状态为 `review-blocked`，**不写 exec spec、不跑 EDA**，但批处理继续；
+  它按失败计数，命令 exit 1。
+
+`pipeline-report.json` 增加顶层 `review` 汇总（`mode/required/default_snapshot/
+checked/passed/blocked/snapshots`）与每个工程的 `review` 对象
+（`status/mode/snapshot/source/verdict/allowed/errors/warnings/rules/
+advisory_errors_allowed`）；`dashboard.md` 的模式行、Plan details 和
+`## Review gate` 段会显示复核结论，被挡工程在 Failures 段给出 `review-blocked` 原因。
+
+离线验收：
+
+```bash
+python -m unittest discover -s tests -p "test_review_gate.py"
+python -m unittest discover -s tests -p "test_run_layout_pipeline.py"
+```
+
 
 ## 4. 指标自动化
 
