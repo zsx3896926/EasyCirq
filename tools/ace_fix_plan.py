@@ -168,6 +168,30 @@ def build(snapshot):
             add(rule, {"type": "declare_nc_or_connect", "ref": finding["refs"][0]
                        if finding.get("refs") else None},
                 "decide NC vs connect for floating pins: %s" % msg)
+        elif rule == "R27-connector-tvs":
+            # message: "connector J1 pin 1 net 'C4_N6' has no TVS/ESD device"
+            import re
+            m = re.search(r"connector (\S+) pin \S+ net '(.*?)'", msg)
+            if m:
+                add(rule, {"type": "add_tvs", "net": m.group(2),
+                           "near": m.group(1)},
+                    "add a TVS/ESD array on %s to GND" % m.group(2))
+        elif rule == "R15-fb-divider":
+            # message: "feedback net 'VBUS_L0' lacks lower divider to GND (divider incomplete)"
+            import re
+            m = re.search(r"feedback net '(.*?)'", msg)
+            if m:
+                add(rule, {"type": "rewire_feedback", "net": m.group(1)},
+                    "connect the regulator FB pin to the feedback divider "
+                    "midpoint (R_FB_H/R_FB_L junction), not to %s" % m.group(1))
+        elif rule == "R25-reverse-protection":
+            # message: "connector J1 power pin 1 net 'VBATT' has no reverse-polarity protection (diode/fuse/keyed)"
+            import re
+            m = re.search(r"net '(.*?)'", msg)
+            if m:
+                add(rule, {"type": "add_reverse_protection", "net": m.group(1)},
+                    "add reverse-polarity protection (series diode / fuse / keyed "
+                    "connector) on %s" % m.group(1))
         elif rule == "R30-decoupling-count":
             # message: "IC <ref> has <N> power pin(s) but only <M> nearby decoupling cap(s) (need >= <K>)"
             import re

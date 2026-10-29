@@ -73,6 +73,18 @@ class FixPlanTests(unittest.TestCase):
         self.assertTrue(all(a["action"]["type"] == "add_component"
                             and a["action"]["kind"] == "capacitor" for a in fixes))
 
+    def test_connector_without_tvs_yields_add_tvs(self):
+        snap = copy.deepcopy(fixture.clean_snapshot())
+        snap["components"].append(
+            {"ref": "J9", "mpn": "HDR", "value": "HDR",
+             "bbox": {"minX": 900, "minY": 900, "maxX": 920, "maxY": 920},
+             "pins": [{"number": "1", "name": "1", "net": "EXT_SIG"},
+                      {"number": "2", "name": "2", "net": "GND"}]})
+        plan = ace_fix_plan.build(snap)
+        fixes = [a for a in plan["actions"] if a["rule"] == "R27-connector-tvs"]
+        self.assertTrue(fixes)
+        self.assertEqual(fixes[0]["action"]["type"], "add_tvs")
+
     def test_determinism(self):
         snap = fixture.clean_snapshot()
         a = ace_fix_plan.build(copy.deepcopy(snap))
