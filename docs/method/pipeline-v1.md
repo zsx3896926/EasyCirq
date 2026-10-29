@@ -256,3 +256,14 @@ touching EDA:
 These are deterministic plans, not executors: an operator (or the EDA runner)
 replays the commands and reads the checks back, which keeps the save-after-apply
 invariant explicit.
+
+
+## Page replay stage (`--replay`)
+
+`pipeline.py --replay <page-template.json> --device-map <map.json>` compiles an
+``easycirq-page-template/v1`` freeze into an ``easycirq-replay-plan/v1``: clear
+page -> place every part (grid-aligned) -> wire every net member with the right
+flag kind -> NC explicit-NC pins -> `doc reload` -> snapshot + review +
+net-integrity checks. The plan is deterministic and replayable on a fresh
+project; proven live at 48/48 parts, 136/136 nets and a replay page that
+reviews pass with 0 errors / 0 warnings / 0 dead nets.
