@@ -2,7 +2,7 @@
 
 > 本文件记录**实际执行**的命令与结果；未做的检查写 `NOT RUN`。契约见 [contract.md](contract.md)，逐项验收见 [acceptance-matrix.md](acceptance-matrix.md)。
 >
-> 分支：`feat/pcb-placement-training`（基线 `origin/main @ 78e5d53`）。
+> 分支：`feat/pcb-placement-training`，PR [#192](https://github.com/zsx3896926/EasyCirq/pull/192)（OPEN，不合并）；已 rebase 到 `origin/main @ 9ed69ee`，PR HEAD `16f3ecb`。
 
 ## 1. 背景与目标
 
@@ -50,7 +50,7 @@
 | `python easycirq/scripts/pcb_placement_benchmark.py --case P7-WIRELESS` | exit 2（blocking），scorecard `keepout_violation` × 2 对象（MOD1/C3） |
 | `python benchmarks/pcb-placement-benchmark/run_benchmark.py` | exit 0，**12/12 PASS**，`real_eda:"NOT RUN"`、`eda_calls:0`；两次 `results.json` SHA256 一致 |
 | `python -m unittest discover -s tests -k pcb_placement_benchmark` | 121 tests OK（约 16 s） |
-| `python -m unittest discover -s tests` | 4177 tests，**OK**（约 8.5 min；本机此前两个并发 discover 会互相等子进程，单实例通过） |
+| `python -m unittest discover -s tests` | **4191 tests OK**（5 skipped，约 646 s，rebase 后复跑；本机此前两个并发 discover 会互相等子进程，单实例通过） |
 | `python easycirq/scripts/skill_selftest.py` | 6 PASS / 0 FAIL / 0 NOT RUN（48 必需路径、2147 相对链接、294 脚本编译） |
 | `python tools/offline_suite.py` | `NOT RUN`（本轮未跑；测试层已由官方 discovery 覆盖） |
 

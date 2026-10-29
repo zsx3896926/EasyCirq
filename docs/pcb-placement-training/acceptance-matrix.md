@@ -20,7 +20,7 @@
 | 要求 | 命令 | 结果 |
 |---|---|---|
 | 判分器测试 | `python -m unittest discover -s tests -k pcb_placement_benchmark` | PASS（121 tests OK，约 16 s） |
-| 官方 discovery 发现新测试 | `python -m unittest discover -s tests` | PASS（exit 0；用时约 520 s，含 121 条新测试） |
+| 官方 discovery 发现新测试 | `python -m unittest discover -s tests` | PASS（exit 0；4191 tests OK，5 skipped，约 646 s，含 121 条新测试；rebase 后复跑） |
 | Skill 自检 | `python easycirq/scripts/skill_selftest.py` | PASS（6 PASS / 0 FAIL / 0 NOT RUN，exit 0；48 必需路径、2147 相对链接、294 脚本编译） |
 | 冻结基准 | 见 A | PASS |
 | 确定性（`--all --json` 两次） | `sha256sum` 比对 | PASS（字节一致） |
