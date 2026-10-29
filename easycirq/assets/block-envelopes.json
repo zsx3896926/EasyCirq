@@ -1,19 +1,172 @@
 {
-  "schema": "easycirq-block-envelopes/v1",
-  "note": "Measured rendered footprints per standard block, raw schematic units (0.01 inch). Measured on EasyEDA Pro 4.1.78 (easyeda.com) by placing each block on an empty page and reading schematic.components.list includeBBox. Re-measure when a block's parts change.",
-  "measured_at": "2026-10-29",
-  "page": {"width": 1170, "height": 825, "title_block": {"minX": 610, "minY": 12, "maxX": 1170, "maxY": 380}},
-  "blocks": {
-    "block.es8311_codec_i2s": {"w": 521, "h": 309},
-    "block.aw8737_classd_spk": {"w": 456, "h": 296},
-    "block.mems_mic_analog": {"w": 396, "h": 144},
-    "block.ams1117_ldo_3v3": {"w": 260, "h": 150},
-    "block.esp32s3_wroom1_module": {"w": 245, "h": 420},
-    "block.bmi270_imu_i2c": {"w": 406, "h": 81},
-    "block.microsd_spi_pushpush": {"w": 461, "h": 215},
-    "block.bq24074_powerpath_charger": {"w": 451, "h": 544},
-    "block.pmos_highside_softstart": {"w": 381, "h": 135},
-    "block.sy7088_boost_5v": {"w": 381, "h": 289},
-    "block.ina226_power_monitor": {"w": 540, "h": 260}
+ "schema": "easycirq-block-envelopes/v1",
+ "note": "Measured rendered footprints per standard block, raw schematic units (0.01 inch). Measured on EasyEDA Pro 4.1.78 (easyeda.com) by placing each block on an empty page and reading schematic.components.list includeBBox. Re-measure when a block's parts change.",
+ "measured_at": "2026-10-29",
+ "page": {
+  "width": 1170,
+  "height": 825,
+  "title_block": {
+   "minX": 610,
+   "minY": 12,
+   "maxX": 1170,
+   "maxY": 380
   }
+ },
+ "blocks": {
+  "block.es8311_codec_i2s": {
+   "w": 521.0,
+   "h": 309.0,
+   "halo": {
+    "left": 64.5,
+    "right": 130.0,
+    "top": 0.0,
+    "bottom": 2.0
+   },
+   "label_bbox": {
+    "w": 715.5,
+    "h": 311.0
+   }
+  },
+  "block.aw8737_classd_spk": {
+   "w": 456.0,
+   "h": 296.0,
+   "halo": {
+    "left": 54.5,
+    "right": 129.0,
+    "top": 0.0,
+    "bottom": 49.5
+   },
+   "label_bbox": {
+    "w": 639.5,
+    "h": 345.5
+   }
+  },
+  "block.mems_mic_analog": {
+   "w": 396.0,
+   "h": 144.0,
+   "halo": {
+    "left": 95.0,
+    "right": 49.5,
+    "top": 0.0,
+    "bottom": 2.0
+   },
+   "label_bbox": {
+    "w": 540.5,
+    "h": 146.0
+   }
+  },
+  "block.ams1117_ldo_3v3": {
+   "w": 147.0,
+   "h": 91.0,
+   "halo": {
+    "left": 71.0,
+    "right": 2.0,
+    "top": 49.0,
+    "bottom": 49.0
+   },
+   "label_bbox": {
+    "w": 220.0,
+    "h": 189.0
+   }
+  },
+  "block.esp32s3_wroom1_module": {
+   "w": 229.0,
+   "h": 421.0,
+   "halo": {
+    "left": 1.0,
+    "right": 85.0,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "label_bbox": {
+    "w": 315.0,
+    "h": 421.0
+   }
+  },
+  "block.bmi270_imu_i2c": {
+   "w": 406.0,
+   "h": 81.0,
+   "halo": {
+    "left": 40.0,
+    "right": 85.0,
+    "top": 0.0,
+    "bottom": 0.0
+   },
+   "label_bbox": {
+    "w": 531.0,
+    "h": 81.0
+   }
+  },
+  "block.microsd_spi_pushpush": {
+   "w": 461.0,
+   "h": 215.0,
+   "halo": {
+    "left": 49.5,
+    "right": 40.0,
+    "top": 1.0,
+    "bottom": 0.0
+   },
+   "label_bbox": {
+    "w": 550.5,
+    "h": 216.0
+   }
+  },
+  "block.bq24074_powerpath_charger": {
+   "w": 451.0,
+   "h": 544.0,
+   "halo": {
+    "left": 95.0,
+    "right": 9.0,
+    "top": 0.0,
+    "bottom": 2.0
+   },
+   "label_bbox": {
+    "w": 555.0,
+    "h": 546.0
+   }
+  },
+  "block.pmos_highside_softstart": {
+   "w": 381.0,
+   "h": 135.0,
+   "halo": {
+    "left": 40.0,
+    "right": 49.5,
+    "top": 1.0,
+    "bottom": 49.0
+   },
+   "label_bbox": {
+    "w": 470.5,
+    "h": 185.0
+   }
+  },
+  "block.sy7088_boost_5v": {
+   "w": 381.0,
+   "h": 289.0,
+   "halo": {
+    "left": 64.5,
+    "right": 49.5,
+    "top": 64.5,
+    "bottom": 2.0
+   },
+   "label_bbox": {
+    "w": 495,
+    "h": 355.5
+   }
+  },
+  "block.ina226_power_monitor": {
+   "w": 381.0,
+   "h": 159.0,
+   "halo": {
+    "left": 79.0,
+    "right": 40.0,
+    "top": 0.0,
+    "bottom": 2.0
+   },
+   "label_bbox": {
+    "w": 500.0,
+    "h": 161.0
+   }
+  }
+ },
+ "envelopes_provenance": "w/h = measured PARTS bbox (packing baseline); halo/label_bbox = measured label/flag extent beyond parts (used for label clearance validation, not for inflating packing). Measured 2026-10-29 on EasyEDA Pro 4.1.78."
 }
