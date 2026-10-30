@@ -40,8 +40,9 @@ import text_metrics  # noqa: E402
 
 SCHEMA = "easycirq-page-relayout/v1"
 GRID = 5.0
-PART_GAP = 30.0
+PART_GAP = 42.0
 CARD_PAD = 6.0
+HALO_CAP = 16.0
 LABEL_SIZE = 10.0
 STUB = 20.0
 
@@ -128,11 +129,15 @@ def build_modules(snapshot, groups, *, columns=4):
         for part in compact["parts"]:
             nets.update(part["nets"])
         halo = regroup_plan.label_halo(nets)
+        halo = {k: _snap(min(HALO_CAP, max(0.0, float(v)))) for k, v in halo.items()}
+        # the card contains its own label halo: wires/labels can never leave it
         modules.append({"id": group["id"],
                         "title": group.get("title") or group["id"],
-                        "w": max(compact["w"], 1.0),
-                        "h": max(compact["h"], 1.0),
-                        "halo": {k: _snap(v) for k, v in halo.items()}})
+                        "w": max(_snap(compact["w"]) + halo["left"] + halo["right"], 1.0),
+                        "h": max(_snap(compact["h"]) + halo["top"] + halo["bottom"], 1.0),
+                        "footprint": {"w": max(_snap(compact["w"]), 1.0),
+                                      "h": max(_snap(compact["h"]), 1.0)},
+                        "halo": halo})
         detail.append({"id": group["id"], "parts": len(compact["parts"]),
                        "w": modules[-1]["w"], "h": modules[-1]["h"],
                        "halo": modules[-1]["halo"], "compact": compact})
@@ -142,22 +147,28 @@ def build_modules(snapshot, groups, *, columns=4):
 def plan_page(snapshot, groups, *, columns=None, page_template=None):
     """Compact groups -> balanced centred packing -> absolute part positions."""
     modules, detail = build_modules(snapshot, groups,
-                                    columns=columns or 4)
-    packed = balanced_pack.pack(modules)
+                                    columns=columns or 6)
+    packed = balanced_pack.pack(modules, halo_in_size=True)
     placements = {}
     for entry in detail:
         module_place = packed["placements"].get(entry["id"])
         if not module_place:
             continue
         compact = entry["compact"]
+        halo = entry.get("halo") or {}
         top = module_place["y"] + float(module_place["h"]) / 2.0
         left = module_place["x"] - float(module_place["w"]) / 2.0
+        # parts sit inside the halo ring so labels stay within the card
+        inset_x = float(halo.get("left", 0.0))
+        inset_y = float(halo.get("bottom", 0.0))
         min_x = min(part["x"] - part["w"] / 2.0 for part in compact["parts"])
         max_y = max(part["y"] + part["h"] / 2.0 for part in compact["parts"])
         for part in compact["parts"]:
             placements[part["ref"]] = {
-                "x": _snap(left + (part["x"] - part["w"] / 2.0 - min_x) + part["w"] / 2.0),
-                "y": _snap(top - (max_y - (part["y"] + part["h"] / 2.0)) - part["h"] / 2.0),
+                "x": _snap(left + inset_x + (part["x"] - part["w"] / 2.0 - min_x)
+                           + part["w"] / 2.0),
+                "y": _snap(top - inset_y - (max_y - (part["y"] + part["h"] / 2.0))
+                           - part["h"] / 2.0),
                 "w": part["w"], "h": part["h"], "group": entry["id"],
                 "module": module_place,
             }
@@ -227,6 +238,7 @@ def label_sides(snapshot, placements, *, cards=None, label_size=LABEL_SIZE):
                 # inset the foreign card so labels may sit in the gap next to it
                 occupied.append((rect[0] + 2, rect[1] + 2, rect[2] - 2, rect[3] - 2))
         card = cards.get(group_id) or (0.0, 0.0, 1170.0, 825.0)
+        group_page = (card[0] + 2.0, card[1] + 2.0, card[2] - 2.0, card[3] - 2.0)
         card_cx = (card[0] + card[2]) / 2.0
         card_cy = (card[1] + card[3]) / 2.0
         labels = []
@@ -255,7 +267,7 @@ def label_sides(snapshot, placements, *, cards=None, label_size=LABEL_SIZE):
                            "anchor": [anchor[0], anchor[1]],
                            "preferred": preferred})
         result = label_solver.solve_label_plan(
-            labels, occupied, page, distances=(4, 8, 12, 16, 24, 32))
+            labels, occupied, group_page, distances=(4, 8, 12, 16, 24, 32))
         for item in result.get("placements") or []:
             key = item.get("id")
             direction = item.get("direction") or item.get("side")
