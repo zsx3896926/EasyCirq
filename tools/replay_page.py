@@ -26,7 +26,15 @@ def _kind(net):
     return "net_label"
 
 
-def build(template, device_map, *, project, page):
+DEFAULT_BATCH_SIZE = 100
+
+
+def _checkpoint(project, page):
+    return [f"{BIN} doc reload {page} --project {project}",
+            f"{BIN} daemon health"]
+
+
+def build(template, device_map, *, project, page, batch_size=DEFAULT_BATCH_SIZE):
     """Compile the replay plan; raises ValueError on missing device mappings."""
     commands = [f"{BIN} project open --project-uuid {project} --allow-discard-unsaved",
                 f'{BIN} doc open {page} --project {project}']
@@ -70,10 +78,21 @@ def build(template, device_map, *, project, page):
         {"check": "review_verdict", "expect": "pass"},
         {"check": "net_integrity", "expect": "pass"},
     ]
+    # Real EDA degrades under long write bursts: split the plan into batches
+    # and checkpoint (save + health) between them.
+    size = max(1, int(batch_size))
+    batches = []
+    for index in range(0, len(commands), size):
+        chunk = commands[index:index + size]
+        batches.append({"index": len(batches) + 1,
+                        "commands": chunk,
+                        "checkpoint": _checkpoint(project, page)})
     return {"schema": SCHEMA, "project": project, "page": page,
             "template": template.get("page"),
-            "commands": commands, "checks": checks,
+            "commands": commands, "batches": batches,
+            "batch_size": size, "checks": checks,
             "counts": {"commands": len(commands),
+                       "batches": len(batches),
                        "parts": len(template.get("parts") or []),
                        "net_members": sum(len(n.get("members") or [])
                                           for n in template.get("nets") or []
