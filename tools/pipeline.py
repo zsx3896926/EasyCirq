@@ -288,9 +288,43 @@ def _template_span(path, spec_dir):
     return (max_x - min_x, max_y - min_y)
 
 
+def _apply_measured_halos(modules):
+    """Fill label-aware halos for modules that name a known block.
+
+    Pre-layout must reserve the space that wires + net-label text will consume,
+    so a module carrying ``block: <id>`` inherits the measured per-side halo
+    from ``easycirq/assets/block-envelopes.json`` unless it already declares a
+    halo at least that large.
+    """
+    try:
+        import block_spec
+        envelopes = block_spec.load_envelopes()
+    except Exception:  # noqa: BLE001 - missing asset keeps the old defaults
+        return modules
+    out = []
+    for module in modules:
+        module = dict(module)
+        block = module.get("block")
+        if block:
+            try:
+                measured = block_spec.halo_of(block, envelopes)
+            except Exception:  # noqa: BLE001
+                measured = None
+            if measured:
+                current = module.get("halo")
+                if isinstance(current, dict):
+                    merged = {side: max(float(current.get(side, 0) or 0), measured[side])
+                              for side in ("left", "right", "top", "bottom")}
+                    module["halo"] = merged
+                else:
+                    module["halo"] = measured
+        out.append(module)
+    return out
+
+
 def run_plan(name, spec, engine="layout", spec_dir=None):
     """Plan the project offline with the selected engine (never raises)."""
-    project = {"name": name, "modules": spec["modules"]}
+    project = {"name": name, "modules": _apply_measured_halos(spec["modules"])}
     try:
         if engine == "freeform":
             plan = freeform.plan_project_freeform(project)
