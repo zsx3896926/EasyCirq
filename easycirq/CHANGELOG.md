@@ -1,5 +1,14 @@
 # 变更记录
 
+## v4.0.0 — 2026-10-30 双模式契约（咨询 / 施工）
+
+- 新增**施工模式契约** `references/build-mode.md`（B0–B10）：长跑任务的目标声明、阶段汇报、
+  单一设计模型（IR）、布局期可读性约束（网络命名/去耦就近/信号流/标题栏/测试点/分组/位号）、
+  标签通道与分页、EDA 写入纪律（小批 + 检查点 + 坏线清理 + 失败分级 + journal 续跑）、
+  验证闭环、交付物规范、事故档案（5 类反模式）、skill 自身 smoke 用例。
+- R0–R12 保留为**咨询模式**预算条款；R0/R4/R5/R8 在两种模式下都适用。
+- 起因：2026-10-30 C 板重排事故复盘——三个真相源、漏分组、清空重建、几何校验雪崩。
+
 ## 1.1.0 — 2026-10-29
 
 - **破坏性重命名**：仓库 `hardware-design-skill` → `EasyCirq`；Skill `design-hardware` → `easycirq`；运行时 CLI/二进制 `zhigou` → `easycirq`；环境变量 `ZHIGOU_*` → `EASYCIRQ_*`；状态目录 `~/.zhigou` → `~/.easycirq`；协议服务 `zhigou-agent` → `easycirq-agent`；连接器 `zhigou-connector` → `easycirq-connector`。迁移见 `docs/migration-easycirq.md`。
