@@ -4,6 +4,8 @@
 
 先读 [PCB 布线策略](pcb-routing-strategy.md) §3（自动布线只作候选）与 [PCB 执行工作流](pcb-execution.md) §7（路由器选择）；验收仍按 [阶段门禁](design-gates.md) 的 G5 证据规则判。
 
+> 需要让 Agent/LLM **调用**离线布线能力（MCP / CLI 工具契约、12 个工具、判定顺序）时，见 [Agent 调用契约](pcb-router-agent-entry.md)。
+
 ## 0. 结论优先
 
 - 只有“**同板**（板身份哈希）、**同规则**、**同验证口径**”的几行才能进同一张对比表。

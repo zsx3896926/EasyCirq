@@ -264,7 +264,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 校准/设备身份、工程变更、模块复用、资产有效性 | [校准与身份](references/decisions/h01-calibration-and-identity.md)、[变更影响](references/decisions/i01-change-impact.md)、[模块复用](references/decisions/j01-module-reuse.md)、[资产有效性](references/decisions/l01-asset-validity.md) |
 | 阶段门禁、设计状态、G0–G6 退出证据 | [阶段门禁](references/design-gates.md)、[状态示例](assets/design-state.example.json)，运行 `python scripts/gate_check.py` |
 | 层数选择、电源/地策略、布线计划、连接器逃逸 | [PCB布线策略](references/pcb-routing-strategy.md)、[布线计划模板](assets/routing-plan.md) |
-| 自动布线/外部路由器（Freerouting）结果评估、口径与 A/B 对比 | [路由器 A/B 可比性](references/pcb-router-ab.md)、[PCB 布线策略](references/pcb-routing-strategy.md) §3 |
+| 自动布线/外部路由器（Freerouting）结果评估、口径与 A/B 对比；用 Agent 调用离线布线能力 | [路由器 A/B 可比性](references/pcb-router-ab.md)、[Agent 调用契约（routing_lab）](references/pcb-router-agent-entry.md)、[PCB 布线策略](references/pcb-routing-strategy.md) §3 |
 | 工具报错、命令行为、前台/超时/部分写入 | [工具陷阱](references/tool-gotchas.md) |
 | 设计前核算：阈值/回差、NTC、LED/蜂鸣器、压降、载流 | [设计计算模板](assets/design-calc.md)，需要可执行核算时用 `scripts/calculate.py` |
 | 机械/热/丝印装配/制造包/验证记录 | [机械](assets/docs/mechanical.md)、[温度传感器](assets/docs/thermal-sensor.md)、[丝印装配](assets/docs/silk-assembly.md)、[制造包](assets/docs/manufacturing-package.md)、[验证](assets/docs/verification.md) |
