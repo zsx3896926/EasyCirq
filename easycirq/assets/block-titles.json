@@ -1,0 +1,20 @@
+{
+  "schema": "easycirq-block-titles/v1",
+  "note": "Short, human titles for module frames. zh is used when the request/plan language is Chinese; en is the fallback.",
+  "titles": {
+    "block.es8311_codec_i2s": {"zh": "音频编解码 ES8311", "en": "Audio codec ES8311"},
+    "block.aw8737_classd_spk": {"zh": "D 类功放 AW8737", "en": "Class-D amp AW8737"},
+    "block.mems_mic_analog": {"zh": "MEMS 麦克风", "en": "MEMS microphone"},
+    "block.esp32s3_wroom1_module": {"zh": "ESP32-S3 主控", "en": "ESP32-S3 module"},
+    "block.bmi270_imu_i2c": {"zh": "六轴 IMU BMI270", "en": "IMU BMI270"},
+    "block.microsd_spi_pushpush": {"zh": "microSD 卡座", "en": "microSD socket"},
+    "block.bq24074_powerpath_charger": {"zh": "锂电充电 BQ24074", "en": "Battery charger BQ24074"},
+    "block.pmos_highside_softstart": {"zh": "高侧负载开关", "en": "High-side load switch"},
+    "block.sy7088_boost_5v": {"zh": "同步升压 SY7088", "en": "Boost SY7088"},
+    "block.ch340c_usb_serial": {"zh": "USB 串口 CH340", "en": "USB serial CH340"},
+    "block.usb_c_power": {"zh": "USB-C 供电", "en": "USB-C power"},
+    "block.esp32_autodownload": {"zh": "自动下载电路", "en": "Auto-download circuit"},
+    "block.ldo_3v3": {"zh": "3V3 LDO", "en": "3V3 LDO"},
+    "block.i2c_pullups": {"zh": "I2C 上拉", "en": "I2C pull-ups"}
+  }
+}
