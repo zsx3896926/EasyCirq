@@ -157,6 +157,7 @@ def canonicalize(ir):
     # decoupling intent: every IC rail is paired with a capacitor on the same rail
     caps = [ref for ref, part in ir["parts"].items() if ref.startswith("C")]
     intents = []
+    claimed = set()
     for ref, part in ir["parts"].items():
         if not ref.startswith(("U", "MK")):
             continue
@@ -171,8 +172,9 @@ def canonicalize(ir):
             # prefer a capacitor inside the same functional block as the IC
             same_block = [cap for cap in same_rail
                           if ir["parts"][cap]["block"] == ir["parts"][ref]["block"]]
-            chosen = (same_block or same_rail)
+            chosen = [cap for cap in (same_block or same_rail) if cap not in claimed]
             if chosen:
+                claimed.add(chosen[0])
                 intents.append({"ic": ref, "rail": net, "cap": chosen[0]})
     ir["decoupling"] = intents
     return ir
@@ -193,11 +195,13 @@ def layout(ir):
             if ic not in refs:
                 continue
             for cap in caps:
-                if cap in ir["parts"] and cap not in refs:
+                if cap not in ir["parts"]:
+                    continue
+                if cap not in refs:
                     refs.append(cap)
-                    for other, other_refs in modules.items():
-                        if other != key and cap in other_refs:
-                            other_refs.remove(cap)
+                for other, other_refs in modules.items():
+                    if other != key and cap in other_refs:
+                        other_refs.remove(cap)
     order = sorted(modules, key=lambda key: (
         min((ROLE_ORDER.index(ir["parts"][r]["role"])
              for r in modules[key]), default=2), key))
