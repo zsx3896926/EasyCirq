@@ -163,7 +163,7 @@ def build_modules(snapshot, groups, *, columns=4):
     return modules, detail
 
 
-def plan_page(snapshot, groups, *, columns=None, page_template=None):
+def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=None):
     """Compact groups -> centred packing -> labels -> cards wrapped around both."""
     modules, detail = build_modules(snapshot, groups, columns=columns)
     packed = balanced_pack.pack(modules)
@@ -184,7 +184,7 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None):
                 "w": part["w"], "h": part["h"], "group": entry["id"],
                 "module": module_place,
             }
-    labels = label_sides(snapshot, placements)
+    labels = label_sides(snapshot, placements, geometry=geometry)
     cards = {}
     for entry in detail:
         boxes = []
@@ -244,9 +244,11 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None):
             "verdict": "pass" if fits else "blocked"}
 
 
-def _pin_anchors(snapshot, placements):
-    """Approximate pin anchors on part edges so labels get distinct slots."""
-    anchors = {}
+def _pin_anchors(snapshot, placements, geometry=None):
+    """Pin anchors: real offsets from the captured page when available."""
+    geometry = geometry or {}
+    parts = geometry.get("parts") or {}
+    anchors, sides = {}, {}
     for comp in snapshot.get("components") or []:
         ref = comp.get("ref")
         place = placements.get(ref)
@@ -255,8 +257,17 @@ def _pin_anchors(snapshot, placements):
         pins = [p for p in comp.get("pins") or [] if p.get("net")]
         if not pins:
             continue
-        w, h, x, y = place["w"], place["h"], place["x"], place["y"]
+        real = (parts.get(ref) or {}).get("pins") or {}
         for index, pin in enumerate(pins):
+            number = str(pin.get("number"))
+            info = real.get(number)
+            if info:
+                anchors["%s:%s" % (ref, number)] = (place["x"] + float(info["dx"]),
+                                                    place["y"] + float(info["dy"]))
+                sides["%s:%s" % (ref, number)] = info.get("side") or "right"
+                continue
+            # fallback: distribute on the four part edges
+            w, h, x, y = place["w"], place["h"], place["x"], place["y"]
             side = index % 4
             if side == 0:
                 anchor = (x + w / 2.0, y - h / 2.0 + h * (index + 1) / (len(pins) + 1))
@@ -266,18 +277,19 @@ def _pin_anchors(snapshot, placements):
                 anchor = (x - w / 2.0 + w * (index + 1) / (len(pins) + 1), y + h / 2.0)
             else:
                 anchor = (x - w / 2.0 + w * (index + 1) / (len(pins) + 1), y - h / 2.0)
-            anchors["%s:%s" % (ref, pin.get("number"))] = anchor
-    return anchors
+            anchors["%s:%s" % (ref, number)] = anchor
+    return anchors, sides
 
 
-def label_sides(snapshot, placements, *, cards=None, label_size=LABEL_SIZE):
+def label_sides(snapshot, placements, *, cards=None, geometry=None,
+                label_size=LABEL_SIZE):
     """Choose a stub side per net label; other module cards are obstacles."""
     cards = cards or {}
     part_boxes = {}
     for ref, place in placements.items():
         part_boxes[ref] = (place["x"] - place["w"] / 2.0, place["y"] - place["h"] / 2.0,
                            place["x"] + place["w"] / 2.0, place["y"] + place["h"] / 2.0)
-    anchors = _pin_anchors(snapshot, placements)
+    anchors, real_sides = _pin_anchors(snapshot, placements, geometry)
     by_group = {}
     for key in anchors:
         ref = key.split(":", 1)[0]
@@ -314,12 +326,18 @@ def label_sides(snapshot, placements, *, cards=None, label_size=LABEL_SIZE):
             place = placements.get(ref) or {}
             ax = float(place.get("x", anchor[0]))
             ay = float(place.get("y", anchor[1]))
-            # push labels toward the card centre so they stay inside the card
-            horiz = "right" if ax < card_cx else "left"
-            vert = "top" if ay < card_cy else "bottom"
-            preferred = [horiz, vert,
-                         "right" if horiz == "left" else "left",
-                         "bottom" if vert == "top" else "top"]
+            # a real pin points outward: its label starts on that side
+            outward = real_sides.get(key)
+            if outward:
+                preferred = [outward]
+            else:
+                horiz = "right" if ax < card_cx else "left"
+                vert = "top" if ay < card_cy else "bottom"
+                preferred = [horiz, vert,
+                             "right" if horiz == "left" else "left",
+                             "bottom" if vert == "top" else "top"]
+            preferred = preferred + [d for d in ("right", "top", "left", "bottom")
+                                     if d not in preferred]
             labels.append({"id": key, "text": str(net), "size": label_size,
                            "anchor": [anchor[0], anchor[1]],
                            "preferred": preferred})
