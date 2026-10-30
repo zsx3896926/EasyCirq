@@ -38,11 +38,13 @@ def _gap(a, b):
     """Inter-module gap from both modules' halos (per side, conservative)."""
     ha = a.get("halo") or {}
     hb = b.get("halo") or {}
+    # Facing halos overlap in the gap, so the gap only needs the larger of the
+    # two sides (summing them left 60-80 unit empty bands).
     return max(MIN_GAP,
-               float(ha.get("right", 0)) + float(hb.get("left", 0)),
-               float(ha.get("left", 0)) + float(hb.get("right", 0)),
-               float(ha.get("top", 0)) + float(hb.get("bottom", 0)),
-               float(ha.get("bottom", 0)) + float(hb.get("top", 0)))
+               float(ha.get("right", 0)), float(hb.get("left", 0)),
+               float(ha.get("left", 0)), float(hb.get("right", 0)),
+               float(ha.get("top", 0)), float(hb.get("bottom", 0)),
+               float(ha.get("bottom", 0)), float(hb.get("top", 0)))
 
 
 def _columns(modules, count):
