@@ -57,3 +57,25 @@ easycirq daemon health                            # 看 degraded
 
 已知边界：电源/地轨不参与信号闭包，所以区域重放可能出现 R04（地 tie 在区域外）
 和 R08（测试点在区域外）——这是选型结果，不是缺陷；需要全绿就用整页模板。
+
+
+## 2026-10-30 升级：批量应用引擎（apply_engine）
+
+C 板 scratch 重排（43 器件 / 109 连线）失败复盘，四类系统性问题与对应机制：
+
+1. **计划不完整**：手工分组漏掉 C1/R7/R8 → 65 根注定失败的连线把失败率推过阈值。
+   → `apply_engine.verify` 在任何写入前比对"计划器件/引脚 vs 页面实际"，缺失即失败（fail fast）。
+2. **EDA 几何守卫**：`SCHEMATIC_GEOMETRY_INVALID (preflight)` 会拒绝会产生零长度线段/越界残段的写入。
+   → `apply_engine.preflight` 预测桩线端点是否越界/零长度；`zero_length_wire_ids` 从 `sch check`
+   提取坏线 id，写前用 `sch prim-delete --ids` 清理。
+3. **写通道脆弱**：连接器在失败率 10% 即 `degraded` 并锁死全部写入，不可自恢复。
+   → 自适应批（10→5→2），每批后 `doc reload` + `health`；degraded 立即停、退避、缩小批，
+   绝不"全量重试"。
+4. **无断点续跑**：中断即重来。
+   → 每个操作有稳定 id 并写入 JSONL journal；`Journal.pending` 只补未完成的。
+
+失败分类：`ok` / `geometry`（清坏线后重试）/ `plan`（器件或引脚不存在，永不重试）/
+`effect`（插件部分落地，先验证再重试一次）/ `degraded`（通道已死，停）。
+
+工具：`tools/apply_engine.py`（14 tests：分类、预检、journal、批量收缩、degraded 停止、残余验证）。
+纪律：**先 verify → 再 preflight → 再清坏线 → 再自适应批量写入 → 最后 verify 残余**。
