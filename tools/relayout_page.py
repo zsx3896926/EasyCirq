@@ -65,7 +65,11 @@ def _kind(ref):
     return "active" if head in ("U", "MK", "J", "Q", "SW", "Y", "L", "FB", "TP", "D") else "passive"
 
 
-def compact_group(snapshot, designators, *, columns=4, part_gap=PART_GAP):
+def compact_group(snapshot, designators, *, columns=None, part_gap=PART_GAP,
+                  geometry=None, target_width=None):
+    if columns is None:
+        per_row = max(1.0, float(target_width or 400.0) / 90.0)
+        columns = max(2, min(2 + len(designators), int(round(per_row))))
     """Pack a group's parts into a compact grid (IC first, then net-clustered)."""
     by_ref = {c.get("ref"): c for c in snapshot.get("components") or [] if c.get("ref")}
     parts = []
@@ -88,7 +92,7 @@ def compact_group(snapshot, designators, *, columns=4, part_gap=PART_GAP):
                       "active": _kind(ref) == "active"})
     parts.sort(key=lambda q: (0 if q["active"] else 1, q["ref"]))
     for part in parts:                      # room for this part's own labels
-        gap = 26.0 if _kind(part["ref"]) == "active" else 14.0
+        gap = 64.0 if _kind(part["ref"]) == "active" else 14.0
         part["cell_w"] = part["w"] + gap
         part["cell_h"] = part["h"] + gap
     pending = list(parts)
@@ -165,90 +169,91 @@ def build_modules(snapshot, groups, *, columns=4):
 
 
 def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=None):
-    """Compact groups -> centred packing -> labels -> cards wrapped around both."""
-    modules, detail = build_modules(snapshot, groups, columns=columns)
-    packed = balanced_pack.pack(modules)
-    placements = {}
-    for entry in detail:
-        module_place = packed["placements"].get(entry["id"])
-        if not module_place:
+    """Two-pass relayout: solve labels locally, size each card, pack cards.
+
+    Pass 1 places a group's parts on a local grid and solves its labels locally,
+    so each group's card size is exactly ``union(parts, labels) + 2``.
+    Pass 2 packs those cards (no overlaps by construction) and translates the
+    parts and labels rigidly into place.  Every label therefore stays inside its
+    own card and cards never collide.
+    """
+    modules = []
+    for group in groups:
+        designators = list(group.get("designators") or [])
+        if columns:
+            compact = compact_group(snapshot, designators, columns=columns,
+                                    geometry=geometry)
+        else:
+            best = None
+            for width in (260.0, 320.0, 380.0, 440.0, 500.0):
+                candidate = compact_group(snapshot, designators,
+                                          geometry=geometry, target_width=width)
+                if not candidate["parts"]:
+                    continue
+                area = candidate["w"] * candidate["h"]
+                if best is None or area < best[0] - 1e-6:
+                    best = (area, candidate)
+            compact = best[1] if best else compact_group(snapshot, designators,
+                                                         geometry=geometry)
+        if not compact["parts"]:
             continue
-        compact = entry["compact"]
-        top = module_place["y"] + float(module_place["h"]) / 2.0
-        left = module_place["x"] - float(module_place["w"]) / 2.0
-        min_x = min(part["x"] - part["w"] / 2.0 for part in compact["parts"])
-        max_y = max(part["y"] + part["h"] / 2.0 for part in compact["parts"])
+        local = {}
         for part in compact["parts"]:
-            placements[part["ref"]] = {
-                "x": _snap(left + (part["x"] - part["w"] / 2.0 - min_x) + part["w"] / 2.0),
-                "y": _snap(top - (max_y - (part["y"] + part["h"] / 2.0)) - part["h"] / 2.0),
-                "w": part["w"], "h": part["h"], "group": entry["id"],
-                "module": module_place,
-            }
-    labels = label_sides(snapshot, placements, geometry=geometry)
+            local[part["ref"]] = {"x": part["x"], "y": part["y"],
+                                  "w": part["w"], "h": part["h"],
+                                  "group": group["id"]}
+        labels = label_sides(snapshot, local, geometry=geometry,
+                             page=(-2000.0, -2000.0, 2000.0, 2000.0))
+        boxes = [b for b in (labels.get("boxes") or {}).values() if b]
+        part_boxes = [(place["x"] - place["w"] / 2.0, place["y"] - place["h"] / 2.0,
+                       place["x"] + place["w"] / 2.0, place["y"] + place["h"] / 2.0)
+                      for place in local.values()]
+        all_boxes = part_boxes + [tuple(b) for b in boxes]
+        left = min(b[0] for b in all_boxes) - 2.0
+        bottom = min(b[1] for b in all_boxes) - 2.0
+        right = max(b[2] for b in all_boxes) + 2.0
+        top = max(b[3] for b in all_boxes) + 2.0
+        modules.append({"id": group["id"],
+                        "title": group.get("title") or group["id"],
+                        "w": round(right - left, 1), "h": round(top - bottom, 1),
+                        "halo": {"left": 0, "right": 0, "top": 0, "bottom": 0},
+                        "local": {"parts": local, "labels": labels,
+                                  "origin": (left, bottom)}})
+    packed = balanced_pack.pack(modules, halo_in_size=True, max_columns=min(len(modules), 4))
+    placements = {}
     cards = {}
-    for entry in detail:
-        boxes = []
-        for ref, place in placements.items():
-            if place.get("group") != entry["id"]:
-                continue
-            boxes.append((place["x"] - place["w"] / 2.0, place["y"] - place["h"] / 2.0,
-                          place["x"] + place["w"] / 2.0, place["y"] + place["h"] / 2.0))
-        for key, box in (labels.get("boxes") or {}).items():
-            ref = key.split(":", 1)[0]
-            if (placements.get(ref) or {}).get("group") == entry["id"] and box:
-                boxes.append(tuple(box))
-        if not boxes:
+    all_labels = {"sides": {}, "boxes": {}, "texts": {},
+                  "labels": 0, "unplaced": 0}
+    for module in modules:
+        place = packed["placements"].get(module["id"])
+        if not place:
             continue
-        pad = 3.0
-        cards[entry["id"]] = [round(min(b[0] for b in boxes) - pad, 1),
-                              round(min(b[1] for b in boxes) - pad, 1),
-                              round(max(b[2] for b in boxes) + pad, 1),
-                              round(max(b[3] for b in boxes) + pad, 1)]
-    # cards wrap labels, so they can overlap their neighbours: repack with the
-    # real card sizes and translate each group rigidly until the cards separate
-    for _ in range(3):
-        if not cards:
-            break
-        sizes = [{"id": entry["id"], "w": cards[entry["id"]][2] - cards[entry["id"]][0],
-                  "h": cards[entry["id"]][3] - cards[entry["id"]][1],
-                  "halo": {"left": 0, "right": 0, "top": 0, "bottom": 0}}
-                 for entry in detail if entry["id"] in cards]
-        repacked = balanced_pack.pack(sizes, halo_in_size=True)
-        if not repacked.get("fit"):
-            break
-        overlaps = False
-        rects = list(cards.values())
-        for i in range(len(rects)):
-            for j in range(i + 1, len(rects)):
-                a, b = rects[i], rects[j]
-                if (min(a[2], b[2]) > max(a[0], b[0])
-                        and min(a[3], b[3]) > max(a[1], b[1])):
-                    overlaps = True
-        if not overlaps:
-            break
-        for group_id, module_place in repacked["placements"].items():
-            old_card = cards[group_id]
-            new_left = module_place["x"] - module_place["w"] / 2.0
-            new_top = module_place["y"] + module_place["h"] / 2.0
-            dx = new_left - old_card[0]
-            dy = new_top - old_card[3]
-            for place in placements.values():
-                if place.get("group") == group_id:
-                    place["x"] = _snap(place["x"] + dx)
-                    place["y"] = _snap(place["y"] + dy)
-            for key, box in (labels.get("boxes") or {}).items():
-                ref = key.split(":", 1)[0]
-                if (placements.get(ref) or {}).get("group") == group_id and box:
-                    labels["boxes"][key] = [box[0] + dx, box[1] + dy,
+        module_left = place["x"] - place["w"] / 2.0
+        module_top = place["y"] + place["h"] / 2.0
+        local = module["local"]
+        left, bottom = local["origin"]
+        local_top = bottom + module["h"]
+        dx = module_left - left
+        dy = module_top - local_top
+        cards[module["id"]] = [round(module_left, 1), round(module_top - module["h"], 1),
+                               round(module_left + module["w"], 1), round(module_top, 1)]
+        for ref, lplace in local["parts"].items():
+            placements[ref] = {"x": _snap(lplace["x"] + dx),
+                               "y": _snap(lplace["y"] + dy),
+                               "w": lplace["w"], "h": lplace["h"],
+                               "group": module["id"]}
+        for key, box in (local["labels"].get("boxes") or {}).items():
+            if box:
+                all_labels["boxes"][key] = [box[0] + dx, box[1] + dy,
                                             box[2] + dx, box[3] + dy]
-            cards[group_id] = [old_card[0] + dx, old_card[1] + dy,
-                               old_card[2] + dx, old_card[3] + dy]
-        packed["columns"] = repacked.get("columns")
-        packed["fit"] = repacked.get("fit")
-    # nudge the whole composition back inside the sheet (cards wrap labels, so a
-    # card can stick a few units past the packed module rect)
-    if cards:
+        all_labels["sides"].update(local["labels"].get("sides") or {})
+        all_labels["texts"].update(local["labels"].get("texts") or {})
+        all_labels["labels"] += local["labels"].get("labels", 0)
+        all_labels["unplaced"] += local["labels"].get("unplaced", 0)
+    fits = bool(cards) and all(
+        10.0 <= c[0] + 0.0 and c[2] <= 1160.0 and 196.0 <= c[1] and c[3] <= 815.0
+        for c in cards.values())
+    if cards and not fits:
         dx = dy = 0.0
         min_x = min(c[0] for c in cards.values())
         max_x = max(c[2] for c in cards.values())
@@ -266,30 +271,40 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=No
             for place in placements.values():
                 place["x"] = _snap(place["x"] + dx)
                 place["y"] = _snap(place["y"] + dy)
-            for key, box in (labels.get("boxes") or {}).items():
-                if box:
-                    labels["boxes"][key] = [box[0] + dx, box[1] + dy, box[2] + dx, box[3] + dy]
-            cards = {key: [round(c[0] + dx, 1), round(c[1] + dy, 1),
-                           round(c[2] + dx, 1), round(c[3] + dy, 1)]
-                     for key, c in cards.items()}
-    if cards:
-        total = sum((c[2] - c[0]) * (c[3] - c[1]) for c in cards.values())
-        span_w = max(c[2] for c in cards.values()) - min(c[0] for c in cards.values())
-        span_h = max(c[3] for c in cards.values()) - min(c[1] for c in cards.values())
-        packed["utilization"] = round(total / (span_w * span_h), 3) if span_w and span_h else 0.0
-        packed["module_area"] = round(total, 1)
-    fits = (packed.get("fit", False)
-            and all(10.0 <= c[0] and c[2] <= 1160.0 and 196.0 <= c[1] and c[3] <= 815.0
-                    for c in cards.values()))
-    return {"schema": SCHEMA, "cards": cards,
-            "pack": {k: v for k, v in packed.items() if k != "placements"},
-            "groups": detail, "placements": placements,
-            "labels": labels,
-            "counts": {"groups": len(detail), "parts": len(placements),
-                       "labels": labels.get("labels", 0),
-                       "unplaced": labels.get("unplaced", 0),
-                       "fits": fits},
-            "verdict": "pass" if fits else "blocked"}
+            for key, box in all_labels["boxes"].items():
+                all_labels["boxes"][key] = [box[0] + dx, box[1] + dy,
+                                            box[2] + dx, box[3] + dy]
+            cards = {k: [round(c[0] + dx, 1), round(c[1] + dy, 1),
+                         round(c[2] + dx, 1), round(c[3] + dy, 1)]
+                     for k, c in cards.items()}
+        fits = all(10.0 <= c[0] and c[2] <= 1160.0 and 196.0 <= c[1] and c[3] <= 815.0
+                   for c in cards.values())
+    total = sum((c[2] - c[0]) * (c[3] - c[1]) for c in cards.values()) if cards else 0.0
+    span_w = (max(c[2] for c in cards.values()) - min(c[0] for c in cards.values())
+              if cards else 0.0)
+    span_h = (max(c[3] for c in cards.values()) - min(c[1] for c in cards.values())
+              if cards else 0.0)
+    packed["utilization"] = round(total / (span_w * span_h), 3) if span_w and span_h else 0.0
+    return {"schema": SCHEMA, "cards": cards, "pack": packed,
+            "groups": [{"id": m["id"], "title": m["title"]} for m in modules],
+            "placements": placements, "labels": all_labels,
+            "counts": {"groups": len(modules), "parts": len(placements),
+                       "labels": all_labels["labels"],
+                       "unplaced": all_labels["unplaced"], "fits": fits,
+                       "card_overlaps": _overlaps(cards)},
+            "verdict": "pass" if fits and not _overlaps(cards) else "blocked"}
+
+
+def _overlaps(cards):
+    items = list(cards.values())
+    count = 0
+    for i in range(len(items)):
+        for j in range(i + 1, len(items)):
+            a, b = items[i], items[j]
+            if (min(a[2], b[2]) > max(a[0], b[0])
+                    and min(a[3], b[3]) > max(a[1], b[1])):
+                count += 1
+    return count
 
 
 def _pin_anchors(snapshot, placements, geometry=None):
@@ -330,7 +345,7 @@ def _pin_anchors(snapshot, placements, geometry=None):
 
 
 def label_sides(snapshot, placements, *, cards=None, geometry=None,
-                label_size=LABEL_SIZE):
+                label_size=LABEL_SIZE, page=None):
     """Choose a stub side per net label; other module cards are obstacles."""
     cards = cards or {}
     part_boxes = {}
@@ -343,7 +358,8 @@ def label_sides(snapshot, placements, *, cards=None, geometry=None,
         ref = key.split(":", 1)[0]
         place = placements.get(ref) or {}
         by_group.setdefault(place.get("group"), []).append(key)
-    page = (10.0, 10.0, 1160.0, 815.0)
+    if page is None:
+        page = (10.0, 10.0, 1160.0, 815.0)
     sides, boxes, texts, unplaced = {}, {}, {}, 0
     for group_id, keys in by_group.items():
         occupied = []
@@ -464,17 +480,13 @@ def render_preview(result, labels, path, *, page_w=1170.0, page_h=825.0, scale=1
                  result.get("counts", {}).get("parts", 0)),
               fill="#333", font=font)
 
-    palette = ["#e8f0ff", "#eafbea", "#fff0e6", "#f6e8ff", "#e6fbff"]
+    palette = ["#e8f0ff", "#eafbea", "#fff0e6", "#f6e8ff", "#e6fbff", "#fff3f3", "#eef7ff"]
+    cards = result.get("cards") or {}
     for index, group in enumerate(result.get("groups") or []):
-        module = (group.get("module") if group.get("module")
-                  else next((p["module"] for p in result["placements"].values()
-                             if p.get("group") == group["id"]), None))
-        if not module:
+        card = cards.get(group["id"])
+        if not card:
             continue
-        left = module["x"] - module["w"] / 2.0
-        top = module["y"] + module["h"] / 2.0
-        right = module["x"] + module["w"] / 2.0
-        bottom = module["y"] - module["h"] / 2.0
+        left, bottom, right, top = card
         fill = palette[index % len(palette)]
         draw.rounded_rectangle([sx(left), sy(top), sx(right), sy(bottom)],
                                radius=6, fill=fill, outline="#AA00AA", width=2)
