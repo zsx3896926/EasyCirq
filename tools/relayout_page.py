@@ -88,8 +88,9 @@ def compact_group(snapshot, designators, *, columns=4, part_gap=PART_GAP):
                       "active": _kind(ref) == "active"})
     parts.sort(key=lambda q: (0 if q["active"] else 1, q["ref"]))
     for part in parts:                      # room for this part's own labels
-        part["cell_w"] = part["w"] + part_gap
-        part["cell_h"] = part["h"] + part_gap
+        gap = 26.0 if _kind(part["ref"]) == "active" else 14.0
+        part["cell_w"] = part["w"] + gap
+        part["cell_h"] = part["h"] + gap
     pending = list(parts)
     ordered = []
     while pending:                          # net-clustered order keeps related parts adjacent
@@ -204,6 +205,47 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=No
                               round(min(b[1] for b in boxes) - pad, 1),
                               round(max(b[2] for b in boxes) + pad, 1),
                               round(max(b[3] for b in boxes) + pad, 1)]
+    # cards wrap labels, so they can overlap their neighbours: repack with the
+    # real card sizes and translate each group rigidly until the cards separate
+    for _ in range(3):
+        if not cards:
+            break
+        sizes = [{"id": entry["id"], "w": cards[entry["id"]][2] - cards[entry["id"]][0],
+                  "h": cards[entry["id"]][3] - cards[entry["id"]][1],
+                  "halo": {"left": 0, "right": 0, "top": 0, "bottom": 0}}
+                 for entry in detail if entry["id"] in cards]
+        repacked = balanced_pack.pack(sizes, halo_in_size=True)
+        if not repacked.get("fit"):
+            break
+        overlaps = False
+        rects = list(cards.values())
+        for i in range(len(rects)):
+            for j in range(i + 1, len(rects)):
+                a, b = rects[i], rects[j]
+                if (min(a[2], b[2]) > max(a[0], b[0])
+                        and min(a[3], b[3]) > max(a[1], b[1])):
+                    overlaps = True
+        if not overlaps:
+            break
+        for group_id, module_place in repacked["placements"].items():
+            old_card = cards[group_id]
+            new_left = module_place["x"] - module_place["w"] / 2.0
+            new_top = module_place["y"] + module_place["h"] / 2.0
+            dx = new_left - old_card[0]
+            dy = new_top - old_card[3]
+            for place in placements.values():
+                if place.get("group") == group_id:
+                    place["x"] = _snap(place["x"] + dx)
+                    place["y"] = _snap(place["y"] + dy)
+            for key, box in (labels.get("boxes") or {}).items():
+                ref = key.split(":", 1)[0]
+                if (placements.get(ref) or {}).get("group") == group_id and box:
+                    labels["boxes"][key] = [box[0] + dx, box[1] + dy,
+                                            box[2] + dx, box[3] + dy]
+            cards[group_id] = [old_card[0] + dx, old_card[1] + dy,
+                               old_card[2] + dx, old_card[3] + dy]
+        packed["columns"] = repacked.get("columns")
+        packed["fit"] = repacked.get("fit")
     # nudge the whole composition back inside the sheet (cards wrap labels, so a
     # card can stick a few units past the packed module rect)
     if cards:
