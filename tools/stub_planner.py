@@ -92,6 +92,7 @@ def plan_stubs(parts, pins, geometry, nets, *, label_sizes=None, offsets=OFFSETS
         anchor = (parts[ref][0] + dx, parts[ref][1] + dy)
         size = label_sizes.get(net) or (max(24.0, 7.0 * len(str(net))), 12.0)
         chosen = None
+        # Stage A: the pin's own side first, then the remaining directions.
         for offset in offsets:
             for direction in preferred:
                 box = label_box(anchor, direction, offset, size[0], size[1])
@@ -102,6 +103,23 @@ def plan_stubs(parts, pins, geometry, nets, *, label_sizes=None, offsets=OFFSETS
                 break
             if chosen:
                 break
+        # Stage B: same-side label shelves.  Two labels at the same height only
+        # separate if their distances differ by more than a label width, so a
+        # shelf step is width+6 and the label sits one shelf further out.
+        if not chosen:
+            step = size[0] + 6.0
+            for shelf in range(1, 3):
+                offset = offsets[0] + shelf * step
+                for direction in preferred:
+                    box = label_box(anchor, direction, offset, size[0], size[1])
+                    if any(_overlap(box, other[1]) for other in occupied):
+                        continue
+                    chosen = {"direction": direction, "offset": offset,
+                              "bbox": [round(v, 1) for v in box],
+                              "shelf": shelf}
+                    break
+                if chosen:
+                    break
         if not chosen:
             # last resort: a short stub on the pin's own side, label shrunk
             box = label_box(anchor, side, offsets[0], size[0] * 0.6, size[1])
