@@ -94,30 +94,98 @@ def build_cards(snapshot, groups, geometry, *, columns=3):
     return cards
 
 
-def paginate(cards, *, page=PAGE, title_block=TITLE_BLOCK, gap=8.0):
-    """Greedy shelf pagination: fill a page until the next card no longer fits."""
-    x0, y0, x1, y1 = page[0] + 6, title_block[3] + 6, page[2] - 6, page[3] - 6
-    pages, current, cursor_x, cursor_y, row_h = [], [], 0.0, 0.0, 0.0
-    order = sorted(cards, key=lambda c: (-(c["w"] * c["h"]), c["id"]))
-    for card in order:
+def paginate(cards, *, page=PAGE, title_block=TITLE_BLOCK, gap=8.0, col_gap=20.0):
+    """Shelf pagination: rows first, then pages; first card always lands on page 1."""
+    x0, y0 = page[0] + 6, title_block[3] + 6
+    x1, y1 = page[2] - 6, page[3] - 6
+    usable_w, usable_h = x1 - x0, y1 - y0
+    pages, current = [], []
+    cursor_x, cursor_y, row_h = 0.0, usable_h, 0.0
+    for card in sorted(cards, key=lambda c: (-(c["w"] * c["h"]), c["id"])):
         w, h = card["w"], card["h"]
-        if cursor_x and cursor_x + w > (x1 - x0):
-            cursor_x = 0.0
-            cursor_y -= row_h + gap
-            row_h = 0.0
-        if cursor_y - h < 0.0 or h > (y1 - y0):
+        if w > usable_w or h > usable_h:
+            raise ValueError("card %s (%.0fx%.0f) does not fit the sheet"
+                             % (card["id"], w, h))
+        if cursor_x + w > usable_w:                 # next row
+            cursor_x, cursor_y, row_h = 0.0, cursor_y - row_h - gap, 0.0
+        if cursor_y - h < 0:                        # next page
             pages.append(current)
-            current, cursor_x, cursor_y, row_h = [], 0.0, 0.0, 0.0
-        if cursor_y == 0.0:
-            cursor_y = y1 - y0
-        card = dict(card, page=len(pages), px=x0 + cursor_x,
-                    py=y0 + cursor_y - h)
-        current.append(card)
+            current = []
+            cursor_x, cursor_y, row_h = 0.0, usable_h, 0.0
+        current.append(dict(card, page=len(pages), px=x0 + cursor_x,
+                            py=y0 + cursor_y - h))
         cursor_x += w + gap
         row_h = max(row_h, h)
     if current:
         pages.append(current)
     return pages
+
+
+def union_cards(cards, placements, label_boxes, group_of):
+    """Resize each card to include its parts AND its labels (never overflow)."""
+    rects = {}
+    for ref, place in placements.items():
+        try:
+            w, h = float(place["w"]), float(place["h"])
+        except (KeyError, TypeError, ValueError):
+            w, h = 20.0, 10.0
+        rect = rects.setdefault(group_of.get(ref, ref),
+                                [place["x"], place["y"], place["x"], place["y"]])
+        rect[0] = min(rect[0], place["x"] - w / 2.0)
+        rect[1] = min(rect[1], place["y"] - h / 2.0)
+        rect[2] = max(rect[2], place["x"] + w / 2.0)
+        rect[3] = max(rect[3], place["y"] + h / 2.0)
+    for pin, box in label_boxes.items():
+        group = group_of.get(pin.split(":")[0])
+        if group is None:
+            continue
+        rect = rects.setdefault(group, list(box))
+        rect[0], rect[1] = min(rect[0], box[0]), min(rect[1], box[1])
+        rect[2], rect[3] = max(rect[2], box[2]), max(rect[3], box[3])
+    return [{"id": group, "w": (r[2] - r[0]) + 2 * PAD, "h": (r[3] - r[1]) + 2 * PAD,
+             "src": (r[0] - PAD, r[1] - PAD)} for group, r in rects.items()]
+
+
+def paginate_blocks(blocks, *, page=PAGE, title_block=TITLE_BLOCK,
+                    gap=10.0, col_gap=20.0):
+    """Balance blocks over pages (lightest-page first) with two columns per page.
+
+    ``blocks`` = ``{block_id: {"cards": [...], "w": float, "h": float}}``.
+    Returns ``[[(block_id, {"cards", "px", "py"}) ...]]`` per page; every block
+    stays whole on one page.
+    """
+    x0, y0 = page[0] + 6, title_block[3] + 6
+    x1, y1 = page[2] - 6, page[3] - 6
+    usable_w, usable_h = x1 - x0, y1 - y0
+    order = sorted(blocks.items(), key=lambda kv: (-(kv[1]["w"] * kv[1]["h"]), kv[0]))
+    for count in (1, 2, 3, 4, 5):
+        bins = [[] for _ in range(count)]
+        loads = [0.0] * count
+        for block_id, info in order:
+            target = min(range(count), key=lambda i: loads[i])
+            bins[target].append((block_id, info))
+            loads[target] += info["w"] * info["h"]
+        pages = []
+        ok = True
+        for bin_blocks in bins:
+            if not bin_blocks:
+                continue
+            columns = [[], []]
+            heights = [0.0, 0.0]
+            for block_id, info in sorted(bin_blocks, key=lambda kv: -kv[1]["h"]):
+                target = 0 if heights[0] <= heights[1] else 1
+                columns[target].append((block_id, info))
+                heights[target] += info["h"] + gap
+            need_w = sum(max((i["w"] for _, i in col), default=0.0) for col in columns) + col_gap
+            need_h = max(sum(i["h"] for _, i in col) + gap * max(0, len(col) - 1)
+                         for col in columns)
+            if need_w > usable_w or need_h > usable_h:
+                ok = False
+                break
+            pages.append([col for col in columns if col])
+        if ok:
+            return pages
+    raise ValueError("blocks do not fit the sheet even across five pages")
 
 
 def plan(snapshot, groups, geometry):
