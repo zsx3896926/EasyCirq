@@ -207,18 +207,30 @@ def layout(ir):
         refs = modules[key]
         ics = [r for r in refs if r.startswith(CORE_PREFIX)]
         caps = [c for ic in ics for c in cap_of_ic.get(ic, []) if c in refs]
-        head = ics + [c for c in caps if c not in ics]
-        refs = head + [r for r in refs if r not in head]
+        # interleave: each IC immediately followed by its own decoupling caps
+        head = []
+        for ic in ics:
+            head.append(ic)
+            head.extend([c for c in cap_of_ic.get(ic, []) if c in refs and c not in head])
+        head.extend([c for c in caps if c not in ics and c not in head])
+        tail = [r for r in refs if r not in head]
+        rows = [head] + [tail[i:i + 4] for i in range(0, len(tail), 4)]
         modules[key] = refs
         x_cursor = 0.0
-        row_h = 0.0
-        for ref in refs:
-            w, h = ir["parts"][ref]["size"]
-            placements[ref] = {"x": round(col_x + x_cursor + w / 2.0, 1),
-                               "y": round(y_cursor - h / 2.0, 1)}
-            x_cursor += w + 18.0
-            row_h = max(row_h, h + 16.0)
-        y_cursor -= row_h
+        row_y = y_cursor
+        for row in rows:
+            if not row:
+                continue
+            row_h = max(ir["parts"][r]["size"][1] for r in row) + 16.0
+            row_x = 0.0
+            for ref in row:
+                w, h = ir["parts"][ref]["size"]
+                placements[ref] = {"x": round(col_x + row_x + w / 2.0, 1),
+                                   "y": round(row_y - h / 2.0, 1)}
+                row_x += w + 18.0
+            x_cursor = max(x_cursor, row_x)
+            row_y -= row_h
+        y_cursor = row_y
         col_x += x_cursor + 24.0
     ir["placements"] = placements
     ir["pages"] = [{"index": 0, "columns": order}]
