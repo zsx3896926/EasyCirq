@@ -41,6 +41,7 @@ import text_metrics  # noqa: E402
 SCHEMA = "easycirq-page-relayout/v1"
 GRID = 5.0
 PART_GAP = 30.0
+CARD_PAD = 6.0
 LABEL_SIZE = 10.0
 STUB = 20.0
 
@@ -76,6 +77,23 @@ def compact_group(snapshot, designators, *, columns=4, part_gap=PART_GAP):
                       "nets": [str(p.get("net")) for p in comp.get("pins") or []
                                if p.get("net")]})
     parts.sort(key=lambda p: (0 if _kind(p["ref"]) == "active" else 1, p["ref"]))
+    # order parts so that parts sharing nets stay adjacent (net-clustered grid)
+    ordered = []
+    pending = list(parts)
+    while pending:
+        if not ordered:
+            pick = pending.pop(0)
+        else:
+            placed_nets = set()
+            for part in ordered:
+                placed_nets.update(part["nets"])
+            def affinity(part):
+                shared = sum(1 for net in part["nets"] if net in placed_nets)
+                return (shared, -pending.index(part))
+            pick = max(pending, key=affinity)
+            pending.remove(pick)
+        ordered.append(pick)
+    parts = ordered
     rows = []
     cursor_x = cursor_y = 0.0
     row_h = 0.0
@@ -91,7 +109,11 @@ def compact_group(snapshot, designators, *, columns=4, part_gap=PART_GAP):
     width = max((p["x"] + p["w"] / 2.0 for p in parts), default=0.0)
     top = max((p["y"] + p["h"] / 2.0 for p in parts), default=0.0)
     bottom = min((p["y"] - p["h"] / 2.0 for p in parts), default=0.0)
-    return {"parts": parts, "w": _snap(width), "h": _snap(top - bottom)}
+    for part in parts:                      # keep the card edge off the labels
+        part["x"] = _snap(part["x"] + CARD_PAD)
+        part["y"] = _snap(part["y"] + CARD_PAD)
+    return {"parts": parts, "w": _snap(width + 2 * CARD_PAD),
+            "h": _snap(top - bottom + 2 * CARD_PAD)}
 
 
 def build_modules(snapshot, groups, *, columns=4):
@@ -139,8 +161,15 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None):
                 "w": part["w"], "h": part["h"], "group": entry["id"],
                 "module": module_place,
             }
-    return {"schema": SCHEMA, "pack": {k: v for k, v in packed.items()
-                                       if k != "placements"},
+    cards = {}
+    for group_id, module in packed.get("placements", {}).items():
+        cards[group_id] = [round(module["x"] - module["w"] / 2.0, 1),
+                           round(module["y"] - module["h"] / 2.0, 1),
+                           round(module["x"] + module["w"] / 2.0, 1),
+                           round(module["y"] + module["h"] / 2.0, 1)]
+    return {"schema": SCHEMA, "cards": cards,
+            "pack": {k: v for k, v in packed.items()
+                     if k != "placements"},
             "groups": detail, "placements": placements,
             "counts": {"groups": len(detail), "parts": len(placements),
                        "fits": packed.get("fit", False)},
@@ -173,40 +202,70 @@ def _pin_anchors(snapshot, placements):
     return anchors
 
 
-def label_sides(snapshot, placements, *, label_size=LABEL_SIZE):
-    """Choose a stub side for every net label with the collision-avoiding solver."""
-    occupied = []
-    for place in placements.values():
-        occupied.append((place["x"] - place["w"] / 2.0, place["y"] - place["h"] / 2.0,
-                         place["x"] + place["w"] / 2.0, place["y"] + place["h"] / 2.0))
+def label_sides(snapshot, placements, *, cards=None, label_size=LABEL_SIZE):
+    """Choose a stub side per net label; other module cards are obstacles."""
+    cards = cards or {}
+    part_boxes = {}
+    for ref, place in placements.items():
+        part_boxes[ref] = (place["x"] - place["w"] / 2.0, place["y"] - place["h"] / 2.0,
+                           place["x"] + place["w"] / 2.0, place["y"] + place["h"] / 2.0)
     anchors = _pin_anchors(snapshot, placements)
-    labels = []
-    for key, anchor in anchors.items():
-        ref, _, number = key.partition(":")
-        comp = next((c for c in snapshot.get("components") or []
-                     if c.get("ref") == ref), None)
-        net = None
-        if comp:
-            for pin in comp.get("pins") or []:
-                if str(pin.get("number")) == number:
-                    net = pin.get("net")
-        if not net:
-            continue
-        labels.append({"id": key, "text": str(net), "size": label_size,
-                       "anchor": [anchor[0], anchor[1]],
-                       "preferred": ["right", "left", "top", "bottom"]})
+    by_group = {}
+    for key in anchors:
+        ref = key.split(":", 1)[0]
+        place = placements.get(ref) or {}
+        by_group.setdefault(place.get("group"), []).append(key)
     page = (0.0, 0.0, 1170.0, 825.0)
-    result = label_solver.solve_label_plan(labels, occupied, page)
-    sides = {}
-    boxes = {}
-    for item in result.get("placements") or []:
-        key = item.get("id")
-        direction = item.get("direction") or item.get("side")
-        if key and direction:
-            sides[key] = direction
-            boxes[key] = item.get("bbox")
-    return {"sides": sides, "boxes": boxes, "labels": len(labels),
-            "unplaced": len(result.get("unplaced") or [])}
+    sides, boxes, unplaced = {}, {}, 0
+    for group_id, keys in by_group.items():
+        occupied = []
+        for ref, place in placements.items():
+            if place.get("group") == group_id:
+                occupied.append(part_boxes[ref])
+        for other_id, rect in cards.items():
+            if other_id != group_id:
+                # inset the foreign card so labels may sit in the gap next to it
+                occupied.append((rect[0] + 2, rect[1] + 2, rect[2] - 2, rect[3] - 2))
+        card = cards.get(group_id) or (0.0, 0.0, 1170.0, 825.0)
+        card_cx = (card[0] + card[2]) / 2.0
+        card_cy = (card[1] + card[3]) / 2.0
+        labels = []
+        for key in keys:
+            ref, _, number = key.partition(":")
+            comp = next((c for c in snapshot.get("components") or []
+                         if c.get("ref") == ref), None)
+            net = None
+            if comp:
+                for pin in comp.get("pins") or []:
+                    if str(pin.get("number")) == number:
+                        net = pin.get("net")
+            if not net:
+                continue
+            anchor = anchors[key]
+            place = placements.get(ref) or {}
+            ax = float(place.get("x", anchor[0]))
+            ay = float(place.get("y", anchor[1]))
+            # push labels toward the card centre so they stay inside the card
+            horiz = "right" if ax < card_cx else "left"
+            vert = "top" if ay < card_cy else "bottom"
+            preferred = [horiz, vert,
+                         "right" if horiz == "left" else "left",
+                         "bottom" if vert == "top" else "top"]
+            labels.append({"id": key, "text": str(net), "size": label_size,
+                           "anchor": [anchor[0], anchor[1]],
+                           "preferred": preferred})
+        result = label_solver.solve_label_plan(
+            labels, occupied, page, distances=(4, 8, 12, 16, 24, 32))
+        for item in result.get("placements") or []:
+            key = item.get("id")
+            direction = item.get("direction") or item.get("side")
+            if key and direction:
+                sides[key] = direction
+                boxes[key] = item.get("bbox")
+        unplaced += len(result.get("unplaced") or [])
+    return {"sides": sides, "boxes": boxes,
+            "labels": sum(len(v) for v in by_group.values()),
+            "unplaced": unplaced}
 
 
 def render_preview(result, labels, path, *, page_w=1170.0, page_h=825.0, scale=1.6,
