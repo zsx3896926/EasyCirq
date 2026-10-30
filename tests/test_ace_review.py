@@ -561,8 +561,19 @@ class GroundDomainTests(unittest.TestCase):
         rules = {f["rule"] for f in report["findings"]}
         self.assertNotIn("R04-ground-tie", rules)
 
-    def test_split_ground_without_tie_errors(self):
+
+    def test_single_analog_ground_domain_needs_no_tie(self):
         report = ace_review.review(self._snap(["3V3", "AGND"]))
+        # a board with exactly one ground domain (AGND) is single-ground
+        self.assertNotIn("R04-ground-tie", {f["rule"] for f in report["findings"]})
+
+    def test_split_ground_without_tie_errors(self):
+        snap = self._snap(["3V3", "AGND"])
+        snap["components"].append(
+            {"ref": "C9", "bbox": {"minX": 0, "minY": 0, "maxX": 4, "maxY": 4},
+             "pins": [{"number": "1", "name": "1", "net": "3V3"},
+                      {"number": "2", "name": "2", "net": "GND"}]})
+        report = ace_review.review(snap)
         rules = {f["rule"] for f in report["findings"]}
         self.assertIn("R04-ground-tie", rules)
 

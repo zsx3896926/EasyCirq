@@ -17,10 +17,11 @@ BIN = "easycirq"
 
 
 def _kind(net):
-    if net == "GND":
-        return "gnd"
-    if net in ("AGND", "DGND", "PGND"):
-        return "agnd"
+    # Ground flags in this EasyEDA build all merge into one global ground net
+    # (AGND) regardless of --net, so replay joins grounds by *name* instead:
+    # net_label keeps GND and AGND distinct and is electrically equivalent.
+    if net == "GND" or net in ("AGND", "DGND", "PGND"):
+        return "net_label"
     if net in ("3V3", "+3V3", "5V", "+5V", "3V3_L3B_AU", "VBATT"):
         return "power"
     return "net_label"

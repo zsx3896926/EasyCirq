@@ -44,7 +44,7 @@ class ReplayPlanTests(unittest.TestCase):
         plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg")
         connects = [c for c in plan["commands"] if "sch connect" in c]
         self.assertTrue(any("--kind power" in c and "3V3_L3B_AU" in c for c in connects))
-        self.assertTrue(any("--kind gnd" in c and '"GND"' in c for c in connects))
+        self.assertTrue(any("--kind net_label" in c and '"GND"' in c for c in connects))
 
     def test_counts_and_checks(self):
         plan = replay_page.build(TEMPLATE, DEVICES, project="p", page="pg")

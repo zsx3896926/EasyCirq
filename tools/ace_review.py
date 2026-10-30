@@ -416,6 +416,9 @@ def rule_ground_tie(snapshot, findings):
     non_plain = {n for n in ground_names if n not in plain and not n.startswith("GND")}
     if not non_plain:
         return
+    if len(ground_names) <= 1:
+        # a single ground domain (even if it is named AGND/DGND) needs no tie
+        return
     tie_refs = []
     for comp in _components(snapshot):
         if designator_kind(_ref(comp)) not in ("resistor", "ferrite"):
