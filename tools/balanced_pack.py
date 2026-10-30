@@ -22,7 +22,7 @@ import math
 SCHEMA = "easycirq-balanced-pack/v1"
 PAGE = (10.0, 10.0, 1160.0, 815.0)
 TITLE_BLOCK = (460.0, 10.0, 1160.0, 190.0)
-MIN_GAP = 12.0
+MIN_GAP = 6.0
 
 
 def _inner(page, title_block):
