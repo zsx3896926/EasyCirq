@@ -35,11 +35,17 @@ def _inner(page, title_block):
 
 
 def _gap(a, b):
-    """Inter-module gap from both modules' halos (per side, conservative)."""
+    """Inter-module gap.
+
+    When ``halo_in_size`` is set on the pack call the module size already
+    contains its own label halo, so cards only need a small visual gap; the
+    labels then never leave the card.  Without it, fall back to the facing
+    halo maximum.
+    """
+    if a.get("_halo_inside") or b.get("_halo_inside"):
+        return MIN_GAP
     ha = a.get("halo") or {}
     hb = b.get("halo") or {}
-    # Facing halos overlap in the gap, so the gap only needs the larger of the
-    # two sides (summing them left 60-80 unit empty bands).
     return max(MIN_GAP,
                float(ha.get("right", 0)), float(hb.get("left", 0)),
                float(ha.get("left", 0)), float(hb.get("right", 0)),
@@ -70,11 +76,14 @@ def _measure(cols):
     return widths, heights
 
 
-def pack(modules, *, page=PAGE, title_block=TITLE_BLOCK, max_columns=None):
+def pack(modules, *, page=PAGE, title_block=TITLE_BLOCK, max_columns=None,
+         halo_in_size=False):
     """Return ``{"placements": {id: {x, y, w, h}}, "utilization": float, ...}``."""
     if not modules:
         return {"schema": SCHEMA, "placements": {}, "utilization": 0.0,
                 "columns": 0, "page": page}
+    if halo_in_size:
+        modules = [dict(m, _halo_inside=True) for m in modules]
     area = sum(float(m["w"]) * float(m["h"]) for m in modules)
     x0, y0, x1, y1 = _inner(page, title_block)
     max_cols = max_columns or min(len(modules), 4)
