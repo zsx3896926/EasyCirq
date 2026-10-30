@@ -40,8 +40,8 @@ import text_metrics  # noqa: E402
 
 SCHEMA = "easycirq-page-relayout/v1"
 GRID = 5.0
-PART_GAP = 42.0
-CARD_PAD = 8.0
+PART_GAP = 30.0
+CARD_PAD = 6.0
 HALO_CAP = 16.0
 LABEL_SIZE = 10.0
 STUB = 20.0
@@ -199,7 +199,7 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=No
                 boxes.append(tuple(box))
         if not boxes:
             continue
-        pad = CARD_PAD
+        pad = 3.0
         cards[entry["id"]] = [round(min(b[0] for b in boxes) - pad, 1),
                               round(min(b[1] for b in boxes) - pad, 1),
                               round(max(b[2] for b in boxes) + pad, 1),
@@ -230,6 +230,12 @@ def plan_page(snapshot, groups, *, columns=None, page_template=None, geometry=No
             cards = {key: [round(c[0] + dx, 1), round(c[1] + dy, 1),
                            round(c[2] + dx, 1), round(c[3] + dy, 1)]
                      for key, c in cards.items()}
+    if cards:
+        total = sum((c[2] - c[0]) * (c[3] - c[1]) for c in cards.values())
+        span_w = max(c[2] for c in cards.values()) - min(c[0] for c in cards.values())
+        span_h = max(c[3] for c in cards.values()) - min(c[1] for c in cards.values())
+        packed["utilization"] = round(total / (span_w * span_h), 3) if span_w and span_h else 0.0
+        packed["module_area"] = round(total, 1)
     fits = (packed.get("fit", False)
             and all(10.0 <= c[0] and c[2] <= 1160.0 and 196.0 <= c[1] and c[3] <= 815.0
                     for c in cards.values()))
@@ -296,7 +302,7 @@ def label_sides(snapshot, placements, *, cards=None, geometry=None,
         place = placements.get(ref) or {}
         by_group.setdefault(place.get("group"), []).append(key)
     page = (10.0, 10.0, 1160.0, 815.0)
-    sides, boxes, unplaced = {}, {}, 0
+    sides, boxes, texts, unplaced = {}, {}, {}, 0
     for group_id, keys in by_group.items():
         occupied = []
         for ref, place in placements.items():
@@ -342,15 +348,16 @@ def label_sides(snapshot, placements, *, cards=None, geometry=None,
                            "anchor": [anchor[0], anchor[1]],
                            "preferred": preferred})
         result = label_solver.solve_label_plan(
-            labels, occupied, group_page, distances=(4, 8, 12, 16, 24, 32))
+            labels, occupied, group_page, gap=2.0, distances=(20,))
         for item in result.get("placements") or []:
             key = item.get("id")
             direction = item.get("direction") or item.get("side")
             if key and direction:
                 sides[key] = direction
                 boxes[key] = item.get("bbox")
+                texts[key] = next((l["text"] for l in labels if l["id"] == key), "")
         pending = [item for item in result.get("unplaced") or [] if item.get("id")]
-        for shrunk in (9.0, 8.0, 7.0, 6.0):  # only the stubborn ones get smaller text
+        for shrunk in (10.0, 9.0, 8.0, 6.0):  # only the stubborn ones get smaller text
             if not pending:
                 break
             retry = []
@@ -367,7 +374,7 @@ def label_sides(snapshot, placements, *, cards=None, geometry=None,
                 tuple(box) for box in boxes.values() if box]
             again = label_solver.solve_label_plan(
                 retry, occupied_now, group_page, gap=1.0,
-                distances=(2, 4, 8, 12, 16, 24, 32))
+                distances=(20, 30, 40, 12, 8, 4))
             for item in again.get("placements") or []:
                 key = item.get("id")
                 direction = item.get("direction") or item.get("side")
@@ -376,7 +383,7 @@ def label_sides(snapshot, placements, *, cards=None, geometry=None,
                     boxes[key] = item.get("bbox")
             pending = [item for item in again.get("unplaced") or [] if item.get("id")]
         unplaced += len(pending)
-    return {"sides": sides, "boxes": boxes,
+    return {"sides": sides, "boxes": boxes, "texts": texts,
             "labels": sum(len(v) for v in by_group.values()),
             "unplaced": unplaced}
 
@@ -437,12 +444,20 @@ def render_preview(result, labels, path, *, page_w=1170.0, page_h=825.0, scale=1
                                radius=3, fill="#ffffff", outline="#0055AA", width=1)
         draw.text((sx(x - w / 2) + 2, sy(y + h / 2) + 1), ref, fill="#003366", font=small)
     if show_labels:
+        try:
+            labelfont = ImageFont.truetype("C:/Windows/Fonts/msyh.ttc", 8)
+        except OSError:
+            labelfont = small
         for key, direction in (labels.get("sides") or {}).items():
             box = (labels.get("boxes") or {}).get(key)
             if not box:
                 continue
             draw.rectangle([sx(box[0]), sy(box[3]), sx(box[2]), sy(box[1])],
                            fill="#fff8cc", outline="#d4b800")
+            text = (labels.get("texts") or {}).get(key) or ""
+            if text:
+                draw.text((sx(box[0]) + 2, sy(box[3]) + 1), str(text)[:14],
+                          fill="#7a6a00", font=labelfont)
     draw.text((20, 8), "EasyCirq 重排预览（紧凑分组 + 标签感知留白 + 居中排布）",
               fill="#222", font=title_font)
     img.save(path)
