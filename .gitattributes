@@ -54,3 +54,7 @@ runtime/internal/app/testdata/project-drawings/*.json text eol=lf
 runtime/internal/app/testdata/project-drawings/*.svg text eol=lf
 runtime/internal/app/testdata/project-drawings/*.png -text
 
+
+# Every Python file is UTF-8 with LF, no exceptions. Hand-listed rules
+# meant each new script silently landed as CRLF on Windows.
+*.py text eol=lf
