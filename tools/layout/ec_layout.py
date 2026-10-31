@@ -28,6 +28,13 @@ CLEARANCE = 6.0
 TRACE = 7.0
 POWER_TRACE = 12.0
 BUS_TRACE = 6.0
+# Cost of one layer change, in grid steps.  Swept on RetroCam-02 with the GND\r
+# pour (40 passes, dead legs first because that is the gate order):\r
+#   14 -> clearance 203 / unrouted 4 / unconnected 4\r
+#   20 -> 155 / 4 / 5      30 -> 127 / 8 / 7      45 -> 98 / 15 / 16\r
+# 20 buys 48 fewer violations but one MORE unconnected net, so the default stays\r
+# at 14: the gate is ordered by dead legs.  --via-cost 20 is the right knob for a\r
+# later "drop clearance first" pass.\r
 VIA_COST = 14.0
 EDGE = 40.0
 BUS_PREFIX = ("CAM_", "LCD_", "SD_")
@@ -908,7 +915,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None, pour_step=5):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -918,6 +925,15 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     # from them, so the layer stays available.  Taking a whole layer for GND was
     # measured worse than routing it (round 2), a pour is the realistic model.
     pour_sets = set(pour_nets)
+    pour_groups = []
+    for spec in pour_specs:
+        name, _, lay = str(spec).rpartition(":")
+        if not name or not lay.isdigit():
+            raise SystemExit(f"--pour expects NET:LAYER, got {spec!r}")
+        pour_groups.append((frozenset([name]), int(lay)))
+        pour_sets.add(name)
+    if pour_sets and pour_layer:
+        pour_groups.append((frozenset(pour_sets), int(pour_layer)))
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
@@ -1029,6 +1045,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         return None
                     if segment_check and (
                             path_conflicts(board, cand, routed, net, route_width(net))
+                            or not _via_cells_clear(cand, used, net)
                             or (via_check and via_conflicts(board, cand, used, pad_forbid,
                                                             net, route_width(net)))):
                         # Spacing as a real geometric constraint: reject the too-close
@@ -1117,8 +1134,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     groups = []
     if plane_nets and plane_layer:
         groups.append((set(plane_nets), int(plane_layer)))
-    if pour_sets and pour_layer:
-        groups.append((pour_sets, int(pour_layer)))
+    for pg_nets, pg_layer in pour_groups:
+        groups.append((set(pg_nets), int(pg_layer)))
     for group_nets, group_layer in groups:
         vias, stubs = plane_access(board, best_routed, group_nets, group_layer,
                                      max_step=pour_step)
@@ -1128,7 +1145,10 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         for net, paths in stubs.items():
             best_routed.setdefault(net, []).extend(paths)
         if vias:
-            best_routed[PLANE_VIA_KEY] = vias
+            # EXTEND, do not replace: with two pours (GND on L4, +3V3 on L2) the
+            # second group's 17 vias wiped the first group's 42, and GND came out
+            # routed-as-tracks but with no access vias at all.
+            best_routed.setdefault(PLANE_VIA_KEY, []).extend(vias)
     return (len(best_failures), best_congestion), best_routed, best_failures
 
 
@@ -1251,6 +1271,24 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
         return math.hypot(px - (x1 + t * vx), py - (y1 + t * vy))
     return min(pt(ax, ay, cx, cy, dx, dy), pt(bx, by, cx, cy, dx, dy),
                pt(cx, cy, ax, ay, bx, by), pt(dx, dy, ax, ay, bx, by))
+
+
+def _via_cells_clear(path, used, net):
+    """No two nets may share a via site.
+
+    Both vias would be drilled at the same (x, y): a short, and the only
+    congestion cell left on RetroCam-02 (BTN_DOWN and BTN_MODE).  `used` already
+    records every routed cell per layer, and a via owns its cell on both layers,
+    so this is a cheap per-path check.
+    """
+    for a, b in zip(path, path[1:]):
+        if a[2] == b[2]:
+            continue
+        for layer in (a[2], b[2]):
+            owners = used.get((a[0], a[1], layer))
+            if owners and any(o != net for o in owners):
+                return False
+    return True
 
 
 def _stub_clear(board, pc, vc, busy, pad_forbid, net, margin=CLEARANCE):
@@ -1500,7 +1538,16 @@ def pour_islands(board, plan, clearance=POUR_CLEARANCE):
     pour_vias = [v for v in plan.get("vias") or [] if v.get("plane_layer")]
     if not pour_vias:
         return 0
-    layer = int(pour_vias[0]["plane_layer"])
+    # Each pour lives on ITS own layer: a GND pour on L4 and a +3V3 pour on L2 are
+    # two separate sheets of copper and have to be flood-filled separately.
+    by_layer = defaultdict(list)
+    for v in pour_vias:
+        by_layer[int(v["plane_layer"])].append(v)
+    return sum(_islands_on(board, plan, layer, vias, clearance)
+               for layer, vias in sorted(by_layer.items()))
+
+
+def _islands_on(board, plan, layer, pour_vias, clearance):
     pour_nets = {v["net"] for v in pour_vias}
     target = {board.cell(v["x"], v["y"]) for v in pour_vias}
     halo = int(math.ceil(clearance / GRID))
@@ -2411,6 +2458,8 @@ def main():
     r.add_argument("--pour-net", dest="pour_nets", action="append", default=[],
                    help="net carried by an area pour on --pour-layer (shares the layer)")
     r.add_argument("--pour-layer", dest="pour_layer", type=int)
+    r.add_argument("--pour", dest="pour_specs", action="append", default=[],
+                   help="NET:LAYER carried by an area pour; repeatable")
     r.add_argument("--pour-step", dest="pour_step", type=int, default=5,
                    help="how far an access via may sit from its pad, in grid cells")
     r.add_argument("--net-order", dest="net_order", choices=("big", "small"), default="small",
@@ -2460,7 +2509,8 @@ def main():
                                                        net_order=a.net_order,
                                                        pour_nets=frozenset(a.pour_nets),
                                                        pour_layer=a.pour_layer,
-                                                       pour_step=a.pour_step)
+                                                       pour_step=a.pour_step,
+                                                       pour_specs=a.pour_specs)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2497,6 +2547,10 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
 
 
 
