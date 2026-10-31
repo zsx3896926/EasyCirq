@@ -347,3 +347,63 @@ should be >= 6mil
 
 **所以「可以打样」这张卡是原理图层面的结论。** 整板要能打样，PCB 还得过 DRC。
 这两件事必须分开报告——正是目标里「离线通过 ≠ 实物可用」的意思。
+
+## 第六轮：DRC 清零，Gerber 导出（11 层含钻孔）
+
+### 从 21 项到 0 项的三步
+
+| 步骤 | DRC 结果 | 说明 |
+|---|---|---|
+| 初始（import 后直接 route-short） | 21（2 间距 + 19 未连接） | 器件重叠，短跳线连不全 |
+| `auto-place` 后 | 24（0 间距 + 24 未连接） | 间距清了，但器件散开、跳线更长 |
+| `outline-fit` + `autoroute` | **3**（1 间距 + 2 未连接） | 官方路由器 5/5 网连通 |
+| `rip-up` + `outline-fit --margin 60` + `autoroute` | **0** | 加大板框余量后全过 |
+
+关键点：**自动布线需要板框**。第一次 `autoroute` 报
+`successNetsCount: 0, failedNets: [NLED, ALARM, NTC_MID, TH, GND]`，
+`outline-fit` 之后 5/5 全部连通、耗时 15 秒。
+
+### 权威重读
+
+按 `staleRisk` 的提示做了 `save → doc reload → 重读`，DRC 仍 `passed: true, total: 0`。
+
+### Gerber
+
+```
+call pcb.manufacture.gerber -> ok
+11 层：
+  Gerber_TopLayer.GTL            3135
+  Gerber_BottomLayer.GBL          694
+  Gerber_TopSilkscreenLayer.GTO  9164
+  Gerber_BottomSilkscreenLayer.GBO 627
+  Gerber_TopSolderMaskLayer.GTS  1783
+  Gerber_BottomSolderMaskLayer.GBS 708
+  Gerber_TopPasteMaskLayer.GTP   3795
+  Gerber_BoardOutlineLayer.GKO    768
+  Gerber_DocumentLayer.GDL       1674
+  Drill_PTH_Through.DRL           229   ← 这块有通孔焊盘，所以有钻孔文件
+  PCB下单必读.txt                   94
+```
+
+比 LED 板多一层 `Drill_PTH_Through.DRL`——蜂鸣器是直插件，需要钻孔。
+
+### 令牌过期
+
+导出时先报 `GATE_REQUIRED`：令牌 TTL 30 分钟，上一轮签发已过期。
+重跑两轮管线拿到新令牌后一次导出成功。**这是设计行为，不是缺陷。**
+
+## 完整链路（温度报警器）
+
+| 环节 | 结果 |
+|---|---|
+| 一句话 → 方案 | ✅ ¥8–15 / 3–5 天 |
+| 原理图 | ✅ NTC + LM393 + 蜂鸣器 + 100nF |
+| 离线卡片 | ✅ **可以打样** 必查 11/11 |
+| PCB 同步 | ✅ 9 器件（含 LED 页 2 个） |
+| 布局 | ✅ auto-place + outline-fit（板框 877×869 mil，余量 60） |
+| 布线 | ✅ autoroute 5/5 网 |
+| DRC | ✅ **total: 0**（权威重读确认） |
+| Gerber | ✅ 11 层含钻孔 |
+| 实物 | ❌ 未下单 |
+
+**这是一块从「一句话」到「可下单 Gerber」的完整板。**
