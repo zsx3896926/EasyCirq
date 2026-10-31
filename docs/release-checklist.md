@@ -80,6 +80,11 @@ CONSISTENT
 Copy-Item easycirq/* ~/.agents/skills/easycirq -Recurse -Force
 ```
 
+**不要顺手把 docs/ 的文档复制进 references/**。仓库 asycirq/ 里没有的文件
+出现在技能副本里，会得到 EXTRA 报错——2026-11-01 我这样犯了三次
+（release-checklist、temp-alarm-*、traceability-alarm、known-failures）。
+docs/ 是开发记录，技能副本只放 asycirq/ 的内容。
+
 **为什么必须全量**：2026-11-01 把一致性检查从 12 个文件扩到 327 个时发现，
 技能副本里有 **256 个文件内容过时**——因为过去每次只复制「当轮改过的文件」。
 用户实际在 agents 客户端用的是那些旧副本。
