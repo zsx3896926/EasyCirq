@@ -54,3 +54,7 @@ reports/s5-verify/*
 # local acceptance-build output
 .acc-build/
 
+
+# release build output
+dist-release/
+

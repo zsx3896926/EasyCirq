@@ -213,6 +213,16 @@ class KpiGate(unittest.TestCase):
             self.assertEqual(kpi["reads"], ref["reads"], kpi["id"])
         self.assertEqual(data["profiles"], sch_kpi.DEFAULTS["profiles"])
 
+    def test_skill_copy_of_definition_matches_repo_copy(self):
+        # the skill package ships its own metrics/ copy (repo root is not inside
+        # the skill dir); the two must not drift
+        skill_copy = ROOT / "easycirq" / "metrics" / "schematic-kpi.v1.json"
+        repo_copy = ROOT / "metrics" / "schematic-kpi.v1.json"
+        self.assertTrue(skill_copy.is_file(), "skill package is missing metrics/")
+        self.assertEqual(
+            json.loads(skill_copy.read_text(encoding="utf-8")),
+            json.loads(repo_copy.read_text(encoding="utf-8")))
+
     def test_cli_exit_codes_and_markdown(self):
         with tempfile.TemporaryDirectory() as d:
             inp = Path(d) / "in.json"
