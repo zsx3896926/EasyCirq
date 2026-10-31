@@ -291,9 +291,13 @@ class PinmapBackwardCompatibility(unittest.TestCase):
             [
                 "schema",
                 "status",
+                # verdict + metrics were added so the KPI layer can grade a plan
+                # (it normalises on "verdict" and counts metrics.pin_mux_conflicts)
+                "verdict",
                 "board_verified",
                 "execution",
                 "hardware_execution",
+                "metrics",
                 "summary",
                 "findings",
                 "not_checked",
