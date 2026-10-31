@@ -14,10 +14,11 @@ package app
 // human reviews them (known v1 boundary).
 
 import (
+	"io"
+	"compress/gzip"
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"sort"
@@ -126,10 +127,43 @@ func newAuditExportCmd(stdout, stderr io.Writer) *cobra.Command {
 	return cmd
 }
 
-func readAuditRows(path string) ([]auditRow, error) {
-	f, err := os.Open(path)
+// openAuditLog opens a day file, preferring the plain .jsonl and falling back to
+// the .gz that `audit prune` may have produced. Without the fallback, pruning
+// would make the compressed days unreadable - destroying the very evidence
+// `audit cost` and `audit export` exist to provide.
+func openAuditLog(path string) (io.ReadCloser, error) {
+	if file, err := os.Open(path); err == nil {
+		return file, nil
+	}
+	compressed, err := os.Open(path + ".gz")
 	if err != nil {
 		return nil, fmt.Errorf("open audit log: %w", err)
+	}
+	reader, err := gzip.NewReader(compressed)
+	if err != nil {
+		compressed.Close()
+		return nil, fmt.Errorf("open compressed audit log: %w", err)
+	}
+	return &gzipLogFile{Reader: reader, underlying: compressed}, nil
+}
+
+type gzipLogFile struct {
+	*gzip.Reader
+	underlying *os.File
+}
+
+func (g *gzipLogFile) Close() error {
+	err := g.Reader.Close()
+	if closeErr := g.underlying.Close(); err == nil {
+		err = closeErr
+	}
+	return err
+}
+
+func readAuditRows(path string) ([]auditRow, error) {
+	f, err := openAuditLog(path)
+	if err != nil {
+		return nil, err
 	}
 	defer f.Close()
 	var rows []auditRow
