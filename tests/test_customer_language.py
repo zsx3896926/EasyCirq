@@ -15,11 +15,21 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "runtime" / "internal" / "app"
 
+# Both implementations: the Go CLI and the Python ones the MCP layer runs. The
+# first version of this test only looked at Go, which is how the MCP card kept
+# saying 'PCB' and the MCP status kept saying '通行证' for weeks after the CLI
+# changed.
 CUSTOMER_FILES = [
     "cmd_setup.go",
     "cmd_status.go",
     "cmd_card.go",
     "cmd_acceptance.go",
+]
+
+PY_SCRIPTS = ROOT / "easycirq" / "scripts"
+PY_CUSTOMER_FILES = [
+    PY_SCRIPTS / "sch_status.py",
+    PY_SCRIPTS / "sch_delivery_card.py",
 ]
 
 # Words the objective says the customer must never need to know. Matched
@@ -49,6 +59,26 @@ ALLOWED_CONTEXTS = [
 STRING_LITERAL = re.compile(r'"((?:[^"\\]|\\.)*)"')
 
 
+def is_documentation(path: Path, line_no: int) -> bool:
+    """Docstrings and argparse help are read by maintainers, not customers.
+
+    sch_status.py documents "(state, detail) for the gate token" for whoever
+    reads the code, and "gate token path (default ...)" for whoever runs --help.
+    Flagging those would make this test cry wolf.
+    """
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    head = "\n".join(lines[:line_no])
+    # a one-line docstring closes on its own line, so count it too
+    current = lines[line_no - 1] if line_no - 1 < len(lines) else ""
+    if head.count('"""') % 2 == 1:
+        return True
+    if current.count('"""') >= 2:
+        return True
+    line = text.splitlines()[line_no - 1]
+    return "help=" in line or "ap.add_argument" in line
+
+
 def customer_strings(path: Path):
     """Yield (line number, literal) for CUSTOMER-FACING string literals only.
 
@@ -76,6 +106,8 @@ def test_customer_facing_strings_avoid_tool_terms(filename):
     assert path.is_file(), f"{filename} missing"
     offenders = []
     for line_no, literal in customer_strings(path):
+        if is_documentation(path, line_no):
+            continue
         lowered = literal.lower()
         if is_allowed(literal):
             continue
@@ -85,6 +117,45 @@ def test_customer_facing_strings_avoid_tool_terms(filename):
     assert not offenders, "客户可见文案里出现了内部术语:\n" + "\n".join(
         f"  {filename}:{line}  {term!r} in {text!r}" for line, term, text in offenders
     )
+
+
+@pytest.mark.parametrize("path", PY_CUSTOMER_FILES, ids=lambda p: p.name)
+def test_python_customer_card_avoids_tool_terms(path):
+    """The MCP layer runs these; they must speak the same language as the CLI."""
+    assert path.is_file(), f"{path.name} missing"
+    text = path.read_text(encoding="utf-8")
+    offenders = []
+    for line_no, literal in customer_strings(path):
+        if is_documentation(path, line_no):
+            continue
+        lowered = literal.lower()
+        if is_allowed(literal):
+            continue
+        for term in FORBIDDEN:
+            if term.lower() in lowered:
+                offenders.append((line_no, term, literal[:70]))
+    assert not offenders, f"{path.name} 的客户可见文案含内部术语:\n" + "\n".join(
+        f"  {path.name}:{line}  {term!r} in {text!r}" for line, term, text in offenders
+    )
+
+
+@pytest.mark.parametrize("path", PY_CUSTOMER_FILES, ids=lambda p: p.name)
+def test_python_cards_do_not_say_pcb(path):
+    offenders = [
+        (line, literal[:70])
+        for line, literal in customer_strings(path)
+        if "PCB" in literal and not is_allowed(literal)
+    ]
+    assert not offenders, f"{path.name} 仍写着 PCB:\n" + "\n".join(
+        f"  {path.name}:{line}  {text!r}" for line, text in offenders
+    )
+
+
+@pytest.mark.parametrize("path", PY_CUSTOMER_FILES, ids=lambda p: p.name)
+def test_python_cards_do_not_say_old_gate_word(path):
+    """「通行证」是 gate token 的旧译，已被「写入许可」取代。"""
+    text = path.read_text(encoding="utf-8")
+    assert "通行证" not in text, f"{path.name} 仍在用旧译「通行证」"
 
 
 def test_the_word_pcb_is_not_shown_to_customers():

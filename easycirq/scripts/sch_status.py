@@ -61,25 +61,25 @@ def _load(path):
 def _gate_state(path):
     """(state, detail) for the gate token: live | stale | missing."""
     if not path:
-        return "missing", "没有指定通行证路径"
+        return "missing", "没有指定写入许可的路径"
     p = Path(path)
     if not p.is_file():
-        return "missing", "还没签发通行证"
+        return "missing", "还没确认可以写入"
     try:
         token = _load(p)
     except (OSError, ValueError) as exc:
-        return "stale", f"通行证读不出来：{exc}"
+        return "stale", f"读取写入许可失败：{exc}"
     if not str(token.get("verdict", "")).upper() == "PASS" or not token.get("apply_allowed"):
-        return "stale", "通行证不是 PASS"
+        return "stale", "写入许可对应的不是 PASS"
     expires = token.get("expires_at")
     if expires:
         try:
             when = datetime.strptime(expires, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
             if datetime.now(timezone.utc) > when:
-                return "stale", f"通行证已过期（{expires}）"
+                return "stale", f"写入许可已过期（{expires}）"
         except ValueError:
             pass
-    return "live", f"通行证有效到 {expires}"
+    return "live", f"写入许可有效到 {expires}"
 
 
 def analyze(report=None, gate_path=None):
@@ -88,7 +88,7 @@ def analyze(report=None, gate_path=None):
             "schema": SCHEMA,
             "state": "not_measured",
             "headline": "这块板还没有做过离线检查",
-            "next": "先跑一轮离线检查（不是画图）：python scripts/sch_offline_pipeline.py --snapshot-dir <快照> --project <P> --page <P> --out-dir <报告>",
+            "next": "把你想做的板子说给 AI 听就行；画完并检查过之后，这里会告诉你还差什么",
             "blockers": [],
             "missing": [],
         }
@@ -129,10 +129,10 @@ def analyze(report=None, gate_path=None):
         gate_state, gate_detail = _gate_state(gate_path)
         if gate_state == "live":
             state, headline = "ready_to_write", "检查通过，可以写入图纸了"
-            nxt = "执行写入；写完保存、重开、回读，再跑一次检查"
+            nxt = "执行写入；写完保存、关掉重开，确认东西都还在，再跑一次检查"
         else:
             state = "gate_stale"
-            headline = "检查通过，但通行证不可用"
+            headline = "检查通过了，但写入许可已失效"
             nxt = f"{gate_detail}；重新跑一轮检查即可重新签发"
     return {
         "schema": SCHEMA,

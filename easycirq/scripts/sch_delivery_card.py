@@ -60,7 +60,7 @@ ADVICE = {
     "naming": "改成有意义的名字",
     "bom_map": "补上封装/型号/立创编号",
     "netlist_diff": "确认这次改动是不是真的等价",
-    "readback": "保存、重开、回读，确认对象都还在",
+    "readback": "保存后关掉重开，确认东西都还在",
 }
 
 
@@ -74,22 +74,22 @@ def _load(path):
 
 def _gate_live(path):
     if not path or not Path(path).is_file():
-        return False, "没有通行证"
+        return False, "没有写入许可"
     try:
         token = _load(path)
     except (OSError, ValueError):
-        return False, "通行证读不出来"
+        return False, "写入许可读不出来"
     if str(token.get("verdict", "")).upper() != "PASS" or not token.get("apply_allowed"):
-        return False, "通行证不是 PASS"
+        return False, "写入许可对应的不是 PASS"
     expires = token.get("expires_at")
     if expires:
         try:
             when = datetime.strptime(expires, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
             if datetime.now(timezone.utc) > when:
-                return False, f"通行证已过期（{expires}）"
+                return False, f"写入许可已过期（{expires}）"
         except ValueError:
             pass
-    return True, "通行证有效"
+    return True, "写入许可有效"
 
 
 def analyze(report, gate_path=None, pcb=None):
@@ -129,15 +129,15 @@ def analyze(report, gate_path=None, pcb=None):
         # also supplied the PCB half, otherwise the card reads as a whole-board
         # verdict it cannot support.
         if pcb is None:
-            state, headline = "ready", "✅ 原理图可以打样（PCB 未检查）"
-            next_step = "原理图这一关过了；带上 PCB 检查结果才是整板结论"
+            state, headline = "ready", "✅ 原理图可以打样（板子还没检查）"
+            next_step = "原理图这一关过了；把板子的检查结果一起看，才是整块板的结论"
         elif pcb.get("passed") and int(pcb.get("violations") or 0) == 0:
-            state, headline = "ready", "✅ 可以下单（原理图与 PCB 都通过）"
+            state, headline = "ready", "✅ 可以下单（原理图与板子都通过）"
             next_step = "导出制造文件；打样回来后做验收"
         else:
             reason = pcb.get("reason") or ""
-            state, headline = "blocked", "❌ PCB 还没过检查，不能下单"
-            next_step = ("按 PCB 检查报告逐条修（间距 / 连通），修完重新检查"
+            state, headline = "blocked", "❌ 板子还没过检查，不能下单"
+            next_step = ("按板子的检查报告逐条修（间距 / 连通），修完重新检查"
                          + (f"；首要问题：{reason}" if reason else ""))
     elif verdict == "PASS" and not gate_ok:
         state, headline = "gate_stale", "⚠️ 检查通过，但需要重新确认"
@@ -171,10 +171,10 @@ def render(card):
     pcb = card.get("pcb")
     if pcb is not None:
         if pcb.get("passed") and int(pcb.get("violations") or 0) == 0:
-            lines += ["PCB 检查：通过（0 项）", ""]
+            lines += ["板子检查：通过（0 项）", ""]
         else:
             reason = pcb.get("reason") or ""
-            lines += [("PCB 检查：未通过" + (" · " + reason if reason else "")), ""]
+            lines += [("板子检查：未通过" + (" · " + reason if reason else "")), ""]
     c = card["counts"]
     if card["blockers"]:
         lines.append("必须修的问题：")
@@ -213,7 +213,7 @@ def main(argv=None):
         try:
             raw = json.loads(Path(args.pcb_drc).read_text(encoding="utf-8"))
         except (OSError, ValueError) as exc:
-            print(f"PCB 检查结果读不出来：{exc}", file=sys.stderr)
+            print(f"板子的检查结果读不出来：{exc}", file=sys.stderr)
             return 2
         violations = raw.get("violations") or []
         passed = raw.get("passed")
