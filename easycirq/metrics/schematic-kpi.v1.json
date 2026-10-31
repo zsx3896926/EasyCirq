@@ -26,7 +26,7 @@
     },
     "erc": {
       "tool": "scripts/netlist_check.py",
-      "role": "电气规则：输出冲突/多驱动/无驱动/电源对地"
+      "role": "电气规则：输出冲突/多驱动/无驱动；以及电源网与地网被重复声明（输入分类冲突，不等于铜短路）"
     },
     "pinplan": {
       "tool": "scripts/pin_plan_check.py",
