@@ -46,9 +46,10 @@ PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access 
 VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
 VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
-POUR_CLEARANCE = 8.0
+POUR_CLEARANCE = 8.0               # mil a pour keeps from other nets' copper
 RETRY_ROUNDS = 3                   # how many corridors a rejected leg may try
-BEST_EFFORT_MAX_CONFLICTS = 2      # worst case accepted rather than leaving a net open               # mil a pour keeps from other nets' copper
+BEST_EFFORT_MAX_CONFLICTS = 2      # worst case accepted rather than leaving a net open
+VIA_PRESSURE_W = 8.0               # cost added to a layer change per nearby track cell
 VIA_HISTORY_BUMP = 6.0             # negotiator pressure on a bad via site
 VIA_SCORE_W = 3.0                  # weight of a bad via site in the pass score
 
@@ -530,7 +531,8 @@ def _pad_layers(pad, layer_ok):
 
 
 def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None,
-          via_block=None, net=None, via_cost=None, start_layer=None, goal_layers=None):
+          via_block=None, net=None, via_cost=None, start_layer=None, goal_layers=None,
+          via_pressure=None):
     def h(c):
         return abs(c[0] - goal[0]) + abs(c[1] - goal[1])
 
@@ -582,7 +584,11 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
                     dirty = VIA_DIRTY_COST
             if (x, y) not in forbidden or (x, y) in allowed or (x, y) == goal:
                 nxt = (x, y, other)
-                ng = g + vcost + dirty + cost.get(nxt, 0.0)
+                # A via is a resource: price how crowded its disc is, instead of
+                # reserving it up front (measured worse) or vetoing the path
+                # (measured far worse).  This is the only shape of the fix left.
+                crowded = via_pressure.get((x, y), 0.0) if via_pressure else 0.0
+                ng = g + vcost + dirty + crowded + cost.get(nxt, 0.0)
                 if ng < best.get(nxt, 1e18) - 1e-9:
                     best[nxt] = ng
                     came[nxt] = cur
@@ -933,7 +939,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_preplan=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1021,6 +1027,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     failed_last_pass = set()
     for it in range(iters):
         via_block = {k: set(v) for k, v in via_base.items()} if via_base else None
+        via_pressure = defaultdict(float) if via_pressure_on else None
         # Nets that died in the previous pass go FIRST: they only route at all if
         # they claim their corridor before everyone else.  Doing this by hand with
         # --priority-net BTN_DOWN took unrouted 1 -> 0; the negotiation can do it
@@ -1125,6 +1132,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                                      | blocked_by_net.get(net, set()) | set(extra),
                                      cost, pref, allowed, layers, layer_ok=layer_ok,
                                      via_block=via_block, net=net, via_cost=via_cost,
+                                     via_pressure=via_pressure,
                                      start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
                                      goal_layers=_pad_layers(b, layer_ok))
                     return cand
@@ -1172,6 +1180,13 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     used[(x, y, ll)].add(net)
                     for dx, dy in HALO:
                         halo[(x + dx, y + dy, ll)].add(net)
+                    if via_pressure is not None:
+                        # Every cell this path occupies makes nearby layer
+                        # changes more expensive: a via needs a clear disc, so
+                        # stamp the disc footprint as "pressure".
+                        for dx in range(-2, 3):
+                            for dy in range(-2, 3):
+                                via_pressure[(x + dx, y + dy)] += VIA_PRESSURE_W
         # ONE definition of congestion: recount it from the plan that would be
         # applied to the board. The router's own `used` bookkeeping is kept only
         # to steer A* (cost/history) — as a KPI it disagreed with the recount
@@ -2813,7 +2828,8 @@ def main():
                                                        best_effort=a.best_effort,
                                                        priority_nets=set(a.priority_nets),
                                                        via_relocate=a.via_relocate,
-                                                       pour_preplan=a.pour_preplan)
+                                                       pour_preplan=a.pour_preplan,
+                                                       via_pressure_on=a.via_pressure_on)
         plan = plan_from(board, routed)
         if a.match_lengths:
             match_lengths(board, plan)
@@ -2852,6 +2868,13 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
+
+
 
 
 
