@@ -908,7 +908,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None, pour_step=5):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1120,7 +1120,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     if pour_sets and pour_layer:
         groups.append((pour_sets, int(pour_layer)))
     for group_nets, group_layer in groups:
-        vias, stubs = plane_access(board, best_routed, group_nets, group_layer)
+        vias, stubs = plane_access(board, best_routed, group_nets, group_layer,
+                                     max_step=pour_step)
         # The pad->via stub is the ONLY copper a plane net may spend: the test
         # contract allows stubs up to 3*GRID and nothing longer. Dropping the stubs
         # entirely disconnects the pad from its via (measured: GND reported dead).
@@ -1252,6 +1253,30 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
                pt(cx, cy, ax, ay, bx, by), pt(dx, dy, ax, ay, bx, by))
 
 
+def _stub_clear(board, pc, vc, busy, pad_forbid, net, margin=CLEARANCE):
+    """Is the short pad -> site stub free of other nets' copper?
+
+    With ring search a site can be off the eight compass directions, so the stub
+    is a real diagonal run and every cell on it has to be checked.  `margin`
+    decides how strict: at full clearance the keep-out RING is off limits, on the
+    fallback tier only the solid pad is (a stub across a ring is a spacing
+    violation, a stub across a pad is a short).
+    """
+    strict = margin > VIA_BLOCK_MARGIN
+    for (cx, cy) in _bresenham(pc[0], pc[1], vc[0], vc[1]):
+        if (cx, cy) in busy:
+            return False
+        if strict:
+            owner = pad_forbid.get((cx, cy))
+            if owner is not None and owner != net:
+                return False
+        else:
+            owners = board.pad_cells.get((cx, cy))
+            if owners and any(o != net for o in owners):
+                return False
+    return True
+
+
 def _disc_clear(board, cell, net, pad_forbid, busy, width, radius=VIA_RADIUS, margin=CLEARANCE):
     """Would a via at `cell` keep clearance from other pads and tracks?
 
@@ -1301,21 +1326,26 @@ def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
         for pad in board.nets.get(net, []):
             pc = board.cell(pad["x"], pad["y"])
             comp = board.comps.get(pad["des"]) or {"x": pad["x"], "y": pad["y"]}
-            dirs = sorted(((1, 0), (-1, 0), (0, 1), (0, -1),
-                           (1, 1), (1, -1), (-1, 1), (-1, -1)),
-                          key=lambda d: -((pad["x"] - comp["x"]) * d[0] +
-                                          (pad["y"] - comp["y"]) * d[1]))
+            out = _unit(pad["x"] - comp["x"], pad["y"] - comp["y"])
             # Two tiers: a site whose disc keeps full clearance, else (rather than
             # leaving the pad disconnected) one that at least does not overlap.
             # Strict-only left 18 GND pads without an access via, i.e. a broken
             # net, which is worse than a spacing violation.
+            #
+            # The search walks WHOLE rings, not eight directions: a legal cell at,
+            # say, (2, 1) is invisible to an 8-direction sweep, which is why
+            # widening max_step alone only moved via-in-pad from 5 to 4.
             target = None
             for margin in (CLEARANCE, VIA_BLOCK_MARGIN):
-                for dx, dy in dirs:
-                    for step in range(1, max_step + 1):
-                        vc = (pc[0] + dx * step, pc[1] + dy * step)
+                for r in range(1, max_step + 1):
+                    cands = [(dx, dy) for dx in range(-r, r + 1) for dy in range(-r, r + 1)
+                             if max(abs(dx), abs(dy)) == r]
+                    cands.sort(key=lambda d: -((d[0] * out[0] + d[1] * out[1]) /
+                                               (math.hypot(d[0], d[1]) or 1.0)))
+                    for dx, dy in cands:
+                        vc = (pc[0] + dx, pc[1] + dy)
                         if not (0 <= vc[0] < board.w and 0 <= vc[1] < board.h):
-                            break
+                            continue
                         if vc in busy:
                             continue
                         # The whole DISC must clear other pads and tracks, not just
@@ -1325,8 +1355,7 @@ def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
                         if not _disc_clear(board, vc, net, pad_forbid, busy,
                                            route_width(net), margin=margin):
                             continue
-                        if any((pc[0] + dx * s, pc[1] + dy * s) in busy
-                               for s in range(1, step + 1)):
+                        if not _stub_clear(board, pc, vc, busy, pad_forbid, net, margin):
                             continue
                         target = vc
                         break
@@ -2382,6 +2411,8 @@ def main():
     r.add_argument("--pour-net", dest="pour_nets", action="append", default=[],
                    help="net carried by an area pour on --pour-layer (shares the layer)")
     r.add_argument("--pour-layer", dest="pour_layer", type=int)
+    r.add_argument("--pour-step", dest="pour_step", type=int, default=5,
+                   help="how far an access via may sit from its pad, in grid cells")
     r.add_argument("--net-order", dest="net_order", choices=("big", "small"), default="small",
                    help="order nets by pad count: big first (default) or small first")
 
@@ -2428,7 +2459,8 @@ def main():
                                                        via_first=a.via_first,
                                                        net_order=a.net_order,
                                                        pour_nets=frozenset(a.pour_nets),
-                                                       pour_layer=a.pour_layer)
+                                                       pour_layer=a.pour_layer,
+                                                       pour_step=a.pour_step)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2465,6 +2497,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 
