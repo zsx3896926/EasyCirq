@@ -35,6 +35,7 @@ def main():
     ap.add_argument("--via-sites", dest="via_sites", action="store_true")
     ap.add_argument("--via-cost", dest="via_cost", type=float)
     ap.add_argument("--via-negotiate", dest="via_negotiate", action="store_true")
+    ap.add_argument("--via-plan", dest="via_plan", action="store_true")
     ap.add_argument("--out", help="write the ROUTE PLAN here (tracks/vias)")
     ap.add_argument("--kpi", help="write the KPI report here")
     ap.add_argument("--failures", action="store_true", help="print per-leg failure detail")
@@ -54,7 +55,8 @@ def main():
     (_unr, _cong), routed, failures = ec.route(
         board, iters=a.iters, layers=a.layers, segment_check=a.segment_check,
         plane_nets=frozenset(a.plane_nets), plane_layer=a.plane_layer,
-        via_sites=a.via_sites, via_cost=a.via_cost, via_negotiate=a.via_negotiate)
+        via_sites=a.via_sites, via_cost=a.via_cost, via_negotiate=a.via_negotiate,
+        via_plan=a.via_plan)
     plan = ec.plan_from(board, routed)
     kpi = ec.report(board, routed, failures, [], plan)
     out = {**placed_kpi, **kpi}

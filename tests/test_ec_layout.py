@@ -173,6 +173,33 @@ def test_pad_layer_gaps_sees_an_open_circuit_2d_connectivity_misses():
     assert ec.pad_layer_gaps(board, wrong_layer) == 0
 
 
+def test_flat_route_never_changes_layer():
+    """Via-directed routing must be able to say "this segment has no via"."""
+    board = make_board([
+        comp("R1", 300, 300, [("1", "A", 300, 300)]),
+        comp("R2", 1200, 300, [("1", "A", 1200, 300)]),
+    ])
+    sc, gc = board.cell(300, 300), board.cell(1200, 300)
+    path = ec.flat_route(board, sc, gc, 1, set(), {}, set())
+    assert path and all(cell[2] == 1 for cell in path)
+
+
+def test_free_via_site_steps_away_from_another_nets_pad():
+    """A via may not be planted in another net's keep-out; the site search has to
+    walk outward until it is legal, or give up."""
+    board = make_board([
+        comp("R1", 300, 300, [("1", "A", 300, 300)]),
+        comp("R2", 320, 300, [("1", "B", 320, 300), ("2", "B", 320, 340), ("3", "B", 320, 260)]),
+    ])
+    pad_forbid, _own = board.pad_blocked()
+    used = {}
+    cell = board.cell(300, 300)
+    site = ec.free_via_site(board, cell, "A", pad_forbid, used, ec.TRACE)
+    assert site is not None
+    owner = pad_forbid.get(site)
+    assert owner is None or owner == "A"
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

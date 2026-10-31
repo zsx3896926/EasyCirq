@@ -678,7 +678,123 @@ def path_conflicts(board, path, routed, net, width):
     return False
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False):
+def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
+                  radius=VIA_RADIUS):
+    """Nearest cell to `cell` where a via keeps full clearance from other copper.
+
+    The whole point of via-directed routing: decide the layer change FIRST, at a
+    spot that is legal on all layers, instead of letting the A* drop a via
+    wherever it happens to switch and discovering 196 violations afterwards.
+    """
+    need = radius + width / 2 + CLEARANCE
+    reach = int(math.ceil(need / GRID))
+    for r in rings:
+        for dx in range(-r, r + 1):
+            for dy in range(-r, r + 1):
+                if max(abs(dx), abs(dy)) != r:
+                    continue
+                cx, cy = cell[0] + dx, cell[1] + dy
+                if not (0 <= cx < board.w and 0 <= cy < board.h):
+                    continue
+                owner = pad_forbid.get((cx, cy))
+                if owner is not None and owner != net:
+                    continue
+                ok = True
+                for ex in range(-reach, reach + 1):
+                    for ey in range(-reach, reach + 1):
+                        if math.hypot(ex, ey) * GRID > need:
+                            continue
+                        for layer in range(1, 5):
+                            s = used.get((cx + ex, cy + ey, layer))
+                            if s and any(o != net for o in s):
+                                ok = False
+                                break
+                        if not ok:
+                            break
+                    if not ok:
+                        break
+                if ok:
+                    return cx, cy
+    return None
+
+
+def flat_route(board, start, goal, layer, forbidden, cost, allowed):
+    """A route confined to ONE layer: it can never place a via."""
+    return astar(board, start, goal, forbidden, cost, 1, allowed, max(layer, 1),
+                 layer_ok={layer}, start_layer=layer, goal_layers={layer})
+
+
+def plan_via_leg(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, history, layers,
+                 cost=None, allowed=None):
+    """pad -> legal via site -> (other layer) -> legal via site -> pad.
+
+    Returns the concatenated path, or None to let the caller fall back to the
+    free-form 3D A*.  Two legal vias instead of however many the search felt like.
+    """
+    cost = cost or {}
+    allowed = allowed or set()
+    pref = preferred_layer(net, layers)
+    if pref not in layer_ok:
+        pref = min(layer_ok)
+    # Try the preferred layer first, then the others.  Forcing the preferred one
+    # (GND -> L1) put 41 legs on a single layer and unrouted exploded to 48.
+    mids = [pref] + [l for l in sorted(layer_ok) if l != pref]
+    for mid in mids:
+        path = _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used,
+                                mid, cost, allowed)
+        if path is not None:
+            return path
+    return None
+
+
+def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, cost, allowed):
+    la_set = _pad_layers(a, layer_ok)
+    lb_set = _pad_layers(b, layer_ok)
+    la = min(la_set) if la_set else mid
+    lb = min(lb_set) if lb_set else mid
+    width = route_width(net)
+    forbidden = {c for c, o in pad_forbid.items() if o != net}
+
+    if la == mid and lb == mid:
+        return flat_route(board, sc, gc, mid, forbidden, cost, allowed)
+
+    sites = []
+    for cell, lay in ((sc, la), (gc, lb)):
+        if lay == mid:
+            sites.append(cell)
+            continue
+        s = free_via_site(board, cell, net, pad_forbid, used, width)
+        if s is None:
+            return None
+        sites.append(s)
+    site_a, site_b = sites
+
+    parts = []
+    if la != mid:
+        p1 = flat_route(board, sc, site_a, la, forbidden, cost, allowed)
+        if not p1:
+            return None
+        parts.append(p1)
+    p2 = flat_route(board, site_a, site_b, mid, forbidden, cost, allowed)
+    if not p2:
+        return None
+    parts.append(p2)
+    if lb != mid:
+        p3 = flat_route(board, site_b, gc, lb, forbidden, cost, allowed)
+        if not p3:
+            return None
+        parts.append(p3)
+
+    path = []
+    for part in parts:
+        if path and path[-1][:2] == part[0][:2]:
+            path.extend(part[1:])
+        else:
+            path.extend(part)
+    return path
+
+
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -774,19 +890,35 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             ring_owner = pad_forbid.get((gx, gy))
                             if (owners and net in owners) or ring_owner == net:
                                 allowed.add((gx, gy))
-                path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
-                             cost, pref, allowed, layers, layer_ok=layer_ok,
-                             via_block=via_block, net=net, via_cost=via_cost,
-                             start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
-                             goal_layers=_pad_layers(b, layer_ok))
-                if path and segment_check and (
-                        path_conflicts(board, path, routed, net, route_width(net))
-                        or (via_check and via_conflicts(board, path, used, pad_forbid, net, route_width(net)))):
-                    # Spacing as a real geometric constraint: reject the too-close run
-                    # and make its cells expensive so the next pass routes elsewhere.
-                    for (x, y, _l) in path:
-                        history[(x, y)] += 2.0
-                    path = None
+                def _accept(cand):
+                    if not cand:
+                        return None
+                    if segment_check and (
+                            path_conflicts(board, cand, routed, net, route_width(net))
+                            or (via_check and via_conflicts(board, cand, used, pad_forbid,
+                                                            net, route_width(net)))):
+                        # Spacing as a real geometric constraint: reject the too-close
+                        # run and make its cells expensive so the next pass routes
+                        # elsewhere.
+                        for (x, y, _l) in cand:
+                            history[(x, y)] += 2.0
+                        return None
+                    return cand
+
+                path = None
+                if via_plan:
+                    path = _accept(plan_via_leg(board, a, b, sc, gc, net, layer_ok,
+                                                pad_forbid, used, history, layers,
+                                                cost, allowed))
+                if path is None:
+                    # A planned-via leg that breaks spacing falls back to the free
+                    # 3D search instead of dying: without this the planned legs
+                    # were rejected outright and unrouted went 10 -> 48.
+                    path = _accept(astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
+                                         cost, pref, allowed, layers, layer_ok=layer_ok,
+                                         via_block=via_block, net=net, via_cost=via_cost,
+                                         start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
+                                         goal_layers=_pad_layers(b, layer_ok)))
                 if not path:
                     failures.append({"net": net, "a": f"{a['des']}.{a['pad']}", "b": f"{b['des']}.{b['pad']}"})
                     continue
@@ -2015,6 +2147,8 @@ def main():
                    help="cost of one layer change (default %g); higher = fewer vias" % VIA_COST)
     r.add_argument("--via-negotiate", dest="via_negotiate", action="store_true",
                    help="feed bad via sites into the router's history negotiator")
+    r.add_argument("--via-plan", dest="via_plan", action="store_true",
+                   help="route pad -> legal via site -> layer -> legal via site -> pad")
 
     q = sub.add_parser("report")
     q.add_argument("dump")
@@ -2054,7 +2188,8 @@ def main():
                                                        via_check=a.via_check,
                                                        via_sites=a.via_sites,
                                                        via_cost=a.via_cost,
-                                                       via_negotiate=a.via_negotiate)
+                                                       via_negotiate=a.via_negotiate,
+                                                       via_plan=a.via_plan)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2091,3 +2226,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
