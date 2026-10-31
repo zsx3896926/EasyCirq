@@ -1176,7 +1176,10 @@ func stripArtifactNesting(p string) string {
 		if segs[i] == ".easycirq" && segs[i+1] == "artifacts" {
 			trimmed := strings.Join(segs[:i], sep)
 			if trimmed == "" {
-				if filepath.IsAbs(clean) {
+				// On Windows a rooted path without a volume ("\.easycirq\artifacts")
+				// is not absolute, but it is still rooted; returning "." would move
+				// the caller above the filesystem root it asked for.
+				if filepath.IsAbs(clean) || strings.HasPrefix(clean, sep) {
 					return sep
 				}
 				return "."

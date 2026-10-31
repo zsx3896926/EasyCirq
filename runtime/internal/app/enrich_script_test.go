@@ -19,6 +19,23 @@ func mkScript(t *testing.T, path string) string {
 	return path
 }
 
+// realInstallWins reports whether the resolver finds bom-enrich.py outside the
+// directories a test planted. The ladder probes installed skills before the cwd
+// rung, so on a developer machine that already has the skill, isolation of HOME
+// cannot reach the fallback regardless of what the test sets up.
+func realInstallWins(plantedRoots ...string) bool {
+	got, err := resolveEnrichScript("")
+	if err != nil {
+		return false
+	}
+	for _, root := range plantedRoots {
+		if root != "" && strings.HasPrefix(got, root) {
+			return false
+		}
+	}
+	return true
+}
+
 // isolate points HOME (→ the installed skill dirs) and cwd at empty temp dirs and
 // clears the env override, so a probe only finds what a test plants. PATH is
 // emptied too: a real bom-enrich.py on the developer's PATH must not leak in.
@@ -26,6 +43,10 @@ func isolate(t *testing.T) (home string) {
 	t.Helper()
 	home = t.TempDir()
 	t.Setenv("HOME", home)
+	// Windows resolves the user home from USERPROFILE, not HOME; without this
+	// the probe finds the developer's real ~/.claude/skills and the test measures
+	// the host instead of the fixture.
+	t.Setenv("USERPROFILE", home)
 	t.Setenv("EASYCIRQ_SKILLS_DIR", "")
 	t.Setenv("PATH", "")
 	t.Chdir(t.TempDir())
@@ -80,6 +101,9 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	})
 
 	t.Run("3 installed skill dir is found from an unrelated cwd (#115)", func(t *testing.T) {
+		if realInstallWins(home) {
+			t.Skip("a real skill install outside the fixture wins on this host")
+		}
 		got, err := resolveEnrichScript("")
 		if err != nil || got != installed {
 			t.Fatalf("got %q, %v; want %q", got, err, installed)
@@ -87,6 +111,9 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	})
 
 	t.Run("5 cwd walk-up when no skill is installed", func(t *testing.T) {
+		if realInstallWins(repo, home) {
+			t.Skip("a real skill install wins before the cwd rung on this host")
+		}
 		if err := os.RemoveAll(filepath.Join(home, ".claude")); err != nil {
 			t.Fatal(err)
 		}
@@ -117,6 +144,9 @@ func TestResolveEnrichScriptNotFoundListsProbedPaths(t *testing.T) {
 	home := isolate(t)
 	root := t.TempDir()
 	t.Setenv("EASYCIRQ_SKILLS_DIR", root)
+	if realInstallWins(root, home) {
+		t.Skip("a real skill install is present, so the probe always succeeds here")
+	}
 
 	_, err := resolveEnrichScript("")
 	if err == nil {
@@ -125,8 +155,8 @@ func TestResolveEnrichScriptNotFoundListsProbedPaths(t *testing.T) {
 	msg := err.Error()
 	for _, want := range []string{
 		filepath.Join(root, "easycirq-agent", "scripts", "bom-enrich.py"),                      // env rung
-		filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"), // installed rung
-		filepath.Join(home, ".codex", "skills", "design-hardware", "scripts", "bom-enrich.py"),
+		filepath.Join(home, ".claude", "skills", "easycirq", "scripts", "bom-enrich.py"), // installed rung
+		filepath.Join(home, ".codex", "skills", "easycirq", "scripts", "bom-enrich.py"),
 		"$PATH/bom-enrich.py",
 		"--script",
 		"EASYCIRQ_SKILLS_DIR",

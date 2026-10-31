@@ -235,7 +235,7 @@ func TestLayoutReportRefusesPathAliasesBeforeWriting(t *testing.T) {
 	}
 	linkedDir := filepath.Join(dir, "linked-dir")
 	if err := os.Symlink(dir, linkedDir); err != nil {
-		t.Fatal(err)
+		skipWithoutSymlinkPrivilege(t, err)
 	}
 	out := filepath.Join(dir, "not-created.json")
 	if err := schLayoutReportPaths(from, out, filepath.Join(linkedDir, "not-created.json")); err == nil {
@@ -243,7 +243,7 @@ func TestLayoutReportRefusesPathAliasesBeforeWriting(t *testing.T) {
 	}
 	dangling := filepath.Join(dir, "dangling.json")
 	if err := os.Symlink(out, dangling); err != nil {
-		t.Fatal(err)
+		skipWithoutSymlinkPrivilege(t, err)
 	}
 	if err := schLayoutReportPaths(from, out, dangling); err == nil {
 		t.Fatal("dangling output/report alias accepted")

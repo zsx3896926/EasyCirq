@@ -129,7 +129,7 @@ func TestSchDesignatorsOutputAliasesRejected(t *testing.T) {
 				alias = dir + "/./source.json"
 			case "symlink":
 				if err := os.Symlink(input, alias); err != nil {
-					t.Fatal(err)
+					skipWithoutSymlinkPrivilege(t, err)
 				}
 			case "hardlink":
 				if err := os.Link(input, alias); err != nil {

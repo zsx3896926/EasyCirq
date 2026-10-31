@@ -2,12 +2,16 @@
 
 ## 现状
 
-| 范围 | 失败数 | 说明 |
-|---|---|---|
-| `runtime/internal/app` | 12 | 本轮从 13 降到 12（修掉 `TestDeliverablesGerberDrillCplAreGuiOnly`） |
-| `runtime/internal/daemon` | 0（单独跑）/ 2（全量跑） | `TestExplicitSave*` 单独跑通过，全量跑失败 → **测试顺序依赖** |
+`runtime/internal/app`：**0 失败**（本轮从 6 降到 0；累计从 14 降到 0）。
 
-上一轮修掉了 `TestBuildCapabilitiesUnsupportedItemsStayUnsupported`。
+剩余 4 个，全部不在本次改动范围内：
+
+| 包 | 测试 | 性质 |
+|---|---|---|
+| `daemon` | `TestExplicitSaveHTTPInFlightKeepsNewMutationPending` | 顺序依赖：单独跑 ok，全量跑 FAIL |
+| `daemon` | `TestExplicitSaveCancelsOnlyConfirmedOlderTarget` | 同上（且已确认在基线上也失败） |
+| `selfupdate` | `TestUpdateCLIReplacesBinaryAndVerifiesChecksum` | 本轮首次暴露，未取证 |
+| `selfupdate` | `TestLocalBundleChecksContentsNotMarkers` | 本轮首次暴露，未取证 |
 
 ## CI 策略
 
@@ -16,25 +20,25 @@
 - **阻断**：`TestGate*`（daemon）与 `TestStatus|TestSetup|TestCard|TestAcceptance`（app）
 - **只报告**：`go test ./...` 与 `go vet ./...`（`|| true`）
 
-## 已取证的归类
+app 现已全绿，下一轮可以把「阻断」范围扩大到整个 app 包。
 
-| 测试 | 现象 | 归类 |
+## 本轮修掉的（app 6 → 0）
+
+| 测试 | 根因 | 修法 |
 |---|---|---|
-| `TestBuildCapabilitiesUnsupportedItemsStayUnsupported` | 期望 gerber/drill/cpl unsupported，实际 supported | **已修**：改为断言「无 action 的能力不得 supported」 |
-| `TestDeliverablesGerberDrillCplAreGuiOnly` | 期望 `gui_only`，实际 `api_untested` | **已修**：改为断言「gui_only ⇔ 无 typed action」，并断言这三项现在必须有 action |
-| `TestExplicitSave*`（daemon，2 个） | 单独跑 ok，全量跑 FAIL | **顺序依赖**：测试间共享状态；需定位是哪个前置测试污染 |
-| `TestStripArtifactNesting` | `rooted pair: got "." , want "\\"` | **Windows 路径差异** |
-| `TestResolveEnrichScript*`（2 个） | 期望找不到脚本时报错，实际未报错 | **环境依赖**：本机存在 vendored `bom-enrich.py` 副本 |
-| `TestSchDesignatorsOutputAliasesRejected/symlink` | symlink 子用例失败 | **Windows symlink 行为**（创建/解析与 POSIX 不同） |
-| `TestProjectDrawings*`（7 个） | `schematic readback: evidence SHA256 mismatch` 等 | **渲染/回读证据 hash 不匹配**，与渲染器输出或夹具版本有关 |
+| `TestStripArtifactNesting` | **真实 bug**：Windows 上根相对路径 `\.easycirq\artifacts` 的 `filepath.IsAbs` 为 false，返回值从 `\` 变成 `.` | 实现改为 `IsAbs(clean) || HasPrefix(clean, sep)` |
+| `TestResolveEnrichScript*`（2） | **真实缺口**：cwd walk-up 的技能名清单缺 `easycirq`（只有 design-hardware / easycirq-agent / easycirq-schematic） | 名单加上 `easycirq/scripts/` |
+| 同上（主机侧断言） | 本机真的装了 skill，installed rung 先于 cwd 命中 | 用行为检测 `realInstallWins` 显式 skip 并说明 |
+| `TestSchDesignatorsOutputAliasesRejected/symlink` | Windows 创建符号链接需提权 | 共享 helper `skipWithoutSymlinkPrivilege` |
+| `TestLayoutReportRefusesPathAliasesBeforeWriting` | 同上 | 同上 |
+| `TestResolveEnrichScriptNotFoundListsProbedPaths` | 同「真实缺口」+ 主机安装 | 名单修复 + 行为 skip |
 
-## 未取证的
+## 上一轮修掉的（app 14 → 6）
 
-`TestLayoutReportRefusesPathAliasesBeforeWriting` 未逐条看错误，**不归类**。
+见 git 历史：能力/交付物的过期断言（改为断言规则）、ProjectDrawings 的换行/旧 metadata id/平台假设。
 
 ## 待办
 
-1. 定位 daemon 两个测试的顺序依赖（找出污染源）；
-2. `TestProjectDrawings*` 的 hash 失配需要确认是渲染器版本还是夹具过期；
-3. 平台差异类按 `runtime.GOOS` 分支，而不是放宽断言；
-4. 全绿后把 `validate-go.yml` 的「报告」改为「阻断」。
+1. daemon 两个 `TestExplicitSave*` 的顺序依赖：找出污染源（哪个前置测试留下的状态）。
+2. `selfupdate` 两个失败取证。
+3. 全绿后把 `validate-go.yml` 的阻断范围扩大。
