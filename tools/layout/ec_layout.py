@@ -769,7 +769,7 @@ def _join(*parts):
     return out
 
 
-def plan_pad_via_sites(board, pad_forbid, max_ring=3, radius=VIA_RADIUS):
+def plan_pad_via_sites(board, pad_forbid, max_ring=3, radius=VIA_RADIUS, nets=None):
     """One legal via site per SMD pad, chosen BEFORE anything is routed.
 
     Measured on RetroCam-02: 174 of 176 SMD pads have a site within 3 cells when
@@ -781,6 +781,8 @@ def plan_pad_via_sites(board, pad_forbid, max_ring=3, radius=VIA_RADIUS):
     sites, taken = {}, set()
     need = radius + CLEARANCE
     for net, pads in sorted(board.nets.items()):
+        if nets is not None and net not in nets:
+            continue
         for p in pads:
             lay = int(p.get("layer") or 1)
             if lay not in (1, 2, 3, 4):
@@ -931,7 +933,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_preplan=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -981,6 +983,31 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     # drawn, and other nets are kept off those discs.  This is the global plan
     # the per-leg version (--via-plan) failed to be.
     pad_sites, site_disc_owner, blocked_by_net = {}, {}, {}
+    # Pour access vias are decided BEFORE routing and their discs are reserved for
+    # every other net.  Choosing them afterwards cannot help: by then the corridors
+    # are fixed (four site-ranking schemes were measured and all lost, §24.1).
+    pour_sites, pour_blocked = {}, {}
+    if pour_groups and pour_preplan:
+        all_pour = set()
+        for g_nets, _g_layer in pour_groups:
+            all_pour |= set(g_nets)
+        pour_sites = plan_pad_via_sites(board, pad_forbid, max_ring=pour_step,
+                                        nets=all_pour)
+        owner_of = {}
+        for net in all_pour:
+            for p in board.nets.get(net, []):
+                cell = pour_sites.get((p["des"], p["pad"]))
+                if cell is not None:
+                    owner_of[cell] = net
+        for net in board.nets:
+            pour_blocked[net] = set()
+        for cell, owner in owner_of.items():
+            for disc in reserve_via_discs(board, {0: cell}):
+                for net in board.nets:
+                    if net != owner:
+                        pour_blocked[net].add(disc)
+        for net in board.nets:
+            blocked_by_net.setdefault(net, set()).update(pour_blocked[net])
     if via_first:
         pad_sites = plan_pad_via_sites(board, pad_forbid)
         for (des, pad), cell in pad_sites.items():
@@ -1199,7 +1226,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         groups.append((set(pg_nets), int(pg_layer)))
     for group_nets, group_layer in groups:
         vias, stubs = plane_access(board, best_routed, group_nets, group_layer,
-                                     max_step=pour_step)
+                                     max_step=pour_step, sites=pour_sites)
         # The pad->via stub is the ONLY copper a plane net may spend: the test
         # contract allows stubs up to 3*GRID and nothing longer. Dropping the stubs
         # entirely disconnects the pad from its via (measured: GND reported dead).
@@ -1214,6 +1241,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         # After the pours: an access via is fixed copper, so relocation has to see
         # it or it will happily slide a routing via onto one (measured: CAM_D0 and
         # GND shared a cell, one congestion unit came back).
+        relocate_pour_vias(board, best_routed, max_step=pour_step)
         relocated, _still = relocate_vias(board, best_routed)
     return (len(best_failures), best_congestion), best_routed, best_failures
 
@@ -1405,7 +1433,7 @@ def _disc_clear(board, cell, net, pad_forbid, busy, width, radius=VIA_RADIUS, ma
     return True
 
 
-def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
+def plane_access(board, routed, plane_nets, plane_layer, max_step=3, sites=None):
     """Give every pad of a plane net a via beside it, plus a one-cell stub.
 
     A plane is how a four-layer board really connects GND: the pads drop to the
@@ -1442,7 +1470,15 @@ def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
             # say, (2, 1) is invisible to an 8-direction sweep, which is why
             # widening max_step alone only moved via-in-pad from 5 to 4.
             target = None
-            for margin in (CLEARANCE, VIA_BLOCK_MARGIN):
+            pre = (sites or {}).get((pad["des"], pad["pad"]))
+            if pre is not None and pre not in busy and _disc_clear(
+                    board, pre, net, pad_forbid, busy, route_width(net)):
+                # A site planned BEFORE routing: the tracks were laid out around
+                # this disc instead of after it, which is the only way an access
+                # via can avoid everyone else's corridor.
+                target = pre
+            # Skip the fallback search when an up-front site was accepted.
+            for margin in (() if target is not None else (CLEARANCE, VIA_BLOCK_MARGIN)):
                 for r in range(1, max_step + 1):
                     cands = [(dx, dy) for dx in range(-r, r + 1) for dy in range(-r, r + 1)
                              if max(abs(dx), abs(dy)) == r]
@@ -1776,6 +1812,66 @@ def relocate_vias(board, routed, max_shift=3, rounds=3):
                 if a[2] != b[2] and a[:2] == b[:2] and not _via_site_ok(occ, net, a):
                     bad += 1
     return moved, bad
+
+
+def relocate_pour_vias(board, routed, max_step=5, rounds=3):
+    """Slide pour access vias to a legal cell and re-draw their stubs.
+
+    The 59 access vias are the biggest remaining violation class, and unlike a
+    routing via they CAN move: the only copper attached to them is a one-cell
+    stub.  For each offending access via, search rings around its pad for a cell
+    whose disc clears every net's current copper, then rewrite the stub to end
+    there.
+    """
+    occ = _occupancy_map(board, routed)
+    moved = 0
+    for _round in range(rounds):
+        progress = False
+        for v in routed.get(PLANE_VIA_KEY, []):
+            net = v["net"]
+            cell = board.cell(v["x"], v["y"])
+            if _via_site_ok(occ, net, cell):
+                continue
+            width = route_width(net)
+            stub_idx, pad_cell = None, None
+            for ai, path in enumerate(routed.get(net, [])):
+                if len(path) == 2 and path[1][:2] == cell:
+                    stub_idx, pad_cell = ai, path[0][:2]
+                    break
+            if stub_idx is None:
+                continue
+            for layer in range(1, 5):
+                occ[(cell[0], cell[1], layer)].discard(net)
+            best = None
+            for r in range(1, max_step + 1):
+                for dx in range(-r, r + 1):
+                    for dy in range(-r, r + 1):
+                        if max(abs(dx), abs(dy)) != r:
+                            continue
+                        cand = (pad_cell[0] + dx, pad_cell[1] + dy)
+                        if not (0 <= cand[0] < board.w and 0 <= cand[1] < board.h):
+                            continue
+                        if not _via_site_ok(occ, net, cand, width=width):
+                            continue
+                        best = cand
+                        break
+                    if best:
+                        break
+                if best:
+                    break
+            if best is None:
+                for layer in range(1, 5):
+                    occ[(cell[0], cell[1], layer)].add(net)
+                continue
+            v["x"], v["y"] = board.center(*best)
+            routed[net][stub_idx] = [(pad_cell[0], pad_cell[1], 1), (best[0], best[1], 1)]
+            for layer in range(1, 5):
+                occ[(best[0], best[1], layer)].add(net)
+            moved += 1
+            progress = True
+        if not progress:
+            break
+    return moved
 
 
 def clearance_violations(board, plan):
@@ -2716,7 +2812,8 @@ def main():
                                                        pour_specs=a.pour_specs,
                                                        best_effort=a.best_effort,
                                                        priority_nets=set(a.priority_nets),
-                                                       via_relocate=a.via_relocate)
+                                                       via_relocate=a.via_relocate,
+                                                       pour_preplan=a.pour_preplan)
         plan = plan_from(board, routed)
         if a.match_lengths:
             match_lengths(board, plan)
@@ -2755,6 +2852,10 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
 
 
 
