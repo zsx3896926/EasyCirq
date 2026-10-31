@@ -1333,4 +1333,66 @@ place → route → report（11 项 KPI）→ gate → emit_apply（拒绝或出
 1. 把 `bus_capacity.py` 的结论沉淀进 README 的「已知限制」：**等长在当前引脚分配下不可达**。
 2. 回读校验脚本（`after.json` vs `apply-plan.json` 的自动 diff）——目前只是 APPLY.md 里的文字清单。
 
+---
+
+## 33. 第二十四轮：**板子有自己的规则，而我们一直没读** 2026-02-01
+
+### 33.1 dump 里就有规则，之前没人看
+
+```
+clearanceMil 5.98 | clearanceTrackTrackMil 4.02 | trackWidthMil 10 | powerWidthMil 20
+trackWidthMinMil 5 | viaDrillMil 12.01 | viaDiameterMil 24.02 | copperToEdgeMil 10
+copperLayers 2
+```
+
+而路由器用的是自己写死的常量：`VIA_RADIUS = 10`、`TRACE = 7`、`POWER_TRACE = 12`、`EDGE = 40`，
+并且按 **4 层**布线。
+
+### 33.2 影响有多大：实测
+
+把过孔半径按板子的真实值改成 **12.01** 再跑一遍同样的管线：
+
+| 口径 | 间距 | 其余门禁 |
+|---|---|---|
+| 旧（半径 10） | **121** | 全 0 |
+| **真实（半径 12.01）** | **238** | 全 0（未布通 0、拥塞 0、未连通 0、铜岛 0） |
+
+**之前的 121 是低估了近一倍的乐观值。真实数字是 238。**
+
+### 33.3 更要命的一条：层数
+
+`copperLayers = 2`，而我们的计划用 **4 层**。这份计划**根本不能应用于当前板子**。
+它要么是历史遗留的 2 层设置，要么需要真的改成 4 层叠层（那是设计决策，不是布线能解决的）。
+
+### 33.4 新增 `plan_lint.py` + 交付闸门升级
+
+```bash
+python tools/layout/plan_lint.py plan.json --dump dump2.json    # exit 1 = 不要上机
+```
+
+六项检查：层数、过孔直径（板规则 vs 路由器常量）、最小线宽、电源线宽、铜到板边、塞孔过孔。
+`emit_apply.py` 现在**同时**跑 KPI 门禁与板规则 lint，任一不过就拒绝：
+
+```
+REFUSED: the offline gate is not green, so nothing goes to the machine.
+  - clearance_violations: 121
+  - bus skew CAM_D / LCD_ / SD_
+  - layer count: plan uses layers [1, 2, 3, 4], board declares 2 copper layer(s)
+```
+
+### 33.5 修正后的诚实前沿
+
+```
+未布通 0 ✅ | 拥塞 0 ✅ | 未连通 0 ✅ | 焊盘层缺口 0 ✅ | 铜岛 0 ✅
+间距 238 ❌（按板规则重算）| 等长 713/165/298 ❌（设计冲突）
+vias 178（接入 59、塞孔 7）| 走线段 536 | 总线长 37142 | 45° 0.413
+层数：计划 4 层 / 板子声明 2 层 ❌（阻断上机）
+```
+
+### 33.6 下一步
+
+1. **先解决层数**：确认 RetroCam-02 到底是 2 层还是 4 层。若是 2 层，现有全部布线结果
+   都不适用，需要在 2 层约束下重跑（并预期指标显著变差）。
+2. 层数确认后再谈间距 238——在这个数字上，之前"121 是极限"的结论需要重新评估。
+
 

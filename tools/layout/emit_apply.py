@@ -26,6 +26,9 @@ import os
 import sys
 from collections import Counter
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import ec_layout as ec  # noqa: E402
+
 
 def load(path):
     with open(path, encoding="utf-8") as f:
@@ -46,6 +49,23 @@ def gate_reasons(kpi):
         if spread >= 50:
             reasons.append("bus skew %s: %.1f mil (target <50)" % (group, spread))
     return reasons
+
+
+def board_rule_reasons(dump_path, plan):
+    """Second gate: the plan must agree with the BOARD's own rules.
+
+    The router's constants are not the board's rules. Measured: the board says via
+    diameter 24.02 mil while the router assumed 20, which turned "121 violations"
+    into 238; and the board declares 2 copper layers while the plan uses 4.
+    """
+    import plan_lint
+    with open(dump_path, encoding="utf-8") as f:
+        board = ec.Board(json.load(f))
+    out = []
+    for name, ok, detail in plan_lint.lint(board, plan):
+        if not ok:
+            out.append("%s: %s" % (name, detail))
+    return out
 
 
 def normalise(plan):
@@ -148,6 +168,11 @@ def main():
     plan = load(a.plan)
     kpi = load(a.kpi)
     reasons = gate_reasons(kpi)
+    if a.dump:
+        try:
+            reasons += board_rule_reasons(a.dump, plan)
+        except Exception as exc:            # a lint that cannot run must not pass
+            reasons.append("board rule lint failed: %s" % exc)
     if reasons and not a.force:
         print("REFUSED: the offline gate is not green, so nothing goes to the machine.")
         for r in reasons:
@@ -179,3 +204,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

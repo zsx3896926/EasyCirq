@@ -43,7 +43,7 @@ HALO = [(dx, dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
 KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected",
             "pad_layer_gaps", "pour_islands")
 PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access vias
-VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
+VIA_RADIUS = 12.01                 # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
 VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
 POUR_CLEARANCE = 8.0               # mil a pour keeps from other nets' copper
@@ -79,6 +79,20 @@ class Board:
         self.y1 = float(bb.get("maxY", 1968)) - EDGE
         self.w = int((self.x1 - self.x0) // GRID)
         self.h = int((self.y1 - self.y0) // GRID)
+        # The board carries its OWN design rules.  Ignoring them was measured to be
+        # optimistic: the dump says via diameter 24.02 mil (radius 12.01) while the
+        # router assumed 20 mil, and the "121 violations" figure became 238 once the
+        # real diameter was applied.  Keep the rules on the board object.
+        rr = r.get("rules") or {}
+        self.rules = rr
+        self.via_radius = float(rr.get("viaDiameterMil") or 2 * VIA_RADIUS) / 2.0
+        self.clearance = float(rr.get("clearanceMil") or CLEARANCE)
+        self.track_width = float(rr.get("trackWidthMil") or TRACE)
+        self.power_width = float(rr.get("powerWidthMil") or POWER_TRACE)
+        self.min_width = float(rr.get("trackWidthMinMil") or TRACE)
+        self.edge_clearance = float(rr.get("copperToEdgeMil") or 0.0)
+        self.layer_count = int(r.get("copperLayers") or 2)
+        self.routed_line_count = int(r.get("routedLines") or 0)
         self.nets = defaultdict(list)
         for des, c in self.comps.items():
             for p in c["pads"]:
@@ -2916,6 +2930,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
