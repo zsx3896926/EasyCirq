@@ -80,6 +80,6 @@
 | 打样后验收卡 | ✅ 已做：`easycirq acceptance`（6 项单测）；「通过但无实测证据」判为 unknown，不冒充通过；**已安装到客户机并验证** |
 | MCP 跨宿主 | 只有只读骨架 |
 
-**指标 1 实测**（1.3.5，隔离安装）：install 2.4s + setup 1.2s + status 0.1s = **3.6s**（工具层）；含在 EasyEDA 里导入连接器与重启，估算 3–5 分钟。
+**指标 1 实测**（1.3.6，隔离安装）：install 2.4s + setup 1.2s + status 0.1s = **3.6s**（工具层）；含在 EasyEDA 里导入连接器与重启，估算 3–5 分钟。
 
 **发版链路已验证**：asycirq-toolchain-1.2.0.zip（runtime 1.2.0 + connector 1.0.20 + skill 1.1.0）经 asycirq_install.py install 隔离安装后 erify 报 healthy（804 文件，0 changed/missing/extra）。MCP 四工具（status/card/setup/apply）已跨宿主可用。
