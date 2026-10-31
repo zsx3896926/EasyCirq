@@ -7,9 +7,23 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"regexp"
+	"runtime"
 	"strings"
 	"testing"
 )
+
+// skipWithoutSymlinkPrivilege turns the Windows "client does not hold the
+// required privilege" error into a skip: creating a symlink needs elevation or
+// Developer Mode there, and that is an environment limit, not a code defect.
+// Any other error still fails the test.
+func skipWithoutSymlinkPrivilege(t *testing.T, err error) {
+	t.Helper()
+	if runtime.GOOS == "windows" && strings.Contains(err.Error(), "privilege") {
+		t.Skipf("cannot create symlinks on this host: %v", err)
+	}
+	t.Fatal(err)
+}
 
 func drawingsTestFixture(t *testing.T) (string, projectDrawingsSpec) {
 	t.Helper()
@@ -120,7 +134,10 @@ func TestProjectDrawingsRejectsInvalidSourcesAndBindings(t *testing.T) {
 		change func(*testing.T, string, *projectDrawingsSpec)
 		want   string
 	}{
-		{"missing image", func(t *testing.T, dir string, s *projectDrawingsSpec) { s.Artifacts[1].Path = "missing.png" }, "no such file"},
+		{"missing image", func(t *testing.T, dir string, s *projectDrawingsSpec) { s.Artifacts[1].Path = "missing.png" },
+			// the OS text differs per platform ("no such file" on POSIX,
+			// "cannot find the file" on Windows); match either
+			"no such file|cannot find the file"},
 		{"hash mismatch", func(t *testing.T, dir string, s *projectDrawingsSpec) {
 			s.Artifacts[1].SHA256 = strings.Repeat("0", 64)
 		}, "SHA256 mismatch"},
@@ -149,7 +166,7 @@ func TestProjectDrawingsRejectsInvalidSourcesAndBindings(t *testing.T) {
 		{"relative traversal", func(t *testing.T, dir string, s *projectDrawingsSpec) { s.Artifacts[0].Path = "../schematic.svg" }, "traversal"},
 		{"symlink source", func(t *testing.T, dir string, s *projectDrawingsSpec) {
 			if err := os.Symlink(filepath.Join(dir, "schematic.svg"), filepath.Join(dir, "link.svg")); err != nil {
-				t.Fatal(err)
+				skipWithoutSymlinkPrivilege(t, err)
 			}
 			s.Artifacts[0].Path = "link.svg"
 		}, "symlink"},
@@ -216,8 +233,12 @@ func TestProjectDrawingsRejectsInvalidSourcesAndBindings(t *testing.T) {
 			tt.change(t, dir, &spec)
 			out := filepath.Join(dir, "result")
 			_, err := generateProjectDrawings(drawingsTestWriteSpec(t, dir, spec), out)
-			if err == nil || !strings.Contains(err.Error(), tt.want) {
-				t.Fatalf("got %v, want %q", err, tt.want)
+			matched := false
+			if err != nil {
+				matched, _ = regexp.MatchString(tt.want, err.Error())
+			}
+			if err == nil || !matched {
+				t.Fatalf("got %v, want match %q", err, tt.want)
 			}
 			if _, err := os.Stat(out); !os.IsNotExist(err) {
 				t.Fatal("failed validation created output")
@@ -236,7 +257,7 @@ func TestProjectDrawingsOutputAliasesAndSymlinks(t *testing.T) {
 	}
 	link := filepath.Join(dir, "out-link")
 	if err := os.Symlink(filepath.Join(dir, "missing-target"), link); err != nil {
-		t.Fatal(err)
+		skipWithoutSymlinkPrivilege(t, err)
 	}
 	if _, err := generateProjectDrawings(path, link); err == nil {
 		t.Fatal("output symlink accepted")
