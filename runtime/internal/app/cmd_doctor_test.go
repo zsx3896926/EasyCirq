@@ -35,17 +35,25 @@ func TestBuildCapabilitiesUnsupportedItemsStayUnsupported(t *testing.T) {
 	for _, it := range items {
 		byID[it.ID] = it
 	}
-	for _, id := range []string{"gerber.export", "drill.export", "cpl.export"} {
-		it, ok := byID[id]
-		if !ok {
-			t.Fatalf("missing capability %s", id)
+	// The invariant is "an item with no backing typed action must never report
+	// supported", not a fixed id list: gerber/drill/cpl gained real actions on
+	// 2026-10-28 (pcb.manufacture.gerber / .cpl, drill rides on gerber), so a
+	// hard-coded unsupported list went stale. Assert the rule instead.
+	sawUnsupported := 0
+	for _, it := range items {
+		if it.ActionCount > 0 {
+			continue
 		}
-		if it.Status != "unsupported" {
-			t.Fatalf("%s status = %s, want unsupported (no typed action exists)", id, it.Status)
+		sawUnsupported++
+		if it.Status == "supported" {
+			t.Fatalf("%s has no typed action but reports supported", it.ID)
 		}
 		if it.Reason == "" {
-			t.Fatalf("%s must explain why it is unsupported", id)
+			t.Fatalf("%s must explain why it is unsupported", it.ID)
 		}
+	}
+	if sawUnsupported == 0 {
+		t.Fatal("expected at least one capability without a typed action; the test would prove nothing otherwise")
 	}
 }
 

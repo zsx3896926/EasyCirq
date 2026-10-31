@@ -1,50 +1,35 @@
-# 已知失败（Go 全量套件，2026-10-31）
+# 已知失败（Go 全量套件，2026-10-31 更新）
 
-## 结论
+## 现状
 
-`go test ./...` 在 Windows 上有 **16 个失败**，全部集中在这几个包：
-`runtime/internal/app`（14）与 `runtime/internal/daemon`（2）。
-
-**这些失败与本次「离线门禁 + 客户命令」的改动无关**：改动只涉及
-`daemon` 的 gate 校验与 `app` 的 status/setup/card/acceptance 四个命令，
-它们各自的测试（`TestGate*`、`TestStatus*`、`TestSetup*`、`TestCard*`、
-`TestAcceptance*`）全绿。
-
-## 失败清单
-
-`runtime/internal/app`：
-
-- `TestDeliverablesGerberDrillCplAreGuiOnly`
-- `TestBuildCapabilitiesUnsupportedItemsStayUnsupported`
-- `TestSchDesignatorsOutputAliasesRejected`
-- `TestStripArtifactNesting`
-- `TestResolveEnrichScriptPriority`
-- `TestResolveEnrichScriptNotFoundListsProbedPaths`
-- `TestProjectDrawings*`（7 个）
-- `TestLayoutReportRefusesPathAliasesBeforeWriting`
-
-`runtime/internal/daemon`：
-
-- `TestExplicitSaveHTTPInFlightKeepsNewMutationPending`
-- `TestExplicitSaveCancelsOnlyConfirmedOlderTarget`
-
-## 已确认的一点
-
-`TestExplicitSaveCancelsOnlyConfirmedOlderTarget` 在**未含本次改动的基线**上
-同样失败（用 `git stash` 验证过），所以至少这一条是既有问题。
-
-其余 15 条未逐条做基线对照，**不能声称**它们与本次改动无关——只能说它们
-不在本次改动触及的测试范围内。
+`go test ./...` 在 Windows 上仍有 **15 个失败**（上一轮 16，本轮修掉 1 个：
+`TestBuildCapabilitiesUnsupportedItemsStayUnsupported`）。
 
 ## CI 策略
 
 `.github/workflows/validate-go.yml`：
 
 - **阻断**：`TestGate*`（daemon）与 `TestStatus|TestSetup|TestCard|TestAcceptance`（app）
-- **只报告**：`go test ./...` 与 `go vet ./...`（`|| true`），保留失败可见但不卡合并
+- **只报告**：`go test ./...` 与 `go vet ./...`（`|| true`）
 
-这样既不会因为既有失败挡住流水线，也不会假装那些失败不存在。
+## 已取证的归类
+
+| 测试 | 现象 | 归类 |
+|---|---|---|
+| `TestBuildCapabilitiesUnsupportedItemsStayUnsupported` | 期望 gerber/drill/cpl 为 unsupported，实际 supported | **已修**：这三个能力 2026-10-28 已有 typed action（`pcb.manufacture.gerber/.cpl`），测试硬编码的 id 列表过期；改为断言「无 action 的能力不得 supported」 |
+| `TestExplicitSaveCancelsOnlyConfirmedOlderTarget`（daemon） | 显式保存取消了更新的变更 | **基线已确认**：`git stash` 后同样失败，非本轮引入 |
+| `TestStripArtifactNesting` | `rooted pair: got ".", want "\\"` | **Windows 路径差异**：测试期望根前缀 `\`，实现返回 `.` |
+| `TestResolveEnrichScriptNotFoundListsProbedPaths` | 期望找不到脚本时报错，实际未报错 | **环境依赖**：本机存在 vendored `bom-enrich.py` 副本，测试前提（仓库内无副本）不成立 |
+| `TestProjectDrawings*`（7 个） | `schematic readback: evidence SHA256 mismatch` 等 | **渲染/回读证据 hash 不匹配**，与渲染器输出或夹具版本有关 |
+
+## 未取证的
+
+`TestDeliverablesGerberDrillCplAreGuiOnly`、`TestSchDesignatorsOutputAliasesRejected`、
+`TestLayoutReportRefusesPathAliasesBeforeWriting`、daemon 的
+`TestExplicitSaveHTTPInFlightKeepsNewMutationPending` 未逐条看错误，**不归类**。
 
 ## 待办
 
-逐条给这 16 个失败做基线对照并归类（环境依赖 / 真实的既有 bug / 需要更新夹具）。
+1. 逐个确认剩余失败是环境差异还是真实缺陷；
+2. 若是平台差异，测试应按 `runtime.GOOS` 分支，而不是放宽断言；
+3. 修完后把 `validate-go.yml` 的「报告」改为「阻断」。
