@@ -90,7 +90,12 @@ class Board:
         return self.x0 + (cx + 0.5) * GRID, self.y0 + (cy + 0.5) * GRID
 
     def pad_blocked(self):
-        blocked, own, padcells = {}, defaultdict(set), defaultdict(set)
+        # One cell can sit in the keep-out ring of SEVERAL pads.  Storing a single
+        # owner meant "last pad wins", so a pad's own ring could be attributed to a
+        # neighbour — and the router then refused to let the net approach its own
+        # pad. That is exactly why BTN_DOWN could not reach U5.15: its goal was
+        # walled in by rings recorded under other nets. Store the whole set.
+        blocked, own, padcells = defaultdict(set), defaultdict(set), defaultdict(set)
         for des, c in self.comps.items():
             for p in c["pads"]:
                 # NOTE: inflating by CLEARANCE + trace/2 was tried and measured
@@ -108,7 +113,7 @@ class Board:
                             own[p["net"]].add((gx, gy))
                             padcells[(gx, gy)].add(p["net"])
                         else:
-                            blocked[(gx, gy)] = p["net"]
+                            blocked[(gx, gy)].add(p["net"])
         self.pad_cells = padcells
         return blocked, own
 
@@ -716,7 +721,7 @@ def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
                 if not (0 <= cx < board.w and 0 <= cy < board.h):
                     continue
                 owner = pad_forbid.get((cx, cy))
-                if owner is not None and owner != net:
+                if owner and net not in owner:
                     continue
                 ok = True
                 for ex in range(-reach, reach + 1):
@@ -728,7 +733,7 @@ def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
                         # that sat on a neighbour's keep-out ring (via-pad
                         # violations went 85 -> 104 with the "legal" sites).
                         owner = pad_forbid.get((cx + ex, cy + ey))
-                        if owner is not None and owner != net:
+                        if owner and net not in owner:
                             ok = False
                             break
                         for layer in range(1, 5):
@@ -817,7 +822,7 @@ def plan_via_first_leg(board, a, b, net, sites, layer_ok, pad_forbid, cost, allo
     lb = int(b.get("layer") or 1)
     sa = sites.get((a["des"], a["pad"]))
     sb = sites.get((b["des"], b["pad"]))
-    forbidden = {c for c, o in pad_forbid.items() if o != net} | set(blocked or ())
+    forbidden = {c for c, o in pad_forbid.items() if net not in o} | set(blocked or ())
     # llowed (pad escape bands) must not override another net's reserved via
     # disc: in astar llowed beats orbidden, so subtracting is required.
     safe_allowed = set(allowed) - set(blocked or ())
@@ -885,7 +890,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     la = min(la_set) if la_set else mid
     lb = min(lb_set) if lb_set else mid
     width = route_width(net)
-    forbidden = {c for c, o in pad_forbid.items() if o != net}
+    forbidden = {c for c, o in pad_forbid.items() if net not in o}
 
     if la == mid and lb == mid:
         return flat_route(board, sc, gc, mid, forbidden, cost, allowed)
@@ -986,17 +991,23 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         for net in board.nets:
             blocked_by_net[net] = {c for c, o in site_disc_owner.items() if o != net}
     best = None
+    failed_last_pass = set()
     for it in range(iters):
         via_block = {k: set(v) for k, v in via_base.items()} if via_base else None
+        # Nets that died in the previous pass go FIRST: they only route at all if
+        # they claim their corridor before everyone else.  Doing this by hand with
+        # --priority-net BTN_DOWN took unrouted 1 -> 0; the negotiation can do it
+        # for whoever needs it, every pass.
+        order = sorted(nets, key=lambda n: 0 if n in failed_last_pass else 1)
         used = defaultdict(set)
         halo = defaultdict(set)
         routed, failures = {}, []
-        for net in nets:
+        for net in order:
             pads = board.nets[net]
             pref = preferred_layer(net, layers)
             if layers < 2:
                 pref = 1
-            forbidden = {c for c, o in pad_forbid.items() if o != net}
+            forbidden = {c for c, o in pad_forbid.items() if net not in o}
             if spacing_hard or (hard_nets and net in hard_nets):
                 # Spacing as a HARD constraint: cells (and their 8-neighbour halo)
                 # claimed by another net in this pass are off limits, not merely
@@ -1048,8 +1059,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             # is where an ESCAPE VIA has to go when the pad sits in a
                             # 0.5 mm pitch row and the direct exit is crowded.
                             owners = board.pad_cells.get((gx, gy))
-                            ring_owner = pad_forbid.get((gx, gy))
-                            if (owners and net in owners) or ring_owner == net:
+                            ring_owner = pad_forbid.get((gx, gy)) or set()
+                            if (owners and net in owners) or net in ring_owner:
                                 allowed.add((gx, gy))
                 def _accept(cand):
                     if not cand:
@@ -1083,7 +1094,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         # 3D search instead of dying: without this the planned legs
                         # were rejected outright and unrouted went 10 -> 48.
                         cand = astar(board, sc, gc,
-                                     forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)}
+                                     forbidden
                                      | blocked_by_net.get(net, set()) | set(extra),
                                      cost, pref, allowed, layers, layer_ok=layer_ok,
                                      via_block=via_block, net=net, via_cost=via_cost,
@@ -1176,6 +1187,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             best = (score, routed, failures, pass_congestion)
         if not failures and pass_congestion == 0 and not pairs:
             break
+        failed_last_pass = {f["net"] for f in failures}
         for c in contended:
             history[c] += 1.0
     score, best_routed, best_failures, best_congestion = best
@@ -1231,7 +1243,7 @@ def reroute_net(board, net, extra_forbidden, layers, pad_forbid, own):
     hard obstacles. Used by the repair pass."""
     pads = board.nets[net]
     pref = preferred_layer(net, layers)
-    forbidden = {c for c, o in pad_forbid.items() if o != net} | set(extra_forbidden)
+    forbidden = {c for c, o in pad_forbid.items() if net not in o} | set(extra_forbidden)
     paths = []
     for i, j in mst_edges(pads):
         a, b = pads[i], pads[j]
@@ -1246,8 +1258,10 @@ def reroute_net(board, net, extra_forbidden, layers, pad_forbid, own):
                     owners = board.pad_cells.get((gx, gy))
                     if owners and net in owners:
                         allowed.add((gx, gy))
-        path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
-                     {}, pref, allowed, layers)
+        # Same-net copper may run over its OWN pads (electrically the same node);
+        # blocking them walled in the destination pad (BTN_DOWN could not reach
+        # U5.15 even in a clean board).
+        path = astar(board, sc, gc, forbidden, {}, pref, allowed, layers)
         if not path:
             return None
         paths.append(path)
@@ -1354,7 +1368,7 @@ def _stub_clear(board, pc, vc, busy, pad_forbid, net, margin=CLEARANCE):
             return False
         if strict:
             owner = pad_forbid.get((cx, cy))
-            if owner is not None and owner != net:
+            if owner and net not in owner:
                 return False
         else:
             owners = board.pad_cells.get((cx, cy))
@@ -1378,7 +1392,7 @@ def _disc_clear(board, cell, net, pad_forbid, busy, width, radius=VIA_RADIUS, ma
                 continue
             c = (cell[0] + ex, cell[1] + ey)
             owner = pad_forbid.get(c)
-            if owner is not None and owner != net:
+            if owner and net not in owner:
                 return False
             if c in busy:
                 return False
@@ -2561,7 +2575,8 @@ def main():
                                                        pour_layer=a.pour_layer,
                                                        pour_step=a.pour_step,
                                                        pour_specs=a.pour_specs,
-                                                       best_effort=a.best_effort)
+                                                       best_effort=a.best_effort,
+                                                       priority_nets=set(a.priority_nets))
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2598,6 +2613,10 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
 
 
 

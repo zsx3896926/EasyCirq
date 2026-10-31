@@ -197,7 +197,7 @@ def test_free_via_site_steps_away_from_another_nets_pad():
     site = ec.free_via_site(board, cell, "A", pad_forbid, used, ec.TRACE)
     assert site is not None
     owner = pad_forbid.get(site)
-    assert owner is None or owner == "A"
+    assert not owner or "A" in owner
 
 
 def test_pour_islands_sees_a_pour_cut_in_two():
