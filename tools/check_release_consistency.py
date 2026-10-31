@@ -155,6 +155,38 @@ def report(label: str, left: dict, right: dict, left_name: str, right_name: str)
     return mismatches
 
 
+
+# Files the installer creates inside the skill directory; they have no repo
+# counterpart and are expected.
+INSTALL_METADATA = {".install.json"}
+
+
+def report_extras(folder: Path, label: str) -> int:
+    """Files present in the copy that the repo does not have.
+
+    The forward comparison only asks "is every repo file correctly present"; it
+    cannot see a file that exists only in the copy. Four project documents were
+    copied into ~/.agents/skills/easycirq/references/ that way, where they would be
+    lost on the next install and never shipped in a bundle.
+    """
+    repo_root = REPO_SKILL
+    extras = []
+    for path in sorted(folder.rglob("*")):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(folder).as_posix()
+        if relative in INSTALL_METADATA:
+            continue
+        if not (repo_root / relative).is_file():
+            extras.append(relative)
+    print(f"\n== files in {label} that the repo does not have ==")
+    if not extras:
+        print("  none")
+        return 0
+    for relative in extras:
+        print(f"  EXTRA   {relative}")
+    return len(extras)
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--bundle", help="toolchain zip (default: newest in dist-release/)")
@@ -180,6 +212,7 @@ def main(argv=None):
     if installed_dir.is_dir():
         print(f"installed: {installed_dir}")
         total += report("repo  vs  installed", repo, installed_files(installed_dir), "repo", "installed")
+        total += report_extras(installed_dir, "installed")
     else:
         print(f"installed: {installed_dir} not present (skipped)")
 
