@@ -526,3 +526,62 @@ violations: 8
 
 本轮只记录，没有改板。改板要重跑 DRC + 重新导出 Gerber，
 在工作预算已经超出的情况下，记录下来比仓促改更稳妥。
+
+---
+
+## 我把它改坏了（2026-11-01，第 129 轮）
+
+想修那 7 个 `OBJECTOUTSIDESHEET`（器件在图框外），结果**把板子改得更糟**。
+
+### 做了什么
+
+1. `sch autoplace-free --apply` 把 Q1 从 (1500,500) 移到 (60,70)、R4 从 (1500,800) 移到 (110,45)。
+2. 这个命令的帮助里写着「Parts only (never touches wires/flags)」——**我只看了
+   "finds the gaps for you"，没读那一句**。器件走了，引脚上的导线和网络标签没走。
+3. 用 `sch group-move` 把它们往右推回去，但被图纸右沿钳位：
+   Q1 → (1150, 500)、R4 → (1150, 800)。
+
+### 结果：DRC 从 8 项 warn 变成 12 项
+
+```
+移动前                        移动后
+GLOBALNETSHORTED  1           GLOBALNETSHORTED  1
+OBJECTOUTSIDESHEET 7          OBJECTOUTSIDESHEET 7
+                              SHOWFLOATING      1   ← 新增
+                              SHOWDANDLING      2   ← 新增
+                              CHECKFLOATPIN     1   ← 新增
+------------------------------------------------
+共 8                         共 12
+```
+
+`SHOWFLOATING` / `SHOWDANDLING` / `CHECKFLOATPIN` 都在说同一件事：
+**引脚与导线不再对齐**。首次 `autoplace-free` 撕裂了连接，`group-move` 把它
+们搬回来时，原来那批导线已经被留在原地。
+
+### 现在的状态
+
+| 项 | 状态 |
+|---|---|
+| 工程里的原理图 | **12 项 warn，含引脚/导线脱节** |
+| `deliverables/alarm/board-gerber.zip` | 是移动**之前**导出的，对应的是 8 项 warn 的那一版 |
+| 「可以下单」 | **现在不能这么说** |
+
+### 该怎么修
+
+`group-move` 的文档说明它自动带上「stub wires + 远端 netflag」，
+但对账输出只说了「网表逐引脚一致」——那是**逻辑网络**一致，不是**几何**一致。
+被撕开的导线属于几何问题，网表看不出来。
+
+正确做法（下一轮）：
+
+1. 每次移动后检查 `sch drc` 的 warn 数量是否**不增加**，而不只看网表对账；
+2. 或者用 `sch disconnect` + `sch connect` 重建受影响的引脚连接（干净但慢）；
+3. 或者干脆**不要移动**——7 个 `OBJECTOUTSIDESHEET` 只是出图裁切问题，
+   用 `sch sheet-fit` 之类的手段换更大的图纸模板也能解决，不必碰器件坐标。
+
+### 这一轮的教训
+
+**「对账绿」和「没问题」不是一回事。** `group-move` 说「网表逐引脚一致」，
+我就以为搬对了；实际上几何已经坏了，而它自己也不知道。
+
+这和前面几轮的模式一样：我信任了一个**只覆盖部分事实**的确认信号。
