@@ -80,4 +80,4 @@
 | 打样后验收卡 | ✅ 已做：`easycirq acceptance`（6 项单测）；「通过但无实测证据」判为 unknown，不冒充通过；**已安装到客户机并验证** |
 | MCP 跨宿主 | 只有只读骨架 |
 
-**下一步**：MCP 跨宿主（三层终局的最后一块）。发版链路已跑通：asycirq-toolchain-1.2.0.zip（805 文件，runtime 1.2.0 + connector 1.0.20 + skill 1.1.0）。
+**发版链路已验证**：asycirq-toolchain-1.2.0.zip（runtime 1.2.0 + connector 1.0.20 + skill 1.1.0）经 asycirq_install.py install 隔离安装后 erify 报 healthy（804 文件，0 changed/missing/extra）。MCP 四工具（status/card/setup/apply）已跨宿主可用。
