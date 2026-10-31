@@ -26,7 +26,7 @@ S2 的规则不变：局部拓扑电路（分压、反馈、滤波、去耦、�
 
 ## 15 项 KPI
 
-定义与阈值以 [`metrics/schematic-kpi.v1.json`](../../metrics/schematic-kpi.v1.json) 为准，
+定义与阈值以 [`metrics/schematic-kpi.v1.json`](../metrics/schematic-kpi.v1.json) 为准，
 `scripts/sch_kpi.py` 内置一份一致的默认值（`tests/test_sch_kpi.py` 校验两者不漂移）。
 
 | # | KPI | 类别 | 来源 checker | 默认门限 |
@@ -153,7 +153,7 @@ python scripts/sch_kpi.py --input reports/p1-kpi-input.json \
 4. 保存成功 ≠ 写入成功 ≠ 重开仍在 ≠ 质量通过，四件事分开报告（缺一项 `NOT RUN`）。
 5. 不执行任意 JS、不覆盖未声明对象、不为清告警改电气事实。
 
-**已实测（2026-10-31，临时工程 `KPI-S5-Verify`）**：place → connect → save →
+**已实测（2026-10-31，临时工程 `KPI_S5_Verify`）**：place → connect → save →
 `doc reload` → 回读，`readback_diff = 0`；再放一个器件后 `readback_diff = 1`
 （`component_added`），证明该 diff 双向可信。证据链见 `reports/s5-verify/`。
 

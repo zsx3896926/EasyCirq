@@ -48,7 +48,7 @@ python easycirq/scripts/sch_offline_pipeline.py \
 ## 真机证据
 
 - RetroCam-02 / P1、P2：KPI 表 + 门禁（`reports/README.md`）
-- 临时工程 `KPI-S5-Verify`：S5 保存→重开→回读（0/1 双向）、多分区、跨区穿越、
+- 临时工程 `KPI_S5_Verify`：S5 保存→重开→回读（0/1 双向）、多分区、跨区穿越、
   **连续 2 轮 PASS → apply_allowed=true**（`reports/s5-verify/README.md`）
 
 ## 已知缺口（不要谎报）

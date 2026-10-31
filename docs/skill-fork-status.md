@@ -1,32 +1,42 @@
-# Skill 副本状态（2026-10-31，第 14 轮更新）
+# Skill 副本状态（2026-10-31，第 17 轮更新）
 
 ## 事实
 
-| 位置 | 版本 | 说明 |
-|---|---|---|
-| `~/.agents/skills/easycirq`（生效） | 4.0.0 | 客户端实际加载的副本 |
-| 仓库 `easycirq/` | **3.5**（合并版） | 开发仓库 |
+| 位置 | SKILL.md 契约版本 | `.version` | 说明 |
+|---|---|---|---|
+| `~/.agents/skills/easycirq`（生效） | v3.5（已合并双模式） | 4.0.0 | 客户端实际加载的副本 |
+| 仓库 `easycirq/` | v3.5（已合并双模式） | 1.1.0 | 开发仓库 |
 
-## 本轮合并（第 14 轮）
+两份 **SKILL.md 内容一致**（第 16 轮同步时以仓库为准覆盖），差异只剩 `.version` 元数据。
 
-仓库 `SKILL.md` 顶部已并入 v4.0 的**双模式判定**：
+## 已合并的内容
 
-- 新增「双模式判定」表：咨询模式走 R0–R12；施工模式保留 R0/R4/R5/R8，预算按
-  `references/build-mode.md`（B0–B10），流程按 §4「原理图：离线先行」。
-- 契约标题从 `v3.4` 改为 `v3.5`，R0–R12 细则**完整保留**（不替换、不丢规则）。
-- `references/build-mode.md` 已在仓库内。
-- `skill_selftest.py` → 6 PASS, 0 FAIL。
+- 双模式判定（咨询 R0–R12 / 施工 build-mode.md）
+- §4「原理图：离线先行」四步 + 客户旅程指针
+- `references/build-mode.md`、`references/customer-journey.md`、`references/schematic-offline-first.md`
+- `metrics/schematic-kpi.v1.json`（skill 内副本，防漂移测试覆盖）
 
-## 剩余差异
+## 第 16 轮踩到的坑
 
-| 项 | 仓库 | 生效副本 |
-|---|---|---|
-| 契约标题版本 | v3.5（双模式 + R0–R12） | v4.0（双模式，R 细则精简） |
-| 其他正文 | 两者已同步（KPI 流程段、工具表、文档均一致） | 同左 |
+同步 SKILL.md 到安装副本时**只复制文件、没跑 selftest**，导致：
 
-标题版本号不同但**语义一致**（双模式 + 施工契约都在），不再影响使用。
+1. 安装副本的 SKILL 被仓库 v3.5 覆盖（原为 v4.0），版本号与内容暂时不一致；
+2. v3.5 引用的两个文件在安装副本里不存在（`pcb-placement-benchmarks.md`、
+   `engineering-deepdives/exercises-pcb/`），selftest 报 2 条链接失效。
+
+已补齐文件，两份 selftest 均为 6 PASS。
+
+## 现在的同步流程（必须遵守）
+
+```bash
+# 1. 复制 SKILL.md 与新增 references
+# 2. 必须跑两份 selftest
+python easycirq/scripts/skill_selftest.py                    # 仓库
+python ~/.agents/skills/easycirq/scripts/skill_selftest.py   # 生效副本
+# 3. 两者都 6 PASS 才能说“技能已更新”
+```
 
 ## 判定
 
-- 改仓库后仍需同步到生效副本并跑 `skill_selftest.py`，再声称“技能已更新”。
-- 本轮之后两份的**可执行内容**已一致；版本号差异仅剩标注。
+内容一致、版本号不同（`.version` 4.0.0 vs 1.1.0）。版本号属于分发元数据，
+不影响运行；但对外宣称版本时以 `.version` 为准，并注明 SKILL.md 契约是 v3.5。
