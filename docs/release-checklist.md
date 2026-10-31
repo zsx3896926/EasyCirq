@@ -64,7 +64,23 @@ CONSISTENT
 
 **教训**：检查工具本身也要先验证一次——一个永远报错的检查器，和没有检查器一样糟。
 
-## 四、同步技能副本的正确姿势
+## 四、同步技能副本：必须全量，不能只同步改过的文件
+
+```powershell
+Copy-Item easycirq/* ~/.agents/skills/easycirq -Recurse -Force
+```
+
+**为什么必须全量**：2026-11-01 把一致性检查从 12 个文件扩到 327 个时发现，
+技能副本里有 **256 个文件内容过时**——因为过去每次只复制「当轮改过的文件」。
+用户实际在 agents 客户端用的是那些旧副本。
+
+检查命令（必须全绿）：
+
+```bash
+python tools/check_release_consistency.py   # 期望 all 327 key files equal
+```
+
+## 五、同步技能副本的正确姿势
 
 ```powershell
 # 用字节复制，不要用 Get-Content/Set-Content（会改换行）
