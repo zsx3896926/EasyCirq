@@ -56,12 +56,17 @@ python easycirq/scripts/sch_offline_pipeline.py \
 1. `pin-plan/v1` 必须由设计侧提供；不能用现成连线反推（等于自证）。
 2. KPI 7 只能 advisory：IR 无模块归属，「拓扑电路 100% 直连」需人工/导图复核。
 3. `sch text-list` 中文输出乱码、`sch sheet-geometry` 无 `--page`（CLI 小缺陷，未修）。
-4. 仓库 `SKILL.md` v3.5 与生效副本 v4.0 语义一致、版本号不同（见 `docs/skill-fork-status.md`）。
+4. skill 生效副本与仓库已逐文件哈希一致（见 `docs/skill-fork-status.md`），
+   但 `.version` 仍是 4.0.0 vs 1.1.0 的元数据差异。
+5. 打样后的验收（焊接/上电/功能）只有工具，**没有一块真实的板走完过**——
+   指标 7「全链路可追溯」因此未验证。
 
 ## 验证命令
 
 ```bash
-python -m pytest tests -k sch              # 423 passed
+python -m pytest tests -k sch              # 531 passed
+python -m unittest discover -s tests      # 4753 passed（CI 等价）
+cd runtime && go test ./... -vet=off      # 全部包 ok
 python easycirq/scripts/skill_selftest.py  # 6 PASS
 python easycirq/scripts/sch_offline_pipeline.py --snapshot-dir tests/fixtures/sch-pipeline-p1 \
   --project P --page P1 --out-dir /tmp/kpi  # 夹具回归
@@ -70,3 +75,35 @@ python easycirq/scripts/sch_offline_pipeline.py --snapshot-dir tests/fixtures/sc
 ## 纪律
 
 缺证据判 `BLOCKED`；保存成功 ≠ 写入成功 ≠ 重开仍在 ≠ 质量通过；不为清告警改电气事实。
+
+## 客户侧命令（1.2.x 起）
+
+客户不需要跑上面的 Python 脚本，只需要三条命令：
+
+```bash
+easycirq setup        # 装好了没有
+easycirq status       # 现在能不能写，下一步做什么
+easycirq card         # 能不能打样，还差什么
+easycirq acceptance   # 打样后的验收卡
+```
+
+四步的真实输出与判定见 `docs/customer-run-2026-10-31.md`。
+
+## 写入门禁（daemon 层，真机已验证）
+
+未过离线门禁时，任何 mutating action 被 daemon 以 HTTP 403 拒绝：
+
+| 场景 | 结果 |
+|---|---|
+| 无通行证 | `GATE_REQUIRED` + 路径与下一步 |
+| 通行证 + 工程名 | 放行 |
+| 通行证 + project_uuid | 放行 |
+| 别的工程 uuid | `GATE_PROJECT_MISMATCH` |
+
+通行证由 `sch_kpi.py` 在 `verdict=PASS` 且 `apply_allowed=true`（连续两轮）时签发，
+默认 30 分钟过期；`EASYCIRQ_GATE_MODE=warn|off` 是显式逃生门。
+
+## 版本
+
+当前 **1.2.4**：runtime 1.2.4 + connector 1.0.20 + skill 1.1.0，
+`dist-release/easycirq-toolchain-1.2.4.zip`（806 文件，隔离安装 verify 为 healthy）。
