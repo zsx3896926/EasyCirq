@@ -43,6 +43,8 @@ def main():
     ap.add_argument("--pour-step", dest="pour_step", type=int, default=5)
     ap.add_argument("--pour", dest="pour_specs", action="append", default=[])
     ap.add_argument("--via-relocate", dest="via_relocate", action="store_true", default=True)
+    ap.add_argument("--match-lengths", dest="match_lengths", action="store_true",
+                    help="insert meanders so each bus group matches its longest net")
     ap.add_argument("--priority-net", dest="priority_nets", action="append", default=[])
     ap.add_argument("--best-effort", dest="best_effort", action="store_true", default=True)
     ap.add_argument("--out", help="write the ROUTE PLAN here (tracks/vias)")
@@ -70,6 +72,8 @@ def main():
         pour_specs=a.pour_specs, best_effort=a.best_effort,
         priority_nets=set(a.priority_nets), via_relocate=a.via_relocate)
     plan = ec.plan_from(board, routed)
+    if a.match_lengths:
+        ec.match_lengths(board, plan, amp=ec.GRID * 8)
     kpi = ec.report(board, routed, failures, [], plan)
     out = {**placed_kpi, **kpi}
     out["failures"] = failures
@@ -110,6 +114,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

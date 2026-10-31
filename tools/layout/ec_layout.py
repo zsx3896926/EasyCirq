@@ -2718,6 +2718,8 @@ def main():
                                                        priority_nets=set(a.priority_nets),
                                                        via_relocate=a.via_relocate)
         plan = plan_from(board, routed)
+        if a.match_lengths:
+            match_lengths(board, plan)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
         json.dump(plan, open(a.out, "w", encoding="utf-8"), indent=1)
@@ -2753,6 +2755,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
