@@ -666,3 +666,27 @@ def test_pour_island_report_names_the_layer_cutters_and_stranded_via():
 
 
 
+
+
+# ── the routing stack is not always 4 layers ─────────────────────────────────
+def test_via_checks_every_layer_of_the_routed_stack():
+    """A via is a through-hole, so it must be checked against the stack being
+    routed.  These checks were hardcoded to four layers while `--layers N` accepted
+    any stack, which would have made layers 5 and 6 free copper on a 6-layer run."""
+    used = {(10, 10, 6): {"B"}}
+    via_path = [(10, 10, 1), (10, 10, 6)]
+    assert ec._via_cells_clear(via_path, used, "A", layers=6) is False
+    assert ec._via_cells_clear(via_path, used, "A", layers=4) is True   # the old hole
+
+    occ = {(10, 10, 6): {"B"}}
+    assert ec._via_site_ok(occ, "A", (10, 10), layers=6) is False
+    assert ec._via_site_ok(occ, "A", (10, 10), layers=4) is True
+
+
+def test_route_records_the_stack_it_routed_on():
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)]),
+                        comp("R2", 900, 300, [("1", "A", 900, 300)])])
+    assert board.route_layers == 4
+    ec.route(board, iters=2, layers=6, segment_check=True)
+    assert board.route_layers == 6
+    assert list(ec._all_layers(board)) == [1, 2, 3, 4, 5, 6]

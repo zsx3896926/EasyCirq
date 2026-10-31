@@ -62,6 +62,15 @@ PROFILES = {
         pour_step=5, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
     ),
+    # Decision support for "add layers": the same pours, two extra signal layers.
+    # Only meaningful because every through-hole check now reads the routed stack
+    # (`_all_layers`) instead of the four layers it used to hardcode.
+    "six-layer": dict(
+        iters=70, layers=6,
+        pours=("GND:6", "+3V3:5"), pour_exclusive=False,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
 }
 FRONTIER = PROFILES["shared-pour"]
 

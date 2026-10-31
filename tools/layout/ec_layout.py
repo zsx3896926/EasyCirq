@@ -92,6 +92,13 @@ class Board:
         self.min_width = float(rr.get("trackWidthMinMil") or TRACE)
         self.edge_clearance = float(rr.get("copperToEdgeMil") or 0.0)
         self.layer_count = int(r.get("copperLayers") or 2)
+        # `layer_count` is what the DUMP says the board has (2 on RetroCam-02, which
+        # is why the 4-layer stackup is a recorded assumption).  `route_layers` is
+        # the stack being routed right now; route() sets it.  A via is drilled
+        # through every one of THOSE layers, so every through-hole check must read
+        # it - nine such checks were hardcoded to 4 while `--layers N` and
+        # `plan_lint --stackup N` accepted any stack.
+        self.route_layers = 4
         self.routed_line_count = int(r.get("routedLines") or 0)
         self.nets = defaultdict(list)
         for des, c in self.comps.items():
@@ -489,6 +496,18 @@ def _via_reach(radius=VIA_RADIUS, width=TRACE):
     return int(math.ceil((radius + width / 2 + CLEARANCE) / GRID))
 
 
+def _all_layers(board=None):
+    """Every copper layer of the stack being routed (a via is drilled through all).
+
+    Reads `board.route_layers`, which `route()` sets from its own `layers` argument.
+    Nine through-hole checks were hardcoded to `range(1, 5)` while `--layers N` and
+    `plan_lint --stackup N` accepted any stack, so a 6-layer run would have checked
+    a via against four layers and called the other two free.
+    """
+    n = getattr(board, "route_layers", None) if board is not None else None
+    return range(1, int(n or 4) + 1)
+
+
 def build_pad_via_block(board, radius=VIA_RADIUS, margin=VIA_BLOCK_MARGIN):
     """Cells where a via would sit too close to a PAD of some net.
 
@@ -669,7 +688,7 @@ def via_conflicts(board, path, used, pad_forbid, net, width, radius=VIA_RADIUS, 
                 owners = board.pad_cells.get(cell)
                 if owners and any(o != net for o in owners):
                     return True
-                for layer in range(1, 5):
+                for layer in _all_layers(board):
                     nets = used.get((cell[0], cell[1], layer))
                     if nets and any(o != net for o in nets):
                         return True
@@ -756,7 +775,7 @@ def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
                         if owner and net not in owner:
                             ok = False
                             break
-                        for layer in range(1, 5):
+                        for layer in _all_layers(board):
                             s = used.get((cx + ex, cy + ey, layer))
                             if s and any(o != net for o in s):
                                 ok = False
@@ -955,6 +974,10 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
 
 def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True):
     pad_forbid, own = board.pad_blocked()
+    # Record the stack on the board: every through-hole check reads it through
+    # `_all_layers`, otherwise a 6-layer run checks a via against 4 layers and the
+    # other two come out free.
+    board.route_layers = int(layers)
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
         # A plane owns its whole layer: nobody else may run a track there.
@@ -1138,7 +1161,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         return None
                     if segment_check and (
                             path_conflicts(board, cand, routed, net, route_width(net))
-                            or not _via_cells_clear(cand, used, net)
+                            or not _via_cells_clear(cand, used, net, layers=layers)
                             or (via_check and via_conflicts(board, cand, used, pad_forbid,
                                                             net, route_width(net)))):
                         # Spacing as a real geometric constraint: reject the too-close
@@ -1196,7 +1219,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     # short, and a track sharing a cell with another net is an
                     # overlap (congestion), which the gate treats as worse than
                     # spacing.  Both stay hard even in best-effort mode.
-                    if _via_cells_clear(cand, used, net) and _no_overlap(cand, used, net):
+                    if _via_cells_clear(cand, used, net, layers=layers) and _no_overlap(cand, used, net):
                         if best_bad is None or bad < best_bad:
                             best_bad, best_cand = bad, cand
                     extra |= {c[:2] for c in cand}
@@ -1258,7 +1281,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             bad_via = via_violation_cells(board, plan_pass) if routed else set()
             for (bx, by) in bad_via:
                 history[(bx, by)] += VIA_HISTORY_BUMP
-                for layer in range(1, 5):
+                for layer in _all_layers(board):
                     history[(bx, by, layer)] += VIA_HISTORY_BUMP
             score = (len(failures), pass_congestion + len(pairs) + len(bad_via) * VIA_SCORE_W)
         if best is None or score < best[0]:
@@ -1478,7 +1501,7 @@ def _no_overlap(path, used, net):
     return True
 
 
-def _via_cells_clear(path, used, net):
+def _via_cells_clear(path, used, net, layers=4):
     """No two nets may share a via site.
 
     Both vias would be drilled at the same (x, y): a short, and the only
@@ -1491,7 +1514,8 @@ def _via_cells_clear(path, used, net):
             continue
         # A via is drilled through EVERY layer, so it must be clear on all of them,
         # not just the two it connects (that gap produced congestion cells 2).
-        for layer in range(1, 5):
+        # `layers` is the routing stack, not the four this check used to assume.
+        for layer in range(1, int(layers) + 1):
             owners = used.get((a[0], a[1], layer))
             if owners and any(o != net for o in owners):
                 return False
@@ -1893,7 +1917,7 @@ def _occupancy_map(board, routed):
             # must treat them as obstacles.
             for v in paths:
                 c = board.cell(v["x"], v["y"])
-                for layer in range(1, 5):
+                for layer in _all_layers(board):
                     occ[(c[0], c[1], layer)].add(v["net"])
             continue
         for path in paths:
@@ -1902,15 +1926,19 @@ def _occupancy_map(board, routed):
     return occ
 
 
-def _via_site_ok(occ, net, cell, radius=VIA_RADIUS, width=TRACE):
-    """Would a via at `cell` clear every other net's copper on every layer?"""
+def _via_site_ok(occ, net, cell, radius=VIA_RADIUS, width=TRACE, layers=4):
+    """Would a via at `cell` clear every other net's copper on every layer?
+
+    `layers` is the stack being routed; callers that have a board pass
+    `board.route_layers` (see `_all_layers`).
+    """
     need = radius + CLEARANCE + width / 2
     reach = int(math.ceil(need / GRID))
     for dx in range(-reach, reach + 1):
         for dy in range(-reach, reach + 1):
             if math.hypot(dx, dy) * GRID > need:
                 continue
-            for layer in range(1, 5):
+            for layer in range(1, int(layers) + 1):
                 owners = occ.get((cell[0] + dx, cell[1] + dy, layer))
                 if owners and any(o != net for o in owners):
                     return False
@@ -1948,7 +1976,7 @@ def relocate_vias(board, routed, max_shift=3, rounds=3):
                 i = 0
                 while i < len(path) - 1:
                     a, b = path[i], path[i + 1]
-                    if a[2] == b[2] or a[:2] != b[:2] or _via_site_ok(occ, net, a):
+                    if a[2] == b[2] or a[:2] != b[:2] or _via_site_ok(occ, net, a, layers=board.route_layers):
                         i += 1
                         continue
                     lay_a, lay_b = a[2], b[2]
@@ -1986,7 +2014,7 @@ def relocate_vias(board, routed, max_shift=3, rounds=3):
                                        + [(path[r][0], path[r][1], lay_b)]
                                        + changed + path[i + 2:])
                             site = (path[r][0], path[r][1])
-                            if not _via_site_ok(occ, net, site):
+                            if not _via_site_ok(occ, net, site, layers=board.route_layers):
                                 continue
                             fixed = new
                             break
@@ -2012,7 +2040,7 @@ def relocate_vias(board, routed, max_shift=3, rounds=3):
             continue
         for path in paths:
             for a, b in zip(path, path[1:]):
-                if a[2] != b[2] and a[:2] == b[:2] and not _via_site_ok(occ, net, a):
+                if a[2] != b[2] and a[:2] == b[:2] and not _via_site_ok(occ, net, a, layers=board.route_layers):
                     bad += 1
     return moved, bad
 
@@ -2155,7 +2183,7 @@ def rescue_island_vias(board, routed, layers=4, max_step=20, clearance=POUR_CLEA
                         cand = (pad_cell[0] + dx, pad_cell[1] + dy)
                         if cand not in main:
                             continue
-                        if not _via_site_ok(occ, net, cand, width=width):
+                        if not _via_site_ok(occ, net, cand, width=width, layers=layers):
                             continue
                         if not _stub_clear(board, pad_cell, cand, busy, pad_forbid, net):
                             continue
@@ -2193,7 +2221,7 @@ def relocate_pour_vias(board, routed, max_step=5, rounds=3):
         for v in routed.get(PLANE_VIA_KEY, []):
             net = v["net"]
             cell = board.cell(v["x"], v["y"])
-            if _via_site_ok(occ, net, cell):
+            if _via_site_ok(occ, net, cell, layers=board.route_layers):
                 continue
             width = route_width(net)
             stub_idx, pad_cell = None, None
@@ -2203,7 +2231,7 @@ def relocate_pour_vias(board, routed, max_step=5, rounds=3):
                     break
             if stub_idx is None:
                 continue
-            for layer in range(1, 5):
+            for layer in _all_layers(board):
                 occ[(cell[0], cell[1], layer)].discard(net)
             best = None
             for r in range(1, max_step + 1):
@@ -2214,7 +2242,7 @@ def relocate_pour_vias(board, routed, max_step=5, rounds=3):
                         cand = (pad_cell[0] + dx, pad_cell[1] + dy)
                         if not (0 <= cand[0] < board.w and 0 <= cand[1] < board.h):
                             continue
-                        if not _via_site_ok(occ, net, cand, width=width):
+                        if not _via_site_ok(occ, net, cand, width=width, layers=board.route_layers):
                             continue
                         best = cand
                         break
@@ -2223,12 +2251,12 @@ def relocate_pour_vias(board, routed, max_step=5, rounds=3):
                 if best:
                     break
             if best is None:
-                for layer in range(1, 5):
+                for layer in _all_layers(board):
                     occ[(cell[0], cell[1], layer)].add(net)
                 continue
             v["x"], v["y"] = board.center(*best)
             routed[net][stub_idx] = [(pad_cell[0], pad_cell[1], 1), (best[0], best[1], 1)]
-            for layer in range(1, 5):
+            for layer in _all_layers(board):
                 occ[(best[0], best[1], layer)].add(net)
             moved += 1
             progress = True
@@ -3296,6 +3324,11 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
 
 
 

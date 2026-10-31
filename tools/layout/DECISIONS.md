@@ -53,6 +53,22 @@ python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --prof
 `--profile two-layer` covers the other branch of D1 (measured: 6 open nets,
 7 pour islands, 201 clearance — under the older clearance definition).
 
+`--profile six-layer` is the "add layers" branch. Measured (HANDOFF §43):
+
+| profile | unrouted | clearance | islands | vias | tracks | length | skew max |
+|---|---|---|---|---|---|---|---|
+| shared-pour (4L) | 0 | 515 | 1 | 186 | 526 | 38832 | 713.1 |
+| six-layer (6L) | 0 | 515 | **0** | 186 | 526 | 38832 | 713.1 |
+
+Read that carefully: layers 5 and 6 carry **zero track** (`layer_length_mil` is
+identical on L1–L4 in both runs), so the island disappears because the pours moved
+to empty layers — not because extra layers gave the signals room. Adding layers is
+therefore a **cheap** way to get whole pours (a 4-layer exclusive pour costs 4 dead
+legs), and it does **not** improve clearance or skew *with the current layer
+assignment*. Making the extra layers earn their cost needs an explicit net→layer
+assignment in `route()`; until that is measured, D1 stays open and no "6 layers is
+better" claim belongs in the docs.
+
 ### Measured comparison (70 passes, same placement)
 
 ```

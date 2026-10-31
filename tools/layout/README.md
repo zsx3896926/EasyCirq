@@ -10,7 +10,8 @@ snapshot and JSON files; nothing here needs a daemon or an editor write — and
 ```bash
 # reproduce the current frontier in one command (11-row scorecard + gate verdict)
 python tools/layout/reproduce.py --dump dump.json --place placed.json --out-dir out/
-#   --profile shared-pour | exclusive-pour | two-layer | trim-pour   (see DECISIONS.md)
+#   --profile shared-pour | exclusive-pour | two-layer | six-layer | trim-pour
+#   (see DECISIONS.md; six-layer is decision support, read the caveat in D1)
 
 # or step by step
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
@@ -47,6 +48,7 @@ python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump.json --ou
 | `vias` | layer changes (access / in-pad reported separately) | minimise |
 | `total_length_mil`, `diagonal_ratio`, `layer_length_mil` | quality metrics | — |
 | `bus_length_spread_mil` | max−min length per CAM/LCD/SD group | < 50 |
+| `layer_length_mil` | copper length per layer — the check that a "6-layer" run is not quietly 4-layer | — |
 
 Every metric is computed **from the plan**, so `check` judges what would be written
 to the board. Several earlier versions had router and checker disagreeing (40 vs
@@ -54,7 +56,6 @@ to the board. Several earlier versions had router and checker disagreeing (40 vs
 "connected"); each is pinned by a test.
 
 ## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
-
 `reproduce.py --profile shared-pour` (all numbers re-measured after the clearance
 KPI started counting track/pad — see HANDOFF §41):
 
@@ -114,6 +115,16 @@ Four of the six gate items are zero. The three that are not:
   and fails the gate.
 * **The comparison cache is keyed on the metric code**, not only on the inputs, so
   changing a KPI definition cannot silently compare new code against old numbers.
+* **`--layers N` now means N.** Nine through-hole checks were hardcoded to four
+  layers while the CLI and the lint accepted any stack, so a 6-layer run would have
+  treated layers 5–6 as free copper. The routed stack lives on `board.route_layers`
+  and `_all_layers()` reads it; a test puts a foreign track on layer 6 and requires
+  the check to see it.
+* **A "6-layer" result must show its layer histogram.** The six-layer profile comes
+  out at islands 0 with *identical* `layer_length_mil` on L1–L4 — the extra layers
+  carry no copper at all, so the island vanished because the pours moved to empty
+  layers, not because signals got room. Report the histogram before claiming a
+  stackup helped.
 * **Two vias in one cell is a short**, not a spacing nit; it is a hard invariant even
   when "best effort" routing accepts spacing violations.
 
