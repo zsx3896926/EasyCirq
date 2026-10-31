@@ -495,7 +495,9 @@ def analyze(data):
             "mcu.package_pins 为空，无法核对物理脚是否存在或已引出",
             "mcu.package_pins",
         )
-    if not bank_voltages:
+    if not bank_voltages and has_mcu_resources:
+        # Same reasoning as the pin fields: a bank voltage table only means
+        # something when the plan actually declares MCU logic resources.
         add(
             "UNKNOWN_BANK_VOLTAGES",
             "unknown",
@@ -686,9 +688,24 @@ def analyze(data):
     return {
         "schema": RESULT_SCHEMA,
         "status": "needs_review" if findings else "passed",
+        # The KPI layer normalises checks by a "verdict" field; without it every
+        # plan reads as unknown no matter what the check found.
+        "verdict": "review" if findings else "pass",
         "board_verified": False,
         "execution": "OFFLINE_PLANNING",
         "hardware_execution": "NOT RUN",
+        # The KPI layer reads metrics.pin_mux_conflicts as a count; without this
+        # block the metric is absent and the KPI can only report "unknown".
+        "metrics": {
+            "pin_mux_conflicts": sum(
+                1 for finding in findings
+                if finding.get("code") in {
+                    "DUPLICATE_RESOURCE_PIN", "DUP_LOGICAL", "DUP_PHYSICAL_PIN",
+                    "DUP_RESOURCE", "pinmap_duplicate_pin", "pinmap_duplicate_row",
+                    "pinmap_net_nc_conflict",
+                }
+            )
+        },
         "summary": summary,
         "findings": findings,
         "not_checked": not_checked,
