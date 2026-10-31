@@ -319,6 +319,8 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 铁律：缺证据判 `BLOCKED`，不把离线 PASS 说成真机通过；保存成功 ≠ 写入成功 ≠ 重开仍在 ≠ 质量通过。细则与 15 项定义见 [原理图离线先行](references/schematic-offline-first.md) 与 `metrics/schematic-kpi.v1.json`。
 
+**客户看到什么**：`easycirq setup`（装好没有）→ `easycirq status` / `card`（能不能写、能不能打样）→ `easycirq acceptance`（打样后验收）。四幕的完整对话、真实输出与通过条件见 [客户旅程](references/customer-journey.md)。对客户只展示这四张卡，不解释 daemon/connector/KPI/通行证。
+
 为非平凡工程维护精简记录，可从 [记录模板](assets/engineering-notes.md) 复制到工程工作区；沿用已有记录而不另建同义文件。小修改在会话和变更报告中记清即可。
 
 从零项目可用 [需求摘要模板](assets/design-brief.md)，只填已经知道和确实重要的字段；不向用户推送整张空表。输出位置沿用工程/用户工作区，不写入模板中的他人目录。
