@@ -102,7 +102,7 @@ func TestCardWithoutPCBScopesTheClaimToTheSchematic(t *testing.T) {
 	if card.State != "ready" {
 		t.Fatalf("state = %s, want ready", card.State)
 	}
-	if !strings.Contains(card.Headline, "PCB 未检查") {
+	if !strings.Contains(card.Headline, "板子还没检查") {
 		t.Fatalf("headline must scope the claim: %q", card.Headline)
 	}
 }
@@ -137,11 +137,11 @@ func TestCardWithDirtyPCBIsBlocked(t *testing.T) {
 	if card.State != "blocked" {
 		t.Fatalf("state = %s, want blocked", card.State)
 	}
-	if !strings.Contains(card.Headline, "PCB") {
+	if !strings.Contains(card.Headline, "板子") {
 		t.Fatalf("headline = %q", card.Headline)
 	}
 	out := renderCard(card)
-	if !strings.Contains(out, "PCB 检查：未通过") {
+	if !strings.Contains(out, "板子检查：未通过") {
 		t.Fatalf("rendered card hides the PCB verdict:\n%s", out)
 	}
 }

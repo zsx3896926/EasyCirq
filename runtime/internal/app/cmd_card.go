@@ -124,8 +124,8 @@ func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult
 	case strings.EqualFold(report.Verdict, "PASS") && live:
 		// The KPI report only covers the schematic. Say so, otherwise the
 		// customer reads "can be ordered" into a half-finished answer.
-		result.State, result.Headline = "ready", "✅ 原理图可以打样（PCB 未检查）"
-		result.Next = "原理图这一关过了；用 --pcb-drc 带上 PCB 检查结果，才是整板结论"
+		result.State, result.Headline = "ready", "✅ 原理图可以打样（板子还没检查）"
+		result.Next = "原理图这一关过了；把板子的检查结果一起看，才是整块板的结论"
 	case strings.EqualFold(report.Verdict, "PASS"):
 		result.State, result.Headline = "gate_stale", "⚠️ 检查通过，但需要重新确认"
 		result.Next = detail + "；重新跑一次检查即可"
@@ -167,11 +167,11 @@ func mergePCB(result *cardResult, path string) {
 		} `json:"violations"`
 	}
 	if err := readStatusJSON(path, &raw); err != nil {
-		summary.Reason = "PCB 的检查结果读不出来：" + err.Error()
+		summary.Reason = "板子的检查结果读不出来：" + err.Error()
 		result.PCB = summary
 		result.State = "incomplete"
-		result.Headline = "⏳ 只能确认原理图，PCB 的检查结果读不出来"
-		result.Next = "重新导出 PCB 检查结果（easycirq pcb drc --json）后再看这张卡"
+		result.Headline = "⏳ 只能确认原理图，板子的检查结果读不出来"
+		result.Next = "重新导出板子的检查结果后再看这张卡"
 		return
 	}
 	summary.Violations = len(raw.Violations)
@@ -183,7 +183,7 @@ func mergePCB(result *cardResult, path string) {
 	if summary.Passed && summary.Violations == 0 {
 		result.PCB = summary
 		if result.State == "ready" {
-			result.Headline = "✅ 可以下单（原理图与 PCB 都通过）"
+			result.Headline = "✅ 可以下单（原理图与板子都通过）"
 			result.Next = "导出制造文件；打样回来后做验收"
 		}
 		return
@@ -191,12 +191,12 @@ func mergePCB(result *cardResult, path string) {
 	// PCB has problems: never leave a green headline standing
 	result.PCB = summary
 	result.State = "blocked"
-	result.Headline = "❌ PCB 还没过检查，不能下单"
+	result.Headline = "❌ 板子还没过检查，不能下单"
 	if len(raw.Violations) > 0 {
 		summary.Reason = raw.Violations[0].Message
-		result.Next = "按 PCB 检查报告逐条修（间距 / 连通），修完重新检查"
+		result.Next = "按板子的检查报告逐条修（间距 / 连通），修完重新检查"
 	} else {
-		result.Next = "PCB 检查未通过但没有给出条目；重新跑一次 pcb drc"
+		result.Next = "板子检查没通过但没给出条目；重新检查一次"
 	}
 }
 
@@ -205,11 +205,11 @@ func renderCard(result cardResult) string {
 	b.WriteString(result.Headline + "\n\n")
 	if result.PCB != nil {
 		if result.PCB.Passed && result.PCB.Violations == 0 {
-			b.WriteString("PCB 检查：通过（0 项）\n\n")
+			b.WriteString("板子检查：通过（0 项）\n\n")
 		} else if result.PCB.Reason != "" {
-			b.WriteString("PCB 检查：未通过 · " + result.PCB.Reason + "\n\n")
+			b.WriteString("板子检查：未通过 · " + result.PCB.Reason + "\n\n")
 		} else {
-			b.WriteString("PCB 检查：未通过\n\n")
+			b.WriteString("板子检查：未通过\n\n")
 		}
 	}
 	if len(result.Blockers) > 0 {
