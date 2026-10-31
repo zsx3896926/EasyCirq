@@ -175,3 +175,25 @@ apply_allowed True / True
 
 所以「4.5 秒」是**工具链本身**的时间，不是「从零到能用 EDA」的时间。
 诚实说法：工具侧 4.5 秒，剩下的是装 EasyEDA 和点一次插件——那部分取决于人。
+
+## 全量回归（1.3.19，2026-11-01）
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests`（全量） | **4789 passed, 5 skipped**, 1570 subtests |
+| `go vet ./...` | 干净 |
+| `go test ./...` | **16 个包 ok**（另有 2 个包无测试文件） |
+| `check_release_consistency.py` | `CONSISTENT`（12/12 双向） |
+| `skill_selftest.py`（两份） | 6 PASS |
+
+### 上一轮的那个失败
+
+全量第一次跑时 `test_owned_files_are_utf8_lf_without_todo` 在
+`pin_plan_check.py` 上失败——755 行 CRLF。查下去发现**我新建的每个 .py 都是 CRLF**，
+只是那个测试只查自己的 owned 清单，所以只报了一个。
+
+根因是 `.gitattributes` 只有逐文件规则。已加通配 `*.py text eol=lf`，
+`git check-attr` 对抽样文件均返回 `eol: lf`，1.3.19 的 bundle 里
+`sch_kpi.py` 的 CRLF 计数为 0。
+
+**教训**：一个只覆盖白名单的检查，会让人以为"只剩这一个问题"。
