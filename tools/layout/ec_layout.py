@@ -96,7 +96,14 @@ class Board:
         return blocked, own
 
 
+# Per-net width overrides, e.g. thin traces for the legs that cannot fit the
+# default width in a dense fan-out (set by the caller, never by the router).
+WIDTH_OVERRIDE = {}
+
+
 def route_width(net):
+    if net in WIDTH_OVERRIDE:
+        return WIDTH_OVERRIDE[net]
     if net in POWER:
         return POWER_TRACE
     if net.startswith(BUS_PREFIX):
@@ -346,12 +353,55 @@ def preferred_layer(net, layers=4):
     return 1
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None):
+def path_conflicts(board, path, routed, net, width):
+    """Line-segment-level spacing test for a candidate path against everything routed
+    so far. This is the structural constraint the cost model lacks: a run closer than
+    CLEARANCE is rejected outright instead of being merely expensive."""
+    new = []
+    for a, b in zip(path, path[1:]):
+        if a[2] != b[2] or a[:2] == b[:2]:
+            continue
+        ax, ay = board.center(a[0], a[1])
+        bx, by = board.center(b[0], b[1])
+        new.append((a[2], min(ax, bx), min(ay, by), max(ax, bx), max(ay, by), ax, ay, bx, by))
+    for other, paths in routed.items():
+        # GND is carried by a POUR on the real board, and a pour is checked with the
+        # pour clearance rule, not the track rule. Treating its temporary routing as
+        # a track obstacle ate the corridors that the last legs needed.
+        if other == net or other == "GND":
+            continue
+        need = (width + route_width(other)) / 2 + CLEARANCE - 0.5
+        for p in paths:
+            for a, b in zip(p, p[1:]):
+                if a[2] != b[2] or a[:2] == b[:2]:
+                    continue
+                ax2, ay2 = board.center(a[0], a[1])
+                bx2, by2 = board.center(b[0], b[1])
+                xmin, xmax = min(ax2, bx2), max(ax2, bx2)
+                ymin, ymax = min(ay2, by2), max(ay2, by2)
+                for (layer, nx0, ny0, nx1, ny1, x1, y1, x2, y2) in new:
+                    if layer != a[2]:
+                        continue
+                    if (nx1 + need < xmin or xmax + need < nx0
+                            or ny1 + need < ymin or ymax + need < ny0):
+                        continue
+                    if _seg_seg(x1, y1, x2, y2, ax2, ay2, bx2, by2) < need:
+                        return True
+    return False
+
+
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None):
     pad_forbid, own = board.pad_blocked()
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
-        meanders could be placed and the SD bus was 895 mil out of skew)."""
+        meanders could be placed and the SD bus was 895 mil out of skew).
+
+        Nets that failed on an earlier pass can be pushed to the very front: that is
+        how the last unroutable legs get a corridor before everyone else takes it.
+        """
+        if priority_nets and n in priority_nets:
+            return -1
         if n.startswith(BUS_PREFIX):
             return 0
         if n in POWER:
@@ -394,6 +444,19 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None):
                     # clearance violations; hard blocking instead killed 78 legs.
                     cost[(cell[0], cell[1], cell[2])] = cost.get((cell[0], cell[1], cell[2]), 0.0) + 8.0 + 4.0 * history.get((cell[0], cell[1]), 0.0)
                 allowed = set()
+                if escape_nets and net in escape_nets:
+                    # Fan-out via band: a dense pad row (U5, 100 mil) leaves no room
+                    # to leave on the top layer, so open a 3-cell band on each side of
+                    # the pad's own keep-out. The router can then drop to an inner
+                    # layer right at the module edge, which is what a real engineer
+                    # does on a dense QFN/module row.
+                    for pad in (a, b):
+                        for ex, ey in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                            for step in (1, 2, 3):
+                                cx, cy = board.cell(pad["x"] + ex * step * GRID,
+                                                    pad["y"] + ey * step * GRID)
+                                if 0 <= cx < board.w and 0 <= cy < board.h:
+                                    allowed.add((cx, cy))
                 for pad in (a, b):
                     hw, hh = pad["w"] / 2 + CLEARANCE, pad["h"] / 2 + CLEARANCE
                     ax0, ay0 = board.cell(pad["x"] - hw, pad["y"] - hh)
@@ -415,6 +478,12 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None):
                                 allowed.add((gx, gy))
                 path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
                              cost, pref, allowed, layers)
+                if path and segment_check and path_conflicts(board, path, routed, net, route_width(net)):
+                    # Spacing as a real geometric constraint: reject the too-close run
+                    # and make its cells expensive so the next pass routes elsewhere.
+                    for (x, y, _l) in path:
+                        history[(x, y)] += 2.0
+                    path = None
                 if not path:
                     failures.append({"net": net, "a": f"{a['des']}.{a['pad']}", "b": f"{b['des']}.{b['pad']}"})
                     continue

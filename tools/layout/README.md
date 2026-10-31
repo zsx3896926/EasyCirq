@@ -91,7 +91,22 @@ channel allocator described in `BUNDLE-DESIGN.md`.
 Also measured and rejected: trace width 7/6 mil (26 violations unchanged — they are
 not width-driven), pad keep-out inflated by trace/2 (clearance 26 -> 32, unconnected
 5 -> 8), GND on a dedicated layer (26 -> 32), external rip-up + single-shot reroute
-(919 violations — the repair path destroys the negotiated solution).
+(919 violations — the repair path destroys the negotiated solution), a wider spacing
+halo of 2 cells (clearance 39, unconnected 6, vias 105), priority-first routing of
+the failing nets (unrouted unchanged at 7, vias 76 -> 64), and a per-net narrow
+width of 5 mil for the failing legs (unrouted 5 -> 6: narrowing a leg makes the
+SPACING demand on its neighbours worse, it does not create space).
+
+## Current frontier with segment-level spacing (the working direction)
+
+| mode | clearance (track↔track) | congestion | unrouted | unconnected | vias |
+|---|---|---|---|---|---|
+| soft spacing (baseline) | 26 | 1 | **0** | **5** | 79 |
+| segment_check, GND treated as pour | **0** (3 GND↔FB need pour rules) | **0** | 5 | 8 | 83 |
+
+The remaining 5 legs (+3V3, GND, BTN_DOWN, BTN_SHUTTER) all fail at the U5 pad
+column; the only untried remedy is a **fan-out via band** outside the module edge,
+which is what a real engineer does on a dense 100 mil pad row.
 
 ## Scripts kept for reference
 
