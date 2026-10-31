@@ -2,16 +2,37 @@
 
 ## 现状
 
-`runtime/internal/app`：**0 失败**（本轮从 6 降到 0；累计从 14 降到 0）。
-
-剩余 4 个，全部不在本次改动范围内：
-
-| 包 | 测试 | 性质 |
+| 包 | 失败数 | 说明 |
 |---|---|---|
-| `daemon` | `TestExplicitSaveHTTPInFlightKeepsNewMutationPending` | 顺序依赖：单独跑 ok，全量跑 FAIL |
-| `daemon` | `TestExplicitSaveCancelsOnlyConfirmedOlderTarget` | 同上（且已确认在基线上也失败） |
-| `selfupdate` | `TestUpdateCLIReplacesBinaryAndVerifiesChecksum` | 本轮首次暴露，未取证 |
-| `selfupdate` | `TestLocalBundleChecksContentsNotMarkers` | 本轮首次暴露，未取证 |
+| `runtime/internal/app` | **0** | 三轮修复：14 → 0 |
+| `runtime/internal/daemon` | **0** | 本轮修复（不是顺序依赖，见下） |
+| `runtime/internal/selfupdate` | 4 | 本轮首次取证，未修 |
+
+## 本轮修掉的 daemon 两个
+
+`TestExplicitSaveHTTPInFlightKeepsNewMutationPending` 与
+`TestExplicitSaveCancelsOnlyConfirmedOlderTarget` **单独跑也失败**，
+之前记的「顺序依赖」是误判。
+
+根因：取消判断用严格的 `After()`，而 Windows 上两次 `time.Now()` 可能落在
+同一个时钟刻度，导致「请求之后才产生的 mutation」看起来与请求同刻，被误取消
+——丢掉更新的工作。
+
+修法：**保留产品语义**（只取消严格更旧的 mutation），给测试插入 20ms 真实间隔，
+让顺序确定。中间试过把比较放宽成 `!Before()`，结果破坏了「该取消旧的那次」这个
+合法场景，已回滚——错的是测试，不是语义。
+
+## 剩余 4 个（selfupdate，未修）
+
+| 测试 | 现象 |
+|---|---|
+| `TestUpdateCLIReplacesBinaryAndVerifiesChecksum` | `replacement is not executable (mode -rw-rw-rw-)` |
+| `TestSkillSyncChecksumsAndPackageValidation/legacy_absent_checksum` | 目录 `rename ...: Access is denied` |
+| `TestSkillPreserveNewInstallationHasReleaseMarker` | 同上 |
+| `TestLocalBundleChecksContentsNotMarkers` | `unsafe skill entry: easycirq/references/test.md` |
+
+三条看起来是 Windows 平台差异（文件模式、目录 rename 占用），第四条是 bundle
+校验规则与测试构造的期望不一致。**尚未逐条取证**，不下结论。
 
 ## CI 策略
 
@@ -20,25 +41,13 @@
 - **阻断**：`TestGate*`（daemon）与 `TestStatus|TestSetup|TestCard|TestAcceptance`（app）
 - **只报告**：`go test ./...` 与 `go vet ./...`（`|| true`）
 
-app 现已全绿，下一轮可以把「阻断」范围扩大到整个 app 包。
+app 与 daemon 现在都全绿，下一轮可把阻断范围扩大到这两个包。
 
-## 本轮修掉的（app 6 → 0）
+## 历史修复记录
 
-| 测试 | 根因 | 修法 |
-|---|---|---|
-| `TestStripArtifactNesting` | **真实 bug**：Windows 上根相对路径 `\.easycirq\artifacts` 的 `filepath.IsAbs` 为 false，返回值从 `\` 变成 `.` | 实现改为 `IsAbs(clean) || HasPrefix(clean, sep)` |
-| `TestResolveEnrichScript*`（2） | **真实缺口**：cwd walk-up 的技能名清单缺 `easycirq`（只有 design-hardware / easycirq-agent / easycirq-schematic） | 名单加上 `easycirq/scripts/` |
-| 同上（主机侧断言） | 本机真的装了 skill，installed rung 先于 cwd 命中 | 用行为检测 `realInstallWins` 显式 skip 并说明 |
-| `TestSchDesignatorsOutputAliasesRejected/symlink` | Windows 创建符号链接需提权 | 共享 helper `skipWithoutSymlinkPrivilege` |
-| `TestLayoutReportRefusesPathAliasesBeforeWriting` | 同上 | 同上 |
-| `TestResolveEnrichScriptNotFoundListsProbedPaths` | 同「真实缺口」+ 主机安装 | 名单修复 + 行为 skip |
-
-## 上一轮修掉的（app 14 → 6）
-
-见 git 历史：能力/交付物的过期断言（改为断言规则）、ProjectDrawings 的换行/旧 metadata id/平台假设。
-
-## 待办
-
-1. daemon 两个 `TestExplicitSave*` 的顺序依赖：找出污染源（哪个前置测试留下的状态）。
-2. `selfupdate` 两个失败取证。
-3. 全绿后把 `validate-go.yml` 的阻断范围扩大。
+| 轮次 | 修复内容 |
+|---|---|
+| 21 | `TestBuildCapabilitiesUnsupportedItemsStayUnsupported`、`TestDeliverablesGerberDrillCplAreGuiOnly`：把「硬编码 id 必须 unsupported/gui_only」改为断言规则 |
+| 22 | ProjectDrawings 7 个：换行破坏哈希（`.gitattributes` 锁 LF）、夹具里的旧 metadata id、Windows symlink 与错误文本 |
+| 23 | app 剩余 6 个：`stripArtifactNesting` 的 Windows 根路径、probe 缺当前技能名、symlink/环境 skip |
+| 24 | daemon 2 个：时钟精度导致的误取消 |
