@@ -161,6 +161,46 @@ def report(label: str, left: dict, right: dict, left_name: str, right_name: str)
 INSTALL_METADATA = {".install.json"}
 
 
+
+# Top-level entries the packer adds that have no repo counterpart.
+BUNDLE_METADATA = {"bundle.json"}
+
+
+def payload_skill_files(bundle: Path) -> set[str]:
+    """Skill-relative paths inside the bundle's skill payload."""
+    found = set()
+    with zipfile.ZipFile(bundle) as archive:
+        for name in archive.namelist():
+            marker = "/easycirq/"
+            index = name.find(marker)
+            if index < 0:
+                continue
+            relative = name[index + len(marker):]
+            if relative and not relative.endswith("/"):
+                found.add(relative)
+    return found
+
+
+def report_bundle_extras(bundle: Path) -> int:
+    """Files the bundle ships that the repo does not have.
+
+    Same reasoning as report_extras for the installed copy: a payload file with no
+    repo counterpart cannot be reproduced from the repository, so it is either a
+    leftover from an old build or something that slipped in by hand.
+    """
+    shipped = payload_skill_files(bundle)
+    extras = sorted(
+        relative for relative in shipped
+        if relative not in BUNDLE_METADATA and not (REPO_SKILL / relative).is_file()
+    )
+    print("\n== files in bundle payload that the repo does not have ==")
+    if not extras:
+        print("  none")
+        return 0
+    for relative in extras:
+        print(f"  EXTRA   {relative}")
+    return len(extras)
+
 def report_extras(folder: Path, label: str) -> int:
     """Files present in the copy that the repo does not have.
 
@@ -205,6 +245,7 @@ def main(argv=None):
     if bundle and bundle.is_file():
         print(f"bundle: {bundle.name}")
         total += report("repo  vs  bundle payload", repo, bundle_files(bundle), "repo", "bundle")
+        total += report_bundle_extras(bundle)
     else:
         print("bundle: none found", file=sys.stderr)
         total += 1
