@@ -130,3 +130,32 @@ LM393 的 VCC 与 GND 之间必须放 100nF（最好再加 10µF）。我漏了�
 | 设计 | ✅ 原理图完整，**去耦已修**，悬空待查 |
 | 上机前 | ⏳ BLOCKED（#1 + 五条缺证据） |
 | 打样后 | ❌ 无实物 |
+
+
+## 第二轮：NC 问题的根因找到了
+
+loating_pins 从 9 降到 **1**。根因不是 NC 标记没生效，而是**快照清单漏了
+\--include-pins\**：
+
+`ash
+# 之前的清单（错）
+easycirq sch list --page <P> --include-bbox
+
+# 正确
+easycirq sch list --page <P> --include-bbox --include-pins
+`
+
+没有 \--include-pins\，\sch list\ 的器件里没有 \pins\ 数组，
+\sch_connectivity_metrics._nc_keys()\ 就永远读不到 oConnected\，于是所有
+显式 NC 引脚都被算成悬空。
+
+加上之后，4 个 NC 标记（U1:5/6/7、BZ1:3）全部被识别，悬空从 5 降到 1。
+
+**这是文档缺陷，不是代码缺陷**——工具本来就支持，是快照命令清单写漏了。
+
+## 剩下的 1 个
+
+\C1\ 的 pin 2 网络为空（pin 1 已接 GND）。补连时报
+\SCHEMATIC_GEOMETRY_INVALID\——该引脚的位置与已有几何冲突。
+
+下一轮的处理：把 C1 换一个不冲突的位置重放，或调整它所连网络的桩线方向。
