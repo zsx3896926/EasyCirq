@@ -19,29 +19,25 @@ import { ErrorCodes } from './protocol';
  * of every action) so new mutating actions are covered by construction; reads
  * and diagnostics never match.
  */
-const MUTATING_PATTERNS: ReadonlyArray<RegExp> = [
-	/^sch\./,
-	/^schematic\./,
-	/^pcb\./,
-	/^project\.(?:save|transfer)/,
-	/^doc\.(?:save|reload|close)/,
-];
-
-/** Read-only actions that share a mutating prefix but never change the page. */
-const READ_ONLY_EXCEPTIONS: ReadonlyArray<RegExp> = [
-	/\.(?:list|read|info|dump|connectivity|check|drc|lint|measure)$/,
-	/^schematic\.(?:components|nets?|pins)\.(?:list|read|describe)$/,
-	/\.check$/,
+/**
+ * Fail-closed rule: anything that is not a known read is treated as a write.
+ * Action naming in this codebase is not uniform (`place_component` snake_case,
+ * `sch.place` dotted, `schematic.power.connect_pin`), so a write whitelist
+ * would silently miss new mutating actions -- the incident of 2026-10-30 was
+ * exactly a write reaching a window without a project.
+ */
+const READ_ONLY_PATTERNS: ReadonlyArray<RegExp> = [
+	/(?:^|\.)(?:list|read|info|dump|check|drc|lint|connectivity|find|search|show|geometry|measure|status|score|export|export-image|image|text-list|designators)$/,
+	/^\.?(?:health|context|capabilities)$/,
 ];
 
 /**
  * @param action - protocol action name
- * @returns true when the action is expected to mutate the document
+ * @returns true when the action must be gated behind a bound project/document
  */
 export function isMutatingAction(action: string): boolean {
 	if (!action) return false;
-	if (READ_ONLY_EXCEPTIONS.some((re) => re.test(action))) return false;
-	return MUTATING_PATTERNS.some((re) => re.test(action));
+	return !READ_ONLY_PATTERNS.some((re) => re.test(action));
 }
 
 export interface ProjectBinding {

@@ -107,6 +107,7 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 		newConnectorCmd(cfg, stdout, stderr),
 		newAuditCmd(stdout, stderr),
 		newProjectCmd(cfg, stdout, stderr),
+		newSessionCmd(cfg, stdout, stderr),
 		newDocCmd(cfg, stdout, stderr),
 		newWebCmd(cfg, stdout),
 		newSchCmd(cfg, stdout, stderr),

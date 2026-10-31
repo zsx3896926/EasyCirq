@@ -31,6 +31,8 @@
  */
 
 import { ActionQueue, isBypassAction, mustHoldAfterAbandon } from './action-queue';
+import { isMutatingAction, projectBindingRefusal } from './session-guard';
+import { readResponseContext } from './eda-context';
 import { armDeadline, sweepDeadlines, type DeadlineHandle } from './deadlines';
 import { buildContextFrame, hostUserAgent, readEasyEdaVersion } from './eda-context';
 import { runAction } from './actions';
@@ -1087,6 +1089,28 @@ async function handleMessage(msg: InboundFrame): Promise<void> {
  */
 const actionQueue = new ActionQueue();
 
+/**
+ * Refuse mutating actions when the host reports that no project is open.
+ *
+ * Returns the refusal message, or undefined when the write may proceed. Only a
+ * host that actually answers `getCurrentProjectInfo` is judged: unit tests and
+ * offline tools expose no project API and are never blocked. Uses
+ * PRECONDITION_REFUSED (zero mutation) so the refusal does not count against
+ * channel write-health.
+ */
+async function sessionRefusal(action: string): Promise<string | undefined> {
+	if (!isMutatingAction(action)) return undefined;
+	const host = (globalThis as { eda?: { dmt_Project?: { getCurrentProjectInfo?: () => Promise<unknown> } } }).eda;
+	if (!host?.dmt_Project?.getCurrentProjectInfo) return undefined;
+	try {
+		const info = await host.dmt_Project.getCurrentProjectInfo();
+		if (info) return undefined;
+	} catch {
+		return undefined; // cannot judge -> do not block
+	}
+	return projectBindingRefusal(action, {}) ?? 'NO_PROJECT_BOUND';
+}
+
 async function handleRequest(request: RequestFrame): Promise<void> {
 	const base = {
 		type: 'response' as const,
@@ -1094,6 +1118,9 @@ async function handleRequest(request: RequestFrame): Promise<void> {
 		version: request.version ?? PROTOCOL_VERSION,
 	};
 
+	// Session guard: with no project/document bound the connect must refuse the
+	// write before it can reach the wrong window (incident 2026-10-30: writes were
+	// routed to a degraded window while health reported another window as fine).
 	// 入队是**同步**发生的(submit 在第一个 await 之前就把任务挂上了链),
 	// 所以入队顺序 === 消息到达顺序。这一点是整个 happens-before 的地基:
 	// 换成先 await 再入队,FIFO 立刻退化回原来的并发。
@@ -1102,7 +1129,11 @@ async function handleRequest(request: RequestFrame): Promise<void> {
 		timeoutMs: request.timeoutMs,
 		bypass: isBypassAction(request.action),
 		holdAfterAbandon: mustHoldAfterAbandon(request.action),
-		run: () => runAction(request.action, request.payload),
+		run: async () => {
+			const refusal = await sessionRefusal(request.action);
+			if (refusal) throw new ActionError(ErrorCodes.PRECONDITION_REFUSED, refusal);
+			return runAction(request.action, request.payload);
+		},
 	});
 
 	let response: ResponseFrame;

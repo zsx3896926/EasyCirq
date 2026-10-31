@@ -10,6 +10,8 @@ test('write actions are recognised as mutating', () => {
 		'schematic.power.connect_pin',
 		'pcb.place',
 		'doc.reload',
+		'delete_primitives',
+		'frame.apply',
 	]) {
 		assert.equal(isMutatingAction(action), true, action);
 	}
@@ -24,6 +26,11 @@ test('reads and diagnostics are not treated as writes', () => {
 		'sch.drc',
 		'health',
 		'context',
+		'project.find',
+		'lib.search',
+		'blocks.show',
+		'sch.export-image',
+		'sch.text-list',
 	]) {
 		assert.equal(isMutatingAction(action), false, action);
 	}
