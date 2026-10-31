@@ -219,12 +219,19 @@ func runSchNets(cfg *appConfig, window string, strict, asJSON, listAll bool, std
 			fmt.Fprintf(stdout, "✓ %d 张网,无同轨异名,无单引脚网\n", rep.Total)
 		}
 	}
-	if strict && (!rep.OK || len(rep.Lonely) > 0) {
+	return schNetsStrictVerdict(rep, strict)
+}
+
+// schNetsStrictVerdict keeps findings out of the exit status unless --strict is
+// requested. Non-strict runs must succeed so callers can parse the JSON report
+// even when the project really does have net-name variants or one-pin nets.
+func schNetsStrictVerdict(rep schNetsReport, strict bool) error {
+	if !strict {
+		return nil
+	}
+	if !rep.OK || len(rep.Lonely) > 0 {
 		return fmt.Errorf("sch nets: %d 组网名变体 / %d 张单引脚网 —— 先统一网名(block-apply 用 --bind)再进 S6",
 			len(rep.Variants), len(rep.Lonely))
-	}
-	if !rep.OK {
-		return fmt.Errorf("sch nets: %d 组网名变体 —— 同一条轨有多个名字,它们不会自动合并", len(rep.Variants))
 	}
 	return nil
 }
