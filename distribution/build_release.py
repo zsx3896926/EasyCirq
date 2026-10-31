@@ -279,12 +279,42 @@ def connector_identity(eext: Path, origin: str):
 # --------------------------------------------------------------------------- #
 # skill
 # --------------------------------------------------------------------------- #
+TEXT_SUFFIXES = ('.py', '.json', '.md', '.txt', '.tsv', '.csv', '.yaml', '.yml', '.cfg', '.ini')
+
+
+def shipped_bytes(path: Path) -> bytes:
+    """The exact bytes that go into the archive.
+
+    Text ships with LF regardless of the build machine's checkout: a CRLF Python
+    file breaks its shebang on Linux. Everything that hashes these files must use
+    this same function, or bundle.json ends up describing bytes that were never
+    written (which is how 1.3.21 became uninstallable).
+    """
+    data = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES:
+        return data.replace(b'\r\n', b'\n')
+    return data
+
+
+def shipped_sha(path: Path) -> str:
+    return hashlib.sha256(shipped_bytes(path)).hexdigest()
+
+
+def shipped_inventory(root: Path) -> dict:
+    """{relpath: sha256} computed over shipped_bytes - mirrors updater.inventory."""
+    return {
+        p.relative_to(root).as_posix(): shipped_sha(p)
+        for p in sorted(root.rglob('*'))
+        if p.is_file()
+    }
+
+
 def collect_skill(cfg, skill_dir=None):
     src = Path(skill_dir) if skill_dir else ROOT / cfg['skill']['dir']
     if not (src / 'SKILL.md').is_file() or not (src / '.version').is_file():
         raise RuntimeError('Skill directory must contain SKILL.md and .version: %s' % src)
     version = (src / '.version').read_text(encoding='utf-8').strip()
-    files = updater.inventory(src)  # rejects symlinks, returns {relpath: sha256}
+    files = shipped_inventory(src)  # rejects nothing extra; same set, LF-normalised hashes
     return {'name': cfg['skill']['name'], 'version': version, 'dir': str(src), 'files': files}
 
 
@@ -395,7 +425,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         skill_payload = payload / 'skill' / 'easycirq'
         shutil.copytree(Path(skill['dir']), skill_payload,
                         ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
-        copied = updater.inventory(skill_payload)
+        copied = shipped_inventory(skill_payload)
         if copied != skill['files']:
             raise RuntimeError('Skill copy does not match the source inventory')
 
@@ -406,7 +436,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         inventory = {}
         for p in sorted(payload.rglob('*')):
             if p.is_file():
-                inventory['payload/' + p.relative_to(payload).as_posix()] = sha256_file(p)
+                inventory['payload/' + p.relative_to(payload).as_posix()] = shipped_sha(p)
 
         compat = {
             'cli': version, 'runtime': version, 'daemon': version,
@@ -468,12 +498,14 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
             z.write(tmp / 'bundle.json', 'bundle.json')
             for rel in sorted(inventory):
-                # Written byte-for-byte as inventoried: bundle.json records the
-                # SHA-256 of these exact files and the installer rejects the
-                # archive when they disagree. Normalising line endings here
-                # without also normalising the inventory made 1.3.21 uninstallable
-                # ("Corrupt bundle payload"), so that change was reverted.
-                z.write(payload / rel[len('payload/'):], rel)
+                src = payload / rel[len('payload/'):]
+                # Hashed and written through the same function, so bundle.json
+                # describes exactly the bytes in the archive.
+                data = shipped_bytes(src)
+                info = zipfile.ZipInfo(rel, date_time=time.localtime(src.stat().st_mtime)[:6])
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = (src.stat().st_mode & 0xFFFF) << 16
+                z.writestr(info, data)
         if archive.stat().st_size > MAX_ZIP:
             raise RuntimeError('Bundle exceeds the size limit')
 
