@@ -145,8 +145,15 @@ def main(argv=None):
 
         if listing.is_file():
             pnet_out = out / "power-net-check.json"
-            _run([HERE / "sch_power_net_check.py", "--list", listing, "--out", pnet_out],
-                 label="power net check", allow=(0, 1))
+            # Pass the plan when present: a declared power_nets list is checked by
+            # name, which works even for symbols whose pins are just "1"/"2" -
+            # the case the pin-name heuristic cannot see.
+            pnet_cmd = [HERE / "sch_power_net_check.py", "--list", listing]
+            plan_file = snap / "pinplan.json"
+            if plan_file.is_file():
+                pnet_cmd += ["--plan", plan_file]
+            pnet_cmd += ["--out", pnet_out]
+            _run(pnet_cmd, label="power net check", allow=(0, 1))
             checks.append(("power_net", pnet_out))
             step("power_net", True, str(pnet_out.name))
 
