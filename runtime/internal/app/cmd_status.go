@@ -174,7 +174,7 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 	default:
 		if live, _ := gateLive(gatePath); live {
 			result.State, result.Headline = "ready_to_write", "检查通过，可以写入图纸了"
-			result.Next = "执行写入；写完保存、重开、回读，再跑一次检查"
+			result.Next = "执行写入；写完保存、关掉重开，确认东西都还在，再跑一次检查"
 		} else {
 			// "通行证" is our internal name for the write permission; say what it
 			// means for the customer instead.
