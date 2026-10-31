@@ -1,55 +1,52 @@
-# 已知失败（Go 全量套件，2026-10-31 更新）
+# 已知失败（Go 全量套件，2026-10-31 收尾）
 
 ## 现状
 
+**`go test ./...` 全绿**（16 个失败 → 0，跨 5 轮）。
+
 | 包 | 状态 |
 |---|---|
-| `runtime/internal/app` | **0 失败**（14 → 0，三轮） |
-| `runtime/internal/daemon` | **0 失败**（本轮修） |
-| `runtime/internal/selfupdate` | **不稳定**：连续两次全量分别为 2 失败 / 0 失败 |
+| `internal/app` | ok |
+| `internal/daemon` | ok |
+| `internal/selfupdate` | ok（连续 8 次全绿） |
+| 其余（protocol/pcblayout/spec/workflow/…） | ok |
 
-## selfupdate：不稳定（flaky）
+## CI
 
-连续两次 `go test ./internal/selfupdate -count=1 -vet=off`：
+`.github/workflows/validate-go.yml` 已从「阻断子集 + 报告全量」升级为
+**整模块阻断**：
 
-```
-run 1: FAIL TestSkillSyncChecksumsAndPackageValidation
-       FAIL TestStartupSyncPinsSkillToRunningCLI
-run 2: ok
-```
+- `go build ./...`
+- `go test ./... -count=1 -vet=off`（阻断）
+- `go vet ./...`（报告，`|| true`）
 
-单独跑 `TestFetchSkillTree_TraversalGuard` 也通过，全量跑偶发失败。
-错误形态是 `rename ...: Access is denied`，属 Windows 文件系统竞争/句柄未释放，
-**需要单独定位**，不适合用 skip 掩盖。
+## 仍然存在的 vet 告警（不影响测试）
 
-### 本轮已修的两个真实缺陷
-
-| 缺陷 | 影响 | 修法 |
-|---|---|---|
-| `local.go` 用 `filepath.Clean` 校验 tar 条目名 | Windows 上把 `references/test.md` 变成 `references\test.md`，**所有合法条目都被判 unsafe** —— Windows 用户根本无法校验技能包 | 改用 `path.Clean` / `path.IsAbs`（tar 名字是 POSIX 语义） |
-| `cli_test.go` 断言可执行位 | Windows 没有执行位，普通文件 mode 是 `-rw-rw-rw-`，断言恒失败 | 该断言只在非 Windows 生效（`.exe` 与 mode 无关） |
-
-## CI 策略
-
-`.github/workflows/validate-go.yml`：
-
-- **阻断**：`TestGate*`（daemon）与 `TestStatus|TestSetup|TestCard|TestAcceptance`（app）
-- **只报告**：`go test ./...` 与 `go vet ./...`（`|| true`）
-
-app 与 daemon 已全绿，可把阻断范围扩大到这两个包；selfupdate 保持报告，
-因为它是 flaky 而非稳定失败。
-
-## 历史修复记录
-
-| 轮次 | 修复内容 |
+| 位置 | 内容 |
 |---|---|
-| 21 | 能力/交付物的过期断言改为断言规则 |
-| 22 | ProjectDrawings 7 个：换行破坏哈希、旧 metadata id、Windows symlink 与错误文本 |
-| 23 | app 剩余 6 个：`stripArtifactNesting` 的 Windows 根路径、probe 缺当前技能名、环境 skip |
-| 24 | daemon 2 个：时钟精度导致的误取消 |
-| 25 | selfupdate 2 个：tar 条目的 POSIX 路径语义、可执行位断言 |
+| `internal/app/cmd_task.go:204` | `fmt.Sprintf` 需要 9 个参数但有 10 个 |
+| `internal/daemon/schematic_geometry.go:228,234` | `cancelPublication` 未在所有路径调用（lostcancel） |
 
-## 待办
+这两处是既有问题，**没有修**，因此 vet 保持 advisory。它们能编译能跑，
+但 `%s` 数量与参数不匹配意味着那段生成的文档里有一个占位符错位——
+值得单独处理，不宜混在测试清理里。
 
-1. 定位 selfupdate 的 Windows 文件系统竞争（哪个测试留下未关闭的句柄或目录）。
-2. 稳定后把 `validate-go.yml` 的阻断范围扩大到 app + daemon + selfupdate。
+## 五轮修掉的 16 个（都是真缺陷或真平台问题）
+
+| 轮次 | 修复 |
+|---|---|
+| 21 | 能力/交付物的硬编码 id 断言 → 改为断言规则 |
+| 22 | ProjectDrawings：`.gitattributes` 锁 LF（哈希按字节算）、夹具旧 metadata id、Windows symlink/错误文本 |
+| 23 | `stripArtifactNesting` 的 Windows 根路径；probe 缺当前技能名 `easycirq` |
+| 24 | daemon：时钟精度导致的「取消更新 mutation」 |
+| 25 | selfupdate：tar 条目的 POSIX 路径语义（Windows 上所有条目被判 unsafe）、可执行位断言、目录 rename 竞争重试 |
+
+## 判定
+
+这些修复里有三个是**用户能直接撞上的缺陷**：
+
+1. Windows 上 bundle 校验拒绝所有合法技能条目（无法安装）；
+2. cwd walk-up 找不到当前技能名（`bom-enrich.py` 解析失败）；
+3. 目录 rename 在杀软/索引器占用时失败（技能更新偶发失败，用户看到 "Access is denied"）。
+
+其余是测试自身的平台假设或过期断言。
