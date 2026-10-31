@@ -344,6 +344,35 @@ def test_plan_lint_blocks_a_plan_for_the_wrong_stackup_unless_overridden():
     assert checks["layer count"] is True
 
 
+def test_compare_marks_the_dominated_profile():
+    """The comparison table has to say WHICH branch wins, not just list numbers."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("compare", MOD_PATH.parent / "compare.py")
+    cmp_mod = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(cmp_mod)
+
+    def row(name, **kw):
+        kpi = {k: 0 for k in cmp_mod.GATE_VECTOR}
+        kpi.update(kw)
+        kpi.update({"vias": 100, "plane_vias": 0, "vias_in_pad": 0,
+                    "tracks": 500, "total_length_mil": 30000.0, "diagonal_ratio": 0.4})
+        return {"profile": name, "kpi": kpi, "skew_max": 100.0}
+
+    better = row("better")
+    worse = row("worse", clearance_violations=5)
+    assert cmp_mod.pareto([better, worse]) == ["better"]
+    # two configs that trade one KPI against another are both non-dominated
+    trade = row("trade", clearance_violations=3, unrouted_legs=-0)
+    trade["kpi"]["clearance_violations"] = 3
+    trade["kpi"]["unrouted_legs"] = 0
+    other = row("other")
+    other["kpi"]["clearance_violations"] = 0
+    other["kpi"]["unrouted_legs"] = 1
+    assert sorted(cmp_mod.pareto([trade, other])) == ["other", "trade"]
+    text, front = cmp_mod.table([better, worse])
+    assert "**yes**" in text and front == ["better"]
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

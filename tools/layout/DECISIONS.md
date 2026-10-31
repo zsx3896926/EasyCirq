@@ -52,6 +52,27 @@ python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --prof
 `--profile two-layer` covers the other branch of D1 (measured: 6 open nets,
 7 pour islands, 201 clearance).
 
+### Measured comparison (all three, 70 passes, same placement)
+
+```
+| profile        | unrouted | congestion | clearance | unconn | pad gaps | islands | vias | length | skew max | pareto |
+| shared-pour    | 0        | 0          | 290       | 0      | 0        | 1       | 186  | 38832  | 713.1    | yes    |
+| exclusive-pour | 4        | 0          | 153       | 4      | 0        | 0       | 133  | 39948  | 1034.6   | yes    |
+| two-layer      | 5        | 0          | 207       | 5      | 0        | 3       | 145  | 42482  | 1089.5   |        |
+```
+
+`two-layer` is **dominated**: worse than both 4-layer branches on every axis. So
+D1 is not really a close call — a 2-layer board costs open nets, pour continuity
+and length at the same time.
+
+`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
+open nets versus a whole ground plane. Reproduce with:
+
+```bash
+python tools/layout/compare.py --dump dump2.json --place ec-placed.json \
+    --profiles shared-pour,exclusive-pour,two-layer --out compare.md
+```
+
 ---
 
 ## D3. Bus skew: a pinout problem, not a router problem

@@ -18,6 +18,9 @@ python tools/layout/ec_layout.py route  dump.json --place placed.json \
        --iters 40 --layers 4 --pour GND:4 --pour +3V3:3 --out plan.json
 python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json
 
+# compare profiles and mark which are non-dominated
+python tools/layout/compare.py --dump dump.json --place placed.json --profiles shared-pour,exclusive-pour
+
 # ask whether a bus can be routed as parallel lanes at all
 python tools/layout/bus_capacity.py --dump dump.json --place placed.json
 
@@ -93,5 +96,6 @@ Five of the six gate items are zero. The two that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
 
 
