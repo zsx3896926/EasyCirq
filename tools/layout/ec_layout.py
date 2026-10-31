@@ -953,7 +953,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1319,6 +1319,11 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         # GND shared a cell, one congestion unit came back).
         relocate_pour_vias(board, best_routed, max_step=pour_step)
         relocated, _still = relocate_vias(board, best_routed)
+    if pour_rescue:
+        # LAST, on purpose: a clearance-driven relocation can put an access via back
+        # into an isolated pocket, and this is the step that reads the actual pour
+        # geometry.  It moves only the one-cell stub, never a routed path.
+        rescue_island_vias(board, best_routed, layers=layers)
     return (len(best_failures), best_congestion), best_routed, best_failures
 
 
@@ -1766,9 +1771,16 @@ def trim_pour_crossings(board, routed, pour_layers, limit_cells=30, layers=4):
     `limit_cells` cells is re-routed with those layers forbidden, and the result is
     kept only if every leg still routes - connectivity can only stay equal.
 
+    The re-route is done ONE FREE LAYER AT A TIME and with the neighbours inflated
+    to a full clearance halo.  Both details are load-bearing: an any-layer A* that
+    only avoids cells another net owns produced paths hugging neighbours one grid
+    step away (measured: 130 track/track against 5 without the trim, HANDOFF §41),
+    and with nothing but a post-hoc guard every trim was rejected, which made the
+    whole step a no-op.
+
     Returns (trimmed_net_count, mil_removed_from_pour_layers).
     """
-    free_layers = set(range(1, layers + 1)) - set(pour_layers)
+    free_layers = sorted(set(range(1, layers + 1)) - set(pour_layers))
     if not free_layers:
         return 0, 0.0
     pad_forbid, _own = board.pad_blocked()
@@ -1782,40 +1794,61 @@ def trim_pour_crossings(board, routed, pour_layers, limit_cells=30, layers=4):
     for net, cells in sorted(per_net.items(), key=lambda kv: -kv[1]):
         if cells <= limit_cells:
             continue
-        blocked = {(x, y) for n, ps in routed.items() if n not in (net, PLANE_VIA_KEY)
-                   for p in ps for (x, y, _l) in p}
-        new_paths, ok = [], True
-        for i, j in mst_edges(board.nets[net]):
-            a, b = board.nets[net][i], board.nets[net][j]
-            sc, gc = board.cell(a["x"], a["y"]), board.cell(b["x"], b["y"])
-            start_it = _pad_layers(a, free_layers)
-            goal_it = _pad_layers(b, free_layers)
-            path = astar(board, sc, gc,
-                         {c for c, o in pad_forbid.items() if net not in o} | blocked,
-                         {}, preferred_layer(net, layers), set(), layers,
-                         layer_ok=free_layers,
-                         start_layer=(min(start_it) if start_it else None),
-                         goal_layers=goal_it)
-            if not path:
-                ok = False
-                break
-            new_paths.append(path)
-        if not ok or not new_paths:
-            continue
-        # Trimming must not pay for the pour with spacing.  The re-route above only
-        # avoids CELLS another net owns (overlap), so a trimmed path could hug a
-        # neighbour at one grid step: measured 130 track/track hits on the trimmed
-        # profile against 5 without the trim.  Accept the new path only when it is
-        # no closer to foreign copper than the one it replaces.
-        others = {n: ps for n, ps in routed.items() if n not in (net, PLANE_VIA_KEY)}
         width = route_width(net)
+        halo = int(math.ceil((width / 2 + CLEARANCE) / GRID))
+        # Foreign copper per layer, inflated by the halo a track of this width needs.
+        foreign = {lay: set() for lay in range(1, layers + 1)}
+        for n, paths in routed.items():
+            if n in (net, PLANE_VIA_KEY):
+                continue
+            for p in paths:
+                for (x, y, l) in p:
+                    if l not in foreign:
+                        continue
+                    for dx in range(-halo, halo + 1):
+                        for dy in range(-halo, halo + 1):
+                            foreign[l].add((x + dx, y + dy))
+        others = {n: ps for n, ps in routed.items() if n not in (net, PLANE_VIA_KEY)}
         bad_old = sum(path_conflicts(board, p, others, net, width, count=True)
                       for p in routed[net])
-        bad_new = sum(path_conflicts(board, p, others, net, width, count=True)
-                      for p in new_paths)
-        if bad_new > bad_old:
+        # The pads cap which layers a leg may start on (an SMD pad anchors its own
+        # layer), so a candidate is "the pad layers plus ONE free layer".  Forbidding
+        # every free layer at once is what made the old trim crowd the neighbours.
+        base = {int(p.get("layer") or 1) for p in board.nets[net]} & set(range(1, layers + 1))
+        cands = []
+        for lay in free_layers:
+            s = frozenset(base | {lay}) if base else frozenset({lay})
+            if s not in cands:
+                cands.append(s)
+        accepted = None
+        for cand in cands:                         # one legal path per candidate set
+            new_paths, ok = [], True
+            for i, j in mst_edges(board.nets[net]):
+                a, b = board.nets[net][i], board.nets[net][j]
+                sc, gc = board.cell(a["x"], a["y"]), board.cell(b["x"], b["y"])
+                start_it = _pad_layers(a, cand)
+                goal_it = _pad_layers(b, cand)
+                forbid = {c for c, o in pad_forbid.items() if net not in o}
+                for lay in cand:
+                    forbid |= foreign[lay]
+                path = astar(board, sc, gc, forbid, {}, preferred_layer(net, layers),
+                             set(), layers, layer_ok=set(cand),
+                             start_layer=(min(start_it) if start_it else None),
+                             goal_layers=goal_it)
+                if not path:
+                    ok = False
+                    break
+                new_paths.append(path)
+            if not ok or not new_paths:
+                continue
+            bad_new = sum(path_conflicts(board, p, others, net, width, count=True)
+                          for p in new_paths)
+            if bad_new <= bad_old:
+                accepted = new_paths
+                break
+        if accepted is None:
             continue
-        routed[net] = new_paths
+        routed[net] = accepted
         trimmed += 1
         removed += cells * GRID
     return trimmed, removed
@@ -1982,6 +2015,166 @@ def relocate_vias(board, routed, max_shift=3, rounds=3):
                 if a[2] != b[2] and a[:2] == b[:2] and not _via_site_ok(occ, net, a):
                     bad += 1
     return moved, bad
+
+
+def _pour_regions(board, plan, layer, pour_vias, clearance=POUR_CLEARANCE):
+    """The actual copper regions of one pour layer (the flood fill behind `pour_islands`).
+
+    Returned separately from the count because "0 islands" is not actionable until
+    you know WHERE the pocket is: an access via landing in a small pocket is the
+    one thing that can be moved without touching the routing at all.
+    """
+    pour_nets = {v["net"] for v in pour_vias}
+    target = {board.cell(v["x"], v["y"]) for v in pour_vias}
+    halo = int(math.ceil(clearance / GRID))
+    blocked = set()
+    for t in plan.get("tracks") or []:
+        if int(t["layer"]) != layer or t["net"] in pour_nets:
+            continue
+        blocked |= _segment_cells(board, t, halo=halo)
+    seen, out = set(), []
+    for start in sorted(target):
+        if start in seen or start in blocked:
+            continue
+        comp, stack = set(), [start]
+        seen.add(start)
+        while stack:
+            x, y = stack.pop()
+            comp.add((x, y))
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nx, ny = x + dx, y + dy
+                if not (0 <= nx < board.w and 0 <= ny < board.h):
+                    continue
+                if (nx, ny) in seen or (nx, ny) in blocked:
+                    continue
+                seen.add((nx, ny))
+                stack.append((nx, ny))
+        out.append(comp)
+    return out
+
+
+def pour_island_report(board, plan, clearance=POUR_CLEARANCE):
+    """Which pour layers are cut, how big the pieces are, and which nets cut them.
+
+    `pour_islands` is a count. A count cannot be acted on: after two attempts at
+    trimming the pour the island on RetroCam-02 was unchanged, and only this report
+    said why - a 190-cell +3V3 pocket enclosed by BUZ_G / CAM_VSYNC / CAM_SIOD /
+    CAM_PCLK, with no legal access site reachable by a legal stub.
+
+    Returns {layer: {"sizes": [...], "cutters": {net: touching_cells},
+                     "dead_vias": [...]}} for every cut layer that actually has an
+    access via stranded in a pocket.
+    """
+    pour_vias = [v for v in plan.get("vias") or [] if v.get("plane_layer")]
+    by_layer = defaultdict(list)
+    for v in pour_vias:
+        by_layer[int(v["plane_layer"])].append(v)
+    out = {}
+    for layer, vias in sorted(by_layer.items()):
+        regs = _pour_regions(board, plan, layer, vias, clearance)
+        if len(regs) < 2:
+            continue
+        regs.sort(key=len, reverse=True)
+        main, dead = regs[0], set().union(*regs[1:])
+        stuck = [v for v in vias if board.cell(v["x"], v["y"]) in dead]
+        if not stuck:
+            continue
+        cutters = defaultdict(int)
+        halo = int(math.ceil(clearance / GRID))
+        for t in plan.get("tracks") or []:
+            if int(t["layer"]) != layer:
+                continue
+            for (x, y) in _segment_cells(board, t, halo=halo):
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    if (x + dx, y + dy) in dead:
+                        cutters[t["net"]] += 1
+        out[layer] = {"sizes": [len(r) for r in regs],
+                      "cutters": dict(sorted(cutters.items(), key=lambda kv: -kv[1])),
+                      "dead_vias": stuck}
+    return out
+
+
+def rescue_island_vias(board, routed, layers=4, max_step=20, clearance=POUR_CLEARANCE):
+    """Move a pour access via that landed in an isolated pocket into the main pour.
+
+    `pour_islands` reports such a via as an island, and it is telling the truth:
+    the via touches the pocket and nothing else, so that pad is connected to a
+    piece of copper that reaches no other pad of the net - electrically open even
+    though every connectivity check says "connected" (a via is a through-hole, but
+    the pocket is the only copper of that net it can reach on this layer).
+
+    Only the pad stub moves, so no routed path changes; the stub itself is checked
+    cell by cell (`_stub_clear`) because a site on the far side of a pocket means a
+    stub several cells long.  Sites are taken from the main region only, so either
+    the island disappears or the via stays where it was and stays reported.
+
+    Measured on RetroCam-02: the +3V3 pour on L3 is cut into 48439 + 190 cells by
+    BUZ_G/CAM_VSYNC/CAM_SIOD/CAM_PCLK, and the dead access via sits 8.9 cells away
+    from the main pour - inside a 14-cell search but outside the old 8.
+    """
+    if not routed.get(PLANE_VIA_KEY):
+        return 0
+    plan = plan_from(board, routed)
+    by_layer = defaultdict(list)
+    for v in routed[PLANE_VIA_KEY]:
+        pl = v.get("plane_layer")
+        if pl:
+            by_layer[int(pl)].append(v)
+    occ = _occupancy_map(board, routed)
+    pad_forbid, _own = board.pad_blocked()
+    moved = 0
+    for layer, vias in sorted(by_layer.items()):
+        regs = _pour_regions(board, plan, layer, vias, clearance)
+        if len(regs) < 2:
+            continue
+        regs.sort(key=len, reverse=True)
+        main, dead = regs[0], set().union(*regs[1:])
+        for v in vias:
+            net = v["net"]
+            width = route_width(net)
+            cell = board.cell(v["x"], v["y"])
+            if cell in main or cell not in dead:
+                continue
+            stub_idx, pad_cell = None, None
+            for ai, path in enumerate(routed.get(net, [])):
+                if len(path) == 2 and path[1][:2] == cell:
+                    stub_idx, pad_cell = ai, path[0][:2]
+                    break
+            if stub_idx is None:
+                continue
+            busy = {(x, y) for (x, y, lay), nets in occ.items()
+                    if lay == 1 and any(n != net for n in nets)}
+            for lay in range(1, layers + 1):
+                occ[(cell[0], cell[1], lay)].discard(net)
+            best = None
+            for r in range(1, max_step + 1):
+                for dx in range(-r, r + 1):
+                    for dy in range(-r, r + 1):
+                        if max(abs(dx), abs(dy)) != r:
+                            continue
+                        cand = (pad_cell[0] + dx, pad_cell[1] + dy)
+                        if cand not in main:
+                            continue
+                        if not _via_site_ok(occ, net, cand, width=width):
+                            continue
+                        if not _stub_clear(board, pad_cell, cand, busy, pad_forbid, net):
+                            continue
+                        best = cand
+                        break
+                    if best:
+                        break
+                if best:
+                    break
+            if best is None:
+                for lay in range(1, layers + 1):
+                    occ[(cell[0], cell[1], lay)].add(net)
+                continue
+            v["x"], v["y"] = board.center(*best)
+            routed[net][stub_idx] = [(pad_cell[0], pad_cell[1], 1), (best[0], best[1], 1)]
+            for lay in range(1, layers + 1):
+                occ[(best[0], best[1], lay)].add(net)
+            moved += 1
+    return moved
 
 
 def relocate_pour_vias(board, routed, max_step=5, rounds=3):
@@ -3103,6 +3296,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

@@ -612,4 +612,57 @@ def test_trim_still_takes_a_reroute_that_is_clean(monkeypatch):
     assert removed > 0
 
 
+# ── an access via inside an isolated pour pocket is a dead pad ───────────────
+def _pocket_fixture():
+    """+3V3 poured on layer 4; a foreign track traces a closed square, isolating a
+    pocket that contains one access via, while another via sits in the main pour.
+
+    Mils throughout: the square runs (700,700)-(800,800), the pocket via is at
+    (750,750) inside it, the other at (200,200) in the open pour.
+    """
+    board = make_board([comp("U1", 795, 795, [("1", "+3V3", 795, 795)]),
+                        comp("U2", 200, 200, [("1", "+3V3", 200, 200)])], bbox=(0, 0, 1000, 1000))
+    wall = [(70, 70, 4), (80, 70, 4), (80, 80, 4), (70, 80, 4), (70, 70, 4)]
+    routed = {
+        "B": [wall],
+        "+3V3": [[(75, 75, 1), (75, 75, 1)]],
+        ec.PLANE_VIA_KEY: [
+            {"net": "+3V3", "x": 795, "y": 795, "plane_layer": 4},   # inside the pocket
+            {"net": "+3V3", "x": 205, "y": 205, "plane_layer": 4},   # main pour
+        ],
+    }
+    return board, routed
+
+
+def test_island_via_is_rescued_into_the_main_pour():
+    board, routed = _pocket_fixture()
+    before = ec.pour_islands(board, ec.plan_from(board, routed))
+    assert before == 1, "fixture must start with a genuinely isolated pocket"
+
+    moved = ec.rescue_island_vias(board, routed, layers=4)
+    assert moved == 1
+    via = routed[ec.PLANE_VIA_KEY][0]
+    assert board.cell(via["x"], via["y"]) not in {
+        (x, y) for x in range(69, 82) for y in range(69, 82)}
+    assert ec.pour_islands(board, ec.plan_from(board, routed)) == 0
+
+
+def test_pour_island_report_names_the_layer_cutters_and_stranded_via():
+    """A count cannot be acted on: the report must say which layer is cut, how big
+    the pocket is, which nets cut it and which access via is stranded in it."""
+    board, routed = _pocket_fixture()
+    rep = ec.pour_island_report(board, ec.plan_from(board, routed))
+    assert list(rep) == [4]
+    info = rep[4]
+    assert len(info["sizes"]) == 2 and min(info["sizes"]) > 0
+    assert set(info["cutters"]) == {"B"}
+    assert [v["net"] for v in info["dead_vias"]] == ["+3V3"]
+
+    # a pour with no stranded via is not an island the gate should act on
+    routed[ec.PLANE_VIA_KEY][0]["x"] = routed[ec.PLANE_VIA_KEY][1]["x"]
+    routed[ec.PLANE_VIA_KEY][0]["y"] = routed[ec.PLANE_VIA_KEY][1]["y"]
+    assert ec.pour_island_report(board, ec.plan_from(board, routed)) == {}
+
+
+
 

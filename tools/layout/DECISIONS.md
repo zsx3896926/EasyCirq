@@ -75,23 +75,43 @@ and length at the same time.
 
 A third route was measured in §38: keep the pour shared but re-route only the nets
 that cross it for a long run (`--pour-trim`). It was the first configuration with
-zero open legs AND a whole ground plane. §41 re-measured it under the
-track/pad-inclusive KPI and split the clearance number into kinds:
+zero open legs AND a whole ground plane. §41 and §42 re-measured it twice under the
+track/pad-inclusive KPI:
 
-| configuration | clearance | of which track/track | unrouted | pour islands |
-|---|---|---|---|---|
-| shared | 515 | 5 | 0 | 1 |
-| shared + `--pour-trim` (no guard) | 611 | **130** | 0 | **0** |
-| shared + `--pour-trim` (spacing guard) | 515 | 5 | 0 | 1 |
-| exclusive | 436 | 5 | 4 | 0 |
+| configuration | clearance | track/track | unrouted | pour islands | LCD skew |
+|---|---|---|---|---|---|
+| shared | 515 | 5 | 0 | 1 | 165.3 |
+| `--pour-trim`, no guard | 611 | **130** | 0 | **0** | 268.7 |
+| `--pour-trim`, spacing guard only | 515 | 5 | 0 | 1 | 165.3 (no-op) |
+| `--pour-trim`, layer-aware legal re-route | 522 | 5 | 0 | **1** | **467.3** |
+| exclusive | 436 | 5 | 4 | 0 | 165.3 |
 
-The trim's re-route only avoided *cells* another net owned, so its paths hugged
-neighbours at one grid step: 5 → 130 track/track. With a guard that keeps the old
-path whenever the new one is closer to foreign copper, the trim becomes a no-op and
-the plan is byte-identical to `shared-pour` (same 186 vias, 526 tracks, 38832 mil).
-Recorded as a dead end: the zero-island result was bought with spacing violations.
+With legal re-routes the island **does not go away** and the bus skew gets worse,
+so the trim is a recorded dead end (three attempts, §38/§41/§42).
 
-`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
+### What the remaining island actually is (§42)
+
+`pour_cut.py` on the frontier plan:
+
+```
+layer 3: pour is CUT into 2 pieces, sizes [48439, 190]
+  cuts: BUZ_G 45 / CAM_VSYNC 28 / CAM_SIOD 22 / CAM_PCLK 12  (touching cells)
+  STRANDED access via: net +3V3 at (1935, 1025)
+```
+
+Three consequences for this decision:
+
+1. The cut is **+3V3 on L3**, not ground. The ground pour on L4 is one piece
+   (49346 cells), so "do we accept a split ground plane" is not the question this
+   board is asking today;
+2. the stranded via means one +3V3 pin (J3.1) reaches only its own pocket — a real
+   open, not a DRC nit;
+3. it cannot be fixed by moving copper: `rescue_island_vias` finds 655 main-pour
+   cells within 20 cells of that pad, 147 with a clean via disc, and **0** reachable
+   by a legal pad stub. Fixing it means changing the L1 routing around J3, moving
+   J3, or adding layers.
+
+`shared-pour` and `exclusive-pour` remain non-dominated, and that is exactly D2:
 open nets versus a whole ground plane. Reproduce with:
 
 ```bash

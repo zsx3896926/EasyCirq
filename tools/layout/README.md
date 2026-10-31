@@ -21,6 +21,9 @@ python tools/layout/ec_layout.py check  dump.json --place placed.json --plan pla
 # split the clearance KPI into kinds and deficits (what to work on next)
 python tools/layout/spacing_audit.py --dump dump.json --place placed.json --out-dir out/
 
+# name the nets that cut a pour (which copper made the island)
+python tools/layout/pour_cut.py out/plan.json --dump dump.json --place placed.json
+
 # compare profiles and mark which are non-dominated
 python tools/layout/compare.py --dump dump.json --place placed.json --profiles shared-pour,exclusive-pour
 
@@ -73,12 +76,18 @@ Four of the six gate items are zero. The three that are not:
    reserve, pre-plan, price in the search, via-first, post-hoc relocation) either
    loses legs or makes spacing worse; only post-hoc relocation of *routing* vias
    helps (−5).
-2. **pour islands 1** — a long run on the ground pour layer cuts it in two. The
-   `--pour-trim` escape (re-route long crossings off the pour layer) was measured
-   to buy its zero islands with 130 track/track violations; with a spacing guard
-   it becomes a no-op, i.e. identical to `shared-pour`. Closing this needs a
-   layer-aware legal re-route (HANDOFF §41.7) or the D2 decision (cut ground vs
-   open legs).
+2. **pour islands 1** — and now it is a *diagnosed* design conflict, not unfinished
+   work: the cut layer is **L3 (+3V3), not the ground**; `pour_cut.py` shows the
+   +3V3 pour split into 48439 + 190 cells by `BUZ_G` (572 mil on that layer),
+   `CAM_VSYNC`, `CAM_SIOD` and `CAM_PCLK`, with one access via (J3.1) **stranded**
+   in the pocket — that pad is connected to nothing but its own island. It cannot
+   be rescued by moving copper: within 20 grid cells of that pad 655 main-pour
+   cells exist and 147 give the via a clean disc, but **0** of them can be reached
+   by a legal pad stub (`rescue_island_vias`, HANDOFF §42.3). The two escapes were
+   measured and both fail: `--pour-trim` without a spacing guard bought zero
+   islands with 130 track/track violations, and with a legal, layer-aware re-route
+   it leaves the island at 1 while pushing LCD skew 165 → 467. Closing this needs
+   a decision on the L1 routing, the J3 placement, or the layer count.
 3. **bus skew** — not an implementation gap: `bus_capacity.py` shows the pin order
    of the two ends is uncorrelated (CAM ρ = −0.21 / −0.37, LCD ρ = 0.70), so a
    parallel lane bundle cannot exist. Closing it needs a pinout/stackup decision,
@@ -95,6 +104,12 @@ Four of the six gate items are zero. The three that are not:
   another net owned, so its re-routes hugged neighbours at one grid step; with a
   spacing guard it trims nothing. A KPI can be satisfied by moving the damage to a
   KPI nobody measures — which is exactly why `track/pad` was added to the gate.
+* **A count is not a diagnosis.** `pour_islands` = 1 hid a 190-cell pocket in the
+  +3V3 pour with a stranded access via; `spacing_audit.py` and `pour_cut.py` exist
+  so a red KPI comes with its cause, its size and the nets responsible.
+* **A legal fix that finds no site is still a finding.** The island rescue is
+  implemented and tested, and measured to move nothing on this board (0 of 147
+  legal via sites reachable): that is what turned "unfinished" into "design conflict".
 * **`check` never passes a KPI it could not measure** — unmeasured prints `null`
   and fails the gate.
 * **The comparison cache is keyed on the metric code**, not only on the inputs, so

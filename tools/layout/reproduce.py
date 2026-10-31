@@ -111,6 +111,16 @@ def run(dump_path, place_path, out_dir=None, profile="shared-pour"):
         why["clearance_violations"] = "implementation: %d track/track, %d via/track, " \
             "%d via/pad, %d track/pad" % (br.get("track_track", 0), br.get("via_track", 0),
                                           br.get("via_pad", 0), br.get("track_pad", 0))
+    if kpi["pour_islands"]:
+        rep = ec.pour_island_report(board, plan)
+        bits = []
+        for layer, info in sorted(rep.items()):
+            cut = ", ".join("%s(%d)" % (n, c) for n, c in list(info["cutters"].items())[:4])
+            bits.append("L%d cut into %s cells by %s; %d access via(s) stranded"
+                        % (layer, "+".join(str(s) for s in info["sizes"][:2]), cut,
+                           len(info["dead_vias"])))
+        why["pour_islands"] = "design conflict: " + ("; ".join(bits) if bits
+                                                     else "island with no movable via")
 
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
