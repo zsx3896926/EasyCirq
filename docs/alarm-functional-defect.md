@@ -585,3 +585,49 @@ OBJECTOUTSIDESHEET 7          OBJECTOUTSIDESHEET 7
 我就以为搬对了；实际上几何已经坏了，而它自己也不知道。
 
 这和前面几轮的模式一样：我信任了一个**只覆盖部分事实**的确认信号。
+
+---
+
+## 修回来了（第 130 轮）
+
+用正确的顺序重做：**先断开 → 再移动 → 最后连接**。
+
+| 步骤 | 动作 | 结果 |
+|---|---|---|
+| 1 | schematic.pin.disconnect ×5（Q1 三脚、R4 两脚） | 旧导线与器件分离 |
+| 2 | sch group ungroup 解掉 g1/g2（否则 autoplace-free 拒绝） | 组已解散 |
+| 3 | sch autoplace-free --apply | Q1→(60,70)、R4→(110,45)，都在框内 |
+| 4 | sch connect ×5 重建连接 | 新导线在器件新位置生成 |
+
+### DRC 变化
+
+| 阶段 | violations | 明细 |
+|---|---|---|
+| 最初 | 8 | GLOBALNETSHORTED 1 + OBJECTOUTSIDESHEET 7 |
+| 我改坏后 | 12 | 新增 SHOWFLOATING 1 / SHOWDANDLING 2 / CHECKFLOATPIN 1 |
+| **修回后** | **6** | GLOBALNETSHORTED 1 + OBJECTOUTSIDESHEET 5 |
+
+**比最初还少了 2 项**——因为重新连接时，导线是从器件新位置拉出去的，
+部分原来在图框外的走线也跟着归位了。
+
+### 网表核对（与修复前一致）
+
+`
+ALARM    R4.2 U1.1
+BASE     Q1.1 R4.1
+BUZ_SW   BZ1.2 Q1.3
+GND      C1.2 NTC1.2 Q1.2 R3.2 U1.4
+NTC_MID  NTC1.1 R1.2 U1.3
+PWR5V    BZ1.1 C1.1 R1.1 R2.1 U1.8
+TH       R2.2 R3.1 U1.2
+`
+
+七个网络与电路设计完全一致，没有多也没有少。
+
+### 剩下的 6 项
+
+- GLOBALNETSHORTED ×1：
+aw 里只有一个 \，像是孤立的自动网络名；
+- OBJECTOUTSIDESHEET ×5：仍有 5 个图元在框外（不是器件，可能是某些导线/标签）。
+
+两项都是 warn，不阻断 passed: true，但**出图会被裁**。仍未清干净。
