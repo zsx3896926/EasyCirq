@@ -273,6 +273,52 @@ def test_reproduce_scorecard_separates_design_conflict_from_bug():
     assert "design conflict" in text and "failing KPI" in text
 
 
+def test_emit_apply_refuses_a_plan_that_did_not_pass_the_gate():
+    """The project rule is one-way: nothing goes to the machine until the offline
+    gate is green. The refusal must name every open KPI."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("emit_apply", MOD_PATH.parent / "emit_apply.py")
+    ea = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(ea)
+
+    dirty = {"unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 121,
+             "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 0,
+             "bus_length_spread_mil": {"CAM_D": 713.1, "LCD_": 10.0}}
+    reasons = ea.gate_reasons(dirty)
+    assert any("clearance_violations: 121" in r for r in reasons)
+    assert any("CAM_D" in r for r in reasons)
+    assert not any("LCD_" in r for r in reasons)
+
+    clean = dict(dirty)
+    clean["clearance_violations"] = 0
+    clean["bus_length_spread_mil"] = {"CAM_D": 10.0}
+    assert ea.gate_reasons(clean) == []
+
+    # an unmeasured KPI is not a pass
+    unmeasured = dict(clean)
+    unmeasured["pad_layer_gaps"] = None
+    assert any("NOT MEASURED" in r for r in ea.gate_reasons(unmeasured))
+
+
+def test_emit_apply_manifest_records_what_fabrication_must_know():
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("emit_apply2", MOD_PATH.parent / "emit_apply.py")
+    ea = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(ea)
+
+    plan = {"tracks": [{"net": "A", "layer": 1, "width": 7.0, "x1": 0, "y1": 0, "x2": 10, "y2": 0}],
+            "vias": [{"net": "GND", "x": 5, "y": 5, "plane_layer": 4},
+                     {"net": "B", "x": 9, "y": 9, "in_pad": True}]}
+    norm = ea.normalise(plan)
+    man = ea.build_manifest(norm, {}, "dump2.json", "sha")
+    assert man["counts"]["tracks"] == 1
+    assert man["counts"]["vias"] == 2
+    assert man["counts"]["access_vias"] == 1
+    assert man["counts"]["vias_in_pad"] == 1
+    assert any("POFV" in n for n in man["fabrication_notes"])
+    assert any("pour" in n.lower() for n in man["fabrication_notes"])
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

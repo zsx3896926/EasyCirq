@@ -1282,4 +1282,55 @@ vias 178（接入 59、塞孔 6）| 走线段 537 | 总线长 37114 | 45° 0.410
 1. 把工具链的"可交付性"补齐（一次性上机前的检查单：plan→EDA 写入命令、回读校验脚本）；
 2. 或者承认 121 是本 toolchain 在当前 DRC 规则下的极限，把它写进 README 的"已知限制"。
 
+---
+
+## 32. 第二十三轮：把"达标才允许上机"写成代码 2026-11-01
+
+### 32.1 `emit_apply.py`：交付闸门
+
+objective 里有半句是"**一律离线跑通并达标后才允许上真机**"。之前这条只是纪律，
+现在它是**代码行为**：
+
+```bash
+python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --out-dir DIR
+```
+
+* 门禁不绿 → **拒绝**（exit 2），并逐条列出未达标的 KPI；
+* 强制放行必须 `--force --reason "谁接受的、为什么"`，否则同样拒绝；
+* 放行时产出三个文件：
+
+| 文件 | 内容 |
+|---|---|
+| `apply-plan.json` | 规范化后的轨道/过孔列表（`easycirq apply --plan` 的输入形状） |
+| `manifest.json` | 逐层/逐网计数、plan 的 sha256、板子来源、**制造注意事项** |
+| `APPLY.md` | 上机步骤 + 回读校验清单 |
+
+制造注意事项是自动推导的，例如：`6 via(s) are via-in-pad and need resin fill (POFV)`、
+`copper pours required on layer(s) 4, 3`。
+
+### 32.2 对当前计划的真实行为：拒绝
+
+```
+REFUSED: the offline gate is not green, so nothing goes to the machine.
+  - clearance_violations: 121
+  - bus skew CAM_D: 713.1 mil (target <50)
+  - bus skew LCD_: 165.3 mil (target <50)
+  - bus skew SD_: 297.6 mil (target <50)
+```
+
+**这就是当前状态最诚实的表达**：工具链不会放一块没达标的板子上机。
+（用一份"合成干净 KPI"验证过放行路径：537 tracks / 178 vias（59 接入、6 塞孔）正确出包。）
+
+### 32.3 现在的完整链条
+
+```
+place → route → report（11 项 KPI）→ gate → emit_apply（拒绝或出包）→ 上机 → 回读 DRC
+         ↑ reproduce.py 一条命令复现前沿
+```
+
+### 32.4 下一步
+
+1. 把 `bus_capacity.py` 的结论沉淀进 README 的「已知限制」：**等长在当前引脚分配下不可达**。
+2. 回读校验脚本（`after.json` vs `apply-plan.json` 的自动 diff）——目前只是 APPLY.md 里的文字清单。
+
 

@@ -2,21 +2,26 @@
 
 **Mechanism:** never touch the EDA board until the offline toolchain passes the KPI
 gate. Any agent can drive this: the inputs are a `pcb dump --include-copper`
-snapshot and JSON files; nothing here needs a daemon or an editor write.
+snapshot and JSON files; nothing here needs a daemon or an editor write — and
+`emit_apply.py` refuses to produce an apply bundle while the gate is red.
 
 ## Commands
 
 ```bash
-# 1) place: layout for routing (HPWL annealing + deterministic legalisation)
+# reproduce the current frontier in one command (11-row scorecard + gate verdict)
+python tools/layout/reproduce.py --dump dump.json --place placed.json --out-dir out/
+
+# or step by step
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
-
-# 2) route: negotiated congestion routing (PathFinder-style, 45° moves, vias)
 python tools/layout/ec_layout.py route  dump.json --place placed.json \
-       --iters 25 --layers 4 --out plan.json
-
-# 3) gate: judge the plan exactly as it would be applied
+       --iters 40 --layers 4 --pour GND:4 --pour +3V3:3 --out plan.json
 python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json
-# exit 0 = all KPI clean, exit 1 = do NOT apply this plan to the board
+
+# ask whether a bus can be routed as parallel lanes at all
+python tools/layout/bus_capacity.py --dump dump.json --place placed.json
+
+# turn a passing plan into an on-machine bundle (refuses a failing one)
+python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump.json --out-dir dir/
 ```
 
 ## KPI (single definition, enforced by tests)
@@ -25,90 +30,65 @@ python tools/layout/ec_layout.py check  dump.json --place placed.json --plan pla
 |---|---|---|
 | `unrouted_legs` | MST edges A* could not complete | 0 |
 | `congestion_cells` | (x, y, layer) cells claimed by two nets | 0 |
-| `nets_unconnected` | nets whose pads do not form one component in the plan | 0 |
-| `clearance_violations` | segment pairs closer than rule (width/2 + 6 mil) | 0 |
-| `vias` | layer changes | minimise |
-| `total_length_mil` | sum of track length | minimise |
-| `hpwl_mil` | placement wirelength proxy | minimise |
-| `diagonal_ratio` | share of length on 45° segments | higher is better |
-| `layer_length_mil` | length per copper layer | balanced |
-| `bus_length_spread_mil` | max−min length inside CAM/LCD/SD groups | < 50 |
+| `nets_unconnected` | nets whose pads do not form one component | 0 |
+| `clearance_violations` | track/track **and via/track and via/pad** pairs too close | 0 |
+| `pad_layer_gaps` | pads whose copper is on the wrong layer with no via nearby | 0 |
+| `pour_islands` | pour access vias landing in different copper islands | 0 |
+| `vias` | layer changes (access / in-pad reported separately) | minimise |
+| `total_length_mil`, `diagonal_ratio`, `layer_length_mil` | quality metrics | — |
+| `bus_length_spread_mil` | max−min length per CAM/LCD/SD group | < 50 |
 
-All metrics are computed **from the plan**, so `check` measures what will be written
-to the board. Three earlier versions had the router and the checker disagree (40 vs
-281, 12 vs 0); each is now pinned by a test in `tests/test_ec_layout.py` (8 tests).
+Every metric is computed **from the plan**, so `check` judges what would be written
+to the board. Several earlier versions had router and checker disagreeing (40 vs
+281, 12 vs 0, and a 2D connectivity check that called 72 physically open pads
+"connected"); each is pinned by a test.
 
-## What works today (measured on RetroCam-02)
+## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
 
-* Placement: HPWL 71641 → **43301 mil** (−40 %), overlaps 0, outside 0.
-* Routing: 0–3 unrouted legs, congestion **9–11** cells, clearance **39–44**,
-  vias **90**, `diagonal_ratio` **≈0.40**.
-* Gate correctly returns FAIL for the numbers above.
+```
+unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 0
+clearance 121 | vias 178 (59 access, 6 in-pad) | 537 segments
+total length 37114 mil | 45-degree share 0.410
+bus skew: CAM_D 713 / LCD_ 165 / SD_ 298 mil
+```
 
-## Known gaps (do not claim these work)
+Five of the six gate items are zero. The two that are not:
 
-1. **Length matching is not achieved.** Bus spread CAM 211 / LCD 573 / SD 754 mil.
-   Three approaches failed: post-hoc meanders (0 placed — board is full), whole
-   corridor bundle translation (1–2 of 8 placed), fan-out bundle (1 of 8). Cause:
-   the fan-out must leave each pad along its **pin escape direction** (J3 pads are
-   50 mil apart, so a vertical fan-out immediately hits the neighbour pad).
-2. **Clearance 39–44 remains**, concentrated at 0.5 mm-pitch parts (U1/U5/J3);
-   these need pad-escape vias, not cost tuning.
-3. **3 unrouted legs / 6–7 unconnected nets** survive the negotiated pass.
-4. Not implemented at all: differential pairs, impedance/return-path checks,
-   power-plane planning, test points, silkscreen/assembly checks.
+1. **clearance 121** — 68 of 178 vias sit too close to other copper (via-track and
+   via-pad); the router decides layer changes during the A* search, and every
+   attempt to steer that decision (veto, reserve, pre-plan, price in the search,
+   post-hoc relocation) either loses legs or makes spacing worse. Only post-hoc
+   relocation of *routing* vias helps (−5).
+2. **bus skew** — not an implementation gap: `bus_capacity.py` shows the pin order
+   of the two ends is uncorrelated (CAM ρ = −0.21 / −0.37, LCD ρ = 0.70), so a
+   parallel lane bundle cannot exist. Closing it needs a pinout/stackup decision,
+   and the post-hoc meander route is arithmetically impossible (§27 of HANDOFF).
 
-## Next concrete steps
+## Verified behaviours worth knowing
 
-1. Pad-escape table (per footprint: which direction each pad may leave) and use it
-   for both normal routing and bundle fan-out.
-2. Bundle routing on top of that: fan-out → parallel run → fan-in, with equal
-   length by construction.
-3. Rip-up & reroute the 3 stuck legs, then re-gate.
+* **A plan can be complete and still open.** `pad_layer_gaps` exists because a 2D
+  connectivity check called 72 physically open pads connected.
+* **A pour is not a plane.** Reserving a whole layer for GND cost more signal
+  capacity than the 41 GND legs it removed; an area pour that shares the layer wins
+  (unrouted 10 → 4 before later gains).
+* **`check` never passes a KPI it could not measure** — unmeasured prints `null`
+  and fails the gate.
+* **Two vias in one cell is a short**, not a spacing nit; it is a hard invariant even
+  when "best effort" routing accepts spacing violations.
 
-## Measured trade-off: clearance vs connectivity (do not re-litigate)
+## History (kept because these were measured, not guessed)
 
-Six escalation steps, each a fresh negotiated route (`tools/layout/gradient.py`,
-15 iterations, hard-locking the worst offenders two at a time):
-
-| step | nets hard-locked | clearance | unrouted legs | unconnected nets | vias |
-|---|---|---|---|---|---|
-| 0 | 0 (all soft) | 26 | **0** | **5** | 79 |
-| 1 | 2 | 31 | 2 | 7 | 68 |
-| 2 | 4 | 15 | 6 | 10 | 69 |
-| 3 | 6 | 11 | 8 | 12 | 65 |
-| 4 | 8 | 13 | 9 | 14 | 60 |
-| 5 | 10 | **9** | 12 | 15 | 57 |
-
-No step satisfies `clearance <= 5` and `unrouted = 0` at the same time. Spacing as a
-cost leaves too many violations; spacing as a hard lock breaks connectivity. The
-gate therefore cannot be turned green by tuning widths, layer assignment or the
-hard/soft mix — that was tried and measured. The structural change still missing is
-**line-segment-level spacing inside the router** (reject a parallel run closer than
-6 mil during the search, accelerated with a spatial grid), and on top of it the
-channel allocator described in `BUNDLE-DESIGN.md`.
-
-Also measured and rejected: trace width 7/6 mil (26 violations unchanged — they are
-not width-driven), pad keep-out inflated by trace/2 (clearance 26 -> 32, unconnected
-5 -> 8), GND on a dedicated layer (26 -> 32), external rip-up + single-shot reroute
-(919 violations — the repair path destroys the negotiated solution), a wider spacing
-halo of 2 cells (clearance 39, unconnected 6, vias 105), priority-first routing of
-the failing nets (unrouted unchanged at 7, vias 76 -> 64), and a per-net narrow
-width of 5 mil for the failing legs (unrouted 5 -> 6: narrowing a leg makes the
-SPACING demand on its neighbours worse, it does not create space).
-
-## Current frontier with segment-level spacing (the working direction)
-
-| mode | clearance (track↔track) | congestion | unrouted | unconnected | vias |
-|---|---|---|---|---|---|
-| soft spacing (baseline) | 26 | 1 | **0** | **5** | 79 |
-| segment_check, GND treated as pour | **0** (3 GND↔FB need pour rules) | **0** | 5 | 8 | 83 |
-
-The remaining 5 legs (+3V3, GND, BTN_DOWN, BTN_SHUTTER) all fail at the U5 pad
-column; the only untried remedy is a **fan-out via band** outside the module edge,
-which is what a real engineer does on a dense 100 mil pad row.
+* `gradient.py`: six hard-lock escalation steps — no step satisfied
+  `clearance <= 5` and `unrouted = 0` simultaneously.
+* Rejected: 7/6 mil widths, inflated pad keep-out, GND on a dedicated layer,
+  external rip-up + single-shot reroute (919 violations), wider spacing halo,
+  failing-net-first routing, 5 mil narrow legs, wide-ring access-site ranking,
+  pre-planned access vias, via-pressure pricing, four net orderings,
+  pair-wise rip-up (both blocking modes). Details and numbers in `HANDOFF.md`
+  §10–§31.
+* `BUNDLE-DESIGN.md`: seven geometric bundle attempts, 0–3 of 8 lanes landed.
 
 ## Scripts kept for reference
 
-`ec_repair.py` holds the earlier repair-pass helpers (clearance pairs, cell
-ownership) used while exploring the soft-vs-hard spacing trade-off.
+`ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
+measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
