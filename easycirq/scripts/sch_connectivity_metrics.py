@@ -165,6 +165,8 @@ def analyze(ir, listing=None):
         findings.append({
             "severity": "error",
             "code": "single_node_net",
+            # the name is what a customer can act on; metrics stay numeric
+            "net": name,
             "message": f"网络 {name} 只有 {n} 个端点",
         })
 
