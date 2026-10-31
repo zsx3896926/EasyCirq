@@ -208,12 +208,66 @@ def legalize(comps, board, rounds=25):
     return comps
 
 
+def _ranks(vals):
+    order = sorted(range(len(vals)), key=lambda i: vals[i])
+    out = [0] * len(vals)
+    for rank, i in enumerate(order):
+        out[i] = rank
+    return out
+
+
+def _spearman(a, b):
+    if len(a) < 2:
+        return 0.0
+    ra, rb = _ranks(a), _ranks(b)
+    m = (len(a) - 1) / 2.0
+    num = sum((ra[i] - m) * (rb[i] - m) for i in range(len(a)))
+    den = math.sqrt(sum((x - m) ** 2 for x in ra) * sum((x - m) ** 2 for x in rb))
+    return num / den if den else 0.0
+
+
+ROUTABLE_W = 600.0   # mil-equivalent cost of one unit of pin-order disorder
+
+
+def bus_order_penalty(comps, mcu="U5"):
+    """How far each bus group is from a PLANAR bundle, measured on live geometry.
+
+    When a group's source-side order and destination-side order disagree (|rho| < 1)
+    it cannot be routed as a parallel bundle without crossings, and its legs are
+    exactly the ones that die in the dense fan-out. HPWL alone never sees this, so
+    placement used to be optimised into a corner where routing could not finish
+    (the five dead legs at the U5 pad column).
+    """
+    penalty = 0.0
+    for prefix in ("CAM_D", "LCD_", "SD_"):
+        per_net = defaultdict(list)
+        for des, c in comps.items():
+            for p in c.get("pads") or []:
+                if not p["net"].startswith(prefix):
+                    continue
+                x, y = pad_xy(c, p)
+                per_net[p["net"]].append((des, x, y))
+        src, dst = [], []
+        for net, pts in per_net.items():
+            if len(pts) < 2:
+                continue
+            pts = sorted(pts, key=lambda t: 0 if t[0] != mcu else 1)
+            src.append(pts[0][1])
+            dst.append(pts[1][2])          # destination side orders along y
+        if len(src) >= 2:
+            penalty += 1.0 - abs(_spearman(src, dst))
+    return penalty
+
+
 def optimize_placement(board, iters=40000, seed=7):
     comps = {d: {**c, "pads": list(c["pads"])} for d, c in board.comps.items()}
     cur = {d: dict(c) for d, c in comps.items()}
 
     def cost(c):
-        return hpwl(c) + 1e6 * n_overlaps(c) + 1e6 * n_outside(c, board)
+        # HPWL alone optimises placement into corners where the router cannot finish;
+        # the bus-order term is what makes "routable" measurable during placement.
+        return (hpwl(c) + 1e6 * n_overlaps(c) + 1e6 * n_outside(c, board)
+                + ROUTABLE_W * bus_order_penalty(c))
 
     cur_cost = cost(cur)
     best, best_cost = {d: dict(c) for d, c in cur.items()}, cur_cost

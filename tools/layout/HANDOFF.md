@@ -1,69 +1,161 @@
-# HANDOFF: offline layout/routing toolchain (agent-facing)
+# 交接文档：RetroCam-02 离线布局布线（王牌 layout 方向）
 
-Read this before touching `ec_layout.py`. Everything below is measured, not planned.
+更新：本会话结束时的真实状态。**只写本会话实测过的数字，未验证的标注"未验证"。**
 
-## Where the code is
+---
+
+## 1. 一句话状态
+
+离线工具链已能完成"布局优化 → 协商布线 → 质量度量 → 离线门禁"的闭环，
+**走线间距与拥塞已压到 0**；剩余缺口是 **5 条未布通腿 / 8 张未连通网 / 总线等长未达标**。
+门禁 **FAIL**，未上真机板（机制：离线全绿才允许上机）。
 
 ```
-tools/layout/ec_layout.py     place / route / report / check  (the pipeline)
-tools/layout/check_bus_order.py  bus pin-order planarity + MCU orientation advice
-tools/layout/BUNDLE-DESIGN.md    7 measured attempts at equal-length bundles
-tools/layout/README.md           KPI definitions, rejected approaches, trade-off table
-tests/test_ec_layout.py          8 tests (metrics, legalisation, gate)
-tests/test_bus_order.py          3 tests (rho identity, spearman, mirror)
+路线: pcb dump → tools/layout/ec_layout.py place → route → check
 ```
 
-Commands:
+---
+
+## 2. 代码与命令
+
+```
+hds-verifier/tools/layout/
+  ec_layout.py          主流程 place / route / report / check
+  check_bus_order.py    引脚序相关性 ρ + MCU 朝向建议
+  BUNDLE-DESIGN.md      等长 bundle 的 7 次尝试与几何证据
+  README.md             KPI 定义 / 实测权衡表 / 已否决方案
+  HANDOFF.md            本文件
+  gradient.py           硬/软间距梯度升级实验
+  debug_*.py            冲突单元级诊断
+
+hds-verifier/tests/
+  test_ec_layout.py     8 条（指标语义、合法化、门禁）
+  test_bus_order.py     3 条（ρ 一致性、镜像、秩相关）
+```
 
 ```bash
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
 python tools/layout/ec_layout.py route  dump.json --place placed.json --iters 20 --layers 4 --out plan.json
-python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json   # exit 1 = do not apply
+python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json   # exit 1 = 禁止上机
 ```
 
-`route` also takes `segment_check=True` (line-segment spacing as a hard constraint),
-`priority_nets={...}`, `escape_nets={...}`, `hard_nets={...}`.
+`route()` 的可选开关：
+`segment_check=True`（线段级间距硬约束，**关键**）、`priority_nets`、`escape_nets`、`hard_nets`、`spacing_hard`。
+`ec_layout.WIDTH_OVERRIDE = {net: mil}` 可做单网线宽覆盖。
 
-## Current measured frontier (RetroCam-02)
+---
 
-| mode | clearance | congestion | unrouted | unconnected | vias |
+## 3. 当前实测前沿（RetroCam-02，4 层，GND 按铺铜建模）
+
+| 模式 | 走线间距 | 拥塞 | 未布通 | 未连通 | vias |
 |---|---|---|---|---|---|
-| soft spacing | 26 | 1 | **0** | **5** | 79 |
-| `segment_check` + GND-as-pour | **0** (3 GND↔FB need pour rules) | **0** | 5 | 8 | 83 |
+| 软间距（历史基线） | 26 | 1 | **0** | **5** | 79 |
+| **segment_check（当前最佳）** | **0**（另 3 条 GND↔FB 待铺铜规则） | **0** | 5 | 8 | 83 |
 
-Placement: HPWL 71641 → 43301 mil, zero overlaps, zero outside.
+其它已测指标：
 
-## The three bugs already fixed (do not reintroduce)
+```
+布局 HPWL 71641 → 43301 mil（−40%）；重叠 0；出板 0
+45° 占比 0.396；层分布 L1 28501 / L2 20400 / L3 15664 / L4 12062（按某次 pass）
+总线等长误差 CAM 211 / LCD 573 / SD 754 mil（目标 < 50）—— 未达标
+测试 11/11 通过
+```
 
-1. **Stale pads**: `Board.nets` holds copies; `apply_placement` must rebuild it or the
-   router uses pre-placement coordinates (this poisoned every metric for ~10 rounds).
-2. **Cross-layer occupancy**: bundle occupancy must be keyed `(x, y, layer)`.
-3. **`check` zeroing a KPI**: it used to overwrite congestion with 0 before gating.
+未布通的 5 条腿涉及网络：`+3V3`、`GND`、`BTN_DOWN`、`BTN_SHUTTER`（**都不是总线网**），
+全部在 **U5 焊盘列**附近失败。
 
-## Rejected approaches (measured, with numbers, do not retry)
+---
 
-trace width 7/6 (violations unchanged) · pad keep-out +trace/2 (26→32, unconn 5→8) ·
-GND on its own layer (26→32) · external rip-up reroute (919 violations) · halo 2 cells
-(39, vias 105) · priority-first routing (unrouted unchanged, vias 76→64) · per-net
-5 mil width (unrouted 5→6) · fan-out escape band (5→6).
+## 4. 三个必须避免回归的 bug
 
-Equal-length bundles: 7 geometries tried, 0–3 of 8 members placed. Root cause is
-documented in `BUNDLE-DESIGN.md` (row→column needs a channel allocator; the 97 mil
-gap cannot host 8 lanes at legal pitch plus jog headroom).
+1. **`Board.nets` 是加载时快照**（存的是 pad 拷贝）。`apply_placement` 必须重建它，
+   否则布线器用**布局前坐标**路由——这个 bug 曾污染全部指标约 10 轮，修好后拥塞从 9 掉到 1。
+2. **占用表必须按层记键** `(x, y, layer)`。按 `(x, y)` 会把不同层的交叉误判为冲突，
+   bundle 类函数都踩过（已修 9 处）。
+3. **`check` 不得覆写它没测的 KPI**。曾把 `congestion_cells` 强制写 0 后放行。
 
-## Next concrete step
+---
 
-Put **routability into the placement objective**: penalise
-`(1 - |rho|)` per bus group (already computed by `check_bus_order.rho_for`) and the
-pin-side escape distance, then re-run place → route(segment_check) → check. The five
-failing legs (+3V3, GND, BTN_DOWN, BTN_SHUTTER) all fail at the U5 pad column, which
-is a placement property, not a router parameter.
+## 5. 已否决的方案（都有实测数字，不要重试）
 
-## Working discipline for whoever continues
+| 方案 | 结果 |
+|---|---|
+| 线宽降到 7/6 mil | 间距违规不变（26）→ 与线宽无关 |
+| 焊盘禁布区 +trace/2 | 26→32，未连通 5→8 |
+| GND 独占一层 | 26→32，只省 9 个过孔 |
+| 外部 rip-up + 单发重布 | **919** 条间距（破坏协商解） |
+| 间距光环 2 格 | 39 条，vias 105 |
+| 失败网优先布线 | 未布通仍 7，vias 76→64 |
+| 失败网 5 mil 窄线 | 未布通 5→**6**（窄线让邻网更难通过） |
+| 焊盘扇出过孔带 | 5→6 |
+| **布局目标函数加总线序 ρ 项** | 严格间距下未布通 5→**10**（失败网不是总线网，打错靶） |
+| 等长 bundle 7 种几何 | 落地 0–3/8，见 `BUNDLE-DESIGN.md` |
 
-* **Never edit this file's Python with `python -c "..."` under PowerShell.** Quotes
-  and backslashes get mangled, the command exits non-zero, and a silent no-op edit
-  can be mistaken for a result. Use an editor/`edit` tool, then run the tests.
-* Always record `(clearance, congestion, unrouted, unconnected, vias)` together —
-  single-number claims have been misleading here.
-* `pytest tests/test_ec_layout.py tests/test_bus_order.py` must stay green (11 tests).
+---
+
+## 6. 下一步（按优先级，理由已写清）
+
+### 6.1 布局：把"引脚侧朝向 + 就近"写进目标函数（最优先）
+
+失败网是 `+3V3/GND/BTN_*`，全部卡在 U5 焊盘列 → 这是**布局问题**。
+
+1. **引脚侧朝向惩罚**：算 U5 的焊盘重心相对器件中心的方向向量，与"外设方向"
+   （J3/J4/J5 的重心）做夹角，夹角大则惩罚。`pad_escape_dirs()` 已有方向基础。
+2. **按键就近惩罚**：BTN_* 对应的 SW2–SW5 到 U5 相应引脚的直线距离。
+3. 验收：`place` 后 HPWL 不明显回退（≤ 46000），且 `check_bus_order` 的 ρ 不恶化；
+   再用 `segment_check` 布线，目标 **unrouted 0**。
+
+### 6.2 等长：通道分配器（第二优先）
+
+按 `BUNDLE-DESIGN.md`：行→列束需要"扇出 + 通道带 + 扇入"三段式，
+且通道带必须完全避开两端焊盘区。关键容量不等式（已算）：
+CAM 源行与目标列仅 97 mil，8 条线要 105 mil → **单层装不下，必须分两层（4+4）**。
+前提：先把 6.1 做完，否则没有可用走廊。
+
+### 6.3 剩余 3 条 GND↔FB 间距
+
+需按**铺铜规则**（8–10 mil pour clearance）复核，而不是走线规则。
+
+---
+
+## 7. 环境与工程事实
+
+* 工程 `RetroCam-02` uuid `8d467d4cd8564a1eae4f8ae8f588a4d0`；PCB `1fbba3874712dcca`。
+* 布线全程**离线**，用的是 `pcb dump --include-copper` 快照：
+  `retrocam-02/pcb/dump2.json`（布局后）、`dump1.json`（导入初态）。
+* 布局结果：`retrocam-02/pcb/offline/ec-placed.json`（旧，对应最佳布线）
+  与 `ec-placed-routable.json`（含 ρ 项，**布线更差，勿用**）。
+* **安装版 CLI（EasyCirq 1.1.0）缺少多边形焊盘修复**：任何需要 `pcb route solve`
+  或落线的操作必须用源码构建的二进制（本会话用的是 `%TEMP%\ec-pcb.exe`，由
+  `go build -o %TEMP%\ec-pcb.exe ./cmd/easycirq` 生成）。
+* PCB 板框：70×50 mm 圆角（`pcb outline-round --rect 0,0,2756,1968 --radius 140`）。
+* 当前真机 PCB 是半成品（早前铺设过部分走线），**未做任何上机写入验证**，以离线结果为准。
+
+---
+
+## 8. 工作纪律（本会话踩过的坑）
+
+1. **禁止用 `python -c "..."` 在 PowerShell 里改这个仓库的 Python 文件**：
+   引号/反斜杠会被吞，命令失败但看起来像执行了，本会话至少 6 次静默失效，
+   其中 1 次把"未生效的改动"当成实验结果。用编辑器改，再跑测试。
+2. **每次必须同时记录 5 个指标**：clearance / congestion / unrouted / unconnected / vias。
+   单指标结论在本会话误导过多次（例如"间距变好"其实换来"未布通翻倍"）。
+3. `pytest tests/test_ec_layout.py tests/test_bus_order.py` 必须保持 11/11 绿。
+4. **任何改动先跑基线复现**：同参数重跑应得到同一组数字；不同说明状态被污染。
+
+---
+
+## 9. 交付判定（给下一会话的验收口径）
+
+离线门禁全绿 = 下列同时成立：
+
+```
+unrouted_legs == 0
+congestion_cells == 0
+nets_unconnected == 0
+clearance_violations == 0     （GND 按铺铜规则复核后计）
+bus_length_spread 各组 < 50 mil
+```
+
+当前差距：`unrouted 5`、`unconnected 8`、`等长未达标`、`3 条 GND↔FB 待复核`。
+达成后才允许把布局与走线写入 EasyEDA 并回读 DRC 验证。
