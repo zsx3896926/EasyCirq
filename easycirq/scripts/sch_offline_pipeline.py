@@ -143,6 +143,17 @@ def main(argv=None):
             checks.append(("erc", erc_out))
             step("erc", True, str(erc_out.name))
 
+        # Schematic vs PCB: only meaningful when a board read is in the snapshot.
+        pcb_dump = next((snap / name for name in ("pcb-dump.json", "pcb.json")
+                         if (snap / name).is_file()), None)
+        if listing.is_file() and pcb_dump is not None:
+            match_out = out / "pcb-match-check.json"
+            _run([HERE / "sch_pcb_net_match.py", "--schematic", listing,
+                  "--pcb", pcb_dump, "--out", match_out],
+                 label="schematic/pcb net match", allow=(0, 1))
+            checks.append(("pcb_match", match_out))
+            step("pcb_match", True, str(match_out.name))
+
         if listing.is_file():
             pnet_out = out / "power-net-check.json"
             # Pass the plan when present: a declared power_nets list is checked by

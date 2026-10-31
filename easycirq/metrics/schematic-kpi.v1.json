@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-schematic-kpi/v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "title": "EasyCirq 原理图离线先行 KPI 定义",
   "description": "15 项量化 KPI 的权威定义与默认阈值。sch_kpi.py 内置一份一致的默认值；tests/test_sch_kpi.py 校验两者相同。profile 可按工程覆盖软指标阈值，硬约束恒为 0。",
   "sources": {
@@ -358,6 +358,23 @@
       "limit": 0,
       "unit": "count",
       "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"
+    },
+    {
+      "no": 17,
+      "id": "pcb_match",
+      "title": "图板一致",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "pcb_match",
+          "metric": "schematic_pcb_diff"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上的铜还是旧的。缺 PCB 读数时判 missing，不默认通过。"
     }
   ],
   "profiles": {

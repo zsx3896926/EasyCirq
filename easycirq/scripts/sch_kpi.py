@@ -102,6 +102,7 @@ DEFAULTS = {
         "netlist": {"tool": "scripts/netlist_diff.py"},
         "readback": {"tool": "easycirq sch read"},
         "power_net": {"tool": "scripts/sch_power_net_check.py"},
+        "pcb_match": {"tool": "scripts/sch_pcb_net_match.py"},
     },
     "kpis": [
         {"no": 1, "id": "unconnected", "title": "未连接/悬空", "kind": "hard",
@@ -180,6 +181,10 @@ DEFAULTS = {
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；"
                  "接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"},
+        {"no": 17, "id": "pcb_match", "title": "图板一致", "kind": "hard",
+         "reads": [{"check": "pcb_match", "metric": "schematic_pcb_diff"}],
+         "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
+         "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上铜还是旧的"},
     ],
     "profiles": {
         "default": {"wire_length": 120, "readability": 0.6, "zone_balance": 0.3},
@@ -194,7 +199,8 @@ DEFAULTS = {
 
 DEFAULT_PROFILE = "default"
 CHECK_IDS = ["connectivity", "layout", "wire", "text", "quality", "erc",
-             "pinplan", "power", "identity", "netlist", "readback", "power_net"]
+             "pinplan", "power", "identity", "netlist", "readback", "power_net",
+             "pcb_match"]
 
 
 def _now():
