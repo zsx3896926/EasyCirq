@@ -42,6 +42,7 @@ def main():
     ap.add_argument("--pour-layer", dest="pour_layer", type=int)
     ap.add_argument("--pour-step", dest="pour_step", type=int, default=5)
     ap.add_argument("--pour", dest="pour_specs", action="append", default=[])
+    ap.add_argument("--best-effort", dest="best_effort", action="store_true", default=True)
     ap.add_argument("--out", help="write the ROUTE PLAN here (tracks/vias)")
     ap.add_argument("--kpi", help="write the KPI report here")
     ap.add_argument("--failures", action="store_true", help="print per-leg failure detail")
@@ -64,7 +65,7 @@ def main():
         via_sites=a.via_sites, via_cost=a.via_cost, via_negotiate=a.via_negotiate,
         via_plan=a.via_plan, via_first=a.via_first, net_order=a.net_order,
         pour_nets=frozenset(a.pour_nets), pour_layer=a.pour_layer, pour_step=a.pour_step,
-        pour_specs=a.pour_specs)
+        pour_specs=a.pour_specs, best_effort=a.best_effort)
     plan = ec.plan_from(board, routed)
     kpi = ec.report(board, routed, failures, [], plan)
     out = {**placed_kpi, **kpi}
@@ -106,6 +107,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

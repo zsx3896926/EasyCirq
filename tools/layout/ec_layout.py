@@ -47,7 +47,8 @@ VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
 VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
 POUR_CLEARANCE = 8.0
-RETRY_ROUNDS = 3                   # how many corridors a rejected leg may try               # mil a pour keeps from other nets' copper
+RETRY_ROUNDS = 3                   # how many corridors a rejected leg may try
+BEST_EFFORT_MAX_CONFLICTS = 2      # worst case accepted rather than leaving a net open               # mil a pour keeps from other nets' copper
 VIA_HISTORY_BUMP = 6.0             # negotiator pressure on a bad via site
 VIA_SCORE_W = 3.0                  # weight of a bad via site in the pass score
 
@@ -650,10 +651,17 @@ def via_conflicts(board, path, used, pad_forbid, net, width, radius=VIA_RADIUS, 
     return False
 
 
-def path_conflicts(board, path, routed, net, width):
+def path_conflicts(board, path, routed, net, width, count=False):
     """Line-segment-level spacing test for a candidate path against everything routed
     so far. This is the structural constraint the cost model lacks: a run closer than
-    CLEARANCE is rejected outright instead of being merely expensive."""
+    CLEARANCE is rejected outright instead of being merely expensive.
+
+    `count=True` returns the number of segment pairs that break spacing instead of a
+    bool.  When no clean corridor exists after several tries, the candidate with the
+    FEWEST conflicts is worth keeping: an open net is worse than a reported DRC
+    violation, and this is what a real router does (route, then report DRC).
+    """
+    bad = 0
     new = []
     for a, b in zip(path, path[1:]):
         if a[2] != b[2] or a[:2] == b[:2]:
@@ -683,8 +691,10 @@ def path_conflicts(board, path, routed, net, width):
                             or ny1 + need < ymin or ymax + need < ny0):
                         continue
                     if _seg_seg(x1, y1, x2, y2, ax2, ay2, bx2, by2) < need:
-                        return True
-    return False
+                        bad += 1
+                        if not count:
+                            return True
+    return bad if count else (bad > 0)
 
 
 def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
@@ -916,7 +926,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1083,6 +1093,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
 
                 path = None
                 extra = set()
+                best_cand, best_bad = None, None
                 # A leg whose first shortest path breaks spacing is NOT hopeless:
                 # FB is 71 mil pad-to-pad and routes fine on its own, but the first
                 # A* answer always ran through a neighbour. Blocking that corridor
@@ -1095,7 +1106,22 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     path = _accept(cand)
                     if path:
                         break
+                    bad = path_conflicts(board, cand, routed, net, route_width(net),
+                                         count=True)
+                    # "Least bad" may only relax SPACING.  Two vias in one cell is a
+                    # short, not a spacing nit, so a candidate that fails via-cell
+                    # exclusivity is never kept as the fallback (that is exactly how
+                    # the last congestion cell reappeared).
+                    if _via_cells_clear(cand, used, net):
+                        if best_bad is None or bad < best_bad:
+                            best_bad, best_cand = bad, cand
                     extra |= {c[:2] for c in cand}
+                if not path and best_effort and best_cand is not None \
+                        and best_bad <= BEST_EFFORT_MAX_CONFLICTS:
+                    # No clean corridor exists. Keep the least-bad one so the net is
+                    # not left open; the remaining conflicts are DRC violations the
+                    # report already counts. An open net is the worse failure.
+                    path = best_cand
                 if not path:
                     failures.append({"net": net, "a": f"{a['des']}.{a['pad']}", "b": f"{b['des']}.{b['pad']}"})
                     continue
@@ -2480,6 +2506,8 @@ def main():
     r.add_argument("--pour-net", dest="pour_nets", action="append", default=[],
                    help="net carried by an area pour on --pour-layer (shares the layer)")
     r.add_argument("--pour-layer", dest="pour_layer", type=int)
+    r.add_argument("--no-best-effort", dest="best_effort", action="store_false",
+                   help="leave a net open rather than accept a spacing violation")
     r.add_argument("--pour", dest="pour_specs", action="append", default=[],
                    help="NET:LAYER carried by an area pour; repeatable")
     r.add_argument("--pour-step", dest="pour_step", type=int, default=5,
@@ -2532,7 +2560,8 @@ def main():
                                                        pour_nets=frozenset(a.pour_nets),
                                                        pour_layer=a.pour_layer,
                                                        pour_step=a.pour_step,
-                                                       pour_specs=a.pour_specs)
+                                                       pour_specs=a.pour_specs,
+                                                       best_effort=a.best_effort)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2569,6 +2598,9 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 
 
