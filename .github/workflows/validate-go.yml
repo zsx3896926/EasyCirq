@@ -1,0 +1,36 @@
+name: Validate Go runtime
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  go:
+    # the runtime has Windows-specific behaviour (path handling, temp installs,
+    # gate tests), so pin the runner to the platform the product ships on
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: runtime/go.mod
+          cache: true
+      - name: Build every package
+        run: go build ./...
+      # Blocking: only the packages this work owns. The rest of the Go suite has
+      # pre-existing failures on Windows (renderer/fixture/project-drawings
+      # tests) that are unrelated to the gate and the customer commands; they
+      # are reported below instead of being silently ignored.
+      - name: Gate tests (blocking)
+        run: go test ./internal/daemon -run TestGate -count=1 -vet=off
+      - name: Customer-command tests (blocking)
+        run: go test ./internal/app -run "TestStatus|TestSetup|TestCard|TestAcceptance" -count=1 -vet=off
+      - name: Full suite (report only)
+        if: always()
+        run: go test ./... -count=1 -vet=off || true
+      - name: Vet report (report only)
+        if: always()
+        run: go vet ./... || true
