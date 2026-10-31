@@ -71,8 +71,14 @@ _VERDICT_MAP = {
     "not applicable": "na", "notapplicable": "na",
 }
 
-# Single source of truth mirrored from metrics/schematic-kpi.v1.json.
-# tests/test_sch_kpi.py fails if the two drift apart.
+# The KPI table lives HERE and a copy lives in metrics/schematic-kpi.v1.json.
+# Neither is generated from the other: they are maintained by hand in parallel,
+# and tests/test_sch_kpi.py::test_definition_file_matches_builtin_defaults fails
+# when the ids drift apart. Editing only the JSON changes nothing at runtime -
+# that is how KPI 16 looked wired-up while the gate still reported 15/15.
+#
+# If you add a KPI, change all four: this list, CHECK_IDS below, the JSON, and
+# the skill copy of the JSON (easycirq/metrics/).
 _STATUS_MAP = {
     "ok": "pass", "pass": "pass", "clean": "pass", "complete": "pass",
     "review": "review", "partial": "unknown", "incomplete": "review",
