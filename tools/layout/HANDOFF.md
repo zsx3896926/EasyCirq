@@ -2034,4 +2034,63 @@ L1 16909.9 | L2 13529.3 | L3 5231.5 | L4 3161.5   (4 层与 6 层逐项相同)
 2. 如果还要动工具：给 `layer_map` 一个**几何来源**——从布局结果推导"每个网该在哪一层"
    （例如按引脚所在边、按是否要与其他总线平行），再量。这是比哈希分配有信息量的做法。
 
+---
+
+## 45. 第三十六轮（目标轮 39）：收口——把"交付机制"变成一条可验证的命令 2026-02-01
+
+### 45.1 为什么现在收口
+
+§44 之后，布线侧可自动化的维度基本用尽（§40.4 / §44 的清单），剩下三条红线都指向
+**需要人工决策的点**（切地/断网、铺铜长跨、引脚顺序）。继续在工具里打转只会重复测量。
+
+但"王牌 layout 水准"的沉淀里还差一块：**任何 agent 拿到仓库，怎么在 10 分钟内确认
+这套机制没有坏、以及当前到底红在哪**。这一轮补的就是这块。
+
+### 45.2 新增 `STATUS.md`（一页纸）
+
+写清六件事：能做什么/不能做什么、当前前沿数字（含层分布）、三条红线的成因+证据+该谁决策、
+已证否清单、D1–D5 决策状态、"任何 agent 的第一小时"的可复制命令，以及真正剩下的活。
+
+README 顶部已指向它；HANDOFF 仍保留过程记录与测量细节。
+
+### 45.3 新增 `acceptance.py`：交付契约的端到端验证（<1 分钟）
+
+它不重跑布线（那是 `reproduce.py` 的活，10–15 分钟），只验证"承诺"本身：
+
+```
+plan vs board rules                PASS      # plan_lint
+guard refuses a red gate           PASS      # emit_apply 退出码 2，逐条列原因
+    REFUSED: the offline gate is not green, so nothing goes to the machine.
+      - clearance_violations: 515
+      - pour_islands: 1
+      - bus skew CAM_D: 713.1 mil (target <50)
+      - bus skew LCD_: 165.3 mil (target <50)
+      - bus skew SD_: 297.6 mil (target <50)
+emit works on a green gate         PASS      # 用"绿色 KPI 存根"证明拒绝不是坏了
+    emitted ...: 526 tracks, 186 vias (59 access, 7 in-pad)
+layout unit tests                  PASS
+contract: PASS
+```
+
+关键设计：第 3 步把**真实 plan** 与一个"六项归零"的 KPI 存根配对，证明 emit 路径本身
+是通的——否则"拒绝"可能只是功能坏掉，而不是门禁生效。
+
+### 45.4 单测补两条（防止文档与机制脱节）
+
+* `green_kpi()` 必须能通过 `emit_apply.gate_reasons()`，而真实 KPI 必须过不了；
+* `acceptance.py` 端到端跑一遍（红 plan → 必须 REFUSED；随后必须 emitted；`contract: PASS`）。
+
+### 45.5 本轮实测前沿（未变，依旧以 reproduce 为准）
+
+```
+未布通 0 ✅ | 拥塞 0 ✅ | 未连通 0 ✅ | 焊盘层缺口 0 ✅
+间距 515 ❌（5/177/108/225） | 铜岛 1 ❌（+3V3/L3 190 格口袋，1 颗 via 搁浅）
+等长 713.1 / 165.3 / 297.6 ❌（设计冲突） | 层数 --stackup 4
+```
+
+### 45.6 下一步
+
+收口之后，剩下的只有"要么人工决策、要么换布线范式"两类。若继续在工具侧推进，
+按 §44.6 第 2 条：给 `layer_map` 一个几何来源（按引脚所在边/总线平行关系推导层计划）。
+
 

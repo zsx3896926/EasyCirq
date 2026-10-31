@@ -6,8 +6,10 @@ router and the plan-based checker disagreeing (39 vs 0), which silently passed a
 broken KPI.
 """
 import importlib.util
+import json
 import math
 import pathlib
+import sys
 
 import pytest
 
@@ -732,3 +734,45 @@ def test_layer_spread_deals_nets_over_free_layers_deterministically():
     assert board2.layer_pref == pref, "the spread must be deterministic"
 
 
+
+
+# ── the delivery contract itself (fast, no routing) ─────────────────────────
+def _mod(name, filename):
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location(name, MOD_PATH.parent / filename)
+    mod = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_acceptance_green_kpi_is_actually_green():
+    """The acceptance script pairs the REAL plan with a KPI whose gated items are at
+    target, to prove the emit path works.  That stub must pass the same gate the real
+    KPI fails, or the script would 'prove' nothing."""
+    emit = _mod("emit_apply_gate", "emit_apply.py")
+    acc = _mod("acceptance", "acceptance.py")
+    red = {"unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 515,
+           "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 1,
+           "bus_length_spread_mil": {"CAM_D": 713.1, "LCD_": 165.3, "SD_": 297.6}}
+    assert emit.gate_reasons(red), "the fixture must start red"
+    assert emit.gate_reasons(acc.green_kpi(red)) == []
+
+
+def test_acceptance_script_refuses_a_red_plan_then_emits_a_green_one(tmp_path):
+    import subprocess
+    plan = {"grid": 10, "tracks": [], "vias": []}
+    (tmp_path / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    (tmp_path / "kpi.json").write_text(json.dumps({
+        "unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 3,
+        "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 0,
+        "bus_length_spread_mil": {"CAM_D": 80.0, "LCD_": 10.0, "SD_": 10.0},
+    }), encoding="utf-8")
+    proc = subprocess.run(
+        [sys.executable, str(MOD_PATH.parent / "acceptance.py"),
+         "--plan", str(tmp_path / "plan.json"), "--kpi", str(tmp_path / "kpi.json"),
+         "--skip-tests"],
+        capture_output=True, text=True)
+    out = proc.stdout + proc.stderr
+    assert proc.returncode == 0, out
+    assert "REFUSED" in out and "emitted" in out
+    assert "contract: PASS" in out

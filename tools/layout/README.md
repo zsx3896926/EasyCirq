@@ -1,9 +1,13 @@
 # EasyCirq offline layout & routing toolchain (`tools/layout/`)
 
+**Read [`STATUS.md`](STATUS.md) first** — current numbers, the three red lines with
+their evidence, the decisions on record, and what is not worth retrying.
+
 **Mechanism:** never touch the EDA board until the offline toolchain passes the KPI
 gate. Any agent can drive this: the inputs are a `pcb dump --include-copper`
 snapshot and JSON files; nothing here needs a daemon or an editor write — and
-`emit_apply.py` refuses to produce an apply bundle while the gate is red.
+`emit_apply.py` refuses to produce an apply bundle while the gate is red
+(`acceptance.py` proves that refusal in under a minute).
 
 ## Commands
 
@@ -34,6 +38,9 @@ python tools/layout/bus_capacity.py --dump dump.json --place placed.json
 
 # turn a passing plan into an on-machine bundle (refuses a failing one)
 python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump.json --out-dir dir/
+
+# prove the delivery contract (guard refuses red, emits green, metrics pass) - fast
+python tools/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json --dump dump.json --stackup 4
 ```
 
 ## KPI (single definition, enforced by tests)
@@ -151,6 +158,7 @@ Four of the six gate items are zero. The three that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
 
 
 
