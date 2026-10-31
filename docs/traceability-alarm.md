@@ -280,3 +280,19 @@ manifest、zip 写入、技能清单、复制后比对四处全部走它。
 - 验收卡必须仍有「焊接 / 上电 / 功能」三项——删掉一项也不会静默通过；
 - SKILL.md 必须引导读者核对 Gerber 的**层清单**，而不是记一个固定层数
   （11 → 12 已经发生过）。
+
+## 最终回归（1.3.27，2026-11-01）
+
+| 检查 | 结果 |
+|---|---|
+| \pytest tests\（全量） | **4814 passed, 5 skipped**, 1570 subtests |
+| \go vet ./...\ | 干净 |
+| \go test ./...\ | **16 个包 ok** |
+| \check_release_consistency.py\ | \CONSISTENT\（四向） |
+| \skill_selftest.py\ | 6 PASS |
+| 隔离安装 | \healthy\ |
+| 包内 Python 行尾 | LF 308 / CRLF 0 |
+
+测试数量从 4809 增到 4814，多出的是这一轮加的两组文档守卫
+（\	est_doc_numbers.py\ 5 项 + \	est_customer_language.py\ 6 项，
+部分与其他文件共用命名空间）。
