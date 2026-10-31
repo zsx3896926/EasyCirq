@@ -10,8 +10,9 @@ snapshot and JSON files; nothing here needs a daemon or an editor write — and
 ```bash
 # reproduce the current frontier in one command (11-row scorecard + gate verdict)
 python tools/layout/reproduce.py --dump dump.json --place placed.json --out-dir out/
-#   --profile shared-pour | exclusive-pour | two-layer | six-layer | trim-pour
-#   (see DECISIONS.md; six-layer is decision support, read the caveat in D1)
+#   --profile shared-pour | exclusive-pour | two-layer | six-layer | six-layer-split
+#             | four-layer-spread | trim-pour
+#   (see DECISIONS.md; six-layer* is decision support, read the caveat in D1)
 
 # or step by step
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
@@ -125,6 +126,12 @@ Four of the six gate items are zero. The three that are not:
   carry no copper at all, so the island vanished because the pours moved to empty
   layers, not because signals got room. Report the histogram before claiming a
   stackup helped.
+* **`route(layer_map=..., layer_force=True)` assigns nets to layers, and a naive
+  assignment is measurably bad.** Dealing the non-bus nets over the free layers with
+  a stable hash lowers clearance (515 → 412 on 4 layers, 478 on 6) but costs 8/6 dead
+  legs and 11 pad layer gaps, and the 6-layer variant creates a *new* island because
+  the forced corridors cut the GND pour it crosses (HANDOFF §44). Extra layers have
+  physical value; deciding *which net goes where* needs the layout, not the net name.
 * **Two vias in one cell is a short**, not a spacing nit; it is a hard invariant even
   when "best effort" routing accepts spacing violations.
 
@@ -144,6 +151,7 @@ Four of the six gate items are zero. The three that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
 
 
 

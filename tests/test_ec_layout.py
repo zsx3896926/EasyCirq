@@ -690,3 +690,45 @@ def test_route_records_the_stack_it_routed_on():
     ec.route(board, iters=2, layers=6, segment_check=True)
     assert board.route_layers == 6
     assert list(ec._all_layers(board)) == [1, 2, 3, 4, 5, 6]
+
+
+# ── explicit net -> layer assignment (stackup experiments) ───────────────────
+def test_layer_pref_overrides_the_default_bus_mapping():
+    board = make_board([comp("R1", 300, 300, [("1", "CAM_D0", 300, 300)])])
+    assert ec.preferred_layer("CAM_D0", 6, board) == 3        # default mapping
+    board.layer_pref = {"CAM_D0": 6}
+    assert ec.preferred_layer("CAM_D0", 6, board) == 6         # explicit assignment
+    assert ec.preferred_layer("LCD_CS", 6, board) == 4         # untouched net keeps its layer
+
+
+def test_route_follows_an_explicit_layer_map():
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)]),
+                        comp("R2", 1300, 300, [("1", "A", 1300, 300)])])
+    (_u, _c), routed, _f = ec.route(board, iters=2, layers=6, segment_check=True,
+                                    layer_map={"A": 5}, layer_force=True)
+    plan = ec.plan_from(board, routed)
+    assert plan["tracks"], "the net must still route"
+    layers = {int(t["layer"]) for t in plan["tracks"]}
+    assert 5 in layers, "the mapped layer must carry the run"
+    assert layers <= {1, 5}, "only the pad layer and the mapped layer are allowed"
+
+
+def test_layer_spread_deals_nets_over_free_layers_deterministically():
+    """A 6-layer run that never touches L5/L6 cannot answer a stackup question, so
+    the spread has to be real, deterministic, and must leave buses and pours alone."""
+    comps = [comp("R%d" % i, 200 + 100 * i, 300,
+                  [("1", "SIG_%d" % i, 200 + 100 * i, 300)]) for i in range(6)]
+    comps.append(comp("R9", 400, 600, [("1", "CAM_D0", 400, 600)]))
+    comps.append(comp("R8", 400, 900, [("1", "+3V3", 400, 900)]))
+    board = make_board(comps)
+    ec.route(board, iters=2, layers=6, pour_specs=["GND:2", "+3V3:6"], layer_spread=True)
+    pref = board.layer_pref
+    assert "CAM_D0" not in pref and "+3V3" not in pref and "GND" not in pref
+    assert pref and set(pref.values()) <= {1, 3, 4, 5, 6}
+    assert not (set(pref.values()) & {2, 6}), "2 and 6 are poured, nets must stay off them"
+
+    board2 = make_board(comps)
+    ec.route(board2, iters=2, layers=6, pour_specs=["GND:2", "+3V3:6"], layer_spread=True)
+    assert board2.layer_pref == pref, "the spread must be deterministic"
+
+

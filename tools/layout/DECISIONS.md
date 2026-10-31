@@ -65,9 +65,25 @@ identical on L1–L4 in both runs), so the island disappears because the pours m
 to empty layers — not because extra layers gave the signals room. Adding layers is
 therefore a **cheap** way to get whole pours (a 4-layer exclusive pour costs 4 dead
 legs), and it does **not** improve clearance or skew *with the current layer
-assignment*. Making the extra layers earn their cost needs an explicit net→layer
-assignment in `route()`; until that is measured, D1 stays open and no "6 layers is
-better" claim belongs in the docs.
+assignment*.
+
+The tool can now assign nets to layers (`route(layer_map=..., layer_spread=True,
+layer_force=True)`), and the first automated layer plans were measured **worse**
+(HANDOFF §44):
+
+| profile | unrouted | clearance | pad gaps | islands | vias |
+|---|---|---|---|---|---|
+| shared-pour (4L) | **0** | 515 | **0** | 1 | 186 |
+| four-layer-spread | 8 | 412 | 11 | 0 | 148 |
+| six-layer-split (6L) | 6 | 478 | 11 | 1 | 246 |
+
+Clearance does fall (412/478 < 515), so extra layers have real value — but a
+net-name hash does not know where a net goes: every forced leg pays two vias, which
+costs dead legs and pad-layer gaps, and on the 6-layer stack the forced corridors
+cut the GND pour on L2. **Conclusion: a 6-layer board means writing a layer plan by
+hand (from the placement geometry) and reviewing it, not letting the router deal
+nets out.** Until such a plan is measured, D1 stays open and "6 layers is better"
+stays unsupported.
 
 ### Measured comparison (70 passes, same placement)
 

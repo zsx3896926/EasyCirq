@@ -20,6 +20,7 @@ import json
 import math
 import random
 import sys
+import zlib
 from collections import defaultdict
 from heapq import heappop, heappush
 
@@ -565,7 +566,7 @@ def _pad_layers(pad, layer_ok):
 
 def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None,
           via_block=None, net=None, via_cost=None, start_layer=None, goal_layers=None,
-          via_pressure=None):
+          via_pressure=None, layer_penalty=0.0):
     def h(c):
         return abs(c[0] - goal[0]) + abs(c[1] - goal[1])
 
@@ -573,7 +574,9 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
         layer_ok = set(range(1, layers + 1))
     if pref not in layer_ok:
         pref = min(layer_ok)
-    if start_layer in layer_ok:
+    if start_layer in layer_ok and layer_penalty <= 0.0:
+        # An assigned net keeps its layer as the preference: the pad's own layer only
+        # decides where the run STARTS, not where it should travel.
         pref = start_layer
     vcost = VIA_COST if via_cost is None else via_cost
     s = (start[0], start[1], pref)
@@ -597,7 +600,10 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
             if (nx, ny) in forbidden and (nx, ny) != goal and (nx, ny) not in allowed:
                 continue
             nxt = (nx, ny, l)
-            ng = g + cost_mul + cost.get(nxt, 0.0)
+            # A net assigned a layer pays a small per-cell penalty on any other
+            # layer.  Without it a flat run on L1 always beats "two vias and a run on
+            # L5" on cost, so a net->layer assignment would be silently ignored.
+            ng = g + cost_mul + cost.get(nxt, 0.0) + (layer_penalty if l != pref else 0.0)
             if ng < best.get(nxt, 1e18) - 1e-9:
                 best[nxt] = ng
                 came[nxt] = cur
@@ -648,10 +654,21 @@ def mst_edges(pads):
     return edges
 
 
-def preferred_layer(net, layers=4):
-    """Dedicate inner layers to the camera/LCD/SD buses. Giving buses their own
-    layer is the only way length matching gets room: with everything crammed into
-    L1/L2 the board filled up and zero meanders could be placed (measured twice)."""
+def preferred_layer(net, layers=4, board=None):
+    """Which layer a net would LIKE to run on.
+
+    The buses get their own inner layers (CAM -> 3, LCD/SD -> 4): with everything
+    crammed into L1/L2 the board filled up and zero meanders could be placed
+    (measured twice).
+
+    `board.layer_pref` overrides this.  That is how a stackup experiment says "put
+    these nets on THOSE layers" — without it a 6-layer board silently routes on four
+    layers, because A* has no reason to climb onto an empty layer when there is no
+    congestion to escape (HANDOFF §43).
+    """
+    pref = getattr(board, "layer_pref", None) if board is not None else None
+    if pref and net in pref:
+        return int(pref[net])
     if layers >= 4:
         if net.startswith("CAM_"):
             return 3
@@ -824,7 +841,7 @@ def plan_pad_via_sites(board, pad_forbid, max_ring=3, radius=VIA_RADIUS, nets=No
             continue
         for p in pads:
             lay = int(p.get("layer") or 1)
-            if lay not in (1, 2, 3, 4):
+            if lay not in (1, 2, 3, 4) and not (5 <= lay <= int(getattr(board, "route_layers", 4))):
                 continue                      # through-hole: no via needed
             cell = board.cell(p["x"], p["y"])
             site = free_via_site(board, cell, net, pad_forbid, {}, TRACE,
@@ -883,7 +900,7 @@ def plan_via_first_leg(board, a, b, net, sites, layer_ok, pad_forbid, cost, allo
     pa = sa if sa is not None else sc
     pb = sb if sb is not None else gc
     starts = [mid_hint] if mid_hint in layer_ok else []
-    starts += [preferred_layer(net, layers)] + sorted(layer_ok)
+    starts += [preferred_layer(net, layers, board)] + sorted(layer_ok)
     for mid in starts:
         if mid not in layer_ok:
             continue
@@ -911,7 +928,7 @@ def plan_via_leg(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, history, 
     """
     cost = cost or {}
     allowed = allowed or set()
-    pref = preferred_layer(net, layers)
+    pref = preferred_layer(net, layers, board)
     if pref not in layer_ok:
         pref = min(layer_ok)
     # Try the preferred layer first, then the others.  Forcing the preferred one
@@ -972,7 +989,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True, layer_map=None, layer_spread=False, layer_force=False):
     pad_forbid, own = board.pad_blocked()
     # Record the stack on the board: every through-hole check reads it through
     # `_all_layers`, otherwise a 6-layer run checks a via against 4 layers and the
@@ -1001,6 +1018,24 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         # capacity (that is why the plane model lost in round 2) but a pour that is
         # cut in two is a broken ground, so this is the fallback.
         layer_ok -= pour_layers
+    # Explicit net -> layer assignment.  Two ways in: an exact map (used by
+    # experiments and by an engineer who says "put the buck converter on L2"), or
+    # `layer_spread`, which deals the remaining signal nets over the layers the
+    # buses and pours do NOT own, using a stable hash of the net name.  Both exist
+    # because a stackup measurement is meaningless if nothing runs on the new
+    # layers (HANDOFF §43: a 6-layer run used L1-L4 only).
+    board.layer_pref = dict(layer_map or {})
+    if layer_spread:
+        bus_layers = {preferred_layer("CAM_X", layers), preferred_layer("LCD_X", layers)}
+        free = [lay for lay in sorted(layer_ok)
+                if lay not in pour_layers and lay not in bus_layers]
+        if free:
+            for net in board.nets:
+                if net in board.layer_pref or net in pour_sets or net == "GND":
+                    continue
+                if net.startswith(("CAM_", "LCD_", "SD_")):
+                    continue
+                board.layer_pref[net] = free[zlib.crc32(net.encode("utf-8")) % len(free)]
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
@@ -1097,9 +1132,29 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         routed, failures = {}, []
         for net in order:
             pads = board.nets[net]
-            pref = preferred_layer(net, layers)
+            pref = preferred_layer(net, layers, board)
             if layers < 2:
                 pref = 1
+            # "Net -> layer" only means something if the run HAS to be there.  Pad
+            # layers stay allowed (an SMD pad anchors its own layer), so a forced
+            # assignment pays a via at each end - what a real layer-assigned board
+            # pays.  Without forcing, a flat run on L1 wins on cost and the
+            # assignment is silently ignored (measured: a 6-layer route used L1-L4
+            # only, HANDOFF §43).
+            net_layers = layer_ok
+            layer_penalty = 0.0
+            if net in board.layer_pref:
+                pad_layers = {int(p.get("layer") or 1) for p in pads} & set(layer_ok)
+                if layer_force:
+                    # Vias only move between ADJACENT layers, so reaching an assigned
+                    # layer means every layer between the pad and it is part of the
+                    # corridor.  The per-cell penalty below keeps the run itself on
+                    # the assigned layer.
+                    span = pad_layers | {int(board.layer_pref[net])}
+                    net_layers = set(range(min(span), max(span) + 1))
+                # 3 per cell: ten cells off the assigned layer already cost a via, so
+                # the run actually moves; without a penalty a flat L1 run always wins.
+                layer_penalty = 3.0
 
             forbidden = {c for c, o in pad_forbid.items() if net not in o}
             if spacing_hard or (hard_nets and net in hard_nets):
@@ -1176,11 +1231,11 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     cand = None
                     if via_first:
                         cand = plan_via_first_leg(
-                            board, a, b, net, pad_sites, layer_ok, pad_forbid, cost, allowed,
+                            board, a, b, net, pad_sites, net_layers, pad_forbid, cost, allowed,
                             layers, mid_hint=pref,
                             blocked=blocked_by_net.get(net, set()) | set(extra))
                     if cand is None and via_plan:
-                        cand = plan_via_leg(board, a, b, sc, gc, net, layer_ok,
+                        cand = plan_via_leg(board, a, b, sc, gc, net, net_layers,
                                             pad_forbid, used, history, layers,
                                             cost, allowed)
                     if cand is None:
@@ -1190,11 +1245,12 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         cand = astar(board, sc, gc,
                                      forbidden
                                      | blocked_by_net.get(net, set()) | set(extra),
-                                     cost, pref, allowed, layers, layer_ok=layer_ok,
+                                     cost, pref, allowed, layers, layer_ok=net_layers,
                                      via_block=via_block, net=net, via_cost=via_cost,
                                      via_pressure=via_pressure,
-                                     start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
-                                     goal_layers=_pad_layers(b, layer_ok))
+                                     layer_penalty=layer_penalty,
+                                     start_layer=(min(_pad_layers(a, net_layers)) if _pad_layers(a, net_layers) else None),
+                                     goal_layers=_pad_layers(b, net_layers))
                     return cand
 
                 path = None
@@ -1380,7 +1436,7 @@ def reroute_net(board, net, extra_forbidden, layers, pad_forbid, own):
     """Route one net's MST edges with `extra_forbidden` (another net's cells) as
     hard obstacles. Used by the repair pass."""
     pads = board.nets[net]
-    pref = preferred_layer(net, layers)
+    pref = preferred_layer(net, layers, board)
     forbidden = {c for c, o in pad_forbid.items() if net not in o} | set(extra_forbidden)
     paths = []
     for i, j in mst_edges(pads):
@@ -1753,7 +1809,7 @@ def pad_layer_gaps(board, plan, tol=GRID * 1.5):
         vias = [(v["x"], v["y"]) for v in plan.get("vias") or [] if v["net"] == net]
         for p in pads:
             lay = int(p.get("layer") or 1)
-            if lay not in (1, 2, 3, 4):
+            if lay not in (1, 2, 3, 4) and not (5 <= lay <= int(getattr(board, "route_layers", 4))):
                 continue
             near = min(ends, key=lambda e: math.hypot(e[0] - p["x"], e[1] - p["y"]))
             if math.hypot(near[0] - p["x"], near[1] - p["y"]) > tol:
@@ -1855,7 +1911,7 @@ def trim_pour_crossings(board, routed, pour_layers, limit_cells=30, layers=4):
                 forbid = {c for c, o in pad_forbid.items() if net not in o}
                 for lay in cand:
                     forbid |= foreign[lay]
-                path = astar(board, sc, gc, forbid, {}, preferred_layer(net, layers),
+                path = astar(board, sc, gc, forbid, {}, preferred_layer(net, layers, board),
                              set(), layers, layer_ok=set(cand),
                              start_layer=(min(start_it) if start_it else None),
                              goal_layers=goal_it)
@@ -3324,6 +3380,11 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
 
 
 

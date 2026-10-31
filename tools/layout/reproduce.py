@@ -71,6 +71,25 @@ PROFILES = {
         pour_step=5, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
     ),
+    # The same 6-layer board with the pours on inner layers and the non-bus nets
+    # dealt over the layers nothing else owns.  Without a net->layer assignment the
+    # 6-layer run above never uses L5/L6 at all, so it cannot answer "does another
+    # layer help spacing?" (HANDOFF §43/§44).
+    "six-layer-split": dict(
+        iters=70, layers=6,
+        pours=("GND:2", "+3V3:5"), pour_exclusive=False,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+        layer_spread=True, layer_force=True,
+    ),
+    # The control for the above: same spreading on the 4-layer board.
+    "four-layer-spread": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+        layer_spread=True, layer_force=True,
+    ),
 }
 FRONTIER = PROFILES["shared-pour"]
 
@@ -151,6 +170,9 @@ def _route(board, cfg):
         net_order=cfg["net_order"],
         via_relocate=cfg["via_relocate"],
         best_effort=cfg["best_effort"],
+        layer_spread=cfg.get("layer_spread", False),
+        layer_map=cfg.get("layer_map"),
+        layer_force=cfg.get("layer_force", False),
     )
     return routed, failures
 
@@ -206,6 +228,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
