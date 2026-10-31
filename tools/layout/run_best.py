@@ -79,6 +79,7 @@ def main():
         "congestion_cells": kpi["congestion_cells"],
         "unrouted_legs": kpi["unrouted_legs"],
         "nets_unconnected": kpi["nets_unconnected"],
+        "pad_layer_gaps": kpi["pad_layer_gaps"],
         "vias": kpi["vias"],
         "plane_vias": kpi["plane_vias"],
         "tracks": kpi["tracks"],

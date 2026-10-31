@@ -33,7 +33,8 @@ EDGE = 40.0
 BUS_PREFIX = ("CAM_", "LCD_", "SD_")
 POWER = {"+3V3", "VBUS", "BB_VIN", "VBAT_P", "BATT_M", "VDD_DW", "GND"}
 HALO = [(dx, dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
-KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected")
+KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected",
+            "pad_layer_gaps")
 PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access vias
 VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
@@ -500,8 +501,21 @@ def stamp_via_block(block, path, net, width, margin=VIA_BLOCK_MARGIN):
                 block.setdefault((cell[0] + dx, cell[1] + dy), set()).add(net)
 
 
+def _pad_layers(pad, layer_ok):
+    """Which layers a leg may start/end on at this pad.
+
+    SMD pads anchor a leg to their own layer — starting on `preferred_layer`
+    instead produced plans where 72 of 188 pads had their nearest copper on a
+    different layer with no via anywhere near it: "connected" on paper, open
+    circuit in copper.  Through-hole pads come out of the dump as layer 12,
+    which is not a routing layer, so they may leave from any layer.
+    """
+    lay = int(pad.get("layer") or 1)
+    return {lay} if lay in layer_ok else None
+
+
 def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None,
-          via_block=None, net=None, via_cost=None):
+          via_block=None, net=None, via_cost=None, start_layer=None, goal_layers=None):
     def h(c):
         return abs(c[0] - goal[0]) + abs(c[1] - goal[1])
 
@@ -509,12 +523,14 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
         layer_ok = set(range(1, layers + 1))
     if pref not in layer_ok:
         pref = min(layer_ok)
+    if start_layer in layer_ok:
+        pref = start_layer
     vcost = VIA_COST if via_cost is None else via_cost
     s = (start[0], start[1], pref)
     heap, came, best = [(h(s), 0.0, s)], {}, {s: 0.0}
     while heap:
         _, g, cur = heappop(heap)
-        if cur[:2] == goal:
+        if cur[:2] == goal and (goal_layers is None or cur[2] in goal_layers):
             path = [cur]
             while cur in came:
                 cur = came[cur]
@@ -760,7 +776,9 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                                 allowed.add((gx, gy))
                 path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
                              cost, pref, allowed, layers, layer_ok=layer_ok,
-                             via_block=via_block, net=net, via_cost=via_cost)
+                             via_block=via_block, net=net, via_cost=via_cost,
+                             start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
+                             goal_layers=_pad_layers(b, layer_ok))
                 if path and segment_check and (
                         path_conflicts(board, path, routed, net, route_width(net))
                         or (via_check and via_conflicts(board, path, used, pad_forbid, net, route_width(net)))):
@@ -1089,6 +1107,40 @@ def via_violation_cells(board, plan, radius=VIA_RADIUS):
                     cells.add((vx, vy))
                     break
     return cells
+
+
+def pad_layer_gaps(board, plan, tol=GRID * 1.5):
+    """Pads whose nearest copper is on another layer with no via nearby.
+
+    This is an open circuit that `connectivity_from_plan` CANNOT see: that check
+    matches pads to nodes in 2D.  Measured on the pre-fix plan: 72 of 188 pads
+    had copper on the wrong layer and no via within 15 mil — the plan was
+    "connected" on paper only.  Through-hole pads (layer 12 in the dump) are
+    legitimately reachable from any layer and are skipped.
+    """
+    gaps = 0
+    for net, pads in board.nets.items():
+        ends = []
+        for t in plan.get("tracks") or []:
+            if t["net"] == net:
+                ends.append((t["x1"], t["y1"], t["layer"]))
+                ends.append((t["x2"], t["y2"], t["layer"]))
+        if not ends:
+            continue
+        vias = [(v["x"], v["y"]) for v in plan.get("vias") or [] if v["net"] == net]
+        for p in pads:
+            lay = int(p.get("layer") or 1)
+            if lay not in (1, 2, 3, 4):
+                continue
+            near = min(ends, key=lambda e: math.hypot(e[0] - p["x"], e[1] - p["y"]))
+            if math.hypot(near[0] - p["x"], near[1] - p["y"]) > tol:
+                continue                      # pad simply unrouted; counted elsewhere
+            if near[2] == lay:
+                continue
+            if any(math.hypot(v[0] - p["x"], v[1] - p["y"]) <= tol for v in vias):
+                continue
+            gaps += 1
+    return gaps
 
 
 def clearance_violations(board, plan):
@@ -1907,6 +1959,7 @@ def report(board, routed, failures, overflow, plan):
         "unrouted_legs": None if failures is None else len(failures),
         "congestion_cells": congestion_from_plan(board, plan),
         "nets_unconnected": len(connectivity_from_plan(board, plan)),
+        "pad_layer_gaps": pad_layer_gaps(board, plan),
         "clearance_violations": clearance_violations(board, plan),
         "vias": len(plan["vias"]),
         "plane_vias": sum(1 for v in plan["vias"] if v.get("plane_layer")),

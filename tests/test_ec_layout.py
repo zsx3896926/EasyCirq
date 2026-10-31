@@ -156,6 +156,23 @@ def test_via_violation_cells_points_at_the_offending_via():
     assert ec.via_violation_cells(board, plan) == set()
 
 
+def test_pad_layer_gaps_sees_an_open_circuit_2d_connectivity_misses():
+    """A track that ends next to a pad but on the WRONG LAYER is an open circuit,
+    even though `connectivity_from_plan` (a 2D check) calls it connected."""
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
+    on_layer = {"tracks": [{"net": "A", "layer": 1, "width": 7,
+                            "x1": 300, "y1": 300, "x2": 600, "y2": 300}], "vias": []}
+    assert ec.pad_layer_gaps(board, on_layer) == 0
+
+    wrong_layer = {"tracks": [{"net": "A", "layer": 3, "width": 7,
+                               "x1": 300, "y1": 300, "x2": 600, "y2": 300}], "vias": []}
+    assert ec.pad_layer_gaps(board, wrong_layer) == 1
+
+    # a via at the pad makes the same geometry legal
+    wrong_layer["vias"] = [{"net": "A", "x": 300, "y": 300}]
+    assert ec.pad_layer_gaps(board, wrong_layer) == 0
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [
