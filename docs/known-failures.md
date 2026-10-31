@@ -50,3 +50,23 @@
 3. 目录 rename 在杀软/索引器占用时失败（技能更新偶发失败，用户看到 "Access is denied"）。
 
 其余是测试自身的平台假设或过期断言。
+
+## 偶发测试失败：TestPcbLayoutPlanCrystalGuardWritesAllDeclaredSVGPreviews
+
+**观察（2026-10-31，1.3.11）**：在完整 `go test ./...` 中出现过一次失败，
+随后单独跑 3 次、以及整包再跑一次均通过。
+
+| 运行 | 结果 |
+|---|---|
+| `go test ./...`（第一次） | ❌ FAIL |
+| 单测 `-run TestPcbLayoutPlanCrystalGuard...` ×3 | ✅ ok ×3 |
+| `go test ./internal/app` 整包 | ✅ ok（101s） |
+
+**判断**：偶发（flaky），不是确定性缺陷。可能原因未证实——疑似 SVG 预览写入
+在整包高负载时的时序/文件占用问题，但没有抓到失败时的具体报错，**不做猜测性修复**。
+
+**影响**：CI 上可能出现偶发红灯。处理方法：重跑；若重现且有报错信息，再按报错定位。
+
+**为什么不现在改**：我拿不到失败时的输出，凭猜测改测试会掩盖真实缺陷。
+记录在这里比"顺手改一下看着像的样子"更诚实——这正是
+`unstable tests are worse than no tests` 的取舍。
