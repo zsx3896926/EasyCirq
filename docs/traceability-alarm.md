@@ -197,3 +197,34 @@ apply_allowed True / True
 `sch_kpi.py` 的 CRLF 计数为 0。
 
 **教训**：一个只覆盖白名单的检查，会让人以为"只剩这一个问题"。
+
+## 回归（1.3.22，2026-11-01）
+
+改完打包器与一致性检查器后重跑：
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests`（全量） | **4795 passed, 5 skipped**, 1570 subtests |
+| `go vet ./...` | 干净 |
+| `go test ./...` | **16 个包 ok** |
+| `check_release_consistency.py` | `CONSISTENT`（327 文件三方一致） |
+| 隔离安装 | `healthy`，808 文件 |
+| 包内 Python 行尾 | **LF 308 / CRLF 0** |
+| `skill_selftest.py` | 6 PASS |
+
+### 这一版修的是什么
+
+1.3.21 **发布后无法安装**：打包时把文本转成 LF，但 `bundle.json` 里的哈希仍按
+工作树的 CRLF 计算，安装器判定 `Corrupt bundle payload`。
+
+回滚后用「一个函数决定发出去的字节」重做：
+
+```
+shipped_bytes(path)   文本转 LF，其余不动
+shipped_sha(path)     对 shipped_bytes 求哈希
+shipped_inventory()   整棵树 {路径: 哈希}，跳过 __pycache__
+```
+
+manifest、zip 写入、技能清单、复制后比对四处全部走它。
+
+**教训**：把"内容"定义在一个地方，而不是在每个用到的地方各自定义一次。
