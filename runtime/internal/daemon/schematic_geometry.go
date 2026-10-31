@@ -177,13 +177,15 @@ func (s *Server) forwardSchematicGeometry(ctx context.Context, req protocol.Requ
 		guard["readbackAttempts"], guard["observations"] = len(observations), observations
 		return failed, nil
 	}
+	// The publication budget covers the whole retry sequence, so the context is
+	// created once, outside the loop: creating it inside made vet treat every
+	// loop return as a possible leak even though a deferred cancel covered them.
 	readCtx := ctx
 	var cancelPublication context.CancelFunc
-	defer func() {
-		if cancelPublication != nil {
-			cancelPublication()
-		}
-	}()
+	if addingWire {
+		readCtx, cancelPublication = context.WithTimeout(ctx, protocol.SchematicWirePublicationBudget)
+		defer cancelPublication()
+	}
 	previousSeq := res.Seq
 	for attempt := 0; ; attempt++ {
 		suffix := "after"
@@ -223,9 +225,6 @@ func (s *Server) forwardSchematicGeometry(ctx context.Context, req protocol.Requ
 				var incomplete *schguard.WireCoverageError
 				if !errors.As(err, &incomplete) || attempt+1 >= wirePublicationMaxReads {
 					return failReadback(nil, err.Error())
-				}
-				if cancelPublication == nil {
-					readCtx, cancelPublication = context.WithTimeout(ctx, protocol.SchematicWirePublicationBudget)
 				}
 				timer := time.NewTimer(wirePublicationDelay)
 				select {

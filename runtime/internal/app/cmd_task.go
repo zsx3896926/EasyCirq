@@ -221,7 +221,7 @@ The Stop hook blocks this task from finishing until a PASS report exists at:
 
 Final gate command:
 
-    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s --out %s
+    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s%s --out %s
 
 PASS is a structural + style acceptance (framed zones with order/purpose,
 palette/typography, owned non-overlapping labels); it is not electrical,
