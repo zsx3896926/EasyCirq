@@ -121,3 +121,17 @@ apply_allowed True / True
 再跑，15 项指标连数值都不变"。
 
 （注：复现用的是同一台机器、同一个 EDA 工程。跨机器复现未做——见 NOT RUN。）
+
+## 回归状态（1.3.2）
+
+改完 `cmd_card.go`（PCB 判定）、`pin_plan_check.py`（verdict/metrics）、
+`sch_kpi.py` 之后的重跑：
+
+| 检查 | 结果 |
+|---|---|
+| `go vet ./...` | 干净 |
+| `go test ./...` | **16 个包全部 ok** |
+| `pytest -k "sch or mcp or customer or pin or kpi"` | **678 passed** |
+| 两份 `skill_selftest.py` | 6 PASS / 6 PASS |
+
+没有回归。
