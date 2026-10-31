@@ -2,6 +2,8 @@ package app
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -92,6 +94,58 @@ func TestRenderCardShowsCountsAndNext(t *testing.T) {
 	}
 }
 
+func TestCardWithoutPCBScopesTheClaimToTheSchematic(t *testing.T) {
+	// A green schematic does not make an orderable board. Without PCB input the
+	// headline must not read as a whole-board verdict.
+	report := cardReportFixture("PASS", nil, nil)
+	card := analyzeCard(report, "", "")
+	if card.State != "ready" {
+		t.Fatalf("state = %s, want ready", card.State)
+	}
+	if !strings.Contains(card.Headline, "PCB 未检查") {
+		t.Fatalf("headline must scope the claim: %q", card.Headline)
+	}
+}
+
+func TestCardWithCleanPCBClaimsWholeBoard(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "drc.json")
+	os.WriteFile(path, []byte(`{"passed":true,"total":0,"violations":[]}`), 0o644)
+
+	report := cardReportFixture("PASS", nil, nil)
+	card := analyzeCard(report, "", "")
+	mergePCB(&card, path)
+	if card.State != "ready" {
+		t.Fatalf("state = %s, want ready", card.State)
+	}
+	if !strings.Contains(card.Headline, "可以下单") {
+		t.Fatalf("headline = %q", card.Headline)
+	}
+	if card.PCB == nil || !card.PCB.Passed {
+		t.Fatalf("pcb summary missing: %+v", card.PCB)
+	}
+}
+
+func TestCardWithDirtyPCBIsBlocked(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "drc.json")
+	os.WriteFile(path, []byte(`{"passed":false,"total":2,"violations":[{"rule":"Clearance Error","message":"(NTC_MID): e5 to (GND) distance is 0mil"}]}`), 0o644)
+
+	report := cardReportFixture("PASS", nil, nil)
+	card := analyzeCard(report, "", "")
+	mergePCB(&card, path)
+	if card.State != "blocked" {
+		t.Fatalf("state = %s, want blocked", card.State)
+	}
+	if !strings.Contains(card.Headline, "PCB") {
+		t.Fatalf("headline = %q", card.Headline)
+	}
+	out := renderCard(card)
+	if !strings.Contains(out, "PCB 检查：未通过") {
+		t.Fatalf("rendered card hides the PCB verdict:\n%s", out)
+	}
+}
+
 func TestCardShowsTheConcreteItemBehindABlocker(t *testing.T) {
 	report := cardReportFixture("BLOCKED", []string{"unconnected"}, []string{})
 	report.Blockers[0].Reason = "未连接/悬空 实测 1 count > 门限 0（BB_VIN）"
@@ -114,4 +168,3 @@ func TestCardBlockerWithoutNamesHasNoDanglingColon(t *testing.T) {
 		t.Fatalf("a blocker without names must not render a trailing colon:\n%s", out)
 	}
 }
-

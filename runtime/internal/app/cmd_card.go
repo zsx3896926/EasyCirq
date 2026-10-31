@@ -38,6 +38,16 @@ type cardEntry struct {
 	Reason string `json:"reason,omitempty"`
 }
 
+// pcbSummary is the board-level half of the answer. The schematic card alone
+// cannot say whether a board can be ordered: the PCB has to clear DRC too, and
+// conflating the two is how a broken board ships behind a green card.
+type pcbSummary struct {
+	Checked    bool   `json:"checked"`
+	Passed     bool   `json:"passed"`
+	Violations int    `json:"violations"`
+	Reason     string `json:"reason,omitempty"`
+}
+
 type cardResult struct {
 	Schema   string         `json:"schema"`
 	State    string         `json:"state"`
@@ -48,6 +58,7 @@ type cardResult struct {
 	Missing  []cardEntry    `json:"missing"`
 	Project  string         `json:"project,omitempty"`
 	Page     string         `json:"page,omitempty"`
+	PCB      *pcbSummary    `json:"pcb,omitempty"`
 }
 
 // analyzeCard answers the customer's actual question -- can this be ordered? --
@@ -111,8 +122,10 @@ func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult
 		result.State, result.Headline = "incomplete", "⏳ 还不能判断：有些检查还没做"
 		result.Next = "补齐下面这些检查需要的资料，再跑一轮"
 	case strings.EqualFold(report.Verdict, "PASS") && live:
-		result.State, result.Headline = "ready", "✅ 可以打样"
-		result.Next = "导出制造文件；打样回来后做验收"
+		// The KPI report only covers the schematic. Say so, otherwise the
+		// customer reads "can be ordered" into a half-finished answer.
+		result.State, result.Headline = "ready", "✅ 原理图可以打样（PCB 未检查）"
+		result.Next = "原理图这一关过了；用 --pcb-drc 带上 PCB 检查结果，才是整板结论"
 	case strings.EqualFold(report.Verdict, "PASS"):
 		result.State, result.Headline = "gate_stale", "⚠️ 检查通过，但需要重新确认"
 		result.Next = detail + "；重新跑一次检查即可"
@@ -140,9 +153,65 @@ func cardBlockerNames(reason string) string {
 	return strings.TrimSpace(reason[open+len("（") : close])
 }
 
+// mergePCB folds the board half into the card. A green schematic does not make
+// an orderable board: the PCB has to clear DRC as well, and saying "ready" when
+// only half was checked is exactly the overclaim the card exists to prevent.
+func mergePCB(result *cardResult, path string) {
+	summary := &pcbSummary{Checked: true}
+	var raw struct {
+		Passed     *bool `json:"passed"`
+		Total      int   `json:"total"`
+		Violations []struct {
+			Rule    string `json:"rule"`
+			Message string `json:"message"`
+		} `json:"violations"`
+	}
+	if err := readStatusJSON(path, &raw); err != nil {
+		summary.Reason = "PCB 的检查结果读不出来：" + err.Error()
+		result.PCB = summary
+		result.State = "incomplete"
+		result.Headline = "⏳ 只能确认原理图，PCB 的检查结果读不出来"
+		result.Next = "重新导出 PCB 检查结果（easycirq pcb drc --json）后再看这张卡"
+		return
+	}
+	summary.Violations = len(raw.Violations)
+	if raw.Passed != nil {
+		summary.Passed = *raw.Passed
+	} else {
+		summary.Passed = summary.Violations == 0
+	}
+	if summary.Passed && summary.Violations == 0 {
+		result.PCB = summary
+		if result.State == "ready" {
+			result.Headline = "✅ 可以下单（原理图与 PCB 都通过）"
+			result.Next = "导出制造文件；打样回来后做验收"
+		}
+		return
+	}
+	// PCB has problems: never leave a green headline standing
+	result.PCB = summary
+	result.State = "blocked"
+	result.Headline = "❌ PCB 还没过检查，不能下单"
+	if len(raw.Violations) > 0 {
+		summary.Reason = raw.Violations[0].Message
+		result.Next = "按 PCB 检查报告逐条修（间距 / 连通），修完重新检查"
+	} else {
+		result.Next = "PCB 检查未通过但没有给出条目；重新跑一次 pcb drc"
+	}
+}
+
 func renderCard(result cardResult) string {
 	var b strings.Builder
 	b.WriteString(result.Headline + "\n\n")
+	if result.PCB != nil {
+		if result.PCB.Passed && result.PCB.Violations == 0 {
+			b.WriteString("PCB 检查：通过（0 项）\n\n")
+		} else if result.PCB.Reason != "" {
+			b.WriteString("PCB 检查：未通过 · " + result.PCB.Reason + "\n\n")
+		} else {
+			b.WriteString("PCB 检查：未通过\n\n")
+		}
+	}
 	if len(result.Blockers) > 0 {
 		b.WriteString("必须修的问题：\n")
 		for _, entry := range result.Blockers {
@@ -175,7 +244,7 @@ func renderCard(result cardResult) string {
 // ── card ──────────────────────────────────────────────────────────────────
 
 func newCardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
-	var kpiReport, gate string
+	var kpiReport, gate, pcbDRC string
 	var asJSON bool
 	c := &cobra.Command{
 		Use:   "card",
@@ -184,6 +253,10 @@ func newCardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 offline KPI report and the write permission; it never re-measures and never
 claims "ready" without a live permission. Missing evidence is shown apart from
 real defects: an untested item is not a broken one.
+
+Pass --pcb-drc with the output of "easycirq pcb drc --json" to include the
+board half of the answer: a schematic card alone cannot say whether a board can
+be ordered.
 
 Exit codes: 0 ready, 1 not ready, 2 not measured or invalid.`,
 		Args:    cobra.NoArgs,
@@ -210,6 +283,11 @@ Exit codes: 0 ready, 1 not ready, 2 not measured or invalid.`,
 				}
 			}
 			result := analyzeCard(report, gatePath, gate)
+			if pcbDRC != "" {
+				mergePCB(&result, pcbDRC)
+			} else if result.State == "ready" {
+				result.Next = "原理图这一关过了；带 --pcb-drc 一起看才是整板结论"
+			}
 			if asJSON {
 				raw, _ := json.MarshalIndent(result, "", "  ")
 				fmt.Fprintln(stdout, string(raw))
@@ -228,6 +306,8 @@ Exit codes: 0 ready, 1 not ready, 2 not measured or invalid.`,
 	}
 	c.Flags().StringVar(&kpiReport, "kpi-report", "",
 		"offline KPI report (default .easycirq/kpi-report.json)")
+	c.Flags().StringVar(&pcbDRC, "pcb-drc", "",
+		"pcb drc --json output; without it the card only covers the schematic")
 	c.Flags().StringVar(&gate, "gate", "",
 		"write permission file (default .easycirq/gate.json); pass it explicitly to require one")
 	c.Flags().BoolVar(&asJSON, "json", false, "print JSON")
