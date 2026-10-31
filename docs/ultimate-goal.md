@@ -71,7 +71,7 @@
 | 能力 | 状态 |
 |---|---|
 | 17 项 KPI 度量与门禁聚合 | ✅ 已实现；真机 P1/P2 实测；两轮 PASS 才签发写入许可 |
-| 一键离线管线 | ✅ 已实现；`sch/mcp/customer/pin/kpi` 子集 678 项通过 |
+| 一键离线管线 | ✅ 已实现；全量 **4795 项通过**、5 skipped（2026-11-01 实测） |
 | daemon 层写入拦截 | ✅ 真机验证：无许可 → `GATE_REQUIRED`；异工程 → `GATE_PROJECT_MISMATCH`；**1.3.0 起分阶段**——建板写入放行，只有交付类动作（Gerber/CPL/网表）要许可 |
 | S5 保存→重开→回读 | ✅ 双向验证（0/1） |
 | `easycirq status` 状态机 | ✅ Go 原生命令 + Python 版给 agent；7 状态 |
@@ -85,7 +85,7 @@
 
 | 步骤 | 耗时 |
 |---|---|
-| install（806 文件） | 2.6s |
+| install（808 文件） | 2.6s |
 | verify | 0.5s |
 | setup | 1.4s |
 | **合计** | **4.5s** |
@@ -95,7 +95,7 @@
 ### 发版链路
 
 `easycirq-toolchain-1.3.23.zip`（runtime 1.3.23 + connector 1.0.20 + skill 1.1.0）
-经 `easycirq_install.py install` 隔离安装后 `verify` 报 `healthy`（806 文件，
+经 `easycirq_install.py install` 隔离安装后 `verify` 报 `healthy`（808 文件，
 0 changed/missing/extra）；内容一致性检查 `CONSISTENT`。发版步骤见
 `docs/release-checklist.md`。
 
