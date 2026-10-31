@@ -95,6 +95,12 @@ def main(argv=None):
             svg = snap / "svg-text.json"
             if svg.is_file():
                 cmd += ["--rendered-text", svg]
+            # The list read carries no page bounds for a page that was just
+            # drawn, so the adapter needs the sheet geometry explicitly:
+            #   easycirq sch sheet-geometry --json > sheet.json
+            sheet = snap / "sheet.json"
+            if sheet.is_file():
+                cmd += ["--sheet-geometry", sheet]
             try:
                 _run(cmd, label="layout_from_easycirq", allow=(0,))
                 step("layout", True, f"rebuilt from list -> {layout.name}")
@@ -206,10 +212,24 @@ def main(argv=None):
         step("layout-check", True, str(layout_out.name))
 
         wire_out = out / "wire-check.json"
-        _run([HERE / "sch_wire_metrics.py", layout, "--out", wire_out],
-             label="wire metrics", allow=(0,))
+        try:
+            _run([HERE / "sch_wire_metrics.py", layout, "--out", wire_out],
+                 label="wire metrics", allow=(0,))
+            step("wire", True, str(wire_out.name))
+        except RuntimeError as exc:
+            # A page connected entirely with net labels/flags has no wire
+            # primitives, so the wire KPIs have no subject. That is "not
+            # applicable", not a gate failure - and it is the normal shape of a
+            # freshly drawn page.
+            if "no wires" not in str(exc):
+                raise
+            wire_out.write_text(json.dumps({
+                "schema": "easycirq-sch-wire-na/v1",
+                "verdict": "n/a",
+                "note": "这一页没有导线（只用网络标签/旗标连接），几何类指标不适用",
+            }, ensure_ascii=False) + "\n", encoding="utf-8")
+            step("wire", True, "n/a (no wires)")
         checks.append(("wire", wire_out))
-        step("wire", True, str(wire_out.name))
 
         read_out = out / "readability-check.json"
         _run([HERE / "sch_readability_metrics.py", "--ir", connectivity,
