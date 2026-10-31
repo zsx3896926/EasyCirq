@@ -319,6 +319,47 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 铁律：缺证据判 `BLOCKED`，不把离线 PASS 说成真机通过；保存成功 ≠ 写入成功 ≠ 重开仍在 ≠ 质量通过。细则与 15 项定义见 [原理图离线先行](references/schematic-offline-first.md) 与 `metrics/schematic-kpi.v1.json`。
 
+### PCB：顺序错了会白跑（2026-10-31 实测）
+
+原理图 PASS 之后才进这一段。六条都是实测踩出来的，按顺序做：
+
+1. **同步**：`pcb import-changes`。同一 schematic 文档下的**多页会合并到同一块 PCB**——
+   想隔离电路就得用独立工程，靠新建页没用。
+2. **摆开**：`pcb auto-place`。不摆开就跑短跳线，焊盘会叠在一起（Clearance Error）。
+3. **板框**：`pcb outline-fit [--margin 60]`。**没有板框时 `autoroute` 会报
+   `successNetsCount: 0`，所有网络都 failed** —— 这是最容易误判成"路由器坏了"的一步。
+4. **布线**：`pcb autoroute`（官方路由器）。`pcb route-short` 只连短跳线，连不全。
+5. **权威重读**：`pcb save` → `easycirq doc reload <PCB>` → 再 `pcb drc --json`。
+   出现 `staleRisk` 提示时，读到的是过期引擎状态，不能当结论。
+6. **导出**：DRC `passed: true` 且 `total: 0` 才 `call pcb.manufacture.gerber`。
+
+实测参考（7 器件模拟板）：auto-place 后 DRC 24 项 → 加板框 + autoroute 后 3 项 →
+加大 margin 重布后 **0 项**；Gerber 11 层含 `Drill_PTH_Through.DRL`（有直插件才有钻孔层）。
+
+### 写入许可：两轮 + uuid
+
+- 管线必须同时传 `--project` 与 `--project-uuid`。许可绑定**工程名和 uuid**；
+  只给名字时，工程名任何差异都会 `GATE_PROJECT_MISMATCH`。
+- **连续两轮 PASS** 才签发（`apply_allowed` 第一轮 false、第二轮 true），TTL 30 分钟；
+  过期后 `GATE_REQUIRED` 是正常现象，重跑两轮即可。
+- 建板写入（放置、连线、布线）**不需要**许可；只有交付类动作（Gerber/CPL/网表）要。
+
+### 引脚计划：纯模拟器件这样填
+
+`pin_mux` 需要快照里放 `pinplan.json`（`pin-plan/v1`）：
+
+- `resources` 是 **MCU 逻辑资源**（gpio/adc/timer），纯模拟电路传 `[]`；
+  写 `"net"` 会被判 `invalid_input`。
+- `resources` 为空时 **不要求** `bank` / `reset_state` / `boot_sample` / `strap`
+  （这些只对可配置数字引脚有意义）。
+- `pinmap[].symbol_pin` 必须与 `pins[].logical` **完全一致**（`IN1-` ≠ `IN1_N`）；
+  `pinmap` 行不接受未知字段。
+
+### 新建页而不清空
+
+`sch page-new --schematic <schematicUuid>`（uuid 从 `board list` 取）。
+不要用 `sch clear` —— 它会清掉已有证据（Gerber、已验收的图纸）。
+
 **客户看到什么**：`easycirq setup`（装好没有）→ `easycirq status` / `card`（能不能写、能不能打样）→ `easycirq acceptance`（打样后验收）。四幕的完整对话、真实输出与通过条件见 [客户旅程](references/customer-journey.md)。对客户只展示这四张卡，不解释 daemon/connector/KPI/通行证。
 
 为非平凡工程维护精简记录，可从 [记录模板](assets/engineering-notes.md) 复制到工程工作区；沿用已有记录而不另建同义文件。小修改在会话和变更报告中记清即可。
