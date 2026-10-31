@@ -54,8 +54,24 @@ def _key_files() -> list[str]:
 KEY_FILES = _key_files()
 
 
-def sha(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()[:12]
+TEXT_SUFFIXES = (".py", ".json", ".md", ".txt", ".tsv", ".csv")
+
+
+def normalise(name: str, data: bytes) -> bytes:
+    """Line endings are not content.
+
+    The packer writes LF regardless of the checkout, while this Windows worktree
+    holds CRLF copies of many files. Comparing raw bytes then reports hundreds of
+    differences that no user can observe. Normalise text before hashing; leave
+    binaries alone.
+    """
+    if name.lower().endswith(TEXT_SUFFIXES):
+        return data.replace(b"\r\n", b"\n")
+    return data
+
+
+def sha(name: str, data: bytes) -> str:
+    return hashlib.sha256(normalise(name, data)).hexdigest()[:12]
 
 
 def version_key(path: Path):
@@ -100,7 +116,7 @@ def bundle_files(bundle: Path) -> dict:
                 continue
             relative = name[index + len(marker):]
             if relative in KEY_FILES:
-                found[relative] = sha(archive.read(name))
+                found[relative] = sha(relative, archive.read(name))
     return found
 
 
@@ -109,7 +125,7 @@ def repo_files() -> dict:
     for relative in KEY_FILES:
         path = REPO_SKILL / relative
         if path.is_file():
-            found[relative] = sha(path.read_bytes())
+            found[relative] = sha(relative, path.read_bytes())
     return found
 
 
@@ -118,7 +134,7 @@ def installed_files(folder: Path) -> dict:
     for relative in KEY_FILES:
         path = folder / relative
         if path.is_file():
-            found[relative] = sha(path.read_bytes())
+            found[relative] = sha(relative, path.read_bytes())
     return found
 
 
