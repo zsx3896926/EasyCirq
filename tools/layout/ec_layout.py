@@ -704,6 +704,14 @@ def free_via_site(board, cell, net, pad_forbid, used, width, rings=(1, 2, 3, 4),
                     for ey in range(-reach, reach + 1):
                         if math.hypot(ex, ey) * GRID > need:
                             continue
+                        # The whole DISC must clear other nets' pads, not just
+                        # the centre cell.  Checking only the centre chose sites
+                        # that sat on a neighbour's keep-out ring (via-pad
+                        # violations went 85 -> 104 with the "legal" sites).
+                        owner = pad_forbid.get((cx + ex, cy + ey))
+                        if owner is not None and owner != net:
+                            ok = False
+                            break
                         for layer in range(1, 5):
                             s = used.get((cx + ex, cy + ey, layer))
                             if s and any(o != net for o in s):
@@ -722,6 +730,111 @@ def flat_route(board, start, goal, layer, forbidden, cost, allowed):
     """A route confined to ONE layer: it can never place a via."""
     return astar(board, start, goal, forbidden, cost, 1, allowed, max(layer, 1),
                  layer_ok={layer}, start_layer=layer, goal_layers={layer})
+
+
+def _join(*parts):
+    """Concatenate path pieces, dropping the repeated joint cells."""
+    out = []
+    for part in parts:
+        if not part:
+            continue
+        if out and out[-1][:2] == part[0][:2] and out[-1][2] == part[0][2]:
+            out.extend(part[1:])
+        else:
+            out.extend(part)
+    return out
+
+
+def plan_pad_via_sites(board, pad_forbid, max_ring=3, radius=VIA_RADIUS):
+    """One legal via site per SMD pad, chosen BEFORE anything is routed.
+
+    Measured on RetroCam-02: 174 of 176 SMD pads have a site within 3 cells when
+    sites are chosen against the pads alone.  The router never found them because
+    it decides the layer change *during* the A* search, by cost — so 177 vias
+    ended up spread over 196 violations.  Deciding the sites up front makes the
+    legal choice the only choice.
+    """
+    sites, taken = {}, set()
+    need = radius + CLEARANCE
+    for net, pads in sorted(board.nets.items()):
+        for p in pads:
+            lay = int(p.get("layer") or 1)
+            if lay not in (1, 2, 3, 4):
+                continue                      # through-hole: no via needed
+            cell = board.cell(p["x"], p["y"])
+            site = free_via_site(board, cell, net, pad_forbid, {}, TRACE,
+                                 rings=tuple(range(1, max_ring + 1)), radius=radius)
+            if site is None or site in taken:
+                continue
+            taken.add(site)
+            sites[(p["des"], p["pad"])] = site
+    return sites
+
+
+def reserve_via_discs(board, sites, width=TRACE, radius=VIA_RADIUS):
+    """Cells a via disc occupies; other nets may not run tracks through them."""
+    need = radius + width / 2 + CLEARANCE
+    reach = int(math.ceil(need / GRID))
+    cells = set()
+    for (cx, cy) in sites.values():
+        for dx in range(-reach, reach + 1):
+            for dy in range(-reach, reach + 1):
+                if math.hypot(dx, dy) * GRID > need:
+                    continue
+                cells.add((cx + dx, cy + dy))
+    return cells
+
+
+def plan_via_first_leg(board, a, b, net, sites, layer_ok, pad_forbid, cost, allowed,
+                       layers, mid_hint=None, blocked=None):
+    """Route a leg through the PRE-PLANNED via sites instead of hunting for one.
+
+    Endpoint that has a via site: stub from the pad to the site on the pad's own
+    layer, then the site is the layer-change point.  Endpoint that has none
+    (through-hole pad): the pad cell itself may be used on any layer.
+    """
+    sc, gc = board.cell(a["x"], a["y"]), board.cell(b["x"], b["y"])
+    la = int(a.get("layer") or 1)
+    lb = int(b.get("layer") or 1)
+    sa = sites.get((a["des"], a["pad"]))
+    sb = sites.get((b["des"], b["pad"]))
+    forbidden = {c for c, o in pad_forbid.items() if o != net} | set(blocked or ())
+    # llowed (pad escape bands) must not override another net's reserved via
+    # disc: in astar llowed beats orbidden, so subtracting is required.
+    safe_allowed = set(allowed) - set(blocked or ())
+    if la not in layer_ok:
+        sa = None
+        la = None
+    if lb not in layer_ok:
+        sb = None
+        lb = None
+    if (sa is None and sb is None) or (la is not None and la == lb and sb is None):
+        # both ends already sit on the same routable layer, or both are holes
+        lay = lb if lb in layer_ok else (la if la in layer_ok else min(layer_ok))
+        p = flat_route(board, sc, gc, lay, forbidden, cost, safe_allowed)
+        if p:
+            return p
+
+    pa = sa if sa is not None else sc
+    pb = sb if sb is not None else gc
+    starts = [mid_hint] if mid_hint in layer_ok else []
+    starts += [preferred_layer(net, layers)] + sorted(layer_ok)
+    for mid in starts:
+        if mid not in layer_ok:
+            continue
+        middle = flat_route(board, pa, pb, mid, forbidden, cost, safe_allowed)
+        if not middle:
+            continue
+        parts = []
+        if sa is not None:
+            parts.append([(sc[0], sc[1], la), (sa[0], sa[1], la)])
+        parts.append(middle)
+        if sb is not None:
+            parts.append([(sb[0], sb[1], lb), (gc[0], gc[1], lb)])
+        path = _join(*parts)
+        if path:
+            return path
+    return None
 
 
 def plan_via_leg(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, history, layers,
@@ -794,7 +907,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small"):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -817,13 +930,28 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         return 2
 
     nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in plane_nets],
-                  key=lambda n: (net_priority(n), len(board.nets[n]), n))
+                  key=lambda n: (net_priority(n),
+                                 -len(board.nets[n]) if net_order == "big" else len(board.nets[n]),
+                                 n))
     history = defaultdict(float)
     # Via sites are reserved, not vetoed.  The base map is the pads' keep-out
     # discs; it is rebuilt every pass and stamped with every accepted track, so
     # an early net's corridor also reserves the places a later net may not put a
     # via.  Refusing only the TRANSITION keeps long legs routable.
     via_base = build_pad_via_block(board) if via_sites else None
+    # Via-first: every SMD pad gets its legal via site before a single track is
+    # drawn, and other nets are kept off those discs.  This is the global plan
+    # the per-leg version (--via-plan) failed to be.
+    pad_sites, site_disc_owner, blocked_by_net = {}, {}, {}
+    if via_first:
+        pad_sites = plan_pad_via_sites(board, pad_forbid)
+        for (des, pad), cell in pad_sites.items():
+            owner = next((n for n, ps in board.nets.items()
+                          for p in ps if p["des"] == des and p["pad"] == pad), None)
+            for c in reserve_via_discs(board, {0: cell}):
+                site_disc_owner.setdefault(c, owner)
+        for net in board.nets:
+            blocked_by_net[net] = {c for c, o in site_disc_owner.items() if o != net}
     best = None
     for it in range(iters):
         via_block = {k: set(v) for k, v in via_base.items()} if via_base else None
@@ -906,7 +1034,11 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     return cand
 
                 path = None
-                if via_plan:
+                if via_first:
+                    path = _accept(plan_via_first_leg(
+                        board, a, b, net, pad_sites, layer_ok, pad_forbid, cost, allowed,
+                        layers, mid_hint=pref, blocked=blocked_by_net.get(net, set())))
+                if path is None and via_plan:
                     path = _accept(plan_via_leg(board, a, b, sc, gc, net, layer_ok,
                                                 pad_forbid, used, history, layers,
                                                 cost, allowed))
@@ -914,7 +1046,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     # A planned-via leg that breaks spacing falls back to the free
                     # 3D search instead of dying: without this the planned legs
                     # were rejected outright and unrouted went 10 -> 48.
-                    path = _accept(astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
+                    path = _accept(astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)} | blocked_by_net.get(net, set()),
                                          cost, pref, allowed, layers, layer_ok=layer_ok,
                                          via_block=via_block, net=net, via_cost=via_cost,
                                          start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
@@ -2149,6 +2281,10 @@ def main():
                    help="feed bad via sites into the router's history negotiator")
     r.add_argument("--via-plan", dest="via_plan", action="store_true",
                    help="route pad -> legal via site -> layer -> legal via site -> pad")
+    r.add_argument("--via-first", dest="via_first", action="store_true",
+                   help="plan every pad via site up front and route through them")
+    r.add_argument("--net-order", dest="net_order", choices=("big", "small"), default="small",
+                   help="order nets by pad count: big first (default) or small first")
 
     q = sub.add_parser("report")
     q.add_argument("dump")
@@ -2189,7 +2325,9 @@ def main():
                                                        via_sites=a.via_sites,
                                                        via_cost=a.via_cost,
                                                        via_negotiate=a.via_negotiate,
-                                                       via_plan=a.via_plan)
+                                                       via_plan=a.via_plan,
+                                                       via_first=a.via_first,
+                                                       net_order=a.net_order)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2226,4 +2364,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
 
