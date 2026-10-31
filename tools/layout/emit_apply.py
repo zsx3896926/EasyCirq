@@ -51,7 +51,7 @@ def gate_reasons(kpi):
     return reasons
 
 
-def board_rule_reasons(dump_path, plan):
+def board_rule_reasons(dump_path, plan, stackup=None):
     """Second gate: the plan must agree with the BOARD's own rules.
 
     The router's constants are not the board's rules. Measured: the board says via
@@ -62,7 +62,7 @@ def board_rule_reasons(dump_path, plan):
     with open(dump_path, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     out = []
-    for name, ok, detail in plan_lint.lint(board, plan):
+    for name, ok, detail in plan_lint.lint(board, plan, stackup=stackup):
         if not ok:
             out.append("%s: %s" % (name, detail))
     return out
@@ -162,6 +162,8 @@ def main():
     ap.add_argument("--dump")
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--stackup", type=int,
+                    help="declared copper layer count if it differs from the dump (recorded)")
     ap.add_argument("--reason", default="")
     a = ap.parse_args()
 
@@ -170,7 +172,7 @@ def main():
     reasons = gate_reasons(kpi)
     if a.dump:
         try:
-            reasons += board_rule_reasons(a.dump, plan)
+            reasons += board_rule_reasons(a.dump, plan, stackup=a.stackup)
         except Exception as exc:            # a lint that cannot run must not pass
             reasons.append("board rule lint failed: %s" % exc)
     if reasons and not a.force:
@@ -186,6 +188,8 @@ def main():
     norm = normalise(plan)
     sha = hashlib.sha256(json.dumps(norm, sort_keys=True).encode()).hexdigest()
     manifest = build_manifest(norm, kpi, a.dump, sha)
+    if a.stackup:
+        manifest["stackup_override"] = int(a.stackup)   # never silent
 
     os.makedirs(a.out_dir, exist_ok=True)
     with open(os.path.join(a.out_dir, "apply-plan.json"), "w", encoding="utf-8") as f:
@@ -204,4 +208,5 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 

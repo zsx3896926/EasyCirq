@@ -1535,4 +1535,52 @@ L4 上有大量走线：CAM_XCLK 723 mil、CAM_SIOD 442、LCD_CS 424……铺铜
 2. 若确定 4 层：`--pour-exclusive` 的 153 间距 + 4 条断腿，比"290 + 铜岛"更接近可交付，
    值得把断腿补回来（例如铺铜层允许"短跳"通过）。
 
+---
+
+## 37. 第二十八轮：把"层数待决"变成可记录的假设，而不是死锁 2026-02-01
+
+### 37.1 问题
+
+`copperLayers: 2` 而计划用 4 层 → `plan_lint` 拦住 → `emit_apply` 拒绝 →
+**整条交付链卡在一个待决的工程问题上**。但这不该是死锁：工程上"先按 4 层做、把假设记下来"
+是完全正常的做法。
+
+### 37.2 做法：显式且可追溯的 override
+
+```bash
+python tools/layout/plan_lint.py  plan.json --dump dump2.json --stackup 4
+python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --stackup 4 --out-dir DIR
+```
+
+* lint 的层数检查按 **4** 判定，并在明细里写明
+  `board declares 2 copper layer(s) - overridden to 4 by --stackup (record this in the change note)`；
+* `emit_apply` 把 `stackup_override: 4` **写进 `manifest.json`**——不允许静默覆盖。
+
+加了这个开关后，闸门报告只剩真正的 KPI 问题：
+
+```
+REFUSED: the offline gate is not green, so nothing goes to the machine.
+  - clearance_violations: 121
+  - bus skew CAM_D 713.1 / LCD_ 165.3 / SD_ 297.6
+```
+
+### 37.3 原则
+
+**覆盖必须可见**：任何"绕过检查"的开关都要有名字、写进产物、可被审计。
+这与 §23 的 `--force --reason` 是同一套纪律——工具不假装问题不存在，而是把假设钉在纸上。
+
+### 37.4 当前状态
+
+```
+未布通 0 ✅ | 拥塞 0 ✅ | 未连通 0 ✅ | 焊盘层缺口 0 ✅
+间距 290 ❌ | 铜岛 1 ❌ | 等长 713/165/298 ❌
+层数：按 --stackup 4 可放行（假设已记录），真实叠层仍待决策
+```
+
+### 37.5 下一步
+
+层数一旦确认：
+* 若 4 层 → 用 `--stackup 4` 重跑全套，290 是主战场；
+* 若 2 层 → 重跑布线（预期 7–10 条断网），并重做布局。
+
 

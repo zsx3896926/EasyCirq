@@ -25,17 +25,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ec_layout as ec  # noqa: E402
 
 
-def lint(board, plan):
+def lint(board, plan, stackup=None):
     """Every check is (name, ok, detail). ok=False means "do not apply"."""
     checks = []
     layers_used = sorted({int(t["layer"]) for t in plan.get("tracks") or []})
-    legal_layers = set(range(1, max(2, board.layer_count) + 1))
-    checks.append((
-        "layer count",
-        set(layers_used) <= legal_layers,
-        "plan uses layers %s, board declares %d copper layer(s) (dump field "
-        "`copperLayers`)" % (layers_used, board.layer_count),
-    ))
+    declared = int(stackup) if stackup else board.layer_count
+    legal_layers = set(range(1, max(2, declared) + 1))
+    detail = ("plan uses layers %s, board declares %d copper layer(s)" % (layers_used, board.layer_count))
+    if stackup:
+        detail += " - overridden to %d by --stackup (record this in the change note)" % declared
+    checks.append(("layer count", set(layers_used) <= legal_layers, detail))
 
     radii = {round(board.via_radius, 2), round(ec.VIA_RADIUS, 2)}
     checks.append((
@@ -90,13 +89,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("plan")
     ap.add_argument("--dump", required=True)
+    ap.add_argument("--stackup", type=int,
+                    help="override the declared copper layer count (must be recorded)")
     a = ap.parse_args()
     with open(a.dump, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     with open(a.plan, encoding="utf-8") as f:
         plan = json.load(f)
 
-    checks = lint(board, plan)
+    checks = lint(board, plan, stackup=a.stackup)
     print("| check | verdict | detail |")
     print("|---|---|---|")
     bad = 0
@@ -111,3 +112,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

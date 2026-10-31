@@ -319,6 +319,31 @@ def test_emit_apply_manifest_records_what_fabrication_must_know():
     assert any("pour" in n.lower() for n in man["fabrication_notes"])
 
 
+def test_plan_lint_blocks_a_plan_for_the_wrong_stackup_unless_overridden():
+    """The board declares 2 copper layers while the plan uses 4. That must block,
+    and the only way past it is an explicit, recorded override."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("plan_lint", MOD_PATH.parent / "plan_lint.py")
+    pl = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(pl)
+
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
+    board.layer_count = 2
+    board.via_radius = 12.01
+    board.clearance = 6.0
+    board.track_width = 10.0
+    board.power_width = 20.0
+    board.min_width = 5.0
+    board.edge_clearance = 10.0
+    plan = {"tracks": [{"net": "A", "layer": 3, "width": 7.0,
+                        "x1": 300, "y1": 300, "x2": 600, "y2": 300}], "vias": []}
+
+    checks = dict((name, ok) for name, ok, _d in pl.lint(board, plan))
+    assert checks["layer count"] is False
+    checks = dict((name, ok) for name, ok, _d in pl.lint(board, plan, stackup=4))
+    assert checks["layer count"] is True
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [
