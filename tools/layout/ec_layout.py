@@ -939,7 +939,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1268,6 +1268,18 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             # second group's 17 vias wiped the first group's 42, and GND came out
             # routed-as-tracks but with no access vias at all.
             best_routed.setdefault(PLANE_VIA_KEY, []).extend(vias)
+    if repair_pass:
+        # repair() only avoids the nets it is fighting with; it can drop a track on
+        # a third net (measured: one VDD_DW/BB_VIN overlap).  Keep the repaired
+        # version only if it does not introduce congestion or break a net.
+        backup = dict(best_routed)
+        pre = plan_from(board, backup)
+        pre_key = (congestion_from_plan(board, pre), len(connectivity_from_plan(board, pre)))
+        best_routed, _r, _bad = repair(board, best_routed, rounds=2, layers=layers)
+        post = plan_from(board, best_routed)
+        post_key = (congestion_from_plan(board, post), len(connectivity_from_plan(board, post)))
+        if post_key > pre_key:
+            best_routed = backup
     if via_relocate:
         # After the pours: an access via is fixed copper, so relocation has to see
         # it or it will happily slide a routing via onto one (measured: CAM_D0 and
@@ -1335,8 +1347,15 @@ def reroute_net(board, net, extra_forbidden, layers, pad_forbid, own):
 
 def repair(board, routed, rounds=3, layers=4):
     """Soft-route, then fix clearance pair-by-pair: rip the shorter track of each
-    conflicting pair and re-route it against its opponent's cells only."""
+    conflicting pair and re-route it against its opponent's cells only.
+
+    Pour access vias (PLANE_VIA_KEY) are fixed copper, not paths: they are kept
+    out of the rip-up set and re-attached by the caller.
+    """
     pad_forbid, own = board.pad_blocked()
+    fixed = routed.pop(PLANE_VIA_KEY, None)
+    if fixed is not None:
+        routed[PLANE_VIA_KEY] = fixed
     for r in range(rounds):
         plan = plan_from(board, routed)
         pairs = clearance_pairs(board, plan)
@@ -1353,7 +1372,7 @@ def repair(board, routed, rounds=3, layers=4):
             rip.add(victim)
             opponents[victim].add(other)
         cells = {n: {(x + dx, y + dy) for p in ps for (x, y, _l) in p for dx, dy in HALO}
-                 for n, ps in routed.items()}
+                 for n, ps in routed.items() if n != PLANE_VIA_KEY}
         for net in rip:
             routed.pop(net, None)
         for net in sorted(rip):
@@ -2845,7 +2864,8 @@ def main():
                                                        priority_nets=set(a.priority_nets),
                                                        via_relocate=a.via_relocate,
                                                        pour_preplan=a.pour_preplan,
-                                                       via_pressure_on=a.via_pressure_on)
+                                                       via_pressure_on=a.via_pressure_on,
+                                                       repair_pass=a.repair_pass)
         plan = plan_from(board, routed)
         if a.match_lengths:
             match_lengths(board, plan)
@@ -2884,6 +2904,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 
