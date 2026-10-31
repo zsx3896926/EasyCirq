@@ -235,6 +235,29 @@ def test_via_disc_needs_the_whole_circle_not_just_the_centre():
                           {(probe[0] + 3, probe[1])}, ec.TRACE) is True
 
 
+def test_reproduce_scorecard_states_the_gate_verdict():
+    """The one-command reproduction must print every gate KPI, including the bus
+    skew that `gate()` cannot see, and must not call a dirty board PASS."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location(
+        "reproduce", MOD_PATH.parent / "reproduce.py")
+    rep = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(rep)
+
+    kpi = {"unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 3,
+           "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 0,
+           "vias": 10, "plane_vias": 4, "vias_in_pad": 1, "tracks": 20,
+           "total_length_mil": 100.0, "diagonal_ratio": 0.4}
+    skew = {"CAM_D": 713.0, "LCD_": 20.0, "SD_": 10.0}
+    text = rep.scorecard(kpi, skew, False, {"clearance_violations": 3})
+    assert "clearance violations" in text and "713.0" in text
+    assert "FAIL" in text and "bus_skew" in text
+
+    kpi["clearance_violations"] = 0
+    text = rep.scorecard(kpi, {"CAM_D": 10.0, "LCD_": 5.0, "SD_": 5.0}, True, {})
+    assert "PASS" in text
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

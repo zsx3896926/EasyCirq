@@ -21,7 +21,8 @@
 ```
 hds-verifier/tools/layout/
   ec_layout.py          主流程 place / route / report / check
-  run_best.py           用 segment_check 复现"最佳布线"配置（CLI 没暴露该开关）
+  reproduce.py          **一条命令复现当前前沿**（参数、KPI 记分卡、门禁结论）
+  run_best.py           单次布线实验驱动（暴露 route() 的全部开关）
   sweep_placement.py    place→route→5 指标 的权重扫描（一次跑多组，可复现）
   check_bus_order.py    引脚序相关性 ρ + MCU 朝向建议
   BUNDLE-DESIGN.md      等长 bundle 的 7 次尝试与几何证据
@@ -31,9 +32,19 @@ hds-verifier/tools/layout/
   debug_*.py            冲突单元级诊断
 
 hds-verifier/tests/
-  test_ec_layout.py     11 条（指标语义、合法化、门禁、新增的 face/btn 项）
+  test_ec_layout.py     22 条（指标语义、合法化、门禁、face/btn/pour/过孔/记分卡）
   test_bus_order.py     3 条（ρ 一致性、镜像、秩相关）
 ```
+
+**想复现当前前沿，只需要一条命令**：
+
+```bash
+python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+    --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir ../retrocam-02/pcb/offline/frontier
+```
+
+输出 11 行记分卡（六项门禁 + 过孔/线段/线长/45°/等长）与门禁结论；参数集中在
+`reproduce.py` 的 `FRONTIER` 字典里，**改任何一项都会改变数字**，所以只放在一处。
 
 ```bash
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
