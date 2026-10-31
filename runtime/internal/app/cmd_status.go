@@ -101,7 +101,7 @@ func gateLive(path string) (bool, string) {
 	var token statusGate
 	if err := readStatusJSON(path, &token); err != nil {
 		if os.IsNotExist(err) {
-			return false, "还没签发通行证"
+			return false, "还没确认可以写入"
 		}
 		return false, fmt.Sprintf("通行证读不出来：%v", err)
 	}
@@ -111,7 +111,7 @@ func gateLive(path string) (bool, string) {
 	if token.ExpiresAt != "" {
 		if when, err := time.Parse(time.RFC3339, token.ExpiresAt); err == nil {
 			if time.Now().UTC().After(when) {
-				return false, "通行证已过期（" + token.ExpiresAt + "）"
+				return false, "写入许可已过期（" + token.ExpiresAt + "）"
 			}
 		}
 	}
@@ -172,12 +172,14 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 		result.State, result.Headline = "review", "可以写入，但有几项软指标没达标"
 		result.Next = "确认这些提醒项可接受后继续；否则先调整再测"
 	default:
-		if live, detail := gateLive(gatePath); live {
+		if live, _ := gateLive(gatePath); live {
 			result.State, result.Headline = "ready_to_write", "检查通过，可以写入图纸了"
 			result.Next = "执行写入；写完保存、重开、回读，再跑一次检查"
 		} else {
-			result.State, result.Headline = "gate_stale", "检查通过，但通行证不可用"
-			result.Next = detail + "；重新跑一轮检查即可重新签发"
+			// "通行证" is our internal name for the write permission; say what it
+			// means for the customer instead.
+			result.State, result.Headline = "gate_stale", "检查通过了，但写入许可已失效"
+			result.Next = "重新跑一轮检查即可重新获得写入许可"
 		}
 	}
 	return result
