@@ -931,7 +931,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, via_relocate=True, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1191,6 +1191,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         for c in contended:
             history[c] += 1.0
     score, best_routed, best_failures, best_congestion = best
+    relocated = 0
     groups = []
     if plane_nets and plane_layer:
         groups.append((set(plane_nets), int(plane_layer)))
@@ -1209,6 +1210,11 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             # second group's 17 vias wiped the first group's 42, and GND came out
             # routed-as-tracks but with no access vias at all.
             best_routed.setdefault(PLANE_VIA_KEY, []).extend(vias)
+    if via_relocate:
+        # After the pours: an access via is fixed copper, so relocation has to see
+        # it or it will happily slide a routing via onto one (measured: CAM_D0 and
+        # GND shared a cell, one congestion unit came back).
+        relocated, _still = relocate_vias(board, best_routed)
     return (len(best_failures), best_congestion), best_routed, best_failures
 
 
@@ -1637,6 +1643,139 @@ def _islands_on(board, plan, layer, pour_vias, clearance):
                 seen.add((nx, ny))
                 stack.append((nx, ny))
     return max(0, regions - 1)
+
+
+def _occupancy_map(board, routed):
+    """(x, y, layer) -> set(nets) for every cell a routed path occupies."""
+    occ = defaultdict(set)
+    for net, paths in routed.items():
+        if net == PLANE_VIA_KEY:
+            # Pour/plane access vias are fixed copper on every layer; relocation
+            # must treat them as obstacles.
+            for v in paths:
+                c = board.cell(v["x"], v["y"])
+                for layer in range(1, 5):
+                    occ[(c[0], c[1], layer)].add(v["net"])
+            continue
+        for path in paths:
+            for (x, y, l) in path:
+                occ[(x, y, l)].add(net)
+    return occ
+
+
+def _via_site_ok(occ, net, cell, radius=VIA_RADIUS, width=TRACE):
+    """Would a via at `cell` clear every other net's copper on every layer?"""
+    need = radius + CLEARANCE + width / 2
+    reach = int(math.ceil(need / GRID))
+    for dx in range(-reach, reach + 1):
+        for dy in range(-reach, reach + 1):
+            if math.hypot(dx, dy) * GRID > need:
+                continue
+            for layer in range(1, 5):
+                owners = occ.get((cell[0] + dx, cell[1] + dy, layer))
+                if owners and any(o != net for o in owners):
+                    return False
+    return True
+
+
+def _relabel_ok(occ, net, cells, layer):
+    for (x, y, _old) in cells:
+        owners = occ.get((x, y, layer))
+        if owners and any(o != net for o in owners):
+            return False
+    return True
+
+
+def relocate_vias(board, routed, max_shift=3, rounds=3):
+    """Slide each offending via along its own path to a legal cell.
+
+    The copper shape does not change at all — only WHERE the layer change happens.
+    A via that breaks spacing is therefore not a dead end: walk the split point
+    along the run, relabel the cells in between to the other layer, and keep the
+    first position whose disc is clear.  Both the relabelled cells and the new via
+    cell are checked, so this cannot trade one violation for another.
+
+    Returns (moved, still_bad) and mutates `routed` in place.
+    """
+    occ = _occupancy_map(board, routed)
+    moved = 0
+    for _round in range(rounds):
+        progress = False
+        for net, paths in routed.items():
+            if net == PLANE_VIA_KEY:
+                continue
+            for pi in range(len(paths)):
+                path = paths[pi]
+                i = 0
+                while i < len(path) - 1:
+                    a, b = path[i], path[i + 1]
+                    if a[2] == b[2] or a[:2] != b[:2] or _via_site_ok(occ, net, a):
+                        i += 1
+                        continue
+                    lay_a, lay_b = a[2], b[2]
+                    hi = i + 1
+                    while hi + 1 < len(path) and path[hi + 1][2] == lay_b:
+                        hi += 1
+                    fixed = None
+                    for shift in range(1, max_shift + 1):
+                        for sign in (1, -1):
+                            r = i + sign * shift
+                            if sign > 0:
+                                if r > hi or path[r][2] != lay_b:
+                                    continue
+                                # The A-run must reach P_r.  Cells i+2..r change
+                                # layer; the old duplicate at P_i is dropped or the
+                                # path keeps a zero-length segment.
+                                changed = [(path[k][0], path[k][1], lay_a)
+                                           for k in range(i + 2, r + 1)]
+                                if not _relabel_ok(occ, net, changed, lay_a):
+                                    continue
+                                new = (path[:i + 1] + changed
+                                       + [(path[r][0], path[r][1], lay_b)] + path[r + 1:])
+                            else:
+                                if r < 0 or path[r][2] != lay_a:
+                                    continue
+                                changed = [(path[k][0], path[k][1], lay_b)
+                                           for k in range(r + 1, i + 1)]
+                                if not _relabel_ok(occ, net, changed, lay_b):
+                                    continue
+                                # A layer change between two DIFFERENT cells is not a
+                                # via: it silently disconnects the net (measured:
+                                # unconnected 0 -> 7). The new via needs its own
+                                # duplicate cell at P_r.
+                                new = (path[:r + 1]
+                                       + [(path[r][0], path[r][1], lay_b)]
+                                       + changed + path[i + 2:])
+                            site = (path[r][0], path[r][1])
+                            if not _via_site_ok(occ, net, site):
+                                continue
+                            fixed = new
+                            break
+                        if fixed:
+                            break
+                    if not fixed:
+                        i += 1
+                        continue
+                    for (x, y, l) in path:
+                        occ[(x, y, l)].discard(net)
+                    for (x, y, l) in fixed:
+                        occ[(x, y, l)].add(net)
+                    paths[pi] = fixed
+                    path = fixed
+                    moved += 1
+                    progress = True
+                    i += 1
+        if not progress:
+            break
+    bad = 0
+    for net, paths in routed.items():
+        if net == PLANE_VIA_KEY:
+            continue
+        for path in paths:
+            for a, b in zip(path, path[1:]):
+                if a[2] != b[2] and a[:2] == b[:2] and not _via_site_ok(occ, net, a):
+                    bad += 1
+    return moved, bad
 
 
 def clearance_violations(board, plan):
@@ -2576,7 +2715,8 @@ def main():
                                                        pour_step=a.pour_step,
                                                        pour_specs=a.pour_specs,
                                                        best_effort=a.best_effort,
-                                                       priority_nets=set(a.priority_nets))
+                                                       priority_nets=set(a.priority_nets),
+                                                       via_relocate=a.via_relocate)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2613,6 +2753,9 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 
 
