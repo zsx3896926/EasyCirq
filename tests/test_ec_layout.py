@@ -200,6 +200,24 @@ def test_free_via_site_steps_away_from_another_nets_pad():
     assert owner is None or owner == "A"
 
 
+def test_pour_islands_sees_a_pour_cut_in_two():
+    """A pour shares its layer with tracks, so they can cut it into islands.
+    Two access vias in different islands = a broken net that 2D connectivity
+    happily calls connected."""
+    board = make_board([
+        comp("R1", 300, 700, [("1", "GND", 300, 700)]),
+        comp("R2", 1700, 700, [("1", "GND", 1700, 700)]),
+    ])
+    vias = [{"net": "GND", "x": 300, "y": 700, "plane_layer": 4},
+            {"net": "GND", "x": 1700, "y": 700, "plane_layer": 4}]
+    open_pour = {"tracks": [], "vias": list(vias)}
+    assert ec.pour_islands(board, open_pour) == 0
+
+    wall = {"tracks": [{"net": "B", "layer": 4, "width": 7,
+                        "x1": 1000, "y1": 0, "x2": 1000, "y2": 1500}], "vias": list(vias)}
+    assert ec.pour_islands(board, wall) >= 1
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

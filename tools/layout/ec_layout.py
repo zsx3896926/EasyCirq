@@ -34,11 +34,12 @@ BUS_PREFIX = ("CAM_", "LCD_", "SD_")
 POWER = {"+3V3", "VBUS", "BB_VIN", "VBAT_P", "BATT_M", "VDD_DW", "GND"}
 HALO = [(dx, dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
 KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected",
-            "pad_layer_gaps")
+            "pad_layer_gaps", "pour_islands")
 PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access vias
 VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
 VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
+POUR_CLEARANCE = 8.0               # mil a pour keeps from other nets' copper
 VIA_HISTORY_BUMP = 6.0             # negotiator pressure on a bad via site
 VIA_SCORE_W = 3.0                  # weight of a bad via site in the pass score
 
@@ -907,12 +908,16 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small"):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", pour_nets=frozenset(), pour_layer=None):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
         # A plane owns its whole layer: nobody else may run a track there.
         layer_ok.discard(int(plane_layer))
+    # A POUR shares its layer with tracks: it only has to keep pour clearance
+    # from them, so the layer stays available.  Taking a whole layer for GND was
+    # measured worse than routing it (round 2), a pour is the realistic model.
+    pour_sets = set(pour_nets)
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
@@ -929,7 +934,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             return 1
         return 2
 
-    nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in plane_nets],
+    skip_nets = set(plane_nets) | pour_sets
+    nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in skip_nets],
                   key=lambda n: (net_priority(n),
                                  -len(board.nets[n]) if net_order == "big" else len(board.nets[n]),
                                  n))
@@ -1108,8 +1114,13 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         for c in contended:
             history[c] += 1.0
     score, best_routed, best_failures, best_congestion = best
+    groups = []
     if plane_nets and plane_layer:
-        vias, stubs = plane_access(board, best_routed, plane_nets, int(plane_layer))
+        groups.append((set(plane_nets), int(plane_layer)))
+    if pour_sets and pour_layer:
+        groups.append((pour_sets, int(pour_layer)))
+    for group_nets, group_layer in groups:
+        vias, stubs = plane_access(board, best_routed, group_nets, group_layer)
         # The pad->via stub is the ONLY copper a plane net may spend: the test
         # contract allows stubs up to 3*GRID and nothing longer. Dropping the stubs
         # entirely disconnects the pad from its via (measured: GND reported dead).
@@ -1405,6 +1416,47 @@ def pad_layer_gaps(board, plan, tol=GRID * 1.5):
                 continue
             gaps += 1
     return gaps
+
+
+def pour_islands(board, plan, clearance=POUR_CLEARANCE):
+    """Is the pour still ONE piece of copper after the tracks punched through it?
+
+    A pour shares its layer with every other net, so the tracks (plus pour
+    clearance) cut it into islands.  If two GND access vias land in different
+    islands, the net is broken — and the flat 2D connectivity check would never
+    see it, because it only knows "these vias are all pour vias".
+    """
+    pour_vias = [v for v in plan.get("vias") or [] if v.get("plane_layer")]
+    if not pour_vias:
+        return 0
+    layer = int(pour_vias[0]["plane_layer"])
+    pour_nets = {v["net"] for v in pour_vias}
+    target = {board.cell(v["x"], v["y"]) for v in pour_vias}
+    halo = int(math.ceil(clearance / GRID))
+    blocked = set()
+    for t in plan.get("tracks") or []:
+        if int(t["layer"]) != layer or t["net"] in pour_nets:
+            continue
+        blocked |= _segment_cells(board, t, halo=halo)
+
+    seen, regions = set(), 0
+    for start in sorted(target):
+        if start in seen or start in blocked:
+            continue
+        regions += 1
+        stack = [start]
+        seen.add(start)
+        while stack:
+            x, y = stack.pop()
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nx, ny = x + dx, y + dy
+                if not (0 <= nx < board.w and 0 <= ny < board.h):
+                    continue
+                if (nx, ny) in seen or (nx, ny) in blocked:
+                    continue
+                seen.add((nx, ny))
+                stack.append((nx, ny))
+    return max(0, regions - 1)
 
 
 def clearance_violations(board, plan):
@@ -2224,6 +2276,7 @@ def report(board, routed, failures, overflow, plan):
         "congestion_cells": congestion_from_plan(board, plan),
         "nets_unconnected": len(connectivity_from_plan(board, plan)),
         "pad_layer_gaps": pad_layer_gaps(board, plan),
+        "pour_islands": pour_islands(board, plan),
         "clearance_violations": clearance_violations(board, plan),
         "vias": len(plan["vias"]),
         "plane_vias": sum(1 for v in plan["vias"] if v.get("plane_layer")),
@@ -2283,6 +2336,9 @@ def main():
                    help="route pad -> legal via site -> layer -> legal via site -> pad")
     r.add_argument("--via-first", dest="via_first", action="store_true",
                    help="plan every pad via site up front and route through them")
+    r.add_argument("--pour-net", dest="pour_nets", action="append", default=[],
+                   help="net carried by an area pour on --pour-layer (shares the layer)")
+    r.add_argument("--pour-layer", dest="pour_layer", type=int)
     r.add_argument("--net-order", dest="net_order", choices=("big", "small"), default="small",
                    help="order nets by pad count: big first (default) or small first")
 
@@ -2327,7 +2383,9 @@ def main():
                                                        via_negotiate=a.via_negotiate,
                                                        via_plan=a.via_plan,
                                                        via_first=a.via_first,
-                                                       net_order=a.net_order)
+                                                       net_order=a.net_order,
+                                                       pour_nets=frozenset(a.pour_nets),
+                                                       pour_layer=a.pour_layer)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
@@ -2364,6 +2422,9 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 
 
