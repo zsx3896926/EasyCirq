@@ -117,6 +117,29 @@ func resolveNetflagKind(kind string) (string, error) {
 
 // newSchCmd returns the "sch" subcommand group with all schematic actions.
 // --window is a persistent flag on the group so every subcommand inherits it.
+
+// readBackPinNet resolves a DESIGNATOR:PIN and returns the net it actually
+// belongs to now. resolveSchPin already reads the authoritative pin list, so its
+// Net field is the landed net - no second dispatch needed.
+func readBackPinNet(cfg *appConfig, window, pinRef string) (string, error) {
+	resolved, err := resolveSchPin(cfg, window, pinRef)
+	if err != nil {
+		return "", err
+	}
+	return resolved.Net, nil
+}
+
+// netsEquivalent tolerates the casing/padding differences the editor may apply
+// while still catching a genuine rewrite (VCC -> GND).
+func netsEquivalent(landed, wanted string) bool {
+	norm := func(value string) string {
+		value = strings.TrimSpace(value)
+		value = strings.Trim(value, "$")
+		return strings.ToUpper(value)
+	}
+	return norm(landed) == norm(wanted)
+}
+
 func newSchCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	var window string
 
@@ -1517,6 +1540,22 @@ pull fresh ids before any follow-up mutation on it.`,
 				// autoconnect path already does.
 				dispErr := dispatchTimed(cfg, "schematic.power.connect_pin", window, payload, acConnectPinTimeout, stdout, stderr)
 				if dispErr == nil {
+					// The write succeeded, but "ok" does not prove the pin landed on
+					// the net we asked for: a net name can be mapped to a different
+					// one on the way in (observed: --net VCC landed on GND). Read the
+					// pin back and refuse to report success when they differ - a
+					// silently rewritten net is a wrong circuit that every later
+					// check will happily validate.
+					if pinRef != "" {
+						landed, readErr := readBackPinNet(cfg, window, pinRef)
+						if readErr == nil && landed != "" && !netsEquivalent(landed, net) {
+							fmt.Fprintf(stderr,
+								"连接落到的网络是 %q，不是你要求的 %q —— 已写入，但电气事实与你的意图不同。\n"+
+									"常见原因：某些保留名（如 VCC）会被映射成别的网络。换一个名字（例如 PWR5V）重接。\n",
+								landed, net)
+							return exitCodeError{code: 3}
+						}
+					}
 					return nil
 				}
 				// Existing net membership does not prove this write landed: the

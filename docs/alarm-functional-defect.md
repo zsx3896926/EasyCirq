@@ -336,3 +336,62 @@ C1.1 (VCC)  -> GND
 错在**我从没读过网络名**，而整块板的电源网络是 GND。
 
 「必查 11/11 通过」确实是真的，但它**证明不了电路能用**。
+
+---
+
+## 防线第一版：写了，但没生效（如实记录）
+
+### 改了什么
+
+在 `sch connect` 成功分发之后加了一段读回比对：
+
+```go
+if pinRef != "" {
+    landed, readErr := readBackPinNet(cfg, window, pinRef)
+    if readErr == nil && landed != "" && !netsEquivalent(landed, net) {
+        fmt.Fprintf(stderr, "连接落到的网络是 %q，不是你要求的 %q …", landed, net)
+        return exitCodeError{code: 3}
+    }
+}
+```
+
+`readBackPinNet` 用 `resolveSchPin` 的返回值取 `Net`。
+
+### 测试结果
+
+```
+sch connect --pin R9:1 --kind netlabel --net VCC   ->  exit 0     （应为 3）
+```
+
+**守卫没有触发。**
+
+### 为什么
+
+`acPin.Net` 的注释说：这是 pin 的当前权威网络，**"Empty means floating when
+NetKnown is true; NetKnown is false when the netlist wasn't available"**。
+
+我的条件 `landed != ""` 在拿不到网络时直接放行——所以当 `resolveSchPin`
+没有填充 `Net`（或 `NetKnown` 为 false）时，守卫等于不存在。
+
+**这正好复现了它要防的那类错误**：一个"检查"因为取不到数据而默认通过。
+这正是目标里「缺证据 = BLOCKED，不是默认通过」的反例。
+
+### 修法（下一轮）
+
+1. 修 `readBackPinNet`：必须确认 `NetKnown == true`；拿不到就**报错**，不是放行。
+2. 或者直接调 `schematic.components.list --include-pins` 读该 pin 的 net
+   （这条路径我在命令行验证过能读到 `VCC -> GND` 的实际值）。
+3. 补单测：模拟 `NetKnown=false` 时必须是失败而不是通过。
+
+### 当前真实状态
+
+| 项 | 状态 |
+|---|---|
+| 根因（VCC→GND） | ✅ 已确认、可复现 |
+| 规避（用 PWR5V） | ✅ 已验证 |
+| 守卫代码 | ⚠️ 已写，**未生效** |
+| 守卫测试 | ❌ 未写 |
+| 那块板的修复 | ❌ 未做 |
+| 门禁的「电源网存在性」检查 | ❌ 未做 |
+
+**不要把"我加了守卫"当成"问题不会再发生"。** 现在它还会发生。
