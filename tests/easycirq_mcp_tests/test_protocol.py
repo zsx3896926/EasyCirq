@@ -64,13 +64,17 @@ class ProtocolTests(unittest.TestCase):
             "easycirq_status",
             "easycirq_card",
             "easycirq_setup",
+            "easycirq_apply",
         ])
         for tool in tools:
             schema = tool["inputSchema"]
             self.assertEqual(schema["type"], "object")
             self.assertIs(schema["additionalProperties"], False)
             self.assertIsInstance(schema.get("properties"), dict)
-            self.assertIs(tool["annotations"]["readOnlyHint"], True)
+            readonly = tool["annotations"]["readOnlyHint"]
+            # read-only tools must never claim to be destructive; a tool that
+            # does write (easycirq_apply) must declare itself destructive
+            self.assertIs(tool["annotations"]["destructiveHint"], not readonly)
             self.assertIs(tool["annotations"]["openWorldHint"], False)
             if tool["name"].startswith("offline_"):
                 # the offline audit tools advertise their scope in the description;

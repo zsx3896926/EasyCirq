@@ -11,6 +11,7 @@ from .runners import (
     run_delivery_audit,
     run_delivery_inspect,
     run_file_audit,
+    run_apply,
     run_setup,
     run_status,
 )
@@ -257,6 +258,41 @@ _TOOL_SPECS = {
         "annotations": {"readOnlyHint": True, "destructiveHint": False,
                         "idempotentHint": True, "openWorldHint": False},
         "handler": run_setup,
+    },
+    "easycirq_apply": {
+        "description": (
+            "Replay a schematic playbook. Dry-run by default (confirm=false) so "
+            "the caller can inspect the plan; confirm=true executes it and "
+            "requires a live offline gate token. Only a playbook file is "
+            "accepted, never an arbitrary command. The daemon re-checks the "
+            "same token before any write, and a successful save is still not a "
+            "verified schematic: read back afterwards."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["playbook"],
+            "properties": {
+                "playbook": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Playbook JSON (easycirq apply format). " + _PATHS_NOTE,
+                },
+                "confirm": {
+                    "type": "boolean",
+                    "default": False,
+                    "description": "false = dry-run only; true = execute (needs a live gate).",
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Gate token path; required for confirm=true.",
+                },
+                "timeout_s": _TIMEOUT,
+            },
+        },
+        "annotations": {"readOnlyHint": False, "destructiveHint": True,
+                        "idempotentHint": False, "openWorldHint": False},
+        "handler": run_apply,
     },
 }
 

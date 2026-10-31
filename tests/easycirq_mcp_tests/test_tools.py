@@ -45,7 +45,7 @@ class ToolTests(unittest.TestCase):
         self.assertTrue(payload["offline"])
         self.assertEqual(payload["real_eda"], "NOT RUN")
         self.assertEqual(payload["eda_calls"], 0)
-        self.assertEqual(len(payload["tools"]), 8)
+        self.assertEqual(len(payload["tools"]), 9)
         self.assertIn("easycirq_status", payload["tools"])
         self.assertIn("never", payload["boundary"])
         self.assertTrue(any(NOT_PROOF_FRAGMENT in line

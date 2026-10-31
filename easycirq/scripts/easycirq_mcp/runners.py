@@ -489,6 +489,70 @@ def run_setup(arguments):
     }
 
 
+def _gate_answer(gate_path):
+    """(live, detail) for a gate token, reusing the offline checker's rules."""
+    module = _load_script_module("sch_status")
+    if not gate_path:
+        return False, "没有指定通行证"
+    try:
+        state, detail = module._gate_state(gate_path)
+    except Exception as exc:  # noqa: BLE001 - surfaced to the caller as-is
+        return False, f"通行证读不出来：{exc}"
+    # _gate_state returns "live" | "stale" | "missing"; only "live" may proceed
+    return state == "live", detail
+
+
+def run_apply(arguments):
+    """Execute a schematic playbook, dry-run by default, gated when asked.
+
+    The tool deliberately accepts only a playbook file, never an arbitrary
+    command line: the playbook is auditable and replayable. ``confirm=false``
+    (the default) runs ``--dry-run`` so a caller can inspect the plan first.
+    """
+    playbook = resolve_path((arguments or {}).get("playbook"), "playbook")
+    confirm = bool((arguments or {}).get("confirm", False))
+    gate_arg = (arguments or {}).get("gate")
+    gate_path = resolve_path(gate_arg, "gate") if gate_arg else None
+
+    if confirm:
+        live, detail = _gate_answer(gate_path)
+        if not live:
+            raise ToolError(
+                "GATE_NOT_LIVE",
+                "没有有效的离线检查通行证，不能写入",
+                f"{detail}；先跑一轮门禁并确保 verdict=PASS、apply_allowed=true")
+
+    exe = shutil.which("easycirq")
+    if not exe:
+        raise ToolError("EASYCIRQ_CLI_NOT_FOUND",
+                        "本机 PATH 上没有 easycirq",
+                        "先安装 EasyCirq 工具链")
+    timeout = min(int((arguments or {}).get("timeout_s", 120)), 600)
+    cmd = [exe, "sch", "apply", str(playbook)]
+    if not confirm:
+        cmd.append("--dry-run")
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True,
+                              encoding="utf-8", errors="replace",
+                              timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise ToolError("APPLY_TIMEOUT", f"apply 超过 {timeout}s")
+    return {
+        "schema": "easycirq.mcp.apply/v1",
+        "tool": "easycirq_apply",
+        "mode": "execute" if confirm else "dry_run",
+        "exit_code": proc.returncode,
+        "ok": proc.returncode == 0,
+        "stdout": (proc.stdout or "")[-4000:],
+        "stderr": (proc.stderr or "")[-2000:],
+        "gate": str(gate_path) if gate_path else None,
+        "offline": False,
+        "eda": "NOT RUN",
+        "note": ("dry_run 只对账不写入；execute 由 daemon 再次校验通行证"
+                 if not confirm else "daemon 会再次校验通行证；写入后必须回读"),
+    }
+
+
 def run_delivery_audit(arguments):
     target = resolve_path(arguments.get("input_path"), "input_path")
     detail = _detail(arguments)
