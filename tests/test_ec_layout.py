@@ -6,6 +6,7 @@ router and the plan-based checker disagreeing (39 vs 0), which silently passed a
 broken KPI.
 """
 import importlib.util
+import math
 import pathlib
 
 import pytest
@@ -166,7 +167,8 @@ def test_button_leg_penalty_counts_each_switch_leg():
     assert ec.button_leg_penalty(board.comps) == pytest.approx(1.0, abs=1e-6)
 
 
-def test_placement_cost_trades_button_length_against_hpwl():    """The button term must be a real trade, not decoration.
+def test_placement_cost_trades_button_length_against_hpwl():
+    """The button term must be a real trade, not decoration.
 
     Two layouts have the SAME HPWL (100 + 1100 vs 1100 + 100 mil of two-pad
     boxes); only the button term can separate them, and it must flip the answer
@@ -188,3 +190,54 @@ def test_placement_cost_trades_button_length_against_hpwl():    """The button te
     # once the weight is worth more than 1:1, the short leg must win
     assert ec.placement_cost(near_button.comps, near_button, btn_w=4000.0) < \
         ec.placement_cost(far_button.comps, far_button, btn_w=4000.0)
+
+
+# ── plane (GND carried by an inner layer) ───────────────────────────────────
+def test_plane_net_gets_no_tracks_but_still_connects():
+    """A plane net must spend vias, not tracks — and must still be connected."""
+    board = make_board([
+        comp("R1", 300, 300, [("1", "GND", 300, 300)]),
+        comp("R2", 1200, 300, [("1", "GND", 1200, 300)]),
+        comp("R3", 300, 600, [("1", "A", 300, 600)]),
+        comp("R4", 1200, 600, [("1", "A", 1200, 600)]),
+    ])
+    (_u, _c), routed, _f = ec.route(board, iters=1, layers=4, segment_check=True,
+                                    plane_nets=frozenset({"GND"}), plane_layer=2)
+    plan = ec.plan_from(board, routed)
+
+    # The only GND copper allowed on a plane net is the short pad->via stub.
+    gnd_tracks = [t for t in plan["tracks"] if t["net"] == "GND"]
+    assert all(math.hypot(t["x2"] - t["x1"], t["y2"] - t["y1"]) <= 3 * ec.GRID
+               for t in gnd_tracks), gnd_tracks
+    gnd_vias = [v for v in plan["vias"] if v["net"] == "GND"]
+    assert len(gnd_vias) == 2
+    assert all(v.get("plane_layer") == 2 for v in gnd_vias)
+    assert ec.connectivity_from_plan(board, plan) == []
+
+
+def test_plane_layer_is_reserved_for_the_plane():
+    board = make_board([
+        comp("R1", 300, 300, [("1", "GND", 300, 300)]),
+        comp("R2", 1200, 300, [("1", "GND", 1200, 300)]),
+        comp("R3", 300, 1100, [("1", "A", 300, 1100)]),
+        comp("R4", 1200, 1100, [("1", "A", 1200, 1100)]),
+    ])
+    (_u, _c), routed, _f = ec.route(board, iters=1, layers=4, segment_check=True,
+                                    plane_nets=frozenset({"GND"}), plane_layer=2)
+    plan = ec.plan_from(board, routed)
+    assert plan["tracks"], "the signal net should still be routed somewhere"
+    assert [t for t in plan["tracks"] if t["layer"] == 2] == []
+
+
+def test_via_counts_as_copper_on_every_layer():
+    """A through-hole via is copper on all layers, so it must clash with a track
+    on ANY layer and with other nets' pads — otherwise plane vias were free."""
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
+    plan = {"tracks": [{"net": "B", "layer": 2, "width": 7,
+                        "x1": 480, "y1": 515, "x2": 520, "y2": 515}],
+            "vias": [{"net": "A", "x": 500, "y": 500}]}
+    assert ec.clearance_violations(board, plan) > 0
+
+    plan["tracks"][0]["y1"] = plan["tracks"][0]["y2"] = 700   # now 200 mil away
+    assert ec.clearance_violations(board, plan) == 0
+

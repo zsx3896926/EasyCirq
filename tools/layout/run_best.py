@@ -29,6 +29,9 @@ def main():
     ap.add_argument("--layers", type=int, default=4)
     ap.add_argument("--segment-check", dest="segment_check", action="store_true", default=True)
     ap.add_argument("--no-segment-check", dest="segment_check", action="store_false")
+    ap.add_argument("--plane-net", dest="plane_nets", action="append", default=[],
+                    help="net carried by a plane instead of tracks (e.g. GND)")
+    ap.add_argument("--plane-layer", dest="plane_layer", type=int)
     ap.add_argument("--out", help="write the ROUTE PLAN here (tracks/vias)")
     ap.add_argument("--kpi", help="write the KPI report here")
     ap.add_argument("--failures", action="store_true", help="print per-leg failure detail")
@@ -46,7 +49,8 @@ def main():
     }
 
     (_unr, _cong), routed, failures = ec.route(
-        board, iters=a.iters, layers=a.layers, segment_check=a.segment_check)
+        board, iters=a.iters, layers=a.layers, segment_check=a.segment_check,
+        plane_nets=frozenset(a.plane_nets), plane_layer=a.plane_layer)
     plan = ec.plan_from(board, routed)
     kpi = ec.report(board, routed, failures, [], plan)
     out = {**placed_kpi, **kpi}
@@ -72,6 +76,7 @@ def main():
         "unrouted_legs": kpi["unrouted_legs"],
         "nets_unconnected": kpi["nets_unconnected"],
         "vias": kpi["vias"],
+        "plane_vias": kpi["plane_vias"],
         "tracks": kpi["tracks"],
         "total_length_mil": kpi["total_length_mil"],
         "diagonal_ratio": kpi["diagonal_ratio"],

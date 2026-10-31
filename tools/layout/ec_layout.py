@@ -532,6 +532,39 @@ def preferred_layer(net, layers=4):
     return 1
 
 
+def via_conflicts(board, path, used, pad_forbid, net, width, radius=VIA_RADIUS, margin=1.0):
+    """Is a layer change in this path actually SHORTING another net?
+
+    A via is an annular ring on EVERY layer.  The router used to drop one
+    wherever a path changed layers and never checked it at all: with via checks
+    added, the plan the old gate called "clearance 0" actually had 103 via-track
+    and 72 via-pad violations.
+
+    Only a true overlap is rejected here.  Rejecting at the full spacing
+    distance instead was measured worse by a wide margin (unrouted 7 -> 33): a
+    dense board has almost no 26 mil clear disc on four layers, so every long
+    path died.  Spacing remains a reported KPI, not a per-path veto.
+    """
+    need = radius + width / 2 + margin
+    reach = int(math.ceil(need / GRID))
+    for a, b in zip(path, path[1:]):
+        if a[2] == b[2]:
+            continue
+        for dx in range(-reach, reach + 1):
+            for dy in range(-reach, reach + 1):
+                if math.hypot(dx, dy) * GRID > need:
+                    continue
+                cell = (a[0] + dx, a[1] + dy)
+                owners = board.pad_cells.get(cell)
+                if owners and any(o != net for o in owners):
+                    return True
+                for layer in range(1, 5):
+                    nets = used.get((cell[0], cell[1], layer))
+                    if nets and any(o != net for o in nets):
+                        return True
+    return False
+
+
 def path_conflicts(board, path, routed, net, width):
     """Line-segment-level spacing test for a candidate path against everything routed
     so far. This is the structural constraint the cost model lacks: a run closer than
@@ -569,7 +602,7 @@ def path_conflicts(board, path, routed, net, width):
     return False
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -661,7 +694,9 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                                 allowed.add((gx, gy))
                 path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
                              cost, pref, allowed, layers, layer_ok=layer_ok)
-                if path and segment_check and path_conflicts(board, path, routed, net, route_width(net)):
+                if path and segment_check and (
+                        path_conflicts(board, path, routed, net, route_width(net))
+                        or (via_check and via_conflicts(board, path, used, pad_forbid, net, route_width(net)))):
                     # Spacing as a real geometric constraint: reject the too-close run
                     # and make its cells expensive so the next pass routes elsewhere.
                     for (x, y, _l) in path:
@@ -1808,6 +1843,8 @@ def main():
                    help="net carried by a plane instead of tracks (e.g. GND)")
     r.add_argument("--plane-layer", dest="plane_layer", type=int,
                    help="inner layer the plane occupies; other nets are kept off it")
+    r.add_argument("--via-check", dest="via_check", action="store_true",
+                   help="reject paths whose vias overlap other copper (measured worse: unrouted 7 -> 25)")
 
     q = sub.add_parser("report")
     q.add_argument("dump")
@@ -1843,7 +1880,8 @@ def main():
         (unrouted, overflow), routed, failures = route(board, a.iters, a.layers,
                                                        getattr(a, "spacing_hard", False),
                                                        plane_nets=frozenset(a.plane_nets),
-                                                       plane_layer=a.plane_layer)
+                                                       plane_layer=a.plane_layer,
+                                                       via_check=a.via_check)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
