@@ -140,6 +140,22 @@ def test_gate_refuses_a_kpi_it_could_not_measure():
     assert "unrouted_legs" in failures
 
 
+def test_via_violation_cells_points_at_the_offending_via():
+    """The negotiator needs WHERE, not just how many, or it cannot push back."""
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
+    plan = {"tracks": [{"net": "B", "layer": 2, "width": 7,
+                        "x1": 480, "y1": 505, "x2": 520, "y2": 505}],
+            "vias": [{"net": "A", "x": 500, "y": 500},
+                     {"net": "A", "x": 900, "y": 900}]}
+    cells = ec.via_violation_cells(board, plan)
+    assert cells == {(500.0, 500.0)}
+
+    # a via may sit on its OWN net's pad, which is not a violation
+    plan["vias"] = [{"net": "A", "x": 300, "y": 300}]
+    plan["tracks"] = []
+    assert ec.via_violation_cells(board, plan) == set()
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

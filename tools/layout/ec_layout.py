@@ -36,6 +36,10 @@ HALO = [(dx, dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
 KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected")
 PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access vias
 VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
+VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
+VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
+VIA_HISTORY_BUMP = 6.0             # negotiator pressure on a bad via site
+VIA_SCORE_W = 3.0                  # weight of a bad via site in the pass score
 
 
 # ── model ────────────────────────────────────────────────────────────────────
@@ -450,7 +454,54 @@ def apply_placement(board, placed):
 
 
 # ── routing ──────────────────────────────────────────────────────────────────
-def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None):
+def _via_reach(radius=VIA_RADIUS, width=TRACE):
+    return int(math.ceil((radius + width / 2 + CLEARANCE) / GRID))
+
+
+def build_pad_via_block(board, radius=VIA_RADIUS, margin=VIA_BLOCK_MARGIN):
+    """Cells where a via would sit too close to a PAD of some net.
+
+    Maps cell -> set of nets that already own copper there.  A net may still
+    put a via on its OWN pad ring, so the check is "owner != me", not "occupied".
+    `margin` follows the same rule as `stamp_via_block`: routing only enforces
+    overlap, the KPI reports the rest.
+    """
+    block = defaultdict(set)
+    for net, pads in board.nets.items():
+        for p in pads:
+            pc = board.cell(p["x"], p["y"])
+            need = radius + max(p["w"], p["h"]) / 2 + margin
+            r = int(math.ceil(need / GRID))
+            for dx in range(-r, r + 1):
+                for dy in range(-r, r + 1):
+                    if math.hypot(dx, dy) * GRID > need:
+                        continue
+                    block[(pc[0] + dx, pc[1] + dy)].add(net)
+    return block
+
+
+def stamp_via_block(block, path, net, width, margin=VIA_BLOCK_MARGIN):
+    """Reserve the disc a via would need around every cell this path occupies.
+
+    `margin` decides how much of the clearance is enforced during routing.
+    Reserving the FULL clearance (VIA_RADIUS + w/2 + CLEARANCE) around every
+    track made the board unroutable (measured: unrouted 7 -> 15, because a via
+    then needs a 26 mil clear disc on four layers).  Reserving only the overlap
+    keeps true shorts out of the plan and leaves the remaining spacing to the
+    KPI, which reports it honestly.
+    """
+    need = VIA_RADIUS + width / 2 + margin
+    reach = int(math.ceil(need / GRID))
+    for cell in path:
+        for dx in range(-reach, reach + 1):
+            for dy in range(-reach, reach + 1):
+                if math.hypot(dx, dy) * GRID > need:
+                    continue
+                block.setdefault((cell[0] + dx, cell[1] + dy), set()).add(net)
+
+
+def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None,
+          via_block=None, net=None, via_cost=None):
     def h(c):
         return abs(c[0] - goal[0]) + abs(c[1] - goal[1])
 
@@ -458,6 +509,7 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
         layer_ok = set(range(1, layers + 1))
     if pref not in layer_ok:
         pref = min(layer_ok)
+    vcost = VIA_COST if via_cost is None else via_cost
     s = (start[0], start[1], pref)
     heap, came, best = [(h(s), 0.0, s)], {}, {s: 0.0}
     while heap:
@@ -489,9 +541,17 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
         for other in (l - 1, l + 1):
             if other not in layer_ok:
                 continue
+            dirty = 0.0
+            if via_block:
+                # A via needs a clear disc on every layer.  Price it: refusing the
+                # transition outright was measured at unrouted 7 -> 15, because a
+                # leg that simply must change layers then has nowhere to go.
+                owners = via_block.get((x, y))
+                if owners and any(o != net for o in owners):
+                    dirty = VIA_DIRTY_COST
             if (x, y) not in forbidden or (x, y) in allowed or (x, y) == goal:
                 nxt = (x, y, other)
-                ng = g + VIA_COST + cost.get(nxt, 0.0)
+                ng = g + vcost + dirty + cost.get(nxt, 0.0)
                 if ng < best.get(nxt, 1e18) - 1e-9:
                     best[nxt] = ng
                     came[nxt] = cur
@@ -602,7 +662,7 @@ def path_conflicts(board, path, routed, net, width):
     return False
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -627,8 +687,14 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in plane_nets],
                   key=lambda n: (net_priority(n), len(board.nets[n]), n))
     history = defaultdict(float)
+    # Via sites are reserved, not vetoed.  The base map is the pads' keep-out
+    # discs; it is rebuilt every pass and stamped with every accepted track, so
+    # an early net's corridor also reserves the places a later net may not put a
+    # via.  Refusing only the TRANSITION keeps long legs routable.
+    via_base = build_pad_via_block(board) if via_sites else None
     best = None
     for it in range(iters):
+        via_block = {k: set(v) for k, v in via_base.items()} if via_base else None
         used = defaultdict(set)
         halo = defaultdict(set)
         routed, failures = {}, []
@@ -693,7 +759,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             if (owners and net in owners) or ring_owner == net:
                                 allowed.add((gx, gy))
                 path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
-                             cost, pref, allowed, layers, layer_ok=layer_ok)
+                             cost, pref, allowed, layers, layer_ok=layer_ok,
+                             via_block=via_block, net=net, via_cost=via_cost)
                 if path and segment_check and (
                         path_conflicts(board, path, routed, net, route_width(net))
                         or (via_check and via_conflicts(board, path, used, pad_forbid, net, route_width(net)))):
@@ -706,6 +773,10 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     failures.append({"net": net, "a": f"{a['des']}.{a['pad']}", "b": f"{b['des']}.{b['pad']}"})
                     continue
                 routed.setdefault(net, []).append(path)
+                if via_block is not None:
+                    # Reserve the via discs this path has consumed so the next
+                    # nets change layers somewhere else instead of on top of it.
+                    stamp_via_block(via_block, path, net, route_width(net))
                 for (x, y, ll) in path:
                     used[(x, y, ll)].add(net)
                     for dx, dy in HALO:
@@ -734,6 +805,18 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         history[(x, y)] += 1.0
                         spacing_bumps += 1
         score = (len(failures), pass_congestion + len(pairs))
+        if via_negotiate:
+            # Via spacing joins the SAME negotiator the router already uses for
+            # congestion and track spacing: the cells that ended up with a bad via
+            # become expensive, so the next pass changes layers somewhere else.
+            # This is the only one of the four via strategies that does not cost
+            # dead legs (reservation 7->15, path veto 7->33, dirty penalty 7->15).
+            bad_via = via_violation_cells(board, plan_pass) if routed else set()
+            for (bx, by) in bad_via:
+                history[(bx, by)] += VIA_HISTORY_BUMP
+                for layer in range(1, 5):
+                    history[(bx, by, layer)] += VIA_HISTORY_BUMP
+            score = (len(failures), pass_congestion + len(pairs) + len(bad_via) * VIA_SCORE_W)
         if best is None or score < best[0]:
             # keep the CONGESTION itself (not the composite score) so the reported
             # router_congestion is comparable with the plan recount
@@ -982,6 +1065,30 @@ def connectivity(board, routed):
         if len(roots) > 1:
             bad.append(net)
     return bad
+
+
+def via_violation_cells(board, plan, radius=VIA_RADIUS):
+    """Cells of vias that are too close to another net's copper.
+
+    Returned as cells (not a count) because the negotiator needs to know WHERE
+    to raise the cost; a count alone was how this stayed invisible.
+    """
+    cells = set()
+    for v in plan.get("vias") or []:
+        vx, vy, vn = v["x"], v["y"], v["net"]
+        need_t = radius + CLEARANCE
+        for t in plan.get("tracks") or []:
+            if t["net"] != vn and seg_seg(vx, vy, vx, vy, t["x1"], t["y1"],
+                                          t["x2"], t["y2"]) < need_t + t["width"] / 2 - 0.5:
+                cells.add((vx, vy))
+                break
+        else:
+            for pads in board.nets.values():
+                if any(p["net"] != vn and math.hypot(p["x"] - vx, p["y"] - vy) <
+                       radius + max(p["w"], p["h"]) / 2 + CLEARANCE - 0.5 for p in pads):
+                    cells.add((vx, vy))
+                    break
+    return cells
 
 
 def clearance_violations(board, plan):
@@ -1849,6 +1956,12 @@ def main():
                    help="inner layer the plane occupies; other nets are kept off it")
     r.add_argument("--via-check", dest="via_check", action="store_true",
                    help="reject paths whose vias overlap other copper (measured worse: unrouted 7 -> 25)")
+    r.add_argument("--via-sites", dest="via_sites", action="store_true",
+                   help="reserve via sites and price dirty layer transitions")
+    r.add_argument("--via-cost", dest="via_cost", type=float,
+                   help="cost of one layer change (default %g); higher = fewer vias" % VIA_COST)
+    r.add_argument("--via-negotiate", dest="via_negotiate", action="store_true",
+                   help="feed bad via sites into the router's history negotiator")
 
     q = sub.add_parser("report")
     q.add_argument("dump")
@@ -1885,7 +1998,10 @@ def main():
                                                        getattr(a, "spacing_hard", False),
                                                        plane_nets=frozenset(a.plane_nets),
                                                        plane_layer=a.plane_layer,
-                                                       via_check=a.via_check)
+                                                       via_check=a.via_check,
+                                                       via_sites=a.via_sites,
+                                                       via_cost=a.via_cost,
+                                                       via_negotiate=a.via_negotiate)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)
