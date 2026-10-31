@@ -97,11 +97,21 @@ func TestSchPlace_WiresDesignator(t *testing.T) {
 
 	cap.mu.Lock()
 	defer cap.mu.Unlock()
-	if cap.action != "schematic.component.place" {
-		t.Fatalf("expected action schematic.component.place, got %q", cap.action)
+	// place now verifies the landed designator (default on) and therefore issues
+	// a follow-up components.list read, so assert the place action happened
+	// rather than that it happened LAST.
+	placeAt := -1
+	for i, a := range cap.actions {
+		if a == "schematic.component.place" {
+			placeAt = i
+			break
+		}
 	}
-	if cap.payload["designator"] != "R12" {
-		t.Errorf("designator: got %v, want R12", cap.payload["designator"])
+	if placeAt < 0 {
+		t.Fatalf("expected a schematic.component.place action, got %v", cap.actions)
+	}
+	if got := cap.payloads[placeAt]["designator"]; got != "R12" {
+		t.Errorf("designator: got %v, want R12", got)
 	}
 }
 

@@ -16,7 +16,8 @@ import (
 var schAttributeStateFields = []string{"primitiveId", "X", "Y", "Rotation", "Color", "FontName", "FontSize", "Bold", "Italic", "UnderLine", "AlignMode", "FillColor", "Key", "Value", "KeyVisible", "ValueVisible", "ParentPrimitiveId"}
 
 func newSchAttributeMoveCmd(cfg *appConfig, window *string, stdout, stderr io.Writer) *cobra.Command {
-	var from string
+	var from, designator, anchor string
+	var anchorDX, anchorDY float64
 	cmd := &cobra.Command{
 		Use: "attribute-move --from <move.json>", Short: "Move one bound Name/Designator attribute using x/y only",
 		Long: `Move one existing placed part's Name or Designator attribute. The JSON file
@@ -33,7 +34,17 @@ does not prove visual clearance or persistence.`,
 		Args:    cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(from) == "" {
-				return fmt.Errorf("--from is required")
+				if strings.TrimSpace(designator) == "" {
+					return fmt.Errorf("either --from or --designator is required")
+				}
+				payload, err := designatorMovePayload(cfg, *window, designator, anchor, anchorDX, anchorDY)
+				if err != nil {
+					return err
+				}
+				if err := validateSchAttributeMovePayload(payload); err != nil {
+					return err
+				}
+				return dispatch(cfg, "schematic.attribute.move", *window, payload, stdout, stderr)
 			}
 			data, err := os.ReadFile(from)
 			if err != nil {
@@ -50,6 +61,10 @@ does not prove visual clearance or persistence.`,
 		},
 	}
 	cmd.Flags().StringVar(&from, "from", "", "JSON parameter file with exact project/document/attribute identity, complete expected state, and x/y")
+	cmd.Flags().StringVar(&designator, "designator", "", "move this part's reference text, building the payload from live geometry (alternative to --from)")
+	cmd.Flags().StringVar(&anchor, "anchor", "below", "text placement relative to the part body: below|above|left|right")
+	cmd.Flags().Float64Var(&anchorDX, "dx", 0, "extra X offset applied to the chosen anchor")
+	cmd.Flags().Float64Var(&anchorDY, "dy", 0, "extra Y offset applied to the chosen anchor")
 	return cmd
 }
 

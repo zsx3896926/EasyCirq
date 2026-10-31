@@ -110,7 +110,7 @@ func TestPcbCheckCoverageStrictExit(t *testing.T) {
 		{"missing component inventory", map[string]any{}, false},
 		{"missing pad inventory", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1"}}}, false},
 		{"explicit failed inventory with retained pad", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1", "pads": []any{}, "availability": map[string]any{"pads": "unavailable"}, "captureErrors": map[string]any{"pads": map[string]any{"code": "getter-threw", "message": "injected inventory failure"}}}}}, false},
-		{"unsupported source shape", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1", "pads": []any{map[string]any{"primitiveId": "p1", "padNumber": "1", "net": "N1", "layer": 1, "x": 0, "y": 0, "rotation": 0, "shape": []any{"POLYGON", []any{0, 0, 10, 0, 10, 10}}, "specialPad": nil}}}}}, false},
+		{"unsupported source shape", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1", "pads": []any{map[string]any{"primitiveId": "p1", "padNumber": "1", "net": "N1", "layer": 1, "x": 0, "y": 0, "rotation": 0, "shape": []any{"TRAPEZOID", 10}, "specialPad": nil}}}}}, false},
 		{"legacy extent only", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1", "pads": []any{map[string]any{"primitiveId": "p1", "padNumber": "1", "net": "N1", "layer": 1, "x": 0, "y": 0, "width": 10, "height": 10}}}}}, false},
 		{"special getter unavailable cannot use base shape", map[string]any{"components": []any{map[string]any{"primitiveId": "c1", "designator": "J1", "pads": []any{map[string]any{"primitiveId": "p1", "padNumber": "1", "net": "N1", "layer": 1, "x": 0, "y": 0, "shape": []any{"RECT", 10, 10, 0}, "width": 10, "height": 10, "availability": map[string]any{"shape": "available", "specialPad": "unavailable"}, "captureErrors": map[string]any{"specialPad": map[string]any{"code": "getter-threw", "message": "injected special failure"}}}}}}}, false},
 	} {
@@ -211,3 +211,4 @@ func TestPcbPlanningPadsRejectPartialInventoryAndPose(t *testing.T) {
 		})
 	}
 }
+
