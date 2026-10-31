@@ -1,0 +1,80 @@
+# Open decisions (and what each one unlocks)
+
+The toolchain is at a point where four questions need an engineering decision, not
+more tuning. Each entry says what is known, what the options are, and what the next
+agent should do once the decision lands. Numbers are on `HANDOFF.md` §34–§37.
+
+---
+
+## D1. Stackup: is RetroCam-02 2-layer or 4-layer?  **BLOCKING**
+
+The dump says `copperLayers: 2`; every routing result in this repo assumes 4.
+
+| option | consequence |
+|---|---|
+| change the board to 4 layers | all current results become applicable; clearance 290 is the main target |
+| keep 2 layers | measured: 7–10 nets left open, GND pour cut into 2 islands, +6 % length |
+
+Until now: `plan_lint` blocks a 4-layer plan on a 2-layer board, and the only way
+past it is `--stackup 4`, which is written into `manifest.json` so the assumption
+travels with the bundle.
+
+**Next agent:** if the answer is 4 layers, re-run everything and delete the override
+from the standard command (it should stop being needed). If it is 2 layers, the
+placement has to be redone under 2-layer congestion before any routing number means
+anything.
+
+---
+
+## D2. Pour strategy: shared layer vs exclusive layer
+
+Measured (4 layers, board rules):
+
+| configuration | clearance | unrouted | pour islands |
+|---|---|---|---|
+| pours share their layers (default) | 290 | **0** | **1** (fail) |
+| pour layers exclusive (`--pour-exclusive`) | **153** | 4 | **0** |
+| GND exclusive, no +3V3 pour | 334 | 1 | **0** |
+
+3161 mil of track sits on the GND pour layer across 11 nets, so "a few short
+crossings" is not the situation - the layer is used as a routing layer.
+
+**Decision needed:** either accept a split ground plane (and prove the return path
+elsewhere), or pay capacity for a whole pour, or move to 6 layers.
+
+---
+
+## D3. Bus skew: a pinout problem, not a router problem
+
+`bus_capacity.py` shows the two ends of every bus disagree on order —
+CAM ρ = −0.21 / −0.37, LCD ρ = 0.70 — so a parallel lane bundle cannot exist.
+Post-hoc meanders cannot close a 713 mil gap either: at 80 mil amplitude one bump
+adds 37.8 mil, needing ~6080 mil of straight host on a 2756 mil board.
+
+**Decision needed:** accept the skew, change the pin assignment/footprint, or add
+layers. The gate will keep reporting it as a design conflict (`reproduce.py`
+classifies it that way) rather than as unfinished work.
+
+---
+
+## D4. Delivery: what does "one-shot apply" mean here?
+
+`emit_apply.py` refuses while the KPI gate is red, and writes
+`apply-plan.json` + `manifest.json` + `APPLY.md` when it is green. Nothing in this
+repo has ever been written to a live board.
+
+**Decision needed:** when a green plan exists, who runs the apply, on which copy of
+the project, and what is the rollback if the read-back DRC disagrees?
+
+---
+
+## Recorded defaults (do not silently change)
+
+| constant | value | why |
+|---|---|---|
+| `CLEARANCE` | 6.0 mil | the board's own `clearanceMil` is 5.98 |
+| `VIA_RADIUS` | 12.01 mil | the board's `viaDiameterMil` is 24.02; using 10 understated violations by half |
+| `TRACE` / `BUS_TRACE` | 7.0 / 6.0 mil | board default 10, minimum 5; thinner is legal and buys fan-out room |
+| `NET_ORDER` | small-first | measured better than big-first and region-first |
+| `VIA_COST` | 14 | 20 buys 48 fewer violations but one more open net; the gate ranks open nets first |
+| `BEST_EFFORT_MAX_CONFLICTS` | 2 | an open net is worse than a spacing violation, an overlap is not |
