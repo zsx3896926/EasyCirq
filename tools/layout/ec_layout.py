@@ -46,7 +46,8 @@ PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access 
 VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 VIA_DIRTY_COST = 400.0             # cost of changing layers where the disc is not clear
 VIA_BLOCK_MARGIN = 1.0             # mil of extra room a reserved via disc keeps
-POUR_CLEARANCE = 8.0               # mil a pour keeps from other nets' copper
+POUR_CLEARANCE = 8.0
+RETRY_ROUNDS = 3                   # how many corridors a rejected leg may try               # mil a pour keeps from other nets' copper
 VIA_HISTORY_BUMP = 6.0             # negotiator pressure on a bad via site
 VIA_SCORE_W = 3.0                  # weight of a bad via site in the pass score
 
@@ -1056,24 +1057,45 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                         return None
                     return cand
 
+                def _raw(extra):
+                    cand = None
+                    if via_first:
+                        cand = plan_via_first_leg(
+                            board, a, b, net, pad_sites, layer_ok, pad_forbid, cost, allowed,
+                            layers, mid_hint=pref,
+                            blocked=blocked_by_net.get(net, set()) | set(extra))
+                    if cand is None and via_plan:
+                        cand = plan_via_leg(board, a, b, sc, gc, net, layer_ok,
+                                            pad_forbid, used, history, layers,
+                                            cost, allowed)
+                    if cand is None:
+                        # A planned-via leg that breaks spacing falls back to the free
+                        # 3D search instead of dying: without this the planned legs
+                        # were rejected outright and unrouted went 10 -> 48.
+                        cand = astar(board, sc, gc,
+                                     forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)}
+                                     | blocked_by_net.get(net, set()) | set(extra),
+                                     cost, pref, allowed, layers, layer_ok=layer_ok,
+                                     via_block=via_block, net=net, via_cost=via_cost,
+                                     start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
+                                     goal_layers=_pad_layers(b, layer_ok))
+                    return cand
+
                 path = None
-                if via_first:
-                    path = _accept(plan_via_first_leg(
-                        board, a, b, net, pad_sites, layer_ok, pad_forbid, cost, allowed,
-                        layers, mid_hint=pref, blocked=blocked_by_net.get(net, set())))
-                if path is None and via_plan:
-                    path = _accept(plan_via_leg(board, a, b, sc, gc, net, layer_ok,
-                                                pad_forbid, used, history, layers,
-                                                cost, allowed))
-                if path is None:
-                    # A planned-via leg that breaks spacing falls back to the free
-                    # 3D search instead of dying: without this the planned legs
-                    # were rejected outright and unrouted went 10 -> 48.
-                    path = _accept(astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)} | blocked_by_net.get(net, set()),
-                                         cost, pref, allowed, layers, layer_ok=layer_ok,
-                                         via_block=via_block, net=net, via_cost=via_cost,
-                                         start_layer=(min(_pad_layers(a, layer_ok)) if _pad_layers(a, layer_ok) else None),
-                                         goal_layers=_pad_layers(b, layer_ok)))
+                extra = set()
+                # A leg whose first shortest path breaks spacing is NOT hopeless:
+                # FB is 71 mil pad-to-pad and routes fine on its own, but the first
+                # A* answer always ran through a neighbour. Blocking that corridor
+                # and asking again finds the detour; without the retry the leg just
+                # died.
+                for _attempt in range(RETRY_ROUNDS):
+                    cand = _raw(extra)
+                    if not cand:
+                        break
+                    path = _accept(cand)
+                    if path:
+                        break
+                    extra |= {c[:2] for c in cand}
                 if not path:
                     failures.append({"net": net, "a": f"{a['des']}.{a['pad']}", "b": f"{b['des']}.{b['pad']}"})
                     continue
@@ -2547,6 +2569,9 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 
 
