@@ -10,13 +10,16 @@ snapshot and JSON files; nothing here needs a daemon or an editor write — and
 ```bash
 # reproduce the current frontier in one command (11-row scorecard + gate verdict)
 python tools/layout/reproduce.py --dump dump.json --place placed.json --out-dir out/
-#   --profile shared-pour | exclusive-pour | two-layer   (see DECISIONS.md)
+#   --profile shared-pour | exclusive-pour | two-layer | trim-pour   (see DECISIONS.md)
 
 # or step by step
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
 python tools/layout/ec_layout.py route  dump.json --place placed.json \
        --iters 40 --layers 4 --pour GND:4 --pour +3V3:3 --out plan.json
 python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json
+
+# split the clearance KPI into kinds and deficits (what to work on next)
+python tools/layout/spacing_audit.py --dump dump.json --place placed.json --out-dir out/
 
 # compare profiles and mark which are non-dominated
 python tools/layout/compare.py --dump dump.json --place placed.json --profiles shared-pour,exclusive-pour
@@ -35,7 +38,7 @@ python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump.json --ou
 | `unrouted_legs` | MST edges A* could not complete | 0 |
 | `congestion_cells` | (x, y, layer) cells claimed by two nets | 0 |
 | `nets_unconnected` | nets whose pads do not form one component | 0 |
-| `clearance_violations` | track/track **and via/track and via/pad** pairs too close | 0 |
+| `clearance_violations` | track/track, via/track, via/pad **and track/pad** pairs too close (sum of `clearance_breakdown`) | 0 |
 | `pad_layer_gaps` | pads whose copper is on the wrong layer with no via nearby | 0 |
 | `pour_islands` | pour access vias landing in different copper islands | 0 |
 | `vias` | layer changes (access / in-pad reported separately) | minimise |
@@ -49,21 +52,34 @@ to the board. Several earlier versions had router and checker disagreeing (40 vs
 
 ## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
 
+`reproduce.py --profile shared-pour` (all numbers re-measured after the clearance
+KPI started counting track/pad — see HANDOFF §41):
+
 ```
-unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 0
-clearance 121 | vias 178 (59 access, 6 in-pad) | 537 segments
-total length 37114 mil | 45-degree share 0.410
-bus skew: CAM_D 713 / LCD_ 165 / SD_ 298 mil
+unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 1
+clearance 515 = 5 track/track + 177 via/track + 108 via/pad + 225 track/pad
+vias 186 (59 access, 7 in-pad) | 526 segments | total length 38832 mil | 45-degree 0.408
+bus skew: CAM_D 713.1 / LCD_ 165.3 / SD_ 297.6 mil
 ```
 
-Five of the six gate items are zero. The two that are not:
+Four of the six gate items are zero. The three that are not:
 
-1. **clearance 121** — 68 of 178 vias sit too close to other copper (via-track and
-   via-pad); the router decides layer changes during the A* search, and every
-   attempt to steer that decision (veto, reserve, pre-plan, price in the search,
-   post-hoc relocation) either loses legs or makes spacing worse. Only post-hoc
-   relocation of *routing* vias helps (−5).
-2. **bus skew** — not an implementation gap: `bus_capacity.py` shows the pin order
+1. **clearance 515** — 285 of them are "a via too close to someone else's copper"
+   and 225 are "a track too close to someone else's pad". Deficit statistics say
+   these are near misses, not blunders: via/track is off by 4.5 mil on average
+   (min 0.5), track/pad by 11.4. They are the recorded trade of routing with an
+   overlap-only veto (enforcing full via clearance during the search cost
+   unrouted 7 → 33). Every attempt to steer the layer-change decision (veto,
+   reserve, pre-plan, price in the search, via-first, post-hoc relocation) either
+   loses legs or makes spacing worse; only post-hoc relocation of *routing* vias
+   helps (−5).
+2. **pour islands 1** — a long run on the ground pour layer cuts it in two. The
+   `--pour-trim` escape (re-route long crossings off the pour layer) was measured
+   to buy its zero islands with 130 track/track violations; with a spacing guard
+   it becomes a no-op, i.e. identical to `shared-pour`. Closing this needs a
+   layer-aware legal re-route (HANDOFF §41.7) or the D2 decision (cut ground vs
+   open legs).
+3. **bus skew** — not an implementation gap: `bus_capacity.py` shows the pin order
    of the two ends is uncorrelated (CAM ρ = −0.21 / −0.37, LCD ρ = 0.70), so a
    parallel lane bundle cannot exist. Closing it needs a pinout/stackup decision,
    and the post-hoc meander route is arithmetically impossible (§27 of HANDOFF).
@@ -75,8 +91,14 @@ Five of the six gate items are zero. The two that are not:
 * **A pour is not a plane.** Reserving a whole layer for GND cost more signal
   capacity than the 41 GND legs it removed; an area pour that shares the layer wins
   (unrouted 10 → 4 before later gains).
+* **"Zero islands" was bought with spacing.** The pour trim only avoided *cells*
+  another net owned, so its re-routes hugged neighbours at one grid step; with a
+  spacing guard it trims nothing. A KPI can be satisfied by moving the damage to a
+  KPI nobody measures — which is exactly why `track/pad` was added to the gate.
 * **`check` never passes a KPI it could not measure** — unmeasured prints `null`
   and fails the gate.
+* **The comparison cache is keyed on the metric code**, not only on the inputs, so
+  changing a KPI definition cannot silently compare new code against old numbers.
 * **Two vias in one cell is a short**, not a spacing nit; it is a hard invariant even
   when "best effort" routing accepts spacing violations.
 

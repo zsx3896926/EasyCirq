@@ -33,8 +33,22 @@ def _fingerprint(path):
     return "%s:%d:%d" % (os.path.basename(path), st.st_size, int(st.st_mtime))
 
 
+def _metric_version():
+    """Fingerprint the code that DEFINES the KPIs, not just the inputs.
+
+    The cache key used to be (profile, dump, placement) only, so changing what
+    `clearance_violations` counts — which happened (track/pad was added) — would
+    have served last version's numbers from the cache and compared new code
+    against old results.  Any edit to the metric module or the profile presets
+    now invalidates the whole cache by construction.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    return "|".join(_fingerprint(os.path.join(here, n))
+                    for n in ("ec_layout.py", "reproduce.py"))
+
+
 def _cache_key(profile, dump, place):
-    raw = "|".join([profile, _fingerprint(dump), _fingerprint(place)])
+    raw = "|".join([profile, _fingerprint(dump), _fingerprint(place), _metric_version()])
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 

@@ -1802,6 +1802,19 @@ def trim_pour_crossings(board, routed, pour_layers, limit_cells=30, layers=4):
             new_paths.append(path)
         if not ok or not new_paths:
             continue
+        # Trimming must not pay for the pour with spacing.  The re-route above only
+        # avoids CELLS another net owns (overlap), so a trimmed path could hug a
+        # neighbour at one grid step: measured 130 track/track hits on the trimmed
+        # profile against 5 without the trim.  Accept the new path only when it is
+        # no closer to foreign copper than the one it replaces.
+        others = {n: ps for n, ps in routed.items() if n not in (net, PLANE_VIA_KEY)}
+        width = route_width(net)
+        bad_old = sum(path_conflicts(board, p, others, net, width, count=True)
+                      for p in routed[net])
+        bad_new = sum(path_conflicts(board, p, others, net, width, count=True)
+                      for p in new_paths)
+        if bad_new > bad_old:
+            continue
         routed[net] = new_paths
         trimmed += 1
         removed += cells * GRID
@@ -2032,35 +2045,112 @@ def relocate_pour_vias(board, routed, max_step=5, rounds=3):
 
 
 def clearance_violations(board, plan):
-    segs = [(t["net"], t["width"], t["layer"], t["x1"], t["y1"], t["x2"], t["y2"]) for t in plan["tracks"]]
-    bad = 0
-    for i in range(len(segs)):
-        n1, w1, l1, ax, ay, bx, by = segs[i]
-        for j in range(i + 1, len(segs)):
-            n2, w2, l2, cx, cy, dx, dy = segs[j]
-            if n1 == n2 or l1 != l2:
+    """Total number of copper pairs closer than the board's clearance rule.
+
+    Vias are through-holes: their annular ring is copper on EVERY layer, so a
+    via must clear other nets' tracks on all four layers and their pads too.
+    Without this the plane model could add 40 vias for free.
+
+    This deliberately delegates to `clearance_breakdown` so the gate and the
+    diagnosis can never drift apart (they were separate implementations twice in
+    this file's history, and twice they disagreed).  `track_pad` is included:
+    a track laid across another net's pad is a DRC error even though no other
+    track is nearby, and the gate used to be blind to it (measured: 245 of them
+    on the trimmed-pour frontier, invisibly).
+    """
+    return clearance_breakdown(board, plan, sample_limit=0)["total"]
+
+
+def clearance_breakdown(board, plan, sample_limit=25):
+    """Classify every clearance hit instead of only counting them.
+
+    A single `clearance_violations` number cannot be acted on: "the router can
+    still yield here" and "no copper geometry can satisfy this" look identical.
+    This returns counts per kind plus a few samples, and it also checks
+    track-versus-pad, which `clearance_violations` historically ignored.
+
+    kinds
+        track_track  two different nets' tracks too close on the same layer
+        via_track    a via's annular ring too close to another net's track
+        via_pad      a via too close to another net's pad
+        track_pad    a track too close to another net's pad on a layer the pad
+                     is actually plated on (through-hole pads are on all layers)
+    """
+    kinds = defaultdict(int)
+    samples = []
+
+    def note(kind, net_a, net_b, dist, need, x, y, **extra):
+        kinds[kind] += 1
+        if len(samples) < sample_limit:
+            s = {"kind": kind, "net": net_a, "other": net_b,
+                 "dist": round(dist, 2), "need": round(need, 2),
+                 "x": round(x, 1), "y": round(y, 1)}
+            s.update(extra)
+            samples.append(s)
+
+    tracks = plan.get("tracks") or []
+    for i in range(len(tracks)):
+        a = tracks[i]
+        for j in range(i + 1, len(tracks)):
+            b = tracks[j]
+            if a["net"] == b["net"] or a["layer"] != b["layer"]:
                 continue
-            if seg_seg(ax, ay, bx, by, cx, cy, dx, dy) < (w1 + w2) / 2 + CLEARANCE - 0.5:
-                bad += 1
-    # Vias are through-holes: their annular ring is copper on EVERY layer, so a
-    # via must clear other nets' tracks on all four layers and their pads too.
-    # Without this the plane model could add 40 vias for free.
+            d = seg_seg(a["x1"], a["y1"], a["x2"], a["y2"],
+                        b["x1"], b["y1"], b["x2"], b["y2"])
+            need = (a["width"] + b["width"]) / 2 + CLEARANCE - 0.5
+            if d < need:
+                note("track_track", a["net"], b["net"], d, need,
+                     (a["x1"] + b["x1"]) / 2, (a["y1"] + b["y1"]) / 2,
+                     layer=a["layer"])
+
     for v in plan.get("vias") or []:
         vx, vy, vn = v["x"], v["y"], v["net"]
-        for t in plan.get("tracks") or []:
+        for t in tracks:
             if t["net"] == vn:
                 continue
-            if seg_seg(vx, vy, vx, vy, t["x1"], t["y1"], t["x2"], t["y2"]) < \
-                    VIA_RADIUS + t["width"] / 2 + CLEARANCE - 0.5:
-                bad += 1
+            d = seg_seg(vx, vy, vx, vy, t["x1"], t["y1"], t["x2"], t["y2"])
+            need = VIA_RADIUS + t["width"] / 2 + CLEARANCE - 0.5
+            if d < need:
+                note("via_track", vn, t["net"], d, need, vx, vy,
+                     in_pad=bool(v.get("in_pad")), plane=bool(v.get("plane_layer")))
         for pads in board.nets.values():
             for p in pads:
                 if p["net"] == vn:
                     continue
-                if math.hypot(p["x"] - vx, p["y"] - vy) < \
-                        VIA_RADIUS + max(p["w"], p["h"]) / 2 + CLEARANCE - 0.5:
-                    bad += 1
-    return bad
+                d = math.hypot(p["x"] - vx, p["y"] - vy)
+                need = VIA_RADIUS + max(p["w"], p["h"]) / 2 + CLEARANCE - 0.5
+                if d < need:
+                    note("via_pad", vn, p["net"], d, need, vx, vy,
+                         pad="%s.%s" % (p.get("des"), p.get("pad")),
+                         in_pad=bool(v.get("in_pad")),
+                         plane=bool(v.get("plane_layer")))
+
+    all_pads = [p for pads in board.nets.values() for p in pads]
+    for t in tracks:
+        tx0, tx1 = min(t["x1"], t["x2"]), max(t["x1"], t["x2"])
+        ty0, ty1 = min(t["y1"], t["y2"]), max(t["y1"], t["y2"])
+        for p in all_pads:
+            if p["net"] == t["net"]:
+                continue
+            lay = int(p.get("layer") or 1)
+            if lay != 12 and lay != t["layer"]:      # 12 == through-hole
+                continue
+            need = t["width"] / 2 + max(p["w"], p["h"]) / 2 + CLEARANCE - 0.5
+            # put the pad on a box of its own size and reject the pair before any
+            # segment maths: this loop is tracks x pads on a 2000x1500 mil board.
+            hw = max(p["w"], p["h"]) / 2.0
+            if (p["x"] + hw + need < tx0 or tx1 + need < p["x"] - hw
+                    or p["y"] + hw + need < ty0 or ty1 + need < p["y"] - hw):
+                continue
+            d = seg_seg(t["x1"], t["y1"], t["x2"], t["y2"],
+                        p["x"], p["y"], p["x"], p["y"])
+            if d < need:
+                note("track_pad", t["net"], p["net"], d, need,
+                     (t["x1"] + t["x2"]) / 2.0, (t["y1"] + t["y2"]) / 2.0,
+                     pad="%s.%s" % (p.get("des"), p.get("pad")), layer=t["layer"])
+
+    return {"counts": dict(kinds), "total": sum(kinds.values()),
+            "samples": samples}
 
 
 def connectivity_from_plan(board, plan, tol=GRID * 1.5):

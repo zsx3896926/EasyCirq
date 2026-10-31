@@ -373,6 +373,31 @@ def test_compare_marks_the_dominated_profile():
     assert "**yes**" in text and front == ["better"]
 
 
+def test_compare_cache_key_changes_when_the_metric_changes(tmp_path):
+    """A cache keyed only on (profile, dump, placement) would replay yesterday's
+    numbers after the KPI definition changed - exactly what happened when
+    track/pad was added to the clearance count."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("compare", MOD_PATH.parent / "compare.py")
+    cmp_mod = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(cmp_mod)
+
+    dump = tmp_path / "dump.json"
+    place = tmp_path / "place.json"
+    dump.write_text("{}", encoding="utf-8")
+    place.write_text("{}", encoding="utf-8")
+
+    before = cmp_mod._cache_key("trim-pour", str(dump), str(place))
+    real = cmp_mod._metric_version
+    try:
+        cmp_mod._metric_version = lambda: real() + "|changed"
+        after = cmp_mod._cache_key("trim-pour", str(dump), str(place))
+    finally:
+        cmp_mod._metric_version = real
+    assert before != after
+    assert cmp_mod._cache_key("trim-pour", str(dump), str(place)) == before  # stable
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [
@@ -482,4 +507,109 @@ def test_via_counts_as_copper_on_every_layer():
 
     plan["tracks"][0]["y1"] = plan["tracks"][0]["y2"] = 700   # now 200 mil away
     assert ec.clearance_violations(board, plan) == 0
+
+
+# ── clearance breakdown: which kind of hit is it? ────────────────────────────
+def test_clearance_breakdown_names_track_track():
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
+    plan = {"tracks": [
+        {"net": "A", "layer": 1, "width": 8, "x1": 300, "y1": 300, "x2": 800, "y2": 300},
+        {"net": "B", "layer": 1, "width": 8, "x1": 300, "y1": 302, "x2": 800, "y2": 302},
+    ], "vias": []}
+    br = ec.clearance_breakdown(board, plan)
+    # B's track also passes right over A's pad, so the breakdown reports both the
+    # track/track pair and the track/pad pair: the KPI is the sum of kinds.
+    assert br["counts"] == {"track_track": 1, "track_pad": 1}
+    assert br["total"] == 2 == ec.clearance_violations(board, plan)
+    assert br["samples"][0]["kind"] == "track_track"
+    assert br["samples"][0]["need"] == pytest.approx(13.5, abs=1e-6)
+
+
+def test_clearance_breakdown_separates_via_over_pad_from_via_over_track():
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)]),
+                        comp("R2", 900, 300, [("1", "B", 900, 300)])])
+    # via of A close to B's pad, nothing else near
+    plan = {"tracks": [], "vias": [{"net": "A", "x": 900, "y": 315}]}
+    br = ec.clearance_breakdown(board, plan)
+    assert br["counts"].get("via_pad") == 1
+    assert br["counts"].get("via_track", 0) == 0
+
+    # same via, but now a track of B runs 15 mil away on another layer
+    plan = {"tracks": [{"net": "B", "layer": 3, "width": 7,
+                        "x1": 870, "y1": 385, "x2": 930, "y2": 385}],
+            "vias": [{"net": "A", "x": 900, "y": 400}]}
+    br = ec.clearance_breakdown(board, plan)
+    assert br["counts"].get("via_track") == 1
+    assert br["counts"].get("via_pad", 0) == 0
+
+
+def test_clearance_breakdown_also_checks_track_over_pad():
+    """The gate used to count track/track, via/track and via/pad only, so a track
+    laid straight across another net's pad scored zero.  It is now a real
+    violation in the KPI (`track_pad`), and the breakdown names it."""
+    board = make_board([comp("R1", 200, 300, [("1", "A", 200, 300)]),
+                        comp("R2", 400, 300, [("1", "B", 400, 300)])])
+    plan = {"tracks": [{"net": "A", "layer": 1, "width": 8,
+                        "x1": 200, "y1": 300, "x2": 600, "y2": 300}], "vias": []}
+    br = ec.clearance_breakdown(board, plan)
+    assert br["counts"].get("track_pad") == 1
+    assert ec.clearance_violations(board, plan) == 1   # counted by the gate
+
+    # the same pad is not in the way on a layer it is not plated on
+    plan["tracks"][0]["layer"] = 2
+    assert ec.clearance_breakdown(board, plan)["counts"].get("track_pad", 0) == 0
+    assert ec.clearance_violations(board, plan) == 0
+
+
+def test_clearance_breakdown_treats_through_hole_pads_as_every_layer():
+    board = ec.Board({"result": {"components": [
+        {"designator": "J1", "x": 400, "y": 300, "rotation": 0,
+         "bbox": {"minX": 350, "minY": 250, "maxX": 450, "maxY": 350},
+         "pads": [{"padNumber": "1", "net": "B", "x": 400, "y": 300,
+                   "width": 20, "height": 20, "layer": 12}]},
+    ], "outline": {"bbox": {"minX": 0, "minY": 0, "maxX": 2000, "maxY": 1500}}}})
+    plan = {"tracks": [{"net": "A", "layer": 4, "width": 8,
+                        "x1": 380, "y1": 300, "x2": 420, "y2": 300}], "vias": []}
+    assert ec.clearance_breakdown(board, plan)["counts"].get("track_pad") == 1
+
+
+# ── pour trim must not buy islands with spacing ──────────────────────────────
+def _trim_fixture():
+    board = make_board([comp("U1", 300, 300, [("1", "A", 300, 300),
+                                              ("2", "A", 1500, 300),
+                                              ("3", "A", 900, 700)])])
+    routed = {"A": [[(30, 30, 4), (150, 30, 4)]]}      # long run on the pour layer
+    return board, routed
+
+
+def test_trim_refuses_a_reroute_that_costs_more_spacing(monkeypatch):
+    """The trimmed re-route only avoids cells another net owns, so it used to be
+    allowed to hug a neighbour: 130 track/track violations against 5 without the
+    trim.  When the new path is closer to foreign copper, the old one stays."""
+    board, routed = _trim_fixture()
+    old = routed["A"]
+
+    calls = {"n": 0}
+
+    def fake(_b, _path, _others, _net, _width, count=False):
+        calls["n"] += 1
+        return 0 if calls["n"] == 1 else 3         # old path clean, new paths dirty
+
+    monkeypatch.setattr(ec, "path_conflicts", fake)
+    trimmed, _removed = ec.trim_pour_crossings(board, routed, {4}, limit_cells=1, layers=4)
+    assert trimmed == 0
+    assert routed["A"] is old, "the pour must not be bought with a spacing violation"
+
+
+def test_trim_still_takes_a_reroute_that_is_clean(monkeypatch):
+    board, routed = _trim_fixture()
+    old = routed["A"]
+    monkeypatch.setattr(ec, "path_conflicts",
+                        lambda *_a, **_kw: 0)
+    trimmed, removed = ec.trim_pour_crossings(board, routed, {4}, limit_cells=1, layers=4)
+    assert trimmed == 1
+    assert routed["A"] is not old
+    assert removed > 0
+
+
 

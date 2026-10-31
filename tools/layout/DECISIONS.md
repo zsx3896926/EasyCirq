@@ -28,13 +28,14 @@ anything.
 
 ## D2. Pour strategy: shared layer vs exclusive layer
 
-Measured (4 layers, board rules, 70 negotiation passes):
+Measured (4 layers, board rules, 70 negotiation passes, **current KPI** — i.e.
+clearance now includes track/pad; see D5):
 
 | configuration | clearance | unrouted | pour islands | command |
 |---|---|---|---|---|
-| pours share their layers | 290 | **0** | **1** (fail) | `--profile shared-pour` |
-| pour layers exclusive | **153** | 4 | **0** | `--profile exclusive-pour` |
-| GND exclusive, no +3V3 pour | 334 | 1 | **0** | (see HANDOFF §36) |
+| pours share their layers | 515 | **0** | **1** (fail) | `--profile shared-pour` |
+| pour layers exclusive | 436 | 4 | **0** | `--profile exclusive-pour` |
+| GND exclusive, no +3V3 pour | (not re-measured) | 1 | **0** | (see HANDOFF §36) |
 
 3161 mil of track sits on the GND pour layer across 11 nets, so "a few short
 crossings" is not the situation - the layer is used as a routing layer.
@@ -50,27 +51,52 @@ python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --prof
 ```
 
 `--profile two-layer` covers the other branch of D1 (measured: 6 open nets,
-7 pour islands, 201 clearance).
+7 pour islands, 201 clearance — under the older clearance definition).
 
-### Measured comparison (all three, 70 passes, same placement)
+### Measured comparison (70 passes, same placement)
 
 ```
 | profile        | unrouted | congestion | clearance | unconn | pad gaps | islands | vias | length | skew max | pareto |
-| shared-pour    | 0        | 0          | 290       | 0      | 0        | 1       | 186  | 38832  | 713.1    | yes    |
-| exclusive-pour | 4        | 0          | 153       | 4      | 0        | 0       | 133  | 39948  | 1034.6   | yes    |
-| two-layer      | 5        | 0          | 207       | 5      | 0        | 3       | 145  | 42482  | 1089.5   |        |
+| shared-pour    | 0        | 0          | 515       | 0      | 0        | 1       | 186  | 38832  | 713.1    | yes    |
+| exclusive-pour | 4        | 0          | 436       | 4      | 0        | 0       | 133  | 39948  | 1034.6   | yes    |
+| trim-pour      | 0        | 0          | 515       | 0      | 0        | 1       | 186  | 38832  | 713.1    | (== shared) |
+| two-layer      | 5        | 0          | 207 *     | 5      | 0        | 3       | 145  | 42482  | 1089.5   |        |
 ```
+
+`*` two-layer has not been re-run under the track/pad-inclusive KPI; its 207 is the
+older count and is therefore not comparable to the 4-layer rows. Re-run before
+quoting it.
 
 `two-layer` is **dominated**: worse than both 4-layer branches on every axis. So
 D1 is not really a close call — a 2-layer board costs open nets, pour continuity
 and length at the same time.
 
-A third route exists: keep the pour shared but re-route only the nets that cross it\nfor a long run (`--pour-trim`). It is the first configuration that has zero open\nlegs AND a whole ground plane at once, at clearance 366:\n\n| configuration | clearance | unrouted | pour islands |\n|---|---|---|---|\n| shared | 290 | 0 | 1 |\n| shared + `--pour-trim` | 366 | 0 | **0** |\n| exclusive | 153 | 4 | 0 |\n\n`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
+### The `--pour-trim` escape is now closed (was §38's answer)
+
+A third route was measured in §38: keep the pour shared but re-route only the nets
+that cross it for a long run (`--pour-trim`). It was the first configuration with
+zero open legs AND a whole ground plane. §41 re-measured it under the
+track/pad-inclusive KPI and split the clearance number into kinds:
+
+| configuration | clearance | of which track/track | unrouted | pour islands |
+|---|---|---|---|---|
+| shared | 515 | 5 | 0 | 1 |
+| shared + `--pour-trim` (no guard) | 611 | **130** | 0 | **0** |
+| shared + `--pour-trim` (spacing guard) | 515 | 5 | 0 | 1 |
+| exclusive | 436 | 5 | 4 | 0 |
+
+The trim's re-route only avoided *cells* another net owned, so its paths hugged
+neighbours at one grid step: 5 → 130 track/track. With a guard that keeps the old
+path whenever the new one is closer to foreign copper, the trim becomes a no-op and
+the plan is byte-identical to `shared-pour` (same 186 vias, 526 tracks, 38832 mil).
+Recorded as a dead end: the zero-island result was bought with spacing violations.
+
+`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
 open nets versus a whole ground plane. Reproduce with:
 
 ```bash
 python tools/layout/compare.py --dump dump2.json --place ec-placed.json \
-    --profiles shared-pour,exclusive-pour,two-layer --out compare.md
+    --profiles shared-pour,exclusive-pour,trim-pour --out compare.md
 ```
 
 ---
@@ -99,6 +125,35 @@ the project, and what is the rollback if the read-back DRC disagrees?
 
 ---
 
+## D5. What "clearance" means in the gate, and what it does not
+
+**Decision taken (measurable, reversible):** `clearance_violations` is the sum of
+four kinds, produced by one function (`clearance_breakdown`) that the gate itself
+calls:
+
+| kind | test | enforced during routing? |
+|---|---|---|
+| `track_track` | two nets' tracks on the same layer closer than `(w1+w2)/2 + CLEARANCE` | yes, `path_conflicts` (per leg, with a few-conflicts fallback) |
+| `via_track` | via ring vs another net's track, on **every** layer (a via is a through-hole) | overlap only (`VIA_BLOCK_MARGIN = 1.0`) |
+| `via_pad` | via ring vs another net's pad | overlap only |
+| `track_pad` | track vs another net's pad on the layer the pad is plated on (through-hole pads count on all layers) | pad keep-out only |
+
+Why overlap-only for vias: enforcing the full 26 mil clear disc around every layer
+change was measured at unrouted 7 → 33. The spacing then shows up as the reported
+KPI instead of as a dead leg — a documented trade, not an oversight.
+
+Why `track_pad` was added (HANDOFF §41): the gate used to ignore it, and the plan
+the trim profile produced had **245** of them — a KPI can be "met" by moving the
+damage into a check nobody runs.
+
+Consequences recorded here so nobody re-litigates them silently:
+
+* any change to `clearance_violations` changes every number in HANDOFF/README;
+* `compare.py` cache keys include a fingerprint of `ec_layout.py` + `reproduce.py`,
+  so a metric change cannot be compared against cached old results.
+
+---
+
 ## Recorded defaults (do not silently change)
 
 | constant | value | why |
@@ -109,4 +164,5 @@ the project, and what is the rollback if the read-back DRC disagrees?
 | `NET_ORDER` | small-first | measured better than big-first and region-first |
 | `VIA_COST` | 14 | 20 buys 48 fewer violations but one more open net; the gate ranks open nets first |
 | `BEST_EFFORT_MAX_CONFLICTS` | 2 | an open net is worse than a spacing violation, an overlap is not |
+| `trim_pour_crossings` acceptance | new path must not add `path_conflicts` | without it the trim silently traded islands for spacing (HANDOFF §41) |
 

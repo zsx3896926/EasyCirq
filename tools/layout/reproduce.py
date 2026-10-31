@@ -30,6 +30,16 @@ import ec_layout as ec  # noqa: E402
 # DECISIONS.md) and one is the stackup branch (D1), so whichever way the engineer
 # decides, the choice is one command and the numbers come out comparable.
 PROFILES = {
+    # Trimmed pour.  Measured twice: without a spacing guard the trim bought its
+    # zero islands with 130 track/track hits, and WITH the guard every re-route is
+    # rejected, so this profile is now byte-identical to `shared-pour`.  Kept as a
+    # recorded dead end - do not re-try it without a layer-aware re-route.
+    "trim-pour": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False, pour_trim=True,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
     # The measured frontier: pours share their layers with signals.
     "shared-pour": dict(
         iters=70, layers=4,
@@ -97,8 +107,10 @@ def run(dump_path, place_path, out_dir=None, profile="shared-pour"):
         else:
             why["bus_skew"] = "implementation: bundles are geometrically possible"
     if kpi["clearance_violations"]:
-        why["clearance_violations"] = "implementation: %d via/track pairs too close" % (
-            kpi["clearance_violations"])
+        br = ec.clearance_breakdown(board, plan, sample_limit=0)["counts"]
+        why["clearance_violations"] = "implementation: %d track/track, %d via/track, " \
+            "%d via/pad, %d track/pad" % (br.get("track_track", 0), br.get("via_track", 0),
+                                          br.get("via_pad", 0), br.get("track_pad", 0))
 
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
@@ -116,6 +128,7 @@ def _route(board, cfg):
         plane_nets=frozenset(), plane_layer=None,
         pour_specs=list(cfg["pours"]), pour_step=cfg["pour_step"],
         pour_exclusive=cfg.get("pour_exclusive", False),
+        pour_trim=cfg.get("pour_trim", False),
         net_order=cfg["net_order"],
         via_relocate=cfg["via_relocate"],
         best_effort=cfg["best_effort"],
@@ -164,9 +177,10 @@ def main():
     ap.add_argument("--profile", default="shared-pour", choices=sorted(PROFILES))
     a = ap.parse_args()
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
-    print("profile: `%s`  (layers %d, pours %s%s)" % (
+    print("profile: `%s`  (layers %d, pours %s%s%s)" % (
         a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
-        ", exclusive" if PROFILES[a.profile].get("pour_exclusive") else ""))
+        ", exclusive" if PROFILES[a.profile].get("pour_exclusive") else "",
+        ", trimmed" if PROFILES[a.profile].get("pour_trim") else ""))
     print(scorecard(kpi, skew, ok, gate_fail, why))
     return 0 if ok else 1
 
