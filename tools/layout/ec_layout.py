@@ -1185,10 +1185,11 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     bad = path_conflicts(board, cand, routed, net, route_width(net),
                                          count=True)
                     # "Least bad" may only relax SPACING.  Two vias in one cell is a
-                    # short, not a spacing nit, so a candidate that fails via-cell
-                    # exclusivity is never kept as the fallback (that is exactly how
-                    # the last congestion cell reappeared).
-                    if _via_cells_clear(cand, used, net):
+                    # "Least bad" may relax SPACING only: two vias in one cell is a
+                    # short, and a track sharing a cell with another net is an
+                    # overlap (congestion), which the gate treats as worse than
+                    # spacing.  Both stay hard even in best-effort mode.
+                    if _via_cells_clear(cand, used, net) and _no_overlap(cand, used, net):
                         if best_bad is None or bad < best_bad:
                             best_bad, best_cand = bad, cand
                     extra |= {c[:2] for c in cand}
@@ -1445,6 +1446,19 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
                pt(cx, cy, ax, ay, bx, by), pt(dx, dy, ax, ay, bx, by))
 
 
+def _no_overlap(path, used, net):
+    """No cell of this path may be shared with another net on the same layer.
+
+    An overlap is a congestion cell, and the gate ranks congestion above spacing:
+    best-effort may accept a close run, never a shared cell.
+    """
+    for (x, y, l) in path:
+        owners = used.get((x, y, l))
+        if owners and any(o != net for o in owners):
+            return False
+    return True
+
+
 def _via_cells_clear(path, used, net):
     """No two nets may share a via site.
 
@@ -1456,7 +1470,9 @@ def _via_cells_clear(path, used, net):
     for a, b in zip(path, path[1:]):
         if a[2] == b[2]:
             continue
-        for layer in (a[2], b[2]):
+        # A via is drilled through EVERY layer, so it must be clear on all of them,
+        # not just the two it connects (that gap produced congestion cells 2).
+        for layer in range(1, 5):
             owners = used.get((a[0], a[1], layer))
             if owners and any(o != net for o in owners):
                 return False
@@ -2930,6 +2946,10 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
 
 
 
