@@ -953,7 +953,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -972,6 +972,12 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         pour_sets.add(name)
     if pour_sets and pour_layer:
         pour_groups.append((frozenset(pour_sets), int(pour_layer)))
+    pour_layers = {int(lay) for _ns, lay in pour_groups}
+    if pour_exclusive and pour_layers:
+        # Hard version: no other net may run on a pour layer at all. Costs signal
+        # capacity (that is why the plane model lost in round 2) but a pour that is
+        # cut in two is a broken ground, so this is the fallback.
+        layer_ok -= pour_layers
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
@@ -1071,6 +1077,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             pref = preferred_layer(net, layers)
             if layers < 2:
                 pref = 1
+
             forbidden = {c for c, o in pad_forbid.items() if net not in o}
             if spacing_hard or (hard_nets and net in hard_nets):
                 # Spacing as a HARD constraint: cells (and their 8-neighbour halo)
@@ -2907,7 +2914,8 @@ def main():
                                                        via_relocate=a.via_relocate,
                                                        pour_preplan=a.pour_preplan,
                                                        via_pressure_on=a.via_pressure_on,
-                                                       repair_pass=a.repair_pass)
+                                                       repair_pass=a.repair_pass,
+                                                       pour_exclusive=a.pour_exclusive)
         plan = plan_from(board, routed)
         if a.match_lengths:
             match_lengths(board, plan)
@@ -2946,6 +2954,11 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
 
 
 

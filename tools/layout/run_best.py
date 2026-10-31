@@ -43,6 +43,7 @@ def main():
     ap.add_argument("--pour-step", dest="pour_step", type=int, default=5)
     ap.add_argument("--pour", dest="pour_specs", action="append", default=[])
     ap.add_argument("--via-relocate", dest="via_relocate", action="store_true", default=True)
+    ap.add_argument("--pour-exclusive", dest="pour_exclusive", action="store_true")
     ap.add_argument("--repair", dest="repair_pass", action="store_true")
     ap.add_argument("--via-pressure", dest="via_pressure_on", action="store_true")
     ap.add_argument("--match-lengths", dest="match_lengths", action="store_true",
@@ -72,7 +73,7 @@ def main():
         via_plan=a.via_plan, via_first=a.via_first, net_order=a.net_order,
         pour_nets=frozenset(a.pour_nets), pour_layer=a.pour_layer, pour_step=a.pour_step,
         pour_specs=a.pour_specs, best_effort=a.best_effort,
-        priority_nets=set(a.priority_nets), via_relocate=a.via_relocate, via_pressure_on=a.via_pressure_on, repair_pass=a.repair_pass)
+        priority_nets=set(a.priority_nets), via_relocate=a.via_relocate, via_pressure_on=a.via_pressure_on, repair_pass=a.repair_pass, pour_exclusive=a.pour_exclusive)
     plan = ec.plan_from(board, routed)
     if a.match_lengths:
         # One call inserts at most ONE meander per net, so a 700 mil skew never
@@ -124,6 +125,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
