@@ -71,7 +71,7 @@ func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult
 	}
 	if report == nil {
 		result.State, result.Headline = "not_measured", "⏳ 这块板还没检查过"
-		result.Next = "先跑一轮离线检查，再回来看这张卡"
+		result.Next = "把你想做的板子说给 AI 听就行；画完并检查过之后，这里会告诉你能不能打样"
 		return result
 	}
 	result.Project, result.Page = report.Project, report.Page
