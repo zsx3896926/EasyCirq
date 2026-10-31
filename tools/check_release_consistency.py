@@ -26,21 +26,32 @@ REPO_SKILL = ROOT / "easycirq"
 DEFAULT_BUNDLE_DIR = ROOT / "dist-release"
 DEFAULT_INSTALLED = Path.home() / ".agents" / "skills" / "easycirq"
 
-# files whose content decides behaviour, not just presentation
-KEY_FILES = [
+# Every behaviour-carrying skill file, not a hand-picked dozen.
+#
+# The fixed list used to name 12 files, so a repaired script outside it (bom-enrich)
+# checked as "consistent" while the bundle still carried the broken copy. The list
+# is derived now: all Python under scripts/ plus the prompt, the metrics and the
+# assets that decide judgement.
+_FIXED = [
     "SKILL.md",
-    "scripts/sch_kpi.py",
-    "scripts/sch_status.py",
-    "scripts/sch_delivery_card.py",
-    "scripts/sch_offline_pipeline.py",
-    "scripts/sch_connectivity_metrics.py",
-    "scripts/sch_wire_metrics.py",
-    "scripts/sch_layout_check.py",
-    "scripts/pin_plan_check.py",
-    "scripts/easycirq_mcp/runners.py",
-    "scripts/easycirq_mcp/tools.py",
     "metrics/schematic-kpi.v1.json",
 ]
+
+
+def _key_files() -> list[str]:
+    found = list(_FIXED)
+    scripts = ROOT / "easycirq" / "scripts"
+    if scripts.is_dir():
+        for path in sorted(scripts.rglob("*.py")):
+            found.append(str(path.relative_to(ROOT / "easycirq")).replace("\\", "/"))
+    assets = ROOT / "easycirq" / "assets"
+    if assets.is_dir():
+        for path in sorted(assets.glob("*.json")):
+            found.append(str(path.relative_to(ROOT / "easycirq")).replace("\\", "/"))
+    return found
+
+
+KEY_FILES = _key_files()
 
 
 def sha(data: bytes) -> str:
