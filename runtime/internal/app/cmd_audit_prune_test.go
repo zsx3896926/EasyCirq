@@ -50,7 +50,7 @@ func TestAuditPruneCompressesInsteadOfDeletingWhenTooBig(t *testing.T) {
 	dir := t.TempDir()
 	now := time.Now()
 	// two files inside the retention window, together over the limit
-	writeAuditDay(t, dir, now.AddDate(0, 0, -2), 400*1024)
+	writeAuditDay(t, dir, now.AddDate(0, 0, -3), 400*1024)
 	newer := writeAuditDay(t, dir, now.AddDate(0, 0, -1), 400*1024)
 
 	plan, err := planAuditPrune(dir, 14, 0.0005) // ~0.5 MB
@@ -90,7 +90,8 @@ func TestAuditPruneDryRunTouchesNothing(t *testing.T) {
 
 func TestAuditPruneReportsTheSizeAfterNotBefore(t *testing.T) {
 	dir := t.TempDir()
-	writeAuditDay(t, dir, time.Now(), 8*1024*1024)
+	// yesterday: a finished day, so it is a legitimate compression candidate
+	writeAuditDay(t, dir, time.Now().AddDate(0, 0, -1), 8*1024*1024)
 	plan, err := planAuditPrune(dir, 14, 0.001) // 1 MB
 	if err != nil {
 		t.Fatalf("plan: %v", err)
@@ -137,5 +138,36 @@ func TestAuditPruneIgnoresUnrelatedFiles(t *testing.T) {
 	}
 	if _, err := os.Stat(keep); err != nil {
 		t.Fatalf("unrelated file must survive: %v", err)
+	}
+}
+
+func TestAuditPruneNeverCompressesTodaysFile(t *testing.T) {
+	dir := t.TempDir()
+	today := writeAuditDay(t, dir, time.Now(), 4*1024*1024)
+	older := writeAuditDay(t, dir, time.Now().AddDate(0, 0, -3), 4*1024*1024)
+
+	plan, err := planAuditPrune(dir, 14, 0.001)
+	if err != nil {
+		t.Fatalf("plan: %v", err)
+	}
+	for _, item := range plan.Zip {
+		if filepath.Base(item.Path) == filepath.Base(today) {
+			t.Fatalf("todays file is still being written and must not be compressed")
+		}
+	}
+	zippedOlder := false
+	for _, item := range plan.Zip {
+		if filepath.Base(item.Path) == filepath.Base(older) {
+			zippedOlder = true
+		}
+	}
+	if !zippedOlder {
+		t.Fatalf("the older day should still be a compression candidate: %+v", plan.Zip)
+	}
+	if _, _, _, err := applyAuditPlan(plan); err != nil {
+		t.Fatalf("apply: %v", err)
+	}
+	if _, err := os.Stat(today); err != nil {
+		t.Fatalf("todays file must survive untouched: %v", err)
 	}
 }

@@ -153,6 +153,12 @@ func planAuditPrune(root string, keepDays int, maxGB float64) (auditPlan, error)
 			plan.Keep = append(plan.Keep, file)
 			continue
 		}
+		if isActiveAuditDay(file.Day, time.Now()) {
+			// The daemon is still appending to today's file. Compressing it either
+			// fails (Windows file lock) or splits the day's history in two.
+			plan.Keep = append(plan.Keep, file)
+			continue
+		}
 		plan.Zip = append(plan.Zip, file)
 		// assume ~8x for jsonl text; exact size is reported after compressing
 		total -= file.Size - file.Size/8
@@ -161,6 +167,19 @@ func planAuditPrune(root string, keepDays int, maxGB float64) (auditPlan, error)
 	// telling the customer "5.3 GB" while compressing 5.3 GB would be misleading.
 	plan.Total = total
 	return plan, nil
+}
+
+
+// isActiveAuditDay reports whether a day-file may still receive writes. A
+// day-based name means "today" is the active one; yesterday and older are
+// finished by definition.
+func isActiveAuditDay(day, now time.Time) bool {
+	if day.IsZero() {
+		return true // no date in the name: assume live rather than risk it
+	}
+	y1, m1, d1 := day.Date()
+	y2, m2, d2 := now.Date()
+	return y1 == y2 && m1 == m2 && d1 == d2
 }
 
 func applyAuditPlan(plan auditPlan) (deleted, compressed int, freed int64, err error) {
