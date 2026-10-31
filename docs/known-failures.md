@@ -70,3 +70,29 @@
 **为什么不现在改**：我拿不到失败时的输出，凭猜测改测试会掩盖真实缺陷。
 记录在这里比"顺手改一下看着像的样子"更诚实——这正是
 `unstable tests are worse than no tests` 的取舍。
+
+## 偶发失败：test_failed_upgrade_leaves_previous_version_intact
+
+**观察（2026-11-01）**：完整 `pytest tests` 出现 1 个失败，
+
+```
+FAILED tests/test_install_lifecycle.py::UpgradeRollbackTests::
+       test_failed_upgrade_leaves_previous_version_intact
+```
+
+单独跑该文件：`1 passed, 41 deselected`。再跑该用例：通过。
+
+| 运行 | 结果 |
+|---|---|
+| `pytest tests`（全量，4802 passed） | ❌ 1 failed |
+| `pytest tests/test_install_lifecycle.py` | ✅ 通过（该用例） |
+| `-k test_failed_upgrade_leaves_previous_version_intact` | ✅ 1 passed |
+
+**判断**：偶发。合理怀疑与其他安装测试共用临时目录/文件锁有关
+（该文件里另有 `test_duplicate_entry`、`test_tampered_payload` 等会写 zip 的用例，
+pytest 默认同文件内顺序执行，但仍可能受前序用例残留文件影响）。
+
+**不做的处理**：没有拿到失败时的具体断言输出，凭猜测改测试等于把红灯弄灭。
+若再次出现并带出断言信息，再按报错定位。
+
+**影响**：CI 上偶发红灯，重跑即可。
