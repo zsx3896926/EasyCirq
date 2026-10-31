@@ -306,6 +306,13 @@ def analyze(data):
     if not pins:
         add("NO_PINS", "warning", "pins 为空，没有可检查的引脚", "pins")
 
+    # bank / reset_state / boot_sample / strap describe configurable DIGITAL
+    # pins. A plan with no MCU logic resources (resources == [], e.g. an analog
+    # comparator) has no such pins, so demanding those fields would be asking
+    # the author to invent values. voltage_domain and physical_pin stay required
+    # because they are meaningful for any part.
+    has_mcu_resources = bool(resources)
+
     for index, pin in enumerate(pins):
         label = f"pins[{index}]"
         if not isinstance(pin, dict):
@@ -368,22 +375,25 @@ def analyze(data):
             voltage = text(voltage, f"{label}.voltage_domain")
         bank = pin.get("bank")
         if is_unknown(bank):
-            missing["bank"].append(logical)
+            if has_mcu_resources:
+                missing["bank"].append(logical)
         else:
             bank = text(bank, f"{label}.bank")
 
-        if is_unknown(pin.get("reset_state")):
+        if is_unknown(pin.get("reset_state")) and has_mcu_resources:
             missing["reset_state"].append(logical)
 
         boot_sample = pin.get("boot_sample")
         if is_unknown(boot_sample):
-            missing["boot_sample"].append(logical)
+            if has_mcu_resources:
+                missing["boot_sample"].append(logical)
         elif not isinstance(boot_sample, bool):
             raise ValueError(f"{label}.boot_sample: require boolean or 待查")
 
         strap = pin.get("strap")
         if is_unknown(strap):
-            missing["strap"].append(logical)
+            if has_mcu_resources:
+                missing["strap"].append(logical)
             strap_known = None
         elif not isinstance(strap, bool):
             raise ValueError(f"{label}.strap: require boolean or 待查")
