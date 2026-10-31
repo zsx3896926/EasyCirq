@@ -69,3 +69,12 @@ KPI 定义 17 项（metrics/schematic-kpi.v1.json，版本 1.2.0）
 测试：4820 passed / 5 skipped；go test 16 包 ok
 临时工程：KPI-S5-Verify（含报警器 P2 页 + PCB1）
 ```
+
+## 路径注意
+
+仓库在会话工作目录的 **子目录** \hds-a-method/\ 下：
+
+\C:\Users\jlc\Documents\deepseek-harness\default-workspace\   <- 会话 cwd
+└── hds-a-method/                                                <- 仓库根（.git 是文件）
+\
+本文件里所有相对路径都相对**仓库根**。命令前先 \cd hds-a-method\。
