@@ -228,6 +228,16 @@ def _spearman(a, b):
 
 ROUTABLE_W = 600.0   # mil-equivalent cost of one unit of pin-order disorder
 
+# Placement terms for the legs the router actually fails on.  They are reported
+# in mil-equivalents so they trade against HPWL on the same scale instead of
+# being an invisible tie-breaker.
+FACE_W = 1500.0      # per unit of (1 - cos) pad-field misalignment, range 0..2
+# Opt-in, NOT default: btn_w=800 buys unrouted 9 -> 6 on RetroCam-02 but costs
+# 19% HPWL (42,202 -> 50,103) and one congestion cell, so it fails the gate it
+# is supposed to improve. Enabled per run until the GND/pour work lands.
+BTN_W = 0.0          # per 1000 mil of button-leg length
+BTN_SCALE = 1000.0
+
 
 def bus_order_penalty(comps, mcu="U5"):
     """How far each bus group is from a PLANAR bundle, measured on live geometry.
@@ -259,15 +269,124 @@ def bus_order_penalty(comps, mcu="U5"):
     return penalty
 
 
-def optimize_placement(board, iters=40000, seed=7):
+def _unit(vx, vy):
+    """Unit vector, or (0, 0) when the input has no direction."""
+    length = math.hypot(vx, vy)
+    return (vx / length, vy / length) if length > 1e-9 else (0.0, 0.0)
+
+
+def pad_centroid(c):
+    """Absolute centroid of a component's connected pads (NOT its body centre).
+
+    U5 is a three-sided module: the pad field's centroid sits ~100 mil off the
+    body centre, and that offset is the only thing that says which way the part
+    "opens".  Using the body centre would score every rotation as identical.
+    """
+    pads = c["pads"]
+    if not pads:
+        return c["x"], c["y"]
+    sx = sy = 0.0
+    for p in pads:
+        x, y = pad_xy(c, p)
+        sx += x
+        sy += y
+    return sx / len(pads), sy / len(pads)
+
+
+def escape_face_penalty(comps, mcu="U5", peripherals=("J3", "J4", "J5")):
+    """How badly the MCU's pad field points away from the parts it must reach.
+
+    The dead legs on RetroCam-02 are +3V3/GND/BTN_* — they leave the U5 pad
+    column, and none of them is a bus.  The bus-order term cannot see that, so
+    placement happily accepted rotations that faced the pad field into the
+    corner of the board.  This measures the angle between
+
+      * the direction from the MCU body centre to its pad centroid, and
+      * the direction from the MCU to the centroid of the peripheral pads.
+
+    Returns 1 - cos(theta) in [0, 2]; direction-free inputs score 0.
+    """
+    m = comps.get(mcu)
+    if not m:
+        return 0.0
+    pcx, pcy = pad_centroid(m)
+    ux, uy = _unit(pcx - m["x"], pcy - m["y"])
+    if ux == 0.0 and uy == 0.0:
+        return 0.0
+    sx = sy = n = 0.0
+    for des in peripherals:
+        c = comps.get(des)
+        if not c:
+            continue
+        for p in c["pads"]:
+            x, y = pad_xy(c, p)
+            sx += x
+            sy += y
+            n += 1
+    if not n:
+        return 0.0
+    vx, vy = _unit(sx / n - m["x"], sy / n - m["y"])
+    if vx == 0.0 and vy == 0.0:
+        return 0.0
+    return 1.0 - max(-1.0, min(1.0, ux * vx + uy * vy))
+
+
+def button_leg_penalty(comps, mcu="U5", prefixes=("BTN",), scale=BTN_SCALE):
+    """Straight-line length of every button leg, in units of `scale` mil.
+
+    HPWL prices a leg by its bounding box, so a 1,200 mil BTN_UP that runs the
+    length of the board costs the same as a tidy 400 mil one whenever the other
+    nets dominate the box.  These are exactly the legs that die, so they get
+    their own term instead of hiding inside a net-averaged number.
+    """
+    per_net = defaultdict(list)
+    for des, c in comps.items():
+        for p in c["pads"]:
+            if p["net"].startswith(prefixes):
+                x, y = pad_xy(c, p)
+                per_net[p["net"]].append((des, x, y))
+    total = 0.0
+    for pts in per_net.values():
+        if len(pts) < 2:
+            continue
+        mcu_pts = [t for t in pts if t[0] == mcu]
+        if len(mcu_pts) != 1:
+            continue
+        _, mx, my = mcu_pts[0]
+        others = [math.hypot(x - mx, y - my) for des, x, y in pts if des != mcu]
+        if others:
+            total += min(others)
+    return total / scale
+
+
+def placement_cost(comps, board, face_w=None, btn_w=None, bus_w=None):
+    """The placement objective, exposed as a function so it can be tested.
+
+    HPWL alone optimises placement into corners where the router cannot finish.
+    Three measured terms steer it, and each is a separate knob because they do
+    NOT all help:
+
+      * bus_w  — pin-order disorder. Worth 600 on its own, but on RetroCam-02 it
+                 cost 13,600 mil of HPWL (43,301 -> 56,934) for zero routing gain:
+                 the five dead legs are +3V3/GND/BTN_*, so keep it optional.
+      * face_w — pad-field facing, see `escape_face_penalty`.
+      * btn_w  — button leg length, see `button_leg_penalty`.
+    """
+    face_w = FACE_W if face_w is None else face_w
+    btn_w = BTN_W if btn_w is None else btn_w
+    bus_w = ROUTABLE_W if bus_w is None else bus_w
+    return (hpwl(comps) + 1e6 * n_overlaps(comps) + 1e6 * n_outside(comps, board)
+            + bus_w * bus_order_penalty(comps)
+            + face_w * escape_face_penalty(comps)
+            + btn_w * button_leg_penalty(comps))
+
+
+def optimize_placement(board, iters=40000, seed=7, face_w=None, btn_w=None, bus_w=None):
     comps = {d: {**c, "pads": list(c["pads"])} for d, c in board.comps.items()}
     cur = {d: dict(c) for d, c in comps.items()}
 
     def cost(c):
-        # HPWL alone optimises placement into corners where the router cannot finish;
-        # the bus-order term is what makes "routable" measurable during placement.
-        return (hpwl(c) + 1e6 * n_overlaps(c) + 1e6 * n_outside(c, board)
-                + ROUTABLE_W * bus_order_penalty(c))
+        return placement_cost(c, board, face_w, btn_w, bus_w)
 
     cur_cost = cost(cur)
     best, best_cost = {d: dict(c) for d, c in cur.items()}, cur_cost
@@ -1547,6 +1666,12 @@ def main():
     p = sub.add_parser("place")
     p.add_argument("dump")
     p.add_argument("--iters", type=int, default=40000)
+    p.add_argument("--face-w", dest="face_w", type=float, default=FACE_W,
+                   help="weight of the pad-field facing term (mil-equivalent per (1-cos))")
+    p.add_argument("--btn-w", dest="btn_w", type=float, default=BTN_W,
+                   help="weight of the button-leg term (mil-equivalent per 1000 mil)")
+    p.add_argument("--bus-w", dest="bus_w", type=float, default=ROUTABLE_W,
+                   help="weight of the pin-order term (0 = pure HPWL plus the new terms)")
     p.add_argument("--out", required=True)
 
     r = sub.add_parser("route")
@@ -1574,10 +1699,14 @@ def main():
     board = Board(dump)
 
     if a.cmd == "place":
-        placed = optimize_placement(board, a.iters)
+        placed = optimize_placement(board, a.iters, face_w=a.face_w, btn_w=a.btn_w,
+                                    bus_w=a.bus_w)
         json.dump(placed, open(a.out, "w", encoding="utf-8"), indent=1)
         apply_placement(board, placed)
         print(f"placed {len(placed)} parts; hpwl {hpwl(board.comps):.0f} "
+              f"face {escape_face_penalty(board.comps):.3f} "
+              f"btn {button_leg_penalty(board.comps):.3f} "
+              f"bus {bus_order_penalty(board.comps):.3f} "
               f"overlaps {n_overlaps(board.comps)} outside {n_outside(board.comps, board)} -> {a.out}")
         return 0
 

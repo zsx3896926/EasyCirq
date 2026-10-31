@@ -137,3 +137,55 @@ def test_clearance_violation_detected_between_nets():
         {"net": "B", "layer": 1, "width": 8, "x1": 300, "y1": 302, "x2": 800, "y2": 302},
     ], "vias": []}
     assert ec.clearance_violations(board, plan) > 0
+
+
+# ── placement terms for the failed legs ─────────────────────────────────────
+def test_face_penalty_is_zero_when_pads_point_at_peripherals():
+    """U5's pad field must face the parts it talks to; facing away scores 2."""
+    facing = ec.Board({"result": {"components": [
+        comp("U5", 300, 300, [("1", "A", 350, 280), ("2", "B", 350, 320)]),
+        comp("J3", 900, 300, [("1", "A", 880, 280), ("2", "B", 880, 320)]),
+    ], "outline": {"bbox": {"minX": 0, "minY": 0, "maxX": 2000, "maxY": 1500}}}})
+    assert ec.escape_face_penalty(facing.comps) == pytest.approx(0.0, abs=1e-6)
+
+    away = ec.Board({"result": {"components": [
+        comp("U5", 300, 300, [("1", "A", 350, 300)]),
+        comp("J3", 0, 300, [("1", "A", 10, 300)]),   # peripheral is on the -x side
+    ], "outline": {"bbox": {"minX": 0, "minY": 0, "maxX": 2000, "maxY": 1500}}}})
+    assert ec.escape_face_penalty(away.comps) == pytest.approx(2.0, abs=1e-6)
+
+
+def test_button_leg_penalty_counts_each_switch_leg():
+    board = make_board([
+        comp("U5", 300, 300, [("15", "BTN_DOWN", 300, 300), ("16", "BTN_UP", 300, 320)]),
+        comp("SW2", 800, 300, [("1", "BTN_DOWN", 800, 300)]),
+        comp("SW4", 300, 820, [("1", "BTN_UP", 300, 820)]),
+        comp("R9", 500, 500, [("1", "+3V3", 500, 500)]),   # not a button net
+    ])
+    # 500 mil leg + 500 mil leg, scaled by 1000 mil per unit
+    assert ec.button_leg_penalty(board.comps) == pytest.approx(1.0, abs=1e-6)
+
+
+def test_placement_cost_trades_button_length_against_hpwl():
+    """The button term must be a real trade, not decoration.
+
+    Two layouts have the SAME HPWL (100 + 1100 vs 1100 + 100 mil of two-pad
+    boxes); only the button term can separate them, and it must flip the answer
+    once the weight exceeds the declared mil-per-mil rate.
+    """
+    def build(sw_x):
+        return ec.Board({"result": {"components": [
+            comp("U5", 300, 300, [("15", "BTN_DOWN", 300, 300)]),
+            comp("SW2", sw_x, 300, [("1", "BTN_DOWN", sw_x, 300), ("2", "N1", sw_x, 300)]),
+            comp("J1", 1500, 300, [("1", "N1", 1500, 300)]),
+        ], "outline": {"bbox": {"minX": 0, "minY": 0, "maxX": 2000, "maxY": 1500}}}})
+
+    near_button, far_button = build(400), build(1400)
+    assert ec.hpwl(near_button.comps) == pytest.approx(ec.hpwl(far_button.comps), abs=1e-6)
+
+    # weight below 1000 mil per 1000 mil of leg: the tie is decided by nothing else
+    assert ec.placement_cost(near_button.comps, near_button, btn_w=0.0) == pytest.approx(
+        ec.placement_cost(far_button.comps, far_button, btn_w=0.0), abs=1e-6)
+    # once the weight is worth more than 1:1, the short leg must win
+    assert ec.placement_cost(near_button.comps, near_button, btn_w=4000.0) < \
+        ec.placement_cost(far_button.comps, far_button, btn_w=4000.0)

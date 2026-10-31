@@ -21,6 +21,8 @@
 ```
 hds-verifier/tools/layout/
   ec_layout.py          主流程 place / route / report / check
+  run_best.py           用 segment_check 复现"最佳布线"配置（CLI 没暴露该开关）
+  sweep_placement.py    place→route→5 指标 的权重扫描（一次跑多组，可复现）
   check_bus_order.py    引脚序相关性 ρ + MCU 朝向建议
   BUNDLE-DESIGN.md      等长 bundle 的 7 次尝试与几何证据
   README.md             KPI 定义 / 实测权衡表 / 已否决方案
@@ -29,7 +31,7 @@ hds-verifier/tools/layout/
   debug_*.py            冲突单元级诊断
 
 hds-verifier/tests/
-  test_ec_layout.py     8 条（指标语义、合法化、门禁）
+  test_ec_layout.py     11 条（指标语义、合法化、门禁、新增的 face/btn 项）
   test_bus_order.py     3 条（ρ 一致性、镜像、秩相关）
 ```
 
@@ -37,7 +39,13 @@ hds-verifier/tests/
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
 python tools/layout/ec_layout.py route  dump.json --place placed.json --iters 20 --layers 4 --out plan.json
 python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json   # exit 1 = 禁止上机
+python tools/layout/run_best.py dump.json --place placed.json --out plan.json --kpi kpi.json   # 带 segment_check
+python tools/layout/sweep_placement.py dump2.json --configs baseline,face,btn --out sweep.json
 ```
+
+`place` 的三个可调开关（默认值见文件头常量）：
+`--bus-w`（引脚序 ρ 项，默认 600 **在本板实测有害**）、`--face-w`（焊盘场朝向，默认 1500）、
+`--btn-w`（按键腿长，**默认 0 = opt-in**；实测 800 才有收益，但见 §10.4 的代价）。
 
 `route()` 的可选开关：
 `segment_check=True`（线段级间距硬约束，**关键**）、`priority_nets`、`escape_nets`、`hard_nets`、`spacing_hard`。
@@ -58,7 +66,7 @@ python tools/layout/ec_layout.py check  dump.json --place placed.json --plan pla
 布局 HPWL 71641 → 43301 mil（−40%）；重叠 0；出板 0
 45° 占比 0.396；层分布 L1 28501 / L2 20400 / L3 15664 / L4 12062（按某次 pass）
 总线等长误差 CAM 211 / LCD 573 / SD 754 mil（目标 < 50）—— 未达标
-测试 11/11 通过
+测试 14/14 通过（本轮新增 3 条：face 项、btn 项、两项与 HPWL 的权衡）
 ```
 
 未布通的 5 条腿涉及网络：`+3V3`、`GND`、`BTN_DOWN`、`BTN_SHUTTER`（**都不是总线网**），
@@ -89,6 +97,8 @@ python tools/layout/ec_layout.py check  dump.json --place placed.json --plan pla
 | 失败网 5 mil 窄线 | 未布通 5→**6**（窄线让邻网更难通过） |
 | 焊盘扇出过孔带 | 5→6 |
 | **布局目标函数加总线序 ρ 项** | 严格间距下未布通 5→**10**（失败网不是总线网，打错靶） |
+| **btn 权重 400 / 1200 / 2000**（本轮） | 未布通 10 / 8 / 9，只有 800 是 6 → 权重非单调，别线性外推 |
+| **face 项单独上线**（本轮） | 未布通 9→9，只把 HPWL 降到 40217：朝向对布线无用 |
 | 等长 bundle 7 种几何 | 落地 0–3/8，见 `BUNDLE-DESIGN.md` |
 
 ---
@@ -159,3 +169,64 @@ bus_length_spread 各组 < 50 mil
 
 当前差距：`unrouted 5`、`unconnected 8`、`等长未达标`、`3 条 GND↔FB 待复核`。
 达成后才允许把布局与走线写入 EasyEDA 并回读 DRC 验证。
+
+> **本轮更正（见 §10）**：上述 `unrouted 5 / unconnected 8 / vias 83` 与 `clearance 0` 用任何
+> 已知参数组合都复现不出来。当前**可复现**基线是 dump2 + 纯 HPWL 的
+> `9 / 11 / 66`（clearance 0、congestion 0）。以 §10 的数字为准。
+
+---
+
+## 10. 本轮接手实测（2026-10-31）
+
+### 10.1 先纠正基线：§3 的"最佳"状态不可复现
+
+| 尝试 | 结果 |
+|---|---|
+| dump1 + `ec-placed.json` + segment_check | 4 / 0 / **7** / 7 / 81 |
+| 历史纯 HPWL 代码（4ba10d8）+ dump1 + 40000 iters | HPWL 56934，与 `ec-placed.json` 不同 |
+| 同上 + dump2 | HPWL **42202**，仍 ≠ 43301 |
+| 当前代码 `--bus-w 0 --face-w 0 --btn-w 0` | HPWL 56934（dump1）/ 42202（dump2） |
+
+`ec-placed.json` 的 HPWL 43301 没有被任何已知参数集复现；`bus_order_penalty`
+是 `2439366` 才进目标函数的，而 `ec-placed.json` 是**纯 HPWL 时代**的产物。
+**结论：仓库里没有能重放"5 条腿"那次运行的命令。** 这是交接文档最大的缺口，
+建议以后每次实验都把 `place`/`route` 的完整 argv 落在 `offline/` 里。
+
+**本轮采用的基线（确定性，可重复）**：`dump2.json` + 纯 HPWL 布局（42202 mil），
+`segment_check` 布线 → `clearance 0 / congestion 0 / unrouted 9 / unconnected 11 / vias 66`。
+
+### 10.2 新增的两个目标项（§6.1 落地）
+
+`escape_face_penalty()`：MCU 焊盘质心方向 vs 外设焊盘质心方向的夹角，返回 `1-cosθ ∈ [0,2]`。
+`button_leg_penalty()`：每条 `BTN_*` 腿的直线长度（按 1000 mil 归一）。
+两项与 `bus_order_penalty` 一起进 `placement_cost()`，权重分别由 `--face-w / --btn-w / --bus-w` 控制。
+
+### 10.3 扫描结果（同一快照、同一布线参数、五项指标同表）
+
+| 配置 | HPWL | 重叠 | 间距 | 拥塞 | **未布通** | 未连通 | vias |
+|---|---|---|---|---|---|---|---|
+| baseline 纯 HPWL（bus0/face0/btn0） | 42202 | 0 | 0 | 0 | **9** | 11 | 66 |
+| face1500 | **40217** | 0 | 0 | 0 | **9** | 10 | 64 |
+| btn400 | 46626 | 0 | 2 | 0 | 10 | 11 | 54 |
+| **btn800（本轮最好）** | 50103 | 0 | 0 | **1** | **6** | 11 | 69 |
+| btn1200 | 48747 | 0 | 2 | 2 | 8 | 12 | 65 |
+| btn2000 | 46447 | 0 | 0 | 0 | 9 | 7 | 58 |
+| face3000+btn800 | 50103 | 0 | 0 | 1 | 6 | 11 | 69 |
+| rhoplus（bus600+face1500+btn800） | 50103 | 0 | 0 | 1 | 6 | 11 | 69 |
+
+* `btn800` 起效：**unrouted 9 → 6**，但换来 **−19% HPWL**（42202→50103）和 **拥塞 1**，门禁仍 FAIL。
+* 权重**非单调**：400→10、800→6、1200→8、2000→9。别指望调权重线性改善。
+* `face` 项单独用**不减少未布通**（9→9），只把 HPWL 降到 40217；`face3000+btn800` 与 `btn800`
+  逐位相同 → 退火收敛到同一盆地，face 项被 btn 项淹没。
+* 重复运行同一配置得到逐位相同的数字（确定性已验证）。
+
+### 10.4 本轮得到的判断
+
+1. **"失败腿是布局问题"这一假设只部分成立**：按键就近项确实把 9 压到 6，但**到不了 0**，
+   而且代价是拥塞和 HPWL。布局目标函数不是唯一的杠杆。
+2. 死腿集合在不同配置间**大幅漂移**，只有 `CAM_D4(J3.12↔U5.12)`、`CAM_PWDN(J3.17↔U5.11)`
+   在多组里反复出现 → 这是 **J3 走廊**的结构问题（正对应 §6.2 的通道分配器），不是按键。
+3. `GND` 占死腿的一半以上（U1.2↔U1.15、SW3.3↔J3.2、J3.2↔J3.19 反复出现）→
+   应走 §6.3 的**铺铜规则**把 GND 移出走线器，而不是继续在布局里找。
+4. 新项**不要**默认开满：`--btn-w 800` 有收益但违反两项验收（HPWL、拥塞），
+   建议下一步与铺铜/GND 方案一起联合评估。
