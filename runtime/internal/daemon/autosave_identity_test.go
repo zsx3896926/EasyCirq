@@ -86,6 +86,9 @@ func TestExplicitSaveCancelsOnlyConfirmedOlderTarget(t *testing.T) {
 			target := testAutosaveTarget("w1", "pcb")
 			s.autosave.schedule(target)
 			ticket := testAutosaveTicket(t, s.autosave, target)
+			// a real gap: on Windows two Now() calls can be identical, which would
+			// make "older than the request" false and skip the cancellation
+			time.Sleep(20 * time.Millisecond)
 			started := time.Now()
 			resp := testAutosaveResponse(target)
 			resp.OK, resp.Result = tc.ok, tc.result
@@ -105,6 +108,9 @@ func TestExplicitSaveCancelsOnlyConfirmedOlderTarget(t *testing.T) {
 	target := testAutosaveTarget("w1", "pcb")
 	s.autosave.schedule(target)
 	started := time.Now()
+	// Windows clock granularity can make two consecutive Now() calls equal; the
+	// test needs the second mutation to be strictly newer than the request.
+	time.Sleep(20 * time.Millisecond)
 	s.autosave.schedule(target) // a mutation completed while explicit save ran
 	newTicket := testAutosaveTicket(t, s.autosave, target)
 	resp := testAutosaveResponse(target)

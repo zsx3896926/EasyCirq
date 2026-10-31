@@ -234,6 +234,10 @@ func TestExplicitSaveHTTPInFlightKeepsNewMutationPending(t *testing.T) {
 	case <-time.After(3 * time.Second):
 		t.Fatal("explicit save did not reach connector")
 	}
+	// The explicit save recorded its own start time when the request arrived;
+	// on Windows two Now() calls can land on the same clock tick, so the new
+	// mutation needs a real gap to be provably newer.
+	time.Sleep(20 * time.Millisecond)
 	s.maybeAutosave(&protocol.Request{Envelope: protocol.Envelope{WindowID: target.WindowID}, Action: "pcb.component.modify"}, testAutosaveResponse(target), time.Now())
 	current := testAutosaveTicket(t, s.autosave, target)
 	if current.generation == old.generation {
