@@ -143,6 +143,13 @@ def main(argv=None):
             checks.append(("erc", erc_out))
             step("erc", True, str(erc_out.name))
 
+        if listing.is_file():
+            pnet_out = out / "power-net-check.json"
+            _run([HERE / "sch_power_net_check.py", "--list", listing, "--out", pnet_out],
+                 label="power net check", allow=(0, 1))
+            checks.append(("power_net", pnet_out))
+            step("power_net", True, str(pnet_out.name))
+
         power_out = out / "power-check.json"
         power_cmd = [HERE / "sch_decoupling_metrics.py", "--input", connectivity]
         if listing.is_file():

@@ -31,6 +31,9 @@ CLEAN = {
     "identity": {"bom_mapping_missing": 0, "footprint_mismatch": 0},
     "netlist": {"netlist_diff": 0},
     "readback": {"readback_diff": 0},
+    # KPI 16: a board with no supply once scored 11/11, so the clean fixture
+    # has to declare the power-net check as well.
+    "power_net": {"power_net_conflicts": 0},
 }
 
 
@@ -62,7 +65,9 @@ class KpiGate(unittest.TestCase):
         self.assertEqual(report["verdict"], "PASS")
         self.assertFalse(report["stability"]["apply_allowed"])
         self.assertEqual(report["blockers"], [])
-        self.assertEqual(len(report["kpis"]), 15)
+        # 16 since the power-net check was added (a board with no supply scored
+        # 11/11 before it existed).
+        self.assertEqual(len(report["kpis"]), 16)
 
     def test_two_consecutive_rounds_allow_apply(self):
         with tempfile.TemporaryDirectory() as d:

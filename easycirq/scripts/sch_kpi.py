@@ -95,6 +95,7 @@ DEFAULTS = {
         "identity": {"tool": "scripts/component_identity_check.py"},
         "netlist": {"tool": "scripts/netlist_diff.py"},
         "readback": {"tool": "easycirq sch read"},
+        "power_net": {"tool": "scripts/sch_power_net_check.py"},
     },
     "kpis": [
         {"no": 1, "id": "unconnected", "title": "未连接/悬空", "kind": "hard",
@@ -166,6 +167,13 @@ DEFAULTS = {
          "reads": [{"check": "readback", "metric": "readback_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "保存 -> 重开 -> 回读的对象/连接差异必须为 0"},
+        # Added after a board scored 11/11 while every supply pin sat on GND.
+        # None of the other checks asks whether the board HAS power.
+        {"no": 16, "id": "power_net", "title": "电源网络", "kind": "hard",
+         "reads": [{"check": "power_net", "metric": "power_net_conflicts"}],
+         "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
+         "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；"
+                 "接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"},
     ],
     "profiles": {
         "default": {"wire_length": 120, "readability": 0.6, "zone_balance": 0.3},
@@ -180,7 +188,7 @@ DEFAULTS = {
 
 DEFAULT_PROFILE = "default"
 CHECK_IDS = ["connectivity", "layout", "wire", "text", "quality", "erc",
-             "pinplan", "power", "identity", "netlist", "readback"]
+             "pinplan", "power", "identity", "netlist", "readback", "power_net"]
 
 
 def _now():

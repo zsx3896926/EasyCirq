@@ -43,7 +43,7 @@ class OfflinePipeline(unittest.TestCase):
             self.assertEqual(summary["kpi"]["wire_length"]["status"], "pass")
             self.assertEqual(summary["kpi"]["readback"]["status"], "missing")
             report = json.loads((out / "kpi-report.json").read_text(encoding="utf-8"))
-            self.assertEqual(len(report["kpis"]), 15)
+            self.assertEqual(len(report["kpis"]), 16)
             self.assertTrue((out / "kpi-report.md").is_file())
             self.assertTrue((out / "kpi-history.jsonl").is_file())
 
