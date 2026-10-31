@@ -88,6 +88,7 @@ def main():
         "nets_unconnected": kpi["nets_unconnected"],
         "pad_layer_gaps": kpi["pad_layer_gaps"],
         "pour_islands": kpi["pour_islands"],
+        "vias_in_pad": kpi.get("vias_in_pad", 0),
         "vias": kpi["vias"],
         "plane_vias": kpi["plane_vias"],
         "tracks": kpi["tracks"],
@@ -102,6 +103,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

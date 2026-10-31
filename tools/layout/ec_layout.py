@@ -1252,6 +1252,28 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
                pt(cx, cy, ax, ay, bx, by), pt(dx, dy, ax, ay, bx, by))
 
 
+def _disc_clear(board, cell, net, pad_forbid, busy, width, radius=VIA_RADIUS, margin=CLEARANCE):
+    """Would a via at `cell` keep clearance from other pads and tracks?
+
+    `margin` is the spacing required on top of the via and trace radii.  Pass a
+    small margin for the "accept rather than disconnect" fallback: a pad with no
+    legal disc at all still has to reach the pour somehow.
+    """
+    need = radius + width / 2 + margin
+    reach = int(math.ceil(need / GRID))
+    for ex in range(-reach, reach + 1):
+        for ey in range(-reach, reach + 1):
+            if math.hypot(ex, ey) * GRID > need:
+                continue
+            c = (cell[0] + ex, cell[1] + ey)
+            owner = pad_forbid.get(c)
+            if owner is not None and owner != net:
+                return False
+            if c in busy:
+                return False
+    return True
+
+
 def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
     """Give every pad of a plane net a via beside it, plus a one-cell stub.
 
@@ -1283,29 +1305,49 @@ def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
                            (1, 1), (1, -1), (-1, 1), (-1, -1)),
                           key=lambda d: -((pad["x"] - comp["x"]) * d[0] +
                                           (pad["y"] - comp["y"]) * d[1]))
+            # Two tiers: a site whose disc keeps full clearance, else (rather than
+            # leaving the pad disconnected) one that at least does not overlap.
+            # Strict-only left 18 GND pads without an access via, i.e. a broken
+            # net, which is worse than a spacing violation.
             target = None
-            for dx, dy in dirs:
-                for step in range(1, max_step + 1):
-                    vc = (pc[0] + dx * step, pc[1] + dy * step)
-                    if not (0 <= vc[0] < board.w and 0 <= vc[1] < board.h):
+            for margin in (CLEARANCE, VIA_BLOCK_MARGIN):
+                for dx, dy in dirs:
+                    for step in range(1, max_step + 1):
+                        vc = (pc[0] + dx * step, pc[1] + dy * step)
+                        if not (0 <= vc[0] < board.w and 0 <= vc[1] < board.h):
+                            break
+                        if vc in busy:
+                            continue
+                        # The whole DISC must clear other pads and tracks, not just
+                        # the centre cell: checking only the centre put GND access
+                        # vias on neighbours' keep-out rings (GND was the top
+                        # offender at 62 of 426 violation involvements).
+                        if not _disc_clear(board, vc, net, pad_forbid, busy,
+                                           route_width(net), margin=margin):
+                            continue
+                        if any((pc[0] + dx * s, pc[1] + dy * s) in busy
+                               for s in range(1, step + 1)):
+                            continue
+                        target = vc
                         break
-                    if vc in busy:
-                        continue
-                    owner = pad_forbid.get(vc)
-                    if owner is not None and owner != net:
-                        continue
-                    if any((pc[0] + dx * s, pc[1] + dy * s) in busy for s in range(1, step + 1)):
-                        continue
-                    target = vc
-                    break
+                    if target:
+                        break
                 if target:
                     break
-            if not target:
-                continue
+            if target is None:
+                target = pc          # via-in-pad fallback, flagged below
+            in_pad = target == pc
             x, y = board.center(*target)
-            vias.append({"net": net, "x": x, "y": y, "plane_layer": int(plane_layer)})
+            via = {"net": net, "x": x, "y": y, "plane_layer": int(plane_layer)}
+            if in_pad:
+                # Last resort: no legal site anywhere near the pad.  Via-in-pad
+                # keeps the net connected but needs resin filling (POFV), so the
+                # via says so out loud and the count is a KPI.
+                via["in_pad"] = True
+            vias.append(via)
             busy.add(target)
-            stubs[net].append([(pc[0], pc[1], 1), (target[0], target[1], 1)])
+            if not in_pad:
+                stubs[net].append([(pc[0], pc[1], 1), (target[0], target[1], 1)])
     return vias, stubs
 
 
@@ -2280,6 +2322,7 @@ def report(board, routed, failures, overflow, plan):
         "clearance_violations": clearance_violations(board, plan),
         "vias": len(plan["vias"]),
         "plane_vias": sum(1 for v in plan["vias"] if v.get("plane_layer")),
+        "vias_in_pad": sum(1 for v in plan["vias"] if v.get("in_pad")),
         "tracks": len(plan["tracks"]),
         "total_length_mil": round(sum(per_net.values()), 1),
         "hpwl_mil": round(hpwl(board.comps), 1),

@@ -218,6 +218,23 @@ def test_pour_islands_sees_a_pour_cut_in_two():
     assert ec.pour_islands(board, wall) >= 1
 
 
+def test_via_disc_needs_the_whole_circle_not_just_the_centre():
+    """Checking only the centre cell put access vias on neighbours' keep-out
+    rings; the disc test has to see copper anywhere inside the radius."""
+    board = make_board([
+        comp("R1", 300, 300, [("1", "A", 300, 300)]),
+        comp("R2", 365, 300, [("1", "B", 365, 300)]),
+    ])
+    pad_forbid, _own = board.pad_blocked()
+    probe = board.cell(300, 300)
+    # copper one cell away: the CENTRE is free, the disc is not
+    assert ec._disc_clear(board, probe, "A", pad_forbid,
+                          {(probe[0] + 1, probe[1])}, ec.TRACE) is False
+    # copper three cells away: clear
+    assert ec._disc_clear(board, probe, "A", pad_forbid,
+                          {(probe[0] + 3, probe[1])}, ec.TRACE) is True
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [
