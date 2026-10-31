@@ -40,7 +40,7 @@ func setupLines(rep doctorReport) []setupLine {
 	if daemonOK && rep.Daemon.Port > 0 {
 		daemonState = fmt.Sprintf("运行中（端口 %d）", rep.Daemon.Port)
 	}
-	lines = append(lines, setupLine{Label: "守护进程", OK: daemonOK, State: daemonState})
+	lines = append(lines, setupLine{Label: "后台服务", OK: daemonOK, State: daemonState})
 
 	connectorOK := strings.EqualFold(rep.Connector.Status, "connected")
 	connectorState := zhState(rep.Connector.Status,
@@ -51,10 +51,10 @@ func setupLines(rep doctorReport) []setupLine {
 			connectorState += "（EasyEDA Pro " + rep.Host.EasyEDAVersion + "）"
 		}
 	}
-	lines = append(lines, setupLine{Label: "EasyEDA 连接器", OK: connectorOK, State: connectorState})
+	lines = append(lines, setupLine{Label: "EasyEDA 插件", OK: connectorOK, State: connectorState})
 
 	skillOK := strings.EqualFold(rep.Skill.Status, "installed")
-	lines = append(lines, setupLine{Label: "技能", OK: skillOK,
+	lines = append(lines, setupLine{Label: "技能包", OK: skillOK,
 		State: zhState(rep.Skill.Status,
 			map[string]string{"installed": "已安装", "missing": "未安装", "unknown": "未知"}, "未知")})
 	return lines

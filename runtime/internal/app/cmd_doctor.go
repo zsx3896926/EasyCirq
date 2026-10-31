@@ -483,19 +483,21 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 
 	if rep.Daemon.Status != "running" {
 		verdict = "blocked"
-		steps = append(steps, "启动自有 daemon：`easycirq daemon start`（端口 23111，状态目录 ~/.easycirq）")
+		// Customer-facing wording: "daemon" and a port number mean nothing to
+		// someone who has never used an EDA tool. Say what to run and why.
+		steps = append(steps, "启动后台服务：`easycirq daemon start`（EasyCirq 在后台常驻的那一部分）")
 	}
 	if rep.Connector.Count == 0 {
 		if verdict == "ok" {
 			verdict = "degraded"
 		}
 		steps = append(steps,
-			"在 EasyEDA Pro 导入自有连接器 "+expectedConnectorName+" v"+expectedConnectorVersion+
-				"（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载")
+			"在 EasyEDA Pro 里装一次 EasyCirq 插件（`easycirq connector path` 会打印要导入的文件路径）"+
+				"；装好后在插件设置里允许外部交互，并完全退出 EasyEDA 再重新打开")
 	}
 	if len(rep.Connector.VersionMatches) > 0 && verdict == "ok" {
 		verdict = "degraded"
-		steps = append(steps, "连接器版本与运行时不一致：重新导入与本运行时配套的 .eext，再重启 EasyEDA")
+		steps = append(steps, "插件版本与工具不匹配：重新导入配套的插件文件，再重启 EasyEDA")
 	}
 	if rep.Skill.Status != "installed" && verdict == "ok" {
 		verdict = "degraded"
