@@ -132,10 +132,20 @@ func newAuditExportCmd(stdout, stderr io.Writer) *cobra.Command {
 // would make the compressed days unreadable - destroying the very evidence
 // `audit cost` and `audit export` exist to provide.
 func openAuditLog(path string) (io.ReadCloser, error) {
+	if strings.HasSuffix(path, ".gz") {
+		// Caller already named the compressed file (audit tail scans the
+		// directory and passes full names). Opening it as-is would hand the
+		// scanner raw gzip bytes and print binary garbage.
+		return openGzipLog(path)
+	}
 	if file, err := os.Open(path); err == nil {
 		return file, nil
 	}
-	compressed, err := os.Open(path + ".gz")
+	return openGzipLog(path + ".gz")
+}
+
+func openGzipLog(path string) (io.ReadCloser, error) {
+	compressed, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("open audit log: %w", err)
 	}
