@@ -31,6 +31,8 @@ func newCapturingDaemon(t *testing.T) (*appConfig, *capturedRequest, func()) {
 			_ = json.NewDecoder(r.Body).Decode(&body)
 			cap.mu.Lock()
 			cap.action = body.Action
+			cap.actions = append(cap.actions, body.Action)
+			cap.payloads = append(cap.payloads, body.Payload)
 			cap.timeoutMs = body.TimeoutMs
 			cap.payload = body.Payload
 			cap.mu.Unlock()
@@ -53,6 +55,8 @@ func newCapturingDaemon(t *testing.T) (*appConfig, *capturedRequest, func()) {
 type capturedRequest struct {
 	mu        sync.Mutex
 	action    string
+	actions   []string
+	payloads  []map[string]any
 	timeoutMs int
 	payload   map[string]any
 }
