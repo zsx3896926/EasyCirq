@@ -86,7 +86,9 @@ func analyzeAcceptance(data *acceptanceFile) acceptanceResult {
 			failCount++
 		default:
 			line.Result = "unknown"
-			line.Why = "没有结论"
+			// Say what the accepted values are: a customer who typed "ok" has no
+			// way to know the vocabulary is pass / fail / unknown.
+			line.Why = fmt.Sprintf("结论只能填 pass、fail 或 unknown，你填的是 %q", strings.TrimSpace(check.Result))
 			unknownCount++
 		}
 		result.Lines = append(result.Lines, line)
