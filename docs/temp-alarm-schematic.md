@@ -84,3 +84,49 @@ LM393 的 VCC 与 GND 之间必须放 100nF（最好再加 10µF）。我漏了�
 2. 加 C1 100nF 去耦
 3. 补 ERC / BOM / 回读证据
 4. 两轮 PASS → 卡片 → PCB → Gerber
+
+## 第一轮修复的结果（2026-10-31 晚）
+
+| 修复 | 命令 | 结果 |
+|---|---|---|
+| U1 未用引脚标 NC | `call schematic.pin.set_no_connect --payload '{"designator":"U1","pins":["5","6","7"],"connected":false}'` 语义上的 `noConnected:true` | `ok: true` |
+| 加去耦电容 | 放 C1（100nF/0603，C9900013340），接 VCC 与 GND | `ok: true`，**#11 decoupling 消失** |
+| 清理多余件 | 删掉失败放置留下的 C2 与未连接的 R4 | `deleted: true` ×2 |
+| 蜂鸣器第 3 脚 | `set_no_connect` BZ1:3 | `ok: true` |
+
+**#11（去耦）已解决**——这是本轮最重要的确认：加了电容，检查就不再报。
+
+## 仍然存在的 #1（悬空引脚 = 5）
+
+`verdict BLOCKED`，`floating_pins=5`。
+
+已排除的原因：
+
+- 管线确实传了 `--list`（NC 排除依赖它），代码里能看到：
+  ```python
+  conn_cmd = [HERE / "sch_connectivity_metrics.py", "--input", connectivity]
+  if listing.is_file():
+      conn_cmd += ["--list", listing]   # the connectivity IR carries no NC flag
+  ```
+- 删掉了 C2、R4 这两个未连接的器件。
+
+还没查清的两点：
+
+1. **C1 的两个引脚同名**：`sch connect --pin C1:2` 报
+   `pin reference "C1:2" is ambiguous (2 matches: 2 2)`，用 `C1:2*` 绑定后，
+   其中一个仍显示 `unconnected`。这是**符号库的数据问题**（0603 电容符号里两个
+   引脚都叫 "2"），不是电路接错。
+2. **NC 标记是否被 `--list` 识别**：`set_no_connect` 返回 `ok`，但 `floating_pins`
+   仍计 5，说明要么 NC 没落到 `sch list` 的输出里，要么 U1:5/6/7 与 BZ1:3 之外的
+   引脚也在计数内。
+
+这两点需要下一轮用 `sch list` 的实际输出核对，不能靠猜。
+
+## 当前进度
+
+| 幕 | 状态 |
+|---|---|
+| 开工 | ✅ 方案、成本、工期 |
+| 设计 | ✅ 原理图完整，**去耦已修**，悬空待查 |
+| 上机前 | ⏳ BLOCKED（#1 + 五条缺证据） |
+| 打样后 | ❌ 无实物 |
