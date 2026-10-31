@@ -331,10 +331,23 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 4. **布线**：`pcb autoroute`（官方路由器）。`pcb route-short` 只连短跳线，连不全。
 5. **权威重读**：`pcb save` → `easycirq doc reload <PCB>` → 再 `pcb drc --json`。
    出现 `staleRisk` 提示时，读到的是过期引擎状态，不能当结论。
+   **注意文档类型**：`pcb drc` / `pcb dump` 要求前台是 PCB，`sch drc` 要求前台是
+   原理图。当前台是另一种时命令直接失败并提示加 `--doc <name>`——**跨类型取数时一律
+   显式带上 `--doc`**，不要依赖"刚才切换过"。
 6. **导出**：DRC `passed: true` 且 `total: 0` 才 `call pcb.manufacture.gerber`。
 
-实测参考（7 器件模拟板）：auto-place 后 DRC 24 项 → 加板框 + autoroute 后 3 项 →
-加大 margin 重布后 **0 项**；Gerber 11 层含 `Drill_PTH_Through.DRL`（有直插件才有钻孔层）。
+实测参考（9 器件模拟板）：auto-place 后 DRC 24 项 → 加板框 + autoroute 后 3 项 →
+加大 margin 重布后 **0 项**。
+
+**Gerber 层数不是固定的**，跟着实际制造内容走：
+
+| 板子情况 | 层数 |
+|---|---|
+| 全贴片、手工布线 | 11 层（含 `Drill_PTH_Through.DRL`，有直插件才有钻孔层） |
+| autoroute 打过孔 | **12 层**，多一个 `Drill_PTH_Through_Via.DRL` |
+
+所以"11 层"不是验收标准；**核对的是层清单里该有的都在**（各铜层、丝印、阻焊、钢网、
+板框、钻孔）。
 
 ### 写入许可：两轮 + uuid
 
