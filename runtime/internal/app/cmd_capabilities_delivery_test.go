@@ -26,25 +26,39 @@ func TestDeliverablesReportApiUntestedByDefault(t *testing.T) {
 	}
 }
 
-func TestDeliverablesGerberDrillCplAreGuiOnly(t *testing.T) {
+func TestDeliverablesGuiOnlyMeansNoTypedAction(t *testing.T) {
 	items := buildDeliverables(protocol.AllActions(), 1, nil)
 	byID := map[string]deliverableItem{}
 	for _, it := range items {
 		byID[it.ID] = it
+	}
+	// The rule, not a fixed list: gui_only means "no typed action backs this,
+	// only the official GUI export". gerber/drill/cpl stopped being gui_only on
+	// 2026-10-28 when pcb.manufacture.gerber/.cpl landed, so a hard-coded
+	// expectation for those ids went stale.
+	for _, it := range items {
+		if it.Status == "gui_only" {
+			if len(it.Actions) != 0 {
+				t.Fatalf("%s is gui_only but claims actions: %v", it.ID, it.Actions)
+			}
+			if !it.HostPath {
+				t.Fatalf("%s is gui_only without a GUI path", it.ID)
+			}
+		}
+		if it.Status == "measured" && len(it.Actions) == 0 {
+			t.Fatalf("%s is measured without any typed action", it.ID)
+		}
 	}
 	for _, id := range []string{"export.gerber", "export.drill", "export.cpl"} {
 		it, ok := byID[id]
 		if !ok {
 			t.Fatalf("missing deliverable %s", id)
 		}
-		if it.Status != "gui_only" {
-			t.Fatalf("%s status = %s, want gui_only (no typed action, GUI export only)", id, it.Status)
+		if len(it.Actions) == 0 {
+			t.Fatalf("%s should now have a typed action (pcb.manufacture.*)", id)
 		}
-		if !it.HostPath {
-			t.Fatalf("%s should mark that a GUI path exists", id)
-		}
-		if len(it.Actions) != 0 {
-			t.Fatalf("%s should not claim any typed action: %v", id, it.Actions)
+		if it.Status == "gui_only" {
+			t.Fatalf("%s still reports gui_only although actions exist", id)
 		}
 	}
 }
