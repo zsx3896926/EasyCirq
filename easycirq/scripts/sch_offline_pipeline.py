@@ -64,6 +64,10 @@ def main(argv=None):
     ap.add_argument("--snapshot-dir", required=True,
                     help="directory holding the frozen reads")
     ap.add_argument("--project", required=True)
+    ap.add_argument("--project-uuid", default="",
+                    help="project uuid stored in the gate token; pass it so a "
+                         "uuid-targeted write passes the daemon check even when "
+                         "the display name differs from what callers type")
     ap.add_argument("--page", required=True)
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--profile", default="default")
@@ -239,6 +243,7 @@ def main(argv=None):
         step("readability", True, str(read_out.name))
     except (OSError, RuntimeError) as exc:
         summary = {"schema": SCHEMA_SUMMARY, "project": args.project,
+                   "project_uuid": args.project_uuid,
                    "page": args.page, "verdict": "BLOCKED",
                    "steps": steps, "error": str(exc)}
         if args.json:
@@ -263,6 +268,8 @@ def main(argv=None):
     cmd = [HERE / "sch_kpi.py", "--input", kpi_input,
            "--history", history, "--record-history",
            "--out", out / "kpi-report.json", "--md", out / "kpi-report.md"]
+    if args.project_uuid:
+        cmd += ["--project-uuid", args.project_uuid]
     for cid, path in checks:
         cmd += ["--check", f"{cid}={path}"]
     rc, stdout, stderr = _run(cmd, label="kpi gate", allow=(0, 1, 2))
