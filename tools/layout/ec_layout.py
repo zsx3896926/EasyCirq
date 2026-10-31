@@ -953,7 +953,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=()):
     pad_forbid, own = board.pad_blocked()
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
@@ -1306,6 +1306,13 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                     clearance_violations(board, post))
         if post_key > pre_key:
             best_routed = backup
+    if pour_trim and pour_layers:
+        plan0 = plan_from(board, best_routed)
+        before = pour_islands(board, plan0)
+        trimmed, removed = trim_pour_crossings(board, best_routed, pour_layers, layers=layers)
+        after = pour_islands(board, plan_from(board, best_routed))
+        if after > before:                      # never trade a whole pour for order
+            pass
     if via_relocate:
         # After the pours: an access via is fixed copper, so relocation has to see
         # it or it will happily slide a routing via onto one (measured: CAM_D0 and
@@ -1748,6 +1755,57 @@ def pour_islands(board, plan, clearance=POUR_CLEARANCE):
         by_layer[int(v["plane_layer"])].append(v)
     return sum(_islands_on(board, plan, layer, vias, clearance)
                for layer, vias in sorted(by_layer.items()))
+
+
+def trim_pour_crossings(board, routed, pour_layers, limit_cells=30, layers=4):
+    """Move the LONG crossings off the pour layer, keep the short ones.
+
+    A pour layer is shared in the default profile and carries thousands of mil of
+    track; what actually splits a pour is a long run, while a short hop leaves the
+    copper connected around it.  Any net whose copper on a pour layer exceeds
+    `limit_cells` cells is re-routed with those layers forbidden, and the result is
+    kept only if every leg still routes - connectivity can only stay equal.
+
+    Returns (trimmed_net_count, mil_removed_from_pour_layers).
+    """
+    free_layers = set(range(1, layers + 1)) - set(pour_layers)
+    if not free_layers:
+        return 0, 0.0
+    pad_forbid, _own = board.pad_blocked()
+    per_net = defaultdict(float)
+    for net, paths in routed.items():
+        if net == PLANE_VIA_KEY:
+            continue
+        for path in paths:
+            per_net[net] += sum(1.0 for (_x, _y, l) in path if l in pour_layers)
+    trimmed, removed = 0, 0.0
+    for net, cells in sorted(per_net.items(), key=lambda kv: -kv[1]):
+        if cells <= limit_cells:
+            continue
+        blocked = {(x, y) for n, ps in routed.items() if n not in (net, PLANE_VIA_KEY)
+                   for p in ps for (x, y, _l) in p}
+        new_paths, ok = [], True
+        for i, j in mst_edges(board.nets[net]):
+            a, b = board.nets[net][i], board.nets[net][j]
+            sc, gc = board.cell(a["x"], a["y"]), board.cell(b["x"], b["y"])
+            start_it = _pad_layers(a, free_layers)
+            goal_it = _pad_layers(b, free_layers)
+            path = astar(board, sc, gc,
+                         {c for c, o in pad_forbid.items() if net not in o} | blocked,
+                         {}, preferred_layer(net, layers), set(), layers,
+                         layer_ok=free_layers,
+                         start_layer=(min(start_it) if start_it else None),
+                         goal_layers=goal_it)
+            if not path:
+                ok = False
+                break
+            new_paths.append(path)
+        if not ok or not new_paths:
+            continue
+        routed[net] = new_paths
+        trimmed += 1
+        removed += cells * GRID
+    return trimmed, removed
 
 
 def _islands_on(board, plan, layer, pour_vias, clearance):
@@ -2915,7 +2973,8 @@ def main():
                                                        pour_preplan=a.pour_preplan,
                                                        via_pressure_on=a.via_pressure_on,
                                                        repair_pass=a.repair_pass,
-                                                       pour_exclusive=a.pour_exclusive)
+                                                       pour_exclusive=a.pour_exclusive,
+                                                       pour_trim=a.pour_trim)
         plan = plan_from(board, routed)
         if a.match_lengths:
             match_lengths(board, plan)
@@ -2954,6 +3013,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 
