@@ -42,7 +42,8 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+import uuid
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 for _stream in (sys.stdout, sys.stderr):
@@ -527,6 +528,47 @@ def evaluate(payload, defn=None):
     }
 
 
+GATE_SCHEMA = "easycirq-gate/v1"
+
+
+def _write_gate(report, path, ttl_minutes=30, project_uuid=""):
+    """Issue or revoke the token the daemon demands before any mutating action.
+
+    PASS + apply_allowed -> write a fresh token (project/page/verdict/expiry/nonce).
+    Anything else        -> delete any existing token: a stale PASS must not be
+                            replayed after a later BLOCKED/REVIEW round.
+    """
+    p = Path(path)
+    if report["verdict"] != "PASS" or not report["stability"]["apply_allowed"]:
+        if p.exists():
+            p.unlink()
+            return {"schema": GATE_SCHEMA, "written": False, "revoked": True,
+                    "path": str(p)}
+        return {"schema": GATE_SCHEMA, "written": False, "revoked": False,
+                "path": str(p)}
+    issued = datetime.now(timezone.utc)
+    ttl = max(1, int(ttl_minutes))
+    gate = {
+        "schema": GATE_SCHEMA,
+        "project": report["project"],
+        "project_uuid": project_uuid or "",
+        "page": report["page"],
+        "verdict": "PASS",
+        "apply_allowed": True,
+        "rounds_pass": report["stability"]["rounds_pass"],
+        "issued_at": issued.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "expires_at": (issued + timedelta(minutes=ttl)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "nonce": uuid.uuid4().hex,
+        "kpis": {r["id"]: r["status"] for r in report["kpis"]},
+        "consumed": False,
+        "note": "daemon checks this before any mutating typed action; one write consumes it",
+    }
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(gate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {"schema": GATE_SCHEMA, "written": True, "revoked": False,
+            "path": str(p), "expires_at": gate["expires_at"]}
+
+
 def render_markdown(report):
     lines = [
         f"# 原理图 KPI 门禁 · {report['project']} / {report['page']}",
@@ -597,6 +639,17 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true", help="print the JSON report")
     ap.add_argument("--out", help="write the JSON report here")
     ap.add_argument("--md", help="write the markdown KPI table here")
+    ap.add_argument("--gate", default=".easycirq/gate.json",
+                    help="gate token path, relative to the EDA working directory "
+                         "(default .easycirq/gate.json); PASS revokes nothing, "
+                         "BLOCKED/REVIEW deletes any existing token")
+    ap.add_argument("--no-gate", action="store_true",
+                    help="do not write or revoke a gate token")
+    ap.add_argument("--project-uuid", default="",
+                    help="optional project uuid stored in the gate token so a "
+                         "uuid-targeted write passes the daemon check")
+    ap.add_argument("--gate-ttl-minutes", type=int, default=30,
+                    help="gate token lifetime (default 30 minutes)")
     ap.add_argument("--record-history", action="store_true",
                     help="append this round to --history")
     args = ap.parse_args(argv)
@@ -649,6 +702,10 @@ def main(argv=None):
     except ValueError as exc:
         print(f"sch_kpi: {exc}", file=sys.stderr)
         return 2
+
+    if not args.no_gate:
+        report["gate"] = _write_gate(report, args.gate, args.gate_ttl_minutes,
+                                   args.project_uuid)
 
     if args.out:
         Path(args.out).write_text(

@@ -236,6 +236,36 @@ class KpiGate(unittest.TestCase):
                                  capture_output=True, text=True, encoding="utf-8")
             self.assertEqual(run.returncode, 2)
 
+    def test_gate_written_only_when_apply_allowed(self):
+        with tempfile.TemporaryDirectory() as d:
+            gate = Path(d) / "gate.json"
+            report = sch_kpi.evaluate(payload())
+            info = sch_kpi._write_gate(report, gate)
+            self.assertFalse(info["written"])
+            self.assertFalse(gate.exists())
+
+            report["stability"]["apply_allowed"] = True
+            info = sch_kpi._write_gate(report, gate)
+            self.assertTrue(info["written"])
+            token = json.loads(gate.read_text(encoding="utf-8"))
+            self.assertEqual(token["schema"], sch_kpi.GATE_SCHEMA)
+            self.assertEqual(token["verdict"], "PASS")
+            self.assertTrue(token["apply_allowed"])
+            self.assertTrue(token["expires_at"])
+
+    def test_gate_is_revoked_when_blocked(self):
+        with tempfile.TemporaryDirectory() as d:
+            gate = Path(d) / "gate.json"
+            report = sch_kpi.evaluate(payload())
+            report["stability"]["apply_allowed"] = True
+            sch_kpi._write_gate(report, gate)
+            self.assertTrue(gate.exists())
+
+            blocked = sch_kpi.evaluate(payload(connectivity={"floating_pins": 1}))
+            info = sch_kpi._write_gate(blocked, gate)
+            self.assertTrue(info["revoked"])
+            self.assertFalse(gate.exists())
+
     def test_check_report_attachment(self):
         with tempfile.TemporaryDirectory() as d:
             inp = Path(d) / "in.json"
@@ -255,3 +285,4 @@ class KpiGate(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

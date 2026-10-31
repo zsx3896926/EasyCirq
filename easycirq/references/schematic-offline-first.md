@@ -163,6 +163,8 @@ python scripts/sch_kpi.py --input reports/p1-kpi-input.json \
 
 | 阶段 | 动作 | 产物 | 通过条件 |
 |---|---|---|---|
+| 客户看 | `easycirq status` / `scripts/sch_status.py` | 一行状态 + 下一步 | `ready_to_write` 才是可写 |
+| 客户看 | `scripts/sch_delivery_card.py --kpi-report <报告>` | 一张卡：✅/⚠️/❌ + 还差什么 | 只有 PASS + 有效通行证才说「可以打样」 |
 | S1 | 写需求/模块/电源树/引脚/BOM 映射/NC 声明 | `spec.json`、`design-state.json`（`stage`+`recovery`） | 每个模块有输入/输出/供电/关键约束 |
 | S2 | `sch_style_plan_check.py` | `style-plan.json` | exit 0，未过不得进器件 |
 | S2 | `design_engine_cli.py plan-labels` | `labels-plan.json` | 跨区信号有语义标签 |
@@ -174,6 +176,35 @@ python scripts/sch_kpi.py --input reports/p1-kpi-input.json \
 
 **任何一步失败**：先读真实状态（`sch read`/`list`），按 journal 续做，禁止整批盲重试；
 同一失败机制连续 2 次换方法；换方法仍失败就记录缺测并停在 `BLOCKED`。
+
+## 门禁通行证（daemon 强制，不靠自觉）
+
+`sch_kpi.py` 在 `verdict=PASS` 且 `apply_allowed=true` 时签发 `.easycirq/gate.json`
+（默认相对 EDA 工作目录）；`BLOCKED/REVIEW` 时**删除**已有令牌，防止旧 PASS 被重放。
+
+daemon 的 `handleAction` 对所有 `ActionSpec.Mutates=true` 的 typed action 校验令牌
+（schema、verdict、未过期、project 匹配）。这是唯一入口——CLI、MCP、playbook 都走它，
+**绕不过去**。拒绝时返回 HTTP 403 与以下之一：
+
+| code | 含义 | 客户下一步 |
+|---|---|---|
+| `GATE_REQUIRED` | 还没有令牌 | 跑一轮门禁（PASS 后自动签发） |
+| `GATE_NOT_PASS` | 令牌是 BLOCKED/REVIEW | 修掉阻断项后重测 |
+| `GATE_EXPIRED` | 超过有效期（默认 30 分钟） | 重新测量 |
+| `GATE_PROJECT_MISMATCH` | 令牌属于别的工程 | 对该工程重测 |
+
+| 环境变量 | 作用 |
+|---|---|
+| `EASYCIRQ_GATE_MODE=strict`（默认） | 无有效令牌即拒绝写入 |
+| `EASYCIRQ_GATE_MODE=warn` | 放行但审计记录（迁移期用） |
+| `EASYCIRQ_GATE_MODE=off` | 仅排障用 |
+| `EASYCIRQ_GATE=<path>` | 覆盖令牌路径 |
+
+令牌有效期 `--gate-ttl-minutes`（默认 30）；`go test` 环境下自动 off，既有 daemon 测试不受影响。
+
+令牌同时记录工程名与可选 `project_uuid`（`sch_kpi.py --project-uuid <uuid>`）：写入时用名字或 uuid
+都能通过，换成别的工程一定被拒。**真机已验证**：无令牌 → `GATE_REQUIRED`；令牌 + 名字 → 放行；
+令牌 + uuid → 放行；别的 uuid → `GATE_PROJECT_MISMATCH`。
 
 ## 与阶段门禁的关系
 

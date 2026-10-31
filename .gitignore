@@ -34,3 +34,23 @@ reports/*
 reports/s5-verify/*
 !reports/s5-verify/README.md
 !reports/s5-verify/zones.json
+
+# local gate-build output
+.gate-build/
+
+
+# local status-build output
+.status-build/
+
+
+# local setup-build output
+.setup-build/
+
+
+# local card-build output
+.card-build/
+
+
+# local acceptance-build output
+.acc-build/
+

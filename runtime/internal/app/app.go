@@ -96,6 +96,10 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 
 	root.AddCommand(
 		newVersionCmd(stdout),
+		newStatusCmd(cfg, stdout, stderr),
+		newSetupCmd(cfg, stdout, stderr),
+		newCardCmd(cfg, stdout, stderr),
+		newAcceptanceCmd(cfg, stdout, stderr),
 		newActionsCmd(stdout, stderr),
 		newNotifyCmd(cfg, stdout, stderr),
 		newCallCmd(cfg, stdout, stderr),

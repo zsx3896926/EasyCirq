@@ -157,6 +157,17 @@ func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Every mutating typed action must carry a live KPI gate token issued by the
+	// offline checker (easycirq-gate/v1). This is the one place all writes pass
+	// through, so a bypassing client cannot skip the gate by picking another
+	// command. EASYCIRQ_GATE_MODE=warn|off is the explicit escape hatch.
+	if gateResp := s.checkMutationGate(&req); gateResp != nil {
+		started := time.Now().UTC()
+		s.audit.Append(fromResponse(started, &req, gateResp))
+		writeJSON(w, http.StatusForbidden, *gateResp)
+		return
+	}
+
 	// system.health is answered by the daemon itself; it needs no connector.
 	if req.Action == "system.health" {
 		started := time.Now().UTC()
