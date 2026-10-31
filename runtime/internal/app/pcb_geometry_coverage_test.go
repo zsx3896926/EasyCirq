@@ -101,7 +101,10 @@ func TestBoardGeometryCoverageDistinguishesKnownEmptyUnknownAndUnsupported(t *te
 		status string
 	}{
 		{"legacy", nil, "unknown"},
-		{"polygon", []any{"POLYGON", []any{0.0, 0.0, "L", 1.0, 0.0, 0.0, 1.0}}, "unsupported"},
+		// Polygon pads now project to their point bounding box (conservative
+		// over-approximation), so they are known geometry; use an actually
+		// unsupported shape to keep exercising the unsupported path.
+		{"unknown shape", []any{"TRAPEZOID", 1.0}, "unsupported"},
 		{"ellipse", []any{"ELLIPSE", 20.0, 10.0}, "unsupported"},
 		{"ngon", []any{"NGON", 20.0, 6.0}, "unsupported"},
 	} {
@@ -115,6 +118,11 @@ func TestBoardGeometryCoverageDistinguishesKnownEmptyUnknownAndUnsupported(t *te
 				t.Fatalf("legacy extent claimed exact: %+v", coverage)
 			}
 		})
+	}
+	component["pads"] = []any{map[string]any{"primitiveId": "p2", "padNumber": "2", "layer": 1.0, "x": 2.0, "y": 3.0, "rotation": 0.0,
+		"shape": []any{"POLYGON", []any{0.0, 0.0, "L", 1.0, 0.0, 0.0, 1.0}}}}
+	if coverage := pcbReadbackCoverage(componentsResult(component), true); !coverage.Complete || coverage.KnownGeometryPads != 1 || len(coverage.UnverifiedPads) != 0 {
+		t.Fatalf("polygon pad should be captured as known geometry: %+v", coverage)
 	}
 }
 
@@ -262,7 +270,7 @@ func TestLayoutIncompleteCannotCertifyOKInPureOrLiveReport(t *testing.T) {
 		{"known native", func(*boardSnapshot) {}, true},
 		{"legacy extent-only", func(s *boardSnapshot) { s.Components[0].Pads[0].Shape = nil }, false},
 		{"unsupported source", func(s *boardSnapshot) {
-			s.Components[0].Pads[0].Shape = []any{"POLYGON", []any{0.0, 0.0, "L", 1.0, 0.0, 0.0, 1.0}}
+			s.Components[0].Pads[0].Shape = []any{"TRAPEZOID", 1.0}
 		}, false},
 		{"failed pad inventory", func(s *boardSnapshot) { s.Components[0].Availability["pads"] = "unavailable" }, false},
 	} {

@@ -318,6 +318,13 @@ func parseCopperAreaObstacles(fillsRaw, pouredRaw []any) ([]pcbCopperArea, error
 			}
 			contours, err := polygonSourceContours(fill["source"])
 			if err != nil {
+				// A degenerate pour fragment (<3 vertices, e.g. an empty
+				// thermal-spoke remnant) contributes no copper; skipping it is
+				// geometrically exact, while failing the whole board on one
+				// zero-area fragment makes every net unroutable.
+				if strings.Contains(err.Error(), "fewer than 3 vertices") {
+					continue
+				}
 				return nil, fmt.Errorf("materialized poured %s fill %s geometry is unknown: %w", id, fillID, err)
 			}
 			out = append(out, pcbCopperArea{ID: fillID, Kind: "poured copper", Net: net, Layer: int(layerN), Contours: contours})

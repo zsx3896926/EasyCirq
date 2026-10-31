@@ -169,7 +169,10 @@ func TestBoardPadProjectionKeepsRelativeDimensionsAndRoutingBoundary(t *testing.
 	}
 	var parsed pcbPadP
 	err := parseNetPathPadShape(map[string]any{"shape": []any{"POLYGON", []any{0.0, 0.0, "L", 1.0, 0.0, 0.0, 1.0}}}, &parsed, "pad")
-	if err != nil || parsed.ShapeOK || !strings.Contains(parsed.ShapeIssue, "not supported") {
-		t.Fatalf("routing boundary changed: %+v err=%v", parsed, err)
+	// Polygon pads (thermal pads / EPAD) are modelled by their point bounding
+	// box: an over-approximation of copper, never free space, so clearance stays
+	// conservative while these pads can still take part in routing.
+	if err != nil || !parsed.ShapeOK || parsed.ShapeIssue != "" || parsed.ShapeW != 1 || parsed.ShapeH != 1 {
+		t.Fatalf("polygon pad should project to its bbox: %+v err=%v", parsed, err)
 	}
 }
