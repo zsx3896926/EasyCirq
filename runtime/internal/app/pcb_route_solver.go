@@ -21,6 +21,16 @@ type pcbRouteRequest struct {
 	StepMil       float64 `json:"stepMil"`
 	MaxDetourMil  float64 `json:"maxDetourMil"`
 	MaxStates     int     `json:"maxStates"`
+	// PoursDynamic marks copper pours as rebuildable copper instead of solid
+	// obstacles. Real workflows route first and re-pour afterwards, and the
+	// pour rebuild clears around new tracks; treating a pour as static copper
+	// makes every net unroutable on a poured board (the pour covers the layer).
+	PoursDynamic bool `json:"poursDynamic,omitempty"`
+	// ViaEscape lets an SMD endpoint (top-layer pad) start/stop a track on the
+	// requested layer through a via at the pad centre: solder-side pads are the
+	// norm, so without this every bottom-layer request is refused as "endpoint
+	// needs an unsupported layer transition". The caller must place the via.
+	ViaEscape bool `json:"viaEscape,omitempty"`
 }
 
 type pcbRouteCandidate struct {
@@ -28,6 +38,9 @@ type pcbRouteCandidate struct {
 	Layer    int          `json:"layer"`
 	WidthMil float64      `json:"widthMil"`
 	Points   [][2]float64 `json:"points"`
+	// ViasRequired lists endpoint pads that need a via to join this track to
+	// the pad's own layer (only set when the request used viaEscape).
+	ViasRequired []string `json:"viasRequired,omitempty"`
 }
 
 type pcbRouteReport struct {
@@ -41,6 +54,9 @@ type pcbRouteReport struct {
 	Search        *pcbrouting.Result `json:"search,omitempty"`
 	LengthMil     float64            `json:"lengthMil"`
 	Bends         int                `json:"bends"`
+	// Diagnostics explains an opaque search failure in terms of the copper that
+	// actually caused it (e.g. which pads hem in a blocked endpoint).
+	Diagnostics []string `json:"diagnostics,omitempty"`
 	Reasons       []string           `json:"reasons,omitempty"`
 	Limitations   []string           `json:"limitations"`
 }
@@ -69,9 +85,33 @@ func preparePCBRouteRequest(in pcbRouteRequest, snap *boardSnapshot) (pcbrouting
 	if snap == nil || len(snap.Partial) > 0 || snap.Components == nil || snap.CopperLayers < 1 || in.Layer == 2 && snap.CopperLayers < 2 {
 		return fail("incomplete", "route solver needs a complete measured snapshot and stackup")
 	}
+	if in.PoursDynamic && snap.Copper != nil {
+		// Pours are rebuilt after routing, so their current materialized copper
+		// must not take part in the obstacle proof. Strip them before geometry
+		// prep as well: a curved pour outline (ARC thermal spokes) otherwise
+		// aborts the whole solve even though the pour is about to be rebuilt.
+		cp := *snap
+		cc := *snap.Copper
+		cc.Poured = []any{}
+		cp.Copper = &cc
+		snap = &cp
+	}
 	g, status, err := preparePCBRouteGeometry(snap)
 	if err != nil {
 		return fail(status, err.Error())
+	}
+	if in.PoursDynamic {
+		// Drop rebuildable pour copper from the obstacle set; static fills and
+		// keep-out regions stay. ctx.clear reads ctx.areas lazily, so mutating
+		// the slice here is enough for both the escape and solver paths.
+		kept := g.areas[:0]
+		for _, area := range g.areas {
+			if area.Kind == "poured copper" {
+				continue
+			}
+			kept = append(kept, area)
+		}
+		g.areas = kept
 	}
 	if err := validateCrystalFenceContour(snap.Outline.Points); err != nil {
 		return fail("incomplete", "invalid board outline: "+err.Error())
@@ -90,10 +130,27 @@ func preparePCBRouteRequest(in pcbRouteRequest, snap *boardSnapshot) (pcbrouting
 	if a.Net != in.Net || z.Net != in.Net {
 		return fail("fail", "route endpoint net differs from the independent request")
 	}
-	if !padLayerMatches(a.Layer, in.Layer) || !padLayerMatches(z.Layer, in.Layer) {
-		return fail("incomplete", "endpoint needs an unsupported layer transition")
+	if !in.ViaEscape && (!padLayerMatches(a.Layer, in.Layer) || !padLayerMatches(z.Layer, in.Layer)) {
+		return fail("incomplete", "endpoint needs an unsupported layer transition (set viaEscape to route from a via at the pad centre)")
 	}
 	r.From, r.To = [2]float64{a.X, a.Y}, [2]float64{z.X, z.Y}
+	// Calibrate the search step for the kernel's fixed cell budget. The kernel
+	// rejects oversized grids with a bare "grid-limit", which users cannot act
+	// on; callers routinely pass a fine step (5-10 mil) together with a large
+	// detour on a large board and get that opaque failure. Raising the step here
+	// keeps the request honest (same detour, coarser lattice) and always yields
+	// either a path or a bounded-search reason the caller can understand.
+	if r.Step > 0 && r.MaxDetour >= 0 {
+		spanX := math.Abs(r.To[0]-r.From[0]) + 2*r.MaxDetour
+		spanY := math.Abs(r.To[1]-r.From[1]) + 2*r.MaxDetour
+		for i := 0; i < 16; i++ {
+			cells := (math.Floor(spanX/r.Step) + 1) * (math.Floor(spanY/r.Step) + 1)
+			if cells <= 240000 {
+				break
+			}
+			r.Step *= 1.5
+		}
+	}
 	if err := r.Validate(); err != nil {
 		return fail("fail", err.Error())
 	}
@@ -235,10 +292,21 @@ func solvePCBRoute(ctx context.Context, in pcbRouteRequest, snap *boardSnapshot,
 	}
 	if result.Status != pcbrouting.Found {
 		report.Reasons = []string{result.Reason}
+		if result.Reason == "endpoint-blocked" {
+			// A bare "endpoint-blocked" is not actionable: on dense connectors a
+			// mechanical/no-net pad (or a foreign-net pad at fine pitch) is
+			// usually what hems the endpoint in. Name the nearest copper.
+			report.Diagnostics = append(report.Diagnostics, diagnoseEndpointBlocked(snap, in)...)
+		}
 		return fmt.Errorf("route search incomplete: %s", result.Reason)
 	}
 	report.Status = "pass"
 	report.Candidate = &pcbRouteCandidate{Net: in.Net, Layer: in.Layer, WidthMil: in.WidthMil, Points: result.Points}
+	if in.ViaEscape {
+		report.Candidate.ViasRequired = []string{in.From, in.To}
+		report.Limitations = append(report.Limitations,
+			"viaEscape: place a via at each endpoint pad centre before using this path")
+	}
 	report.LengthMil, report.Bends = result.Length, result.Bends
 	return nil
 }
@@ -269,4 +337,100 @@ func checkPCBRoute(ctx context.Context, in pcbRouteRequest, snap *boardSnapshot,
 	report.Status = "pass"
 	report.LengthMil, report.Bends = pcbrouting.Metrics(c.Points)
 	return nil
+}
+
+// findSnapshotPad resolves "DESIGNATOR.PAD" against the measured snapshot.
+func findSnapshotPad(snap *boardSnapshot, ref string) (string, boardPad, bool) {
+	idx := strings.LastIndex(ref, ".")
+	if idx <= 0 || idx == len(ref)-1 {
+		return "", boardPad{}, false
+	}
+	des, num := ref[:idx], ref[idx+1:]
+	for _, comp := range snap.Components {
+		if comp.Designator != des {
+			continue
+		}
+		for _, p := range comp.Pads {
+			if p.Number == num {
+				return des, p, true
+			}
+		}
+	}
+	return "", boardPad{}, false
+}
+
+// diagnoseEndpointBlocked lists the nearest foreign copper around each endpoint
+// so a "endpoint-blocked" failure names the obstacle instead of just the symptom.
+func diagnoseEndpointBlocked(snap *boardSnapshot, in pcbRouteRequest) []string {
+	if snap == nil {
+		return nil
+	}
+	type near struct {
+		label string
+		dist  float64
+	}
+	var out []string
+	for _, ref := range []string{in.From, in.To} {
+		des, pad, ok := findSnapshotPad(snap, ref)
+		if !ok {
+			continue
+		}
+		var items []near
+		for _, comp := range snap.Components {
+			for _, p := range comp.Pads {
+				if comp.Designator == des && p.Number == pad.Number {
+					continue
+				}
+				d := math.Hypot(p.X-pad.X, p.Y-pad.Y)
+				if d > 80 {
+					continue
+				}
+				net := p.Net
+				if net == "" {
+					net = "netless/mechanical"
+				}
+				items = append(items, near{fmt.Sprintf("%s.%s (%s) %.1fmil", comp.Designator, p.Number, net, d), d})
+			}
+		}
+		for _, raw := range snap.Copper.Vias {
+			m, okMap := raw.(map[string]any)
+			if !okMap {
+				continue
+			}
+			vx, okx := asFloatOK(m["x"])
+			vy, oky := asFloatOK(m["y"])
+			if !okx || !oky {
+				continue
+			}
+			d := math.Hypot(vx-pad.X, vy-pad.Y)
+			if d > 80 {
+				continue
+			}
+			net := asString(m["net"])
+			if net == "" {
+				net = "netless"
+			}
+			items = append(items, near{fmt.Sprintf("via (%s) %.1fmil", net, d), d})
+		}
+		if len(items) == 0 {
+			out = append(out, fmt.Sprintf("%s at (%.1f,%.1f): no copper within 80mil — the blockage is the pad's own keep-out", ref, pad.X, pad.Y))
+			continue
+		}
+		for i := 0; i < len(items); i++ {
+			for j := i + 1; j < len(items); j++ {
+				if items[j].dist < items[i].dist {
+					items[i], items[j] = items[j], items[i]
+				}
+			}
+		}
+		if len(items) > 6 {
+			items = items[:6]
+		}
+		parts := make([]string, 0, len(items))
+		for _, it := range items {
+			parts = append(parts, it.label)
+		}
+		out = append(out, fmt.Sprintf("%s at (%.1f,%.1f): hemmed in by %s", ref, pad.X, pad.Y, strings.Join(parts, ", ")))
+	}
+	return out
 }

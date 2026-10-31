@@ -27,6 +27,11 @@ func pcbExactPadSegmentGap(p pcbPadP, a, z [2]float64) (float64, error) {
 		if math.Abs(p.ShapeW-p.ShapeH) < 1e-6 {
 			return math.Max(0, segPtDist(0, 0, x, y, u, v)-p.ShapeW/2), nil
 		}
+	case "POLYGON":
+		// Polygon pads are modeled by their bounding box (see
+		// parseNetPathPadShape), which over-approximates copper and therefore
+		// keeps clearance conservative instead of refusing the whole board.
+		return math.Max(0, rectSegDist(-p.ShapeW/2, -p.ShapeH/2, p.ShapeW/2, p.ShapeH/2, x, y, u, v)), nil
 	}
 	return 0, fmt.Errorf("pad %s.%s exact clearance for %s is unsupported", p.Designator, p.Number, p.Shape)
 }
