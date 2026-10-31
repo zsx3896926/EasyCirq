@@ -37,11 +37,21 @@ python easycirq/scripts/pcb_placement_benchmark.py --all # 期望每个案例 OK
 
 ## 二、为什么还要第 3 条（内容一致性）
 
+第 3 条是**四向**的，四个数字/结论都要看：
+
+- `repo vs bundle payload`：仓库的每个文件都进包了吗
+- `files in bundle payload that the repo does not have`：包里有没有仓库造不出来的文件
+- `repo vs installed`：技能副本同步到位了吗
+- `files in installed that the repo does not have`：副本有没有多余文件
+  （最容易犯：顺手把 `docs/` 的文档复制进 `references/`）
+
 第 3 条的输出必须是：
 
 ```
-== repo vs bundle payload ==   all 12 key files equal
-== repo vs installed ==        all 12 key files equal
+== repo  vs  bundle payload ==                              all 327 key files equal
+== files in bundle payload that the repo does not have ==   none
+== repo  vs  installed ==                                   all 327 key files equal
+== files in installed that the repo does not have ==        none
 CONSISTENT
 ```
 
