@@ -1,0 +1,276 @@
+#!/usr/bin/env python3
+"""One-command offline pipeline: frozen snapshot -> checks -> KPI verdict.
+
+Turns the manual S3+S4 sequence into one deterministic call:
+
+    connectivity.json (+ list.json / svg-text.json)
+        -> layout.json (via layout_from_easycirq.py)
+        -> sch_connectivity_metrics.py / sch_layout_check.py / sch_wire_metrics.py
+        -> sch_kpi.py -> PASS | REVIEW | BLOCKED
+
+It never calls EDA and never edits a project. Every intermediate report is
+written to ``--out-dir`` so the verdict can be audited, and the exit code is
+the KPI gate's own (0/1/2). A missing input is a ``BLOCKED`` verdict, never a
+silent pass.
+
+Snapshot directory contract (only 1 is required):
+  connectivity.json   easycirq sch connectivity --page <P>            (required)
+  list.json           easycirq sch list --include-bbox --include-pins
+                      --include-wires --include-page-primitives      (needed when layout.json is absent)
+  svg-text.json       svg_text_bbox.py over the exported SVG         (optional, enables full text coverage)
+  layout.json         layout_from_easycirq.py output                 (optional, skips the adapter)
+
+Usage:
+  python scripts/sch_offline_pipeline.py --snapshot-dir reports/p1-snapshot \
+      --project RetroCam-02 --page P1 --out-dir reports/p1
+
+Exit codes: 0 PASS, 1 REVIEW, 2 BLOCKED (also invalid/missing input).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
+HERE = Path(__file__).resolve().parent
+SCHEMA_SUMMARY = "easycirq-sch-offline-pipeline/v1"
+
+
+def _run(args, *, label, allow=(0,)):
+    proc = subprocess.run([sys.executable, *map(str, args)],
+                          capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", timeout=300)
+    if proc.returncode not in allow:
+        raise RuntimeError(f"{label} failed rc={proc.returncode}: "
+                           f"{(proc.stderr or proc.stdout or '')[:800]}")
+    return proc.returncode, proc.stdout or "", proc.stderr or ""
+
+
+def _need(path, label):
+    if not path.is_file():
+        raise FileNotFoundError(f"{label} not found: {path}")
+    return path
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(
+        description="Frozen snapshot -> offline checks -> 15-KPI verdict")
+    ap.add_argument("--snapshot-dir", required=True,
+                    help="directory holding the frozen reads")
+    ap.add_argument("--project", required=True)
+    ap.add_argument("--page", required=True)
+    ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--profile", default="default")
+    ap.add_argument("--round", type=int, default=1)
+    ap.add_argument("--reuse-layout", action="store_true",
+                    help="use snapshot/layout.json instead of rebuilding from list.json")
+    ap.add_argument("--json", action="store_true", help="print the summary JSON")
+    args = ap.parse_args(argv)
+
+    snap = Path(args.snapshot_dir)
+    out = Path(args.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    steps = []
+
+    def step(name, ok, detail):
+        steps.append({"step": name, "ok": ok, "detail": detail})
+
+    try:
+        connectivity = _need(snap / "connectivity.json", "connectivity.json")
+        listing = snap / "list.json"
+        prebuilt = snap / "layout.json"
+        # A prebuilt layout.json can predate the latest list read and then hide
+        # what a write actually changed. Rebuild from list.json by default and
+        # only reuse when there is no list read or the caller says so.
+        if listing.is_file() and (not prebuilt.is_file() or not args.reuse_layout):
+            layout = out / "layout.json"
+            cmd = [HERE / "layout_from_easycirq.py", "--list", listing,
+                   "--out", layout]
+            svg = snap / "svg-text.json"
+            if svg.is_file():
+                cmd += ["--rendered-text", svg]
+            try:
+                _run(cmd, label="layout_from_easycirq", allow=(0,))
+                step("layout", True, f"rebuilt from list -> {layout.name}")
+            except RuntimeError:
+                if not prebuilt.is_file():
+                    raise
+                # no page/sheet bounds in the list read: fall back, but say so
+                layout = prebuilt
+                step("layout", True,
+                     "rebuild failed (missing sheet bounds); used prebuilt layout.json")
+        elif prebuilt.is_file():
+            layout = prebuilt
+            step("layout", True, "reused prebuilt layout.json (--reuse-layout)")
+        else:
+            raise FileNotFoundError(
+                "需要 list.json（用于生成布局）或预置 layout.json")
+
+        checks = []
+        conn_out = out / "connectivity-check.json"
+        conn_cmd = [HERE / "sch_connectivity_metrics.py", "--input", connectivity]
+        listing = snap / "list.json"
+        if listing.is_file():
+            # the connectivity IR carries no NC flag; the list read does
+            conn_cmd += ["--list", listing]
+        conn_cmd += ["--out", conn_out, "--quiet"]
+        _run(conn_cmd, label="connectivity metrics", allow=(0, 1))
+        checks.append(("connectivity", conn_out))
+        step("connectivity", True, str(conn_out.name))
+
+        drc = snap / "drc.json"
+        if drc.is_file():
+            erc_out = out / "erc-check.json"
+            _run([HERE / "sch_drc_metrics.py", "--input", drc,
+                  "--out", erc_out, "--quiet"],
+                 label="drc metrics", allow=(0, 1, 2))
+            checks.append(("erc", erc_out))
+            step("erc", True, str(erc_out.name))
+
+        power_out = out / "power-check.json"
+        power_cmd = [HERE / "sch_decoupling_metrics.py", "--input", connectivity]
+        if listing.is_file():
+            power_cmd += ["--list", listing]
+        power_cmd += ["--out", power_out, "--quiet"]
+        _run(power_cmd, label="decoupling metrics", allow=(0, 1))
+        checks.append(("power", power_out))
+        step("decoupling", True, str(power_out.name))
+
+        bom = next((snap / name for name in ("bom.tsv", "bom.csv")
+                    if (snap / name).is_file()), None)
+        if bom is not None:
+            bom_out = out / "bom-check.json"
+            _run([HERE / "sch_bom_metrics.py", bom, "--out", bom_out, "--quiet"],
+                 label="bom metrics", allow=(0, 1, 2))
+            checks.append(("identity", bom_out))
+            step("bom", True, str(bom_out.name))
+
+        pinplan = snap / "pinplan.json"
+        if pinplan.is_file():
+            pin_out = out / "pinplan-check.json"
+            rc, stdout, stderr = _run([HERE / "pin_plan_check.py", pinplan],
+                                      label="pin plan check", allow=(0, 1, 2))
+            if not stdout.strip():
+                raise RuntimeError(f"pin_plan_check produced no report: {stderr[:400]}")
+            pin_out.write_text(stdout, encoding="utf-8")
+            checks.append(("pinplan", pin_out))
+            step("pinplan", True, str(pin_out.name))
+        else:
+            # no plan supplied: only N/A when the page has no IC at all;
+            # otherwise the gap stays missing and blocks the gate
+            ir_data = json.loads(Path(connectivity).read_text(encoding="utf-8"))
+            has_ic = any(str(c.get("ref", "")).upper().startswith(("U", "IC"))
+                         for c in ir_data.get("components") or [])
+            if not has_ic:
+                pin_out = out / "pinplan-check.json"
+                pin_out.write_text(json.dumps({
+                    "schema": "easycirq-sch-pinplan-na/v1",
+                    "verdict": "n/a",
+                    "note": "页面无 IC（U*/IC*），引脚复用不适用",
+                }, ensure_ascii=False) + "\n", encoding="utf-8")
+                checks.append(("pinplan", pin_out))
+                step("pinplan", True, "n/a (no IC)")
+
+        before = snap / "connectivity-before.json"
+        if before.is_file():
+            diff_out = out / "netlist-diff-check.json"
+            _run([HERE / "sch_connectivity_diff.py", "--before", before,
+                  "--after", connectivity, "--out", diff_out, "--quiet"],
+                 label="connectivity diff", allow=(0, 1))
+            checks.append(("netlist", diff_out))
+            step("netlist-diff", True, str(diff_out.name))
+
+        reopen = snap / "connectivity-reopen.json"
+        if reopen.is_file():
+            # S5 readback: the post-reopen read must match the pre-write read
+            rb_out = out / "readback-check.json"
+            _run([HERE / "sch_connectivity_diff.py", "--before", connectivity,
+                  "--after", reopen, "--metric", "readback_diff",
+                  "--out", rb_out, "--quiet"],
+                 label="readback diff", allow=(0, 1))
+            checks.append(("readback", rb_out))
+            step("readback", True, str(rb_out.name))
+
+        layout_out = out / "layout-check.json"
+        # rc=2 means "incomplete/blocking findings": still a usable report, the
+        # KPI gate decides; do not abort the pipeline on it.
+        _run([HERE / "sch_layout_check.py", layout, "--strict",
+              "--out", layout_out], label="layout check", allow=(0, 1, 2))
+        checks.append(("layout", layout_out))
+        step("layout-check", True, str(layout_out.name))
+
+        wire_out = out / "wire-check.json"
+        _run([HERE / "sch_wire_metrics.py", layout, "--out", wire_out],
+             label="wire metrics", allow=(0,))
+        checks.append(("wire", wire_out))
+        step("wire", True, str(wire_out.name))
+
+        read_out = out / "readability-check.json"
+        _run([HERE / "sch_readability_metrics.py", "--ir", connectivity,
+              "--layout", layout, "--out", read_out, "--quiet"],
+             label="readability metrics", allow=(0, 2))
+        checks.append(("readability", read_out))
+        step("readability", True, str(read_out.name))
+    except (OSError, RuntimeError) as exc:
+        summary = {"schema": SCHEMA_SUMMARY, "project": args.project,
+                   "page": args.page, "verdict": "BLOCKED",
+                   "steps": steps, "error": str(exc)}
+        if args.json:
+            print(json.dumps(summary, ensure_ascii=False, indent=2))
+        else:
+            print(f"offline pipeline: BLOCKED — {exc}", file=sys.stderr)
+        return 2
+
+    history = out / "kpi-history.jsonl"
+    kpi_input = out / "kpi-input.json"
+    kpi_input.write_text(json.dumps({
+        "schema": "easycirq-sch-kpi-input/v1",
+        "project": args.project,
+        "page": args.page,
+        "round": args.round,
+        "profile": args.profile,
+        "history": history.name,
+        "checks": [],
+        "note": "由 sch_offline_pipeline.py 生成；其余检查未采集，按缺失处理。",
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    cmd = [HERE / "sch_kpi.py", "--input", kpi_input,
+           "--history", history, "--record-history",
+           "--out", out / "kpi-report.json", "--md", out / "kpi-report.md"]
+    for cid, path in checks:
+        cmd += ["--check", f"{cid}={path}"]
+    rc, stdout, stderr = _run(cmd, label="kpi gate", allow=(0, 1, 2))
+
+    report = json.loads((out / "kpi-report.json").read_text(encoding="utf-8"))
+    summary = {
+        "schema": SCHEMA_SUMMARY,
+        "project": report["project"],
+        "page": report["page"],
+        "verdict": report["verdict"],
+        "apply_allowed": report["stability"]["apply_allowed"],
+        "kpi": {row["id"]: {"value": row["value"], "status": row["status"]}
+                for row in report["kpis"]},
+        "steps": steps,
+        "artifacts": sorted(p.name for p in out.iterdir() if p.is_file()),
+    }
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        advisory = {item["kpi"] for item in report.get("advisory", [])}
+        print(f"offline pipeline: {report['verdict']} "
+              f"(apply_allowed={report['stability']['apply_allowed']})")
+        for row in report["kpis"]:
+            if row["status"] in ("fail", "missing", "unknown"):
+                tag = "advisory" if row["id"] in advisory else row["status"]
+                print(f"  {tag:<8} #{row['no']} {row['id']}")
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

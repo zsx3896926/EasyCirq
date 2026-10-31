@@ -25,3 +25,12 @@ node_modules/
 .easycirq/
 # release build outputs (local artifacts only)
 dist-v*/
+
+# KPI gate: reports/ holds regenerated evidence, not source. Keep only the
+# human-readable receipts; everything else is re-collected before each round.
+reports/*
+!reports/README.md
+!reports/s5-verify/
+reports/s5-verify/*
+!reports/s5-verify/README.md
+!reports/s5-verify/zones.json
