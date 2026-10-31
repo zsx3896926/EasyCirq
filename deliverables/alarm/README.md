@@ -103,3 +103,14 @@ PCB下单必读.txt                  下单说明
 
 导出生产文件时若报 `GATE_REQUIRED`，是检查结论已过期（默认 30 分钟）——
 重跑一次检查即可，不是故障。
+
+## 核对文件完整性
+
+拿到包之后可以核一下有没有传输损坏：
+
+`ash
+sha256sum -c SHA256SUMS        # Linux / macOS
+Get-FileHash * -Algorithm SHA256   # Windows PowerShell
+`
+
+每个文件都应该显示 OK。不一致说明下载或拷贝过程中坏了，重新拿一份。
