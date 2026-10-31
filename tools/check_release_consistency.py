@@ -47,6 +47,20 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()[:12]
 
 
+def version_key(path: Path):
+    """Sort by version NUMBERS, not by string.
+
+    Plain string ordering puts 1.3.2 after 1.3.12, so the checker once compared
+    against a bundle three releases old and reported a mismatch that did not
+    exist (or, worse, would have reported 'consistent' against a stale bundle).
+    """
+    stem = path.name.replace("easycirq-toolchain-", "").replace(".zip", "")
+    parts = []
+    for chunk in stem.split("."):
+        parts.append(int(chunk) if chunk.isdigit() else -1)
+    return tuple(parts)
+
+
 def newest_bundle(folder: Path):
     """Newest toolchain bundle, excluding the installer wrapper.
 
@@ -55,11 +69,13 @@ def newest_bundle(folder: Path):
     """
     if not folder.is_dir():
         return None
-    candidates = sorted(
+    candidates = [
         path for path in folder.glob("easycirq-toolchain-*.zip")
         if "installer" not in path.name
-    )
-    return candidates[-1] if candidates else None
+    ]
+    if not candidates:
+        return None
+    return max(candidates, key=version_key)
 
 
 def bundle_files(bundle: Path) -> dict:
