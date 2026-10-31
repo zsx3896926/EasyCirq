@@ -131,6 +131,15 @@ def test_router_and_plan_congestion_must_agree():
         assert overflow == plan_cong, (overflow, plan_cong)
 
 
+def test_gate_refuses_a_kpi_it_could_not_measure():
+    """`check` reads a plan from disk, which has no router `paths`; the leg count
+    is then UNMEASURED. Passing it as 0 is the handoff's bug #3 all over again."""
+    ok, failures = ec.gate({"unrouted_legs": None, "congestion_cells": 0,
+                            "clearance_violations": 0, "nets_unconnected": 0})
+    assert not ok
+    assert "unrouted_legs" in failures
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [

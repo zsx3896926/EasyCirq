@@ -303,3 +303,15 @@ track-track 4 | via-track 103 | via-pad 72 | 合计 179
 2. **区域铺铜**（§6.3）：GND 用 pour + 8–10 mil pour clearance 避让，而非整层平面。
 3. 等长通道分配器（§6.2）：CAM 97 mil 容量缺口，必须分两层 4+4。
 
+### 11.5 `check` 的一个 KPI 诚实性修复
+
+`check` 从磁盘读 plan，而 plan 里没有路由器的 `paths`，于是 `unrouted_legs` 一直是
+**0**——它测不了这一项却报了通过值（正是 §4 第 3 条 bug 的同族）。现在这类"测不了"
+的指标一律输出 `null` 并让门禁 FAIL：
+
+```
+"unrouted_legs": null,  "pass": false
+```
+
+`report(failures=None)` 表示未测；`gate()` 把 `null` 当失败，不当通过。
+

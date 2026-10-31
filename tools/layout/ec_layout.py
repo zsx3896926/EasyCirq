@@ -1793,7 +1793,11 @@ def report(board, routed, failures, overflow, plan):
     for t in plan["tracks"]:
         per_net[t["net"]] += math.hypot(t["x2"] - t["x1"], t["y2"] - t["y1"])
     kpi = {
-        "unrouted_legs": len(failures),
+        # `failures is None` means "this command cannot see the router's failure
+        # list" (a plan read back from disk has no `paths`). Reporting 0 there
+        # would repeat bug #3 from the handoff: the gate passing a KPI it never
+        # measured. `None` is a gate failure, never a pass.
+        "unrouted_legs": None if failures is None else len(failures),
         "congestion_cells": congestion_from_plan(board, plan),
         "nets_unconnected": len(connectivity_from_plan(board, plan)),
         "clearance_violations": clearance_violations(board, plan),
@@ -1902,8 +1906,10 @@ def main():
         routed[net] = paths
     # The gate must judge exactly what report() computes: an earlier version
     # overwrote congestion with 0 here, so `check` passed a KPI it had never
-    # measured.
-    kpi = report(board, routed, [], [], plan)
+    # measured.  Same trap for unrouted legs: a plan on disk carries no `paths`,
+    # so the leg count is UNMEASURED, not zero.
+    measured_legs = bool(plan.get("paths"))
+    kpi = report(board, routed, [] if measured_legs else None, [], plan)
     ok, failures = gate(kpi)
     if a.cmd == "check":
         print(json.dumps({"kpi": kpi, "failures": failures, "pass": ok}, ensure_ascii=False, indent=1))
