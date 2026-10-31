@@ -96,3 +96,32 @@ pytest 默认同文件内顺序执行，但仍可能受前序用例残留文件�
 若再次出现并带出断言信息，再按报错定位。
 
 **影响**：CI 上偶发红灯，重跑即可。
+
+## 「客户可见」的边界在哪（2026-11-01）
+
+扫 `easycirq/scripts/**/*.py` 的字符串字面量，命中 92 处禁用词。逐一看过，
+**没有一处是客户能看到的**：
+
+| 位置 | 是什么 | 谁读 |
+|---|---|---|
+| `easycirq_mcp/tools.py`、`runners.py`、`server.py` | MCP 工具的描述与提示 | **agent** |
+| `delivery_audit/`、`design_engine/` | 审计与设计引擎 | 维护者 |
+| `doctor_env.py` | 环境诊断 | 维护者 |
+| `runners.py:538` 的 `apply_allowed` | 给 agent 的技术提示 | agent |
+
+**客户能看到的只有四条命令的输出**：
+`easycirq setup` / `status` / `card` / `acceptance`。
+
+它们的实现只有两处：
+- Go 版：`runtime/internal/app/cmd_setup.go` / `cmd_status.go` / `cmd_card.go` / `cmd_acceptance.go`
+- Python 版（MCP 走这条）：`easycirq/scripts/sch_status.py` / `sch_delivery_card.py`
+
+`tests/test_customer_language.py` 现在覆盖的正是这六个文件。
+
+### 为什么要把这条写下来
+
+否则下一次扫到 92 处命中，会以为还有 92 个问题要修——然后去改那些
+**根本不会给客户看**的字符串，甚至可能把 agent 需要的技术描述改成白话，
+反而降低 agent 的判断质量。
+
+**「客户可见」由调用路径决定，不由文件位置决定。**
