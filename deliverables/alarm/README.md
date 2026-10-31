@@ -13,9 +13,10 @@
 | `schematic.svg` | 原理图（可放大看细节） |
 | `bom.csv` | 物料清单（含立创商城编号，可直接配单） |
 | `card.txt` | 上机前的卡（能不能打样 / 还差什么） |
-| `board-gerber.zip` | 给板厂的生产文件（11 层，含钻孔） |
+| `board-gerber.zip` | 给板厂的生产文件（12 层，含两套钻孔） |
 | `acceptance-guide.md` | 打样回来后怎么验收 |
 | `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
+| `electrical-checklist.md` | **打样后按这张表测**：每个节点该有的电压、六个必测数、最可能接反的那一项 |
 | `SHA256SUMS` | 校验和（核对传输是否完整） |
 
 ## 电路是什么
