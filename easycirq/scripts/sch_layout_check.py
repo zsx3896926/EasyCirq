@@ -376,7 +376,10 @@ def analyze(data, strict=False):
             kind = item.get('kind', 'unknown')
             if not isinstance(kind, str) or not kind.strip():
                 raise ValueError(f'net_flags[{index}].kind must be a nonempty string')
-            anchor = point(item['anchor']) if 'anchor' in item else None
+            # A flag can legitimately carry "anchor": null (the adapter emits
+            # null when the anchor could not be measured); the key being present
+            # is not the same as a usable point.
+            anchor = point(item['anchor']) if item.get('anchor') is not None else None
             text_id = item.get('text_id')
             if text_id is not None and (not isinstance(text_id, str) or not text_id.strip()):
                 raise ValueError(f'net_flags[{index}].text_id must be a nonempty string')
