@@ -65,7 +65,7 @@ python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --prof
 D1 is not really a close call — a 2-layer board costs open nets, pour continuity
 and length at the same time.
 
-`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
+A third route exists: keep the pour shared but re-route only the nets that cross it\nfor a long run (`--pour-trim`). It is the first configuration that has zero open\nlegs AND a whole ground plane at once, at clearance 366:\n\n| configuration | clearance | unrouted | pour islands |\n|---|---|---|---|\n| shared | 290 | 0 | 1 |\n| shared + `--pour-trim` | 366 | 0 | **0** |\n| exclusive | 153 | 4 | 0 |\n\n`shared-pour` and `exclusive-pour` are both non-dominated, and that is exactly D2:
 open nets versus a whole ground plane. Reproduce with:
 
 ```bash
@@ -109,3 +109,4 @@ the project, and what is the rollback if the read-back DRC disagrees?
 | `NET_ORDER` | small-first | measured better than big-first and region-first |
 | `VIA_COST` | 14 | 20 buys 48 fewer violations but one more open net; the gate ranks open nets first |
 | `BEST_EFFORT_MAX_CONFLICTS` | 2 | an open net is worse than a spacing violation, an overlap is not |
+
