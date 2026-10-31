@@ -34,6 +34,8 @@ BUS_PREFIX = ("CAM_", "LCD_", "SD_")
 POWER = {"+3V3", "VBUS", "BB_VIN", "VBAT_P", "BATT_M", "VDD_DW", "GND"}
 HALO = [(dx, dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
 KPI_KEYS = ("unrouted_legs", "congestion_cells", "clearance_violations", "nets_unconnected")
+PLANE_VIA_KEY = "__plane_vias__"   # routed[PLANE_VIA_KEY] carries plane access vias
+VIA_RADIUS = 10.0                  # mil, 0.5 mm via pad -> 10 mil radius
 
 
 # ── model ────────────────────────────────────────────────────────────────────
@@ -448,10 +450,14 @@ def apply_placement(board, placed):
 
 
 # ── routing ──────────────────────────────────────────────────────────────────
-def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2):
+def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok=None):
     def h(c):
         return abs(c[0] - goal[0]) + abs(c[1] - goal[1])
 
+    if layer_ok is None:
+        layer_ok = set(range(1, layers + 1))
+    if pref not in layer_ok:
+        pref = min(layer_ok)
     s = (start[0], start[1], pref)
     heap, came, best = [(h(s), 0.0, s)], {}, {s: 0.0}
     while heap:
@@ -481,7 +487,7 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2):
         # via to an adjacent layer (generalised so a 4-layer stackup can be
         # modelled: crossing nets then legally share an (x,y) cell)
         for other in (l - 1, l + 1):
-            if other < 1 or other > layers:
+            if other not in layer_ok:
                 continue
             if (x, y) not in forbidden or (x, y) in allowed or (x, y) == goal:
                 nxt = (x, y, other)
@@ -563,8 +569,12 @@ def path_conflicts(board, path, routed, net, width):
     return False
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None):
     pad_forbid, own = board.pad_blocked()
+    layer_ok = set(range(1, layers + 1))
+    if plane_layer:
+        # A plane owns its whole layer: nobody else may run a track there.
+        layer_ok.discard(int(plane_layer))
     def net_priority(n):
         """Route buses FIRST so their length-matching channels exist before the
         general signals fill every free cell (measured: with the old order, zero
@@ -581,7 +591,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
             return 1
         return 2
 
-    nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2],
+    nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in plane_nets],
                   key=lambda n: (net_priority(n), len(board.nets[n]), n))
     history = defaultdict(float)
     best = None
@@ -650,7 +660,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             if (owners and net in owners) or ring_owner == net:
                                 allowed.add((gx, gy))
                 path = astar(board, sc, gc, forbidden | {c for c in own.get(net, set()) if c not in (sc, gc)},
-                             cost, pref, allowed, layers)
+                             cost, pref, allowed, layers, layer_ok=layer_ok)
                 if path and segment_check and path_conflicts(board, path, routed, net, route_width(net)):
                     # Spacing as a real geometric constraint: reject the too-close run
                     # and make its cells expensive so the next pass routes elsewhere.
@@ -698,8 +708,13 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         for c in contended:
             history[c] += 1.0
     score, best_routed, best_failures, best_congestion = best
+    if plane_nets and plane_layer:
+        vias, stubs = plane_access(board, best_routed, plane_nets, int(plane_layer))
+        for net, paths in stubs.items():
+            best_routed.setdefault(net, []).extend(paths)
+        if vias:
+            best_routed[PLANE_VIA_KEY] = vias
     return (len(best_failures), best_congestion), best_routed, best_failures
-    return best
 
 
 def _seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
@@ -823,9 +838,70 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
                pt(cx, cy, ax, ay, bx, by), pt(dx, dy, ax, ay, bx, by))
 
 
+def plane_access(board, routed, plane_nets, plane_layer, max_step=3):
+    """Give every pad of a plane net a via beside it, plus a one-cell stub.
+
+    A plane is how a four-layer board really connects GND: the pads drop to the
+    inner layer through vias and the plane does the rest.  Modelling it as 41
+    more MST legs instead — the previous behaviour — spent 22% of the routing
+    budget on the one net that never needs a track.
+
+    Vias go BESIDE the pad, not in it: via-in-pad needs resin filling (POFV), a
+    different process that must not be assumed silently.  The stub keeps
+    pad -> via -> plane a real copper path, so connectivity still has to find it
+    and a missing via still shows up as unconnected.
+    """
+    pad_forbid, _own = board.pad_blocked()
+    busy = set()
+    for net, paths in routed.items():
+        if net in plane_nets or net == PLANE_VIA_KEY:
+            continue
+        for path in paths:
+            for (x, y, _l) in path:
+                busy.add((x, y))
+
+    vias, stubs = [], defaultdict(list)
+    for net in sorted(plane_nets):
+        for pad in board.nets.get(net, []):
+            pc = board.cell(pad["x"], pad["y"])
+            comp = board.comps.get(pad["des"]) or {"x": pad["x"], "y": pad["y"]}
+            dirs = sorted(((1, 0), (-1, 0), (0, 1), (0, -1),
+                           (1, 1), (1, -1), (-1, 1), (-1, -1)),
+                          key=lambda d: -((pad["x"] - comp["x"]) * d[0] +
+                                          (pad["y"] - comp["y"]) * d[1]))
+            target = None
+            for dx, dy in dirs:
+                for step in range(1, max_step + 1):
+                    vc = (pc[0] + dx * step, pc[1] + dy * step)
+                    if not (0 <= vc[0] < board.w and 0 <= vc[1] < board.h):
+                        break
+                    if vc in busy:
+                        continue
+                    owner = pad_forbid.get(vc)
+                    if owner is not None and owner != net:
+                        continue
+                    if any((pc[0] + dx * s, pc[1] + dy * s) in busy for s in range(1, step + 1)):
+                        continue
+                    target = vc
+                    break
+                if target:
+                    break
+            if not target:
+                continue
+            x, y = board.center(*target)
+            vias.append({"net": net, "x": x, "y": y, "plane_layer": int(plane_layer)})
+            busy.add(target)
+            stubs[net].append([(pc[0], pc[1], 1), (target[0], target[1], 1)])
+    return vias, stubs
+
+
 def plan_from(board, routed):
     plan = {"grid": GRID, "tracks": [], "vias": []}
     for net, paths in routed.items():
+        if net == PLANE_VIA_KEY:
+            # Plane access vias travel with the routing but are not a net.
+            plan["vias"].extend(paths)
+            continue
         w = route_width(net)
         for path in paths:
             for item in merge(path):
@@ -881,6 +957,24 @@ def clearance_violations(board, plan):
                 continue
             if seg_seg(ax, ay, bx, by, cx, cy, dx, dy) < (w1 + w2) / 2 + CLEARANCE - 0.5:
                 bad += 1
+    # Vias are through-holes: their annular ring is copper on EVERY layer, so a
+    # via must clear other nets' tracks on all four layers and their pads too.
+    # Without this the plane model could add 40 vias for free.
+    for v in plan.get("vias") or []:
+        vx, vy, vn = v["x"], v["y"], v["net"]
+        for t in plan.get("tracks") or []:
+            if t["net"] == vn:
+                continue
+            if seg_seg(vx, vy, vx, vy, t["x1"], t["y1"], t["x2"], t["y2"]) < \
+                    VIA_RADIUS + t["width"] / 2 + CLEARANCE - 0.5:
+                bad += 1
+        for pads in board.nets.values():
+            for p in pads:
+                if p["net"] == vn:
+                    continue
+                if math.hypot(p["x"] - vx, p["y"] - vy) < \
+                        VIA_RADIUS + max(p["w"], p["h"]) / 2 + CLEARANCE - 0.5:
+                    bad += 1
     return bad
 
 
@@ -912,6 +1006,19 @@ def connectivity_from_plan(board, plan, tol=GRID * 1.5):
         base = (v["net"],) + q(v["x"], v["y"], 1)
         for layer in (2, 3, 4):
             union(base, (v["net"],) + q(v["x"], v["y"], layer))
+
+    # All plane access vias land on the SAME copper: one connection through the
+    # plane, not 42 separate islands.  A pad whose via is missing keeps its own
+    # ("unrouted", ...) root, so a failed access via still fails the gate.
+    plane_members = defaultdict(set)
+    for v in plan.get("vias") or []:
+        pl = v.get("plane_layer")
+        if pl:
+            plane_members[int(pl)].add((v["net"],) + q(v["x"], v["y"], 1))
+    for members in plane_members.values():
+        members = sorted(members)
+        for m in members[1:]:
+            union(members[0], m)
 
     nodes = defaultdict(list)
     for t in plan.get("tracks") or []:
@@ -1642,6 +1749,7 @@ def report(board, routed, failures, overflow, plan):
         "nets_unconnected": len(connectivity_from_plan(board, plan)),
         "clearance_violations": clearance_violations(board, plan),
         "vias": len(plan["vias"]),
+        "plane_vias": sum(1 for v in plan["vias"] if v.get("plane_layer")),
         "tracks": len(plan["tracks"]),
         "total_length_mil": round(sum(per_net.values()), 1),
         "hpwl_mil": round(hpwl(board.comps), 1),
@@ -1682,6 +1790,10 @@ def main():
     r.add_argument("--spacing-hard", dest="spacing_hard", action="store_true",
                    help="treat other nets' tracks (+1 cell halo) as hard obstacles instead of cost")
     r.add_argument("--out", required=True)
+    r.add_argument("--plane-net", dest="plane_nets", action="append", default=[],
+                   help="net carried by a plane instead of tracks (e.g. GND)")
+    r.add_argument("--plane-layer", dest="plane_layer", type=int,
+                   help="inner layer the plane occupies; other nets are kept off it")
 
     q = sub.add_parser("report")
     q.add_argument("dump")
@@ -1715,7 +1827,9 @@ def main():
 
     if a.cmd == "route":
         (unrouted, overflow), routed, failures = route(board, a.iters, a.layers,
-                                                       getattr(a, "spacing_hard", False))
+                                                       getattr(a, "spacing_hard", False),
+                                                       plane_nets=frozenset(a.plane_nets),
+                                                       plane_layer=a.plane_layer)
         plan = plan_from(board, routed)
         plan["router_congestion"] = overflow
         plan["plan_congestion"] = congestion_from_plan(board, plan)

@@ -166,8 +166,7 @@ def test_button_leg_penalty_counts_each_switch_leg():
     assert ec.button_leg_penalty(board.comps) == pytest.approx(1.0, abs=1e-6)
 
 
-def test_placement_cost_trades_button_length_against_hpwl():
-    """The button term must be a real trade, not decoration.
+def test_placement_cost_trades_button_length_against_hpwl():    """The button term must be a real trade, not decoration.
 
     Two layouts have the SAME HPWL (100 + 1100 vs 1100 + 100 mil of two-pad
     boxes); only the button term can separate them, and it must flip the answer
