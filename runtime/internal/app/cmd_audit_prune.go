@@ -96,6 +96,7 @@ type auditPlan struct {
 	Zip    []auditFileInfo
 	Keep   []auditFileInfo
 	Total  int64
+	Limit  int64
 }
 
 func planAuditPrune(root string, keepDays int, maxGB float64) (auditPlan, error) {
@@ -143,6 +144,7 @@ func planAuditPrune(root string, keepDays int, maxGB float64) (auditPlan, error)
 		remaining = append(remaining, file)
 	}
 	limit := int64(maxGB * 1024 * 1024 * 1024)
+	plan.Limit = limit
 	total := plan.Total
 	for _, file := range remaining {
 		if total <= limit {
@@ -206,7 +208,17 @@ func applyAuditPlan(plan auditPlan) (deleted, compressed int, freed int64, err e
 func printAuditPlan(out io.Writer, plan auditPlan, title string) {
 	fmt.Fprintf(out, "审计日志保留策略 — %s\n\n", title)
 	if len(plan.Delete) == 0 && len(plan.Zip) == 0 {
+		// If the total is still over the limit, saying only "nothing to do" is
+		// confusing: the customer set a ceiling and it is not being met. Explain
+		// that the remaining bulk is the active day, which becomes eligible
+		// tomorrow.
 		fmt.Fprintf(out, "  无需处理，共 %s\n", humanBytes(plan.Total))
+		if plan.Total > plan.Limit && plan.Limit > 0 {
+			fmt.Fprintf(out,
+				"\n  当前已超过上限（%s），但剩下的都是今天正在写入的文件；\n"+
+					"  明天它成为历史日后会被自动压缩。\n",
+				humanBytes(plan.Limit))
+		}
 		return
 	}
 	if len(plan.Delete) > 0 {

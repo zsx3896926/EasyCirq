@@ -171,3 +171,24 @@ func TestAuditPruneNeverCompressesTodaysFile(t *testing.T) {
 		t.Fatalf("todays file must survive untouched: %v", err)
 	}
 }
+
+func TestAuditPruneExplainsWhenOverLimitButNothingToCompress(t *testing.T) {
+	dir := t.TempDir()
+	// only the active day exists, and it is far over the limit
+	writeAuditDay(t, dir, time.Now(), 2*1024*1024)
+	plan, err := planAuditPrune(dir, 30, 0.001)
+	if err != nil {
+		t.Fatalf("plan: %v", err)
+	}
+	if len(plan.Zip) != 0 {
+		t.Fatalf("the active day must not be a candidate: %+v", plan.Zip)
+	}
+	var out bytes.Buffer
+	printAuditPlan(&out, plan, "已执行")
+	if !strings.Contains(out.String(), "已超过上限") {
+		t.Fatalf("must explain why a ceiling is not met:\\n%s", out.String())
+	}
+	if !strings.Contains(out.String(), "明天") {
+		t.Fatalf("must say when it becomes eligible:\\n%s", out.String())
+	}
+}
