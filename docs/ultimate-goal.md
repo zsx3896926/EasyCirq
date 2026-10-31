@@ -45,7 +45,7 @@
 | 层 | 终局 |
 |---|---|
 | 执行层（Go） | 所有写入都过 gate；所有读取都可回读；失败都带下一步 |
-| 方法层（skill） | 16 项 KPI 是**尺子**不是目标；KPI 达标才允许写；文档只写"判据/动作/禁止/指针" |
+| 方法层（skill） | 17 项 KPI 是**尺子**不是目标；KPI 达标才允许写；文档只写"判据/动作/禁止/指针" |
 | 分发层 | 一个 MCP server（跨宿主）+ 一个 `setup` 向导（装完即用）；客户零概念接入 |
 
 ## 明确不做
@@ -66,11 +66,11 @@
 
 **四步全程没有人工介入解释工具概念——目标达成。**
 
-## 现状对照（2026-10-31，随 1.3.16 更新）
+## 现状对照（2026-10-31，随 1.3.17 更新）
 
 | 能力 | 状态 |
 |---|---|
-| 16 项 KPI 度量与门禁聚合 | ✅ 已实现；真机 P1/P2 实测；两轮 PASS 才签发写入许可 |
+| 17 项 KPI 度量与门禁聚合 | ✅ 已实现；真机 P1/P2 实测；两轮 PASS 才签发写入许可 |
 | 一键离线管线 | ✅ 已实现；`sch/mcp/customer/pin/kpi` 子集 678 项通过 |
 | daemon 层写入拦截 | ✅ 真机验证：无许可 → `GATE_REQUIRED`；异工程 → `GATE_PROJECT_MISMATCH`；**1.3.0 起分阶段**——建板写入放行，只有交付类动作（Gerber/CPL/网表）要许可 |
 | S5 保存→重开→回读 | ✅ 双向验证（0/1） |
@@ -94,7 +94,7 @@
 
 ### 发版链路
 
-`easycirq-toolchain-1.3.16.zip`（runtime 1.3.16 + connector 1.0.20 + skill 1.1.0）
+`easycirq-toolchain-1.3.17.zip`（runtime 1.3.17 + connector 1.0.20 + skill 1.1.0）
 经 `easycirq_install.py install` 隔离安装后 `verify` 报 `healthy`（806 文件，
 0 changed/missing/extra）；内容一致性检查 `CONSISTENT`。发版步骤见
 `docs/release-checklist.md`。
