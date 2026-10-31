@@ -38,7 +38,7 @@ func setupLines(rep doctorReport) []setupLine {
 	daemonState := zhState(rep.Daemon.Status,
 		map[string]string{"running": "运行中", "stopped": "未运行"}, "未知")
 	if daemonOK && rep.Daemon.Port > 0 {
-		daemonState = fmt.Sprintf("运行中（端口 %d）", rep.Daemon.Port)
+		daemonState = "运行中"
 	}
 	lines = append(lines, setupLine{Label: "后台服务", OK: daemonOK, State: daemonState})
 

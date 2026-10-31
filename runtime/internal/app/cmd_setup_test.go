@@ -31,8 +31,11 @@ func TestSetupLinesMapStates(t *testing.T) {
 			t.Fatalf("%s should be ok: %+v", line.Label, line)
 		}
 	}
-	if !strings.Contains(lines[1].State, "23111") {
-		t.Fatalf("daemon line should name the port: %+v", lines[1])
+	// The port belongs to `easycirq doctor` (support/診断), not to the customer
+	// checklist: a port number is one of the things the customer never has to
+	// understand. Assert it stays out.
+	if strings.Contains(lines[1].State, "23111") {
+		t.Fatalf("setup should not print a port number: %+v", lines[1])
 	}
 	if !strings.Contains(lines[2].State, "4.1.78") {
 		t.Fatalf("connector line should name the host version: %+v", lines[2])

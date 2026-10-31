@@ -28,7 +28,7 @@ var cardAdvice = map[string]string{
 	"naming":       "改成有意义的名字",
 	"bom_map":      "补上封装/型号/立创编号",
 	"netlist_diff": "确认这次改动是不是真的等价",
-	"readback":     "保存、重开、回读，确认对象都还在",
+	"readback":     "保存后关掉重开，确认东西都还在",
 }
 
 type cardEntry struct {
