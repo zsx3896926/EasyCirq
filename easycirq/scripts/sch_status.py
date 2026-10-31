@@ -105,7 +105,18 @@ def analyze(report=None, gate_path=None):
         else:
             blockers.append(entry)
 
-    if verdict == "BLOCKED" and blockers:
+    unmeasured = sum(1 for k in report.get("kpis") or []
+                     if not k.get("advisory")
+                     and k.get("status") in ("missing", "unknown"))
+    apply_allowed = bool((report.get("stability") or {}).get("apply_allowed"))
+
+    if verdict == "PASS" and unmeasured:
+        state, headline = "incomplete", "还不能判断：有些检查还没做"
+        nxt = "补齐下面这些检查需要的资料，再跑一轮"
+    elif verdict == "PASS" and not apply_allowed:
+        state, headline = "gate_stale", "检查通过，但还没拿到写入许可"
+        nxt = "连续两轮通过后才会获得许可；再跑一轮即可"
+    elif verdict == "BLOCKED" and blockers:
         state, headline = "blocked", "暂时不能写入：还有必须修掉的问题"
         nxt = "按下面的清单逐条修，修完重新测量；修完之前不要画图"
     elif verdict == "BLOCKED":
@@ -143,13 +154,13 @@ def render(status):
     if status["blockers"]:
         lines.append("必须修的问题：")
         for item in status["blockers"]:
-            lines.append(f"  - {item['plain']}（{item['kpi']}）")
+            lines.append(f"  - {item['plain']}")
             if item.get("reason"):
                 lines.append(f"    {item['reason']}")
     if status.get("missing"):
         lines.append("还没检查的项目（补上输入即可）：")
         for item in status["missing"]:
-            lines.append(f"  - {item['plain']}（{item['kpi']}）")
+            lines.append(f"  - {item['plain']}")
     lines.append(f"下一步：{status['next']}")
     return "\n".join(lines)
 

@@ -9,6 +9,7 @@ import (
 
 func cardReportFixture(verdict string, fail, missing []string) *statusReport {
 	report := &statusReport{Project: "P", Page: "P1", Verdict: verdict}
+	report.Stability.ApplyAllowed = strings.EqualFold(verdict, "PASS")
 	for _, kpi := range fail {
 		report.KPIs = append(report.KPIs, statusKPI{ID: kpi, Status: "fail"})
 		report.Blockers = append(report.Blockers, statusBlocker{KPI: kpi, Reason: "r"})

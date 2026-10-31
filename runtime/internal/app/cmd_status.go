@@ -44,11 +44,14 @@ type statusBlocker struct {
 }
 
 type statusReport struct {
-	Project  string          `json:"project"`
-	Page     string          `json:"page"`
-	Verdict  string          `json:"verdict"`
-	KPIs     []statusKPI     `json:"kpis"`
-	Blockers []statusBlocker `json:"blockers"`
+	Project   string          `json:"project"`
+	Page      string          `json:"page"`
+	Verdict   string          `json:"verdict"`
+	KPIs      []statusKPI     `json:"kpis"`
+	Blockers  []statusBlocker `json:"blockers"`
+	Stability struct {
+		ApplyAllowed bool `json:"apply_allowed"`
+	} `json:"stability"`
 }
 
 type statusGate struct {
@@ -144,7 +147,21 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 			result.Blockers = append(result.Blockers, entry)
 		}
 	}
+	unmeasured := 0
+	for _, kpi := range report.KPIs {
+		if !kpi.Advisory && (kpi.Status == "missing" || kpi.Status == "unknown") {
+			unmeasured++
+		}
+	}
 	switch {
+	case strings.EqualFold(report.Verdict, "PASS") && unmeasured > 0:
+		// a PASS verdict with an unmeasured check is not a pass: the card has
+		// to say what is missing, never "ready"
+		result.State, result.Headline = "incomplete", "还不能判断：有些检查还没做"
+		result.Next = "补齐下面这些检查需要的资料，再跑一轮"
+	case strings.EqualFold(report.Verdict, "PASS") && !report.Stability.ApplyAllowed:
+		result.State, result.Headline = "gate_stale", "检查通过，但还没拿到写入许可"
+		result.Next = "连续两轮通过后才会获得许可；再跑一轮即可"
 	case strings.EqualFold(report.Verdict, "BLOCKED") && len(result.Blockers) > 0:
 		result.State, result.Headline = "blocked", "暂时不能写入：还有必须修掉的问题"
 		result.Next = "按下面的清单逐条修，修完重新测量；修完之前不要画图"
@@ -175,7 +192,7 @@ func renderStatus(result statusResult) string {
 	if len(result.Blockers) > 0 {
 		b.WriteString("必须修的问题：\n")
 		for _, entry := range result.Blockers {
-			fmt.Fprintf(&b, "  - %s（%s）\n", entry.Plain, entry.KPI)
+			fmt.Fprintf(&b, "  - %s\n", entry.Plain)
 			if entry.Reason != "" {
 				fmt.Fprintf(&b, "    %s\n", entry.Reason)
 			}
@@ -184,7 +201,7 @@ func renderStatus(result statusResult) string {
 	if len(result.Missing) > 0 {
 		b.WriteString("还没检查的项目（补上资料即可）：\n")
 		for _, entry := range result.Missing {
-			fmt.Fprintf(&b, "  - %s（%s）\n", entry.Plain, entry.KPI)
+			fmt.Fprintf(&b, "  - %s\n", entry.Plain)
 		}
 	}
 	fmt.Fprintf(&b, "下一步：%s", result.Next)

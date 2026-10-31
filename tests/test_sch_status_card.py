@@ -36,7 +36,8 @@ def report(verdict, fail=(), missing=(), advisory=()):
     blockers = [{"kpi": k, "reason": "r"} for k in fail]
     blockers += [{"kpi": k, "reason": "缺证据"} for k in missing]
     return {"project": "P", "page": "P1", "verdict": verdict,
-            "kpis": kpis, "blockers": blockers}
+            "kpis": kpis, "blockers": blockers,
+            "stability": {"apply_allowed": verdict == "PASS"}}
 
 
 class Status(unittest.TestCase):

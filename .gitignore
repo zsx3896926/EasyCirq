@@ -58,3 +58,7 @@ reports/s5-verify/*
 # release build output
 dist-release/
 
+
+# local customer-test build
+.cust-build/
+

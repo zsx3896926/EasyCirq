@@ -100,7 +100,16 @@ func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult
 	if gateOverride != "" {
 		live, detail = gateLive(gatePath)
 	}
+	unmeasured := 0
+	for _, kpi := range report.KPIs {
+		if !kpi.Advisory && (kpi.Status == "missing" || kpi.Status == "unknown") {
+			unmeasured++
+		}
+	}
 	switch {
+	case strings.EqualFold(report.Verdict, "PASS") && unmeasured > 0:
+		result.State, result.Headline = "incomplete", "⏳ 还不能判断：有些检查还没做"
+		result.Next = "补齐下面这些检查需要的资料，再跑一轮"
 	case strings.EqualFold(report.Verdict, "PASS") && live:
 		result.State, result.Headline = "ready", "✅ 可以打样"
 		result.Next = "导出制造文件；打样回来后做验收"

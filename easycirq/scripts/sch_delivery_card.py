@@ -118,7 +118,13 @@ def analyze(report, gate_path=None):
 
     gate_ok, gate_detail = (True, "") if gate_path is None else _gate_live(gate_path)
 
-    if verdict == "PASS" and gate_ok:
+    unmeasured = sum(1 for k in kpis
+                     if not k.get("advisory")
+                     and k.get("status") in ("missing", "unknown"))
+    if verdict == "PASS" and unmeasured:
+        state, headline = "incomplete", "⏳ 还不能判断：有些检查还没做"
+        next_step = "补齐下面这些检查需要的资料，再跑一轮"
+    elif verdict == "PASS" and gate_ok:
         state, headline = "ready", "✅ 可以打样"
         next_step = "导出制造文件；打样回来后做验收"
     elif verdict == "PASS" and not gate_ok:
