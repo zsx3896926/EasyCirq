@@ -300,13 +300,28 @@ def shipped_sha(path: Path) -> str:
     return hashlib.sha256(shipped_bytes(path)).hexdigest()
 
 
+SKIP_DIRS = {'__pycache__'}
+SKIP_SUFFIXES = {'.pyc', '.pyo'}
+
+
 def shipped_inventory(root: Path) -> dict:
-    """{relpath: sha256} computed over shipped_bytes - mirrors updater.inventory."""
-    return {
-        p.relative_to(root).as_posix(): shipped_sha(p)
-        for p in sorted(root.rglob('*'))
-        if p.is_file()
-    }
+    """{relpath: sha256} over shipped_bytes.
+
+    Skips exactly what the copytree that builds the payload skips
+    (ignore_patterns('__pycache__', '*.pyc', '*.pyo')). Without the same filter the
+    source inventory and the copied inventory differ and the build aborts with
+    'Skill copy does not match the source inventory'.
+    """
+    found = {}
+    for path in sorted(root.rglob('*')):
+        if not path.is_file():
+            continue
+        if SKIP_DIRS & set(path.parts):
+            continue
+        if path.suffix in SKIP_SUFFIXES:
+            continue
+        found[path.relative_to(root).as_posix()] = shipped_sha(path)
+    return found
 
 
 def collect_skill(cfg, skill_dir=None):
