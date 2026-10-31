@@ -55,7 +55,7 @@ def test_bundle_extras_flags_a_file_the_repo_lacks(tmp_path, module):
         "bundle.json": "{}",
     })
     found = module.payload_skill_files(bundle)
-    assert "_made_up_script.py" not in found or True  # shape check below
+    assert "scripts/_made_up_script.py" in found
     extras = module.report_bundle_extras(bundle)
     assert extras >= 1
 
