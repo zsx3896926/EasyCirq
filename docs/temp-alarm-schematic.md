@@ -219,3 +219,59 @@ if not isinstance(pins, list):
 
 确认 `pins` 数组的正确结构（读 `pin_plan_check.py` 里 `pins` 的用法，或找现成的
 `pin-plan/v1` 用例），补上后应能到 PASS。
+
+## 第四轮：pin-plan 的格式终于摸清了
+
+`pin_plan_check.py` 的真实要求（示例文件里没有完整展示）：
+
+| 字段 | 必需 | 说明 |
+|---|---|---|
+| `pins` | ✅ | 逻辑资源数组，每项要 `logical` / `usage` / `direction` / `physical_pin` |
+| `resources` | ✅ | **MCU 逻辑资源**（gpio/adc/dac/timer 等），纯模拟电路传 `[]` |
+| `unresolved` | ✅ | 数组，可为空 |
+| `mcu.ref` + `mcu.package_pins` | 有 pinmap 时必需 | |
+| `pinmap` | 可选 | 脚位对照，每行 `ref/symbol_pin/datasheet_pin/footprint_pad/net/nc/notes` |
+
+踩过的四个格式坑：
+
+1. `resources[]` 要 `id` 不是 `name`
+2. `resources[].kind` 只接受 `gpio/adc/dac/timer` 等，**`net` 不合法**（它是资源不是网络名）
+3. `pinmap[].symbol_pin` 必须与 `pins[].logical` 完全一致（`IN1-` ≠ `IN1_N`）
+4. `pinmap` 行不接受 `voltage_domain`（未知字段直接 invalid_input）
+
+按这些改完后，`pin_plan_check` 从 `invalid_input` 变成 `needs_review`：
+
+```
+status: needs_review
+  MISSING_FIELD unknown  8 个引脚未声明 bank
+  MISSING_FIELD unknown  8 个引脚未声明 reset_state
+  MISSING_FIELD unknown  8 个引脚未声明 boot_sample
+  MISSING_FIELD unknown  8 个引脚未声明 strap
+```
+
+## 结果：pin_mux 从 missing 变成 unknown，但仍阻断
+
+放进快照后：
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  unknown  #10 pin_mux
+```
+
+**状态变了**（missing → unknown），说明计划确实被读到了；但 `needs_review` 的
+未知项被 KPI 当作阻断，所以整体仍是 BLOCKED。
+
+要 PASS，得把 `bank` / `reset_state` / `boot_sample` / `strap` 也补上——
+这四个是 **MCU 专用**字段，对一颗 LM393 模拟比较器没有物理意义。
+
+## 判断
+
+这里有两个方向，我倾向前者：
+
+1. **补字段**：纯机械，8 个引脚各加四个 `"unknown"` 或占位值，让检查过。
+   代价是写进去的信息没有物理含义。
+2. **改工具**：`pin_plan_check` 对非 MCU 器件不该强求 `bank/reset_state/boot_sample/strap`。
+
+我倾向 **2**——但那是改校验逻辑，会放宽标准，需要想清楚「对模拟器件放宽」会不会
+影响真正需要这些字段的 MCU 场景。下一轮先读这段校验的上下文再决定，
+不拍脑袋放宽。
