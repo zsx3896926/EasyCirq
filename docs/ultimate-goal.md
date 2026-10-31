@@ -66,20 +66,43 @@
 
 **四步全程没有人工介入解释工具概念——目标达成。**
 
-## 现状对照（2026-10-31）
+## 现状对照（2026-10-31，随 1.3.8 更新）
 
 | 能力 | 状态 |
 |---|---|
-| 15 项 KPI 度量与门禁聚合 | 已实现，真机 P1/P2 实测 |
-| 一键离线管线 | 已实现，423+ 项测试 |
-| daemon 层写入拦截（gate token） | ✅ **已真机验证**（10 项单测）：无令牌 → `GATE_REQUIRED`；令牌+名字 → 放行；令牌+uuid → 放行；异工程 uuid → `GATE_PROJECT_MISMATCH`。daemon 已用新二进制重启，connector 自动重连 |
-| S5 保存→重开→回读 | 已在临时工程双向验证（0/1） |
-| `easycirq status` 状态机 | ✅ 已做：Go 原生命令 `easycirq status`（7 状态，8 项单测）+ Python 版 `sch_status.py` 给 agent 用；**已安装到客户机并验证** |
-| 客户交付卡（红绿灯） | ✅ 已做：原生 `easycirq card`（6 项单测）+ Python 版 `sch_delivery_card.py`；真机 P1 → ❌ exit 1，S5 → ✅ exit 0 |
-| `setup` 安装向导 | ✅ 已做：`easycirq setup`（4 行中文检查 + 最短路径，5 项单测，真机跑通）；**只检查不代装**，导入连接器仍需客户在 EasyEDA 里点两下 |
-| 打样后验收卡 | ✅ 已做：`easycirq acceptance`（6 项单测）；「通过但无实测证据」判为 unknown，不冒充通过；**已安装到客户机并验证** |
-| MCP 跨宿主 | 只有只读骨架 |
+| 15 项 KPI 度量与门禁聚合 | ✅ 已实现；真机 P1/P2 实测；两轮 PASS 才签发写入许可 |
+| 一键离线管线 | ✅ 已实现；`sch/mcp/customer/pin/kpi` 子集 678 项通过 |
+| daemon 层写入拦截 | ✅ 真机验证：无许可 → `GATE_REQUIRED`；异工程 → `GATE_PROJECT_MISMATCH`；**1.3.0 起分阶段**——建板写入放行，只有交付类动作（Gerber/CPL/网表）要许可 |
+| S5 保存→重开→回读 | ✅ 双向验证（0/1） |
+| `easycirq status` 状态机 | ✅ Go 原生命令 + Python 版给 agent；7 状态 |
+| 客户交付卡 | ✅ `easycirq card`；**1.3.2 起覆盖整板**：`--pcb-drc` 带 PCB 结果时说「可以下单」，不带时收缩为「原理图可以打样（PCB 未检查）」 |
+| `setup` 安装向导 | ✅ `easycirq setup`（4 行中文检查 + 最短路径）；只检查不代装 |
+| 打样后验收卡 | ✅ `easycirq acceptance`；「通过但无实测证据」判 unknown，不冒充通过 |
+| MCP 跨宿主 | ✅ 四工具（status / card / setup / apply）可用；**与 CLI 行为一致**，含 PCB 判定；stdio 协议实测通过 |
+| 发布一致性 | ✅ `tools/check_release_consistency.py` 比对 12 个关键文件的内容哈希（仓库 ↔ bundle ↔ 装机） |
 
-**指标 1 实测**（1.3.8，隔离安装）：install 2.4s + setup 1.2s + status 0.1s = **3.6s**（工具层）；含在 EasyEDA 里导入连接器与重启，估算 3–5 分钟。
+### 指标 1 实测（1.3.6，隔离安装完整 bundle）
 
-**发版链路已验证**：asycirq-toolchain-1.2.0.zip（runtime 1.2.0 + connector 1.0.20 + skill 1.1.0）经 asycirq_install.py install 隔离安装后 erify 报 healthy（804 文件，0 changed/missing/extra）。MCP 四工具（status/card/setup/apply）已跨宿主可用。
+| 步骤 | 耗时 |
+|---|---|
+| install（806 文件） | 2.6s |
+| verify | 0.5s |
+| setup | 1.4s |
+| **合计** | **4.5s** |
+
+目标 ≤300s。**这 4.5s 只含工具链**；装 EasyEDA、导入插件、重启在 GUI 里完成，未计时。
+
+### 发版链路
+
+`easycirq-toolchain-1.3.8.zip`（runtime 1.3.8 + connector 1.0.20 + skill 1.1.0）
+经 `easycirq_install.py install` 隔离安装后 `verify` 报 `healthy`（806 文件，
+0 changed/missing/extra）；内容一致性检查 `CONSISTENT`。发版步骤见
+`docs/release-checklist.md`。
+
+### 仍未做的（NOT RUN）
+
+| 项 | 阻塞原因 |
+|---|---|
+| 实物打样与验收 | 需要下单、收货、焊接、通电、实测——AI 无法独立完成 |
+| 跨机器复现 | 只有同一台机器上的隔离目录安装验证 |
+| 原理图视觉正确性 | 本机无确定性 SVG→PNG 工具链，只能验证文件含预期图元与标签 |
