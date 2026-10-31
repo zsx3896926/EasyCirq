@@ -135,3 +135,16 @@ apply_allowed True / True
 | 两份 `skill_selftest.py` | 6 PASS / 6 PASS |
 
 没有回归。
+
+
+## MCP 端到端（stdio 协议）
+
+不只测 Python 函数，还用真实的 JSON-RPC over stdio 跑了一遍：
+
+| 请求 | 结果 |
+|---|---|
+| initialize | 协议版本 2024-11-05 |
+| 	ools/call easycirq_card {kpi_report, pcb_drc} | state: ready，✅ 可以下单（原理图与 PCB 都通过） |
+| 	ools/call easycirq_card {kpi_report} | state: ready，✅ 原理图可以打样（PCB 未检查） |
+
+三条路径（Go CLI / Python 脚本 / MCP 工具）现在给出**一致的结论与措辞**。
