@@ -49,3 +49,67 @@
 3. 属第二类 → 先解决"缺什么"，别先画图；
 4. 属第三类 → 这套流程只能帮你做前半段（画图、出文件），验证要另找手段；
 5. 任何时候：**门禁绿不等于板子对**。
+
+---
+
+## 含 MCU 的板：实测「额外条件」到底是什么（2026-11-01）
+
+写了「需要额外条件」之后，用一个最小 MCU 引脚计划实测了流程实际会要求什么。
+
+### 第一次：只填最少字段 → 被要求补 8 项
+
+```
+MISSING_FIELD 1 个引脚未声明 voltage_domain
+MISSING_FIELD 1 个引脚未声明 bank
+MISSING_FIELD 1 个引脚未声明 reset_state
+MISSING_FIELD 1 个引脚未声明 boot_sample
+MISSING_FIELD 1 个引脚未声明 strap
+MISSING_FIELD 1 个引脚未声明 debug
+MISSING_FIELD 1 个引脚未声明 analog_used
+MISSING_FIELD 1 个引脚未声明 package_bonded
+```
+
+对比：纯模拟电路（`resources: []`）只要求 `voltage_domain` 一项——其余七项是
+**可配置数字引脚**才有的概念。
+
+### 第二次：补齐八项 → 只差一项
+
+```
+UNKNOWN_BANK_VOLTAGES  mcu.bank_voltages 为空，无法核对 bank 电压一致性
+```
+
+### 第三次：填上 `bank_voltages: {"GPIOA": "3v3"}` → 通过
+
+```
+status: passed | findings: 0
+```
+
+### 结论
+
+**「含 MCU 需要额外条件」不是死路，是可满足的**——只要如实填写九个字段：
+
+| 字段 | 含义 | 不能瞎填的理由 |
+|---|---|---|
+| `voltage_domain` | 引脚电压域 | 与 bank 电压不一致会报 `BANK_VOLTAGE_MISMATCH` |
+| `bank` | GPIO 分组 | 用于电压一致性核对 |
+| `reset_state` | 复位后的状态 | 影响上电瞬间的行为 |
+| `boot_sample` | 启动时是否采样 | 影响 strapping 判断 |
+| `strap` | 是否启动配置脚 | 填错会导致配置错 |
+| `debug` | 是否调试脚 | 被复用时不能再作普通 IO |
+| `analog_used` | 是否作模拟输入 | 与 direction=output 同时为真会报 `ADC_AS_OUTPUT` |
+| `package_bonded` | 封装内是否真的引出 | 未引出的脚接不出来 |
+| `mcu.bank_voltages` | 每个 bank 的电压 | 用于交叉核对 |
+
+**这不是形式主义**：`analog_used` 与 `direction` 冲突会被单独报出来，
+`bank_voltages` 与 `voltage_domain` 不一致也会被报出来。填假的会自相矛盾。
+
+### 仍然不在本流程内的部分
+
+引脚计划通过只说明**引脚分配自洽**。MCU 板还要有：
+
+- 固件（本流程不涉及）
+- 时钟、复位、启动配置的实际电路
+- 烧录与调试接口
+
+所以含 MCU 的板，本流程能做到「原理图 + PCB + 制造文件」，
+**做不到「算得上能用的产品」**。
