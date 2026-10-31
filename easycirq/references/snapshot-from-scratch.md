@@ -90,3 +90,47 @@ offline pipeline: BLOCKED (apply_allowed=False)
 
 这条路上每个卡点都**只有真的从零画一遍才会暴露**——所有此前的验证都是从既有工程
 出发的。修完之后，「AI 独立完成一块板」在工具层面成立了。
+
+## 后续进展：把遗留器件清掉之后
+
+第一次跑完是上面那样（`unconnected` fail + 四项缺证据）。原因是临时工程里留着
+早前测试的悬空电阻。删掉它们之后：
+
+```bash
+easycirq --project $P --doc $D call schematic.component.delete   --payload '{"primitiveIds":["<primitiveId>"]}'
+easycirq --project $P --doc $D sch save
+```
+
+（`primitiveIds` 是 action 的输入字段名；`sch delete` 没有独立子命令。）
+
+再跑同一套快照与管线：
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  advisory #7 readability
+  missing  #9 erc
+  missing  #13 bom_map
+  missing  #14 netlist_diff
+  missing  #15 readback
+exit=2
+```
+
+**没有 fail 了**——剩下四项全是「还没提供证据」，不是「图有问题」。卡片会把这四
+项放进「还没检查的项目（补上资料即可）」，与真缺陷分开。
+
+这正是预期形态：一块刚画完的板，唯一还缺的是 ERC / BOM / 前后对比 / 回读记录。
+补上这四项、连续两轮 PASS，`apply_allowed` 才会变 true。
+
+## ERC 与 BOM 的补齐方式
+
+```bash
+# ERC（DRC SDK 的布尔/聚合结果）
+easycirq --project $P sch drc --json | jq '.result' > $S/drc.json
+
+# BOM：导出的是 artifact 文件，不是 stdout 里的 CSV
+easycirq --project $P bom export --type csv
+#   然后把导出的文件放进快照目录，命名为 bom.tsv 或 bom.csv
+```
+
+`netlist_diff` 需要写入前/后两份 connectivity，`readback` 需要「保存→重开→再读」
+的一对快照——这两个在从零建板时通常最后补。
