@@ -74,7 +74,15 @@ def main():
         priority_nets=set(a.priority_nets), via_relocate=a.via_relocate, via_pressure_on=a.via_pressure_on)
     plan = ec.plan_from(board, routed)
     if a.match_lengths:
-        ec.match_lengths(board, plan, amp=ec.GRID * 8)
+        # One call inserts at most ONE meander per net, so a 700 mil skew never
+        # closes. Repeat until the total spread stops shrinking.
+        prev = None
+        for _ in range(12):
+            ec.match_lengths(board, plan, amp=ec.GRID * 8)
+            total = sum(ec.quality_metrics(plan)["bus_length_spread_mil"].values())
+            if prev is not None and total >= prev:
+                break
+            prev = total
     kpi = ec.report(board, routed, failures, [], plan)
     out = {**placed_kpi, **kpi}
     out["failures"] = failures
@@ -115,6 +123,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
