@@ -122,9 +122,12 @@ func resolveNetflagKind(kind string) (string, error) {
 // belongs to now. resolveSchPin already reads the authoritative pin list, so its
 // Net field is the landed net - no second dispatch needed.
 func readBackPinNet(cfg *appConfig, window, pinRef string) (string, error) {
-	resolved, err := resolveSchPin(cfg, window, pinRef)
+	resolved, err := resolveSchPinWithNet(cfg, window, pinRef)
 	if err != nil {
 		return "", err
+	}
+	if !resolved.NetKnown {
+		return "", fmt.Errorf("could not read the pin's net back (netlist unavailable)")
 	}
 	return resolved.Net, nil
 }
@@ -1548,7 +1551,15 @@ pull fresh ids before any follow-up mutation on it.`,
 					// check will happily validate.
 					if pinRef != "" {
 						landed, readErr := readBackPinNet(cfg, window, pinRef)
-						if readErr == nil && landed != "" && !netsEquivalent(landed, net) {
+						if readErr != nil {
+							// No read-back means no evidence. Report failure rather
+							// than assuming the write was right.
+							fmt.Fprintf(stderr,
+								"写入已执行，但读不回这个引脚的网络（%v）；无法证明它接到了 %q。\n"+
+									"请用 `easycirq sch list --include-pins` 人工核对。\n", readErr, net)
+							return exitCodeError{code: 3}
+						}
+						if !netsEquivalent(landed, net) {
 							fmt.Fprintf(stderr,
 								"连接落到的网络是 %q，不是你要求的 %q —— 已写入，但电气事实与你的意图不同。\n"+
 									"常见原因：某些保留名（如 VCC）会被映射成别的网络。换一个名字（例如 PWR5V）重接。\n",
