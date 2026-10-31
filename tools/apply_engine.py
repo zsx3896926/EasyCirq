@@ -27,10 +27,17 @@ from __future__ import annotations
 import json
 import pathlib
 import re
+import sys
 import time
 
+TOOLS = pathlib.Path(__file__).resolve().parent
+if str(TOOLS) not in sys.path:
+    sys.path.insert(0, str(TOOLS))
+
+import grid_snap  # noqa: E402  (anchor + pin grid checks live there)
+
 SCHEMA = "easycirq-apply-engine/v1"
-GRID = 5.0
+GRID = grid_snap.GRID
 SHEET = (10.0, 10.0, 1160.0, 815.0)
 STUB = 20.0
 DIRECTION_VECTOR = {"right": (1, 0), "left": (-1, 0),
@@ -55,6 +62,12 @@ def classify(text):
         return "plan"
     if '"ok": false' in text or re.search(r'"ok":\s*false', text):
         return "effect"
+    # No daemon envelope at all means the CLI never dispatched anything (e.g.
+    # `unknown flag: --via`). That used to fall through to "ok", which is exactly
+    # how a batch of 5 reported wrote=5 while only 4 pins were wired — the
+    # read-back had to catch it. A response we cannot read is never success.
+    if '"ok"' not in text and '"type"' not in text:
+        return "effect"
     return "ok"
 
 
@@ -69,11 +82,19 @@ def zero_length_wire_ids(check_text):
 
 
 def on_grid(value):
-    return abs(float(value) / GRID - round(float(value) / GRID)) < 1e-6
+    return grid_snap.on_grid(value)
 
 
 def preflight(ops, geometry):
-    """Reject ops that cannot succeed; returns ``[{op, code, detail}]``."""
+    """Reject ops that cannot succeed; returns ``[{op, code, detail}]``.
+
+    Three grid gates, strongest last: the pin *offset* ``(dx, dy)`` must be a
+    multiple of the grid, the op's *anchor* ``(x, y)`` must be on the grid, and
+    the pin's *absolute* position ``(x + dx, y + dy)`` must be on the grid.  The
+    last one is what EasyEDA actually enforces when it draws the stub (see
+    ``grid_snap``); checking only the offset is how the C-board connects were
+    rejected one by one.
+    """
     parts = (geometry or {}).get("parts") or {}
     problems = []
     for op in ops:
@@ -86,9 +107,24 @@ def preflight(ops, geometry):
             problems.append({"op": op["id"], "code": "plan",
                              "detail": "pin %s:%s absent from geometry" % (ref, pin)})
             continue
-        if not (on_grid(info["dx"]) and on_grid(info["dy"])):
+        dx, dy = float(info["dx"]), float(info["dy"])
+        if not (on_grid(dx) and on_grid(dy)):
             problems.append({"op": op["id"], "code": "geometry",
-                             "detail": "pin offset off the 5-unit grid"})
+                             "detail": "pin %s:%s offset (%.3f, %.3f) is off the %g-unit grid"
+                                       % (ref, pin, dx, dy, GRID)})
+            continue
+        anchor_x, anchor_y = float(op["x"]), float(op["y"])
+        pin_x, pin_y = anchor_x + dx, anchor_y + dy
+        if not (on_grid(pin_x) and on_grid(pin_y)):
+            problems.append({"op": op["id"], "code": "geometry",
+                             "detail": "pin %s:%s sits at (%.3f, %.3f) - off the %g-unit "
+                                       "grid after the anchor offset"
+                                       % (ref, pin, pin_x, pin_y, GRID)})
+            continue
+        if not (on_grid(anchor_x) and on_grid(anchor_y)):
+            problems.append({"op": op["id"], "code": "geometry",
+                             "detail": "anchor of %s:%s at (%.3f, %.3f) is off the %g-unit "
+                                       "grid" % (ref, pin, anchor_x, anchor_y, GRID)})
             continue
         direction = op.get("direction") or info.get("side") or "right"
         vector = DIRECTION_VECTOR.get(direction, (1, 0))
