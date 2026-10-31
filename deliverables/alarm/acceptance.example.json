@@ -1,0 +1,29 @@
+{
+  "schema": "easycirq-acceptance/v1",
+  "project": "KPI-S5-Verify",
+  "board": "alarm-r1",
+  "_note": "示例数据，不是实测。真实验收请替换成你自己的读数与证据。",
+  "checks": [
+    {
+      "id": "solder",
+      "title": "焊接",
+      "result": "pass",
+      "evidence": "示例：照片 IMG_0001.jpg（5 个器件无虚焊）",
+      "by": "示例"
+    },
+    {
+      "id": "power",
+      "title": "上电",
+      "result": "pass",
+      "evidence": "示例：5V 输入 5.02V，3.3V 轨 3.29V",
+      "by": "示例"
+    },
+    {
+      "id": "function",
+      "title": "功能",
+      "result": "pass",
+      "evidence": "示例：58℃ 响，55℃ 停（回差 3℃）",
+      "by": "示例"
+    }
+  ]
+}
