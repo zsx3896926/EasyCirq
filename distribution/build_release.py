@@ -468,7 +468,19 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
             z.write(tmp / 'bundle.json', 'bundle.json')
             for rel in sorted(inventory):
-                z.write(payload / rel[len('payload/'):], rel)
+                src = payload / rel[len('payload/'):]
+                # Text files ship with LF regardless of the build machine's
+                # checkout. A CRLF Python file breaks its shebang on Linux and
+                # makes byte comparisons against the repo meaningless; 247 of
+                # the 308 scripts were CRLF in 1.3.20 for exactly this reason.
+                if src.suffix in ('.py', '.json', '.md', '.txt', '.tsv', '.csv'):
+                    data = src.read_bytes().replace(b'\r\n', b'\n')
+                    info = zipfile.ZipInfo(rel, date_time=time.localtime(src.stat().st_mtime)[:6])
+                    info.compress_type = zipfile.ZIP_DEFLATED
+                    info.external_attr = (src.stat().st_mode & 0xFFFF) << 16
+                    z.writestr(info, data)
+                else:
+                    z.write(src, rel)
         if archive.stat().st_size > MAX_ZIP:
             raise RuntimeError('Bundle exceeds the size limit')
 
