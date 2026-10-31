@@ -80,4 +80,4 @@
 | 打样后验收卡 | ✅ 已做：`easycirq acceptance`（6 项单测）；「通过但无实测证据」判为 unknown，不冒充通过；**已安装到客户机并验证** |
 | MCP 跨宿主 | 只有只读骨架 |
 
-**下一步**：uild_release.py 生成正式安装包（当前 1.2.0 为手工注入版本号的本地构建）→ MCP 化。
+**下一步**：补 connector 构建产物后生成完整 toolchain bundle（skill-only 包已可生成）→ MCP 化。
