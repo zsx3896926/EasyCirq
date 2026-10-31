@@ -37,7 +37,7 @@ def main():
     ap.add_argument("--via-negotiate", dest="via_negotiate", action="store_true")
     ap.add_argument("--via-plan", dest="via_plan", action="store_true")
     ap.add_argument("--via-first", dest="via_first", action="store_true")
-    ap.add_argument("--net-order", dest="net_order", choices=("big","small"), default="small")
+    ap.add_argument("--net-order", dest="net_order", choices=("big","small","region"), default="small")
     ap.add_argument("--pour-net", dest="pour_nets", action="append", default=[])
     ap.add_argument("--pour-layer", dest="pour_layer", type=int)
     ap.add_argument("--pour-step", dest="pour_step", type=int, default=5)
@@ -123,6 +123,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

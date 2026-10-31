@@ -975,10 +975,26 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         return 2
 
     skip_nets = set(plane_nets) | pour_sets
-    nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in skip_nets],
-                  key=lambda n: (net_priority(n),
-                                 -len(board.nets[n]) if net_order == "big" else len(board.nets[n]),
-                                 n))
+    # Spatial sweep: route nets whose pads are near each other consecutively, so a
+    # corridor is consumed once and then left behind, instead of being re-contested
+    # by a net from the far side of the board.
+    centroids = {}
+    for n in board.nets:
+        ps = board.nets[n]
+        if ps:
+            centroids[n] = (sum(p["x"] for p in ps) / len(ps),
+                            sum(p["y"] for p in ps) / len(ps))
+    def region_key(n):
+        cx, cy = centroids.get(n, (0.0, 0.0))
+        return (int(cx // 300), int(cy // 300))
+    if net_order == "region":
+        nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in skip_nets],
+                      key=lambda n: (net_priority(n), region_key(n), n))
+    else:
+        nets = sorted([n for n in board.nets if len(board.nets[n]) >= 2 and n not in skip_nets],
+                      key=lambda n: (net_priority(n),
+                                     -len(board.nets[n]) if net_order == "big" else len(board.nets[n]),
+                                     n))
     history = defaultdict(float)
     # Via sites are reserved, not vetoed.  The base map is the pads' keep-out
     # discs; it is rebuilt every pass and stamped with every accepted track, so
@@ -2776,7 +2792,7 @@ def main():
                    help="NET:LAYER carried by an area pour; repeatable")
     r.add_argument("--pour-step", dest="pour_step", type=int, default=5,
                    help="how far an access via may sit from its pad, in grid cells")
-    r.add_argument("--net-order", dest="net_order", choices=("big", "small"), default="small",
+    r.add_argument("--net-order", dest="net_order", choices=("big", "small", "region"), default="small",
                    help="order nets by pad count: big first (default) or small first")
 
     q = sub.add_parser("report")
@@ -2868,6 +2884,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

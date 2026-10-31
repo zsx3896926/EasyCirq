@@ -62,13 +62,34 @@ def run(dump_path, place_path, out_dir=None):
     skew = kpi["bus_length_spread_mil"]
     ok = ok and all(v < 50 for v in skew.values())
 
+    # Classify the remaining failures instead of only counting them: a skew that
+    # cannot be fixed by any router (pin order disagrees end to end) must read as a
+    # design-constraint conflict, not as "not implemented yet".
+    why = {}
+    if any(v >= 50 for v in skew.values()):
+        caps = []
+        try:
+            import bus_capacity
+            caps = bus_capacity.report(board)
+        except Exception:
+            caps = []
+        bad = [c for c in caps if abs(c["rho"]) < 0.99]
+        if bad:
+            why["bus_skew"] = "design conflict: pin order disagrees (%s)" % ", ".join(
+                "%s/%s rho=%.2f" % (c["group"], c["side"], c["rho"]) for c in bad)
+        else:
+            why["bus_skew"] = "implementation: bundles are geometrically possible"
+    if kpi["clearance_violations"]:
+        why["clearance_violations"] = "implementation: %d via/track pairs too close" % (
+            kpi["clearance_violations"])
+
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, "plan.json"), "w", encoding="utf-8") as f:
             json.dump(plan, f, indent=1)
         with open(os.path.join(out_dir, "kpi.json"), "w", encoding="utf-8") as f:
             json.dump(kpi, f, indent=1)
-    return kpi, skew, ok, gate_fail
+    return kpi, skew, ok, gate_fail, why
 
 
 def _route(board):
@@ -89,7 +110,7 @@ def _route_with(board, specs):
     return routed, failures
 
 
-def scorecard(kpi, skew, ok, gate_fail):
+def scorecard(kpi, skew, ok, gate_fail, why=None):
     rows = [
         ("unrouted legs", kpi["unrouted_legs"], "gate"),
         ("congestion cells", kpi["congestion_cells"], "gate"),
@@ -108,6 +129,12 @@ def scorecard(kpi, skew, ok, gate_fail):
     out = ["| KPI | value | |", "|---|---|---|"]
     for name, value, kind in rows:
         out.append("| %s | %s | %s |" % (name, value, kind))
+    if why:
+        out.append("")
+        out.append("| failing KPI | classification |")
+        out.append("|---|---|")
+        for k in sorted(why):
+            out.append("| %s | %s |" % (k, why[k]))
     out.append("")
     out.append("**offline gate: %s**%s" % (
         "PASS" if ok else "FAIL",
@@ -122,10 +149,12 @@ def main():
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
     a = ap.parse_args()
-    kpi, skew, ok, gate_fail = run(a.dump, a.place, a.out_dir)
-    print(scorecard(kpi, skew, ok, gate_fail))
+    kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir)
+    print(scorecard(kpi, skew, ok, gate_fail, why))
     return 0 if ok else 1
 
 
 if __name__ == "__main__":
     sys.exit(main())
+
+

@@ -258,6 +258,21 @@ def test_reproduce_scorecard_states_the_gate_verdict():
     assert "PASS" in text
 
 
+def test_reproduce_scorecard_separates_design_conflict_from_bug():
+    """A skew the pin order makes impossible must not read like unfinished work."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("reproduce2", MOD_PATH.parent / "reproduce.py")
+    rep = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(rep)
+    kpi = {"unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 0,
+           "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 0,
+           "vias": 1, "plane_vias": 1, "vias_in_pad": 0, "tracks": 2,
+           "total_length_mil": 10.0, "diagonal_ratio": 0.5}
+    text = rep.scorecard(kpi, {"CAM_D": 713.0}, False, {"bus_skew": None},
+                         why={"bus_skew": "design conflict: pin order disagrees"})
+    assert "design conflict" in text and "failing KPI" in text
+
+
 def test_clearance_violation_detected_between_nets():
     board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)])])
     plan = {"tracks": [
