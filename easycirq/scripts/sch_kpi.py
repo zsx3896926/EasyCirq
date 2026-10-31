@@ -415,6 +415,36 @@ def _history_rounds(rows):
     return rounds
 
 
+def _blocker_names(kpi, checks):
+    """Concrete items behind a failed KPI, when the check report names them.
+
+    "1 net is dangling" is not actionable; "BB_VIN is dangling" is. Reads are
+    keyed by check id, so look up the check that fed this KPI and pull the
+    names its findings carry. Only a few checks emit names, and they are
+    already capped upstream.
+    """
+    names = []
+    for read in kpi.get("reads") or []:
+        if not isinstance(read, dict):
+            continue
+        check = checks.get(read.get("check"))
+        if not isinstance(check, dict):
+            continue
+        for finding in check.get("findings") or []:
+            if not isinstance(finding, dict):
+                continue
+            if finding.get("code") != "single_node_net":
+                continue
+            net = finding.get("net")
+            if net:
+                names.append(str(net))
+    seen, unique = set(), []
+    for name in names:
+        if name not in seen:
+            seen.add(name)
+            unique.append(name)
+    return unique[:5]
+
 def evaluate(payload, defn=None):
     """Pure evaluation used by tests and by main()."""
     defn = defn or DEFAULTS
@@ -452,12 +482,13 @@ def evaluate(payload, defn=None):
         elif status in ("missing", "unknown"):
             blockers.append({"kpi": kpi["id"], "reason": f"证据缺失或不可用: {detail}"})
         elif status == "fail":
-            blockers.append({
-                "kpi": kpi["id"],
-                "reason": f"{kpi['title']} 实测 {value:g} {kpi['unit']} "
-                          f"{'<' if kpi.get('direction') == 'min' else '>'} "
-                          f"门限 {kpi['limit']:g}",
-            })
+            reason = (f"{kpi['title']} 实测 {value:g} {kpi['unit']} "
+                      f"{'<' if kpi.get('direction') == 'min' else '>'} "
+                      f"门限 {kpi['limit']:g}")
+            names = _blocker_names(kpi, checks)
+            if names:
+                reason += "（" + "、".join(names) + "）"
+            blockers.append({"kpi": kpi["id"], "reason": reason})
         rows.append({
             "no": kpi["no"],
             "id": kpi["id"],

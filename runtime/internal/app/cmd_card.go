@@ -129,13 +129,31 @@ func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult
 	return result
 }
 
+// cardBlockerNames pulls the concrete item list the KPI blocker put in
+// parentheses, e.g. '实测 1 count > 门限 0（BB_VIN）' -> 'BB_VIN'.
+func cardBlockerNames(reason string) string {
+	open := strings.LastIndex(reason, "（")
+	close := strings.LastIndex(reason, "）")
+	if open < 0 || close <= open {
+		return ""
+	}
+	return strings.TrimSpace(reason[open+len("（") : close])
+}
+
 func renderCard(result cardResult) string {
 	var b strings.Builder
 	b.WriteString(result.Headline + "\n\n")
 	if len(result.Blockers) > 0 {
 		b.WriteString("必须修的问题：\n")
 		for _, entry := range result.Blockers {
-			fmt.Fprintf(&b, "  · %s\n    → %s\n", entry.Plain, entry.Advice)
+			// The KPI blocker carries the concrete items in parentheses; show
+			// them after the plain label so the customer knows WHICH net/pin to
+			// fix instead of only how many.
+			label := entry.Plain
+			if names := cardBlockerNames(entry.Reason); names != "" {
+				label += "：" + names
+			}
+			fmt.Fprintf(&b, "  · %s\n    → %s\n", label, entry.Advice)
 		}
 		b.WriteString("\n")
 	}

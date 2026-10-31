@@ -91,3 +91,27 @@ func TestRenderCardShowsCountsAndNext(t *testing.T) {
 		t.Fatalf("next step missing: %s", text)
 	}
 }
+
+func TestCardShowsTheConcreteItemBehindABlocker(t *testing.T) {
+	report := cardReportFixture("BLOCKED", []string{"unconnected"}, []string{})
+	report.Blockers[0].Reason = "未连接/悬空 实测 1 count > 门限 0（BB_VIN）"
+	card := analyzeCard(report, "", "")
+	out := renderCard(card)
+	if !strings.Contains(out, "BB_VIN") {
+		t.Fatalf("card does not name the offending net:\n%s", out)
+	}
+	if !strings.Contains(out, "有引脚或网络没有接上：BB_VIN") {
+		t.Fatalf("the name should follow the plain label:\n%s", out)
+	}
+}
+
+func TestCardBlockerWithoutNamesHasNoDanglingColon(t *testing.T) {
+	report := cardReportFixture("BLOCKED", []string{"unconnected"}, []string{})
+	report.Blockers[0].Reason = "未连接/悬空 实测 1 count > 门限 0"
+	card := analyzeCard(report, "", "")
+	out := renderCard(card)
+	if strings.Contains(out, "没有接上：\n") {
+		t.Fatalf("a blocker without names must not render a trailing colon:\n%s", out)
+	}
+}
+
