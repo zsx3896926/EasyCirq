@@ -24,6 +24,19 @@ python distribution/easycirq_install.py verify --install-dir <tmp>/app
 python tools/check_release_consistency.py
 ```
 
+## 一之二、两个基准自测（也必跑）
+
+这两个脚本本身没有单测——它们的输出就是验证：
+
+\\ash
+python easycirq/scripts/schematic_benchmark.py          # 期望 status=ok, 8/8
+python easycirq/scripts/pcb_placement_benchmark.py --all # 期望每个案例 OK
+\
+它们检查的是**布局判断能力**（去耦回路过长、功率回路、模拟区分离等），
+不是代码正确性。改过布局相关代码后必须重跑：这两个过了，说明判断规则没被改坏。
+
+## 二、为什么还要第 3 条（内容一致性）
+
 第 3 条的输出必须是：
 
 ```
