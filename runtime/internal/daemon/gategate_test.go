@@ -10,7 +10,8 @@ import (
 	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
-const mutatingAction = "schematic.component.place"
+const deliveryAction = "pcb.manufacture.gerber"
+const buildAction = "schematic.component.place"
 
 func writeGateFile(t *testing.T, dir string, token map[string]any) {
 	t.Helper()
@@ -28,7 +29,7 @@ func writeGateFile(t *testing.T, dir string, token map[string]any) {
 }
 
 func gateRequest(dir string) *protocol.Request {
-	req := &protocol.Request{Action: mutatingAction, Project: "demo"}
+	req := &protocol.Request{Action: deliveryAction, Project: "demo"}
 	req.ID = "req-gate-test"
 	req.OutputDir = dir
 	return req
@@ -149,6 +150,40 @@ func TestGateAcceptsProjectUUID(t *testing.T) {
 	resp := (&Server{}).checkMutationGate(other)
 	if resp == nil || resp.Error == nil || resp.Error.Code != "GATE_PROJECT_MISMATCH" {
 		t.Fatalf("foreign uuid must be refused, got %+v", resp)
+	}
+}
+
+func TestBuildActionsAreNotGated(t *testing.T) {
+	// Drawing is how a board comes into existence; an empty page can never pass
+	// the offline check, so gating these would deadlock "build from scratch".
+	t.Setenv("EASYCIRQ_GATE_MODE", "strict")
+	for _, action := range []string{
+		buildAction,
+		"schematic.wire.create",
+		"schematic.netflag.create",
+		"pcb.route.auto",
+	} {
+		req := gateRequest(t.TempDir())
+		req.Action = action
+		if resp := (&Server{}).checkMutationGate(req); resp != nil {
+			t.Fatalf("%s is a build action and must not be gated, got %+v", action, resp.Error)
+		}
+	}
+}
+
+func TestDeliveryActionsAreGated(t *testing.T) {
+	t.Setenv("EASYCIRQ_GATE_MODE", "strict")
+	for _, action := range []string{
+		"pcb.manufacture.gerber",
+		"pcb.manufacture.cpl",
+		"pcb.manufacture.netlist",
+	} {
+		req := gateRequest(t.TempDir())
+		req.Action = action
+		resp := (&Server{}).checkMutationGate(req)
+		if resp == nil || resp.Error == nil || resp.Error.Code != "GATE_REQUIRED" {
+			t.Fatalf("%s must require a token, got %+v", action, resp)
+		}
 	}
 }
 

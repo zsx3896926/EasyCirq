@@ -32,13 +32,19 @@ type gateToken struct {
 	KPIs         map[string]string `json:"kpis"`
 }
 
-// mutatingSpecs indexes the actions that change the canvas. ActionSpec.Mutates
-// is the single source of truth: the gate is keyed off it rather than a hand
-// maintained command list, so a new mutating action is covered automatically.
-var mutatingSpecs = sync.OnceValue(func() map[string]protocol.ActionSpec {
+// deliverySpecs indexes the actions the gate protects: those that make a claim
+// about the board's readiness (manufacturing data, netlists, exports).
+//
+// It is deliberately NOT every mutating action. Drawing a board - placing,
+// wiring, routing - is how a board comes into existence, and an empty page can
+// never pass the offline check, so gating every write deadlocks "build it from
+// scratch". The invariant the objective needs is "no delivery claim without
+// evidence", which is what GateRequired marks. ActionSpec.GateRequired is the
+// single source of truth, so a new delivery action is covered automatically.
+var deliverySpecs = sync.OnceValue(func() map[string]protocol.ActionSpec {
 	index := map[string]protocol.ActionSpec{}
 	for _, action := range protocol.AllActions() {
-		if action.Mutates {
+		if action.GateRequired {
 			index[action.Name] = action
 		}
 	}
@@ -97,7 +103,7 @@ func readGateToken(path string) (*gateToken, error) {
 // PASS verdict for the target project. A read action, or gate mode warn/off,
 // passes straight through.
 func (s *Server) checkMutationGate(req *protocol.Request) *protocol.Response {
-	if _, mutates := mutatingSpecs()[req.Action]; !mutates {
+	if _, mutates := deliverySpecs()[req.Action]; !mutates {
 		return nil
 	}
 	mode := gateMode()

@@ -1,4 +1,4 @@
-# 门禁与「从零建板」的死锁（2026-10-31 实测）
+# 门禁与「从零建板」的死锁（2026-10-31 实测，当日已解决）
 
 ## 结论
 
@@ -84,3 +84,30 @@ B 的代价太高且判据脆弱；C 不成立。
 - 门禁实现与真机验证都是按「全部 mutating action 都要令牌」做的
 - 结论：**目标的两条要求在今天的实现下不可同时满足**
 - 这不是 bug，是设计取舍，所以我停在这里问你，而不是自己改掉门禁
+
+## 解决（2026-10-31 晚，1.3.0）
+
+采用方案 A（分阶段门禁），已实现并真机验证。
+
+`ActionSpec` 新增 `GateRequired` 字段，只有**交付类**动作标 true：
+
+| 动作 | GateRequired |
+|---|---|
+| `pcb.manufacture.gerber` | true |
+| `pcb.manufacture.cpl` | true |
+| `pcb.manufacture.netlist` | true |
+| 其余 111 个 mutating（建板/布局/布线） | false（不再受门禁约束） |
+
+daemon 的门禁索引从 `mutatingSpecs`（Mutates）改为 `deliverySpecs`（GateRequired）。
+
+真机验证（1.3.0）：
+
+| 动作 | 结果 |
+|---|---|
+| `sch place`（放 LED） | `ok: true` —— 放行 |
+| `call pcb.manufacture.gerber` | `GATE_REQUIRED` —— 拦截 |
+
+不变量保留：**没有证据就不能声称可以交付**。死锁解开：**画图不再被门禁挡住**。
+
+新增测试：`TestBuildActionsAreNotGated`、`TestDeliveryActionsAreGated`；
+gate 测试全套 12 项通过。

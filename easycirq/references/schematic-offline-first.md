@@ -202,6 +202,10 @@ daemon 的 `handleAction` 对所有 `ActionSpec.Mutates=true` 的 typed action �
 
 令牌有效期 `--gate-ttl-minutes`（默认 30）；`go test` 环境下自动 off，既有 daemon 测试不受影响。
 
+**门禁只拦交付类动作**（`GateRequired`）：导出 Gerber / CPL / 网表。放器件、连线、
+布线这些**建板动作不受门禁约束**——空页面永远过不了离线检查，若拦所有写入就没法
+从零画板。不变量因此表述为：**没有证据，就不能声称这块板可以交付**。
+
 令牌同时记录工程名与可选 `project_uuid`（`sch_kpi.py --project-uuid <uuid>`）：写入时用名字或 uuid
 都能通过，换成别的工程一定被拒。**真机已验证**：无令牌 → `GATE_REQUIRED`；令牌 + 名字 → 放行；
 令牌 + uuid → 放行；别的 uuid → `GATE_PROJECT_MISMATCH`。
