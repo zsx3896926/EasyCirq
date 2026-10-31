@@ -10,6 +10,7 @@ snapshot and JSON files; nothing here needs a daemon or an editor write — and
 ```bash
 # reproduce the current frontier in one command (11-row scorecard + gate verdict)
 python tools/layout/reproduce.py --dump dump.json --place placed.json --out-dir out/
+#   --profile shared-pour | exclusive-pour | two-layer   (see DECISIONS.md)
 
 # or step by step
 python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
@@ -92,3 +93,5 @@ Five of the six gate items are zero. The two that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
+

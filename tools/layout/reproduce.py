@@ -26,29 +26,46 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ec_layout as ec  # noqa: E402
 
-# The measured frontier configuration (HANDOFF §22-§27).  Changing any of these
-# changes the numbers, so they live in one place on purpose.
-FRONTIER = dict(
-    iters=40,
-    layers=4,
-    pours=("GND:4", "+3V3:3"),   # area pours: GND on L4, +3V3 on L3
-    pour_step=5,
-    net_order="small",
-    via_relocate=True,
-    best_effort=True,
-    match_lengths=True,
-)
+# Named presets.  Two of them are the branches of the pour decision (D2 in
+# DECISIONS.md) and one is the stackup branch (D1), so whichever way the engineer
+# decides, the choice is one command and the numbers come out comparable.
+PROFILES = {
+    # The measured frontier: pours share their layers with signals.
+    "shared-pour": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
+    # Pour layers belong to the pour: whole ground, best clearance so far (153),
+    # at the price of four open legs because both inner layers are gone.
+    "exclusive-pour": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=True,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
+    # If the board really is 2-layer (D1): only the bottom layer can be poured.
+    "two-layer": dict(
+        iters=70, layers=2,
+        pours=("GND:2",), pour_exclusive=False,
+        pour_step=5, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
+}
+FRONTIER = PROFILES["shared-pour"]
 
 
-def run(dump_path, place_path, out_dir=None):
+def run(dump_path, place_path, out_dir=None, profile="shared-pour"):
+    cfg = PROFILES[profile]
     with open(dump_path, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     with open(place_path, encoding="utf-8") as f:
         ec.apply_placement(board, json.load(f))
 
-    routed, failures = _route(board)
+    routed, failures = _route(board, cfg)
     plan = ec.plan_from(board, routed)
-    if FRONTIER["match_lengths"]:
+    if cfg["match_lengths"]:
         prev = None
         for _ in range(12):
             ec.match_lengths(board, plan, amp=ec.GRID * 8)
@@ -92,20 +109,16 @@ def run(dump_path, place_path, out_dir=None):
     return kpi, skew, ok, gate_fail, why
 
 
-def _route(board):
-    specs = list(FRONTIER["pours"])
-    return _route_with(board, specs)
-
-
-def _route_with(board, specs):
+def _route(board, cfg):
     (_unr, _cong), routed, failures = ec.route(
-        board, iters=FRONTIER["iters"], layers=FRONTIER["layers"],
+        board, iters=cfg["iters"], layers=cfg["layers"],
         segment_check=True,
         plane_nets=frozenset(), plane_layer=None,
-        pour_specs=specs, pour_step=FRONTIER["pour_step"],
-        net_order=FRONTIER["net_order"],
-        via_relocate=FRONTIER["via_relocate"],
-        best_effort=FRONTIER["best_effort"],
+        pour_specs=list(cfg["pours"]), pour_step=cfg["pour_step"],
+        pour_exclusive=cfg.get("pour_exclusive", False),
+        net_order=cfg["net_order"],
+        via_relocate=cfg["via_relocate"],
+        best_effort=cfg["best_effort"],
     )
     return routed, failures
 
@@ -148,13 +161,20 @@ def main():
     ap.add_argument("--dump", required=True)
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
+    ap.add_argument("--profile", default="shared-pour", choices=sorted(PROFILES))
     a = ap.parse_args()
-    kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir)
+    kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
+    print("profile: `%s`  (layers %d, pours %s%s)" % (
+        a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
+        ", exclusive" if PROFILES[a.profile].get("pour_exclusive") else ""))
     print(scorecard(kpi, skew, ok, gate_fail, why))
     return 0 if ok else 1
 
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 

@@ -28,19 +28,29 @@ anything.
 
 ## D2. Pour strategy: shared layer vs exclusive layer
 
-Measured (4 layers, board rules):
+Measured (4 layers, board rules, 70 negotiation passes):
 
-| configuration | clearance | unrouted | pour islands |
-|---|---|---|---|
-| pours share their layers (default) | 290 | **0** | **1** (fail) |
-| pour layers exclusive (`--pour-exclusive`) | **153** | 4 | **0** |
-| GND exclusive, no +3V3 pour | 334 | 1 | **0** |
+| configuration | clearance | unrouted | pour islands | command |
+|---|---|---|---|---|
+| pours share their layers | 290 | **0** | **1** (fail) | `--profile shared-pour` |
+| pour layers exclusive | **153** | 4 | **0** | `--profile exclusive-pour` |
+| GND exclusive, no +3V3 pour | 334 | 1 | **0** | (see HANDOFF §36) |
 
 3161 mil of track sits on the GND pour layer across 11 nets, so "a few short
 crossings" is not the situation - the layer is used as a routing layer.
 
 **Decision needed:** either accept a split ground plane (and prove the return path
 elsewhere), or pay capacity for a whole pour, or move to 6 layers.
+
+Both branches are one command now, so the comparison can be re-run at any time:
+
+```bash
+python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile shared-pour
+python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile exclusive-pour
+```
+
+`--profile two-layer` covers the other branch of D1 (measured: 6 open nets,
+7 pour islands, 201 clearance).
 
 ---
 
