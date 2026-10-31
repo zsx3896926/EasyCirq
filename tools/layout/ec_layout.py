@@ -710,6 +710,9 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     score, best_routed, best_failures, best_congestion = best
     if plane_nets and plane_layer:
         vias, stubs = plane_access(board, best_routed, plane_nets, int(plane_layer))
+        # The pad->via stub is the ONLY copper a plane net may spend: the test
+        # contract allows stubs up to 3*GRID and nothing longer. Dropping the stubs
+        # entirely disconnects the pad from its via (measured: GND reported dead).
         for net, paths in stubs.items():
             best_routed.setdefault(net, []).extend(paths)
         if vias:
@@ -1006,6 +1009,17 @@ def connectivity_from_plan(board, plan, tol=GRID * 1.5):
         base = (v["net"],) + q(v["x"], v["y"], 1)
         for layer in (2, 3, 4):
             union(base, (v["net"],) + q(v["x"], v["y"], layer))
+
+    # Plane nets: every pad is joined through the plane, so all of that net's plane
+    # access vias form a single node. Without this the pads look disconnected once
+    # the tracks are (correctly) not emitted.
+    plane_nodes = defaultdict(list)
+    for v in plan.get("vias") or []:
+        if v.get("plane_layer"):
+            plane_nodes[v["net"]].append((v["net"],) + q(v["x"], v["y"], 1))
+    for net, nodes in plane_nodes.items():
+        for n in nodes[1:]:
+            union(nodes[0], n)
 
     # All plane access vias land on the SAME copper: one connection through the
     # plane, not 42 separate islands.  A pad whose via is missing keeps its own
