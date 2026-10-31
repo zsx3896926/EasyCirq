@@ -1274,10 +1274,14 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
         # version only if it does not introduce congestion or break a net.
         backup = dict(best_routed)
         pre = plan_from(board, backup)
-        pre_key = (congestion_from_plan(board, pre), len(connectivity_from_plan(board, pre)))
-        best_routed, _r, _bad = repair(board, best_routed, rounds=2, layers=layers)
+        pre_key = (congestion_from_plan(board, pre),
+                   len(connectivity_from_plan(board, pre)),
+                   clearance_violations(board, pre))
+        best_routed, _r, _bad = repair(board, best_routed, rounds=3, layers=layers)
         post = plan_from(board, best_routed)
-        post_key = (congestion_from_plan(board, post), len(connectivity_from_plan(board, post)))
+        post_key = (congestion_from_plan(board, post),
+                    len(connectivity_from_plan(board, post)),
+                    clearance_violations(board, post))
         if post_key > pre_key:
             best_routed = backup
     if via_relocate:
@@ -1373,17 +1377,25 @@ def repair(board, routed, rounds=3, layers=4):
             opponents[victim].add(other)
         cells = {n: {(x + dx, y + dy) for p in ps for (x, y, _l) in p for dx, dy in HALO}
                  for n, ps in routed.items() if n != PLANE_VIA_KEY}
+        # Keep what we are about to rip so a net that cannot be re-routed keeps its
+        # original path instead of disappearing.
+        backup = {n: routed[n] for n in rip if n in routed}
         for net in rip:
             routed.pop(net, None)
+        # Every cell still occupied by a THIRD party.  Without this the re-route
+        # lands on someone else's track (measured: VDD_DW over BB_VIN, one short)
+        # because reroute_net only avoids its named opponents.
+        third_party = {(x, y) for n, ps in routed.items() if n != PLANE_VIA_KEY
+                       for p in ps for (x, y, _l) in p}
         for net in sorted(rip):
-            # Block ONLY the nets this one actually conflicts with; blocking every
-            # other net's halo made 33 nets unroutable.
             blocked = set()
             for opp in opponents.get(net, ()):
                 blocked |= cells.get(opp, set())
-            paths = reroute_net(board, net, blocked, layers, pad_forbid, own)
+            paths = reroute_net(board, net, blocked | third_party, layers, pad_forbid, own)
             if paths:
                 routed[net] = paths
+            elif net in backup:
+                routed[net] = backup[net]
     plan = plan_from(board, routed)
     return routed, rounds, len(clearance_pairs(board, plan))
 
@@ -2904,6 +2916,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 
