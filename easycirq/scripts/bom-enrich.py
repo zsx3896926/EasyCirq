@@ -22,12 +22,38 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def read_text(path):
+    """Decode a BOM export, choosing the encoding by evidence rather than by luck.
+
+    The probe order matters: utf-16 accepts almost ANY even-length byte string
+    without raising, so trying it first turns a perfectly good UTF-8 file into
+    mojibake and the caller then reports "missing expected columns". UTF-8 is
+    tried first now; utf-16 is only used when its byte-order mark is present or
+    when every decoded character is plausible text.
+    """
     raw = open(path, 'rb').read()
-    for enc in ('utf-16', 'utf-16-le', 'utf-8-sig', 'utf-8'):
+    if not raw:
+        return ''
+    for mark, enc in ((b'\xff\xfe', 'utf-16-le'), (b'\xfe\xff', 'utf-16')):
+        if raw.startswith(mark):
+            # A leading U+FEFF survives the decode; strip it so the header
+            # starts at a real character.
+            return raw.decode(enc, 'replace').lstrip('\ufeff')
+    for enc in ('utf-8-sig', 'utf-8'):
         try:
             return raw.decode(enc)
         except UnicodeDecodeError:
             continue
+    # No BOM and not valid UTF-8: fall back to utf-16 only if it yields text that
+    # looks like a table (printable, has a tab or comma), otherwise treat the
+    # bytes as undecodable-but-readable.
+    for enc in ('utf-16-le', 'utf-16'):
+        try:
+            text = raw.decode(enc)
+        except UnicodeDecodeError:
+            continue
+        printable = sum(1 for ch in text if ch.isprintable() or ch in '\t\r\n')
+        if text and printable / len(text) > 0.95 and ('\t' in text or ',' in text):
+            return text
     return raw.decode('utf-8', 'replace')
 
 
