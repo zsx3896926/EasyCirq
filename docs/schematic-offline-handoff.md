@@ -105,5 +105,7 @@ easycirq acceptance   # 打样后的验收卡
 
 ## 版本
 
-当前 **1.2.4**：runtime 1.2.4 + connector 1.0.20 + skill 1.1.0，
+> 下面这段是**当时（1.2.4）**的记录，最新版本见 `docs/ultimate-goal.md`。
+
+当时 **1.2.4**：runtime 1.2.4 + connector 1.0.20 + skill 1.1.0，
 `dist-release/easycirq-toolchain-1.2.4.zip`（806 文件，隔离安装 verify 为 healthy）。
