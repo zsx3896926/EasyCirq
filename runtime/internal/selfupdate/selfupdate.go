@@ -22,6 +22,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
+	"time"
 	"strconv"
 	"strings"
 )
@@ -62,6 +64,25 @@ type SkillTarget struct {
 }
 
 // skillDir returns the skill dir for a client under $HOME, or "" if unknown.
+// renameWithRetry renames a directory, retrying briefly on Windows. There a
+// directory rename can fail with "Access is denied" while a virus scanner or the
+// search indexer holds a transient handle on the freshly written tree; the lock
+// is short-lived, so a few spaced retries are the standard remedy. On POSIX the
+// first attempt almost always succeeds and the loop costs nothing.
+func renameWithRetry(oldpath, newpath string) error {
+	var err error
+	for attempt := 0; attempt < 5; attempt++ {
+		if err = os.Rename(oldpath, newpath); err == nil {
+			return nil
+		}
+		if runtime.GOOS != "windows" {
+			return err
+		}
+		time.Sleep(time.Duration(40*(attempt+1)) * time.Millisecond)
+	}
+	return err
+}
+
 func skillDir(client string) string {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -567,8 +588,11 @@ func materialize(src, dst string, preserve bool, version string) error {
 	if err := os.Chmod(stage, 0755); err != nil {
 		return err
 	}
-	if !existed {
-		return os.Rename(stage, dst)
+	if _, statErr := os.Stat(dst); statErr != nil {
+		// Nothing to replace. Prefer the filesystem's answer over the caller's
+		// `existed` flag: on Windows renaming onto an existing directory fails
+		// with "Access is denied", so a stale flag turns into a flaky failure.
+		return renameWithRetry(stage, dst)
 	}
 	backup, err := os.MkdirTemp(parent, ".easycirq-skill-backup-*")
 	if err != nil {
@@ -577,11 +601,11 @@ func materialize(src, dst string, preserve bool, version string) error {
 	if err := os.Remove(backup); err != nil {
 		return err
 	}
-	if err := os.Rename(dst, backup); err != nil {
+	if err := renameWithRetry(dst, backup); err != nil {
 		return err
 	}
-	if err := os.Rename(stage, dst); err != nil {
-		if restoreErr := os.Rename(backup, dst); restoreErr != nil {
+	if err := renameWithRetry(stage, dst); err != nil {
+		if restoreErr := renameWithRetry(backup, dst); restoreErr != nil {
 			return fmt.Errorf("switch skill: %w; restore failed: %v (original preserved at %s)", err, restoreErr, backup)
 		}
 		return err
