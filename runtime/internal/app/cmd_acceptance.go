@@ -164,10 +164,23 @@ Exit codes: 0 accepted, 1 failed/pending, 2 no record or invalid.`,
 			if _, err := os.Stat(recordPath); err == nil {
 				raw, err := os.ReadFile(recordPath)
 				if err != nil {
+					// A silent non-zero exit is not explainable: say which file
+					// could not be read and what to do next.
+					fmt.Fprintf(stdout, "⏳ 验收记录读不出来：%s\n\n下一步：确认这个文件存在且能打开，或把实测结果写到默认位置 .easycirq/acceptance.json\n", recordPath)
 					return exitCodeError{code: 2}
 				}
 				var loaded acceptanceFile
 				if err := json.Unmarshal(raw, &loaded); err != nil {
+					firstLine := ""
+					if idx := strings.IndexByte(string(raw), '\n'); idx >= 0 {
+						firstLine = string(raw)[:idx]
+					} else {
+						firstLine = string(raw)
+					}
+					if len(firstLine) > 80 {
+						firstLine = firstLine[:80] + "…"
+					}
+					fmt.Fprintf(stdout, "⏳ 验收记录的格式看不懂：%s\n\n它应该是一个 JSON 对象，包含 checks 数组（焊接/上电/功能，每项写 result 和 evidence）。\n看起来像：%s\n下一步：改正格式后重新运行 easycirq acceptance\n", recordPath, firstLine)
 					return exitCodeError{code: 2}
 				}
 				data = &loaded

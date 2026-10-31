@@ -126,7 +126,7 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 		return statusResult{
 			Schema: "easycirq-sch-status/v1", State: "not_measured",
 			Headline: "这块板还没有做过离线检查",
-			Next:     "先跑一轮离线检查（不是画图）：脚本 scripts/sch_offline_pipeline.py --snapshot-dir <快照> --project <P> --page <P>",
+			Next:     "先做一次离线检查（还没到画图那一步），回来看这张卡",
 			Blockers: []statusEntry{}, Missing: []statusEntry{},
 		}
 	}

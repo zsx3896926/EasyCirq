@@ -77,6 +77,17 @@ class RefusalsExplainThemselves(unittest.TestCase):
             self.skipTest("report is ready, nothing to refuse")
         self.assert_has_next(result.stdout, "card")
 
+    def test_acceptance_with_a_malformed_record_is_explained(self):
+        # a silent non-zero exit is not explainable: the customer must be told
+        # what is wrong and what to do next
+        with tempfile.TemporaryDirectory() as d:
+            bad = Path(d) / "bad.json"
+            bad.write_text("{ not json", encoding="utf-8")
+            result = run("acceptance", "--file", str(bad))
+            self.assertNotEqual(result.returncode, 0)
+            self.assertTrue(result.stdout.strip(), "the failure printed nothing")
+            self.assert_has_next(result.stdout, "acceptance(bad)")
+
     def test_acceptance_without_record_has_next(self):
         with tempfile.TemporaryDirectory() as d:
             result = run("acceptance", "--file", str(Path(d) / "missing.json"))
