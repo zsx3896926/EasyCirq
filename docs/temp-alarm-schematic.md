@@ -159,3 +159,63 @@ easycirq sch list --page <P> --include-bbox --include-pins
 \SCHEMATIC_GEOMETRY_INVALID\——该引脚的位置与已有几何冲突。
 
 下一轮的处理：把 C1 换一个不冲突的位置重放，或调整它所连网络的桩线方向。
+
+## 第三轮：电容移位后电路本身没有 fail 了
+
+把 C1 挪到空白位置（200,700）重放并接好 VCC/GND，再快照：
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  missing  #9 erc
+  missing  #10 pin_mux
+  missing  #13 bom_map
+  missing  #14 netlist_diff
+  missing  #15 readback
+```
+
+**没有 fail** —— 电路本身是对的，只剩「还没提供证据」。
+
+补上 ERC（`sch drc`）、BOM（`bom export`）、回读（`doc reload` 前后对比）之后：
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  missing  #10 pin_mux
+```
+
+只剩一项。
+
+## pin_mux 卡在示例与校验不一致
+
+`pin_plan_check.py` 要求顶层有 `pins` 数组：
+
+```python
+pins = data.get("pins")
+if not isinstance(pins, list):
+    raise ValueError("require pins array")
+```
+
+但官方示例 `easycirq/assets/pinmap.example.json` 的顶层键是：
+
+```
+['_note', 'schema', 'device', 'pinmap']
+```
+
+**没有 `pins`**。照着示例写，check 直接报 `invalid_input: require pins array`。
+
+这是**文档与实现的矛盾**：要么示例该带上 `pins`，要么 check 该把 `pinmap` 当作
+资源声明的等价形式。我没有去猜 `pins` 的结构——猜错会写出一个「看起来通过」的报告，
+先把矛盾记下来。
+
+## 当前状态
+
+| 项 | 值 |
+|---|---|
+| 原理图 | 完整（NTC + LM393 + 蜂鸣器 + 100nF 去耦） |
+| fail 项 | **0** |
+| 缺证据 | 1（pin_mux，卡在示例格式） |
+| 进程 | `verdict BLOCKED` —— 缺证据不等于通过 |
+
+## 下一轮
+
+确认 `pins` 数组的正确结构（读 `pin_plan_check.py` 里 `pins` 的用法，或找现成的
+`pin-plan/v1` 用例），补上后应能到 PASS。
