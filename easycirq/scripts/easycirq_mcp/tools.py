@@ -7,9 +7,12 @@ from . import CAPABILITIES_SCHEMA, SERVER_NAME, TOOL_VERSION
 from .errors import InvalidParams, ToolError
 from .runners import (
     NOT_PROOF,
+    run_card,
     run_delivery_audit,
     run_delivery_inspect,
     run_file_audit,
+    run_setup,
+    run_status,
 )
 
 _DETAIL = {
@@ -181,6 +184,79 @@ _TOOL_SPECS = {
         "annotations": {"readOnlyHint": True, "destructiveHint": False,
                         "idempotentHint": True, "openWorldHint": False},
         "handler": lambda arguments: _capabilities(),
+    },
+    "easycirq_status": {
+        "description": (
+            "Where this board stands and what the next step is, in plain language. "
+            "Reads the last offline KPI report and the write permission; never "
+            "talks to EDA and never re-measures. States: not_measured / blocked "
+            "/ incomplete / review / ready_to_write / gate_stale. 'Not measured "
+            "yet' is reported apart from 'measured and failing'."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "kpi_report": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "kpi-report.json written by the offline pipeline. "
+                                   + _PATHS_NOTE,
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional gate token path; when omitted the state "
+                                   "reports whether a token was demanded.",
+                },
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_status,
+    },
+    "easycirq_card": {
+        "description": (
+            "The customer delivery card: can this board be ordered, and what is "
+            "left. Reads a KPI report (and optionally a gate token). A 'ready' "
+            "answer requires a live permission when one is supplied; missing "
+            "evidence is listed apart from real defects and carries no fix advice."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["kpi_report"],
+            "properties": {
+                "kpi_report": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "kpi-report.json written by the offline pipeline. "
+                                   + _PATHS_NOTE,
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional gate token path; when supplied, a "
+                                   "PASS without a live token is not 'ready'.",
+                },
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_card,
+    },
+    "easycirq_setup": {
+        "description": (
+            "First-run check of the local installation: runtime, daemon, EasyEDA "
+            "connector and skill, plus the shortest path to a working install. "
+            "Runs the local `easycirq setup --json` CLI. It never installs, never "
+            "imports the connector and never edits a project."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {"timeout_s": _TIMEOUT},
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_setup,
     },
 }
 

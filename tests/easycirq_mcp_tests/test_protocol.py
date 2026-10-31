@@ -61,6 +61,9 @@ class ProtocolTests(unittest.TestCase):
             "offline_delivery_inspect",
             "offline_delivery_audit",
             "offline_audit_capabilities",
+            "easycirq_status",
+            "easycirq_card",
+            "easycirq_setup",
         ])
         for tool in tools:
             schema = tool["inputSchema"]
@@ -69,9 +72,11 @@ class ProtocolTests(unittest.TestCase):
             self.assertIsInstance(schema.get("properties"), dict)
             self.assertIs(tool["annotations"]["readOnlyHint"], True)
             self.assertIs(tool["annotations"]["openWorldHint"], False)
-            self.assertIn("offline", tool["description"].lower())
-            self.assertIn("readonly".replace("readonly", "read-only"),
-                          tool["description"].lower())
+            if tool["name"].startswith("offline_"):
+                # the offline audit tools advertise their scope in the description;
+                # the customer tools describe their answer instead
+                self.assertIn("offline", tool["description"].lower())
+                self.assertIn("read-only", tool["description"].lower())
 
     def test_unknown_method_is_a_protocol_error(self):
         response = self.server.request("no/such/method")

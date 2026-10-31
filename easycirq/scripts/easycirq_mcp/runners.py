@@ -385,6 +385,110 @@ def run_delivery_inspect(arguments):
                           _EXPECTED_EXITS["delivery_audit.inspect"])
 
 
+# ── customer-facing status / card / setup ─────────────────────────────────
+
+def _load_script_module(name):
+    """Import one of the sibling scripts/ modules without touching sys.path."""
+    import importlib.util
+    path = SCRIPTS / f"{name}.py"
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _status_payload(tool, schema, result, offline, note):
+    return {
+        "schema": schema,
+        "tool": tool,
+        "state": result["state"],
+        "headline": result["headline"],
+        "next": result["next"],
+        "blockers": result.get("blockers", []),
+        "missing": result.get("missing", []),
+        "project": result.get("project"),
+        "page": result.get("page"),
+        "offline": offline,
+        "eda": "NOT RUN",
+        "note": note,
+    }
+
+
+def run_status(arguments):
+    """One state + one next action from the last offline KPI report."""
+    module = _load_script_module("sch_status")
+    report = None
+    kpi_path = (arguments or {}).get("kpi_report")
+    if kpi_path:
+        try:
+            report = module._load(resolve_path(kpi_path, "kpi_report"))
+        except (OSError, ValueError) as exc:
+            raise ToolError("KPI_REPORT_UNREADABLE", str(exc),
+                            "point kpi_report at the kpi-report.json the pipeline wrote")
+    gate = (arguments or {}).get("gate")
+    result = module.analyze(report, gate)
+    return _status_payload("easycirq_status", "easycirq.mcp.status/v1", result,
+                           True, "只读：读 KPI 报告与通行证，不连 EDA")
+
+
+def run_card(arguments):
+    """The customer delivery card: can this board be ordered?"""
+    module = _load_script_module("sch_delivery_card")
+    kpi_path = (arguments or {}).get("kpi_report")
+    if not kpi_path:
+        raise ToolError("KPI_REPORT_REQUIRED", "缺少 kpi_report",
+                        "传入门禁产出的 kpi-report.json 路径")
+    try:
+        report = module._load(resolve_path(kpi_path, "kpi_report"))
+    except (OSError, ValueError) as exc:
+        raise ToolError("KPI_REPORT_UNREADABLE", str(exc))
+    gate = (arguments or {}).get("gate")
+    result = module.analyze(report, gate)
+    return _status_payload("easycirq_card", "easycirq.mcp.card/v1", result,
+                           True, "只读：有通行证才说「可以打样」")
+
+
+def run_setup(arguments):
+    """Run the local `easycirq setup --json` check (needs the CLI on PATH)."""
+    exe = shutil.which("easycirq")
+    if not exe:
+        raise ToolError("EASYCIRQ_CLI_NOT_FOUND",
+                        "本机 PATH 上没有 easycirq",
+                        "先安装 EasyCirq 工具链，再调用这个工具")
+    timeout = min(int((arguments or {}).get("timeout_s", 60)), 300)
+    try:
+        proc = subprocess.run([exe, "setup", "--json"], capture_output=True,
+                              text=True, encoding="utf-8", errors="replace",
+                              timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise ToolError("EASYCIRQ_SETUP_TIMEOUT", f"easycirq setup 超过 {timeout}s")
+    # setup exits 0 when ready and 2 when something is missing; both carry a report
+    if proc.returncode not in (0, 2):
+        raise ToolError("EASYCIRQ_SETUP_FAILED",
+                        (proc.stderr or proc.stdout or "")[:400])
+    try:
+        report = json.loads(proc.stdout or "{}")
+    except json.JSONDecodeError:
+        raise ToolError("EASYCIRQ_SETUP_UNPARSEABLE",
+                        (proc.stdout or "")[:400])
+    checks = report.get("checks") or []
+    return {
+        "schema": "easycirq.mcp.setup/v1",
+        "tool": "easycirq_setup",
+        "state": "ready" if str(report.get("verdict", "")).lower() == "ok" else "not_ready",
+        "headline": ("一切就绪" if str(report.get("verdict", "")).lower() == "ok"
+                     else "还差一步，按 next 里的步骤做"),
+        "next": report.get("nextSteps") or [],
+        "runtime": (report.get("runtime") or {}).get("version"),
+        "daemon": (report.get("daemon") or {}).get("status"),
+        "connector": (report.get("connector") or {}).get("status"),
+        "checks": checks,
+        "offline": False,
+        "eda": "NOT RUN",
+        "note": "读本机安装状态；不安装、不导入连接器、不改工程",
+    }
+
+
 def run_delivery_audit(arguments):
     target = resolve_path(arguments.get("input_path"), "input_path")
     detail = _detail(arguments)
