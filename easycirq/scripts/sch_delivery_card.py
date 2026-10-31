@@ -92,7 +92,7 @@ def _gate_live(path):
     return True, "通行证有效"
 
 
-def analyze(report, gate_path=None):
+def analyze(report, gate_path=None, pcb=None):
     kpis = report.get("kpis") or []
     counts = {"pass": 0, "fail": 0, "missing": 0, "na": 0, "advisory": 0}
     for row in kpis:
@@ -125,8 +125,20 @@ def analyze(report, gate_path=None):
         state, headline = "incomplete", "⏳ 还不能判断：有些检查还没做"
         next_step = "补齐下面这些检查需要的资料，再跑一轮"
     elif verdict == "PASS" and gate_ok:
-        state, headline = "ready", "✅ 可以打样"
-        next_step = "导出制造文件；打样回来后做验收"
+        # The KPI report only covers the schematic. Say so unless the caller
+        # also supplied the PCB half, otherwise the card reads as a whole-board
+        # verdict it cannot support.
+        if pcb is None:
+            state, headline = "ready", "✅ 原理图可以打样（PCB 未检查）"
+            next_step = "原理图这一关过了；带上 PCB 检查结果才是整板结论"
+        elif pcb.get("passed") and int(pcb.get("violations") or 0) == 0:
+            state, headline = "ready", "✅ 可以下单（原理图与 PCB 都通过）"
+            next_step = "导出制造文件；打样回来后做验收"
+        else:
+            reason = pcb.get("reason") or ""
+            state, headline = "blocked", "❌ PCB 还没过检查，不能下单"
+            next_step = ("按 PCB 检查报告逐条修（间距 / 连通），修完重新检查"
+                         + (f"；首要问题：{reason}" if reason else ""))
     elif verdict == "PASS" and not gate_ok:
         state, headline = "gate_stale", "⚠️ 检查通过，但需要重新确认"
         next_step = f"{gate_detail}；重新跑一次检查即可"
@@ -148,6 +160,7 @@ def analyze(report, gate_path=None):
         "counts": counts,
         "blockers": blockers,
         "missing": missing,
+        "pcb": pcb,
         "project": report.get("project"),
         "page": report.get("page"),
     }
@@ -155,6 +168,13 @@ def analyze(report, gate_path=None):
 
 def render(card):
     lines = [card["headline"], ""]
+    pcb = card.get("pcb")
+    if pcb is not None:
+        if pcb.get("passed") and int(pcb.get("violations") or 0) == 0:
+            lines += ["PCB 检查：通过（0 项）", ""]
+        else:
+            reason = pcb.get("reason") or ""
+            lines += [("PCB 检查：未通过" + (" · " + reason if reason else "")), ""]
     c = card["counts"]
     if card["blockers"]:
         lines.append("必须修的问题：")
@@ -177,6 +197,8 @@ def render(card):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Customer delivery card: can it be ordered?")
     ap.add_argument("--kpi-report", required=True)
+    ap.add_argument("--pcb-drc", default="",
+                    help="pcb drc --json output; without it the card only covers the schematic")
     ap.add_argument("--gate", help="gate token path (omit to ignore the gate)")
     ap.add_argument("--json", action="store_true", help="print JSON")
     args = ap.parse_args(argv)
@@ -186,7 +208,22 @@ def main(argv=None):
     except (OSError, ValueError) as exc:
         print(f"sch_delivery_card: {exc}", file=sys.stderr)
         return 2
-    card = analyze(report, args.gate)
+    pcb = None
+    if args.pcb_drc:
+        try:
+            raw = json.loads(Path(args.pcb_drc).read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            print(f"PCB 检查结果读不出来：{exc}", file=sys.stderr)
+            return 2
+        violations = raw.get("violations") or []
+        passed = raw.get("passed")
+        pcb = {
+            "checked": True,
+            "passed": bool(passed) if passed is not None else not violations,
+            "violations": len(violations),
+            "reason": (violations[0].get("message") if violations else ""),
+        }
+    card = analyze(report, args.gate, pcb)
     print(json.dumps(card, ensure_ascii=False, indent=2)
           if args.json else render(card))
     return 0 if card["state"] == "ready" else 1

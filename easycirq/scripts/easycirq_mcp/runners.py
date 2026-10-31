@@ -443,7 +443,22 @@ def run_card(arguments):
     except (OSError, ValueError) as exc:
         raise ToolError("KPI_REPORT_UNREADABLE", str(exc))
     gate = (arguments or {}).get("gate")
-    result = module.analyze(report, gate)
+    pcb = None
+    pcb_path = (arguments or {}).get("pcb_drc")
+    if pcb_path:
+        try:
+            raw = json.loads(resolve_path(pcb_path, "pcb_drc").read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            raise ToolError("PCB_DRC_UNREADABLE", str(exc))
+        violations = raw.get("violations") or []
+        passed = raw.get("passed")
+        pcb = {
+            "checked": True,
+            "passed": bool(passed) if passed is not None else not violations,
+            "violations": len(violations),
+            "reason": (violations[0].get("message") if violations else ""),
+        }
+    result = module.analyze(report, gate, pcb)
     return _status_payload("easycirq_card", "easycirq.mcp.card/v1", result,
                            True, "只读：有通行证才说「可以打样」")
 

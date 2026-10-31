@@ -238,6 +238,14 @@ _TOOL_SPECS = {
                     "description": "Optional gate token path; when supplied, a "
                                    "PASS without a live token is not 'ready'.",
                 },
+                "pcb_drc": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional 'easycirq pcb drc --json' output. Without it "
+                                   "the card can only speak for the schematic; with it and "
+                                   "a clean result the card answers the whole-board "
+                                   "question. " + _PATHS_NOTE,
+                },
             },
         },
         "annotations": {"readOnlyHint": True, "destructiveHint": False,
