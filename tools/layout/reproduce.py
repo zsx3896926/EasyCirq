@@ -92,7 +92,7 @@ PROFILES = {
     # 10 mil baseline on BOTH gated items it used to fail (islands 1 -> 0, clearance
     # 511 -> 453) with zero dead legs.  Run it as `--grid 5 --profile strict-via`.
     "strict-via": dict(
-        iters=70, layers=4,
+        grid=5, iters=70, layers=4,
         pours=("GND:4", "+3V3:3"), pour_exclusive=False,
         pour_step=8, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
@@ -132,6 +132,10 @@ FRONTIER = PROFILES["frontier"]
 
 def run(dump_path, place_path, out_dir=None, profile="frontier"):
     cfg = PROFILES[profile]
+    # A profile may carry its own routing grid: "the best point" is a (grid, knobs)
+    # pair, and making the caller remember `--grid 5` is how two people end up with
+    # two different frontiers from the same command.
+    use_grid(cfg.get("grid"))
     with open(dump_path, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     with open(place_path, encoding="utf-8") as f:
@@ -320,6 +324,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

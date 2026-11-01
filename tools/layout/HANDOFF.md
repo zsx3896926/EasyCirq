@@ -2944,3 +2944,49 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q      -> 56 passed（�
 acceptance.py（strict-via plan）                               -> contract: PASS
 STATUS.md 200 行 / README.md 176 行，均无重复段落
 ```
+---
+
+## 61. 第五十二轮（目标轮 55）：profile 自带栅格 + 三个诊断工具接上 `--grid` 2026-02-01
+
+### 61.1 profile 现在携带自己的栅格
+
+"最好的点"是 **(栅格, 旋钮)** 的组合，而不是只由旋钮决定。之前必须先记住 `--grid 5`，
+否则同一条 `--profile strict-via` 命令会给出 10 mil 的数字——两个人会得到两个"前沿"。
+
+改动：
+
+* `run()` 入口 `use_grid(cfg.get("grid"))`，profile 里的 `grid` 生效；
+* `strict-via` profile 自带 `grid=5`；
+* 显式 `--grid` 仍然可以覆盖 profile（覆盖项统一走 profile，并在输出行打印实际栅格）；
+* 单测 `test_profile_can_carry_its_grid` 锁住"profile 的 grid 会真的切换模块，且世界能切回来"。
+
+于是现在的最小复现命令是：
+
+```bash
+python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json \
+    --profile strict-via --out-dir out/strict-via
+```
+
+### 61.2 三个诊断工具接上 `--grid`
+
+`spacing_audit.py` / `pour_cut.py` / `forced_spacing.py` 之前固定用 10 mil 模块，
+对 5 mil 的 plan 会给出**与前沿不一致**的数字（例如 pour_cut 在 5 mil plan 上仍按 10 mil 分格）。
+现在三者都有 `--grid`，并共用一个 `_load(grid)`：从源码把 `GRID` 换掉再 exec（与
+`grid_experiment.load_module` 同一机制）。`spacing_audit` 还会在未显式给 `--grid` 时
+**自动采用所选 profile 的栅格**。
+
+端到端验证（对 strict-via 的 plan，`--grid 5`）：
+
+```
+pour_cut.py     -> no pour island: every pour layer is one piece   （与 pour_islands=0 一致）
+forced_spacing  -> forced 274 / open 53                            （与 §58 的 274~289 区间一致）
+```
+
+### 61.3 本轮验证
+
+```
+pytest tests/test_ec_layout.py tests/test_bus_order.py -q   -> 57 passed（新增 profile 栅格单测）
+pour_cut.py --grid 5            -> 无铜岛（与前沿一致）
+forced_spacing.py --grid 5      -> forced 274 / open 53
+spacing_audit.py --help         -> --grid 已就位（该工具会重跑布线，未在本轮做全量运行）
+```

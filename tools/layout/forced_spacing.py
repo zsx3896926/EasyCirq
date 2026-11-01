@@ -32,6 +32,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ec_layout as ec  # noqa: E402
 
 
+def _load(grid=None):
+    """Rebind the module to the grid the plan was routed on (see DECISIONS D6)."""
+    global ec
+    if grid:
+        import grid_experiment
+        ec = grid_experiment.load_module(float(grid))
+    return ec
+
+
 def pad_half(p):
     return max(p["w"], p["h"]) / 2.0
 
@@ -118,12 +127,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("plan")
     ap.add_argument("--dump", required=True)
+    ap.add_argument("--grid", type=float,
+                    help="routing grid the plan was made on (5 for strict-via; default 10)")
     ap.add_argument("--place")
     ap.add_argument("--clearance", type=float, default=ec.CLEARANCE)
     ap.add_argument("--slack", type=float, default=0.0,
                     help="extra margin (x pad half) when deciding the track is BETWEEN the pair")
     a = ap.parse_args()
 
+    _load(a.grid)
     with open(a.dump, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     if a.place:

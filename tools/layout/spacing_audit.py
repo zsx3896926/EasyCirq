@@ -25,6 +25,15 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ec_layout as ec  # noqa: E402
+
+
+def _load(grid=None):
+    """Rebind the module to the grid the plan was routed on (see DECISIONS D6)."""
+    global ec
+    if grid:
+        import grid_experiment
+        ec = grid_experiment.load_module(float(grid))
+    return ec
 import reproduce  # noqa: E402
 
 from collections import Counter  # noqa: E402
@@ -121,6 +130,8 @@ def _deficits(board, plan):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dump", required=True)
+    ap.add_argument("--grid", type=float,
+                    help="routing grid the plan was made on (5 for strict-via; default 10)")
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
     ap.add_argument("--profile", default="frontier", choices=sorted(reproduce.PROFILES))
@@ -128,6 +139,10 @@ def main():
     a = ap.parse_args()
 
     cfg = reproduce.PROFILES[a.profile]
+    # A profile may carry its own grid (strict-via -> 5); honour it so the audit
+    # measures with the same resolution the plan was routed on.
+    _load(a.grid if a.grid is not None
+          else reproduce.PROFILES.get(a.profile, {}).get("grid"))
     with open(a.dump, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     with open(a.place, encoding="utf-8") as f:

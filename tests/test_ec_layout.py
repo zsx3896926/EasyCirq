@@ -993,3 +993,19 @@ def test_reproduce_cli_flags_reach_the_route_config(monkeypatch):
     assert cfg["via_margin"] == 6
     assert cfg["iters"] == 25
 
+
+
+def test_profile_can_carry_its_grid():
+    """A profile is a (grid, knobs) pair: `strict-via` must switch the module itself,
+    otherwise the same command gives two different frontiers depending on whether the
+    caller remembered --grid."""
+    rep = _mod("reproduce_gridprof", "reproduce.py")
+    assert rep.PROFILES["strict-via"]["grid"] == 5
+    rep.use_grid(None)
+    assert rep.ec.GRID == 10.0
+    rep.use_grid(rep.PROFILES["strict-via"]["grid"])
+    try:
+        assert rep.ec.GRID == 5.0
+    finally:
+        rep.use_grid(10)
+    assert rep.ec.GRID == 10.0
