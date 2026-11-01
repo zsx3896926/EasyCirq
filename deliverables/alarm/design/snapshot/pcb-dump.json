@@ -399,79 +399,6 @@
       }
     },
     {
-      "primitiveId": "16624c0018b9ea32",
-      "uniqueId": "gge12",
-      "designator": "R3",
-      "name": "={Value}",
-      "device": "0603WAF1002T5E",
-      "layer": 1,
-      "x": 692.8,
-      "y": -1027.72,
-      "rotation": -90.00000000000001,
-      "bbox": {
-        "minX": 663.7919999999999,
-        "minY": -1085.2510000000002,
-        "maxX": 721.808,
-        "maxY": -970.1890000000001
-      },
-      "pads": [
-        {
-          "primitiveId": "16624c0018b9ea32e7",
-          "padNumber": "2",
-          "net": "GND",
-          "layer": 1,
-          "x": 692.8,
-          "y": -1057.4,
-          "width": 34.000000000000014,
-          "height": 31.800000000000015,
-          "rotation": -90.00000000000001,
-          "shape": [
-            "RECT",
-            31.8,
-            34,
-            0
-          ],
-          "specialPad": [],
-          "metallization": true,
-          "specialPadPresent": false,
-          "availability": {
-            "hole": "available",
-            "shape": "available",
-            "specialPad": "available"
-          }
-        },
-        {
-          "primitiveId": "16624c0018b9ea32e8",
-          "padNumber": "1",
-          "net": "TH",
-          "layer": 1,
-          "x": 692.8,
-          "y": -998.1,
-          "width": 34.000000000000014,
-          "height": 31.800000000000015,
-          "rotation": -90.00000000000001,
-          "shape": [
-            "RECT",
-            31.8,
-            34,
-            0
-          ],
-          "specialPad": [],
-          "metallization": true,
-          "specialPadPresent": false,
-          "availability": {
-            "hole": "available",
-            "shape": "available",
-            "specialPad": "available"
-          }
-        }
-      ],
-      "availability": {
-        "bbox": "available",
-        "pads": "available"
-      }
-    },
-    {
       "primitiveId": "6fa2407a24943fb8",
       "uniqueId": "gge9",
       "designator": "U1",
@@ -836,6 +763,79 @@
           "width": 34,
           "height": 31.800000000000004,
           "rotation": 90,
+          "shape": [
+            "RECT",
+            31.8,
+            34,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        }
+      ],
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      }
+    },
+    {
+      "primitiveId": "c700bd824b33050a",
+      "uniqueId": "gge12",
+      "designator": "R3",
+      "name": "={Value}",
+      "device": "0603WAF2401T5E",
+      "layer": 1,
+      "x": 692.8,
+      "y": -1027.72,
+      "rotation": -90.00000000000001,
+      "bbox": {
+        "minX": 663.7919999999998,
+        "minY": -1085.2510000000002,
+        "maxX": 721.8079999999999,
+        "maxY": -970.1890000000001
+      },
+      "pads": [
+        {
+          "primitiveId": "c700bd824b33050ae7",
+          "padNumber": "2",
+          "net": "GND",
+          "layer": 1,
+          "x": 692.8,
+          "y": -1057.4,
+          "width": 34.000000000000014,
+          "height": 31.800000000000015,
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            31.8,
+            34,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        },
+        {
+          "primitiveId": "c700bd824b33050ae8",
+          "padNumber": "1",
+          "net": "TH",
+          "layer": 1,
+          "x": 692.8,
+          "y": -998.1,
+          "width": 34.000000000000014,
+          "height": 31.800000000000015,
+          "rotation": -90.00000000000001,
           "shape": [
             "RECT",
             31.8,
@@ -1304,89 +1304,6 @@
       "keyVisibilitySource": "getState_KeyVisible"
     },
     {
-      "ID": "16624c0018b9ea32e15",
-      "Kind": "attribute",
-      "Key": "Footprint",
-      "Text": "R0603",
-      "Layer": 3,
-      "Mirror": false,
-      "Reverse": false,
-      "Rotation": -90.00000000000001,
-      "FontSize": 45,
-      "CompID": "16624c0018b9ea32",
-      "CompLayer": 1,
-      "X": 0,
-      "Y": 0,
-      "BBox": null,
-      "fontFamily": "default",
-      "lineWidth": 6,
-      "lineWidthAvailability": "available",
-      "lineWidthSource": "getState_LineWidth",
-      "visible": false,
-      "visibilityAvailability": "available",
-      "visibilitySource": "getState_ValueVisible",
-      "keyVisible": false,
-      "keyVisibilityAvailability": "available",
-      "keyVisibilitySource": "getState_KeyVisible"
-    },
-    {
-      "ID": "16624c0018b9ea32e16",
-      "Kind": "attribute",
-      "Key": "Designator",
-      "Text": "R3",
-      "Layer": 3,
-      "Mirror": false,
-      "Reverse": false,
-      "Rotation": -90.00000000000001,
-      "FontSize": 45,
-      "CompID": "16624c0018b9ea32",
-      "CompLayer": 1,
-      "X": 726.808,
-      "Y": -970.1890000000001,
-      "BBox": {
-        "MinX": 726.808,
-        "MinY": -1022.1890000000001,
-        "MaxX": 771.808,
-        "MaxY": -970.1890000000001
-      },
-      "fontFamily": "default",
-      "lineWidth": 6,
-      "lineWidthAvailability": "available",
-      "lineWidthSource": "getState_LineWidth",
-      "visible": true,
-      "visibilityAvailability": "available",
-      "visibilitySource": "getState_ValueVisible",
-      "keyVisible": false,
-      "keyVisibilityAvailability": "available",
-      "keyVisibilitySource": "getState_KeyVisible"
-    },
-    {
-      "ID": "16624c0018b9ea32e0",
-      "Kind": "attribute",
-      "Key": "Device",
-      "Text": "0603WAF1002T5E",
-      "Layer": 3,
-      "Mirror": false,
-      "Reverse": false,
-      "Rotation": -90,
-      "FontSize": 45,
-      "CompID": "16624c0018b9ea32",
-      "CompLayer": 1,
-      "X": 0,
-      "Y": 0,
-      "BBox": null,
-      "fontFamily": "default",
-      "lineWidth": 6,
-      "lineWidthAvailability": "available",
-      "lineWidthSource": "getState_LineWidth",
-      "visible": false,
-      "visibilityAvailability": "available",
-      "visibilitySource": "getState_ValueVisible",
-      "keyVisible": false,
-      "keyVisibilityAvailability": "available",
-      "keyVisibilitySource": "getState_KeyVisible"
-    },
-    {
       "ID": "6fa2407a24943fb8e34",
       "Kind": "attribute",
       "Key": "Footprint",
@@ -1634,6 +1551,89 @@
       "keyVisible": false,
       "keyVisibilityAvailability": "available",
       "keyVisibilitySource": "getState_KeyVisible"
+    },
+    {
+      "ID": "c700bd824b33050ae15",
+      "Kind": "attribute",
+      "Key": "Footprint",
+      "Text": "R0603",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": -90.00000000000001,
+      "FontSize": 45,
+      "CompID": "c700bd824b33050a",
+      "CompLayer": 1,
+      "X": 0,
+      "Y": 0,
+      "BBox": null,
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": false,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
+    },
+    {
+      "ID": "c700bd824b33050ae16",
+      "Kind": "attribute",
+      "Key": "Designator",
+      "Text": "R3",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": -90.00000000000001,
+      "FontSize": 45,
+      "CompID": "c700bd824b33050a",
+      "CompLayer": 1,
+      "X": 726.8079999999999,
+      "Y": -970.1890000000001,
+      "BBox": {
+        "MinX": 726.8079999999999,
+        "MinY": -1022.1890000000001,
+        "MaxX": 771.8079999999999,
+        "MaxY": -970.1890000000001
+      },
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": true,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
+    },
+    {
+      "ID": "c700bd824b33050ae0",
+      "Kind": "attribute",
+      "Key": "Device",
+      "Text": "0603WAF2401T5E",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": -90.00000000000001,
+      "FontSize": 45,
+      "CompID": "c700bd824b33050a",
+      "CompLayer": 1,
+      "X": 0,
+      "Y": 0,
+      "BBox": null,
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": false,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
     }
   ],
   "copperLayers": 2,
@@ -1649,29 +1649,29 @@
     "source": "live"
   },
   "routedLines": 70,
-  "capturedAt": "2026-10-31T17:13:21.7537172Z",
+  "capturedAt": "2026-11-01T10:44:11.7317323Z",
   "project": "KPI-S5-Verify",
-  "semanticSha256": "901ccdda4a5f1f9aa7b7a02ebe60cbdc033a3fdfc8d56a8fad33f915903a53ee",
+  "semanticSha256": "ef1d9f9f34c4d58e3259a461bfe147d08a7b43490d9db37ae26c5b21e99d3bcf",
   "capture": {
-    "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
+    "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
     "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
     "projectName": "KPI-S5-Verify",
     "documentUuid": "34de0a1c7592ff1e",
     "documentType": "pcb",
     "tabId": "34de0a1c7592ff1e@b8f1902cdd1648e9bae62b9c7170a397",
-    "startedAt": "2026-10-31T17:13:21.7537172Z",
-    "completedAt": "2026-10-31T17:13:23.5190201Z",
+    "startedAt": "2026-11-01T10:44:11.7317323Z",
+    "completedAt": "2026-11-01T10:44:11.903075Z",
     "consistency": "sequential-response-boundaries",
     "identityVerified": true,
     "requests": [
       {
         "action": "pcb.components.list",
-        "requestId": "req_461",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:21.7537172Z",
-        "completedAt": "2026-10-31T17:13:23.3630487Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.3609381Z",
-        "resultSha256": "281d84093660415aefd15a0fecc6944208e528fbf012f9e17b2ded4b7b9b395e",
+        "requestId": "req_213",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.7317323Z",
+        "completedAt": "2026-11-01T10:44:11.8075156Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.8054521Z",
+        "resultSha256": "129f22ad63234a52c5832172baf61380c5085bc2464e94172e030ce77cffea21",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
           "projectName": "KPI-S5-Verify",
@@ -1681,7 +1681,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84811,
+          "Seq": 85000,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
@@ -1693,11 +1693,11 @@
       },
       {
         "action": "pcb.outline.get",
-        "requestId": "req_462",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:23.3635627Z",
-        "completedAt": "2026-10-31T17:13:23.3853071Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.3832885Z",
+        "requestId": "req_214",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.8075156Z",
+        "completedAt": "2026-11-01T10:44:11.8193322Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.8183135Z",
         "resultSha256": "f3808eab317a9eb132e136e69033242e45f49ccf175e65978bc6b20a4e6fa4e3",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
@@ -1708,7 +1708,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84812,
+          "Seq": 85001,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
@@ -1720,11 +1720,11 @@
       },
       {
         "action": "pcb.line.list",
-        "requestId": "req_463",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:23.3853071Z",
-        "completedAt": "2026-10-31T17:13:23.4031751Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.401642Z",
+        "requestId": "req_215",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.8193322Z",
+        "completedAt": "2026-11-01T10:44:11.825516Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.8238807Z",
         "resultSha256": "ff92d8f0b8cbc9a992cf2f36c5329a3f5b28195691a44b2e63cdf3273f309bfb",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
@@ -1735,7 +1735,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84813,
+          "Seq": 85002,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
@@ -1747,12 +1747,12 @@
       },
       {
         "action": "pcb.silk.list",
-        "requestId": "req_464",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:23.4031751Z",
-        "completedAt": "2026-10-31T17:13:23.432877Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.4308084Z",
-        "resultSha256": "bec243ab96c726a9ae3fb9a2db3e1b645c66b4fcb8514b1c849ce414169adc1e",
+        "requestId": "req_216",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.825516Z",
+        "completedAt": "2026-11-01T10:44:11.8376112Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.8355481Z",
+        "resultSha256": "3c9381d26dce7b10d6d9236d2ed9032ae7c1db178f2dcdddee516cc3e39bb84c",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
           "projectName": "KPI-S5-Verify",
@@ -1762,7 +1762,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84814,
+          "Seq": 85003,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
@@ -1774,11 +1774,11 @@
       },
       {
         "action": "pcb.drc.rules",
-        "requestId": "req_465",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:23.432877Z",
-        "completedAt": "2026-10-31T17:13:23.4496359Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.4480995Z",
+        "requestId": "req_217",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.8376112Z",
+        "completedAt": "2026-11-01T10:44:11.8436723Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.8411804Z",
         "resultSha256": "dbc085c8494d4e445af9d260128a36f285aa8cd789150774ccb5d6eb7946c02f",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
@@ -1789,7 +1789,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84815,
+          "Seq": 85004,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
@@ -1801,11 +1801,11 @@
       },
       {
         "action": "pcb.layers.list",
-        "requestId": "req_466",
-        "windowId": "287c6430-1990-436b-902e-6dfb436bdc49",
-        "startedAt": "2026-10-31T17:13:23.4496359Z",
-        "completedAt": "2026-10-31T17:13:23.5190201Z",
-        "responseCreatedAt": "2026-10-31T17:13:23.5155754Z",
+        "requestId": "req_218",
+        "windowId": "24cd4dd1-365a-4564-a669-248e1edc71bd",
+        "startedAt": "2026-11-01T10:44:11.8442Z",
+        "completedAt": "2026-11-01T10:44:11.903075Z",
+        "responseCreatedAt": "2026-11-01T10:44:11.899892Z",
         "resultSha256": "82788987d9e99a55276ecff8271586968a7ce280231693d701c7a748c4ccc9a1",
         "context": {
           "projectUuid": "b8f1902cdd1648e9bae62b9c7170a397",
@@ -1816,7 +1816,7 @@
         },
         "sequence": {
           "Known": true,
-          "Seq": 84816,
+          "Seq": 85005,
           "SeqAbandoned": 2,
           "Unordered": false,
           "AbandonedIDs": [
