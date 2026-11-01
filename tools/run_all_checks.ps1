@@ -5,10 +5,20 @@
 #   把失败细节扔掉，于是只能记成"偶发"而无法修。
 #   串行 + 存盘必须由工具保证，不能靠当时的我记着。
 #
+# 为什么不再用 `pwsh -Command` 包一层：
+#   第一版把每条检查交给嵌套 pwsh 执行，结果 pytest 跑到 73% 被杀，
+#   脚本却报成"失败"。多一层进程就多一个没人监控的生命周期。
+#   现在直接在当前进程里跑 scriptblock。
+#
+# 为什么区分"失败"和"没跑完"：
+#   被杀掉和被判失败是两件事。前者说明环境或超时，后者说明代码。
+#   混在一起会让人去修没问题的代码。
+#
 # 用法：
 #   pwsh -File tools/run_all_checks.ps1
 #   pwsh -File tools/run_all_checks.ps1 -SkipGo
 #   pwsh -File tools/run_all_checks.ps1 -SkipPython
+#   pwsh -File tools/run_all_checks.ps1 -SkipAudits
 #
 # 日志写到 reports\checks-<时间戳>\ 下，一个检查一个文件。
 
@@ -19,8 +29,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-# The script normally lives in <repo>/tools/, but it may be copied elsewhere for
-# testing. Only trust the derived path if it actually looks like this repository.
+
 $candidate = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $repo = if ((Test-Path (Join-Path $candidate 'runtime')) -and
             (Test-Path (Join-Path $candidate 'easycirq'))) {
@@ -38,58 +47,84 @@ $results = @()
 $env:PYTHONIOENCODING = 'utf-8'
 
 function Invoke-Check {
-    param([string]$Name, [string]$Command, [string]$WorkDir = $repo)
+    param(
+        [string]$Name,
+        [scriptblock]$Body,
+        [string]$WorkDir = $repo,
+        # 日志里必须出现的标记；没有它 = 没跑完，而不是失败
+        [string]$Expect = ''
+    )
 
     $log = Join-Path $logDir "$Name.log"
+    $started = Get-Date
     Push-Location $WorkDir
     try {
-        # 先落盘，再判断：输出一旦被管道截断，失败就没法查了。
-        & pwsh -NoProfile -Command $Command 2>&1 | Tee-Object -FilePath $log | Out-Null
+        $output = & $Body 2>&1
         $code = $LASTEXITCODE
-        # A check that prints nothing (a clean go vet) would leave no file behind.
-        if (-not (Test-Path $log)) { New-Item -ItemType File -Path $log | Out-Null }
     } finally {
         Pop-Location
     }
+    $elapsed = (Get-Date) - $started
 
-    $tail = (Get-Content $log -Tail 2) -join ' | '
-    $script:results += [PSCustomObject]@{
-        Check  = $Name
-        Exit   = $code
-        Detail = if ($tail.Length -gt 90) { $tail.Substring(0, 90) } else { $tail }
-        Log    = $log
+    $text = ($output | Out-String)
+    $text | Out-File -FilePath $log -Encoding UTF8
+
+    $finished = $true
+    if ($Expect) {
+        $finished = $text -match $Expect
     }
-    return $code
+
+    $status = if (-not $finished) { 'INCOMPLETE' }
+              elseif ($code -ne 0) { 'FAILED' }
+              else { 'ok' }
+
+    $tail = ($text.Trim() -split "`n" | Select-Object -Last 1)
+    if ($tail.Length -gt 80) { $tail = $tail.Substring(0, 80) }
+
+    $script:results += [PSCustomObject]@{
+        Check   = $Name
+        Status  = $status
+        Exit    = $code
+        Seconds = [math]::Round($elapsed.TotalSeconds, 1)
+        Detail  = $tail
+        Log     = $log
+    }
 }
 
 if (-not $SkipPython) {
-    Invoke-Check 'pytest' 'python -m pytest tests -q' | Out-Null
+    Invoke-Check 'pytest' { python -m pytest tests -q } -Expect '\d+ (passed|failed)'
 }
 if (-not $SkipGo) {
     $rt = Join-Path $repo 'runtime'
-    Invoke-Check 'go-vet' 'go vet ./...' $rt | Out-Null
-    Invoke-Check 'go-test' 'go test ./... -count=1 -vet=off' $rt | Out-Null
+    Invoke-Check 'go-vet' { go vet ./... } $rt
+    Invoke-Check 'go-test' { go test ./... -count=1 -vet=off } $rt -Expect '(?m)^(ok|FAIL)'
 }
 if (-not $SkipAudits) {
     foreach ($tool in 'check_release_consistency', 'check_deliverable', 'check_handoff', 'check_published') {
-        Invoke-Check $tool "python tools/$tool.py" | Out-Null
+        $name = $tool
+        Invoke-Check $name { python "tools/$name.py" } -Expect '\S'
     }
     $selftest = Join-Path $env:USERPROFILE '.agents\skills\easycirq\scripts\skill_selftest.py'
     if (Test-Path $selftest) {
-        Invoke-Check 'skill-selftest' "python `"$selftest`"" | Out-Null
+        Invoke-Check 'skill-selftest' { python $selftest } -Expect 'PASS'
     }
 }
 
 Write-Host ''
 $results | Format-Table -AutoSize
 
-$failed = $results | Where-Object { $_.Exit -ne 0 }
 Write-Host "logs: $logDir"
-if ($failed) {
+$bad = $results | Where-Object { $_.Status -ne 'ok' }
+if ($bad) {
     Write-Host ''
-    Write-Host "FAILED ($($failed.Count)):" -ForegroundColor Red
-    $failed | ForEach-Object { Write-Host ("  {0} (exit {1}) -> {2}" -f $_.Check, $_.Exit, $_.Log) -ForegroundColor Red }
+    foreach ($item in $bad) {
+        $colour = if ($item.Status -eq 'INCOMPLETE') { 'Yellow' } else { 'Red' }
+        Write-Host ("{0}: {1} (exit {2}) -> {3}" -f $item.Status, $item.Check, $item.Exit, $item.Log) -ForegroundColor $colour
+    }
     Write-Host ''
+    if ($bad.Status -contains 'INCOMPLETE') {
+        Write-Host 'INCOMPLETE 表示它没跑完（被杀或超时），不是代码失败——先看日志末尾停在哪一步。'
+    }
     Write-Host '失败日志已保存。先读日志再动手，不要重跑一次就当它好了。'
     exit 1
 }

@@ -463,3 +463,42 @@ if not result_path.is_file():
 | `tests/task_launcher_tests` 全量 | **127 passed, 2 skipped** |
 
 修复前基线：16 次 2 次失败。
+
+## 检查脚本自身的两个缺陷（2026-11-01 修）
+
+`tools/run_all_checks.ps1` 第一次全量跑时报告：
+
+```
+FAILED (2):
+  pytest (exit 1)  -> ...\pytest.log
+  check_published (exit 1)
+```
+
+**读日志才发现 pytest 那份只有 3.9 KB、停在 73%、没有汇总行**——
+它不是失败，是**被杀掉了**。单独跑同一条：4875 passed。
+
+### 缺陷 1：多包了一层 `pwsh -Command`
+
+第一版把每条检查交给嵌套 pwsh 执行：
+
+```powershell
+& pwsh -NoProfile -Command $Command 2>&1 | Tee-Object ...
+```
+
+多一层进程就多一个没人监控的生命周期，pytest 跑到 73% 被杀，而脚本只知道
+"退出码非零"。现在直接在当前进程里跑 scriptblock，pytest 跑完是 458s、正常汇总。
+
+### 缺陷 2：把"没跑完"当成"失败"
+
+这两个是不同的结论，混在一起会让人去修没问题的代码。现在每条检查带一个
+`-Expect` 标记（pytest 要 `\d+ (passed|failed)`，go test 要 `^(ok|FAIL)`），
+日志里没有这个标记就判 **INCOMPLETE**，并且输出里写明：
+
+> INCOMPLETE 表示它没跑完（被杀或超时），不是代码失败——先看日志末尾停在哪一步。
+
+### 验证
+
+| 运行 | 结果 |
+|---|---|
+| 只跑四个审计 + 技能自检 | 全部 `ok` |
+| 只跑 pytest（进程内） | `ok`，458.7s，4875 passed |
