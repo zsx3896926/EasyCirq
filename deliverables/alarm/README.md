@@ -2,7 +2,7 @@
 
 > ✅ **2026-10-31 修复后重新走完流程**：电源网络改到 PWR5V、蜂鸣器加了三极管驱动。
 > 之前那一版有两个致命缺陷而门禁仍判 11/11，经过见
-> [功能缺陷记录](../docs/alarm-functional-defect.md)。
+> [功能缺陷记录](../../docs/alarm-functional-defect.md)。
 
 > 四个文件，不需要懂 EDA。
 

@@ -87,6 +87,17 @@ python tools/check_published.py     # 期望 every local branch tip is reachable
 第一次检查时我问的是「我的分支发布了没有」，修完就收工；
 真正该问的是「有没有任何本地成果没发布」。
 
+## 三点六、交付包自检
+
+\\ash
+python tools/check_deliverable.py    # 期望「交付包自检通过」
+\
+查四件事：README 列出的文件都存在且都列了、相对链接能解开、SHA256SUMS 与磁盘一致、
+卡片上的「必查 N/N」与 KPI 定义不矛盾。
+
+2026-11-01 第一次跑就抓到交付包里一个**断链**（\../docs/\ 应为 \../../docs/\）——
+客户点那个链接会打不开。
+
 ## 四、同步技能副本：必须全量，不能只同步改过的文件
 
 ```powershell
