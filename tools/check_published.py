@@ -19,6 +19,16 @@ import subprocess
 import sys
 from pathlib import Path
 
+import sys
+
+# Windows consoles default to GBK; these tools print Chinese status text, so pin
+# the output encoding rather than depending on the caller's environment.
+for _stream in ("stdout", "stderr"):
+    _handle = getattr(sys, _stream, None)
+    if hasattr(_handle, "reconfigure"):
+        _handle.reconfigure(encoding="utf-8", errors="replace")
+
+
 
 def git(*args, cwd):
     proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8")

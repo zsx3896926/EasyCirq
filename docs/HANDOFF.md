@@ -90,7 +90,7 @@ remote  4a63e5cb   origin/feat/agent-ace-rules
 未推送提交 0
 ```
 
-另存了一份单文件备份：`default-workspace/.backup/agent-ace-rules-20261101.bundle`
+另存了一份单文件备份：`../.backup/agent-ace-rules-20261101.bundle`（相对仓库根，仓库的上一级目录）
 （40.3 MB；`git bundle verify` 报 "records a complete history"；还原克隆后 794 提交，
 HEAD 与本地一致）。
 

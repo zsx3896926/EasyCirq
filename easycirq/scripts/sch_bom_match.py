@@ -20,6 +20,16 @@ import json
 import sys
 from pathlib import Path
 
+import sys
+
+# Windows consoles default to GBK; these tools print Chinese status text, so pin
+# the output encoding rather than depending on the caller's environment.
+for _stream in ("stdout", "stderr"):
+    _handle = getattr(sys, _stream, None)
+    if hasattr(_handle, "reconfigure"):
+        _handle.reconfigure(encoding="utf-8", errors="replace")
+
+
 DESIGNATOR_HINTS = ("designator", "位号", "reference", "ref")
 
 
