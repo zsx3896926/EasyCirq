@@ -1005,3 +1005,56 @@ has_pullup = any(n == "PWR5V" for ... if n == base_net)   # 永远为假
 另外脚本读的是 `deliverables/alarm/design/snapshot/list.json`（入库快照），
 不是实时图纸——改完图必须先刷新快照，否则脚本会用旧数据骗人。
 **两处都已修正并记录。**
+
+---
+
+## 缺陷七的 PCB 同步：做了一半（2026-11-01）
+
+### 已完成
+
+| 步骤 | 结果 |
+|---|---|
+| `pcb import-changes` | `componentsBefore 9 → componentsAfter 10`，R5 进板 |
+| 移动 R5 进板框 | 原本落在框外 (236, −1408)，框底是 −1182 |
+| `pcb auto-place` | 把卫星件拉到各自芯片引脚旁，R5 移到 (667.8, −544.7) |
+| `pcb autoroute` | 80 条走线、1 个过孔 |
+
+### 未完成：DRC 还有 6 处间距违规
+
+```
+passed: False  total: 6
+by kind: {'copperThickness1oz': 4, 'Common': 2}
+  (PWR5V): e289 to (ALARM): R4_2 distance is 5mil, should be >= 6mil
+  (PWR5V): e290 to (ALARM): R4_2 distance is 0mil, should be >= 6mil
+  (PWR5V): e317 to (NTC_MID): R1_2 distance is 0mil, should be >= 6mil
+  (PWR5V): e318 to (NTC_MID): R1_2 distance is 0mil, should be >= 6mil
+```
+
+过程：加 R5 后第一次 DRC 是 **11 处**，`auto-place` + 重布线后降到 **6 处**，
+全部是 PWR5V 与相邻网络的 6mil 间距。
+
+**没有硬凑到 0。** 继续调位置可以收敛，但那是反复试错，
+不适合在没看清布局的情况下硬来——**留着 6 处真实的违规，比凑出一个 0 更有用。**
+
+### 顺带发现：`pcb drc --json` 的输出不是合法 JSON
+
+```
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+pcb drc: native verdict failed; inspect the returned violations     <- 插在 JSON 中间
+                  },
+```
+
+**人类摘要行被写进了 stdout 的 JSON 结构内部**，所以 `json.loads` 直接失败。
+`tools/read_drc.py` 里做了括号平衡的过滤来绕过，但这是绕，不是修。
+
+这和之前 `doctor` 把 JSON 与人读摘要混在两路输出上是同一类问题。
+**需要修的是命令本身**，本轮没动。
+
+### 当前交付包状态
+
+`deliverables/alarm/card.txt` 仍标 **不能下单**。
+
+原因不是缺陷七没修（原理图已修），而是 **PCB 侧还没干净**：
+6 处 DRC 违规 + Gerber 未重导 + 门禁未重跑。
