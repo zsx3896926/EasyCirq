@@ -228,7 +228,8 @@ by `grid_experiment.py`), 70 negotiation passes:
 |---|---|---|---|---|---|---|
 | GRID=10 (`reproduce.py`) | 0 | 0 | **1** | **511** | 713.1 | 38999 |
 | GRID=5, budget 10 | 5 | 5 | **0** | **525** | 787.6 | 30669 |
-| **GRID=5, budget 26** | **0** | **0** | **0** | **738** | 784.2 | 35406 |
+| GRID=5, budget 26 (before via-cost scaling) | 0 | 0 | **0** | 738 | 784.2 | 35406 |
+| **GRID=5, budget 30 (via cost scaled with the grid)** | **0** | **0** | **0** | **673** | 764.7 | 39554 |
 | GRID=5, budget 64 | 0 | 0 | **0** | 831 | 712.3 | 35739 |
 
 (The fine sweep behind these rows is in HANDOFF §53: 14/18/22/40 were measured too, and
@@ -257,4 +258,5 @@ Re-measure any time with:
 python tools/layout/grid_experiment.py --dump dump2.json --place ec-placed.json \
     --grid 5 --pour-step 8 --best-effort-conflicts 10 --out-dir out/grid5
 ```
+
 

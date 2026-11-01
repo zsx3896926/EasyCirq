@@ -592,7 +592,11 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
         # An assigned net keeps its layer as the preference: the pad's own layer only
         # decides where the run STARTS, not where it should travel.
         pref = start_layer
-    vcost = VIA_COST if via_cost is None else via_cost
+    # VIA_COST is counted in GRID CELLS, so a finer grid makes a via physically
+    # cheaper: at 5 mil the same 14 cells are 70 mil instead of 140 mil, and the
+    # router uses more of them (188 vs 186 vias with fewer pads routed).  Scale it with
+    # the grid so the trade is the same physical trade (HANDOFF §54).
+    vcost = (VIA_COST if via_cost is None else via_cost) * (10.0 / GRID)
     s = (start[0], start[1], pref)
     heap, came, best = [(h(s), 0.0, s)], {}, {s: 0.0}
     while heap:
@@ -1003,7 +1007,7 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True, layer_map=None, layer_spread=False, layer_force=False, via_margin=None):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True, layer_map=None, layer_spread=False, layer_force=False, via_margin=None, bus_budget=None, general_budget=None):
     pad_forbid, own = board.pad_blocked()
     # How much of a via's clearance the router enforces while searching.  Both
     # extremes were measured: overlap only (1.0) leaves spacing to the KPI, full
@@ -1015,6 +1019,17 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     # `_all_layers`, otherwise a 6-layer run checks a via against 4 layers and the
     # other two come out free.
     board.route_layers = int(layers)
+
+    # Per-net-class budget for a "least bad" path.  The buses are exactly the nets a
+    # finer grid makes worse (track/track 8 -> 45 at 5 mil), so they can be held to a
+    # tighter budget than the rest.  Both None = one global budget (recorded default).
+    def _budget_for(net):
+        if general_budget is not None:
+            return float(general_budget)
+        if bus_budget is not None and str(net).startswith(BUS_PREFIX):
+            return float(bus_budget)
+        return _best_effort_budget()
+
     layer_ok = set(range(1, layers + 1))
     if plane_layer:
         # A plane owns its whole layer: nobody else may run a track there.
@@ -1300,7 +1315,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             best_bad, best_cand = bad, cand
                     extra |= {c[:2] for c in cand}
                 if not path and best_effort and best_cand is not None \
-                        and best_bad <= _best_effort_budget():
+                        and best_bad <= _budget_for(net):
                     # No clean corridor exists. Keep the least-bad one so the net is
                     # not left open; the remaining conflicts are DRC violations the
                     # report already counts. An open net is the worse failure.
@@ -3400,6 +3415,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

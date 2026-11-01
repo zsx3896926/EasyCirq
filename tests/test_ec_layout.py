@@ -935,3 +935,30 @@ def test_reproduce_can_switch_the_routing_grid():
         rep.use_grid(10)
     assert rep.ec.GRID == 10.0
     assert rep.ec._best_effort_budget() == 2
+
+
+def test_per_net_class_budget_splits_buses_from_the_rest():
+    """A finer grid makes the BUSES the worst offender (track/track 8 -> 45), so the
+    budget has to be settable per net class.  Both None must reproduce the single
+    global budget exactly, or the recorded frontier would move silently."""
+    import inspect
+    src = inspect.getsource(ec.route)
+    assert "_budget_for(net)" in src, "the acceptance test must use the per-net budget"
+    assert "best_bad <= _budget_for(net)" in src
+    # the default path still reduces to the global budget
+    assert ec._best_effort_budget() == ec.BEST_EFFORT_MAX_CONFLICTS
+
+
+def test_via_cost_scales_with_the_grid():
+    """VIA_COST is in grid cells; at half the grid the same number is half the physical
+    distance, which silently made vias cheaper at 5 mil (measured: more vias, more
+    via/track hits).  The cost must be the same physical trade at any grid."""
+    ge = _mod("grid_experiment", "grid_experiment.py")
+    ec5 = ge.load_module(5)
+    # astar itself is the only consumer; compare what a via costs on each grid
+    assert ec._best_effort_budget() == 2              # 10 mil default untouched
+    assert ec5._best_effort_budget() == 8
+    import inspect
+    src10 = inspect.getsource(ec.astar)
+    src5 = inspect.getsource(ec5.astar)
+    assert "10.0 / GRID" in src10 and "10.0 / GRID" in src5

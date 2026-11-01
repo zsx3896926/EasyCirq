@@ -206,6 +206,8 @@ def _route(board, cfg):
         net_order=cfg["net_order"],
         via_relocate=cfg.get("via_relocate", True),
         best_effort=cfg.get("best_effort", True),
+        bus_budget=cfg.get("bus_budget"),
+        general_budget=cfg.get("general_budget"),
         layer_spread=cfg.get("layer_spread", False),
         layer_map=cfg.get("layer_map"),
         layer_force=cfg.get("layer_force", False),
@@ -264,23 +266,36 @@ def main():
                     help="routing grid in mil (default: the module constant, 10); see DECISIONS D6")
     ap.add_argument("--best-effort-budget", type=float,
                     help="override how many conflicting segment pairs a least-bad leg may keep")
+    ap.add_argument("--bus-budget", type=float,
+                    help="the same budget for CAM_/LCD_/SD_ nets only (bus corridors first)")
     a = ap.parse_args()
     use_grid(a.grid)
-    if a.best_effort_budget is not None:
-        # Explicit budget: the grid-5 sweet spot (D6 measured 10 and 12) is not
-        # derivable from the 10 mil constant alone.
-        ec._best_effort_budget = lambda reference_grid=10.0, _b=a.best_effort_budget: int(_b)
+    if a.best_effort_budget is not None or a.bus_budget is not None:
+        # Overrides go through the profile, not by monkeypatching the module: a run
+        # then has every knob it used recorded in one place.
+        PROFILES[a.profile] = dict(PROFILES[a.profile])
+        if a.best_effort_budget is not None:
+            PROFILES[a.profile]["general_budget"] = a.best_effort_budget
+        if a.bus_budget is not None:
+            PROFILES[a.profile]["bus_budget"] = a.bus_budget
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
-    print("profile: `%s`  (layers %d, pours %s%s%s, grid %g mil)" % (
+    print("profile: `%s`  (layers %d, pours %s%s%s, grid %g mil%s)" % (
         a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
         ", exclusive" if PROFILES[a.profile].get("pour_exclusive") else "",
-        ", trimmed" if PROFILES[a.profile].get("pour_trim") else "", ec.GRID))
+        ", trimmed" if PROFILES[a.profile].get("pour_trim") else "", ec.GRID,
+        ", budget %g%s" % (PROFILES[a.profile]["general_budget"],
+                           "" if PROFILES[a.profile].get("bus_budget") is None
+                           else ", bus %g" % PROFILES[a.profile]["bus_budget"])
+        if PROFILES[a.profile].get("general_budget") is not None
+        else ("" if PROFILES[a.profile].get("bus_budget") is None
+              else ", bus budget %g" % PROFILES[a.profile]["bus_budget"])))
     print(scorecard(kpi, skew, ok, gate_fail, why))
     return 0 if ok else 1
 
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
