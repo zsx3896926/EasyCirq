@@ -377,3 +377,32 @@ offline pipeline: BLOCKED
 2. 输出在 Windows 上是 GBK，中文判定乱码 → 四个仓库工具现在都强制 UTF-8。
 
 **检查器本身也需要被检查。** 如果它没配测试，我会一直以为"所有引用都能找到"是真的。
+
+## 回归（2026-11-01，客户旅程测试之后）
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests` | **4858 passed, 5 skipped** |
+| `go test ./...` | **16 包 ok，0 失败** |
+| `go vet ./...` | 干净 |
+| `skill_selftest.py` | 6 PASS |
+| `check_handoff.py` | 所有引用都能找到 |
+| `check_deliverable.py` | 交付包自检通过 |
+| `check_release_consistency.py` | `CONSISTENT`（四向） |
+| `check_published.py` | 全部本地分支已发布 |
+
+测试数 4852 → **4858**，多的是客户旅程那 6 项。
+
+### `check_published` 又抓了一次实时漂移
+
+跑审计时 `fix/designator-integrity` 又有新提交（`d34ae362`，是另一个 worktree 的活）。
+快进推送后全绿。
+
+**这个检查的价值就在于此**：只要还有别的 worktree 在提交，"全发布"这个结论就会过期。
+放进发版检查单是对的。
+
+### 客户旅程测试的位置
+
+`tests/test_customer_journey.py` —— 6 项，覆盖四张卡的可见输出与失败解释。
+其中 `card` 和 `acceptance` 是**纯离线**（只读文件，不需要后台服务），
+所以它们在任何环境下都该通过；`status` / `setup` 需要本机安装，缺环境时跳过而不是假通过。
