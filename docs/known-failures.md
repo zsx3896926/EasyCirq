@@ -309,3 +309,46 @@ self.assertEqual(result["agent"], "claude-code")
 下一轮要读 `task_launcher` 的失败分支，找出没有写出结果的路径。
 
 （这一轮先把复现率和日志固定下来——**没有这一步，下一轮又会从零开始猜**。）
+
+### 第二次尝试：改法改变了失败形态，已回滚
+
+我在 `_run_task` 里包了一层：
+
+```python
+try:
+    status = self._apply_bound_gate(task, status)
+except Exception as exc:
+    task.gate_error = ...
+    status = TASK_FAILED
+try:
+    self._finalize(...)
+except Exception as exc:
+    # 兜底写一个最小 result.json
+```
+
+**结果更糟：**
+
+| 版本 | 16 次里的失败 | 失败形态 |
+|---|---|---|
+| 原始 | 2 | `result.json` 不存在（exit 1） |
+| 我的修改 | **4** | **`returncode == 2`**（不是 1） |
+
+失败形态从「没有结果文件」变成「退出码不对」，说明我的代码**自己引入了一条新的
+异常路径**。检查过：`Task` 没有 `__slots__`、`workspace` 是 `Path`，
+理论上 `task.gate_error = ...` 和 `workspace.mkdir()` 都不会炸——
+**但观察到的事实是行为变了，而我没找到原因。**
+
+所以按规矩**回滚**（`git checkout -- task_launcher/tasks.py`），
+回滚后跑 8 次是 1 次失败，与原始基线一致。
+
+**教训**：给"偶发缺陷"打补丁时，如果补丁改变了失败形态而我说不清为什么，
+那不是在修，是在叠一个新的不确定性。回滚比留着强。
+
+### 下一轮该做的
+
+不带任何改动，先在这个用例上反复跑到失败，**把 `stderr[-2000:]` 打出来**
+（测试断言里已经带了这段，只是被 `-q` 截掉了）。现在的日志
+`reports/repro-result-json2.log` 里只有断言行，没有 stderr 内容——
+因为 `assertEqual` 的 message 只在失败时拼进断言文本，而 `-q` 的输出被 Tail 截断。
+
+正确做法：`pytest ... -x --tb=long` 并且**不截断**，直接看完整 traceback。
