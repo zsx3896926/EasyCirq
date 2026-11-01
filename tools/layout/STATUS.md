@@ -107,7 +107,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 | stackup | 2 / 4 / 6 layers, plain and with automatic net→layer assignment | 2L dominated; 6L helps only with a hand plan (§43, §44) |
 | knob sweeps | portfolio over 6 configs (pour step 3/5/8, bus-first, via cost 20, exclusive pour) | best is 511 vs 515 clearance — the frontier is flat in these knobs (§46) |
 | access-via radius | `pour_step` 8 / 12 / 16 / 20 | **identical results** — saturated at 8 (§47) |
-| via clearance margin | `via_margin` 2 / 3 / 4 | **identical** — the 10 mil grid quantises it: margins 1–5 reserve the same 9-cell disc, ≥6 is the unroutable full-clearance case (§49) |
+| via clearance margin | 1..4 (identical at 10 mil), then 6 / 10 / 16 at 5 mil | at 5 mil the OPTIMUM is 25 mil (margin 6); 30 mil costs 4 dead legs plus a congestion cell, 35 mil brings a pour island back.  A sweet spot, not "stricter is better" (§49, §59) |
 | routing grid | GRID 10 vs 5 (`--grid N --profile strict-via`) | **5 mil + reserved via discs + budget 56: 0 dead legs, 0 unconnected, 0 islands, clearance 453** — the first point that beats the 10 mil baseline (511 / 1 island) on both gated items, at ~40 min and +3045 mil of track; reproducible via that profile (two independent runs identical) and ~84–88 % of the remaining pad hits are geometry-forced (§57–§58, D6) |
 
 ## 5. Decisions on record
@@ -169,6 +169,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 
