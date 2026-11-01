@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import pathlib
 import subprocess
+import tempfile
 import sys
 import unittest
 
@@ -193,6 +194,116 @@ class NegativeTests(unittest.TestCase):
         proc = run(mutated)
         self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
         self.assertIn("DRIVE_INSUFFICIENT", proc.stdout)
+
+
+class TransistorKindTests(unittest.TestCase):
+    """BJT 和 MOSFET 不能用同一个模型判。
+
+    2026-11-01 做 12V 风扇板时撞到：检查器只懂 BJT，把 MOSFET 也拿去乘 hFE，
+    于是 100k 的栅极上拉被判成"带不动 200mA"——**假失败**。反过来，
+    一颗真 BJT 配 100k 上拉确实是带不动的，那种情况必须仍然报 fail。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-kind-"))
+        base = ["NTC1", "R1", "U1", "R2", "R3"]
+        parts = [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part", "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "GATE"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part", "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part", "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+        ]
+        # 栅极/基极上拉 100k：对 MOSFET 合理，对 BJT 远远不够
+        pullup = {"designator": "R5", "componentType": "part",
+                  "otherProperty": {"Value": "100kΩ"},
+                  "pins": [{"pinNumber": "1", "net": "PWR5V"},
+                           {"pinNumber": "2", "net": "GATE"}]}
+        cls.mosfet = {"designator": "Q1", "componentType": "part",
+                      "manufacturerId": "AO3400", "otherProperty": {},
+                      "pins": [{"pinNumber": "1", "pinName": "G", "net": "GATE"},
+                               {"pinNumber": "2", "pinName": "S", "net": "GND"},
+                               {"pinNumber": "3", "pinName": "D", "net": "FAN_M"}]}
+        cls.bjt = {"designator": "Q1", "componentType": "part",
+                   "manufacturerId": "S8050", "otherProperty": {},
+                   "pins": [{"pinNumber": "1", "pinName": "B", "net": "GATE"},
+                            {"pinNumber": "2", "pinName": "E", "net": "GND"},
+                            {"pinNumber": "3", "pinName": "C", "net": "FAN_M"}]}
+        cls.base = parts + [pullup]
+
+        cls.intent = {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "ground": "GND",
+            "threshold": {"comparator": "U1", "target_c": 45, "tolerance_c": 3,
+                          "vcc": 5.0,
+                          "sensor": {"kind": "ntc", "r25": 10000, "b": 3950}},
+            "switches": [{"part": "Q1", "load": "FAN", "load_ma": 200,
+                          "vgs_th": 1.5, "id_max_a": 4.0}],
+        }
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _run(self, switch_part, intent_patch=None):
+        data = {"components": self.base + [switch_part]}
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        intent = json.loads(json.dumps(self.intent))
+        if intent_patch:
+            intent["switches"][0].update(intent_patch)
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False), encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        return proc
+
+    def test_mosfet_with_100k_gate_pullup_passes(self):
+        # 栅极静态不取电流，100k 上拉完全够——不能被 hFE 模型判死。
+        # 断言盯 switch_drive 这一项，而不是整体退出码：意图里没声明回差时
+        # 整体 verdict 会是 unknown（这是有意的诚实行为，不是失败）。
+        proc = self._run(self.mosfet)
+        self.assertIn("switch_drive       pass", proc.stdout)
+        self.assertIn('"kind": "mosfet"', proc.stdout)
+        self.assertIn("静态不取电流", proc.stdout)
+        self.assertNotIn("DRIVE_INSUFFICIENT", proc.stdout)
+
+    def test_bjt_with_100k_base_pullup_fails(self):
+        # 同样的 100k，换成一个真要基极电流的 BJT，必须报驱动不足
+        proc = self._run(self.bjt)
+        self.assertIn("DRIVE_INSUFFICIENT", proc.stdout)
+        self.assertIn('"kind": "bjt"', proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_mosfet_without_gate_path_fails(self):
+        data = self.base + [self.mosfet]
+        data = [c for c in data if c["designator"] != "R5"]   # 去掉栅极上拉
+        netlist = self.tmp / "nopath.json"
+        netlist.write_text(json.dumps({"components": data}, ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "i.json"
+        intent_path.write_text(json.dumps(self.intent, ensure_ascii=False),
+                               encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+        self.assertIn("NO_GATE_PATH", proc.stdout)
+
+    def test_mosfet_load_beyond_rating_fails(self):
+        proc = self._run(self.mosfet, {"load_ma": 9000, "id_max_a": 4.0})
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+        self.assertIn("LOAD_EXCEEDS_RATING", proc.stdout)
 
 
 class HonestyTests(unittest.TestCase):

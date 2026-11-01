@@ -839,3 +839,48 @@ errorDetail 恰好是 '[object Object]' 的记录: 7
 `easycirq connector install-steps`）。**这一步我做不了**（GUI 操作），
 所以现在真实链路里仍然会看到 `[object Object]`；
 但**下一版打包后它不会再出现，且同一位置上会给出一句能看懂的话**。
+
+## 已修：`design_validity` 把 MOSFET 当三极管算
+
+**2026-11-01，做 12V 风扇板时撞到。**
+
+### 症状
+
+检查器里 `TRANSISTOR_PINS` 把 `B`（基极）和 `G`（栅极）都映射成 `control`，
+于是 `check_drive` 对 MOSFET 也套用 BJT 模型：算基极电流、乘 hFE、比较负载。
+
+**这对 MOSFET 是错的**——栅极静态不取电流，只要求栅源电压够开、够关。
+
+实测对比（同一份网表，只换管子）：
+
+| 管子 | 栅极/基极上拉 | 修之前 | 修之后 |
+|---|---|---|---|
+| MOSFET（AO3400） | 100k | **被判失败**（100k 给不出"足够基极电流"） | **pass**：栅压 ≈5V > Vgs(th) 1.5V，静态不取电流 |
+| BJT（S8050） | 100k | fail（正确） | **仍然 fail**（正确）：0.043mA → 5mA « 200mA |
+
+**左边那种是假失败**：100k 的栅极上拉是完全正确的做法，
+按 hFE 判会让人去改一个根本不需要改的电阻。
+
+### 修法
+
+1. 新增 `transistor_kind(part)`：按引脚名区分
+   —— `B/C/E` 是 `bjt`，`G/D/S` 是 `mosfet`。
+2. `check_drive` 为 MOSFET 走独立分支：
+   - 栅极无直流通路 → `NO_GATE_PATH`
+   - 栅压低于 `vgs_th` → `VGS_BELOW_THRESHOLD`
+   - 负载超过 `id_max_a` → `LOAD_EXCEEDS_RATING`
+   - **完全不出现 hFE / 基极电流**
+3. 结果里带 `"kind": "bjt" | "mosfet"`，报告里分得清用的是哪个模型。
+
+意图文件新增两个可选字段：`vgs_th`（默认 1.5V）、`id_max_a`（默认 4.0A）。
+
+### 验证
+
+`tests/test_design_validity.py` 新增 4 条：
+
+- MOSFET + 100k 栅极上拉 → `switch_drive pass`，且**不得出现 `DRIVE_INSUFFICIENT`**
+- 同样 100k 换成 BJT → 必须 `DRIVE_INSUFFICIENT`（证明模型确实分开了）
+- MOSFET 去掉栅极上拉 → `NO_GATE_PATH`
+- 负载 9A 超过 4A 额定 → `LOAD_EXCEEDS_RATING`
+
+`pytest tests` → **4897 passed, 5 skipped**（上一轮 4888 + 新增 9）。

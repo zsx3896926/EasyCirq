@@ -49,6 +49,9 @@ import pathlib
 import sys
 
 SCHEMA = "easycirq-design-validity/v1"
+
+# 逻辑侧默认电压；意图文件里的 vcc 优先，这里只是 mosfet 分支的兜底
+VCC_FALLBACK = 5.0
 INTENT_SCHEMA = "easycirq-design-intent/v1"
 
 # 引脚功能：优先用网表里的 pinName；名字只是数字的器件靠这张表。
@@ -61,6 +64,24 @@ DEVICE_PINOUT = {
 
 TRANSISTOR_PINS = {"B": "control", "G": "control", "E": "ref", "S": "ref",
                    "C": "load", "D": "load"}
+
+# B/E/C 是双极型，G/S/D 是场效应。**两者不能套同一个模型**：
+#   BJT   —— 控制脚要持续吃基极电流，集电极电流 = Ib × hFE
+#   MOSFET —— 栅极静态电流几乎为零，只要求栅源电压够开、够关
+# 早先只按 BJT 算，于是 MOSFET 会被拿去乘 hFE，算出一个没有意义的数
+# （要么假通过、要么假失败）。2026-11-01 做 12V 风扇板时撞到这一点。
+BJT_PINS = {"B", "C", "E"}
+MOSFET_PINS = {"G", "D", "S"}
+
+
+def transistor_kind(part: dict) -> str | None:
+    """这颗管子是 'bjt' 还是 'mosfet'。引脚名认不出来返回 None。"""
+    names = {pin_name(p).upper() for p in part.get("pins") or []}
+    if names & BJT_PINS and not (names & {"G", "D", "S"}):
+        return "bjt"
+    if names & {"G", "D"} and (names & MOSFET_PINS):
+        return "mosfet"
+    return None
 
 
 # ---------------------------------------------------------------- 网表读取
@@ -323,6 +344,62 @@ def check_drive(netlist, nets, intent, findings) -> dict:
         only_open_collector = (not has_rail_path) and any(
             s["kind"] == "non_resistive" for s in sources)
 
+        kind = transistor_kind(part) or str(entry.get("kind") or "").lower() or "bjt"
+
+        # ── MOSFET：栅极不消耗直流电流，判的是"栅极有没有确定的电平"和
+        #    "这个电平够不够开"；绝不能拿 hFE 去乘栅极电流。
+        if kind == "mosfet":
+            vth = float(entry.get("vgs_th") or 1.5)      # 逻辑电平管典型 1.0~2.0V
+            id_max = float(entry.get("id_max_a") or 4.0)
+            need = float(entry.get("load_ma") or 30) / 1000.0
+            if not has_rail_path and not has_ground_path:
+                status = "fail"
+                failed = True
+                reason = (f"{designator} 是 MOSFET，栅极（{control_net}）没有到 {rail} 或 "
+                          f"{ground} 的直流通路——栅极悬空时电平不确定，管子状态不可预测")
+                findings.append({"code": "NO_GATE_PATH", "status": "confirmed",
+                                 "part": designator, "net": control_net,
+                                 "message": reason})
+            else:
+                # 有上拉时，导通时栅极≈rail（除以分压）
+                v_gs = 0.0
+                driver = None
+                for source in sources:
+                    if source["kind"] == "resistor" and rail in source.get("to", []):
+                        driver = source["part"]
+                        # 栅极到驱动器的串联电阻未建模，保守取 rail
+                        v_gs = VCC_FALLBACK
+                        break
+                if driver is None:
+                    status = "unknown"
+                    reason = ("栅极只有下拉，导通电平取决于驱动源，网表判不了驱动电压")
+                elif v_gs < vth:
+                    status = "fail"
+                    failed = True
+                    reason = (f"栅极电压 ≈{v_gs:.2f}V 低于开启门槛 {vth:.2f}V，"
+                              f"这颗 MOSFET 打不开")
+                    findings.append({"code": "VGS_BELOW_THRESHOLD", "status": "confirmed",
+                                     "part": designator,
+                                     "message": reason})
+                elif need > id_max:
+                    status = "fail"
+                    failed = True
+                    reason = (f"负载需要 {need*1000:.0f}mA，超过这颗管子的 "
+                              f"{id_max:.1f}A 额定")
+                    findings.append({"code": "LOAD_EXCEEDS_RATING", "status": "confirmed",
+                                     "part": designator, "message": reason})
+                else:
+                    reason = (f"栅极由 {driver} 上拉到 ≈{v_gs:.1f}V（> {vth:.1f}V），"
+                              f"静态不取电流，负载 {need*1000:.0f}mA « {id_max:.1f}A")
+                    results.append({"part": designator, "kind": "mosfet",
+                                    "status": "pass", "reason": reason,
+                                    "vgs": round(v_gs, 2), "vgs_th": vth,
+                                    "gate_pullup": driver})
+                    continue
+            results.append({"part": designator, "kind": "mosfet",
+                            "status": status, "reason": reason})
+            continue
+
         status = "pass"
         reason = ""
         if not has_rail_path and not has_ground_path:
@@ -353,7 +430,7 @@ def check_drive(netlist, nets, intent, findings) -> dict:
                                         f"可驱动 {ic*1000:.0f}mA，负载需要 "
                                         f"{need*1000:.0f}mA"),
                         })
-                    results.append({"part": designator, "status": status,
+                    results.append({"part": designator, "kind": kind, "status": status,
                                     "reason": reason,
                                     "base_ma": round(current * 1000, 3),
                                     "ic_ma": round(ic * 1000, 1),
