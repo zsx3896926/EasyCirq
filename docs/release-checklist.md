@@ -74,6 +74,19 @@ CONSISTENT
 
 **教训**：检查工具本身也要先验证一次——一个永远报错的检查器，和没有检查器一样糟。
 
+## 三点五、确认成果不只在本地
+
+```bash
+python tools/check_published.py     # 期望 every local branch tip is reachable from the remote
+```
+
+**为什么单列一步**：2026-11-01 发现 `feat/agent-ace-rules` 的 222 个提交、
+以及另外 122 个分支的 tip、以及本地 main 的 3 个提交，远端都没有。
+在那之前，"可复现"只是"同一台机器重跑一致"。
+
+第一次检查时我问的是「我的分支发布了没有」，修完就收工；
+真正该问的是「有没有任何本地成果没发布」。
+
 ## 四、同步技能副本：必须全量，不能只同步改过的文件
 
 ```powershell

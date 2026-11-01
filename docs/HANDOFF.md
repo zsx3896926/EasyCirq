@@ -159,3 +159,18 @@ easycirq/references/pcb-router-ab.md            on origin/main: False
 真正该问的是「**有没有任何**本地成果没发布」——一问就多出 122 个分支和 3 个提交。
 
 **检查范围又一次小于它看起来的范围。**
+
+## `tools/check_published.py`（2026-11-01）
+
+把上一轮那个教训变成可重复的检查：不问「某一条分支发布了没有」，而是
+一次列出**所有**本地分支，逐个判断 tip 是否在远端可达。
+
+```
+python tools/check_published.py
+  remote origin: 174 branch(es)
+  local: 165 branch(es)
+  every local branch tip is reachable from the remote      -> exit 0
+```
+
+有未发布的就列出来并 `exit 1`。`tests/test_check_published.py` 用临时仓库
+造了「未推送分支」和「已推送分支」两种情况，确认它既不漏报也不误报。
