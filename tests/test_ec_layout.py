@@ -962,3 +962,32 @@ def test_via_cost_scales_with_the_grid():
     src10 = inspect.getsource(ec.astar)
     src5 = inspect.getsource(ec5.astar)
     assert "10.0 / GRID" in src10 and "10.0 / GRID" in src5
+
+
+def test_reproduce_cli_flags_reach_the_route_config(monkeypatch):
+    """A knob that is accepted by argparse but never copied into the profile is a
+    silent no-op: that is exactly how one grid-5 experiment "measured" identical
+    numbers twice.  Every override flag must land in the config."""
+    rep = _mod("reproduce_cli", "reproduce.py")
+    seen = {}
+
+    def fake_run(dump, place, out_dir=None, profile="frontier"):
+        seen["cfg"] = dict(rep.PROFILES[profile])
+        kpi = {k: 0 for k in ("unrouted_legs", "congestion_cells", "clearance_violations",
+                             "nets_unconnected", "pad_layer_gaps", "pour_islands",
+                             "vias", "plane_vias", "vias_in_pad", "tracks",
+                             "total_length_mil", "diagonal_ratio")}
+        kpi["bus_length_spread_mil"] = {}
+        return kpi, {}, True, set(), {}
+
+    monkeypatch.setattr(rep, "run", fake_run)
+    monkeypatch.setattr(sys, "argv", [
+        "reproduce.py", "--dump", "d.json", "--place", "p.json",
+        "--grid", "5", "--best-effort-budget", "30",
+        "--via-sites", "--via-margin", "6", "--bus-budget", "8"])
+    rep.main()
+    cfg = seen["cfg"]
+    assert cfg["general_budget"] == 30
+    assert cfg["bus_budget"] == 8
+    assert cfg["via_sites"] is True
+    assert cfg["via_margin"] == 6

@@ -206,6 +206,8 @@ def _route(board, cfg):
         net_order=cfg["net_order"],
         via_relocate=cfg.get("via_relocate", True),
         best_effort=cfg.get("best_effort", True),
+        via_sites=cfg.get("via_sites", False),
+        via_margin=cfg.get("via_margin"),
         bus_budget=cfg.get("bus_budget"),
         general_budget=cfg.get("general_budget"),
         layer_spread=cfg.get("layer_spread", False),
@@ -215,7 +217,6 @@ def _route(board, cfg):
         # unchanged (they default to the frontier's values).
         priority_nets=set(cfg.get("priority_nets") or ()),
         via_cost=cfg.get("via_cost"),
-        via_margin=cfg.get("via_margin"),
         via_negotiate=cfg.get("via_negotiate", False),
         spacing_hard=cfg.get("spacing_hard", False),
         repair_pass=cfg.get("repair_pass", False),
@@ -266,11 +267,16 @@ def main():
                     help="routing grid in mil (default: the module constant, 10); see DECISIONS D6")
     ap.add_argument("--best-effort-budget", type=float,
                     help="override how many conflicting segment pairs a least-bad leg may keep")
+    ap.add_argument("--via-sites", action="store_true",
+                    help="reserve via discs during routing (needed for --via-margin to bite)")
+    ap.add_argument("--via-margin", type=float,
+                    help="clearance the router enforces around a via, in mil (default 1.0)")
     ap.add_argument("--bus-budget", type=float,
                     help="the same budget for CAM_/LCD_/SD_ nets only (bus corridors first)")
     a = ap.parse_args()
     use_grid(a.grid)
-    if a.best_effort_budget is not None or a.bus_budget is not None:
+    if (a.best_effort_budget is not None or a.bus_budget is not None
+            or a.via_margin is not None or a.via_sites):
         # Overrides go through the profile, not by monkeypatching the module: a run
         # then has every knob it used recorded in one place.
         PROFILES[a.profile] = dict(PROFILES[a.profile])
@@ -278,6 +284,10 @@ def main():
             PROFILES[a.profile]["general_budget"] = a.best_effort_budget
         if a.bus_budget is not None:
             PROFILES[a.profile]["bus_budget"] = a.bus_budget
+        if a.via_sites:
+            PROFILES[a.profile]["via_sites"] = True
+        if a.via_margin is not None:
+            PROFILES[a.profile]["via_margin"] = a.via_margin
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
     print("profile: `%s`  (layers %d, pours %s%s%s, grid %g mil%s)" % (
         a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
@@ -295,6 +305,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

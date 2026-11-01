@@ -2617,4 +2617,57 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q  -> 55 passed
 （新增：过孔代价随栅格缩放、按网类预算的分流逻辑）
 GRID=5 预算 26/30/34（缩放后）与预算 26（未缩放）四组实跑，见 54.3 表
 ```
+---
 
+## 55. 第四十六轮（目标轮 49）：一根"接受了但没生效"的开关 —— 并记录一次被自己坑掉的实验 2026-02-01
+
+### 55.1 想做的事
+
+§48 把 5 mil 的间距压到 673 后，`via_track` 仍是最大类。成分与 deficit 实测：
+
+```
+5 mil / 预算 30（过孔代价已缩放）：track_track 60 | via_track 280 | via_pad 71 | track_pad 262 = 673
+via_track 按过孔所属网：CAM_SIOD 36, BOOT 21, BTN_UP 21, BTN_DOWN 19, CAM_SIOC 18, BUZ_N 17 …
+deficit（差多少 mil）：min 0.39 / median 6.37 / max 21.01；其中 >10 mil 的有 82 条
+```
+
+deficit 中位数 6.4 mil 说明这不是"差一点点"，而是"过孔被放在了拥挤处"。于是想在**细栅格**上
+把布线阶段的过孔保留半径调严（`via_margin` 6 → 5 mil 下 5 格＝25 mil 的盘，是 §49 说的
+"细栅格才存在的新档位"）。
+
+### 55.2 第一次跑：完全相同的数字 —— 因为开关根本没生效
+
+第一次跑 `--via-sites --via-margin 6`，结果与不加这两个参数时**逐项相同**
+（673 / 178 过孔 / 624 走线 / 39554.3 mil）。原因不是"没效果"，而是：
+
+* `argparse` 里有 `--via-sites` / `--via-margin`；
+* 但 `main()` 里把命令行开关写进 profile 的那段代码**没有加这两行**——
+  于是 `route()` 收到的仍是 `via_sites=False, via_margin=None`。
+
+**这是一个"被接受、但从未生效"的开关**，比报错更危险：它会产生一份看起来正常的测量结果。
+本次没有把这次运行的数字当作结论用，而是先修洞。
+
+### 55.3 修法与防再犯
+
+* `main()` 现在把 `--via-sites` / `--via-margin` 一并写入 profile（与 `--best-effort-budget`、
+  `--bus-budget` 同一处）；
+* 新增单测 `test_reproduce_cli_flags_reach_the_route_config`：把 `run()` 替换成记录配置的桩，
+  断言**每一个** CLI 覆盖项都真的落进了传给路由的配置里。以后新增开关忘了接线，测试会红。
+
+### 55.4 实验本身：NOT RUN
+
+修好之后重跑（GRID=5、预算 30、`--via-sites --via-margin 6`）：**30 分钟以上仍未结束**，
+为不再占用 CPU 并保持记录诚实，本轮**主动取消**，不给任何数字。原因可解释：保留盘从 4 格
+放大到 5 格后，大量腿的候选路径被判"脏"，协商轮次与重试次数剧增。
+
+下一轮要么把它跑完（接受 ~1 小时的运行时间），要么先给 `reproduce.py` 加 `--iters`，
+用较低轮次做筛选、再用全轮次确认。
+
+### 55.5 本轮验证
+
+```
+pytest tests/test_ec_layout.py tests/test_bus_order.py -q  -> 56 passed（新增 CLI 接线单测）
+5 mil 成分分析（上面那段）                                -> 实测
+--via-sites --via-margin 6（修复前）                       -> 与基线逐项相同 ⇒ 判定为"开关未生效"，不作结论
+--via-sites --via-margin 6（修复后）                       -> NOT RUN（30+ 分钟未结束，已取消）
+```
