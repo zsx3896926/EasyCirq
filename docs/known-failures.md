@@ -668,3 +668,58 @@ report = json.loads((out / "kpi-report.json").read_text())   # 这里才炸
 - go-test **ok 94.9s**
 - pytest **ok 557.7s，4875 passed**
 - 四个审计 + 技能自检全部 ok
+
+## 真缺陷（未修）：`pcb add-component` 失败时错误详情是 `[object Object]`
+
+**2026-11-01，加 R6 到 PCB 时遇到。**
+
+```
+$ easycirq --project KPI-S5-Verify --doc PCB1 pcb add-component \
+    --library 0819f05c... --uuid <三种候选之一> \
+    --designator R6 --unique-id gge20 \
+    --nets '{"1":"ALARM","2":"NTC_MID"}' --x 420 --y -900
+
+{"ok": false,
+ "error": {"code": "EDA_CALL_FAILED",
+           "message": "Failed to place the component footprint on the PCB.",
+           "detail": "[object Object]"}}
+```
+
+**`detail` 被序列化成了 `"[object Object]"`，真正的失败原因全部丢失。**
+
+### 试过什么
+
+| `--uuid` 取值 | 来源 | 结果 |
+|---|---|---|
+| `ae0117749216dbc0` | `sch list` 的 `device.uuid` / `component.uuid` | 同样失败 |
+| `b7a1aae2db35ecb7` | `footprint.uuid` | 同样失败 |
+| `9d0a6570652943db` | 原理图 `primitiveId` | 先被 degraded 拦下 |
+
+`sch read` 给出的 R6 记录里**没有 device uuid**，只有 `footprint.uuid` 和
+`supplierId: C31850`——而 `add-component` 要的是 device uuid。
+帮助里写「Get --nets and --unique-id from 'sch read'」，但没说 device uuid 从哪来。
+
+### 平台自己报告 connector 处于降级状态
+
+```
+warnings: ["connector looks DEGRADED under load (recent EFFECT failure rate 20%,
+           1 consecutive failures) — this write may have LANDED despite the failure
+           (假失败定律): verify with a light read before resending, and do NOT blind-retry.
+           Worst road(s): pcb.add_component"]
+```
+
+**按这条警告做了：先读回板子确认 R6 没落上（仍是 10 个器件），而不是盲目重试。**
+
+### 影响
+
+- 原理图侧完整：11 个位号、设计有效性三项全绿、BOM 含 R6（C31850）
+- 板子侧仍是 10 个位号 → **KPI 17 `pcb_match` 报 fail，这是正确的**
+- 交付包标"不能下单"，因为这个红是真的
+
+### 下一轮怎么办
+
+1. 先修 `detail` 的序列化——`[object Object]` 让这个错误完全不可诊断，
+   这比失败本身更严重（违反「失败可解释率 100%」）。
+2. 再确认 `--uuid` 到底该传什么：可能需要的是 LCSC 器件在库里的 component uuid
+   （`C31850` 对应的那个），而不是原理图里那一份的 uuid。
+3. 最后才重试写入，并且每次都读回确认。
