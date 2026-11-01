@@ -78,3 +78,23 @@ KPI 定义 17 项（metrics/schematic-kpi.v1.json，版本 1.2.0）
 └── hds-a-method/                                                <- 仓库根（.git 是文件）
 \
 本文件里所有相对路径都相对**仓库根**。命令前先 \cd hds-a-method\。
+
+## 分支已发布（2026-11-01）
+
+此前 `feat/agent-ace-rules` **不在远端** —— 222 个提交、155 轮的全部成果只存在于一块磁盘上。
+现已推送并配置 upstream：
+
+```
+local   4a63e5cb
+remote  4a63e5cb   origin/feat/agent-ace-rules
+未推送提交 0
+```
+
+另存了一份单文件备份：`default-workspace/.backup/agent-ace-rules-20261101.bundle`
+（40.3 MB；`git bundle verify` 报 "records a complete history"；还原克隆后 794 提交，
+HEAD 与本地一致）。
+
+### 为什么记这一条
+
+「可复现」不只是「同一台机器重跑结果一致」——**代码本身必须在别处也有一份**。
+一个只存在于本地分支的实现，别人无法复现，磁盘坏了也无法恢复。
