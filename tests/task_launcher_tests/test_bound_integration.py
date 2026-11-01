@@ -369,7 +369,13 @@ class BoundGateTests(unittest.TestCase):
                     str(template_path),
                 ]
             )
-            self.assertEqual(completed.returncode, 1, completed.stderr[-2000:])
+            # Include stdout too: a LauncherError sends its payload to stdout and
+            # leaves stderr empty, so a stderr-only message showed 'AssertionError:
+            # 2 != 1 :' with nothing after the colon (2 of 16 runs, 2026-11-01).
+            self.assertEqual(
+                completed.returncode, 1,
+                (completed.stderr or '')[-2000:] + (completed.stdout or '')[-2000:],
+            )
             workspace = state_dir / "tasks" / task_id
             result = read_json(workspace / "result.json")
             self.assertEqual(result["status"], "failed", result)

@@ -357,6 +357,24 @@ def cmd_run(args: argparse.Namespace) -> int:
         info = manager.start(request)
         timeout_s = float(request["limits"]["timeout_s"]) + 60.0
         result = _terminal_result(manager, info["task_id"], timeout_s)
+        # The worker marks the task terminal a moment before _finalize writes
+        # result.json, so a caller that reads the file as soon as the process exits
+        # can lose the race and find nothing (2 of 16 runs, 2026-11-01). We already
+        # hold the exact same result object here; make sure the evidence is on disk
+        # before reporting. Idempotent: if the worker won the race this is a no-op.
+        try:
+            workspace = None
+            for key in ("task_dir", "workspace"):
+                if info.get(key):
+                    workspace = Path(info[key])
+                    break
+            if workspace is None:
+                workspace = manager.get_task(info["task_id"]).workspace
+            result_path = workspace / "result.json"
+            if not result_path.is_file():
+                manager._write_json(result_path, result)
+        except Exception as exc:  # never let this mask the real outcome, but say so
+            print(f"task_launcher run: could not ensure result.json: {exc}", file=sys.stderr)
         _print_json(result)
         return EXIT_OK if result.get("status") == "completed" else EXIT_TASK_FAILURE
     except LauncherError as exc:

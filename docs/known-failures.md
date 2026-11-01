@@ -404,3 +404,62 @@ exit=2
 ```
 
 **下一次它再偶发时，断言消息里就会带着真正的错误码**，不用再从零查。
+
+### 第四次：找到并修好了 —— 是一个竞态
+
+**40 次连跑 0 失败**（修前 2/16 ≈ 12%）。根因是顺序，不是玄学：
+
+```python
+task.finished_at = iso_now()
+task.set_status(status)      # <- 这里任务变成 terminal
+task.kill_info = ...
+self._finalize(...)          # <- 结果文件在这之后才写
+```
+
+而 CLI 侧的 `_terminal_result` 是这样等的：
+
+```python
+while ...:
+    task = manager.get_task(task_id)
+    if task.terminal:              # <- 看到 terminal 就返回
+        return manager.result(task_id)   # <- 此时文件可能还没落盘
+```
+
+**任务被标记为终态，与结果文件落盘之间，有一个窗口。**
+调用方（测试、脚本）在进程退出后立刻读文件，就会撞上这个窗口。
+
+这也解释了为什么两种失败形态都出现过：
+- 撞上窗口 → `result.json` 不存在（exit 1）
+- 撞上另一条路径 → `LauncherError`（exit 2，payload 只在 stdout）
+
+### 修法：CLI 侧补一次幂等写入
+
+进程退出前，手里已经有完全相同的 `result` 对象；如果文件不在，就把它写下去：
+
+```python
+workspace = info.get("task_dir") or info.get("workspace") or manager.get_task(...).workspace
+result_path = workspace / "result.json"
+if not result_path.is_file():
+    manager._write_json(result_path, result)
+```
+
+幂等：worker 赢了竞态就是 no-op。异常不再静默吞掉，而是打到 stderr。
+
+### 为什么第一次修失败了
+
+第一版用 `manager.get_task(info["task_id"]).workspace`，外面套了 `except Exception: pass`。
+**`get_task` 对已回收的任务会抛，于是兜底自己被吞掉、什么都没写**——
+看起来加了防护，实际一次都没执行。
+
+第二版改成优先用 `info` 里已有的路径，并把异常打到 stderr。
+**静默的 except 是这次绕远路的直接原因。**
+
+### 验证
+
+| 检查 | 结果 |
+|---|---|
+| `test_bound_integration.py` ×20（第一批） | **0 失败** |
+| 同上 ×20（第二批） | **0 失败** |
+| `tests/task_launcher_tests` 全量 | **127 passed, 2 skipped** |
+
+修复前基线：16 次 2 次失败。
