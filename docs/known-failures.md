@@ -571,3 +571,60 @@ Python 这边一直带着同样的毛病，直到它自己撞上来——
 
 如果频繁出现，可考虑给这个测试加 `-short` 跳过条件，或者让 runner 在 go test
 之前留一段间隔——但那都是掩盖，不是修复，所以现在不做。
+
+## 真缺陷（未定位）：离线管线读不到 KPI 门禁的报告
+
+**2026-11-01 出现，之前同一份快照能跑通。**
+
+```
+$ python easycirq/scripts/sch_offline_pipeline.py --snapshot-dir deliverables/alarm/design/snapshot \
+    --project KPI-S5-Verify --project-uuid b8f... --page P2 --out-dir %TEMP%\repro
+
+Traceback (most recent call last):
+  File ".../sch_offline_pipeline.py", line 315, in main
+    report = json.loads((out / "kpi-report.json").read_text(encoding="utf-8"))
+FileNotFoundError: ...\repro\kpi-report.json
+```
+
+输出目录里 12 个 `*-check.json` 都在，**只有 kpi-report.json 没有**。
+
+### 已经排除的
+
+| 怀疑 | 结果 |
+|---|---|
+| 快照坏了 | 用**旧快照（9 器件）**也一样失败；新旧 list.json / pcb-dump.json 结构相同 |
+| 门禁本身坏了 | **手工用完全相同的参数调用 `sch_kpi.py`，报告正常写出**（direct.json 存在，exit 2） |
+| 空 history 文件 | 我一度创建过空的 history-kpi.jsonl，删掉后仍失败 |
+| 缺 check 文件 | 12 个 check 文件都在 |
+
+### 关键矛盾
+
+**同一条命令，手工跑能写出 kpi-report.json，管线跑就写不出。**
+管线用的是 `_run([sys.executable, *map(str, args)])`，我手工用的是 `python sch_kpi.py ...`——两者应该等价。
+
+### 这个缺陷的严重性
+
+管线是**唯一**把「冻结快照 → 18 项检查 → 红绿灯」串起来的东西。
+它现在报的是裸 `FileNotFoundError`，**没有说是哪一步失败、门禁输出了什么**：
+
+```python
+_run(cmd, label="kpi gate", allow=(0, 1, 2))   # 只允许 0/1/2，其余抛异常
+report = json.loads((out / "kpi-report.json").read_text())   # 这里才炸
+```
+
+门禁返回 0/1/2 时不抛异常，但报告没写出来，于是下一行裸崩。
+**`_run` 把门禁自己的诊断（stdout/stderr）丢掉了**——这正是「失败可解释率」要防的情况。
+
+### 没有修的
+
+没定位到根因。已经排除的都在上面，剩下的可能性（工作目录、Path 对象序列化、
+门禁内部的相对路径）没有逐一验证——本轮时间用完了。
+
+**下一轮的第一件事：在 `_run` 返回后立刻把 `stdout`/`stderr` 打出来，
+而不是等到 `read_text` 崩了才发现。** 这一步就应该能直接看到门禁说了什么。
+
+### 对交付的影响
+
+`deliverables/alarm/` 里的 KPI 报告和卡片是**这一轮之前**生成的，
+对应的是 **R5 加入之前**的快照。PCB 现在 DRC 0，但门禁没重跑，
+所以**交付包仍标不能下单**——不是忘了改，是重跑被这个缺陷挡住了。

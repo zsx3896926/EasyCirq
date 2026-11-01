@@ -82,8 +82,15 @@ rows = list(csv.DictReader(io.StringIO(bom_text), delimiter="\t"))
 designators = []
 for row in rows:
     designators.extend(p.strip() for p in (row.get("Designator") or "").split(",") if p.strip())
-if len(designators) != 9:
-    problems.append(f"BOM 位号数 {len(designators)}，预期 9（报警板）")
+# 位号数不再写死。原来写的是 9，加了 R5 之后立刻变成"预期 9、实际 10"的假失败——
+# 而真正该查的是「BOM 与原理图一致」，那件事由 KPI 18 (bom_match) 负责，且它更严：
+# 它会指名道姓说哪个位号缺、哪个多。这里只保留一个弱的合理性检查：
+# 必须非空、不能有重复位号。
+if not designators:
+    problems.append("BOM 里没有任何位号")
+dupes = sorted({d for d in designators if designators.count(d) > 1})
+if dupes:
+    problems.append(f"BOM 位号重复: {', '.join(dupes)}")
 
 print(f"package files: {len(present)}   listed in README: {len(listed)}")
 print(f"KPI total: {total}   card: {m.group(0) if m else 'n/a'}   BOM designators: {len(designators)}")

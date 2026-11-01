@@ -312,6 +312,13 @@ def main(argv=None):
         cmd += ["--check", f"{cid}={path}"]
     rc, stdout, stderr = _run(cmd, label="kpi gate", allow=(0, 1, 2))
 
+    if not (out / "kpi-report.json").is_file():
+        # 门禁返回了允许的码，却没写出报告。这时最要紧的是把门禁自己的输出留下，
+        # 而不是让下一行 read_text 抛一个没有上下文的 FileNotFoundError。
+        raise RuntimeError(
+            f"kpi gate rc={rc} but wrote no report. "
+            f"stdout={stdout[-800:]!r} stderr={stderr[-800:]!r}")
+
     report = json.loads((out / "kpi-report.json").read_text(encoding="utf-8"))
     summary = {
         "schema": SCHEMA_SUMMARY,
