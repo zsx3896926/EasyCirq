@@ -259,6 +259,12 @@ def scorecard(kpi, skew, ok, gate_fail, why=None):
         ("tracks", kpi["tracks"], "info"),
         ("total length (mil)", kpi["total_length_mil"], "info"),
         ("45-degree share", kpi["diagonal_ratio"], "info"),
+        # Layer distribution is one of the KPIs the objective names; until round 58 it
+        # lived only in kpi.json, so a scorecard reader could not see it at all.
+        ("layer distribution (mil)", " / ".join(
+            "L%s %.1f" % (lay, val) for lay, val in
+            sorted((kpi.get("layer_length_mil") or {}).items(),
+                   key=lambda kv: int(kv[0]))) or "-", "info"),
         ("bus skew CAM/LCD/SD (mil)", "%.1f / %.1f / %.1f" % (
             skew.get("CAM_D", 0), skew.get("LCD_", 0), skew.get("SD_", 0)), "gate<50"),
     ]

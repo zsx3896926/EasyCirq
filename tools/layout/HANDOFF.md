@@ -3070,3 +3070,49 @@ acceptance.py              -> plan vs board rules PASS
 这条对账把"可复现"从声明变成证据：**默认命令、诊断工具、交付闸三者在新前沿上口径一致**，
 且抓到的两处偏差都是文档而不是代码（一个是没更新、一个是估计偏保守）。
 以后任何 agent 按 `STATUS.md` §2 执行，得到的数字应与表中逐项相同。
+---
+
+## 64. 第五十五轮（目标轮 58）：目标达成度审计 —— 能力已沉淀，板子未达标（并补上第八个 KPI）2026-02-01
+
+### 64.1 先补一个真实缺口：层分布此前没有进 scorecard
+
+目标原文列出的验收 KPI 有八项：未布通腿、拥塞单元、间距违规、过孔数、总线等长误差、
+线长、45° 占比、**层分布**。前七项都在 `reproduce.py` 的 scorecard 里，**层分布（
+`layer_length_mil`）只在 `kpi.json` 里**——也就是说，只看 scorecard 的 agent 看不到它。
+
+已修：scorecard 新增 `layer distribution (mil)` 行；单测
+`test_scorecard_reports_every_kpi_the_objective_names` 逐项断言八项齐全。
+实测输出：
+
+```
+| layer distribution (mil) | L1 22268.9 / L2 11023.1 / L3 4054.6 / L4 4697.6 | info |
+```
+
+### 64.2 逐条对照目标
+
+| 目标条款 | 仓库里的证据 | 状态 |
+|---|---|---|
+| 离线布局优化 | `ec_layout.py place`、`sweep_placement.py`、face/button 代价（§31） | ✅ |
+| 协商式布线 | `route()`（PathFinder 式、4 层、铺铜）：0 断腿 / 0 拥塞 / 0 未连通 / 0 焊盘缺口 | ✅ |
+| 质量度量 | `report()` + scorecard（八项 KPI 齐） | ✅ |
+| 离线 DRC 验证 | `check`、`plan_lint`、`spacing_audit`、`pour_cut`、`forced_spacing` | ✅ |
+| 达标才上机 | `emit_apply` 红即拒（退出码 2，逐条列因）；`acceptance.py` <1 分钟自证 | ✅ |
+| 工具/指标/测试/文档落库 | 13 个工具、59 条测试、STATUS/README/HANDOFF(64 节)/DECISIONS(D1–D6) | ✅ |
+| **一次性上机** | **从未上机**：门禁仍红 | ⛔ |
+| **产出专业级布局与走线** | 三条红：间距 511/453（焊盘类 84–88% 几何强制）、等长（引脚顺序冲突） | ⛔ |
+
+### 64.3 结论（诚实表述）
+
+* **能力层**：已沉淀、可复现、可自证（默认命令 27 分钟出 453；诊断工具同栅格；交付闸拒绝；
+  决策清单齐备）；
+* **产物层**：这块板**没有达标**，且剩下的两条都不是布线器能独立解决的——
+  一条是封装节距决定的几何强制，一条是引脚分配决定的设计冲突；
+* **规则层**："不达标不上机"这条规则至今**零违反**（从未写过真板）。
+
+### 64.4 本轮验证
+
+```
+pytest tests/test_ec_layout.py tests/test_bus_order.py -q  -> 59 passed（新增八项 KPI 完整性单测）
+scorecard 渲染（用 §57 的 kpi.json）                        -> 层分布行已出现（见上）
+STATUS 顶部新增 §0 "Objective audit"                       -> 逐条对照表
+```

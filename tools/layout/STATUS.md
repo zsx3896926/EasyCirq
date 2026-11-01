@@ -1,5 +1,26 @@
 # STATUS — offline layout & routing for RetroCam-02 (one page)
 
+## 0. Objective audit (round 58)
+
+The goal is to deposit a toolchain that any agent can drive, with the rule "nothing goes
+to the machine until the offline gate is green".  Clause by clause, with evidence:
+
+| clause | evidence in this repo | state |
+|---|---|---|
+| offline placement | `ec_layout.py place`, `sweep_placement.py`, face/button terms (§31) | ✅ |
+| negotiated routing | `route()` (PathFinder-style, 4 layers, pours); 0 dead legs, 0 congestion, 0 unconnected, 0 pad gaps | ✅ |
+| quality metrics | `report()` / `reproduce.py` scorecard with all eight KPIs the goal names (layer distribution added in round 58) | ✅ |
+| offline DRC | `check`, `plan_lint.py`, `spacing_audit.py`, `pour_cut.py`, `forced_spacing.py`, `acceptance.py` | ✅ |
+| KPI-gated delivery | `emit_apply.py` refuses while red (exit 2, reasons named); `acceptance.py` proves it in <1 min | ✅ |
+| everything in the repo | 13 layout tools, 59 tests, `STATUS.md`/`README.md`/`HANDOFF.md` (63 sections)/`DECISIONS.md` (D1–D6) | ✅ |
+| one-shot apply to the machine | **nothing has ever been applied**: the gate is still red | ⛔ |
+| "professional-grade layout & routing" | 3 gated items red: clearance 511/453 (84–88 % of the pad hits are geometry-forced), bus skew (pinout conflict) | ⛔ |
+
+So the **capability** is deposited and self-verifying; the **board** is not deliverable
+yet, and both remaining blockers are measured design decisions rather than router gaps
+(see §3 and DECISIONS D2/D3/D6).  No plan has been written to a live board, which is the
+rule working as intended.
+
 > Read this first. It is the current state, the evidence behind it, and what is
 > **not** worth retrying. Details live in `HANDOFF.md` (§ numbers below) and
 > `DECISIONS.md` (D1–D5); every number here was produced by the commands in §6.
@@ -189,6 +210,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 

@@ -1024,3 +1024,23 @@ def test_the_best_measured_point_is_the_default_profile():
     # the fast comparison is still one word away
     assert "frontier-10mil" in rep.PROFILES
     assert rep.PROFILES["frontier-10mil"].get("grid") is None      # stays at 10 mil
+
+
+def test_scorecard_reports_every_kpi_the_objective_names():
+    """The objective lists the KPIs each round must quantify: unrouted legs, congestion,
+    spacing, vias, bus skew, length, 45-degree share AND layer distribution.  Layer
+    distribution lived only in kpi.json until round 58, so a scorecard reader could not
+    see it - this pins that all eight appear in the printed table."""
+    rep = _mod("reproduce_kpis", "reproduce.py")
+    kpi = {"unrouted_legs": 0, "congestion_cells": 0, "clearance_violations": 0,
+           "nets_unconnected": 0, "pad_layer_gaps": 0, "pour_islands": 0,
+           "vias": 1, "plane_vias": 1, "vias_in_pad": 0, "tracks": 2,
+           "total_length_mil": 3.0, "diagonal_ratio": 0.4,
+           "layer_length_mil": {"1": 10.0, "2": 5.0}}
+    skew = {"CAM_D": 1.0, "LCD_": 2.0, "SD_": 3.0}
+    text = rep.scorecard(kpi, skew, False, {"clearance_violations"})
+    for needle in ("unrouted legs", "congestion cells", "clearance violations",
+                   "vias (access / in-pad)", "total length", "45-degree share",
+                   "layer distribution (mil)", "bus skew"):
+        assert needle in text, needle
+    assert "L1 10.0 / L2 5.0" in text
