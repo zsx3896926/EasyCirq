@@ -865,3 +865,28 @@ def test_forced_spacing_separates_impossible_from_avoidable():
                                           "x1": 380, "y1": 410, "x2": 440, "y2": 410}],
                               "vias": []})
     assert res["open"] and not res["forced"]
+
+
+# ── the via clearance the router enforces is a knob, not a constant ─────────
+def test_via_margin_widens_the_reserved_disc_and_is_recorded():
+    """The router has only ever been run at the two extremes (overlap-only 1.0 and
+    full clearance 6.0, which was unroutable).  A middle value must actually reserve
+    more cells, and the run must record what it used."""
+    board = make_board([comp("R1", 300, 300, [("1", "A", 300, 300)]),
+                        comp("R2", 900, 300, [("1", "A", 900, 300)])])
+    # The 10 mil grid QUANTISES this knob: for a 7 mil track the disc only changes
+    # when the required reach crosses a cell boundary, so margins 1..5 reserve the
+    # same 9 cells and there is no "slightly stricter" middle ground.
+    discs = {}
+    for margin in (1.0, 3.0, 4.0, 6.0):
+        block = {}
+        ec.stamp_via_block(block, [(10, 10, 1)], "A", 7, margin=margin)
+        discs[margin] = len(block)
+    assert discs[1.0] == discs[3.0] == discs[4.0] == 9
+    assert discs[6.0] > discs[1.0], discs
+
+    ec.route(board, iters=2, layers=4, segment_check=True, via_sites=True, via_margin=4.0)
+    assert board.via_margin == 4.0
+    ec.route(board, iters=2, layers=4, segment_check=True)
+    assert board.via_margin == ec.VIA_BLOCK_MARGIN
+

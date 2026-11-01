@@ -989,8 +989,14 @@ def _plan_via_leg_on(board, a, b, sc, gc, net, layer_ok, pad_forbid, used, mid, 
     return path
 
 
-def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True, layer_map=None, layer_spread=False, layer_force=False):
+def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment_check=False, priority_nets=None, escape_nets=None, plane_nets=frozenset(), plane_layer=None, via_check=False, via_sites=False, via_cost=None, via_negotiate=False, via_plan=False, via_first=False, net_order="small", best_effort=True, pour_trim=False, pour_exclusive=False, repair_pass=False, via_relocate=True, pour_preplan=False, via_pressure_on=False, pour_nets=frozenset(), pour_layer=None, pour_step=5, pour_specs=(), pour_rescue=True, layer_map=None, layer_spread=False, layer_force=False, via_margin=None):
     pad_forbid, own = board.pad_blocked()
+    # How much of a via's clearance the router enforces while searching.  Both
+    # extremes were measured: overlap only (1.0) leaves spacing to the KPI, full
+    # clearance (6.0) made the board unroutable (legs 7 -> 33).  A middle value was
+    # never tried, so it is a parameter now (HANDOFF §49).
+    vmargin = VIA_BLOCK_MARGIN if via_margin is None else float(via_margin)
+    board.via_margin = vmargin
     # Record the stack on the board: every through-hole check reads it through
     # `_all_layers`, otherwise a 6-layer run checks a via against 4 layers and the
     # other two come out free.
@@ -1078,7 +1084,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     # discs; it is rebuilt every pass and stamped with every accepted track, so
     # an early net's corridor also reserves the places a later net may not put a
     # via.  Refusing only the TRANSITION keeps long legs routable.
-    via_base = build_pad_via_block(board) if via_sites else None
+    via_base = build_pad_via_block(board, margin=vmargin) if via_sites else None
     # Via-first: every SMD pad gets its legal via site before a single track is
     # drawn, and other nets are kept off those discs.  This is the global plan
     # the per-leg version (--via-plan) failed to be.
@@ -1292,7 +1298,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                 if via_block is not None:
                     # Reserve the via discs this path has consumed so the next
                     # nets change layers somewhere else instead of on top of it.
-                    stamp_via_block(via_block, path, net, route_width(net))
+                    stamp_via_block(via_block, path, net, route_width(net), margin=vmargin)
                 for (x, y, ll) in path:
                     used[(x, y, ll)].add(net)
                     for dx, dy in HALO:
@@ -3380,6 +3386,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

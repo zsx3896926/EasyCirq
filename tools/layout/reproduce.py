@@ -197,6 +197,7 @@ def _route(board, cfg):
         # unchanged (they default to the frontier's values).
         priority_nets=set(cfg.get("priority_nets") or ()),
         via_cost=cfg.get("via_cost"),
+        via_margin=cfg.get("via_margin"),
         via_negotiate=cfg.get("via_negotiate", False),
         spacing_hard=cfg.get("spacing_hard", False),
         repair_pass=cfg.get("repair_pass", False),
@@ -255,6 +256,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

@@ -58,6 +58,16 @@ VARIANTS = {
                       net_order="small", priority_nets=["CAM_D0", "CAM_PCLK", "LCD_CS", "SD_MOSI"]),
     "via-cost-20": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=5,
                         net_order="small", via_cost=20),
+    # Middle of the via-clearance trade the router has never sampled: the two
+    # extremes were overlap-only (VIA_BLOCK_MARGIN 1.0, spacing left to the KPI) and
+    # full clearance (6.0, measured unroutable).  `via_sites` must be on for the
+    # margin to have anything to apply to.
+    "via-margin-2": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=8,
+                         net_order="small", via_sites=True, via_margin=2.0),
+    "via-margin-3": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=8,
+                         net_order="small", via_sites=True, via_margin=3.0),
+    "via-margin-4": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=8,
+                         net_order="small", via_sites=True, via_margin=4.0),
     "exclusive-pour": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=5,
                            net_order="small", pour_exclusive=True),
 }
@@ -157,4 +167,5 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
