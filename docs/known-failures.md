@@ -125,3 +125,32 @@ pytest 默认同文件内顺序执行，但仍可能受前序用例残留文件�
 反而降低 agent 的判断质量。
 
 **「客户可见」由调用路径决定，不由文件位置决定。**
+
+## 已修：pcb layout-plan 在 Windows 上偶发 Access is denied
+
+**症状**（2026-11-01 全量 `go test ./...` 偶发）：
+
+```
+--- FAIL: TestPcbLayoutPlanCommandRunsFullyOfflineAndWritesBundle
+    execute: replace output directory: rename ...\001\.out.tmp-3666879216 ...\001\out:
+    Access is denied.
+```
+
+**根因**：`pcb layout-plan --out` 的实现是「写临时目录 → 把旧目录改名成 .old →
+把临时目录改名成目标名」。Windows 上只要还有任何东西持有那个目录的句柄
+（索引器、杀毒、或上一个进程刚关掉），`os.Rename` 就返回 `Access is denied`。
+单独跑通过、全量跑失败，正是这种时序竞争。
+
+**修法**：`renameWithRetry` —— 只对**瞬时**错误（`fs.ErrPermission`、
+"access is denied"、"being used by another process"、"sharing violation"）
+做有界重试（10 次，20/40/… ms 退避），其余错误立刻返回。
+
+**验证**：
+
+| 检查 | 结果 |
+|---|---|
+| 该用例连跑 10 次 | **0 失败**（修前全量必现偶发） |
+| 全量 `go test ./...` 连跑 3 次 | **exit=0，16 包 ok，0 测试失败** |
+| `go vet ./...` | 干净 |
+
+这不是测试问题——客户在 Windows 上跑 `easycirq pcb layout-plan --out` 同样会撞上。
