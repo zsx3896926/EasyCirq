@@ -108,6 +108,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 | knob sweeps | portfolio over 6 configs (pour step 3/5/8, bus-first, via cost 20, exclusive pour) | best is 511 vs 515 clearance — the frontier is flat in these knobs (§46) |
 | access-via radius | `pour_step` 8 / 12 / 16 / 20 | **identical results** — saturated at 8 (§47) |
 | via clearance margin | `via_margin` 2 / 3 / 4 | **identical** — the 10 mil grid quantises it: margins 1–5 reserve the same 9-cell disc, ≥6 is the unroutable full-clearance case (§49) |
+| routing grid | GRID 10 vs 5 (`grid_experiment.py`) | 5 mil improves clearance 511→496 and islands 1→0 but leaves 9 dead legs (and exposes that `BEST_EFFORT_MAX_CONFLICTS` is counted in cells, not mils) — so it loses on the gate order (§50) |
 
 ## 5. Decisions on record
 
@@ -164,6 +165,8 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
+
 
 
 

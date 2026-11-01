@@ -890,3 +890,21 @@ def test_via_margin_widens_the_reserved_disc_and_is_recorded():
     ec.route(board, iters=2, layers=4, segment_check=True)
     assert board.via_margin == ec.VIA_BLOCK_MARGIN
 
+
+
+# ── the routing grid is the quantum of every clearance decision ─────────────
+def test_grid_experiment_loads_the_same_code_at_half_the_grid():
+    """Half the grid must mean twice the cells and a correct cell<->mil round trip,
+    otherwise a 'finer grid' run would silently be a different board."""
+    ge = _mod("grid_experiment", "grid_experiment.py")
+    ec10 = ge.load_module(10)
+    ec5 = ge.load_module(5)
+    assert ec10.GRID == 10 and ec5.GRID == 5
+    dump = {"result": {"components": [], "outline": {
+        "bbox": {"minX": 0, "minY": 0, "maxX": 1000, "maxY": 1000}}}}
+    b10, b5 = ec10.Board(dump), ec5.Board(dump)
+    assert (b5.w, b5.h) == (2 * b10.w, 2 * b10.h)
+    for cell in ((3, 4), (17, 9)):
+        assert b5.cell(*b5.center(*cell)) == cell
+    # the production module is untouched
+    assert ec.GRID == 10.0
