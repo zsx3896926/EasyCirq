@@ -502,3 +502,42 @@ FAILED (2):
 |---|---|
 | 只跑四个审计 + 技能自检 | 全部 `ok` |
 | 只跑 pytest（进程内） | `ok`，458.7s，4875 passed |
+
+## 同一类缺陷在两个语言里各修了一次（2026-11-01）
+
+`test_skill_update.py` 有两个用例偶发失败：
+
+```
+FAILED ...UpdaterTests::test_downgrade_blocked
+FAILED ...UpdaterTests::test_install_update_rollback
+PermissionError: [WinError 5] 拒绝访问:
+  ...\.easycirq-stage-69exym3u -> ...\home\.agents\skills\easycirq
+```
+
+**这和 163 轮在 Go 里修的是同一件事**：Windows 上目录改名时，只要还有任何东西
+持有那个目录的句柄（索引器、杀毒、刚关掉的进程），rename 就返回 access denied。
+
+| 位置 | 语言 | 当时的处置 |
+|---|---|---|
+| `runtime/internal/app/cmd_pcb_layout_plan.go` | Go | 163 轮加了 `renameWithRetry` |
+| `easycirq/scripts/skill_update.py` | Python | **一直没加**，直到这次 |
+
+### 修法：同一思路，照着 Go 那份写
+
+只对 `PermissionError` 和 `WinError 5/32`（access denied / sharing violation）
+重试（10 次，20ms×n），其余错误立刻抛出。`install()` 里四处目录改名全部改用它。
+
+### 验证
+
+| 检查 | 结果 |
+|---|---|
+| `tests/test_skill_update.py` ×12 | **0 失败** |
+| `pytest tests` 全量 | **4875 passed, 5 skipped** |
+
+### 教训
+
+**修一个缺陷时，要问一句「同一类问题在别处还有没有」。**
+
+上次修完 Go 那边就收工了，因为当时只盯着眼前那个失败。
+Python 这边一直带着同样的毛病，直到它自己撞上来——
+而它撞上来的样子，恰好是"偶发测试"。
