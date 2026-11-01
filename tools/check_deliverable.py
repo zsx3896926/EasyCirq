@@ -56,10 +56,16 @@ card = (d / "card.txt").read_text(encoding="utf-8")
 m = re.search(r"必查\s*(\d+)/(\d+)", card)
 if m:
     passed, expected = int(m.group(1)), int(m.group(2))
+    # 「必查」是 KPI 总数的一个子集（软指标不算必查），所以只能查"必查不超过总数"，
+    # 不能要求相等。第二轮修改曾把这里写成 expected != total，立刻产生假失败。
     if expected > total:
         problems.append(f"卡片说必查 {expected} 项，但 KPI 定义只有 {total} 项")
-    if passed != expected:
-        problems.append(f"卡片自相矛盾: 必查 {passed}/{expected}")
+    # 曾经要求 passed == expected，于是门禁红的时候卡片合法地写「必查 14/15 通过」
+    # 反而被判成"自相矛盾"。门禁红不是矛盾，是事实——只要不虚报就行。
+    if passed > expected:
+        problems.append(f"卡片吹牛: 必查 {passed}/{expected}，通过数超过必查数")
+    if passed < 0 or expected < 0:
+        problems.append(f"卡片计数异常: 必查 {passed}/{expected}")
 else:
     problems.append("card.txt 里找不到「必查 N/N」")
 
@@ -92,8 +98,45 @@ dupes = sorted({d for d in designators if designators.count(d) > 1})
 if dupes:
     problems.append(f"BOM 位号重复: {', '.join(dupes)}")
 
+# 6. 卡片判定必须和随包的门禁报告一致
+#
+# 2026-11-01 踩到：原理图加了 R6、板子还没同步，门禁里 pcb_match 是红的，
+# 而 card.txt 第一行还写着"可以下单"——那张卡是加 R6 之前生成的。
+# 五条检查没有一条会看这件事，于是"交付卡不虚报"只能靠我记得重新生成。
+#
+# 现在包里必须随附门禁报告（design/kpi-report.json），卡片判定与它比对：
+#   卡片说"可以下单"  <=>  报告 verdict 是 PASS
+# 不一致就是交付卡在虚报。
+report_path = d / "design" / "kpi-report.json"
+card_text = (d / "card.txt").read_text(encoding="utf-8")
+card_line = card_text.strip().splitlines()[0] if card_text.strip() else ""
+card_says_ok = "可以下单" in card_line
+
+if not report_path.is_file():
+    problems.append("交付包没有随附门禁报告 design/kpi-report.json，"
+                    "无法核对卡片判定是否与门禁一致")
+else:
+    import json
+
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        problems.append(f"随包门禁报告不是合法 JSON: {exc}")
+        report = None
+    if report is not None:
+        verdict = str(report.get("verdict") or "").upper()
+        report_says_ok = verdict == "PASS"
+        if card_says_ok != report_says_ok:
+            problems.append(
+                f"卡片判定与门禁报告矛盾：卡片说"
+                f"{'可以下单' if card_says_ok else '还不能打样'}，"
+                f"而随包报告 verdict={verdict or '(空)'}。"
+                f"重跑门禁并用新报告重新生成卡片")
+
 print(f"package files: {len(present)}   listed in README: {len(listed)}")
-print(f"KPI total: {total}   card: {m.group(0) if m else 'n/a'}   BOM designators: {len(designators)}")
+print(f"KPI total: {total}   card: {m.group(0) if m else 'n/a'}   "
+      f"BOM designators: {len(designators)}   "
+      f"report verdict: {locals().get('verdict') or 'n/a'}")
 print()
 if problems:
     print(f"PROBLEMS ({len(problems)}):")
