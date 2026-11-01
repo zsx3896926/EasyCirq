@@ -67,15 +67,17 @@ to the board. Several earlier versions had router and checker disagreeing (40 vs
 "connected"); each is pinned by a test.
 
 ## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
-`reproduce.py` (default profile `frontier`; all numbers re-measured after the clearance
-KPI started counting track/pad — see HANDOFF §41; `frontier` won §46's portfolio over
-six configurations by 4 violations, see STATUS.md):
+`reproduce.py --grid 5 --profile strict-via` (the best measured point; numbers are from
+HANDOFF §57–§58, two independent runs identical).  The 10 mil default profile `frontier`
+is listed beside it for comparison — see STATUS.md §2 for both tables:
 
 ```
 unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 1
-clearance 511 = 8 track/track + 174 via/track + 104 via/pad + 225 track/pad
-vias 186 (59 access, 6 in-pad) | 527 segments | total length 38999 mil | 45-degree 0.411
-bus skew: CAM_D 713.1 / LCD_ 165.3 / SD_ 297.6 mil
+unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 0
+clearance 453 = 35 track/track + 91 via/track + 31 via/pad + 296 track/pad
+vias 172 (59 access, 6 in-pad) | 647 segments | total length 42044 mil | 45-degree 0.405
+bus skew: CAM_D 751.1 / LCD_ 165.3 / SD_ 359.3 mil
+(10 mil default for comparison: clearance 511, islands 1, vias 186, 527 segments, 38999 mil)
 ```
 
 Four of the six gate items are zero. The three that are not:
@@ -162,6 +164,8 @@ Four of the six gate items are zero. The three that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
+
 
 
 

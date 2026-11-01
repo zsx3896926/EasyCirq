@@ -2894,3 +2894,53 @@ strict-via 453：pad hits forced 274-289 of 327（open 仅 38-53）
 1. **D6（分辨率/过孔盘）**：采用 `strict-via`（40 分钟换 −58 间距 + 0 铜岛）还是保留 10 mil 默认；
 2. **D2（铺铜）**：当前 strict-via 已经是 0 铜岛，D2 的"切地 vs 断腿"在 5 mil 上不再适用，需要更新；
 3. **D3（等长）**：需要改引脚分配，工具无法完成。
+---
+
+## 60. 第五十一轮（目标轮 54）：收口 —— STATUS/README 与 strict-via 对齐，并交付"决策清单" 2026-02-01
+
+本轮没有新的布线实验，做的是**把仓库的对外陈述与新事实对齐**（此前 STATUS 仍写着
+"铜岛 1 / 间距 511"，那是 10 mil 默认的数字），并做一次端到端交付验收。
+
+### 60.1 文档对齐
+
+* `STATUS.md` §2 现在并列两栏：**strict-via（5 mil）与 10 mil 默认**，
+  逐项给出 0/0/0/0/**0**/453 与 0/0/0/0/**1**/511；
+* §3.2 由"铜岛=设计冲突"改写为"**10 mil 上是 1，5 mil 上是 0**"，
+  并明确 §42 的判词只描述粗栅格、不描述物理；
+* §3.1 用 453 的新成分（35/91/31/296）与新的强制比例（84–88%）替换旧数据；
+* §4 的已证否表补上两行：过孔盘半径（25 是甜点）、接受预算（56 是第一个零断腿点）；
+* §5 决策表更新 D2（在 5 mil 下已被 strict-via 取代）、新增 D6，并新增
+  **§5.1 工程侧决策清单**：每条决策 = 现状数字 + 选项 + 复现命令；
+* `README.md` 的前沿段落改为 strict-via 的数字，并保留 10 mil 对照；
+* 修正一处重复行（via clearance margin 与 via disc radius 重复）。
+
+### 60.2 端到端交付验收（用 strict-via 的 plan，而不是旧 plan）
+
+```
+python tools/layout/acceptance.py --plan out/strict-via/plan.json \
+    --kpi out/strict-via/kpi.json --dump ../retrocam-02/pcb/dump2.json --stackup 4
+```
+
+```
+plan vs board rules                PASS
+guard refuses a red gate           PASS
+    REFUSED: the offline gate is not green, so nothing goes to the machine.
+      - clearance_violations: 453
+      - bus skew CAM_D: 751.1 mil (target <50)
+      - bus skew LCD_: 165.3 mil (target <50)
+      - bus skew SD_: 359.3 mil (target <50)
+emit works on a green gate         PASS
+    emitted ...: 647 tracks, 172 vias (59 access, 6 in-pad)
+contract: PASS
+```
+
+即：**新前沿同样被交付闸拦下**（因为间距与等长仍红），而 emit 路径仍是通的——
+"不达标不上机"的机制在新配置上依然成立。
+
+### 60.3 本轮验证
+
+```
+pytest tests/test_ec_layout.py tests/test_bus_order.py -q      -> 56 passed（未改代码）
+acceptance.py（strict-via plan）                               -> contract: PASS
+STATUS.md 200 行 / README.md 176 行，均无重复段落
+```
