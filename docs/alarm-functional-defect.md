@@ -940,3 +940,68 @@ LM393 的比较输入是 `TH`（pin2）与 `NTC_MID`（pin3），
 | 蜂鸣器极性 | **待确认**——需要规格书 |
 
 **在第七个修好之前，这块板即使做出来也不会响。**
+
+---
+
+## 缺陷七的修复（2026-11-01 当日）
+
+### 改了什么
+
+| 位号 | 改前 | 改后 | 料号 |
+|---|---|---|---|
+| R4 | 10kΩ | **1kΩ** | C21190（0603WAF1001T5E） |
+| R5 | 不存在 | **10kΩ**（新增，BASE → PWR5V 上拉） | C25804（0603WAF1002T5E） |
+
+`sch place` 把 R5 放在 (180, 250)，两端用 `sch autoconnect` 打网络标记：
+`R5.1 → BASE`（net_label）、`R5.2 → PWR5V`（power，右向 24 单位短桩）。
+
+### 改完后的网表
+
+```
+ALARM     R4 U1
+BASE      Q1 R4 R5      <- 新增 R5
+BUZ_SW    BZ1 Q1
+GND       C1 NTC1 Q1 R3 U1
+NTC_MID   NTC1 R1 U1
+PWR5V     BZ1 C1 R1 R2 R5 U1   <- 新增 R5
+TH        R2 R3 U1
+```
+
+### 复核
+
+`tools/check_buzzer_drive.py`：
+
+```
+BASE 网络上的引脚：['R5.1(BASE)', 'Q1.1(BASE)', 'R4.1(BASE)']
+  → 器件 R5 跨接 BASE 与 PWR5V：有上拉
+  基极电流约 0.43 mA（按上拉 10k 估）
+  可驱动集电极电流 ≈ 51.6 mA（hFE 取下限 120）
+  蜂鸣器典型 30 mA → 够
+```
+
+关断侧：`OUT1 拉低时 BASE = 5 × 1k/11k = 0.45 V < 0.65 V` ✓（由
+`tools/check_base_drive_sizing.py` 的对照表给出）
+
+`tools/check_threshold_design.py` 复算阈值，**R5 不影响它**（R5 在 BASE 上，不在 TH 上）：
+61.0°C（B=3950）/ 67.2°C（B=3435），与改动前一致。
+
+### 还没做的
+
+- **R5 还没有在 PCB 上布局布线**。板子上现在有 10 个器件，需要在 PCB 里
+  `import-changes`、摆放 R5、连线，然后重跑 DRC 与门禁、重导 Gerber。
+- 回差（缺陷八）仍决定"不加"——需要产品判断。
+
+### 我自己的检查器又错了一次
+
+`check_buzzer_drive.py` 第一版判断"有没有上拉"写的是：
+
+```python
+has_pullup = any(n == "PWR5V" for ... if n == base_net)   # 永远为假
+```
+
+同一个引脚不可能同时在两个网络上，所以哪怕加了 R5 它也报"没有上拉"。
+正确判据是**某个器件一脚在 BASE、另一脚在 PWR5V**。
+
+另外脚本读的是 `deliverables/alarm/design/snapshot/list.json`（入库快照），
+不是实时图纸——改完图必须先刷新快照，否则脚本会用旧数据骗人。
+**两处都已修正并记录。**

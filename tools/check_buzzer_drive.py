@@ -60,7 +60,7 @@ def main():
 
     print("驱动链上的引脚：")
     for designator, pins in parts.items():
-        if designator in ("Q1", "U1", "R4", "BZ1"):
+        if designator in ("Q1", "U1", "R4", "R5", "BZ1"):
             for pin, (net, name) in sorted(pins.items()):
                 print(f"  {designator}.{pin:<2} ({name:<4}) -> {net or '(未连接)'}")
     print()
@@ -72,8 +72,18 @@ def main():
     base_members = [f"{d}.{p}({n})" for d, pins in parts.items()
                     for p, (n, _) in pins.items() if n and n == base_net]
     print(f"BASE 网络（{base_net}）上的引脚：{base_members}")
-    has_pullup = any(n == "PWR5V" for d, pins in parts.items()
-                     for p, (n, _) in pins.items() if n == base_net)
+    # 正确的判据：必须有某个器件，一脚在 BASE、另一脚在 PWR5V——
+    # 也就是一颗真正的上拉电阻。早先写成"BASE 网络里有没有 net==PWR5V 的引脚"，
+    # 那永远不成立（同一个引脚不可能同时在两个网上），所以加了上拉它也报缺陷。
+    pullup_part = None
+    for designator, pins in parts.items():
+        nets_here = {n for (n, _) in pins.values() if n}
+        if base_net in nets_here and "PWR5V" in nets_here:
+            pullup_part = designator
+            break
+    has_pullup = pullup_part is not None
+    if has_pullup:
+        print(f"  → 器件 {pullup_part} 跨接 {base_net} 与 PWR5V：有上拉")
     if not has_pullup:
         # the only other member is R4 -> ALARM = open-collector output
         print("  → 没有引脚接到 PWR5V：基极没有电流来源")
@@ -83,7 +93,7 @@ def main():
         ib = 0.0
     else:
         ib = (VCC - V_BE) / I_BASE_MAX_PULLUP
-        print(f"  → 有上拉；基极电流约 {ib*1000:.2f} mA")
+        print(f"  基极电流约 {ib*1000:.2f} mA（按上拉 10k 估）")
 
     if ib:
         ic = ib * HFE_MIN
