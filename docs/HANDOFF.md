@@ -269,3 +269,35 @@ docs/customer-walkthrough.md 记录了在**隔离安装**里按输出提示走�
 | 卡片 | card | 0 | 必查 14/14 |
 | 验收 | cceptance | 0 | **用示例数据**，真实数据未跑过 |
 
+
+## 回归（2026-11-01，1.3.34 之后）
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests` | **4849 passed, 5 skipped**（1570 subtests） |
+| `go test ./...` | **16 包 ok，0 测试失败** |
+| `go vet ./...` | 干净 |
+| `tools/check_release_consistency.py` | `CONSISTENT`（四向） |
+| `tools/check_deliverable.py` | **交付包自检通过** |
+| `tools/check_published.py` | 全部本地分支已发布 |
+
+### 这一轮补上的验证
+
+`tests/test_acceptance_judgement.py`（5 项）——验收卡**能判红**：
+
+| 输入 | 输出 | 退出码 |
+|---|---|---|
+| 写 pass 但证据为空 | 「⏳ 还差实测证据」 | 1 |
+| `function` 填 fail | 「❌ 这块板还不能算可用」 | 1 |
+| 三项实测 pass 带读数 | 「✅ 这块板可以交付使用」 | 0 |
+| 记录不存在 | 「⏳ 还没有验收记录」 | 2 |
+
+第四条最要紧：**写了 pass 但没读数，不会变成绿灯**。
+
+### 三个仓库级自检器（都带测试）
+
+| 脚本 | 守什么 | 什么时候跑 |
+|---|---|---|
+| `tools/check_release_consistency.py` | 仓库 ↔ 包 ↔ 副本，四向 | 发版前 |
+| `tools/check_deliverable.py` | 交付包自身的断链/清单/校验和/数字 | 发版前 |
+| `tools/check_published.py` | 有没有任何本地分支没发布 | 发版前 |
