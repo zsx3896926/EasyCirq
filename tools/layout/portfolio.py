@@ -45,6 +45,15 @@ VARIANTS = {
                         net_order="small"),
     "pour-step-8": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=8,
                         net_order="small"),
+    # The access-via search radius IS pour_step (`plane_access` + `relocate_pour_vias`),
+    # so 5 -> 8 cut clearance 515 -> 511 by letting crowded access vias move further.
+    # These test whether that trend is real or noise.
+    "pour-step-12": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=12,
+                         net_order="small"),
+    "pour-step-16": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=16,
+                         net_order="small"),
+    "pour-step-20": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=20,
+                         net_order="small"),
     "bus-first": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=5,
                       net_order="small", priority_nets=["CAM_D0", "CAM_PCLK", "LCD_CS", "SD_MOSI"]),
     "via-cost-20": dict(iters=70, layers=4, pours=("GND:4", "+3V3:3"), pour_step=5,

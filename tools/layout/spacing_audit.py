@@ -27,6 +27,56 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ec_layout as ec  # noqa: E402
 import reproduce  # noqa: E402
 
+from collections import Counter  # noqa: E402
+
+
+def group_violations(board, plan, top=10):
+    """Who is involved in every spacing hit, so a red KPI has an owner.
+
+    `clearance_breakdown` says how many and of what kind; this says WHICH nets and
+    WHICH pads.  On RetroCam-02 that changes the story: only 15 of 225 track/pad hits
+    come from pour stubs, the rest are signal tracks crowding the connectors
+    (J3/J1/U4) and L1's pads - an escape/placement problem, not a pour bug.
+    """
+    pads = [p for pads in board.nets.values() for p in pads]
+    track_net, violated_pad, pairs = Counter(), Counter(), Counter()
+    via_net, via_on_pad = Counter(), Counter()
+    for t in plan.get("tracks") or []:
+        for p in pads:
+            if p["net"] == t["net"]:
+                continue
+            lay = int(p.get("layer") or 1)
+            if lay != 12 and lay != t["layer"]:      # 12 == through-hole
+                continue
+            need = t["width"] / 2 + max(p["w"], p["h"]) / 2 + ec.CLEARANCE - 0.5
+            if ec.seg_seg(t["x1"], t["y1"], t["x2"], t["y2"],
+                          p["x"], p["y"], p["x"], p["y"]) < need:
+                track_net[t["net"]] += 1
+                violated_pad["%s.%s" % (p.get("des"), p.get("pad"))] += 1
+                pairs["%s -> %s.%s" % (t["net"], p.get("des"), p.get("pad"))] += 1
+    for v in plan.get("vias") or []:
+        for t in plan.get("tracks") or []:
+            if t["net"] == v["net"]:
+                continue
+            need = ec.VIA_RADIUS + t["width"] / 2 + ec.CLEARANCE - 0.5
+            if ec.seg_seg(v["x"], v["y"], v["x"], v["y"],
+                          t["x1"], t["y1"], t["x2"], t["y2"]) < need:
+                via_net[v["net"]] += 1
+        for p in pads:
+            if p["net"] == v["net"]:
+                continue
+            need = ec.VIA_RADIUS + max(p["w"], p["h"]) / 2 + ec.CLEARANCE - 0.5
+            if math.hypot(p["x"] - v["x"], p["y"] - v["y"]) < need:
+                via_net[v["net"]] += 1
+                via_on_pad["%s.%s" % (p.get("des"), p.get("pad"))] += 1
+    return {"track_pad_by_track_net": track_net.most_common(top),
+            "track_pad_violated_pads": violated_pad.most_common(top),
+            "track_pad_pairs": pairs.most_common(top),
+            "via_hits_by_net": via_net.most_common(top),
+            "via_hits_violated_pads": via_on_pad.most_common(top),
+            "distinct_track_pad_pairs": len(pairs),
+            "track_pad_total": sum(pairs.values())}
+
 
 def _deficits(board, plan):
     """Per-kind deficit statistics: how far from legal each hit is."""
@@ -73,7 +123,8 @@ def main():
     ap.add_argument("--dump", required=True)
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
-    ap.add_argument("--profile", default="trim-pour", choices=sorted(reproduce.PROFILES))
+    ap.add_argument("--profile", default="frontier", choices=sorted(reproduce.PROFILES))
+    ap.add_argument("--top", type=int, default=10)
     a = ap.parse_args()
 
     cfg = reproduce.PROFILES[a.profile]
@@ -99,8 +150,7 @@ def main():
 
     print("profile: `%s`  clearance KPI (gate): %d   breakdown total: %d" % (
         a.profile, kpi["clearance_violations"], br["total"]))
-    if kpi["clearance_violations"] != sum(
-            v for k, v in br["counts"].items() if k != "track_pad"):
+    if kpi["clearance_violations"] != br["total"]:
         print("  NOTE: gate count and breakdown disagree -> the gate is not measuring"
               " what this script measures (investigate before acting).")
     print()
@@ -113,6 +163,14 @@ def main():
         print("| %s | %d | %s |" % (kind, c,
                                     "%.2f / %.2f / %.2f" % (d["min"], d["mean"], d["max"])
                                     if d else "-"))
+    print()
+    grp = group_violations(board, plan, top=a.top)
+    print("track/pad: %d hits over %d distinct (net, pad) pairs" % (
+        grp["track_pad_total"], grp["distinct_track_pad_pairs"]))
+    print("  by track net : %s" % ", ".join("%s(%d)" % kv for kv in grp["track_pad_by_track_net"]))
+    print("  worst pads   : %s" % ", ".join("%s(%d)" % kv for kv in grp["track_pad_violated_pads"]))
+    print("via hits by net: %s" % ", ".join("%s(%d)" % kv for kv in grp["via_hits_by_net"]))
+    print("via hits on pad: %s" % ", ".join("%s(%d)" % kv for kv in grp["via_hits_violated_pads"]))
     print()
     print("samples:")
     for s in br["samples"]:
@@ -129,3 +187,6 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+

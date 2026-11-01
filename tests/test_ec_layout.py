@@ -808,3 +808,25 @@ def test_portfolio_ranks_by_gate_order():
     assert text.index("clean") < text.index("dead")
     assert order[-1]["variant"] == "dead"
 
+
+
+def test_spacing_audit_groups_violations_by_owner():
+    """A count has no owner.  The grouping must name the net that runs over a pad and
+    the pad that got run over, so the fix has an address."""
+    import importlib.util as _ilu
+    spec = _ilu.spec_from_file_location("spacing_audit", MOD_PATH.parent / "spacing_audit.py")
+    sa = _ilu.module_from_spec(spec)
+    sys.path.insert(0, str(MOD_PATH.parent))
+    spec.loader.exec_module(sa)
+
+    board = make_board([comp("R1", 200, 300, [("1", "A", 200, 300)]),
+                        comp("R2", 400, 300, [("1", "B", 400, 300)])])
+    plan = {"tracks": [{"net": "A", "layer": 1, "width": 8,
+                        "x1": 200, "y1": 300, "x2": 600, "y2": 300}],
+            "vias": [{"net": "A", "x": 400, "y": 320}]}
+    g = sa.group_violations(board, plan)
+    assert g["track_pad_total"] == 1 and g["distinct_track_pad_pairs"] == 1
+    assert g["track_pad_by_track_net"][0] == ("A", 1)
+    assert g["track_pad_violated_pads"][0] == ("R2.1", 1)
+    assert g["track_pad_pairs"][0][0] == "A -> R2.1"
+    assert g["via_hits_by_net"][0] == ("A", 1)          # the via is 20 mil from R2.1

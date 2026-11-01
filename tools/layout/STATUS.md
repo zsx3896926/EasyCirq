@@ -46,18 +46,23 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 
 ## 3. The three red lines: cause, evidence, who decides
 
-### 3.1 Clearance 515 — a deliberate trade, not a bug
+### 3.1 Clearance 511 — a deliberate trade, and mostly a connector-escape problem
 
-* Composition is in the table above; `spacing_audit.py` prints it per profile.
-* Deficits are small (`via/track` mean 4.5 mil, `via/pad` mean 11.4 mil): these are
-  near misses from routing with an **overlap-only veto** for vias. Enforcing full via
-  clearance during the search was measured at **unrouted 7 → 33** (HANDOFF §35).
-* Every steering idea for the layer-change decision was measured and rejected:
-  veto, reserve, pre-plan, price-in-search, via-first, post-hoc relocation (only
-  relocation helps, −5). See §40.4 for the exhausted list.
-* **Decision needed:** accept a documented waiver, or change the routing paradigm
-  (route 2D first, then decide layer changes), or add layers *with a hand-written
-  layer plan* (§44).
+* Composition is in the table above; `spacing_audit.py` prints it per profile, and
+  `spacing_audit.py --top` names the owners of every hit.
+* Where it actually lives (HANDOFF §47): of the 225 track/pad hits only **15** come
+  from pour-net stubs. The violated pads are the **connectors and the inductor** —
+  `L1.1` (7), `J1.A5` (7), `J3.10–J3.14` (5–6 each), `U4.3` (6) — and the via-on-pad
+  hits are `J3.3/5/6/7`, `U5.15`, `L1.1`. So this KPI is dominated by **not enough
+  escape channels at J3/J1/U4/L1**: a placement/escape problem, not a pour or
+  via-steering problem.
+* Deficits are small (`via/track` mean 4.5 mil, `via/pad` mean 11.4 mil): near misses
+  from routing with an **overlap-only veto** for vias. Enforcing full via clearance
+  during the search was measured at **unrouted 7 → 33** (HANDOFF §35).
+* `pour_step` is saturated (8/12/16/20 identical, §47), so that knob is closed — as
+  are veto / reserve / pre-plan / price-in-search / via-first (§40.4).
+* **Decision needed:** accept a documented waiver, reserve connector escape channels
+  (the next tool step), or change the routing paradigm (2D first, then layer changes).
 
 ### 3.2 Pour islands 1 — a design conflict
 
@@ -93,6 +98,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 | length matching | meanders / 7 bundle geometries | arithmetically impossible (ρ) |
 | stackup | 2 / 4 / 6 layers, plain and with automatic net→layer assignment | 2L dominated; 6L helps only with a hand plan (§43, §44) |
 | knob sweeps | portfolio over 6 configs (pour step 3/5/8, bus-first, via cost 20, exclusive pour) | best is 511 vs 515 clearance — the frontier is flat in these knobs (§46) |
+| access-via radius | `pour_step` 8 / 12 / 16 / 20 | **identical results** — saturated at 8 (§47) |
 
 ## 5. Decisions on record
 
@@ -147,5 +153,6 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
