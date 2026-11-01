@@ -4,7 +4,21 @@
 > 之前那一版有两个致命缺陷而门禁仍判 11/11，经过见
 > [功能缺陷记录](../../docs/alarm-functional-defect.md)。
 
-> 四个文件，不需要懂 EDA。
+> 不需要懂 EDA。**每个决策点只看一份文件，下面这张表就是导航。**
+
+## 什么时候看哪一份
+
+| 你的问题（决策点） | 只看这一份 |
+|---|---|
+| 这个板子能不能做？多少钱？多久？ | `cost-and-leadtime.md` |
+| 具体怎么下单、选哪个工艺？ | `HOW-TO-ORDER.md` |
+| AI 说"可以下单"了吗？还差什么？ | `card.txt` |
+| 板子回来了，测哪几个数？ | `electrical-checklist.md` |
+| 测完了，怎么判断能不能用？ | `acceptance-guide.md` |
+
+其余文件是**证据与数据**，不是要你读的说明：
+`schematic.svg`（图）、`bom.csv`（料）、`board-gerber.zip`（给板厂）、
+`design/`（可复现输入）、`acceptance.example.json`（填表格式）、`SHA256SUMS`（校验）。
 
 ## 文件清单
 
