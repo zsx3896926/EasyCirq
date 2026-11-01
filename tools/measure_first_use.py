@@ -1,16 +1,19 @@
-"""指标 1：首次可用时间（装到第一条审计），目标 ≤5 分钟。
+"""指标 1：装到第一条审计，目标 ≤5 分钟。
 
-之前只测过「安装 + verify + setup = 4.5s」，那不是指标 1 —— 指标 1 说的是
-**到第一条审计记录**。审计是动作派发时才写的，所以必须真的做一次写/读操作。
+测量分两段，因为一整段在单机上做不干净：
 
-这个脚本在隔离目录里装一遍，然后依次计时：
-  1. install（解包）
-  2. verify
-  3. setup（只读检查，通常不写审计）
-  4. 一条真实动作（触发审计）
-并确认审计文件确实出现。
+  A. 解包 + 只读检查 —— 完全可隔离，数字可信
+  B. 一次真实派发 + 审计落盘 —— 必须用真实 HOME
+
+B 段为什么不能隔离：`daemon start` 被 subprocess 拉起时**不返回**（前台进程，
+已实测 120s 超时），而隔离 HOME 里的 daemon 又拿不到 EasyEDA 连接，派发必然失败。
+所以 B 段在真实环境跑，用"审计行数增减"确认落盘，而不是靠隔离目录。
+
+用法：
+    python tools/measure_first_use.py
+    python tools/measure_first_use.py --install-only
 """
-import json
+import argparse
 import os
 import pathlib
 import shutil
@@ -20,81 +23,96 @@ import tempfile
 import time
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-# "-installer-" bundles do not carry bundle.json; the installable one is
-# easycirq-toolchain-<version>.zip.
 CANDIDATES = [p for p in (ROOT / "dist-release").glob("easycirq-toolchain-*.zip")
               if "-installer-" not in p.name]
 BUNDLE = max(CANDIDATES, key=lambda p: p.stat().st_mtime)
 
 
-def run(cmd, **kwargs):
-    started = time.perf_counter()
-    proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
-                          errors="replace", **kwargs)
-    return proc, time.perf_counter() - started
-
-
-def audit_files(home: pathlib.Path):
-    directory = home / ".easycirq" / "audit"
+def audit_lines() -> int:
+    directory = pathlib.Path(os.path.expanduser("~")) / ".easycirq" / "audit"
     if not directory.is_dir():
-        return {}
-    return {p.name: p.stat().st_size for p in directory.glob("*.jsonl*")}
+        return 0
+    total = 0
+    for path in directory.glob("*.jsonl"):
+        try:
+            with path.open("rb") as handle:
+                total += sum(1 for _ in handle)
+        except OSError:
+            continue
+    return total
+
+
+def measure_install() -> float:
+    """A 段：解包到只读检查，完全在临时目录里。"""
+    workspace = pathlib.Path(tempfile.mkdtemp(prefix="metric1-install-"))
+    fake_home = workspace / "home"
+    fake_home.mkdir()
+    env = dict(os.environ)
+    env["USERPROFILE"] = str(fake_home)
+    env["HOME"] = str(fake_home)
+    exe = workspace / "app" / "bin" / "easycirq.exe"
+
+    clock = time.perf_counter()
+    proc = subprocess.run([sys.executable, str(ROOT / "distribution" / "easycirq_install.py"),
+                           "install", "--bundle", str(BUNDLE),
+                           "--install-dir", str(workspace / "app"),
+                           "--state-dir", str(workspace / "state"),
+                           "--home", str(fake_home), "--skill-client", "none",
+                           "--no-self-check"],
+                          capture_output=True, text=True, encoding="utf-8",
+                          errors="replace", env=env, timeout=600)
+    install = time.perf_counter() - clock
+    print(f"A1 install      {install:6.2f}s  exit={proc.returncode}")
+
+    if proc.returncode == 0:
+        clock = time.perf_counter()
+        subprocess.run([str(exe), "version"], capture_output=True, env=env, timeout=120)
+        print(f"A2 version      {time.perf_counter() - clock:6.2f}s")
+        clock = time.perf_counter()
+        subprocess.run([str(exe), "setup"], capture_output=True, env=env, timeout=120)
+        print(f"A3 setup        {time.perf_counter() - clock:6.2f}s")
+
+    shutil.rmtree(workspace, ignore_errors=True)
+    return install
+
+
+def measure_dispatch() -> float:
+    """B 段：一次真实派发到已在运行的 daemon，确认审计落盘。"""
+    before = audit_lines()
+    clock = time.perf_counter()
+    proc = subprocess.run(["easycirq", "--project", "KPI-S5-Verify", "sch", "list"],
+                          capture_output=True, text=True, encoding="utf-8",
+                          errors="replace", timeout=300)
+    elapsed = time.perf_counter() - clock
+    time.sleep(1.0)
+    after = audit_lines()
+    print(f"B  dispatch     {elapsed:6.2f}s  exit={proc.returncode}  "
+          f"audit lines {before} -> {after} (+{after - before})")
+    return elapsed
 
 
 def main():
-    root = pathlib.Path(tempfile.mkdtemp(prefix="metric1-"))
-    home = root / "home"
-    app = root / "app"
-    state = root / "state"
-    home.mkdir()
-
-    env = dict(os.environ)
-    env["USERPROFILE"] = str(home)
-    env["HOME"] = str(home)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--install-only", action="store_true")
+    args = parser.parse_args()
 
     print(f"bundle: {BUNDLE.name}")
-    total = 0.0
-
-    proc, seconds = run([sys.executable, str(ROOT / "distribution" / "easycirq_install.py"),
-                         "install", "--bundle", str(BUNDLE),
-                         "--install-dir", str(app), "--state-dir", str(state),
-                         "--home", str(home), "--skill-client", "none", "--no-self-check"])
-    total += seconds
-    print(f"1. install   {seconds:6.2f}s  exit={proc.returncode}")
-    if proc.returncode != 0:
-        print(proc.stdout[-400:], proc.stderr[-400:])
-        return 1
-
-    exe = app / "bin" / "easycirq.exe"
-    proc, seconds = run([str(exe), "version"], env=env)
-    total += seconds
-    print(f"2. version   {seconds:6.2f}s  exit={proc.returncode}  {(proc.stdout or '').strip()}")
-
-    before = audit_files(home)
-    proc, seconds = run([str(exe), "setup"], env=env)
-    total += seconds
-    after_setup = audit_files(home)
-    print(f"3. setup     {seconds:6.2f}s  exit={proc.returncode}  "
-          f"audit files {len(before)} -> {len(after_setup)}")
-
-    # 一条真实动作：必须派发到 daemon 才会写审计
-    proc, seconds = run([str(exe), "capabilities"], env=env)
-    total += seconds
-    after_action = audit_files(home)
-    print(f"4. action    {seconds:6.2f}s  exit={proc.returncode}  "
-          f"audit files {len(after_setup)} -> {len(after_action)}")
+    print()
+    install = measure_install()
+    if args.install_only:
+        print()
+        print(f"A 段合计（安装 + 只读检查）约 {install:.2f}s")
+        return 0
 
     print()
-    print(f"total {total:.2f}s   target <= 300s   {'OK' if total <= 300 else 'OVER'}")
-
-    if not after_action:
-        print()
-        print("NOTE: 到第 4 步仍没有审计文件。这说明「第一条审计」需要一次真正的"
-              "派发动作（例如一条 sch/pcb 读写），仅 setup/capabilities 不够。")
-        print("      这不是失败，是这条指标的定义需要更精确："
-              "「第一条审计」= 第一次 daemon 派发被记录。")
-
-    shutil.rmtree(root, ignore_errors=True)
+    dispatch = measure_dispatch()
+    print()
+    print("A 段可完全隔离，数字可信。")
+    print("B 段跑在真实环境（daemon 已起、EasyEDA 已连），只测一次派发 + 审计落盘。")
+    print("完整指标 1 还包含「装 EasyEDA 本体 + 导入插件 + 连接」——")
+    print("那几步是人工操作，本脚本测不到。")
+    print()
+    print(f"A+B = {install + dispatch:.2f}s（不含 EasyEDA 安装与插件导入）")
     return 0
 
 
