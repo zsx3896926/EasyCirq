@@ -272,9 +272,21 @@ Exit codes: 0 ready, 1 not ready, 2 not measured or invalid.`,
 			if _, err := os.Stat(reportPath); err == nil {
 				var loaded statusReport
 				if err := readStatusJSON(reportPath, &loaded); err != nil {
+					// Saying nothing here left the caller staring at an empty screen.
+					// Name the file and say what to do about it.
+					fmt.Fprintf(cmd.ErrOrStderr(),
+						"这份检查结果读不出来：%s\n"+
+							"下一步：确认路径指向离线检查产出的 kpi-report.json（不是原理图或日志文件）\n", reportPath)
 					return exitCodeError{code: 2}
 				}
 				report = &loaded
+			} else if kpiReport != "" {
+				// The caller named a file that is not there. Silently pretending
+				// "这块板还没检查过" hides a typo behind a plausible-looking card.
+				fmt.Fprintf(cmd.ErrOrStderr(),
+					"找不到这份检查结果：%s\n"+
+						"下一步：确认路径，或者先跑一轮离线检查再来看这张卡\n", reportPath)
+				return exitCodeError{code: 2}
 			}
 			gatePath := gate
 			if gatePath == "" {
