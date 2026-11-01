@@ -13,6 +13,7 @@
 | `schematic.svg` | 原理图（可放大看细节） |
 | `bom.csv` | 物料清单（9 个位号，每个都有立创编号，可直接配单） |
 | `card.txt` | 上机前的卡（能不能打样 / 还差什么） |
+| `cost-and-leadtime.md` | **开工前的回答**：能不能做（能）+ 价格驱动因素（面积/层数/贴片点/料种），报价与交期标为未核实 |
 | `board-gerber.zip` | 给板厂的生产文件（12 层，含两套钻孔） |
 | `acceptance-guide.md` | 打样回来后怎么验收 |
 | `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
