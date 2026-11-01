@@ -635,12 +635,12 @@ report = json.loads((out / "kpi-report.json").read_text())   # 这里才炸
 
 | 次 | 失败 | 单独跑 | 直接跑整包 | 排在 pytest 之后 |
 |---|---|---|---|---|
-| 1 | `TestModifyPatchWindowsPowerShell51/pcb` | 通过 | 通过 | **栈溢出 0xc00000fd** |
-| 2 | `TestConvergeLedger_CountsSameSignatureAndStops` | 通过 | 通过 | **"连续 3 次同一签名之后没有停手"** |
+| 1 | TestModifyPatchWindowsPowerShell51/pcb | 通过 | 通过 | **栈溢出 0xc00000fd** |
+| 2 | TestConvergeLedger_CountsSameSignatureAndStops | 通过 | 通过 | **"连续 3 次同一签名之后没有停手"** |
 
 ### 排除的
 
-- `TestConvergeLedger*` 用 `t.TempDir()` + `t.Setenv` 隔离，重复 6 次全过；
+- TestConvergeLedger* 用 `t.TempDir()` + `t.Setenv` 隔离，重复 6 次全过；
 - 整个包里 **没有任何 `t.Parallel()`**，所以不是测试之间的 env 竞态；
 - `go test ./internal/app` 单独跑全包 90s，**通过**。
 
