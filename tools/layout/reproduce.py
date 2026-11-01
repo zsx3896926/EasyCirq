@@ -263,6 +263,8 @@ def main():
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
     ap.add_argument("--profile", default="frontier", choices=sorted(PROFILES))
+    ap.add_argument("--iters", type=int,
+                    help="negotiation passes (default from the profile, 70); use ~25 to screen")
     ap.add_argument("--grid", type=float,
                     help="routing grid in mil (default: the module constant, 10); see DECISIONS D6")
     ap.add_argument("--best-effort-budget", type=float,
@@ -288,6 +290,8 @@ def main():
             PROFILES[a.profile]["via_sites"] = True
         if a.via_margin is not None:
             PROFILES[a.profile]["via_margin"] = a.via_margin
+            if a.iters is not None:
+                PROFILES[a.profile]["iters"] = a.iters
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
     print("profile: `%s`  (layers %d, pours %s%s%s, grid %g mil%s)" % (
         a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
@@ -305,6 +309,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

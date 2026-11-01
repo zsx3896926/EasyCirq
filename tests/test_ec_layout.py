@@ -984,10 +984,12 @@ def test_reproduce_cli_flags_reach_the_route_config(monkeypatch):
     monkeypatch.setattr(sys, "argv", [
         "reproduce.py", "--dump", "d.json", "--place", "p.json",
         "--grid", "5", "--best-effort-budget", "30",
-        "--via-sites", "--via-margin", "6", "--bus-budget", "8"])
+        "--via-sites", "--via-margin", "6", "--bus-budget", "8", "--iters", "25"])
     rep.main()
     cfg = seen["cfg"]
     assert cfg["general_budget"] == 30
     assert cfg["bus_budget"] == 8
     assert cfg["via_sites"] is True
     assert cfg["via_margin"] == 6
+    assert cfg["iters"] == 25
+
