@@ -91,13 +91,20 @@ function Invoke-Check {
     }
 }
 
-if (-not $SkipPython) {
-    Invoke-Check 'pytest' { python -m pytest tests -q } -Expect '\d+ (passed|failed)'
-}
+# Go 先跑，Python 后跑。
+#
+# 原因：2026-11-01 三次观察到「先跑 8 分钟 pytest、紧接着跑 go test」时出现的偶发：
+#   - TestModifyPatchWindowsPowerShell51/pcb 的 powershell.exe 栈溢出 (0xc00000fd)
+#   - TestConvergeLedger_CountsSameSignatureAndStops 报"连续 3 次同一签名之后没有停手"
+# 每一个单独跑都通过，整个包单独跑也通过，只有排在长 pytest 之后才偶发。
+# go test 只要 90 秒左右，先跑完它，压力窗口就消失了。
 if (-not $SkipGo) {
     $rt = Join-Path $repo 'runtime'
     Invoke-Check 'go-vet' { go vet ./... } $rt
     Invoke-Check 'go-test' { go test ./... -count=1 -vet=off } $rt -Expect '(?m)^(ok|FAIL)'
+}
+if (-not $SkipPython) {
+    Invoke-Check 'pytest' { python -m pytest tests -q } -Expect '\d+ (passed|failed)'
 }
 if (-not $SkipAudits) {
     foreach ($tool in 'check_release_consistency', 'check_deliverable', 'check_handoff', 'check_published') {

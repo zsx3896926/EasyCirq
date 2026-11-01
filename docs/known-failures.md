@@ -628,3 +628,43 @@ report = json.loads((out / "kpi-report.json").read_text())   # 这里才炸
 `deliverables/alarm/` 里的 KPI 报告和卡片是**这一轮之前**生成的，
 对应的是 **R5 加入之前**的快照。PCB 现在 DRC 0，但门禁没重跑，
 所以**交付包仍标不能下单**——不是忘了改，是重跑被这个缺陷挡住了。
+
+## 偶发家族三：长 pytest 之后的 go test 会出假失败
+
+**第三次观察到同一模式（2026-11-01）。**
+
+| 次 | 失败 | 单独跑 | 直接跑整包 | 排在 pytest 之后 |
+|---|---|---|---|---|
+| 1 | `TestModifyPatchWindowsPowerShell51/pcb` | 通过 | 通过 | **栈溢出 0xc00000fd** |
+| 2 | `TestConvergeLedger_CountsSameSignatureAndStops` | 通过 | 通过 | **"连续 3 次同一签名之后没有停手"** |
+
+### 排除的
+
+- `TestConvergeLedger*` 用 `t.TempDir()` + `t.Setenv` 隔离，重复 6 次全过；
+- 整个包里 **没有任何 `t.Parallel()`**，所以不是测试之间的 env 竞态；
+- `go test ./internal/app` 单独跑全包 90s，**通过**。
+
+### 处置：改执行顺序，不改测试
+
+`tools/run_all_checks.ps1` 原来是 pytest（约 8 分钟）在前、go test 在后。
+现在反过来：**go test 先跑（约 95 秒），pytest 后跑**。
+
+理由：go test 快，放在前面就跑完了，不会落在长进程之后的高压窗口里。
+这不是"修好了"——**根因仍未定位**（可能是句柄、内存或调度器状态），
+但把已知会触发它的顺序改掉，比每次手动判断"这次是不是真的坏了"要可靠。
+
+### 为什么不去掉这些测试
+
+它们测的是真东西：
+- 一个测 PowerShell 5.1 下的 patch 行为（Windows 特有问题）
+- 一个测「连续三次同样失败就该停手」的收敛门
+
+**为了绿灯删掉测试，是把尺子改短。** 所以只调整顺序。
+
+### 验证
+
+改顺序后完整跑一遍：**8 项全绿**
+- go-vet ok 1.8s
+- go-test **ok 94.9s**
+- pytest **ok 557.7s，4875 passed**
+- 四个审计 + 技能自检全部 ok
