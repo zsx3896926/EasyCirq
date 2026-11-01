@@ -864,7 +864,7 @@ errorDetail 恰好是 '[object Object]' 的记录: 7
 ### 修法
 
 1. 新增 `transistor_kind(part)`：按引脚名区分
-   —— `B/C/E` 是 `bjt`，`G/D/S` 是 `mosfet`。
+   —— B/C/E 是 `bjt`，G/D/S 是 `mosfet`。
 2. `check_drive` 为 MOSFET 走独立分支：
    - 栅极无直流通路 → `NO_GATE_PATH`
    - 栅压低于 `vgs_th` → `VGS_BELOW_THRESHOLD`
