@@ -172,3 +172,33 @@ layout-plan: 1 candidate(s), 0 rejected variant(s); no editor writes performed
 `--from, --board, --module and --out are required` 和
 `json: unknown field "parts" / "module"`。那不是 rename 缺陷，是调用错误。
 把这两个混在一起看，就会误判成"修了但没用"。
+
+## 不要并行跑 pytest 和 go test
+
+**这一轮我第三次因为测量方式得出错误结论。**
+
+同时跑 `pytest tests`（后台）和 `go test ./...`（前台）时：
+
+| 运行方式 | 结果 |
+|---|---|
+| 两者并行 | pytest 报 `test_windows_cmd_installer` 失败；go test 报 1 个失败 |
+| **各自单独跑** | pytest **4849 passed**；go test **16 包 ok，0 失败** |
+| 把那个失败的测试单独跑 5 次 | **5/5 通过** |
+| 把它所在的整个文件单独跑 3 次 | **3/3 通过** |
+
+这些用例依赖时序与磁盘 IO（安装器、临时目录、文件锁）。
+两个套件同时抢 CPU 和卷时，它们就会偶发失败——**不是代码坏了，是我把它们放在一起跑**。
+
+**规则**：验证时要串行。一次只跑一个套件，等它结束再跑另一个。
+报告里写的数字必须来自串行运行。
+
+### 这是同一个错误的第三次
+
+| 第几次 | 情况 |
+|---|---|
+| 1 | 用 `Select-Object` 管道读 `$LASTEXITCODE`，把成功的命令读成非零 |
+| 2 | 用管道读 `easycirq` 的退出码，把 `status` 的既定码 2 当成故障 |
+| 3 | **并行跑两个测试套件，把资源竞争当成代码缺陷** |
+
+前两次是读错了值，这次是**在错的条件下测量**。
+共同点：结论下得比验证快。
