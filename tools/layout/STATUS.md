@@ -108,7 +108,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 | knob sweeps | portfolio over 6 configs (pour step 3/5/8, bus-first, via cost 20, exclusive pour) | best is 511 vs 515 clearance — the frontier is flat in these knobs (§46) |
 | access-via radius | `pour_step` 8 / 12 / 16 / 20 | **identical results** — saturated at 8 (§47) |
 | via clearance margin | `via_margin` 2 / 3 / 4 | **identical** — the 10 mil grid quantises it: margins 1–5 reserve the same 9-cell disc, ≥6 is the unroutable full-clearance case (§49) |
-| routing grid | GRID 10 vs 5 (`reproduce.py --grid N`) | 10 mil: 0 dead legs + 1 island + clearance 511.  5 mil: **0 dead legs + 0 islands** at clearance 774 (budget 40), or 5 dead legs + 0 islands at 525 (budget 10).  Open trade, D6 (§50–§52) |
+| routing grid | GRID 10 vs 5 (`reproduce.py --grid N`) | 10 mil: 0 dead legs + 1 island + clearance 511.  5 mil budget 26: **0 dead legs + 0 islands at clearance 738** (budget 10 gives 525 but 5 dead legs; budget 64 gives best skew 712.3 but clearance 831).  Open trade, D6 (§50–§53) |
 
 ## 5. Decisions on record
 
@@ -133,7 +133,7 @@ python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
 
 # 1a. the other side of D6: 5 mil grid, 0 dead legs + 0 islands (20 min)
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
-    --place ../retrocam-02/pcb/offline/ec-placed.json --grid 5 --best-effort-budget 40 --out-dir out/grid5
+    --place ../retrocam-02/pcb/offline/ec-placed.json --grid 5 --best-effort-budget 26 --out-dir out/grid5
 
 # 1b. or compare configurations under one ranking rule (portfolio.json/md)
 python tools/layout/portfolio.py --dump ../retrocam-02/pcb/dump2.json \
@@ -169,6 +169,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 

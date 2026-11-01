@@ -227,8 +227,13 @@ by `grid_experiment.py`), 70 negotiation passes:
 | configuration | unrouted | unconnected | pour islands | clearance | skew max | length |
 |---|---|---|---|---|---|---|
 | GRID=10 (`reproduce.py`) | 0 | 0 | **1** | **511** | 713.1 | 38999 |
-| GRID=5, best-effort budget 10 | 0 | 0 | **0** | 774 | 793.7 | 35390 |
-| GRID=5, best-effort budget 16 | 0 | 0 | **0** | 831 | 712.3 | 35739 |
+| GRID=5, budget 10 | 5 | 5 | **0** | **525** | 787.6 | 30669 |
+| **GRID=5, budget 26** | **0** | **0** | **0** | **738** | 784.2 | 35406 |
+| GRID=5, budget 64 | 0 | 0 | **0** | 831 | 712.3 | 35739 |
+
+(The fine sweep behind these rows is in HANDOFF §53: 14/18/22/40 were measured too, and
+the budget/quality relationship is NOT monotone - budget 18 is worse than 22 and budget
+14 reintroduces an island.  Budget 26 is the first value that reaches zero dead legs.)
 
 The gate's order ranks pour continuity above clearance, so GRID=5 is the better point
 by the recorded rule — and it is the first configuration with **zero dead legs AND a
@@ -252,3 +257,4 @@ Re-measure any time with:
 python tools/layout/grid_experiment.py --dump dump2.json --place ec-placed.json \
     --grid 5 --pour-step 8 --best-effort-conflicts 10 --out-dir out/grid5
 ```
+
