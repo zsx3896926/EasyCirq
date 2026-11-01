@@ -524,7 +524,7 @@ PermissionError: [WinError 5] 拒绝访问:
 
 ### 修法：同一思路，照着 Go 那份写
 
-只对 `PermissionError` 和 `WinError 5/32`（access denied / sharing violation）
+只对 `PermissionError` 和 WinError 5 或 32（access denied / sharing violation）
 重试（10 次，20ms×n），其余错误立刻抛出。`install()` 里四处目录改名全部改用它。
 
 ### 验证
