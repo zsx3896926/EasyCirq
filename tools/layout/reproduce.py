@@ -63,9 +63,16 @@ PROFILES = {
         pour_step=5, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
     ),
-    # Same strategy with pour step 8: the best point `portfolio.py` found over six
-    # configurations (clearance 511 vs 515, every other KPI identical).  This is the
-    # default now; `shared-pour` stays as the historical baseline.
+    # The 10 mil reference point: shared pours with pour step 8 (clearance 511, one
+    # pour island).  It was the default until the 5 mil `strict-via` point beat it on
+    # the gate order; it stays as the fast (~12 min) comparison.
+    "frontier-10mil": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False,
+        pour_step=8, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
+    # `frontier` is kept as an alias so older commands and notes still work.
     "frontier": dict(
         iters=70, layers=4,
         pours=("GND:4", "+3V3:3"), pour_exclusive=False,
@@ -127,10 +134,10 @@ PROFILES = {
         layer_spread=True, layer_force=True,
     ),
 }
-FRONTIER = PROFILES["frontier"]
+FRONTIER = PROFILES["strict-via"]      # the best measured point (see DECISIONS D6)
 
 
-def run(dump_path, place_path, out_dir=None, profile="frontier"):
+def run(dump_path, place_path, out_dir=None, profile="strict-via"):
     cfg = PROFILES[profile]
     # A profile may carry its own routing grid: "the best point" is a (grid, knobs)
     # pair, and making the caller remember `--grid 5` is how two people end up with
@@ -277,7 +284,7 @@ def main():
     ap.add_argument("--dump", required=True)
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
-    ap.add_argument("--profile", default="frontier", choices=sorted(PROFILES))
+    ap.add_argument("--profile", default="strict-via", choices=sorted(PROFILES))
     ap.add_argument("--iters", type=int,
                     help="negotiation passes (default from the profile, 70); use ~25 to screen")
     ap.add_argument("--grid", type=float,
@@ -324,6 +331,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

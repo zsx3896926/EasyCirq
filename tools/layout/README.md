@@ -67,9 +67,10 @@ to the board. Several earlier versions had router and checker disagreeing (40 vs
 "connected"); each is pinned by a test.
 
 ## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
-`reproduce.py --grid 5 --profile strict-via` (the best measured point; numbers are from
-HANDOFF §57–§58, two independent runs identical).  The 10 mil default profile `frontier`
-is listed beside it for comparison — see STATUS.md §2 for both tables:
+`reproduce.py` — its DEFAULT profile is now `strict-via` (5 mil grid, reserved via
+discs), the best measured point; numbers are from HANDOFF §57–§58, two independent runs
+identical.  `--profile frontier-10mil` gives the older 10 mil reference in ~12 min
+instead of ~40 — see STATUS.md §2 for both tables:
 
 ```
 unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 1
@@ -164,6 +165,7 @@ Four of the six gate items are zero. The three that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
 
 
 

@@ -18,17 +18,21 @@
 ## 2. Current frontier (reproduce it yourself)
 
 ```bash
-# the best measured point (5 mil grid, reserved via discs) - ~40 min
+# DEFAULT: the best measured point (5 mil grid, reserved via discs) - ~40 min
+python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+    --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/strict-via
+
+# fast comparison: the 10 mil reference point - ~12 min
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json \
-    --grid 5 --profile strict-via --out-dir out/strict-via
-
-# the 10 mil default, for comparison - ~12 min
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
-    --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/frontier
+    --profile frontier-10mil --out-dir out/frontier-10mil
 ```
 
-| KPI | strict-via (5 mil) | 10 mil default | gate |
+The default is the best point on purpose: a plain `reproduce.py` must not reproduce
+yesterday's frontier.  It costs ~40 min instead of ~12 — use `--profile frontier-10mil`
+when you only want a quick scorecard.
+
+| KPI | strict-via (5 mil) | 10 mil reference | gate |
 |---|---|---|---|
 | unrouted legs | 0 | 0 | ✅ |
 | congestion cells | 0 | 0 | ✅ |
@@ -142,7 +146,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 sed -n '1,120p' tools/layout/STATUS.md          # this file
 python tools/layout/ec_layout.py --help
 
-# 1. reproduce the frontier (10-15 min) and read the scorecard
+# 1. reproduce the frontier (default = strict-via, ~40 min) and read the scorecard
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/
 
@@ -184,6 +188,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 

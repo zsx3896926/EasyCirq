@@ -2990,3 +2990,35 @@ pour_cut.py --grid 5            -> 无铜岛（与前沿一致）
 forced_spacing.py --grid 5      -> forced 274 / open 53
 spacing_audit.py --help         -> --grid 已就位（该工具会重跑布线，未在本轮做全量运行）
 ```
+---
+
+## 62. 第五十三轮（目标轮 56）：把"最好的点"设成默认 —— 一条命令就是最好结果 2026-02-01
+
+### 62.1 改动
+
+* `reproduce.py` 的默认 profile 从 `frontier`（10 mil）改为 **`strict-via`**（5 mil + 预留过孔盘）；
+* 旧的 10 mil 点保留为 **`frontier-10mil`**（快速对照，~12 分钟），`frontier` 作为别名保留，
+  老命令不会断；
+* `FRONTIER` 常量、`run()` 的默认参数、CLI 默认值三处同步（单测锁死）；
+* 默认运行时间从 ~12 分钟变为 **~40 分钟**，这一条在 STATUS 的复现命令旁**显式写明**，
+  并同时给出快速对照命令，避免新手被长跑劝退。
+
+### 62.2 为什么值得把默认改成长跑
+
+目标里写着"任何 agent 都能用工具链产出专业级布局"。如果默认命令给的是**旧的、更差的点**，
+那么"照着文档跑"的 agent 会拿到与前沿不一致的数字——这正是前几轮反复修的同一类问题
+（§50 的格数阈值、§55 的假开关、§61 的 profile 栅格）。把默认对齐到最好点，是这条线
+最后一次收口。
+
+### 62.3 验证
+
+```
+pytest tests/test_ec_layout.py tests/test_bus_order.py -q   -> 58 passed
+（新增 test_the_best_measured_point_is_the_default_profile：
+  run() 默认 profile == strict-via、FRONTIER 指向它、其 grid==5、via_sites==True、
+  general_budget==56，且 frontier-10mil 不带 grid）
+```
+
+**未做**：本轮没有完整跑一次"默认命令 40 分钟"来复核 453 —— 该数字在 §57/§58 已经
+两次独立运行确认，且本轮未改任何路由参数（只改默认值与文档）。这一点在此显式记录，
+以免把"未重跑"读成"已重跑"。

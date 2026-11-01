@@ -1009,3 +1009,18 @@ def test_profile_can_carry_its_grid():
     finally:
         rep.use_grid(10)
     assert rep.ec.GRID == 10.0
+
+
+def test_the_best_measured_point_is_the_default_profile():
+    """A plain `reproduce.py` call must give the best point, not the older 10 mil one -
+    otherwise every agent that follows the docs reproduces yesterday's frontier."""
+    import inspect
+    rep = _mod("reproduce_default", "reproduce.py")
+    assert inspect.signature(rep.run).parameters["profile"].default == "strict-via"
+    assert rep.FRONTIER is rep.PROFILES["strict-via"]
+    assert rep.PROFILES["strict-via"]["grid"] == 5
+    assert rep.PROFILES["strict-via"]["via_sites"] is True
+    assert rep.PROFILES["strict-via"]["general_budget"] == 56
+    # the fast comparison is still one word away
+    assert "frontier-10mil" in rep.PROFILES
+    assert rep.PROFILES["frontier-10mil"].get("grid") is None      # stays at 10 mil
