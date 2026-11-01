@@ -222,3 +222,40 @@ layout-plan: 1 candidate(s), 0 rejected variant(s); no editor writes performed
 
 **影响**：CI 偶发红灯，重跑即可。与已有的
 `test_failed_upgrade_leaves_previous_version_intact` 属于同一类。
+
+## 我自己的失误：把失败细节扔掉了
+
+第一次看到 `test_offline_mcp_uses_the_module_that_exists` 失败时，我是这样跑的：
+
+```powershell
+python -m pytest tests -q 2>&1 | Select-Object -Last 3
+```
+
+**`-q` 加 `Select-Object -Last 3` 只留下了汇总行，断言细节全被丢掉。**
+于是手上只有「有一个测试失败了」，没有「它断言了什么、实际值是多少」，
+只能记录成 flaky，无法修。
+
+正确做法：
+
+```powershell
+python -m pytest tests -q 2>&1 | Tee-Object -FilePath reports/pytest-full-<date>.log
+```
+
+**先存盘，再截取。** 失败的完整输出留得住，下一轮才有东西可查。
+
+已按这个方式重跑，日志在 `reports/pytest-full-20261101.log`（6.1 KB，
+4867 passed）。这个文件不入库（`reports/` 只跟踪少量历史报告）。
+
+### 复现尝试（已做，未复现）
+
+| 尝试 | 结果 |
+|---|---|
+| 该用例单独跑 | 通过 |
+| 该文件单独跑 ×4 | 4 次全过（7 passed each） |
+| 该文件所在目录全跑 | 127 passed |
+| 先跑 MCP 相关两个套件再跑它 | 33 passed |
+| 全量 ×2（14:26、15:03） | 4862 / 4867 passed，0 失败 |
+| 全量 ×1（15:14，带日志） | 4867 passed |
+
+**结论：一次性偶发，未能复现。** 不改代码——没有断言细节就改，等于把红灯弄灭。
+下次再出现时，日志里会有可查的证据。
