@@ -18,7 +18,7 @@
 ## 2. Current frontier (reproduce it yourself)
 
 ```bash
-# DEFAULT: the best measured point (5 mil grid, reserved via discs) - ~40 min
+# DEFAULT: the best measured point (5 mil grid, reserved via discs) - measured 27 min
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/strict-via
 
@@ -43,7 +43,8 @@ when you only want a quick scorecard.
 | bus skew CAM/LCD/SD | 751.1 / 165.3 / 359.3 mil | 713.1 / 165.3 / 297.6 | ❌ (design conflict) |
 | vias (access / in-pad) | 172 (59 / 6) | 186 (59 / 6) | info |
 | tracks / total length | 647 / 42044.2 mil | 527 / 38999.0 mil | info |
-| 45-degree share | 0.405 | 0.411 | info |
+| layer distribution | L1 22268.9 / L2 11023.1 / L3 4054.6 / L4 4697.6 mil | L1 17076.7 / L2 13529.3 / L3 5231.5 / L4 3161.5 mil | info |
+| 45-degree share | 0.428 | 0.411 | info |
 
 `strict-via` is the first configuration that is not worse on **any** gated item and is
 better on two (islands 1 → 0, clearance 511 → 453) with zero dead legs; it costs ~40 min
@@ -188,6 +189,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 
