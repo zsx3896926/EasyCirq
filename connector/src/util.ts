@@ -528,15 +528,68 @@ export function describeThrown(err: unknown, maxLength: number = THROWN_DETAIL_M
 	return `${raw.slice(0, maxLength)}… (truncated, ${raw.length} chars total)`;
 }
 
+/**
+ * A bare `[object Object]` / `[object Undefined]` … is what `String(x)` produces
+ * for a plain object. It carries no information, so emitting it as-is defeats the
+ * whole point of the detail field.
+ */
+function isPlaceholderLabel(label: string): boolean {
+	return /^\[object [A-Za-z]+\]$/.test(label.trim());
+}
+
 function describeThrownRaw(err: unknown): string {
 	if (err === null) return 'null';
 	if (err === undefined) return 'undefined';
-	if (typeof err === 'string') return err;
+	if (typeof err === 'string') {
+		return isPlaceholderLabel(err)
+			? `${JSON.stringify(err)} (the thrown value was this literal string — the real cause was not put into it)`
+			: err;
+	}
 
 	if (err instanceof Error) {
 		const message = err.message?.trim();
-		if (message) return message;
-		return err.name || 'Error';
+		if (message && !isPlaceholderLabel(message)) return message;
+		// A real Error whose message is itself "[object Object]" (some host builds
+		// it with String(something)) used to come out as a bare "Error" — true but
+		// useless. Say what actually happened and keep the first stack frame.
+		const name = err.name || 'Error';
+		const head = message
+			? `${name}: the message is the placeholder ${JSON.stringify(message)} — ` +
+				`the real cause was not put into it`
+			: name;
+		const frame = (err.stack ?? '').split('\n').find((line) => line.trim() !== '');
+		const frameText = frame?.trim() ?? '';
+		const redundant = frameText === '' || frameText === name ||
+			frameText === `${name}: ${message}`;
+		return redundant ? head : `${head} (${frameText})`;
+	}
+
+	// Cross-realm Errors land here: an Error thrown from the host context (EasyEDA's
+	// own JS realm) is NOT `instanceof Error` in ours, yet it still has name/message.
+	// Without this branch such an object only exposes a `message` own property —
+	// and if the host built that message with `String(something)`, it reads
+	// "[object Object]", which is exactly the useless detail we are trying to kill.
+	// Live case 2026-11-01: pcb.add_component failed 7 times with detail
+	//   "[object Object]"
+	// and nothing else, because JSON.stringify(an Error) is "{}" (props are
+	// non-enumerable) so the JSON fallback had nothing to add.
+	const looksLikeError =
+		typeof err === 'object' &&
+		typeof (err as { name?: unknown }).name === 'string' &&
+		typeof (err as { message?: unknown }).message === 'string' &&
+		(typeof (err as { stack?: unknown }).stack === 'string' ||
+			(err as { name: string }).name !== 'Object');
+	if (looksLikeError) {
+		const candidate = err as { name: string; message: string; stack?: string };
+		const name = candidate.name || 'Error';
+		const message = candidate.message.trim();
+		const head = message && !isPlaceholderLabel(message)
+			? `${name}: ${message}`
+			: `${name}: the host threw an Error whose message is the placeholder ` +
+				`${JSON.stringify(message || '(empty)')} — the real cause was not put into it`;
+		const frame = (candidate.stack ?? '').split('\n').find((line) => line.trim() !== '');
+		const frameText = frame?.trim() ?? '';
+		return frameText === '' || frameText === name ? head : `${head} (${frameText})`;
 	}
 
 	if (typeof err !== 'object') return String(err);
@@ -549,11 +602,16 @@ function describeThrownRaw(err: unknown): string {
 	const json = stringifySafe(err);
 	const hasJson = json !== '' && json !== '{}' && json !== 'null';
 
-	if (label) {
+	if (label && !isPlaceholderLabel(label)) {
 		const head = code === '' ? label : `[${code}] ${label}`;
 		return hasJson ? `${head} | ${json}` : head;
 	}
-	if (hasJson) return json;
+	if (hasJson) {
+		// Keep the JSON, but never drop the fact that the obvious label was useless.
+		return label
+			? `${JSON.stringify(label)} (placeholder message from the caller) | ${json}`
+			: json;
+	}
 
 	// No enumerable properties at all (DOMException, host objects, …). Say so
 	// explicitly rather than emitting a bare, indistinguishable "[object X]".

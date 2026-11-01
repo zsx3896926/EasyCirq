@@ -777,3 +777,65 @@ $ easycirq pcb add-component --library 0819f05c... --uuid b7a1aae2... \
 目标里写死了：**`[object Object]` 换个参数躲过去不算解决**。
 一个说不出原因的失败，等于没有失败信息——这比失败本身更糟，
 也正是「失败可解释率 100%」要防的东西。
+
+## `[object Object]` 的根因与修复（2026-11-01）
+
+接上一节。**根因是两个事实叠加，而且都在宿主侧。**
+
+### 根因
+
+1. **宿主抛的是跨 realm 的 Error。** EasyEDA 在自己的 JS realm 里抛错，
+   到了连接器这边 `err instanceof Error` 是 **false**（不同 realm 的
+   `Error` 构造器不是同一个）。
+2. 于是走"普通对象"分支，`pickMessageLike` 取 `record.message` ——
+   **Error 的 own property `message` 是可读的字符串，但它本身是 `"[object Object]"`**。
+3. `JSON.stringify(一个 Error)` 恒为 **`"{}"`**（own props 不可枚举），
+   所以 `hasJson` 为假，JSON 兜底补不了任何信息。
+4. 最终走 `return head`，`head` 就是那串占位的 message。
+
+**换句话说：`describeThrown` 一直在防"自己吐出 `[object X]`"，
+但没防"宿主传进来的 message 本身就是 `[object X]`"。**
+
+### 审计日志的佐证
+
+扫 2026-11-01 那份审计（1917 条记录）：
+
+```
+errorDetail 恰好是 '[object Object]' 的记录: 7
+  pcb.add_component   7 次   message='Failed to place the component footprint on the PCB.'
+```
+
+只有这一个动作出现过，且都是我反复试的那几次——与"宿主这条 API 抛错时不带有效信息"一致。
+
+### 修复
+
+`connector/src/util.ts` 的 `describeThrownRaw`：
+
+1. **识别跨 realm 的 Error**——不用 `instanceof`，改看
+   `typeof name === 'string' && typeof message === 'string'`，并且
+   `stack` 是字符串或 `name !== 'Object'`。
+2. **占位符不再原样输出**——`[object Object]` / `[object Undefined]` 这类
+   用 `isPlaceholderLabel` 认出来，换成明确的说明：
+   - 跨 realm Error：`Error: the host threw an Error whose message is the placeholder "[object Object]" — the real cause was not put into it (at host (x.js:1:1))`
+   - 普通对象：`"[object Object]" (placeholder message from the caller) | {"message":"[object Object]"}`
+   - 直接抛的字符串：`"[object Object]" (the thrown value was this literal string — ...)`
+   - 真 Error 带占位消息：不再只回一个 `Error`，而是说明原因并带第一帧调用栈
+
+### 验证
+
+- `connector/src/util.test.ts` 新增 8 条测试，其中一条是
+  **"任何输入都不产出裸 `[object X]`"**：喂 `{}`、无原型对象、
+  `{message:'[object Object]'}`、跨 realm Error、真 Error、占位字符串、
+  Map、Symbol、函数，逐个断言不等于 `[object Object]` 且非空。
+- `node --require ts-node/register --test src/util.test.ts` → **80 passed, 0 failed**
+- `npm run typecheck` → 无错误
+- `npm run build` 重新打包，产物里四个新说明字符串各出现 1 次
+  （`.eext` 2,201,237 字节，sha256 `9257113f9806c570…`）
+
+### 还没生效的地方
+
+**EasyEDA 里跑的还是旧 bundle。** 要让修复生效，需要把新的 `.eext`
+重新导入 EasyEDA（`easycirq connector path` 给出路径，导入步骤见
+`easycirq connector install-steps`）。**这一步我做不了**（GUI 操作），
+所以现在真实链路里仍然会看到 `[object Object]`；
+但**下一版打包后它不会再出现，且同一位置上会给出一句能看懂的话**。

@@ -292,6 +292,87 @@ test('describeThrown: object with no enumerable properties says so instead of [o
 	assert.equal(describeThrown(Object.create(null)), '[object Object] (no enumerable properties)');
 });
 
+// ─── describeThrown: the placeholder-message hole (2026-11-01, live) ───
+//
+// Live case: `pcb add-component` failed and the audit recorded
+//   errorDetail: "[object Object]"
+// seven times, with nothing else. Root cause was two facts stacking:
+//   · the host (EasyEDA) throws an Error from ITS realm, so `instanceof Error`
+//     is false here;
+//   · `JSON.stringify(anError)` is "{}" (own props are non-enumerable), so the
+//     JSON fallback had nothing to add — leaving the bare label the host put in
+//     `message`, which was itself the string "[object Object]".
+// describeThrown already refused to emit `[object X]` on its LAST branch; these
+// tests pin the branches that could still do it.
+
+/** An Error that looks like one but is not `instanceof Error` — cross-realm. */
+function crossRealmError(message: string, stack?: string): Record<string, unknown> {
+	const err = Object.create(null) as Record<string, unknown>;
+	Object.defineProperty(err, 'name', { value: 'Error', enumerable: false });
+	Object.defineProperty(err, 'message', { value: message, enumerable: false });
+	if (stack !== undefined) {
+		Object.defineProperty(err, 'stack', { value: stack, enumerable: false });
+	}
+	return err;
+}
+
+test('describeThrown: placeholder message from a plain object is called out, never emitted bare', () => {
+	const detail = describeThrown({ message: '[object Object]' });
+	assert.notEqual(detail, '[object Object]');
+	assert.match(detail, /placeholder message from the caller/);
+	assert.match(detail, /\{"message":"\[object Object\]"\}/);
+});
+
+test('describeThrown: cross-realm Error with a placeholder message explains itself', () => {
+	const detail = describeThrown(crossRealmError('[object Object]', 'at host (x.js:1:1)'));
+	assert.notEqual(detail, '[object Object]');
+	assert.match(detail, /the host threw an Error whose message is the placeholder/);
+	assert.match(detail, /at host \(x\.js:1:1\)/);
+});
+
+test('describeThrown: cross-realm Error with a real message keeps it', () => {
+	const detail = describeThrown(crossRealmError('device uuid not found'));
+	assert.equal(detail, 'Error: device uuid not found');
+});
+
+test('describeThrown: real Error whose message is the placeholder is not just "Error"', () => {
+	const detail = describeThrown(new Error('[object Object]'));
+	assert.notEqual(detail, 'Error');
+	assert.match(detail, /the message is the placeholder/);
+});
+
+test('describeThrown: a thrown placeholder STRING is called out too', () => {
+	const detail = describeThrown('[object Object]');
+	assert.notEqual(detail, '[object Object]');
+	assert.match(detail, /literal string/);
+});
+
+test('describeThrown: no input ever yields a bare [object X]', () => {
+	const inputs: unknown[] = [
+		{},
+		Object.create(null),
+		{ message: '[object Object]' },
+		crossRealmError('[object Object]'),
+		new Error('[object Object]'),
+		'[object Object]',
+		'[object Undefined]',
+		['A', 1],
+		new Map(),
+		Symbol('s'),
+		() => 1,
+	];
+	for (const input of inputs) {
+		const detail = describeThrown(input);
+		assert.notEqual(detail, '[object Object]', `bare placeholder for ${String(typeof input)}`);
+		assert.notEqual(detail, '[object Undefined]', `bare placeholder for ${String(typeof input)}`);
+		assert.ok(detail.length > 0, 'detail must never be empty');
+	}
+});
+
+test('describeThrown: Error with empty message does not repeat its name', () => {
+	assert.equal(describeThrown(new RangeError('')), 'RangeError');
+});
+
 test('describeThrown: primitives and nullish values render readably', () => {
 	assert.equal(describeThrown('plain string'), 'plain string');
 	assert.equal(describeThrown(null), 'null');
