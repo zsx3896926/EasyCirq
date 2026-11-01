@@ -1,0 +1,28 @@
+feat(design-validity): inductive loads now require a flywheel diode, with polarity checked.
+
+Fourth check class, and the one the fan-board probe was chosen to expose: not one of the
+18+1 existing gates looks at it, and a missing flywheel diode puts the coil's collapse
+spike straight across the switching device.
+
+The intent marks a load as inductive (load_kind or inductive). The check then requires a
+diode ACROSS the load, reverse-biased: cathode toward the load rail, anode toward the
+switching side. Three verdicts:
+
+  NO_FLYWHEEL_DIODE        no diode between the two
+  FLYWHEEL_DIODE_REVERSED  wired so it conducts forward and shorts the rail on power-up
+  unknown                  the wiring cannot be read
+
+Verdict aggregation had to change alongside it. not_run means the intent never asked for
+this check, so it must not drag a board to unknown; unknown means it could not be judged
+and must. Verified on both snapshots: the alarm board is three passes plus one not_run and
+still PASS, while the pre-fix snapshot still FAILs with all three defects named.
+
+My own test was brittle and was fixed: it asserted a fixed number of spaces before the
+status column. Width is <18, so threshold_sanity gets three spaces and inductive_load
+gets five. Replaced with a check_status() helper that parses the line.
+
+4 new tests: missing diode fails, correct reverse diode passes, reversed diode fails, and
+a non-inductive load reports not_run. pytest: 4901 passed, 5 skipped.
+
+Still uncovered, stated as such: dual supply domains (power_net does not catch a device
+on the wrong rail, nor whether 12V and 5V share a ground) and load startup surge.

@@ -454,6 +454,145 @@ def check_drive(netlist, nets, intent, findings) -> dict:
 
 
 # ---------------------------------------------------------------- 回差检查
+# ── 二极管：用来认续流二极管。引脚名 A/K 最可靠；很多库用 1/2，约定 1=阳极 2=阴极。
+# 器件名里带这些词也当二极管（肖特基、TVS、整流管）。
+DIODE_NAME_HINTS = ("1N4148", "1N400", "SS3", "SS5", "BAT", "B5819", "SK34",
+                    "SCHOTTKY", "TVS", "DIODE")
+
+
+def is_diode(part: dict) -> bool:
+    names = {pin_name(p).upper() for p in part.get("pins") or []}
+    if names & {"A", "K"} or names & {"ANODE", "CATHODE"}:
+        return True
+    model = str(part.get("manufacturerId") or "").upper()
+    return any(hint in model for hint in DIODE_NAME_HINTS)
+
+
+def diode_polarity(part: dict) -> tuple[str, str] | None:
+    """返回 (阳极脚号, 阴极脚号)。认不出来返回 None。"""
+    by_name = {}
+    for pin in part.get("pins") or []:
+        by_name[pin_name(pin).upper()] = str(pin.get("pinNumber"))
+    if "A" in by_name and "K" in by_name:
+        return by_name["A"], by_name["K"]
+    if "ANODE" in by_name and "CATHODE" in by_name:
+        return by_name["ANODE"], by_name["CATHODE"]
+    numbers = sorted((str(p.get("pinNumber")) for p in part.get("pins") or []),
+                     key=lambda x: (len(x), x))
+    if len(numbers) == 2:
+        # 常见约定：1 = 阳极，2 = 阴极
+        return numbers[0], numbers[1]
+    return None
+
+
+def net_of_pin(part: dict, pin_number: str) -> str | None:
+    for pin in part.get("pins") or []:
+        if str(pin.get("pinNumber")) == pin_number:
+            return pin.get("net")
+    return None
+
+
+def check_inductive_load(netlist, nets, intent, findings) -> dict:
+    """感性负载必须续流。
+
+    风扇、继电器、电磁铁断电瞬间，线圈电流不能突变，会在开关管上顶出一个尖峰。
+    缺续流二极管时：管子被击穿、寿命骤降，或者干脆当场挂掉。
+    **当前 18+1 项门禁一条都不会报这个**，所以要单独判。
+
+    判据：负载的一端接负载电源轨（如 12V），另一端接开关管；二极管必须
+    **反并**在负载两端——阴极朝电源轨、阳极朝开关管那侧。
+    """
+    rail = intent.get("load_rail") or intent.get("power_rail") or "PWR5V"
+    ground = intent.get("ground") or "GND"
+    switches = intent.get("switches") or []
+
+    targets = [entry for entry in switches
+               if entry.get("load_kind") in ("inductive", "motor", "fan", "relay",
+                                             "solenoid")
+               or entry.get("inductive") is True]
+    if not targets:
+        return {"id": "inductive_load", "status": "not_run",
+                "reason": "意图文件没有把任何负载标成感性（load_kind/inductive），"
+                          "不猜"}
+
+    results = []
+    failed = False
+    for entry in targets:
+        load = entry.get("load")
+        part = part_by(netlist, load) if load else None
+        if part is None:
+            results.append({"load": load, "status": "unknown",
+                            "reason": "意图里写了这个负载，但网表里找不到"})
+            continue
+        load_nets = [p.get("net") for p in part.get("pins") or [] if p.get("net")]
+        if rail not in load_nets:
+            results.append({"load": load, "status": "unknown",
+                            "reason": f"负载没有一端接在 {rail} 上，判不了接线方式"
+                                      f"（看到的是 {load_nets}）"})
+            continue
+        switched = [n for n in load_nets if n != rail]
+        if not switched:
+            results.append({"load": load, "status": "unknown",
+                            "reason": "负载只有一端有网络，另一端悬空"})
+            continue
+        live_net = switched[0]
+
+        # 找跨接在 rail 与 live_net 之间的二极管
+        found = []
+        for other, _pin in nets.get(live_net, []):
+            if other == load:
+                continue
+            candidate = part_by(netlist, other)
+            if candidate is None or not is_diode(candidate):
+                continue
+            polarity = diode_polarity(candidate)
+            if polarity is None:
+                results.append({"load": load, "status": "unknown",
+                                "diode": other,
+                                "reason": "找到一颗二极管，但引脚极性认不出来"})
+                continue
+            anode_net = net_of_pin(candidate, polarity[0])
+            cathode_net = net_of_pin(candidate, polarity[1])
+            other_nets = {anode_net, cathode_net}
+            if rail in other_nets and live_net in other_nets:
+                found.append((other, anode_net, cathode_net))
+
+        if not found:
+            status = "fail"
+            failed = True
+            message = (f"{load} 是电感负载，但 {live_net} 与 {rail} 之间没有续流二极管。"
+                       f"断电瞬间线圈电流没有泄放回路，会在开关管上顶出尖峰")
+            findings.append({"code": "NO_FLYWHEEL_DIODE", "status": "confirmed",
+                             "load": load, "message": message})
+            results.append({"load": load, "status": status, "reason": message})
+            continue
+
+        correct = [d for d in found if d[1] == live_net and d[2] == rail]
+        if not correct:
+            status = "fail"
+            failed = True
+            diode, anode_net, cathode_net = found[0]
+            message = (f"续流二极管 {diode} 极性接反：阳极接 {anode_net}、阴极接 "
+                       f"{cathode_net}。应该反过来——阴极朝 {rail}、阳极朝 {live_net}，"
+                       f"否则它正向导通，一上电就把 {rail} 短路")
+            findings.append({"code": "FLYWHEEL_DIODE_REVERSED", "status": "confirmed",
+                             "load": load, "diode": diode, "message": message})
+            results.append({"load": load, "status": status, "reason": message})
+            continue
+
+        diode = correct[0][0]
+        results.append({"load": load, "status": "pass", "diode": diode,
+                        "reason": f"{diode} 反并在 {load} 两端（阴极 {rail}、"
+                                  f"阳极 {live_net}），断电尖峰有泄放回路"})
+
+    findings_here = [r for r in results if r["status"] == "fail"]
+    return {"id": "inductive_load",
+            "status": "fail" if failed else (
+                "unknown" if any(r["status"] == "unknown" for r in results) else "pass"),
+            "loads": results,
+            "failures": len(findings_here)}
+
+
 def check_hysteresis(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold") or {}
     want = spec.get("hysteresis_c")
@@ -530,7 +669,8 @@ def main(argv=None) -> int:
         # 没有意图文件 ≠ 证据缺失。缺证据是"该跑没跑"，这里是"这块板从未声明
         # 自己要做什么"——判不了就是判不了，判为 na（不适用）并在卡片上可见，
         # 既不冒充 pass，也不假装成一次失败的检查。
-        for cid in ("threshold_sanity", "switch_drive", "hysteresis"):
+        for cid in ("threshold_sanity", "switch_drive", "hysteresis",
+                    "inductive_load"):
             checks.append({"id": cid, "status": "na",
                            "reason": "没有提供 --intent：这块板没有声明设计意图，"
                                      "无法判断阈值该是多少、管子该带多大负载"})
@@ -548,15 +688,19 @@ def main(argv=None) -> int:
         checks.append(check_threshold(netlist, nets, intent, findings))
         checks.append(check_drive(netlist, nets, intent, findings))
         checks.append(check_hysteresis(netlist, nets, intent, findings))
+        checks.append(check_inductive_load(netlist, nets, intent, findings))
 
+    # 整体判定要区分两种"没做"：
+    #   not_run —— 意图没要求这一项（例如板上没有电感负载，就没有续流二极管可查）
+    #   unknown —— 该判但判不了（器件认不出来、网表缺信息）
+    # 前者不适用，不该把整块板拖成 unknown；后者必须如实反映成 unknown。
     statuses = [c.get("status") for c in checks]
+    neutral = ("pass", "na", "not_run")
     if "fail" in statuses:
         verdict = "fail"
-    elif all(s == "pass" for s in statuses):
+    elif all(s in neutral for s in statuses) and "pass" in statuses:
         verdict = "pass"
-    elif all(s in ("pass", "na") for s in statuses) and "pass" in statuses:
-        verdict = "pass"
-    elif all(s == "na" for s in statuses):
+    elif all(s in ("na", "not_run") for s in statuses):
         verdict = "na"
     else:
         verdict = "unknown"

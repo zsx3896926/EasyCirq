@@ -38,6 +38,20 @@ def load(path):
     return json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
 
 
+def check_status(stdout: str, check_id: str) -> str:
+    """从检查器的文本输出里取某一项的状态。
+
+    不要用 assertIn("inductive_load    pass") 这种写法——列宽是 <18 补空格，
+    不同长度的 id 空格数不同（threshold_sanity 16 字符 → 3 个空格，
+    inductive_load 14 字符 → 5 个空格）。按行解析才不脆。
+    """
+    for line in stdout.splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[0] == check_id:
+            return parts[1]
+    raise AssertionError(f"输出里找不到 {check_id} 的状态行")
+
+
 class BeforeFixesTests(unittest.TestCase):
     """修之前的快照：三个缺陷必须都被指出来。"""
 
@@ -125,11 +139,15 @@ class AfterFixesTests(unittest.TestCase):
         self.assertEqual(check["metrics"]["feedback_parts"], ["R6"])
         self.assertEqual(self.report.get("verdict"), "pass")
 
-    def test_all_three_checks_pass(self):
+    def test_all_applicable_checks_pass(self):
+        # 报警板上没有电感负载，所以 inductive_load 是 not_run（不适用）——
+        # 它不该把整体判定拖成 unknown。这里同时把这条约束钉住。
         statuses = {c["id"]: c["status"] for c in self.report["checks"]}
         self.assertEqual(statuses, {"threshold_sanity": "pass",
                                     "switch_drive": "pass",
-                                    "hysteresis": "pass"})
+                                    "hysteresis": "pass",
+                                    "inductive_load": "not_run"})
+        self.assertEqual(self.report["verdict"], "pass")
 
 
 class NegativeTests(unittest.TestCase):
@@ -275,7 +293,7 @@ class TransistorKindTests(unittest.TestCase):
         # 断言盯 switch_drive 这一项，而不是整体退出码：意图里没声明回差时
         # 整体 verdict 会是 unknown（这是有意的诚实行为，不是失败）。
         proc = self._run(self.mosfet)
-        self.assertIn("switch_drive       pass", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "switch_drive"), "pass")
         self.assertIn('"kind": "mosfet"', proc.stdout)
         self.assertIn("静态不取电流", proc.stdout)
         self.assertNotIn("DRIVE_INSUFFICIENT", proc.stdout)
@@ -304,6 +322,109 @@ class TransistorKindTests(unittest.TestCase):
         proc = self._run(self.mosfet, {"load_ma": 9000, "id_max_a": 4.0})
         self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
         self.assertIn("LOAD_EXCEEDS_RATING", proc.stdout)
+
+
+class InductiveLoadTests(unittest.TestCase):
+    """感性负载必须有续流二极管，且方向要对。
+
+    这是风扇板探针暴露的第四类判据：18+1 项门禁里没有一条会查它，
+    而缺二极管的后果是开关管被反电动势击穿。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-ind-"))
+        cls.base = [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "GATE"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+            {"designator": "R5", "componentType": "part",
+             "otherProperty": {"Value": "100kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "GATE"}]},
+            {"designator": "Q1", "componentType": "part", "manufacturerId": "AO3400",
+             "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "G", "net": "GATE"},
+                      {"pinNumber": "2", "pinName": "S", "net": "GND"},
+                      {"pinNumber": "3", "pinName": "D", "net": "FAN_M"}]},
+            # 风扇：一端接 12V，一端接漏极
+            {"designator": "FAN1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "FAN-12V",
+             "pins": [{"pinNumber": "1", "pinName": "+", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "-", "net": "FAN_M"}]},
+        ]
+        cls.intent = {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "load_rail": "PWR12V", "ground": "GND",
+            "switches": [{"part": "Q1", "load": "FAN1", "load_ma": 200,
+                          "kind": "mosfet", "vgs_th": 1.05, "id_max_a": 4.0,
+                          "load_kind": "inductive"}],
+        }
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _diode(self, anode_net, cathode_net, designator="D1"):
+        return {"designator": designator, "componentType": "part",
+                "manufacturerId": "1N4148", "otherProperty": {},
+                "pins": [{"pinNumber": "1", "pinName": "A", "net": anode_net},
+                         {"pinNumber": "2", "pinName": "K", "net": cathode_net}]}
+
+    def _run(self, extra):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps({"components": self.base + extra},
+                                      ensure_ascii=False), encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self.intent, ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_missing_flywheel_diode_fails(self):
+        proc = self._run([])
+        self.assertIn("NO_FLYWHEEL_DIODE", proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_correct_flywheel_diode_passes(self):
+        # 阳极接开关侧，阴极接 12V
+        proc = self._run([self._diode("FAN_M", "PWR12V")])
+        self.assertEqual(check_status(proc.stdout, "inductive_load"), "pass")
+        self.assertNotIn("NO_FLYWHEEL_DIODE", proc.stdout)
+        self.assertNotIn("FLYWHEEL_DIODE_REVERSED", proc.stdout)
+
+    def test_reversed_flywheel_diode_fails(self):
+        # 接反了：一上电就正向导通，把 12V 短路
+        proc = self._run([self._diode("PWR12V", "FAN_M")])
+        self.assertIn("FLYWHEEL_DIODE_REVERSED", proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_non_inductive_load_is_not_run(self):
+        intent = json.loads(json.dumps(self.intent))
+        intent["switches"][0]["load_kind"] = "resistive"
+        intent_path = self.tmp / "i2.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False), encoding="utf-8")
+        netlist = self.tmp / "l2.json"
+        netlist.write_text(json.dumps({"components": self.base}, ensure_ascii=False),
+                           encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertEqual(check_status(proc.stdout, "inductive_load"), "not_run")
+        self.assertNotIn("NO_FLYWHEEL_DIODE", proc.stdout)
 
 
 class HonestyTests(unittest.TestCase):
