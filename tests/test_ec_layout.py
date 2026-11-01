@@ -920,3 +920,18 @@ def test_best_effort_budget_scales_with_the_grid():
     assert ec5._best_effort_budget() == 8          # (10/5)^2 = 4x
     ec20 = ge.load_module(20)
     assert ec20._best_effort_budget() >= 1          # never below one pair
+
+
+def test_reproduce_can_switch_the_routing_grid():
+    """D6 compares 10 mil against 5 mil; both points must come out of the SAME
+    scorecard path, so reproduce rebinds its module instead of having a second tool."""
+    rep = _mod("reproduce_grid", "reproduce.py")
+    assert rep.ec.GRID == 10.0
+    rep.use_grid(5)
+    try:
+        assert rep.ec.GRID == 5.0
+        assert rep.ec._best_effort_budget() == 8
+    finally:
+        rep.use_grid(10)
+    assert rep.ec.GRID == 10.0
+    assert rep.ec._best_effort_budget() == 2

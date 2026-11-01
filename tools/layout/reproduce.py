@@ -24,7 +24,23 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-import ec_layout as ec  # noqa: E402
+import ec_layout as ec  # noqa: E402, module-level so a grid switch can rebind it
+
+
+def use_grid(grid):
+    """Rebind the module-level `ec` to the same code at a different GRID constant.
+
+    The routing grid is a first-class parameter now: D6 compares 10 mil against 5 mil,
+    and both points have to be produced by the SAME scorecard/gate path, otherwise the
+    comparison is between two tools.  `ec_layout.py` keeps its recorded default, so a
+    plain run cannot silently change resolution.
+    """
+    global ec
+    if grid is None or float(grid) == float(ec.GRID):
+        return ec
+    import grid_experiment                       # same source, one rewritten constant
+    ec = grid_experiment.load_module(float(grid))
+    return ec
 
 # Named presets.  Two of them are the branches of the pour decision (D2 in
 # DECISIONS.md) and one is the stackup branch (D1), so whichever way the engineer
@@ -244,18 +260,30 @@ def main():
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
     ap.add_argument("--profile", default="frontier", choices=sorted(PROFILES))
+    ap.add_argument("--grid", type=float,
+                    help="routing grid in mil (default: the module constant, 10); see DECISIONS D6")
+    ap.add_argument("--best-effort-budget", type=float,
+                    help="override how many conflicting segment pairs a least-bad leg may keep")
     a = ap.parse_args()
+    use_grid(a.grid)
+    if a.best_effort_budget is not None:
+        # Explicit budget: the grid-5 sweet spot (D6 measured 10 and 12) is not
+        # derivable from the 10 mil constant alone.
+        ec._best_effort_budget = lambda reference_grid=10.0, _b=a.best_effort_budget: int(_b)
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
-    print("profile: `%s`  (layers %d, pours %s%s%s)" % (
+    print("profile: `%s`  (layers %d, pours %s%s%s, grid %g mil)" % (
         a.profile, PROFILES[a.profile]["layers"], ", ".join(PROFILES[a.profile]["pours"]),
         ", exclusive" if PROFILES[a.profile].get("pour_exclusive") else "",
-        ", trimmed" if PROFILES[a.profile].get("pour_trim") else ""))
+        ", trimmed" if PROFILES[a.profile].get("pour_trim") else "", ec.GRID))
     print(scorecard(kpi, skew, ok, gate_fail, why))
     return 0 if ok else 1
 
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
 
 
 

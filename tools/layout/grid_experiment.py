@@ -32,31 +32,39 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "ec_layout.py")
 
 
-def load_module(grid, best_effort_conflicts=None):
-    """Compile ec_layout.py with its GRID constant replaced, in a private namespace."""
+def load_module(grid, best_effort_budget=None):
+    """Compile ec_layout.py with its GRID constant replaced, in a private namespace.
+
+    `best_effort_budget` overrides the EFFECTIVE number of conflicting segment pairs a
+    "least bad" leg may keep.  It must be the effective value, not the raw constant:
+    the constant is grid-relative (`_best_effort_budget` scales it by (10/GRID)^2), so
+    patching the constant silently multiplied every label by four at grid 5 - the
+    8/10/12/16 rows first published in HANDOFF §51 were budgets 32/40/48/64.
+    """
     with open(SRC, encoding="utf-8") as f:
         src = f.read()
     marker = "\nGRID = 10.0\n"
     if marker not in src:
         raise SystemExit("could not find the GRID constant in ec_layout.py")
     src = src.replace(marker, "\nGRID = %s\n" % grid, 1)
-    if best_effort_conflicts is not None:
-        # A threshold measured in CELLS is not grid independent: at half the grid a
-        # path is twice as long in cells, so the same "2 conflicts" budget rejects
-        # legs that were fine before (measured: 34 dead legs at grid 5).
-        old = "BEST_EFFORT_MAX_CONFLICTS = 2"
-        if old not in src:
-            raise SystemExit("could not find BEST_EFFORT_MAX_CONFLICTS in ec_layout.py")
-        src = src.replace(old, "BEST_EFFORT_MAX_CONFLICTS = %s" % best_effort_conflicts, 1)
+    if best_effort_budget is not None:
+        budget = int(best_effort_budget)
+        if "def _best_effort_budget(" not in src:
+            raise SystemExit("could not patch _best_effort_budget in ec_layout.py")
+        src = src.replace(
+            "    return max(1, int(round(BEST_EFFORT_MAX_CONFLICTS * (reference_grid / GRID) ** 2)))",
+            "    return %d" % budget, 1)
     mod = types.ModuleType("ec_layout_grid%s" % grid)
     mod.__file__ = SRC
     exec(compile(src, SRC, "exec"), mod.__dict__)
     assert mod.GRID == grid, mod.GRID
+    if best_effort_budget is not None:
+        assert mod._best_effort_budget() == int(best_effort_budget), mod._best_effort_budget()
     return mod
 
 
-def run(grid, dump, place, iters, pour_step, best_effort_conflicts=None):
-    ec = load_module(grid, best_effort_conflicts)
+def run(grid, dump, place, iters, pour_step, best_effort_budget=None):
+    ec = load_module(grid, best_effort_budget)
     with open(dump, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
     with open(place, encoding="utf-8") as f:
@@ -93,7 +101,7 @@ def main():
 
     t0 = time.time()
     board, plan, kpi, gate_fail = run(a.grid, a.dump, a.place, a.iters, a.pour_step,
-                              a.best_effort_conflicts)
+                              a.best_effort_budget)
     skew = kpi["bus_length_spread_mil"]
     print("grid %s mil: %dx%d cells, %.1f s" % (
         a.grid, board.w, board.h, time.time() - t0))
