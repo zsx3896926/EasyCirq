@@ -47,6 +47,12 @@ FORBIDDEN = [
     # still a tool concept - the assistant writes, not the customer.
     "通行证",
     "写入许可",
+    # The setup screen used to say 运行时 / 后台服务 / 技能包 — those are the words
+    # runtime / daemon / skill translated, not descriptions of what they do.
+    "运行时",
+    "后台服务",
+    "技能包",
+    "插件",
 ]
 
 # Strings that legitimately contain a forbidden-looking word because it is part

@@ -31,7 +31,7 @@ func zhState(raw string, table map[string]string, fallback string) string {
 // setupLines turns the doctor report into the four things a customer needs to
 // know about their installation, in their own words.
 func setupLines(rep doctorReport) []setupLine {
-	lines := []setupLine{{Label: "运行时", OK: true,
+	lines := []setupLine{{Label: "软件", OK: true,
 		State: strings.TrimSpace(rep.Runtime.Name + " " + rep.Runtime.Version)}}
 
 	daemonOK := strings.EqualFold(rep.Daemon.Status, "running")
@@ -40,7 +40,7 @@ func setupLines(rep doctorReport) []setupLine {
 	if daemonOK && rep.Daemon.Port > 0 {
 		daemonState = "运行中"
 	}
-	lines = append(lines, setupLine{Label: "后台服务", OK: daemonOK, State: daemonState})
+	lines = append(lines, setupLine{Label: "后台运行", OK: daemonOK, State: daemonState})
 
 	connectorOK := strings.EqualFold(rep.Connector.Status, "connected")
 	connectorState := zhState(rep.Connector.Status,
@@ -51,12 +51,12 @@ func setupLines(rep doctorReport) []setupLine {
 			connectorState += "（EasyEDA Pro " + rep.Host.EasyEDAVersion + "）"
 		}
 	}
-	lines = append(lines, setupLine{Label: "EasyEDA 插件", OK: connectorOK, State: connectorState})
+	lines = append(lines, setupLine{Label: "EasyEDA", OK: connectorOK, State: connectorState})
 
 	skillOK := strings.EqualFold(rep.Skill.Status, "installed")
-	lines = append(lines, setupLine{Label: "技能包", OK: skillOK,
+	lines = append(lines, setupLine{Label: "技能", OK: skillOK,
 		State: zhState(rep.Skill.Status,
-			map[string]string{"installed": "已安装", "missing": "未安装", "unknown": "未知"}, "未知")})
+			map[string]string{"installed": "已装入", "missing": "未装入", "unknown": "未知"}, "未知")})
 	return lines
 }
 
