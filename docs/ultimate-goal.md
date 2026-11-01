@@ -66,7 +66,7 @@
 
 **四步全程没有人工介入解释工具概念——目标达成。**
 
-## 现状对照（2026-10-31，随 1.3.31 更新）
+## 现状对照（2026-10-31，随 1.3.32 更新）
 
 | 能力 | 状态 |
 |---|---|
@@ -94,7 +94,7 @@
 
 ### 发版链路
 
-`easycirq-toolchain-1.3.31.zip`（runtime 1.3.31 + connector 1.0.20 + skill 1.1.0）
+`easycirq-toolchain-1.3.32.zip`（runtime 1.3.32 + connector 1.0.20 + skill 1.1.0）
 经 `easycirq_install.py install` 隔离安装后 `verify` 报 `healthy`（808 文件，
 0 changed/missing/extra）；内容一致性检查 `CONSISTENT`。发版步骤见
 `docs/release-checklist.md`。
