@@ -541,3 +541,33 @@ PermissionError: [WinError 5] 拒绝访问:
 上次修完 Go 那边就收工了，因为当时只盯着眼前那个失败。
 Python 这边一直带着同样的毛病，直到它自己撞上来——
 而它撞上来的样子，恰好是"偶发测试"。
+
+## 偶发：go test 里的 PowerShell 5.1 栈溢出
+
+**观察（2026-11-01，跑 `tools/run_all_checks.ps1` 时）**
+
+```
+--- FAIL: TestModifyPatchWindowsPowerShell51/pcb (59.45s)
+    modify_patch_powershell_test.go:45: PowerShell: exit status 0xc00000fd
+    Process is terminated due to StackOverflowException.
+```
+
+`0xc00000fd` 是 Windows 的栈溢出，发生在测试拉起的 `powershell.exe` 子进程里。
+
+### 复现尝试
+
+| 尝试 | 结果 |
+|---|---|
+| `go test ./internal/app -run TestModifyPatchWindowsPowerShell51` | **通过**（4.97s） |
+| 在 `pwsh -File` 里跑 `go test ./...`（嵌套 PowerShell） | **通过** |
+| `go test ./...` 单独全量 | **通过**，16 包 ok |
+
+**只在"先跑完 7 分钟 pytest、紧接着跑 go test"时出现过一次。**
+
+### 判断
+
+环境压力下 `powershell.exe` 子进程栈溢出，不是产品代码缺陷，也不是稳定复现的测试问题。
+**没有改代码。** 记下来，等它再出现时看是否是同一处。
+
+如果频繁出现，可考虑给这个测试加 `-short` 跳过条件，或者让 runner 在 go test
+之前留一段间隔——但那都是掩盖，不是修复，所以现在不做。
