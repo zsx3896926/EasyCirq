@@ -154,3 +154,21 @@ pytest 默认同文件内顺序执行，但仍可能受前序用例残留文件�
 | `go vet ./...` | 干净 |
 
 这不是测试问题——客户在 Windows 上跑 `easycirq pcb layout-plan --out` 同样会撞上。
+
+### CLI 层实测（补）
+
+单元测试通过之后，又在**装机后的二进制**上连跑 `pcb layout-plan --out` 5 次：
+
+```
+failures: 0 / 5
+layout-plan: 1 candidate(s), 0 rejected variant(s); no editor writes performed
+```
+
+用的是真实报警板的板数据 + 合法 intent（模块 `buzzer`，中继 `BZ1`），每次先删掉
+输出目录再重建——正是会触发那个 rename 竞争的用法。
+
+**说明**：此前我先试了 5 次全部失败，但那是**我给的参数不合法**
+（缺 `--module`、intent 字段对不上 `pcbLayoutModuleSpec`），报错分别是
+`--from, --board, --module and --out are required` 和
+`json: unknown field "parts" / "module"`。那不是 rename 缺陷，是调用错误。
+把这两个混在一起看，就会误判成"修了但没用"。
