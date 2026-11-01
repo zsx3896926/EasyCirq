@@ -830,3 +830,38 @@ def test_spacing_audit_groups_violations_by_owner():
     assert g["track_pad_violated_pads"][0] == ("R2.1", 1)
     assert g["track_pad_pairs"][0][0] == "A -> R2.1"
     assert g["via_hits_by_net"][0] == ("A", 1)          # the via is 20 mil from R2.1
+
+
+# ── how much of the spacing KPI can no layout change of the router remove? ───
+def test_forced_spacing_separates_impossible_from_avoidable():
+    """A track between two pads whose gap is smaller than the corridor a track needs
+    cannot be legal anywhere: that hit is FORCED.  A track that merely runs too close
+    to an isolated pad is the router's to avoid."""
+    fs = _mod("forced_spacing", "forced_spacing.py")
+
+    def comp_pads(des, pads):
+        c = comp(des, pads[0][2], pads[0][3], [(p, n, x, y) for (p, n, x, y) in pads])
+        return c
+
+    # J9: two pads 19.7 mil apart with 49 mil height -> no corridor between them
+    tight = make_board([comp_pads("J9", [("1", "A", 400, 300), ("2", "B", 400, 320)])])
+    for p in tight.comps["J9"]["pads"]:
+        p["w"], p["h"] = 11.8, 49.2
+    pairs = fs.no_corridor_pairs(tight)
+    assert any(k[0] == "J9" for k in pairs), pairs
+
+    plan = {"tracks": [{"net": "X", "layer": 1, "width": 7,
+                        "x1": 350, "y1": 310, "x2": 450, "y2": 310}], "vias": []}
+    res = fs.classify(tight, plan)
+    assert res["forced"], "a track squeezed between two 19.7 mil pads is forced"
+    assert not res["open"]
+
+    # an isolated pad with room around it: the same kind of hit is avoidable
+    loose = make_board([comp_pads("R9", [("1", "B", 400, 400)])])
+    for p in loose.comps["R9"]["pads"]:
+        p["w"], p["h"] = 20, 20
+    assert fs.no_corridor_pairs(loose) == {}
+    res = fs.classify(loose, {"tracks": [{"net": "X", "layer": 1, "width": 7,
+                                          "x1": 380, "y1": 410, "x2": 440, "y2": 410}],
+                              "vias": []})
+    assert res["open"] and not res["forced"]

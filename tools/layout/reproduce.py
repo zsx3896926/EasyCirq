@@ -148,6 +148,17 @@ def run(dump_path, place_path, out_dir=None, profile="frontier"):
         why["clearance_violations"] = "implementation: %d track/track, %d via/track, " \
             "%d via/pad, %d track/pad" % (br.get("track_track", 0), br.get("via_track", 0),
                                           br.get("via_pad", 0), br.get("track_pad", 0))
+        # Split the pad hits into ones NO routing change can remove (the pad pitch
+        # leaves no legal corridor) and ones the router could have avoided.  Without
+        # this a red clearance number always reads as "unfinished work" (HANDOFF §48).
+        try:
+            import forced_spacing
+            lo = forced_spacing.classify(board, plan, slack=0.0)
+            hi = forced_spacing.classify(board, plan, slack=0.5)
+            why["clearance_violations"] += "; pad hits forced by geometry %d-%d of %d" % (
+                len(lo["forced"]), len(hi["forced"]), len(lo["forced"]) + len(lo["open"]))
+        except Exception as exc:                      # a diagnosis must never fake 0
+            why["clearance_violations"] += "; forced/open split unavailable: %s" % exc
     if kpi["pour_islands"]:
         rep = ec.pour_island_report(board, plan)
         bits = []

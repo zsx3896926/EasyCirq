@@ -61,8 +61,16 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
   during the search was measured at **unrouted 7 → 33** (HANDOFF §35).
 * `pour_step` is saturated (8/12/16/20 identical, §47), so that knob is closed — as
   are veto / reserve / pre-plan / price-in-search / via-first (§40.4).
-* **Decision needed:** accept a documented waiver, reserve connector escape channels
-  (the next tool step), or change the routing paradigm (2D first, then layer changes).
+* **Most of it is geometry, not implementation** (`forced_spacing.py`, §48): the pads
+  that get run over are on parts whose pitch leaves no legal corridor at all —
+  J3 20 pads at 19.7 mil pitch with 49.2 mil tall pads (a track beside one needs
+  68 mil of centre spacing), U4 25.6 mil, J1 19.7 mil, L1 145.6 mil.  175 pad pairs
+  on this board have no legal corridor; **216–272 of the 329 pad hits are forced**,
+  i.e. no routing change can remove them.
+* **Decision needed:** accept a documented waiver, move the parts (J3/J1/U4/L1 spacing
+  from the routing corridors), change the rule/process (smaller vias, thinner tracks),
+  or change the routing paradigm.  A "connector escape channel" is NOT available:
+  at 19.7 mil pitch there is nothing to reserve (§48.5).
 
 ### 3.2 Pour islands 1 — a design conflict
 
@@ -132,6 +140,8 @@ python tools/layout/pour_cut.py out/plan.json --dump ../retrocam-02/pcb/dump2.js
     --place ../retrocam-02/pcb/offline/ec-placed.json
 python tools/layout/bus_capacity.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json
+python tools/layout/forced_spacing.py out/plan.json --dump ../retrocam-02/pcb/dump2.json \
+    --place ../retrocam-02/pcb/offline/ec-placed.json
 
 # 3. prove the delivery mechanism still works (<1 min, no routing)
 python tools/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
@@ -153,6 +163,8 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
+
 
 
 
