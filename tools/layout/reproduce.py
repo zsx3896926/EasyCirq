@@ -87,6 +87,17 @@ PROFILES = {
         pour_step=5, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
     ),
+    # The best measured point on the gate order (HANDOFF §57): a 5 mil grid with the
+    # via discs actually reserved, which is the first configuration that beats the
+    # 10 mil baseline on BOTH gated items it used to fail (islands 1 -> 0, clearance
+    # 511 -> 453) with zero dead legs.  Run it as `--grid 5 --profile strict-via`.
+    "strict-via": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False,
+        pour_step=8, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+        via_sites=True, via_margin=6.0, general_budget=56,
+    ),
     # Decision support for "add layers": the same pours, two extra signal layers.
     # Only meaningful because every through-hole check now reads the routed stack
     # (`_all_layers`) instead of the four layers it used to hardcode.
@@ -309,6 +320,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
