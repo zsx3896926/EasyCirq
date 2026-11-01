@@ -13,8 +13,9 @@ problems = []
 # 1. every file listed in README's table must exist, and every file present should be listed
 readme = (d / "README.md").read_text(encoding="utf-8")
 listed = set(re.findall(r"\| `([^`]+)` \|", readme))
-present = {p.name for p in d.iterdir() if p.is_file()}
+present = {p.name.rstrip("/") for p in d.iterdir() if p.is_file() or p.is_dir()}
 present.discard("README.md")
+listed = {name.rstrip("/") for name in listed}
 
 missing_files = sorted(listed - present)
 unlisted = sorted(present - listed)

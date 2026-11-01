@@ -18,6 +18,7 @@
 | `acceptance-guide.md` | 打样回来后怎么验收 |
 | `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
 | `electrical-checklist.md` | **打样后按这张表测**：每个节点该有的电压、六个必测数、最可能接反的那一项 |
+| `design/` | **可复现的输入**：引脚计划、BOM、9 个快照文件。换一台机器能重跑全部 18 项检查，命令见 `design/README.md` |
 | `SHA256SUMS` | 校验和（核对传输是否完整） |
 
 ## 电路是什么
