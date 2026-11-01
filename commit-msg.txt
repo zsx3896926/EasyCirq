@@ -1,0 +1,49 @@
+加回差电阻 R6，设计有效性三项全绿。
+
+算出来的值
+----------
+R6 = 22kΩ（C31850，0603WAF2202T5E），从 ALARM 正反馈到 NTC_MID。
+tools/size_hysteresis.py 打印了整张对照表：
+
+    R6=1M   → 回差 0.07°C
+    R6=68k  → 回差 1.01°C
+    R6=33k  → 回差 2.12°C
+    R6=22k  → 回差 3.23°C   <- 选这个
+    R6=15k  → 回差 4.86°C
+
+触发 61.0°C → 释放 57.8°C，回差 3.23°C，正好对上验收示例要求的 3°C。
+触发时经 R6 的电流 0.227mA，LM393 灌电流能力 6mA，够用。
+
+方向也对：开集输出拉低时才有反馈，所以是"触发后更难退出"，
+正是回差该有的方向。
+
+设计有效性现在三项全绿
+----------------------
+不想当然，直接测：
+
+  修前快照  threshold_sanity fail / switch_drive fail / hysteresis fail -> fail
+  当前快照  threshold_sanity pass / switch_drive pass / hysteresis pass -> pass
+
+这一条之前只做到"两项转绿、回差仍红"，因为回差从来没修过。加了 R6 之后
+目标第 3 条（修之后要 pass）才真正满足。
+
+测试跟着实际行为改
+------------------
+test_hysteresis_still_fails 原来断言回差一直红——那是记录"当初没修"的状态，
+不是标准。改成 test_hysteresis_passes_with_r6（断言 pass 且 feedback_parts=R6），
+并新增 test_removing_r6_turns_hysteresis_red：把 R6 从网表里删掉，回差必须重新报红。
+这是"不是橡皮图章"的第三个证据——修好之后再破坏它，同样会红。
+
+卡住的一步
+----------
+板子还没有 R6。原理图侧完整（11 个位号、设计有效性 pass），
+但 pcb add-component 两次都失败，且错误详情是 [object Object]：
+
+    EDA_CALL_FAILED: Failed to place the component footprint on the PCB.
+    detail: [object Object]
+
+试过 device.uuid 和 component.uuid 两种，同样结果。import-changes 对通过 API
+加入的器件是 no-op（工具自己的帮助里写明了 #20）。
+
+所以 KPI 17 pcb_match 现在是红的——原理图 11 个位号、板子 10 个，这条报得对。
+交付包仍标不能下单，不是忘了改，是这步没做成。

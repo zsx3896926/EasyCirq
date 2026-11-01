@@ -81,7 +81,12 @@ class BeforeFixesTests(unittest.TestCase):
 
 
 class AfterFixesTests(unittest.TestCase):
-    """修之后的快照：阈值与驱动必须通过。回差仍然 fail，因为确实没加。"""
+    """修之后的快照：三项都必须通过。
+
+    这一组曾经断言"回差仍然 fail，因为确实没加"。2026-11-01 加上 R6（22kΩ，
+    从 ALARM 正反馈到 NTC_MID，算出回差 3.23°C）之后，回差这一项也转了绿。
+    断言跟着实际行为走，而不是跟着"当初没修"的旧状态走。
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -112,10 +117,18 @@ class AfterFixesTests(unittest.TestCase):
         self.assertGreater(switch["base_ma"], 0.3)
         self.assertGreater(switch["ic_ma"], 30)
 
-    def test_hysteresis_still_fails(self):
-        # 回差电阻一直没加。检查器不该因为别的都过了就放过它。
-        self.assertEqual(self.checks["hysteresis"]["status"], "fail")
-        self.assertEqual(self.report.get("verdict"), "fail")
+    def test_hysteresis_passes_with_r6(self):
+        # R6 = 22k 从 ALARM 反馈到 NTC_MID，构成正反馈
+        check = self.checks["hysteresis"]
+        self.assertEqual(check["status"], "pass")
+        self.assertEqual(check["metrics"]["feedback_parts"], ["R6"])
+        self.assertEqual(self.report.get("verdict"), "pass")
+
+    def test_all_three_checks_pass(self):
+        statuses = {c["id"]: c["status"] for c in self.report["checks"]}
+        self.assertEqual(statuses, {"threshold_sanity": "pass",
+                                    "switch_drive": "pass",
+                                    "hysteresis": "pass"})
 
 
 class NegativeTests(unittest.TestCase):
@@ -156,6 +169,23 @@ class NegativeTests(unittest.TestCase):
         proc = run(mutated)
         self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
         self.assertIn("NO_DC_BIAS_PATH", proc.stdout)
+
+    def test_removing_r6_turns_hysteresis_red(self):
+        """把 R6 从网表里删掉，回差必须重新报 fail。
+
+        这条是"检查器不是橡皮图章"的第三个证据：不是只有初始缺陷会红，
+        修好之后再破坏它，同样会红。
+        """
+        data = load(AFTER)
+        before = len(data.get("components") or [])
+        data["components"] = [c for c in data.get("components") or []
+                              if c.get("designator") != "R6"]
+        self.assertEqual(len(data["components"]), before - 1)
+        target = self.tmpdir / "no-r6.json"
+        target.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        proc = run(target)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
+        self.assertIn("NO_HYSTERESIS", proc.stdout)
 
     def test_drive_insufficient_is_reported(self):
         # R5 换成 1M：基极电流只有 4µA，带不动 30mA 蜂鸣器
