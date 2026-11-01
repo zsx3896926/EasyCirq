@@ -406,3 +406,36 @@ offline pipeline: BLOCKED
 `tests/test_customer_journey.py` —— 6 项，覆盖四张卡的可见输出与失败解释。
 其中 `card` 和 `acceptance` 是**纯离线**（只读文件，不需要后台服务），
 所以它们在任何环境下都该通过；`status` / `setup` 需要本机安装，缺环境时跳过而不是假通过。
+
+## 交付包现在的样子（2026-11-01，1.3.36）
+
+```
+deliverables/alarm/
+├── HOW-TO-ORDER.md          从这里开始：四步从下单到验收
+├── cost-and-leadtime.md     能不能做 + 价格驱动因素（报价 NOT RUN）
+├── card.txt                 上机前的卡（必查 14/14）
+├── electrical-checklist.md  打样后测哪六个数
+├── acceptance-guide.md      验收怎么做
+├── acceptance.example.json  验收记录格式（示例数据）
+├── bom.csv                  9 个位号，全有立创 C 号
+├── schematic.svg            原理图
+├── board-gerber.zip         12 层
+├── design/                  可复现的输入（引脚计划 + BOM + 9 个快照）
+├── README.md                清单
+└── SHA256SUMS               21 条校验和
+```
+
+11 个文件 + 1 个目录。`tools/check_deliverable.py` 验证「README 列的都在磁盘上，磁盘上的都被列了」。
+
+## 回归（1.3.36 之后）
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests` | **4858 passed, 5 skipped** |
+| `go test ./...` | **16 包 ok，0 失败** |
+| `go vet ./...` | 干净 |
+| `skill_selftest.py` | 6 PASS |
+| `check_handoff.py` | 所有引用都能找到 |
+| `check_deliverable.py` | 交付包自检通过 |
+| `check_release_consistency.py` | `CONSISTENT`（四向） |
+| `check_published.py` | 全部本地分支已发布 |
