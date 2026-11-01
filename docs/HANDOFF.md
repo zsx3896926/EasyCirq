@@ -469,3 +469,41 @@ deliverables/alarm/
 
 派发**失败**也会写审计：B 段的 `sch list` 缺参数、退出码 1，
 审计行数仍然 91348 → 91349。所以「第一条审计」不要求一次成功的操作。
+
+## 一条命令全绿（2026-11-01，第一次）
+
+```
+pwsh -File tools/run_all_checks.ps1
+
+Check                      Status Exit Seconds Detail
+pytest                     ok        0  457.20  4875 passed, 5 skipped
+go-vet                     ok        0    1.70
+go-test                    ok        0   90.70  16 packages
+check_release_consistency  ok        0    0.40  CONSISTENT
+check_deliverable          ok        0    0.10  交付包自检通过
+check_handoff              ok        0    1.00  所有引用都能找到
+check_published            ok        0   25.40  全部本地分支已发布
+skill-selftest             ok        0    2.20  6 PASS
+
+全部检查通过。
+```
+
+**这是第一次八项在一条命令里同时通过。** 之前每次都有一项因为工具自身的问题
+（嵌套进程被杀、把没跑完当失败、外部 worktree 漂移）而变红。
+
+### 这一版之前的三个自伤
+
+| 问题 | 后果 | 修法 |
+|---|---|---|
+| 手工跑时用 `Select-Object -Last 3` | 失败断言被扔掉，只能记成"偶发" | 脚本强制 `Out-File` 每条日志 |
+| 用嵌套 `pwsh -Command` 跑检查 | pytest 跑到 73% 被杀，报成失败 | 在当前进程跑 scriptblock |
+| 把"没跑完"当"失败" | 让人去修没问题的代码 | `-Expect` 标记，缺标记判 INCOMPLETE |
+
+### 现在还剩什么需要人
+
+| 项 | 说明 |
+|---|---|
+| **实物打样与验收** | 下单、焊接、按 `electrical-checklist.md` 测六个值、填验收记录 |
+| 换一台机器复现 | 需要第二台机器 |
+| 报价与交期 | 需要能联网（本机搜索接口 403） |
+| 一个未复现的偶发 | `test_offline_mcp_uses_the_module_that_exists`，16 次里 1 次，无稳定触发条件 |
