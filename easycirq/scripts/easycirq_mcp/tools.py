@@ -7,6 +7,7 @@ from . import CAPABILITIES_SCHEMA, SERVER_NAME, TOOL_VERSION
 from .errors import InvalidParams, ToolError
 from .runners import (
     NOT_PROOF,
+    run_acceptance,
     run_card,
     run_delivery_audit,
     run_delivery_inspect,
@@ -266,6 +267,30 @@ _TOOL_SPECS = {
         "annotations": {"readOnlyHint": True, "destructiveHint": False,
                         "idempotentHint": True, "openWorldHint": False},
         "handler": run_setup,
+    },
+    "easycirq_acceptance": {
+        "description": (
+            "The post-prototype acceptance card: solder / power / function, judged "
+            "from the record you filled in after the board came back. A 'pass' with "
+            "no measured evidence is reported as unknown, never as a pass - physical "
+            "acceptance is the third evidence level and must not borrow the "
+            "schematic's or the EDA session's verdict."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Acceptance record JSON (easycirq-acceptance/v1). "
+                                   "Omit to read .easycirq/acceptance.json. " + _PATHS_NOTE,
+                },
+                "timeout_s": _TIMEOUT,
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_acceptance,
     },
     "easycirq_apply": {
         "description": (

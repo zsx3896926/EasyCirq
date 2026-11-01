@@ -463,6 +463,39 @@ def run_card(arguments):
                            True, "只读：有通行证才说「可以打样」")
 
 
+def run_acceptance(arguments):
+    """Run the local `easycirq acceptance --json` card (needs the CLI on PATH).
+
+    The acceptance card is the fourth act: it is the only verdict that speaks about
+    the physical board. It lives in the Go CLI, so this wraps it the same way
+    run_setup does rather than reimplementing the judgement in Python.
+    """
+    exe = shutil.which("easycirq")
+    if not exe:
+        raise ToolError("EASYCIRQ_CLI_NOT_FOUND",
+                        "本机 PATH 上没有 easycirq",
+                        "先安装 EasyCirq 工具链，再调用这个工具")
+    timeout = min(int((arguments or {}).get("timeout_s", 60)), 300)
+    command = [exe, "acceptance", "--json"]
+    record = (arguments or {}).get("record")
+    if record:
+        command += ["--file", str(resolve_path(record, "record"))]
+    try:
+        proc = subprocess.run(command, capture_output=True, text=True,
+                              encoding="utf-8", errors="replace", timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise ToolError("EASYCIRQ_ACCEPTANCE_TIMEOUT", f"easycirq acceptance 超过 {timeout}s")
+    # 0 accepted, 1 failed/pending, 2 no record - all three carry a report
+    if proc.returncode not in (0, 1, 2):
+        raise ToolError("EASYCIRQ_ACCEPTANCE_FAILED",
+                        (proc.stderr or proc.stdout or "")[:400])
+    try:
+        payload = json.loads(proc.stdout)
+    except ValueError as exc:
+        raise ToolError("EASYCIRQ_ACCEPTANCE_BAD_JSON", f"{exc}: {proc.stdout[:200]}")
+    return payload
+
+
 def run_setup(arguments):
     """Run the local `easycirq setup --json` check (needs the CLI on PATH)."""
     exe = shutil.which("easycirq")
