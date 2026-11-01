@@ -202,3 +202,23 @@ layout-plan: 1 candidate(s), 0 rejected variant(s); no editor writes performed
 
 前两次是读错了值，这次是**在错的条件下测量**。
 共同点：结论下得比验证快。
+
+## 偶发：test_offline_mcp_uses_the_module_that_exists
+
+**观察（2026-11-01，加了 MCP acceptance 工具之后）**：
+
+| 运行 | 结果 |
+|---|---|
+| `pytest tests`（全量，串行） | ❌ 1 failed（就是这一个），4866 passed |
+| 该用例单独跑 | ✅ 通过 |
+| 该文件单独跑 ×3 | ✅ 7 passed / 7 / 7 |
+
+**判断**：与套件顺序或模块缓存有关，不是本次改动引入的逻辑错误——
+`easycirq_acceptance` 只往 `TOOLS` 里加了一项，没有改 `easycirq_mcp` 的模块解析。
+
+**不做的处理**：没有抓到失败时的断言细节就改代码，等于把红灯弄灭。
+留着，等它再出一次并带出具体断言，或者单独安排一轮用 `-p no:randomly`
+与固定顺序复现。
+
+**影响**：CI 偶发红灯，重跑即可。与已有的
+`test_failed_upgrade_leaves_previous_version_intact` 属于同一类。
