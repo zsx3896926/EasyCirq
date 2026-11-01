@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -668,6 +669,7 @@ not relax guarded page replacement or clear.`,
 
 	// ── place ─────────────────────────────────────────────────────────────
 	sch.AddCommand(newSchAttributeMoveCmd(cfg, &window, stdout, stderr))
+	sch.AddCommand(newSchDesignatorAuditCmd(cfg, &window, stdout, stderr))
 
 	// schematic.component.place
 	{
@@ -701,6 +703,27 @@ final placed state.`,
 				if uuid == "" {
 					return fmt.Errorf("--uuid is required")
 				}
+				// Refuse a designator collision BEFORE dispatching the create. The
+				// platform can land the primitive and still answer with a geometry
+				// error, which is exactly how a duplicate R2 ended up on a real page
+				// (2026-10-30). A preflight read is cheap and keeps the page clean
+				// without a place→list→modify round trip.
+				if strings.TrimSpace(designator) != "" {
+					res, lerr := requestAction(cfg, "schematic.components.list", window, map[string]any{})
+					if lerr != nil {
+						fmt.Fprintf(stderr, "⚠ designator preflight skipped: could not read the active page (%v) — placing anyway\n", lerr)
+					} else if comps, perr := parseLayoutComps(res.Result); perr != nil {
+						fmt.Fprintf(stderr, "⚠ designator preflight skipped: component list unparsable (%v) — placing anyway\n", perr)
+					} else {
+						existing := make([]string, 0, len(comps))
+						for _, existingComp := range comps {
+							existing = append(existing, existingComp.Designator)
+						}
+						if err := placeDesignatorConflict(existing, designator); err != nil {
+							return err
+						}
+					}
+				}
 				payload := map[string]any{
 					"libraryUuid": lib,
 					"uuid":        uuid,
@@ -717,7 +740,23 @@ final placed state.`,
 					payload["designator"] = designator
 				}
 				err := dispatchTimed(cfg, "schematic.component.place", window, payload, placeTimeout, stdout, stderr)
-				return placeDispatchError(err)
+				if err != nil {
+					return placeDispatchError(err)
+				}
+				// EasyEDA can land the part under a DIFFERENT designator (observed
+				// R6→R8→R12→R13), after which connect-by-designator and the BOM
+				// row silently point at the wrong part. On by default; set
+				// EASYCIRQ_PLACE_VERIFY=0 to skip the extra page read.
+				if strings.TrimSpace(designator) != "" && os.Getenv("EASYCIRQ_PLACE_VERIFY") != "0" {
+					if res, lerr := requestAction(cfg, "schematic.components.list", window, map[string]any{}); lerr == nil {
+						if comps, perr := parseLayoutComps(res.Result); perr == nil && len(comps) > 0 {
+							if verr := verifyPlacedDesignator(comps, designator, x, y); verr != nil {
+								return verr
+							}
+						}
+					}
+				}
+				return nil
 			},
 		}
 		c.Flags().StringVar(&lib, "lib", "", "library UUID (required)")
@@ -806,6 +845,15 @@ platform still dropped is reported in result.notApplied (non-zero exit).`,
 				}
 				res, err := dispatchCapture(cfg, "schematic.component.modify", window,
 					map[string]any{"primitiveId": id, "patch": patch}, stdout)
+				if os.Getenv("EASYCIRQ_SCH_VERIFY") == "1" && cmd.Flags().Changed("designator") {
+					// The platform has returned ok:false while STILL moving the part,
+					// and ok:true while NOT applying the designator. Read the page and
+					// report the landed truth either way instead of trusting the ack.
+					if verr := verifyModifiedDesignator(cfg, window, id, designator, err); verr != nil {
+						return verr
+					}
+					return err
+				}
 				if err != nil {
 					return err
 				}

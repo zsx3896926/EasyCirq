@@ -17,6 +17,7 @@ import sys
 TOOLS = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 import channel_layout  # noqa: E402
+import grid_snap  # noqa: E402
 import layout_policy  # noqa: E402
 
 SCHEMA = "easycirq-readable-plan/v1"
@@ -182,7 +183,23 @@ def paginate(blocks):
     raise ValueError("blocks do not fit")
 
 
-def make(snapshot, groups):
+def make(snapshot, groups, geometry=None):
+    """Place, snap and validate: the returned placements are grid-snapped.
+
+    ``geometry`` = ``easycirq-pin-geometry/v1``; when omitted it is rebuilt from
+    the snapshot's own pin coordinates (``grid_snap.geometry_from_snapshot``), so
+    the pin-by-pin grid check still runs.  Snapping happens *before*
+    ``layout_policy.validate`` so the policy sees the coordinates that will be
+    written.
+
+    With a real ``geometry`` the snap is strict: a plan whose pins would share a
+    coordinate (or whose parts overlap) raises ``ValueError`` instead of being
+    returned - ``place_blocks`` packs rows from the footprint bbox, which is
+    narrower than a passive's 40-unit pin span, so the strict check is what
+    stops that collision from reaching the write channel.
+    """
+    if geometry is None:
+        geometry = grid_snap.geometry_from_snapshot(snapshot)
     sub_groups = []
     for group in groups:
         sub_groups.extend(__import__("subdivide").subdivide(snapshot, group))
@@ -226,15 +243,23 @@ def make(snapshot, groups):
             cursor_x += col_w + COL_GAP
         page_out.append({"page": pindex, "cards": cards,
                          "placements": {r: p for r, p in placements.items()}})
+    # snap anchors in place so the per-page views (same dict objects) stay valid
+    snapped = grid_snap.snap_plan(placements, geometry)
+    for ref, place in snapped["placements"].items():
+        placements[ref].update(place)
+    for page in page_out:
+        page["grid_snap"] = snapped["report"]
     rename_nets = layout_policy.rename_plan(snapshot)
     renumber_map = renumber(snapshot)
     report = layout_policy.validate(snapshot, placements)
     return {"schema": SCHEMA, "pages": page_out, "placements": placements,
             "fixes": {"rename_nets": rename_nets, "renumber_designators": renumber_map,
                       "annotate_testpoints": layout_policy.testpoint_annotations(snapshot)},
+            "grid_snap": snapped["report"],
             "validation": report,
             "counts": {"pages": len(pages), "parts": len(placements),
-                       "violations": report["metrics"]["violations"]}}
+                       "violations": report["metrics"]["violations"],
+                       "pins_off_grid_after": snapped["report"]["pins_off_grid_after"]}}
 
 
 if __name__ == "__main__":

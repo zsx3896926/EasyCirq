@@ -24,6 +24,7 @@ import sys
 TOOLS = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 import balanced_pack  # noqa: E402
+import grid_snap  # noqa: E402
 import stub_planner  # noqa: E402
 
 SCHEMA = "easycirq-channel-layout/v1"
@@ -189,10 +190,18 @@ def paginate_blocks(blocks, *, page=PAGE, title_block=TITLE_BLOCK,
 
 
 def plan(snapshot, groups, geometry):
-    """Cards -> pages -> absolute placements + label boxes (channels reserved)."""
+    """Cards -> pages -> absolute placements + label boxes (channels reserved).
+
+    Every page's anchors are snapped to the schematic grid with
+    ``grid_snap.snap_plan`` before they are published, so the plan can never hand
+    a pin-off-grid placement to the write channel; the per-page ``grid_snap``
+    report (and a summary under ``result["grid_snap"]``) carries the evidence.
+    """
+    geometry = geometry or {}
     cards = build_cards(snapshot, groups, geometry)
     pages = paginate(cards)
     result = {"schema": SCHEMA, "pages": []}
+    reports = []
     for index, page_cards in enumerate(pages):
         placements, boxes = {}, {}
         for card in page_cards:
@@ -203,15 +212,25 @@ def plan(snapshot, groups, geometry):
                     "y": round(card["py"] + (part["y"] - oy), 1),
                     "w": part["w"], "h": part["h"], "group": card["id"],
                     "page": index}
+        snapped = grid_snap.snap_plan(placements, geometry)
+        reports.append(snapped["report"])
         result["pages"].append({
             "page": index,
             "cards": [{"id": c["id"], "rect": [round(c["px"], 1), round(c["py"], 1),
                                                round(c["px"] + c["w"], 1),
                                                round(c["py"] + c["h"], 1)]}
                       for c in page_cards],
-            "placements": placements})
+            "grid_snap": snapped["report"],
+            "placements": snapped["placements"]})
+    result["grid_snap"] = {
+        "schema": grid_snap.SCHEMA,
+        "pages": reports,
+        "pins_off_grid_before": sum(r["pins_off_grid_before"] for r in reports),
+        "pins_off_grid_after": sum(r["pins_off_grid_after"] for r in reports),
+        "max_displacement": max((r["max_displacement"] for r in reports), default=0.0)}
     result["counts"] = {"cards": len(cards), "pages": len(pages),
-                        "parts": sum(len(p["placements"]) for p in result["pages"])}
+                        "parts": sum(len(p["placements"]) for p in result["pages"]),
+                        "pins_off_grid_after": result["grid_snap"]["pins_off_grid_after"]}
     return result
 
 

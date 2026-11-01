@@ -542,9 +542,53 @@ func parseNetPathPadShape(m map[string]any, p *pcbPadP, prefix string) error {
 		p.ShapeW, p.ShapeH, p.ShapeSides = d, d, int(sides)
 		p.ShapeOK = !p.SpecialPad
 	case "POLYGON":
-		// Validate the tuple container while keeping the geometry fail-closed.
+		// Polygon pads (thermal/EPAD shapes) carry an absolute SVG-path array:
+		// alternating x,y numbers with M/L tokens between them. Model the pad as
+		// its bounding box so clearance math stays conservative (a bbox can only
+		// over-report copper, never under-report it) instead of failing the whole
+		// board whenever one polygon pad appears anywhere on the layer.
 		if shape[1] == nil {
 			return fmt.Errorf("%s.shape POLYGON source is missing", prefix)
+		}
+		nums := make([]float64, 0, 16)
+		switch src := shape[1].(type) {
+		case []any:
+			for _, v := range src {
+				if f, ok := netPathOptionalFinite(v); ok {
+					nums = append(nums, f)
+				}
+			}
+		case []float64:
+			nums = append(nums, src...)
+		}
+		if len(nums) >= 6 && len(nums)%2 == 0 {
+			minX, maxX := math.Inf(1), math.Inf(-1)
+			minY, maxY := math.Inf(1), math.Inf(-1)
+			for i := 0; i+1 < len(nums); i += 2 {
+				if nums[i] < minX {
+					minX = nums[i]
+				}
+				if nums[i] > maxX {
+					maxX = nums[i]
+				}
+				if nums[i+1] < minY {
+					minY = nums[i+1]
+				}
+				if nums[i+1] > maxY {
+					maxY = nums[i+1]
+				}
+			}
+			if w, h := maxX-minX, maxY-minY; w > 0 && h > 0 {
+				p.ShapeW, p.ShapeH = w, h
+				// Polygon pads often ship without width/height fields; the
+				// escape/path validators require finite positive pad extents, so
+				// publish the bbox extents as the pad size as well.
+				if !(p.W > 0) || !(p.H > 0) {
+					p.W, p.H = w, h
+				}
+				p.ShapeOK = !p.SpecialPad
+				break
+			}
 		}
 		p.ShapeIssue = "POLYGON pad geometry is not supported by pcb net-path"
 	case "":
