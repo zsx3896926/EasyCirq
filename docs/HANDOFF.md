@@ -301,3 +301,43 @@ docs/customer-walkthrough.md 记录了在**隔离安装**里按输出提示走�
 | `tools/check_release_consistency.py` | 仓库 ↔ 包 ↔ 副本，四向 | 发版前 |
 | `tools/check_deliverable.py` | 交付包自身的断链/清单/校验和/数字 | 发版前 |
 | `tools/check_published.py` | 有没有任何本地分支没发布 | 发版前 |
+
+## 回归（2026-11-01，1.3.35 + 可复现输入入库）
+
+**串行跑，一次一个**（并行会让 IO 敏感的用例假失败，见 `docs/known-failures.md`）：
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests` | **4849 passed, 5 skipped** |
+| `go test ./...` | **16 包 ok，0 失败** |
+| `go vet ./...` | 干净 |
+| `tools/check_deliverable.py` | **交付包自检通过** |
+| `tools/check_release_consistency.py` | `CONSISTENT`（四向） |
+| `tools/check_published.py` | 全部本地分支已发布 |
+
+交付包现在 **22 个文件 / 233.5 KB**（含 `design/` 里 11 个可复现输入）。
+
+## 「可复现」现在到哪一步了
+
+| 层次 | 状态 | 证据 |
+|---|---|---|
+| 同机重跑结果一致 | ✅ | 多次 18 项数值一致 |
+| **只拿仓库文件重跑** | ✅ | `deliverables/alarm/design/` 9 个快照文件 → `verdict: PASS, kpis: 18` |
+| 换一台机器重跑 | ❌ **NOT RUN** | 仍是同一台机器上验证的 |
+| 从零重画这张图 | ❌ **NOT RUN** | EasyEDA 工程不在仓库里 |
+
+### 上一轮那个教训值得单独记
+
+第一次把"看起来重要"的 7 个文件入库，跑出来是：
+
+```
+offline pipeline: BLOCKED
+  missing  #14 netlist_diff
+  #15 readback
+```
+
+缺 `connectivity-before.json` / `connectivity-reopen.json`——KPI 14/15 要拿
+"写入前 / 重开后"两份快照做比对。
+
+**入库的文件要按管线的实际依赖核对，不能按重要性猜。**
+这和之前"检查范围小于看起来的范围"是同一类错误的另一种形式。
