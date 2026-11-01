@@ -1044,3 +1044,28 @@ def test_scorecard_reports_every_kpi_the_objective_names():
                    "layer distribution (mil)", "bus skew"):
         assert needle in text, needle
     assert "L1 10.0 / L2 5.0" in text
+
+
+    # (replaced below)
+
+
+def test_escape_check_finds_a_pad_that_cannot_be_entered():
+    """The floor argument: a pad surrounded on all sides has NO legal entry angle, so the
+    clearance KPI cannot reach zero whatever the router does.  The check must find it and
+    must NOT flag a pad with room around it."""
+    esc = _mod("escape_check", "escape_check.py")
+    ring = []
+    for dx in (-1, 0, 1):
+        for dy in (-1, 0, 1):
+            ring.append((str(len(ring) + 1), "N%d%d" % (dx + 1, dy + 1),
+                         400 + 20 * dx, 400 + 20 * dy))
+    boxed = make_board([comp("U9", 400, 400, ring)])
+    for p in boxed.comps["U9"]["pads"]:
+        p["w"], p["h"] = 40, 40          # pads touch their neighbours in every direction
+    bad = esc.unconnectable(boxed)
+    assert [p["pad"] for p in bad] == ["5"], [p["pad"] for p in bad]   # the centre pad
+
+    loose = make_board([comp("R9", 400, 400, [("1", "B", 400, 400)])])
+    for p in loose.comps["R9"]["pads"]:
+        p["w"], p["h"] = 20, 20
+    assert esc.unconnectable(loose) == []

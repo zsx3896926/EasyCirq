@@ -21,9 +21,11 @@ yet, and both remaining blockers are measured design decisions rather than route
 (see §3 and DECISIONS D2/D3/D6).  No plan has been written to a live board, which is the
 rule working as intended.
 
-**Accepted 2026-11-01 (engineer's call):** this state closes the goal.  The toolchain is
-the deliverable; the board stays undeliverable until someone decides on the three red
-lines.  When that happens, nothing in the pipeline needs rebuilding:
+**Blocked 2026-11-01 (proved, §65), accepted by the engineer:** the gate cannot go green
+on this board - five pads (R2×2, U2×2, U1×1) have no legal track entry at the board's own
+rules, so clearance has a floor of ≥11 violations, and the bus skew needs a pinout change.
+The toolchain is the deliverable; the board stays undeliverable until someone decides on
+the red lines.  When that happens, nothing in the pipeline needs rebuilding:
 
 ```bash
 # after a pinout / placement / stackup change:
@@ -106,14 +108,17 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 * Every knob around it has a measured optimum, not a direction: via disc 25 mil at
   5 mil (30 mil → 4 dead legs + a congestion cell, 35 mil → 3 dead legs + an island,
   §59); acceptance budget 56 (§57); `pour_step` saturated at 8 (§47).
-* **Decision needed:** accept a documented waiver, move J3/J1/U4/L1, or change the
-  rule/process (smaller vias, thinner tracks).
-  on this board have no legal corridor; **216–272 of the 329 pad hits are forced**,
-  i.e. no routing change can remove them.
-* **Decision needed:** accept a documented waiver, move the parts (J3/J1/U4/L1 spacing
-  from the routing corridors), change the rule/process (smaller vias, thinner tracks),
-  or change the routing paradigm.  A "connector escape channel" is NOT available:
-  at 19.7 mil pitch there is nothing to reserve (§48.5).
+* **There is a hard floor beyond all of that.** `escape_check.py` (§65) asks a question
+  no router, placement or stackup can change: does ANY legal track exist that can enter
+  each pad, at 7 mil width and 6 mil clearance?  Five pads — R2×2, U2×2, U1×1 — have
+  **no legal entry angle**, and in the frontier plan they are connected anyway, each
+  stub paying 1–3 violations: a floor of **≥ 11 clearance violations that cannot be
+  removed**.  Gate-green is therefore impossible on this board without a footprint, rule
+  or netlist change.
+* **Decision needed:** change the footprint (R2/U2/U1 pads), change the rule (thinner
+  track or smaller clearance), move the parts (J3/J1/U4/L1 spacing from the routing
+  corridors), or accept a documented waiver.  A "connector escape channel" is NOT
+  available: at 19.7 mil pitch there is nothing to reserve (§48.5).
 
 ### 3.2 Pour islands — SOLVED at 5 mil (0), still 1 at 10 mil
 
