@@ -39,10 +39,14 @@ FORBIDDEN = [
     "connector",
     "typed action",
     "gate token",
-    "快照",
-    "回读",
     "gate_required",
     "apply_allowed",
+    "快照",
+    "回读",
+    # 「通行证」was the old rendering of gate token; 「写入许可」replaced it but is
+    # still a tool concept - the assistant writes, not the customer.
+    "通行证",
+    "写入许可",
 ]
 
 # Strings that legitimately contain a forbidden-looking word because it is part

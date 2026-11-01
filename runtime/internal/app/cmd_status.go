@@ -96,26 +96,26 @@ func plainFor(kpi string) string {
 // gateLive reports whether the offline checker's write permission is usable.
 func gateLive(path string) (bool, string) {
 	if path == "" {
-		return false, "没有指定通行证路径"
+		return false, "没有指定上次检查结果的路径"
 	}
 	var token statusGate
 	if err := readStatusJSON(path, &token); err != nil {
 		if os.IsNotExist(err) {
 			return false, "还没确认可以写入"
 		}
-		return false, fmt.Sprintf("通行证读不出来：%v", err)
+		return false, fmt.Sprintf("上次的检查结果读不出来：%v", err)
 	}
 	if !strings.EqualFold(token.Verdict, "PASS") || !token.ApplyAllowed {
-		return false, "通行证不是 PASS"
+		return false, "上次的检查结果不是 PASS"
 	}
 	if token.ExpiresAt != "" {
 		if when, err := time.Parse(time.RFC3339, token.ExpiresAt); err == nil {
 			if time.Now().UTC().After(when) {
-				return false, "写入许可已过期（" + token.ExpiresAt + "）"
+				return false, "上次的检查结果过期了（" + token.ExpiresAt + "）"
 			}
 		}
 	}
-	return true, "通行证有效到 " + token.ExpiresAt
+	return true, "上次的检查结果有效到 " + token.ExpiresAt
 }
 
 // analyzeStatus maps the artefacts onto exactly one state and one next action.
@@ -160,8 +160,8 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 		result.State, result.Headline = "incomplete", "还不能判断：有些检查还没做"
 		result.Next = "补齐下面这些检查需要的资料，再跑一轮"
 	case strings.EqualFold(report.Verdict, "PASS") && !report.Stability.ApplyAllowed:
-		result.State, result.Headline = "gate_stale", "检查通过，但还没拿到写入许可"
-		result.Next = "连续两轮通过后才会获得许可；再跑一轮即可"
+		result.State, result.Headline = "gate_stale", "检查通过，还差一轮确认"
+		result.Next = "连续两轮都通过才能继续；再跑一轮检查就行"
 	case strings.EqualFold(report.Verdict, "BLOCKED") && len(result.Blockers) > 0:
 		result.State, result.Headline = "blocked", "暂时不能写入：还有必须修掉的问题"
 		result.Next = "按下面的清单逐条修，修完重新测量；修完之前不要画图"
@@ -178,8 +178,8 @@ func analyzeStatus(report *statusReport, gatePath string) statusResult {
 		} else {
 			// "通行证" is our internal name for the write permission; say what it
 			// means for the customer instead.
-			result.State, result.Headline = "gate_stale", "检查通过了，但写入许可已失效"
-			result.Next = "重新跑一轮检查即可重新获得写入许可"
+			result.State, result.Headline = "gate_stale", "检查通过了，但上次的结果过期了"
+			result.Next = "再跑一轮检查就能继续"
 		}
 	}
 	return result

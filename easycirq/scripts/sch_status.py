@@ -61,25 +61,25 @@ def _load(path):
 def _gate_state(path):
     """(state, detail) for the gate token: live | stale | missing."""
     if not path:
-        return "missing", "没有指定写入许可的路径"
+        return "missing", "没有指定检查结果的路径"
     p = Path(path)
     if not p.is_file():
         return "missing", "还没确认可以写入"
     try:
         token = _load(p)
     except (OSError, ValueError) as exc:
-        return "stale", f"读取写入许可失败：{exc}"
+        return "stale", f"读取上次的检查结果失败：{exc}"
     if not str(token.get("verdict", "")).upper() == "PASS" or not token.get("apply_allowed"):
-        return "stale", "写入许可对应的不是 PASS"
+        return "stale", "上次的检查结果不是 PASS"
     expires = token.get("expires_at")
     if expires:
         try:
             when = datetime.strptime(expires, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
             if datetime.now(timezone.utc) > when:
-                return "stale", f"写入许可已过期（{expires}）"
+                return "stale", f"上次的检查结果过期了（{expires}）"
         except ValueError:
             pass
-    return "live", f"写入许可有效到 {expires}"
+    return "live", f"上次的检查结果有效到 {expires}"
 
 
 def analyze(report=None, gate_path=None):
@@ -114,7 +114,7 @@ def analyze(report=None, gate_path=None):
         state, headline = "incomplete", "还不能判断：有些检查还没做"
         nxt = "补齐下面这些检查需要的资料，再跑一轮"
     elif verdict == "PASS" and not apply_allowed:
-        state, headline = "gate_stale", "检查通过，但还没拿到写入许可"
+        state, headline = "gate_stale", "检查通过，还差一轮确认"
         nxt = "连续两轮通过后才会获得许可；再跑一轮即可"
     elif verdict == "BLOCKED" and blockers:
         state, headline = "blocked", "暂时不能写入：还有必须修掉的问题"
@@ -132,7 +132,7 @@ def analyze(report=None, gate_path=None):
             nxt = "执行写入；写完保存、关掉重开，确认东西都还在，再跑一次检查"
         else:
             state = "gate_stale"
-            headline = "检查通过了，但写入许可已失效"
+            headline = "检查通过了，但上次的结果过期了"
             nxt = f"{gate_detail}；重新跑一轮检查即可重新签发"
     return {
         "schema": SCHEMA,

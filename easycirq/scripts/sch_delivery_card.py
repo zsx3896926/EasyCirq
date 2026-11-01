@@ -74,22 +74,22 @@ def _load(path):
 
 def _gate_live(path):
     if not path or not Path(path).is_file():
-        return False, "没有写入许可"
+        return False, "没有上次的检查结果"
     try:
         token = _load(path)
     except (OSError, ValueError):
-        return False, "写入许可读不出来"
+        return False, "上次的检查结果读不出来"
     if str(token.get("verdict", "")).upper() != "PASS" or not token.get("apply_allowed"):
-        return False, "写入许可对应的不是 PASS"
+        return False, "上次的检查结果不是 PASS"
     expires = token.get("expires_at")
     if expires:
         try:
             when = datetime.strptime(expires, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
             if datetime.now(timezone.utc) > when:
-                return False, f"写入许可已过期（{expires}）"
+                return False, f"上次的检查结果过期了（{expires}）"
         except ValueError:
             pass
-    return True, "写入许可有效"
+    return True, "上次的检查结果仍然有效"
 
 
 def analyze(report, gate_path=None, pcb=None):
