@@ -259,3 +259,53 @@ python -m pytest tests -q 2>&1 | Tee-Object -FilePath reports/pytest-full-<date>
 
 **结论：一次性偶发，未能复现。** 不改代码——没有断言细节就改，等于把红灯弄灭。
 下次再出现时，日志里会有可查的证据。
+
+## 真缺陷（已复现）：失败的任务有时不留 `result.json`
+
+**这是产品缺口，不是测试问题。**
+
+### 症状
+
+```
+FAILED tests/task_launcher_tests/test_bound_integration.py::
+       BoundGateTests::test_claude_profile_without_supervisor_report_fails_the_task
+  FileNotFoundError: ...\state\tasks\task-bound-gate-001\result.json
+```
+
+任务以 `returncode == 1` 结束（测试第一步就通过了），但
+**`result.json` 根本不存在**，于是没法读到失败原因。
+
+### 复现率
+
+跑了 16 次 `pytest tests/task_launcher_tests/test_bound_integration.py`：
+
+| 结果 | 次数 |
+|---|---|
+| 通过 | 14 |
+| **失败** | **2**（约 12%，不是必现） |
+
+完整日志：`reports/repro-result-json.log`（`reports/*` 不入库）。
+
+### 为什么这是缺陷而不是测试太严
+
+测试期望的是**正确行为**：
+
+```python
+self.assertEqual(completed.returncode, 1, ...)
+workspace = state_dir / "tasks" / task_id
+result = read_json(workspace / "result.json")     # <- 这里炸
+self.assertEqual(result["status"], "failed", result)
+self.assertEqual(result["agent"], "claude-code")
+```
+
+任务失败时应当**留下一份说明**（status / agent / bound 细节），
+否则调用方只拿到一个退出码——正是「缺证据」的反面。
+
+而且这和之前几次是同一类：**报告成功/失败与真正落盘不一致**。
+
+### 尚未做的
+
+没改代码。原因：还没定位到"哪条失败路径提前返回、跳过了写 result.json"。
+下一轮要读 `task_launcher` 的失败分支，找出没有写出结果的路径。
+
+（这一轮先把复现率和日志固定下来——**没有这一步，下一轮又会从零开始猜**。）
