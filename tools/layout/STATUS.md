@@ -21,6 +21,20 @@ yet, and both remaining blockers are measured design decisions rather than route
 (see §3 and DECISIONS D2/D3/D6).  No plan has been written to a live board, which is the
 rule working as intended.
 
+**Accepted 2026-11-01 (engineer's call):** this state closes the goal.  The toolchain is
+the deliverable; the board stays undeliverable until someone decides on the three red
+lines.  When that happens, nothing in the pipeline needs rebuilding:
+
+```bash
+# after a pinout / placement / stackup change:
+python tools/layout/reproduce.py --dump newdump.json --place ec-placed.json --out-dir out/
+python tools/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
+    --dump newdump.json --stackup 4      # must print contract: PASS before any apply
+```
+
+Measured-and-rejected dimensions (§4) and the decision checklist (§5.1) are the parts
+worth reading before touching the router again.
+
 > Read this first. It is the current state, the evidence behind it, and what is
 > **not** worth retrying. Details live in `HANDOFF.md` (§ numbers below) and
 > `DECISIONS.md` (D1–D5); every number here was produced by the commands in §6.
@@ -210,6 +224,7 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
 
 
 
