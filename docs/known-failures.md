@@ -723,3 +723,58 @@ warnings: ["connector looks DEGRADED under load (recent EFFECT failure rate 20%,
 2. 再确认 `--uuid` 到底该传什么：可能需要的是 LCSC 器件在库里的 component uuid
    （`C31850` 对应的那个），而不是原理图里那一份的 uuid。
 3. 最后才重试写入，并且每次都读回确认。
+
+## 真缺陷（诊断到层，未修）：`pcb add-component` 的 `[object Object]`
+
+**2026-11-01，第 1 轮压力测试目标的第一件事。**
+
+### 现象
+
+```
+$ easycirq pcb add-component --library 0819f05c... --uuid b7a1aae2... \
+    --designator R6 --unique-id gge20 --nets '{"1":"ALARM","2":"NTC_MID"}' \
+    --x 420 --y -900
+
+"error": {"code": "EDA_CALL_FAILED",
+          "message": "Failed to place the component footprint on the PCB.",
+          "detail": "[object Object]"}
+```
+
+审计日志里也是 `errorDetail: "[object Object]"`（`~/.easycirq/audit/2026-11-01.jsonl`，
+requestId `req_222`）——**所以丢失发生在写审计之前**。
+
+### 已经排除的（都有实测）
+
+| 怀疑 | 怎么排除的 | 结果 |
+|---|---|---|
+| 发布包里的 connector 是旧的 | 比对 1.3.42 发布包 ↔ `connector/build/dist` 的 sha256 | **完全一致**（`37ec7a8e06e63bc9`） |
+| 装机运行的是另一版代码 | 解出 `%LOCALAPPDATA%\EasyCirq\connector\v0.1.4.eext` 里的 `dist/index.js` | 974,763 字符，与 v1.0.20 的 975,307 **几乎是同一份** |
+| `pcbAddComponent` 用了 `String(err)` | 在**两版 bundle** 里定位那句错误消息前后 420 字符 | 两版**完全相同**：都是 `throw edaError(err, "...")` |
+| `describeThrown` 会吐裸 `[object Object]` | 读 `util.ts` 全部分支：string / Error / object / 兜底 | **不可能**。兜底是 `${toString.call(err)} (no enumerable properties)`，带后缀；`stringifySafe` 用 `JSON.stringify` |
+| Go 侧丢的 | `envelope.go:150` 是 `Detail string`，`daemon/audit.go:146` 直接 `e.ErrorDetail = resp.Error.Detail` | Go 只是原样接收；到它手上时字符串**已经是** `[object Object]` |
+
+### 我自己踩的一个推理坑（记下来，因为它会再犯）
+
+第一轮我数了 bundle 里 `"[object Object]"` 出现几次，得到 **0**，于是断定"跑的不是这份代码"。
+
+**这个推理是错的。** `[object Object]` 是 `String(x)` 在**运行时**对普通对象求值的产物，
+**源码里永远不会出现这个字面量**。数它等于什么都没证明。
+后来改看"那句错误消息附近的实际代码"，才两个版本都看到 `edaError` —— 信息量完全不同。
+
+### 现在的位置
+
+丢失点收窄到：**connector 内部，`edaError` 之外的一层**——最可能是
+`result.degraded` 那套包装（响应里带着 `degraded: {...}`），或者某个外层 catch
+把 `ActionError` 又序列化了一次。
+
+**下一步该做的**（便宜且决定性）：
+1. 在 `connector/src` 里找把错误塞进 `degraded`/信封的那段，看有没有对 `err` 做字符串化
+2. 或者直接在那条 `throw edaError(...)` 上临时加一行日志，把 `describeThrown(err)` 的结果和 `err` 的 `typeof`/构造器名打出来，重跑一次
+3. 修完加一条测试：给 `describeThrown` 喂主机对象、无原型对象、带 `toJSON` 的对象、
+   Proxy，断言**任何输入都不会产出裸 `[object Object]`**
+
+### 为什么不先"换个参数绕过"
+
+目标里写死了：**`[object Object]` 换个参数躲过去不算解决**。
+一个说不出原因的失败，等于没有失败信息——这比失败本身更糟，
+也正是「失败可解释率 100%」要防的东西。
