@@ -217,4 +217,38 @@ Consequences recorded here so nobody re-litigates them silently:
 | `VIA_COST` | 14 | 20 buys 48 fewer violations but one more open net; the gate ranks open nets first |
 | `BEST_EFFORT_MAX_CONFLICTS` | 2 | an open net is worse than a spacing violation, an overlap is not |
 | `trim_pour_crossings` acceptance | new path must not add `path_conflicts` | without it the trim silently traded islands for spacing (HANDOFF §41) |
+---
 
+## D6. Routing resolution: 10 mil grid vs 5 mil grid  **OPEN**
+
+Measured on the same placement, same code (only the `GRID` constant differs, loaded
+by `grid_experiment.py`), 70 negotiation passes:
+
+| configuration | unrouted | unconnected | pour islands | clearance | skew max | length |
+|---|---|---|---|---|---|---|
+| GRID=10 (`reproduce.py`) | 0 | 0 | **1** | **511** | 713.1 | 38999 |
+| GRID=5, best-effort budget 10 | 0 | 0 | **0** | 774 | 793.7 | 35390 |
+| GRID=5, best-effort budget 16 | 0 | 0 | **0** | 831 | 712.3 | 35739 |
+
+The gate's order ranks pour continuity above clearance, so GRID=5 is the better point
+by the recorded rule — and it is the first configuration with **zero dead legs AND a
+whole pour**.  But clearance rises 511 → 774 (+51 %), which is a real DRC increase, so
+this is an engineering call, not something to flip silently.
+
+Two things to know before deciding:
+
+1. **The pour island is resolution-dependent.** §42 called it a design conflict because
+   on a 10 mil grid no routing change removed it and the stranded access via had no
+   legal stub.  At 5 mil, two independent runs give `pour_islands = 0` and an empty
+   `pour_island_report()` — the same copper face connects because the gap that was one
+   cell wide at 10 mil is two cells at 5 mil.  The §42 evidence still explains why the
+   10 mil grid could not fix it; it does not prove it is impossible.
+2. **Runtime**: 850–1130 s instead of ~600 s (`ec` module patched from source, so the
+   production default is untouched).
+
+Re-measure any time with:
+
+```bash
+python tools/layout/grid_experiment.py --dump dump2.json --place ec-placed.json \
+    --grid 5 --pour-step 8 --best-effort-conflicts 10 --out-dir out/grid5
+```

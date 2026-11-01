@@ -908,3 +908,15 @@ def test_grid_experiment_loads_the_same_code_at_half_the_grid():
         assert b5.cell(*b5.center(*cell)) == cell
     # the production module is untouched
     assert ec.GRID == 10.0
+
+
+def test_best_effort_budget_scales_with_the_grid():
+    """The budget counts conflicting segment PAIRS; both the candidate and the copper
+    it fights get denser as the grid shrinks, so at half the grid the same physical
+    situation is four times the count.  At the recorded 10 mil it must stay 2."""
+    assert ec._best_effort_budget() == ec.BEST_EFFORT_MAX_CONFLICTS == 2
+    ge = _mod("grid_experiment", "grid_experiment.py")
+    ec5 = ge.load_module(5)
+    assert ec5._best_effort_budget() == 8          # (10/5)^2 = 4x
+    ec20 = ge.load_module(20)
+    assert ec20._best_effort_budget() >= 1          # never below one pair

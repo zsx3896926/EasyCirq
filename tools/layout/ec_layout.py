@@ -509,6 +509,20 @@ def _all_layers(board=None):
     return range(1, int(n or 4) + 1)
 
 
+def _best_effort_budget(reference_grid=10.0):
+    """How many conflicting segment pairs a "least bad" path may keep, at THIS grid.
+
+    The budget is counted in conflicting PAIRS, and both sides of the count get
+    denser when the grid shrinks: a 100 mil run is 10 segments at 10 mil and 20 at
+    5 mil, and the copper it conflicts with doubles the same way.  So the count
+    scales with (reference/GRID)^2 - keeping the constant at 2 on a 5 mil grid
+    rejected legs that had been accepted at 10 mil (measured: 34 dead legs instead
+    of 0, HANDOFF §50/§51).  At the recorded default (GRID=10) this is exactly
+    2, so the frontier is unchanged.
+    """
+    return max(1, int(round(BEST_EFFORT_MAX_CONFLICTS * (reference_grid / GRID) ** 2)))
+
+
 def build_pad_via_block(board, radius=VIA_RADIUS, margin=VIA_BLOCK_MARGIN):
     """Cells where a via would sit too close to a PAD of some net.
 
@@ -1286,7 +1300,7 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
                             best_bad, best_cand = bad, cand
                     extra |= {c[:2] for c in cand}
                 if not path and best_effort and best_cand is not None \
-                        and best_bad <= BEST_EFFORT_MAX_CONFLICTS:
+                        and best_bad <= _best_effort_budget():
                     # No clean corridor exists. Keep the least-bad one so the net is
                     # not left open; the remaining conflicts are DRC violations the
                     # report already counts. An open net is the worse failure.
@@ -3386,6 +3400,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 
