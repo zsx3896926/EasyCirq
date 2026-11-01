@@ -341,3 +341,39 @@ offline pipeline: BLOCKED
 
 **入库的文件要按管线的实际依赖核对，不能按重要性猜。**
 这和之前"检查范围小于看起来的范围"是同一类错误的另一种形式。
+
+## 回归（2026-11-01，1.3.36）
+
+串行跑，一次一个：
+
+| 检查 | 结果 |
+|---|---|
+| `pytest tests` | **4852 passed, 5 skipped** |
+| `go test ./...` | **16 包 ok，0 失败** |
+| `go vet ./...` | 干净 |
+| `skill_selftest.py`（已安装副本） | **6 PASS** |
+| `tools/check_handoff.py` | 所有引用都能找到（70 个） |
+| `tools/check_deliverable.py` | 交付包自检通过 |
+| `tools/check_release_consistency.py` | `CONSISTENT`（四向） |
+| `tools/check_published.py` | 全部本地分支已发布 |
+
+## 四个仓库级自检器（每个都有测试）
+
+| 脚本 | 守什么 | 第一次跑抓到什么 |
+|---|---|---|
+| `check_release_consistency.py` | 仓库 ↔ 包 ↔ 副本，四向 | 256 个过时文件 |
+| `check_deliverable.py` | 交付包的断链/清单/校验和/数字 | 一个 `../docs/` 断链 |
+| `check_published.py` | 有没有本地分支没发布 | 122 个分支 + 3 个提交 |
+| `check_handoff.py` | 交接文档里 70 个路径引用 | 一个只在上一级成立的路径 |
+
+**四个都是「发现问题 → 固化成检查」的产物，而且四个都在第一次运行时抓到了真东西。**
+
+### 一个反复出现的教训
+
+`check_handoff.py` 自己有两个 bug，都被它自己的测试抓到：
+
+1. `easycirq/` 开头的路径被当成命令行跳过 → 文档里所有 `easycirq/scripts/...`
+   的引用**从没被检查过**（覆盖数 66 → 70）。
+2. 输出在 Windows 上是 GBK，中文判定乱码 → 四个仓库工具现在都强制 UTF-8。
+
+**检查器本身也需要被检查。** 如果它没配测试，我会一直以为"所有引用都能找到"是真的。
