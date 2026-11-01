@@ -361,6 +361,14 @@ def cmd_run(args: argparse.Namespace) -> int:
         return EXIT_OK if result.get("status") == "completed" else EXIT_TASK_FAILURE
     except LauncherError as exc:
         _print_json(exc.to_payload())
+        # The payload goes to stdout. A caller that captures stderr - which is what
+        # tests and most wrappers do - would see an exit code and an empty message,
+        # so an intermittent protocol error had no visible cause (2026-11-01: 2 of
+        # 16 runs returned exit 2 with nothing on stderr). One line here makes the
+        # failure explain itself on either stream.
+        code = getattr(exc, "code", type(exc).__name__)
+        message = getattr(exc, "message", str(exc))
+        print(f"task_launcher run: {code}: {message}", file=sys.stderr)
         return EXIT_PROTOCOL_ERROR
     finally:
         try:

@@ -352,3 +352,55 @@ except Exception as exc:
 因为 `assertEqual` 的 message 只在失败时拼进断言文本，而 `-q` 的输出被 Tail 截断。
 
 正确做法：`pytest ... -x --tb=long` 并且**不截断**，直接看完整 traceback。
+
+### 第三次：找到原因的一半，并让它下次能自己说出来
+
+**用 `--tb=long` 不截断地抓到断言原文：**
+
+```
+AssertionError: 2 != 1 :
+```
+
+冒号后面**是空的**——`completed.stderr[-2000:]` 取不到任何东西。
+
+顺着这个查 `cmd_run`（`task_launcher/cli.py`）：
+
+```python
+except LauncherError as exc:
+    _print_json(exc.to_payload())      # <- 打到 stdout
+    return EXIT_PROTOCOL_ERROR         # <- 2
+```
+
+**LauncherError 的 payload 只写 stdout，stderr 是空的。**
+所以测试（以及任何只读 stderr 的调用方）看到的就是"退出码 2 + 一句空话"。
+
+偶发的不是"任务失败"（那本来就该 exit 1），而是**有时抛了 LauncherError**，
+于是退出码变成 2、结果文件不写、stderr 空。
+
+### 独立复现：40 次全过
+
+写了 `tools/repro_bound_gate.py`，把测试的调用原样搬出来跑 40 次：
+**0 次失败**。所以触发条件在 pytest 进程里，不在这个场景本身。
+不再追——没有稳定复现条件就改代码，就是第二次试图制造新的不确定性。
+
+### 已经做的改动（安全、只增加信息）
+
+`except LauncherError` 里加一行到 stderr：
+
+```python
+code = getattr(exc, "code", type(exc).__name__)
+message = getattr(exc, "message", str(exc))
+print(f"task_launcher run: {code}: {message}", file=sys.stderr)
+```
+
+**不改任何行为**，只是让失败在两路输出上都能被看见。
+
+验证（故意发一个非法请求）：
+
+```
+{"error": {"code": "UNKNOWN_FIELD", ...}}                      <- stdout
+task_launcher run: UNKNOWN_FIELD: unknown field(s): bogus      <- stderr（新增）
+exit=2
+```
+
+**下一次它再偶发时，断言消息里就会带着真正的错误码**，不用再从零查。
