@@ -98,3 +98,64 @@ HEAD 与本地一致）。
 
 「可复现」不只是「同一台机器重跑结果一致」——**代码本身必须在别处也有一份**。
 一个只存在于本地分支的实现，别人无法复现，磁盘坏了也无法恢复。
+
+## 全部本地分支已发布（2026-11-01 第二轮）
+
+第一次只推了 `feat/agent-ace-rules`，然后核了其余分支，发现范围远不止一条：
+
+| 项 | 之前 | 之后 |
+|---|---|---|
+| 远端分支 | 30 | **174** |
+| 本地分支 | 165 | 165 |
+| **tip 在远端不可达的分支** | **122** | **0** |
+
+较长的那几个：`backup/local-balanced-pack`(88 个独有提交)、
+`feat/balanced-pack-rebase`(84)、`feat/eda-load-doc`(63)、
+`feat/agent-docs-round24`(60)。
+
+### 两条被拒的推送（**没有**强推）
+
+```
+! [rejected]  feat/balanced-pack  (non-fast-forward)
+! [rejected]  main                (non-fast-forward)
+```
+
+两条都是「本地比远端旧」。`git push --force` 会覆盖远端历史，
+**所以没做**。改为把本地 main 推成独立备份分支：
+
+```
+* [new branch]  main -> backup/local-main-20261101   (d39b8ed1)
+```
+
+### 本地 main 确实有 3 个未发布的提交
+
+```
+d39b8ed1  docs(easycirq): add Agent entry contract page for routing_lab tools
+92a45799  docs(easycirq): add router A/B worked example
+2e75ddae  docs(easycirq): add router A/B comparability reference
+```
+
+其中两个文件**在 origin/main 上不存在**：
+
+```
+easycirq/references/pcb-router-agent-entry.md   on origin/main: False
+easycirq/references/pcb-router-ab.md            on origin/main: False
+```
+
+它们现在保存在 `backup/local-main-20261101` 上。**是否要把这两个文档合进主线，是产品决定，不是我能替你定的。**
+
+### 备份文件
+
+```
+.backup/agent-ace-rules-20261101.bundle   40.3 MB
+.backup/all-refs-20261101.bundle          45.9 MB   265 refs，还原后 166 个分支
+```
+
+两个都通过 `git bundle verify`（"records a complete history"）并实际还原验证过。
+
+### 教训
+
+第一次检查时我只问「**我的分支**发布了没有」，答案是"没有"，修完就以为完事了。
+真正该问的是「**有没有任何**本地成果没发布」——一问就多出 122 个分支和 3 个提交。
+
+**检查范围又一次小于它看起来的范围。**
