@@ -740,8 +740,7 @@ $ easycirq pcb add-component --library 0819f05c... --uuid b7a1aae2... \
           "detail": "[object Object]"}
 ```
 
-审计日志里也是 `errorDetail: "[object Object]"`（`~/.easycirq/audit/2026-11-01.jsonl`，
-requestId `req_222`）——**所以丢失发生在写审计之前**。
+审计日志里也是 `errorDetail: "[object Object]"`（审计目录下 2026-11-01 那份，requestId `req_222`）——**所以丢失发生在写审计之前**。
 
 ### 已经排除的（都有实测）
 
