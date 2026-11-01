@@ -58,3 +58,13 @@ def test_good_report_still_works():
     proc = run("card", "--kpi-report", str(KPI))
     assert proc.returncode == 0, output(proc)
     assert "下一步" in output(proc)
+
+
+def test_unknown_command_speaks_chinese_and_gives_a_next_step():
+    """Cobra's default is 'unknown command "x" for "y"' - English, no next step."""
+    proc = run("frobnicate")
+    text = output(proc)
+    assert proc.returncode != 0
+    assert "frobnicate" in text, text
+    assert "下一步" in text, text
+    assert "unknown command" not in text.lower(), text
