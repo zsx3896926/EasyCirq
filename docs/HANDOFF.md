@@ -174,3 +174,36 @@ python tools/check_published.py
 
 有未发布的就列出来并 `exit 1`。`tests/test_check_published.py` 用临时仓库
 造了「未推送分支」和「已推送分支」两种情况，确认它既不漏报也不误报。
+
+## 另一个 worktree 在活跃工作（2026-11-01 观察到）
+
+`hds-verifier/` 这个 worktree 停在分支 `fix/designator-integrity` 上，**有活跃提交**：
+
+```
+5dbe1f04 2026-11-01  research(layout): fine budget sweep at 5 mil finds a better point
+04e62559 2026-11-01  feat(layout): the routing grid is a first-class parameter
+2188949d 2026-11-01  research(layout): at 5 mil the board finally gets 0 dead legs AND 0 pour islands
+```
+
+而且它的工作树里有**未提交的改动**（`tools/layout/ec_layout.py`、`tools/layout/reproduce.py`、
+`tests/test_ec_layout.py`）。
+
+处理：只推送了它的**提交**（`04e62559..5dbe1f04`，快进，无冲突），
+**没有碰它的工作树，没有 commit 它的未提交改动**。那是另一个会话的活。
+
+### 这次是工具抓到实时的，不是测试
+
+上一次跑 `check_published.py` 是"全绿"；这轮再跑，它报出
+
+```
+UNPUBLISHED: 1 branch(es)
+  fix/designator-integrity    5dbe1f04
+```
+
+因为在我的两次运行之间，那个 worktree 新提交了一次。
+**检查在真实数据上生效了，而不只是在测试夹具里。**
+
+### 值得记住的一点
+
+「本地分支全发布了」是一个**会过期的结论**——只要还有别的 worktree 在跑。
+所以这个检查不能只做一次，应该放进发版检查单（已放）。
