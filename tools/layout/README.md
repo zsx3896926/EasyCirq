@@ -33,6 +33,9 @@ python tools/layout/pour_cut.py out/plan.json --dump dump.json --place placed.js
 # compare profiles and mark which are non-dominated
 python tools/layout/compare.py --dump dump.json --place placed.json --profiles shared-pour,exclusive-pour
 
+# run several configurations and pick the best by the gate's own order
+python tools/layout/portfolio.py --dump dump.json --place placed.json --jobs 3 --out-dir out/pf
+
 # ask whether a bus can be routed as parallel lanes at all
 python tools/layout/bus_capacity.py --dump dump.json --place placed.json
 
@@ -64,13 +67,14 @@ to the board. Several earlier versions had router and checker disagreeing (40 vs
 "connected"); each is pinned by a test.
 
 ## Current frontier (RetroCam-02, 4 layers, GND + +3V3 as area pours)
-`reproduce.py --profile shared-pour` (all numbers re-measured after the clearance
-KPI started counting track/pad — see HANDOFF §41):
+`reproduce.py` (default profile `frontier`; all numbers re-measured after the clearance
+KPI started counting track/pad — see HANDOFF §41; `frontier` won §46's portfolio over
+six configurations by 4 violations, see STATUS.md):
 
 ```
 unrouted 0 | congestion 0 | unconnected 0 | pad layer gaps 0 | pour islands 1
-clearance 515 = 5 track/track + 177 via/track + 108 via/pad + 225 track/pad
-vias 186 (59 access, 7 in-pad) | 526 segments | total length 38832 mil | 45-degree 0.408
+clearance 511 = 8 track/track + 174 via/track + 104 via/pad + 225 track/pad
+vias 186 (59 access, 6 in-pad) | 527 segments | total length 38999 mil | 45-degree 0.411
 bus skew: CAM_D 713.1 / LCD_ 165.3 / SD_ 297.6 mil
 ```
 
@@ -158,6 +162,9 @@ Four of the six gate items are zero. The three that are not:
 
 `ec_repair.py`, `gradient.py`, `debug_*.py` hold the exploration helpers used while
 measuring the trades above. `sweep_placement.py` re-runs placement-weight sweeps.
+
+
+
 
 
 

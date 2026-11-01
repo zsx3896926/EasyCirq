@@ -19,7 +19,7 @@
 
 ```bash
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
-    --place ../retrocam-02/pcb/offline/ec-placed.json --profile shared-pour
+    --place ../retrocam-02/pcb/offline/ec-placed.json          # default profile: frontier
 ```
 
 | KPI | value | gate |
@@ -28,13 +28,18 @@ python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
 | congestion cells | 0 | ✅ |
 | unconnected nets | 0 | ✅ |
 | pad layer gaps | 0 | ✅ |
-| clearance violations | **515** = 5 track/track + 177 via/track + 108 via/pad + 225 track/pad | ❌ |
+| clearance violations | **511** = 8 track/track + 174 via/track + 104 via/pad + 225 track/pad | ❌ |
 | pour islands | **1** (+3V3 on L3: 48439 + 190 cells, 1 access via stranded) | ❌ |
 | bus skew CAM/LCD/SD | **713.1 / 165.3 / 297.6 mil** | ❌ (design conflict) |
-| vias (access / in-pad) | 186 (59 / 7) | info |
-| tracks / total length | 526 / 38832.2 mil | info |
-| 45-degree share | 0.408 | info |
-| layer distribution | L1 16909.9 / L2 13529.3 / L3 5231.5 / L4 3161.5 mil | info |
+| vias (access / in-pad) | 186 (59 / 6) | info |
+| tracks / total length | 527 / 38999.0 mil | info |
+| 45-degree share | 0.411 | info |
+| layer distribution | L1 17076.7 / L2 13529.3 / L3 5231.5 / L4 3161.5 mil | info |
+
+`frontier` = shared pours with `pour_step=8`; it is the best point `portfolio.py`
+found over six configurations (clearance 511 vs 515 for `pour_step=5`, every other
+KPI identical). The gain is 0.8 % — reported because it is real and deterministic,
+not because it is meaningful.
 
 Stackup: routed as **4 layers**, recorded override `--stackup 4` (the board's own
 rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
@@ -87,6 +92,7 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 | pour shape | whole plane / shared / exclusive / 2-layer | shared is the frontier; exclusive costs 4 legs |
 | length matching | meanders / 7 bundle geometries | arithmetically impossible (ρ) |
 | stackup | 2 / 4 / 6 layers, plain and with automatic net→layer assignment | 2L dominated; 6L helps only with a hand plan (§43, §44) |
+| knob sweeps | portfolio over 6 configs (pour step 3/5/8, bus-first, via cost 20, exclusive pour) | best is 511 vs 515 clearance — the frontier is flat in these knobs (§46) |
 
 ## 5. Decisions on record
 
@@ -107,7 +113,11 @@ python tools/layout/ec_layout.py --help
 
 # 1. reproduce the frontier (10-15 min) and read the scorecard
 python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
-    --place ../retrocam-02/pcb/offline/ec-placed.json --profile shared-pour --out-dir out/
+    --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/
+
+# 1b. or compare configurations under one ranking rule (portfolio.json/md)
+python tools/layout/portfolio.py --dump ../retrocam-02/pcb/dump2.json \
+    --place ../retrocam-02/pcb/offline/ec-placed.json --jobs 3 --out-dir out/pf
 
 # 2. understand the red lines instead of guessing
 python tools/layout/spacing_audit.py --dump ../retrocam-02/pcb/dump2.json \
@@ -137,3 +147,5 @@ the tests pass.
    layer/channel plan before searching, instead of pricing vias during the search.
 3. Otherwise: the three decisions in §3 belong to the engineer, and this toolchain's
    job is to keep them **measured, reproducible and refused at the door** until then.
+
+

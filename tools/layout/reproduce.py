@@ -47,6 +47,15 @@ PROFILES = {
         pour_step=5, net_order="small",
         via_relocate=True, best_effort=True, match_lengths=True,
     ),
+    # Same strategy with pour step 8: the best point `portfolio.py` found over six
+    # configurations (clearance 511 vs 515, every other KPI identical).  This is the
+    # default now; `shared-pour` stays as the historical baseline.
+    "frontier": dict(
+        iters=70, layers=4,
+        pours=("GND:4", "+3V3:3"), pour_exclusive=False,
+        pour_step=8, net_order="small",
+        via_relocate=True, best_effort=True, match_lengths=True,
+    ),
     # Pour layers belong to the pour: whole ground, best clearance so far (153),
     # at the price of four open legs because both inner layers are gone.
     "exclusive-pour": dict(
@@ -91,10 +100,10 @@ PROFILES = {
         layer_spread=True, layer_force=True,
     ),
 }
-FRONTIER = PROFILES["shared-pour"]
+FRONTIER = PROFILES["frontier"]
 
 
-def run(dump_path, place_path, out_dir=None, profile="shared-pour"):
+def run(dump_path, place_path, out_dir=None, profile="frontier"):
     cfg = PROFILES[profile]
     with open(dump_path, encoding="utf-8") as f:
         board = ec.Board(json.load(f))
@@ -168,11 +177,18 @@ def _route(board, cfg):
         pour_exclusive=cfg.get("pour_exclusive", False),
         pour_trim=cfg.get("pour_trim", False),
         net_order=cfg["net_order"],
-        via_relocate=cfg["via_relocate"],
-        best_effort=cfg["best_effort"],
+        via_relocate=cfg.get("via_relocate", True),
+        best_effort=cfg.get("best_effort", True),
         layer_spread=cfg.get("layer_spread", False),
         layer_map=cfg.get("layer_map"),
         layer_force=cfg.get("layer_force", False),
+        # Optional knobs used by portfolio.py; a profile that does not name them is
+        # unchanged (they default to the frontier's values).
+        priority_nets=set(cfg.get("priority_nets") or ()),
+        via_cost=cfg.get("via_cost"),
+        via_negotiate=cfg.get("via_negotiate", False),
+        spacing_hard=cfg.get("spacing_hard", False),
+        repair_pass=cfg.get("repair_pass", False),
     )
     return routed, failures
 
@@ -215,7 +231,7 @@ def main():
     ap.add_argument("--dump", required=True)
     ap.add_argument("--place", required=True)
     ap.add_argument("--out-dir")
-    ap.add_argument("--profile", default="shared-pour", choices=sorted(PROFILES))
+    ap.add_argument("--profile", default="frontier", choices=sorted(PROFILES))
     a = ap.parse_args()
     kpi, skew, ok, gate_fail, why = run(a.dump, a.place, a.out_dir, profile=a.profile)
     print("profile: `%s`  (layers %d, pours %s%s%s)" % (
@@ -228,6 +244,8 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
 
 
 

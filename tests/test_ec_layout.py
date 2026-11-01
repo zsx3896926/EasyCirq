@@ -776,3 +776,35 @@ def test_acceptance_script_refuses_a_red_plan_then_emits_a_green_one(tmp_path):
     assert proc.returncode == 0, out
     assert "REFUSED" in out and "emitted" in out
     assert "contract: PASS" in out
+
+
+# ── the portfolio ranks by the gate's order, not by what looks good ─────────
+def test_portfolio_ranks_by_gate_order():
+    pf = _mod("portfolio", "portfolio.py")
+
+    def row(name, skew_max=0.0, **kw):
+        kpi = {k: 0 for k in ("unrouted_legs", "nets_unconnected", "congestion_cells",
+                              "pad_layer_gaps", "pour_islands",
+                              "clearance_violations", "vias", "total_length_mil")}
+        kpi.update(kw)
+        return {"variant": name, "kpi": kpi, "skew": {}, "skew_max": skew_max,
+                "ok": False, "gate_fail": []}
+
+    # a dead leg beats every cosmetic advantage of the other run
+    dead = row("dead", unrouted_legs=1, clearance_violations=0)
+    clean = row("clean", unrouted_legs=0, clearance_violations=600)
+    assert pf.rank_key(clean) < pf.rank_key(dead)
+    # ... and an overlap (a short) is worse than a spacing violation
+    overlap = row("overlap", congestion_cells=1)
+    spacing = row("spacing", clearance_violations=40)
+    assert pf.rank_key(spacing) < pf.rank_key(overlap)
+    # pour continuity ranks before raw spacing, per the documented rule
+    island = row("island", pour_islands=1, clearance_violations=0)
+    messy = row("messy", pour_islands=0, clearance_violations=500)
+    assert pf.rank_key(messy) < pf.rank_key(island)
+
+    text, order = pf.table([dead, clean, overlap, spacing, island, messy])
+    assert order[0]["variant"] == "spacing", text          # 40 < 500 < 600
+    assert text.index("clean") < text.index("dead")
+    assert order[-1]["variant"] == "dead"
+
