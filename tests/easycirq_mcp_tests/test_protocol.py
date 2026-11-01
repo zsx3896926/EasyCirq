@@ -64,6 +64,7 @@ class ProtocolTests(unittest.TestCase):
             "easycirq_status",
             "easycirq_card",
             "easycirq_setup",
+            "easycirq_acceptance",
             "easycirq_apply",
         ])
         for tool in tools:
