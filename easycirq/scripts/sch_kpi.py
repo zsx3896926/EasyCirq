@@ -103,6 +103,7 @@ DEFAULTS = {
         "readback": {"tool": "easycirq sch read"},
         "power_net": {"tool": "scripts/sch_power_net_check.py"},
         "pcb_match": {"tool": "scripts/sch_pcb_net_match.py"},
+        "bom_match": {"tool": "scripts/sch_bom_match.py"},
     },
     "kpis": [
         {"no": 1, "id": "unconnected", "title": "未连接/悬空", "kind": "hard",
@@ -185,6 +186,11 @@ DEFAULTS = {
          "reads": [{"check": "pcb_match", "metric": "schematic_pcb_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上铜还是旧的"},
+        {"no": 18, "id": "bom_match", "title": "BOM 一致", "kind": "hard",
+         "reads": [{"check": "bom_match", "metric": "bom_diff"}],
+         "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
+         "note": "原理图的每个位号都要在 BOM 里，BOM 也不许有不存在的位号；"
+                 "交付包的 BOM 曾停留在修复前（缺 Q1/R4、多 D1/R11），按它配单板子不响"},
     ],
     "profiles": {
         "default": {"wire_length": 120, "readability": 0.6, "zone_balance": 0.3},
@@ -200,7 +206,7 @@ DEFAULTS = {
 DEFAULT_PROFILE = "default"
 CHECK_IDS = ["connectivity", "layout", "wire", "text", "quality", "erc",
              "pinplan", "power", "identity", "netlist", "readback", "power_net",
-             "pcb_match"]
+             "pcb_match", "bom_match"]
 
 
 def _now():

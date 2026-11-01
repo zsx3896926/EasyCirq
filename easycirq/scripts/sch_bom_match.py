@@ -85,13 +85,33 @@ def bom_designators(path: Path) -> set:
     return found
 
 
+SCHEMA = "easycirq-bom-schematic-match/v1"
+
+
 def compare(schematic: set, bom: set) -> dict:
+    missing = sorted(schematic - bom)
+    phantom = sorted(bom - schematic)
+    diff = len(missing) + len(phantom)
+    findings = [
+        {"code": "PART_MISSING_FROM_BOM", "designator": d,
+         "message": f"原理图有 {d}，BOM 里没有——按这份 BOM 配单会缺件"}
+        for d in missing
+    ] + [
+        {"code": "PART_NOT_IN_SCHEMATIC", "designator": d,
+         "message": f"BOM 有 {d}，原理图里没有——BOM 是旧版或引用了已删除的器件"}
+        for d in phantom
+    ]
     return {
+        "schema": SCHEMA,
+        "status": "pass" if diff == 0 else "fail",
+        "verdict": "pass" if diff == 0 else "fail",
+        "metrics": {"bom_diff": diff},
         "schematic_count": len(schematic),
         "bom_count": len(bom),
-        "missing_from_bom": sorted(schematic - bom),
-        "not_in_schematic": sorted(bom - schematic),
-        "ok": schematic == bom,
+        "missing_from_bom": missing,
+        "not_in_schematic": phantom,
+        "findings": findings,
+        "ok": diff == 0,
     }
 
 
@@ -117,7 +137,7 @@ def main(argv=None):
     else:
         verdict = "PASS" if result["ok"] else "FAIL"
         print(f"BOM 与原理图 {verdict}：原理图 {result['schematic_count']} 个位号，"
-              f"BOM {result['bom_count']} 个")
+              f"BOM {result['bom_count']} 个，差异 {result['metrics']['bom_diff']} 项")
         if result["missing_from_bom"]:
             print("  原理图有、BOM 没有：" + ", ".join(result["missing_from_bom"]))
             print("  → 按这份 BOM 配单会缺件，板子做不出来")

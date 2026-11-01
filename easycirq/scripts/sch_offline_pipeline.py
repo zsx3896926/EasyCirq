@@ -186,6 +186,19 @@ def main(argv=None):
             checks.append(("identity", bom_out))
             step("bom", True, str(bom_out.name))
 
+            # Schematic vs BOM: a BOM stuck at an older revision ships the wrong
+            # parts. On 2026-11-01 the delivered file lacked Q1 and R4 - the
+            # transistor and its base resistor - while the card still said ready.
+            if listing.is_file():
+                bom_match_out = out / "bom-match-check.json"
+                _, bom_stdout, _ = _run(
+                    [HERE / "sch_bom_match.py", "--schematic", listing,
+                     "--bom", bom, "--json"],
+                    label="schematic/bom match", allow=(0, 2))
+                bom_match_out.write_text(bom_stdout, encoding="utf-8")
+                checks.append(("bom_match", bom_match_out))
+                step("bom_match", True, str(bom_match_out.name))
+
         pinplan = snap / "pinplan.json"
         if pinplan.is_file():
             pin_out = out / "pinplan-check.json"
