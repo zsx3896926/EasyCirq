@@ -70,9 +70,9 @@ def main():
         print("These delivery actions ran without a token - that is a gate hole.")
         return 1
     print()
-    print("三个被标为 GateRequired 的交付动作，无令牌时全部被拒绝。")
-    print(f"注意：{UNGATED_NETLIST} 同样导出网表，但没有标 GateRequired，"
-          "这是设计选择还是遗漏，需要确认。")
+    print("三个被标为 GateRequired 的制造交付动作，无令牌时全部被拒绝。")
+    print(f"{UNGATED_NETLIST} 同样导出网表，但不在门禁内 —— 2026-11-01 用户确认这是"
+          "设计选择：交付类动作只指制造文件，建板阶段的导出放行。")
     return 0
 
 
