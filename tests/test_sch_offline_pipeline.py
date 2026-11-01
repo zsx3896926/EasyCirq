@@ -43,7 +43,9 @@ class OfflinePipeline(unittest.TestCase):
             self.assertEqual(summary["kpi"]["wire_length"]["status"], "pass")
             self.assertEqual(summary["kpi"]["readback"]["status"], "missing")
             report = json.loads((out / "kpi-report.json").read_text(encoding="utf-8"))
-            self.assertEqual(len(report["kpis"]), 18)
+            # 19: design validity joined the table once the 18 structural
+            # checks were shown to be green on a board that could not work.
+            self.assertEqual(len(report["kpis"]), 19)
             self.assertTrue((out / "kpi-report.md").is_file())
             self.assertTrue((out / "kpi-history.jsonl").is_file())
 

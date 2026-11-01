@@ -1,0 +1,17 @@
+{
+  "schema": "easycirq-design-intent/v1",
+  "name": "温度报警器（NTC 超温蜂鸣）",
+  "power_rail": "PWR5V",
+  "ground": "GND",
+  "threshold": {
+    "comparator": "U1",
+    "target_c": 60,
+    "tolerance_c": 5,
+    "vcc": 5.0,
+    "sensor": { "kind": "ntc", "r25": 10000, "b": 3950 },
+    "hysteresis_c": 3
+  },
+  "switches": [
+    { "part": "Q1", "load": "BZ1", "load_ma": 30, "hfe": 120 }
+  ]
+}

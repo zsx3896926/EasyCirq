@@ -98,6 +98,7 @@ DEFAULTS = {
         "erc": {"tool": "scripts/netlist_check.py"},
         "pinplan": {"tool": "scripts/pin_plan_check.py"},
         "power": {"tool": "scripts/power_budget.py"},
+        "design_validity": {"tool": "scripts/sch_design_validity.py"},
         "identity": {"tool": "scripts/component_identity_check.py"},
         "netlist": {"tool": "scripts/netlist_diff.py"},
         "readback": {"tool": "easycirq sch read"},
@@ -191,6 +192,14 @@ DEFAULTS = {
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "原理图的每个位号都要在 BOM 里，BOM 也不许有不存在的位号；"
                  "交付包的 BOM 曾停留在修复前（缺 Q1/R4、多 D1/R11），按它配单板子不响"},
+        {"no": 19, "id": "design_validity", "title": "设计有效性", "kind": "hard",
+         "reads": [{"check": "design_validity", "metric": "design_violations"}],
+         "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
+         "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、"
+                 "开关管的控制脚有没有直流通路和足够的驱动电流、要求回差时有没有正反馈。"
+                 "18 项门禁查连接与结构，这一项查'连上之后会不会工作'——"
+                 "报警板上三个纯算术就能发现的缺陷（25°C 就响、基极无通路永不导通、"
+                 "无回差）全靠人读电路才发现，就是缺了这项"},
     ],
     "profiles": {
         "default": {"wire_length": 120, "readability": 0.6, "zone_balance": 0.3},
@@ -206,7 +215,7 @@ DEFAULTS = {
 DEFAULT_PROFILE = "default"
 CHECK_IDS = ["connectivity", "layout", "wire", "text", "quality", "erc",
              "pinplan", "power", "identity", "netlist", "readback", "power_net",
-             "pcb_match", "bom_match"]
+             "pcb_match", "bom_match", "design_validity"]
 
 
 def _now():

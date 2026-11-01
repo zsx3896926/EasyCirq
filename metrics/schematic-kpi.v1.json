@@ -47,6 +47,9 @@
     "readback": {
       "tool": "easycirq sch read",
       "role": "保存重开后回读一致性（离线用快照 hash diff 表达）"
+    },
+    "design_validity": {
+      "tool": "scripts/sch_design_validity.py"
     }
   },
   "kpis": [
@@ -392,6 +395,23 @@
       "limit": 0,
       "unit": "count",
       "note": "原理图里的每个位号都必须出现在 BOM 里，BOM 也不许有不存在的位号。2026-11-01 发现交付包的 BOM 是修复前的旧版：缺 Q1、R4，多 D1、R11——按它配单会少一颗三极管和一颗基极电阻，板子永远不响。缺 BOM 读数时判 missing，不默认通过。"
+    },
+    {
+      "no": 19,
+      "id": "design_validity",
+      "title": "设计有效性",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "design_validity",
+          "metric": "design_violations"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、开关管的控制脚有没有直流通路和足够的驱动电流、要求回差时有没有正反馈。18 项门禁查的是连接与结构，这一项查的是'连上之后会不会工作'——报警板上三个纯算术就能发现的缺陷（25°C 就响、基极无通路永不导通、无回差）全靠人读电路才漏出来，就是缺了这项。"
     }
   ],
   "profiles": {

@@ -72,6 +72,8 @@ def main(argv=None):
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--profile", default="default")
     ap.add_argument("--round", type=int, default=1)
+    ap.add_argument("--design-intent",
+                    help="设计意图 JSON（阈值目标、开关管负载）；不给则设计有效性报不适用")
     ap.add_argument("--reuse-layout", action="store_true",
                     help="use snapshot/layout.json instead of rebuilding from list.json")
     ap.add_argument("--json", action="store_true", help="print the summary JSON")
@@ -302,6 +304,23 @@ def main(argv=None):
         "checks": [],
         "note": "由 sch_offline_pipeline.py 生成；其余检查未采集，按缺失处理。",
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    # 设计有效性：查"连上之后会不会工作"。没有意图文件时检查器自己报 na，
+    # 不冒充 pass，也不假装成失败。
+    dv_out = out / "design-validity-check.json"
+    dv_cmd = [HERE / "sch_design_validity.py", "--netlist", snap / "list.json",
+              "--out", dv_out]
+    if getattr(args, "design_intent", None):
+        dv_cmd += ["--intent", args.design_intent]
+    dv_rc, dv_stdout, dv_stderr = _run(dv_cmd, label="design validity",
+                                       allow=(0, 1, 2))
+    if dv_out.is_file():
+        checks.append(("design_validity", dv_out))
+        step("design-validity", True, str(dv_out.name))
+    else:
+        raise RuntimeError(
+            f"design validity rc={dv_rc} but wrote no report. "
+            f"stdout={dv_stdout[-600:]!r} stderr={dv_stderr[-600:]!r}")
 
     cmd = [HERE / "sch_kpi.py", "--input", kpi_input,
            "--history", history, "--record-history",

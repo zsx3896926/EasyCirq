@@ -38,6 +38,10 @@ CLEAN = {
     # KPI 18: the delivered BOM once stayed at the pre-fix revision (missing Q1/R4,
     # carrying D1/R11), so a clean fixture must declare this reading too.
     "bom_match": {"bom_diff": 0},
+    # KPI 19: the 18 structural checks were all green on a board whose threshold
+    # tripped at 25C and whose transistor could never conduct. A clean fixture now
+    # has to declare that design validity was actually measured.
+    "design_validity": {"design_violations": 0},
 }
 
 
@@ -69,10 +73,11 @@ class KpiGate(unittest.TestCase):
         self.assertEqual(report["verdict"], "PASS")
         self.assertFalse(report["stability"]["apply_allowed"])
         self.assertEqual(report["blockers"], [])
-        # 18: 16 added the power-net check (a board with no supply had scored
-        # 11/11), 17 added schematic-vs-PCB, 18 added schematic-vs-BOM (the
-        # delivered BOM once stayed at the pre-fix revision).
-        self.assertEqual(len(report["kpis"]), 18)
+        # 16 added the power-net check (a board with no supply had scored 11/11),
+        # 17 added schematic-vs-PCB, 18 added schematic-vs-BOM (the delivered BOM
+        # once stayed at the pre-fix revision), 19 added design validity (all 18
+        # were green on a board that tripped at 25C and could never buzz).
+        self.assertEqual(len(report["kpis"]), 19)
 
     def test_two_consecutive_rounds_allow_apply(self):
         with tempfile.TemporaryDirectory() as d:
