@@ -9,10 +9,14 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -136,16 +140,16 @@ func writePCBLayoutCandidateBundle(dir string, input pcbLayoutPlanInput, snap *b
 	backup := tmpDir + ".old"
 	hadOld := false
 	if _, err := os.Lstat(cleanDir); err == nil {
-		if err := os.Rename(cleanDir, backup); err != nil {
+		if err := renameWithRetry(cleanDir, backup); err != nil {
 			return fmt.Errorf("stage old output directory: %w", err)
 		}
 		hadOld = true
 	} else if !os.IsNotExist(err) {
 		return fmt.Errorf("inspect output directory: %w", err)
 	}
-	if err := os.Rename(tmpDir, cleanDir); err != nil {
+	if err := renameWithRetry(tmpDir, cleanDir); err != nil {
 		if hadOld {
-			_ = os.Rename(backup, cleanDir)
+			_ = renameWithRetry(backup, cleanDir)
 		}
 		return fmt.Errorf("replace output directory: %w", err)
 	}
@@ -155,6 +159,40 @@ func writePCBLayoutCandidateBundle(dir string, input pcbLayoutPlanInput, snap *b
 		}
 	}
 	return nil
+}
+
+// renameWithRetry renames src to dst, retrying briefly on transient Windows
+// failures. Renaming a directory fails with "Access is denied" while anything
+// still holds a handle to it - an indexer, antivirus, or the previous process
+// having only just closed it. That is not a user error, and failing the command
+// for it makes `pcb layout-plan --out` flaky for no reason.
+func renameWithRetry(src, dst string) error {
+	var err error
+	for attempt := 0; attempt < 10; attempt++ {
+		if err = os.Rename(src, dst); err == nil {
+			return nil
+		}
+		if !isTransientRenameError(err) {
+			return err
+		}
+		time.Sleep(time.Duration(20*(attempt+1)) * time.Millisecond)
+	}
+	return err
+}
+
+func isTransientRenameError(err error) bool {
+	if err == nil {
+		return false
+	}
+	if errors.Is(err, fs.ErrPermission) {
+		return true
+	}
+	// Windows reports a directory still in use as ERROR_SHARING_VIOLATION or
+	// ERROR_ACCESS_DENIED, neither of which maps onto fs.ErrPermission reliably.
+	message := strings.ToLower(err.Error())
+	return strings.Contains(message, "access is denied") ||
+		strings.Contains(message, "being used by another process") ||
+		strings.Contains(message, "sharing violation")
 }
 
 func writePCBLayoutCandidateBundleContents(dir string, input pcbLayoutPlanInput, snap *boardSnapshot, rep *pcbLayoutPlanReport) error {
