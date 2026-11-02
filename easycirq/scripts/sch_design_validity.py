@@ -267,6 +267,157 @@ def run_per_spec(check_fn, check_id, specs, netlist, nets, intent, findings):
     }
 
 
+def rail_voltages(intent: dict) -> dict:
+    """网络名 → 电压。判「实际加在器件上多少伏」必须先有这个。
+
+    优先级：
+      1. intent["rails"]（第 5 轮加的，最明确）
+      2. intent["power_rail"] 配 threshold.vcc（旧写法）
+      3. intent["ground"] → 0V
+    查不到的轨**不猜**——调用方拿到 None 就该报 unknown。
+    """
+    volts = {}
+    for name, value in (intent.get("rails") or {}).items():
+        try:
+            volts[name] = float(value)
+        except (TypeError, ValueError):
+            continue
+    ground = intent.get("ground") or "GND"
+    volts.setdefault(ground, 0.0)
+    rail = intent.get("power_rail") or "PWR5V"
+    if rail not in volts:
+        vcc = (intent.get("threshold") or {}).get("vcc")
+        if isinstance(vcc, (int, float)):
+            volts[rail] = float(vcc)
+    return volts
+
+
+def check_ratings(netlist, nets, intent, findings) -> dict:
+    """器件额定应力：把**实际加在器件上的电压**和意图声明的额定值比。
+
+    ## 为什么额定值要由意图声明
+
+    数据手册不在网表里——"这颗管子 Vds 上限 30V"无法从图纸推出来。
+    所以这里沿用本代码库已有的模式（hfe / vgs_th / id_max_a 都是声明式）：
+    **人声明额定值，工具算应力，两者相减**。
+    工具不做的事：猜额定值、按器件型号查参数、给"典型值"。
+
+    ## 能算的应力
+
+      开关管关断时，漏极/集电极坐在负载轨上：
+          Vds / Vce（最坏情况）= 负载轨电压
+      通用条目：两条已声明轨之间的电位差
+          |V(a) - V(b)|
+      电阻功率：已知阻值 + 两端电压 → V²/R
+
+    ## 判不了的
+
+    任何一端不是**已声明的电源轨**（比如中间网络）→ 该项 unknown，不猜。
+    """
+    volts = rail_voltages(intent)
+    items = []
+    failed = False
+
+    def judge(part, label, actual, limit, where):
+        """统一比较：超了 fail，接近上限只给 advisory（不判定失败）。"""
+        nonlocal failed
+        if actual is None:
+            items.append({"part": part, "metric": label, "status": "unknown",
+                          "reason": f"{where} 的电压算不出来（不是已声明的电源轨），不猜"})
+            return
+        if limit is None:
+            return
+        ratio = actual / limit if limit else 0
+        if actual > limit:
+            failed = True
+            message = (f"{part} 的 {label} 实际 {actual:.2f}V 超过额定 {limit:.2f}V"
+                       f"（{ratio*100:.0f}%）——{where}")
+            findings.append({"code": "OVER_RATING", "status": "confirmed",
+                             "part": part, "message": message})
+            items.append({"part": part, "metric": label, "status": "fail",
+                          "actual_v": round(actual, 3), "limit_v": limit,
+                          "reason": message})
+            return
+        if ratio >= 0.8:
+            findings.append({"code": "RATING_MARGIN_THIN", "status": "advisory",
+                             "part": part,
+                             "message": (f"{part} 的 {label} 实际 {actual:.2f}V 已达额定 "
+                                         f"{limit:.2f}V 的 {ratio*100:.0f}%，余量不足 20%")})
+        items.append({"part": part, "metric": label, "status": "pass",
+                      "actual_v": round(actual, 3), "limit_v": limit})
+
+    # ① 开关管的电压额定
+    for entry in intent.get("switches") or []:
+        designator = entry.get("part")
+        load_rail = entry.get("load_rail") or intent.get("load_rail")
+        v_off = volts.get(load_rail) if load_rail else None
+        where = f"关断时 {designator} 承受 {load_rail} 的电压" if load_rail             else f"{designator} 未声明 load_rail"
+        for field, label in (("vds_max", "Vds"), ("vce_max", "Vce"),
+                             ("vdss_max", "Vds")):
+            if entry.get(field) is not None:
+                judge(designator, label, v_off, float(entry[field]), where)
+        # 栅极/基极电压额定：驱动电平来自逻辑轨
+        drive_rail = intent.get("power_rail") or "PWR5V"
+        v_drive = volts.get(drive_rail)
+        for field, label in (("vgs_max", "Vgs"), ("vbe_max", "Vbe")):
+            if entry.get(field) is not None:
+                judge(designator, label, v_drive, float(entry[field]),
+                      f"驱动电平取自 {drive_rail}")
+
+    # ② 通用条目：任意两轨之间的电位差
+    for entry in intent.get("ratings") or []:
+        designator = entry.get("part")
+        between = entry.get("between") or []
+        if len(between) != 2:
+            items.append({"part": designator, "status": "unknown",
+                          "reason": "ratings 条目必须给 between: [网名A, 网名B]"})
+            continue
+        a, b = between
+        va, vb = volts.get(a), volts.get(b)
+        actual = None if (va is None or vb is None) else abs(va - vb)
+        where = f"{a} 与 {b} 之间"
+        if entry.get("max_v") is not None:
+            judge(designator, "V", actual, float(entry["max_v"]), where)
+        # 功率：需要阻值，从网表读
+        max_p = entry.get("max_power_w")
+        if max_p is not None:
+            part = part_by(netlist, designator)
+            resistance = ohms(((part or {}).get("otherProperty") or {}).get("Value"))
+            if actual is None or not resistance:
+                items.append({"part": designator, "metric": "P", "status": "unknown",
+                              "reason": f"算 {designator} 的功率需要两端电压和阻值，缺一不可"})
+                continue
+            power = actual * actual / resistance
+            if power > float(max_p):
+                failed = True
+                message = (f"{designator} 实际耗散 {power*1000:.1f}mW 超过额定 "
+                           f"{float(max_p)*1000:.0f}mW（{where}，{resistance:g}Ω）")
+                findings.append({"code": "OVER_RATING", "status": "confirmed",
+                                 "part": designator, "message": message})
+                items.append({"part": designator, "metric": "P", "status": "fail",
+                              "actual_w": round(power, 5),
+                              "limit_w": float(max_p), "reason": message})
+            else:
+                items.append({"part": designator, "metric": "P", "status": "pass",
+                              "actual_w": round(power, 5),
+                              "limit_w": float(max_p)})
+
+    if not items:
+        return {"id": "ratings", "status": "not_run",
+                "reason": "意图文件没有声明任何额定值（switches[].vds_max / ratings[]），"
+                          "无法判断器件应力"}
+    statuses = {i.get("status") for i in items}
+    if "fail" in statuses:
+        status = "fail"
+    elif "unknown" in statuses:
+        status = "unknown"
+    else:
+        status = "pass"
+    return {"id": "ratings", "status": status, "items": items,
+            "note": "额定值由意图声明（数据手册不在网表里）；"
+                    "工具只算实际应力并比较，不猜额定值"}
+
+
 def check_threshold(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold")
     if not spec:
@@ -453,11 +604,14 @@ def check_drive(netlist, nets, intent, findings) -> dict:
                 # 有上拉时，导通时栅极≈rail（除以分压）
                 v_gs = 0.0
                 driver = None
+                # 栅极电压取**声明的**逻辑轨电压，不能写死 5V。
+                # 3.3V 逻辑板写死 5V 会把"栅极只有 3.3V"的管子误判成够开。
+                v_rail = rail_voltages(intent).get(rail, VCC_FALLBACK)
                 for source in sources:
                     if source["kind"] == "resistor" and rail in source.get("to", []):
                         driver = source["part"]
                         # 栅极到驱动器的串联电阻未建模，保守取 rail
-                        v_gs = VCC_FALLBACK
+                        v_gs = v_rail
                         break
                 if driver is None:
                     status = "unknown"
@@ -504,7 +658,8 @@ def check_drive(netlist, nets, intent, findings) -> dict:
             for source in sources:
                 if source["kind"] == "resistor" and rail in source.get("to", []):
                     vbe = 0.75
-                    current = max(0.0, (5.0 - vbe) / source["ohms"])
+                    v_rail = rail_voltages(intent).get(rail, VCC_FALLBACK)
+                    current = max(0.0, (v_rail - vbe) / source["ohms"])
                     hfe = float(entry.get("hfe") or 120)
                     ic = current * hfe
                     need = float(entry.get("load_ma") or 30) / 1000.0
@@ -974,7 +1129,7 @@ def main(argv=None) -> int:
         # 自己要做什么"——判不了就是判不了，判为 na（不适用）并在卡片上可见，
         # 既不冒充 pass，也不假装成一次失败的检查。
         for cid in ("threshold_sanity", "switch_drive", "hysteresis",
-                    "inductive_load", "supply_domains"):
+                    "inductive_load", "supply_domains", "ratings"):
             checks.append({"id": cid, "status": "na",
                            "reason": "没有提供 --intent：这块板没有声明设计意图，"
                                      "无法判断阈值该是多少、管子该带多大负载"})
@@ -1003,6 +1158,7 @@ def main(argv=None) -> int:
                                        specs, netlist, nets, intent, findings))
         checks.append(check_inductive_load(netlist, nets, intent, findings))
         checks.append(check_supply_domains(netlist, nets, intent, findings))
+        checks.append(check_ratings(netlist, nets, intent, findings))
 
     # 整体判定要区分两种"没做"：
     #   not_run —— 意图没要求这一项（例如板上没有电感负载，就没有续流二极管可查）
@@ -1055,6 +1211,18 @@ def main(argv=None) -> int:
         for entry in check.get("per_comparator") or []:
             metrics = json.dumps(entry.get("metrics") or {}, ensure_ascii=False)
             print(f"    [{entry.get('status')}] {entry.get('comparator')}: {metrics}")
+        for entry in check.get("items") or []:
+            reason = entry.get("reason")
+            head = f"{entry.get('part')} {entry.get('metric') or ''}".strip()
+            if reason:
+                print(f"    [{entry.get('status')}] {head}: {reason}")
+            elif entry.get("actual_v") is not None:
+                print(f"    [{entry.get('status')}] {head}: "
+                      f"实际 {entry['actual_v']}V / 额定 {entry.get('limit_v')}V")
+            elif entry.get("actual_w") is not None:
+                print(f"    [{entry.get('status')}] {head}: "
+                      f"实际 {entry['actual_w']*1000:.1f}mW / "
+                      f"额定 {entry.get('limit_w', 0)*1000:.0f}mW")
         for key in ("metrics", "switches"):
             if check.get(key):
                 print(f"    {key}: {json.dumps(check[key], ensure_ascii=False)}")

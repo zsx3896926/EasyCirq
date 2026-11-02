@@ -148,7 +148,10 @@ class AfterFixesTests(unittest.TestCase):
                                     "switch_drive": "pass",
                                     "hysteresis": "pass",
                                     "inductive_load": "not_run",
-                                    "supply_domains": "not_run"})
+                                    "supply_domains": "not_run",
+                                    # 报警板意图没声明 vds_max / ratings[]，
+                                    # 没有额定值可比 → not_run，不拖累整体
+                                    "ratings": "not_run"})
         self.assertEqual(self.report["verdict"], "pass")
 
 
@@ -865,6 +868,144 @@ class MultiComparatorTests(unittest.TestCase):
         # 单比较器不打印逐条明细，保持旧输出形状（34 个既有测试靠这个形状）
         self.assertNotIn("[pass] U1:", proc.stdout)
         self.assertIn('"trip_c": 45.3', proc.stdout)
+
+
+class RatingStressTests(unittest.TestCase):
+    """器件额定电压/功率：意图声明额定值，工具算实际应力。
+
+    数据手册不在网表里，所以"这颗管子 Vds 上限 30V"必须由人声明。
+    工具能做的是把**实际会加在它上面的电压**算出来，和声明的额定值比。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-rating-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _netlist(self, extras=None):
+        parts = [
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "GATE"}, {"pinNumber": "8", "net": "PWR5V"},
+                      {"pinNumber": "4", "net": "GND"}]},
+            {"designator": "R5", "componentType": "part",
+             "otherProperty": {"Value": "100kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "GATE"}]},
+            {"designator": "Q1", "componentType": "part", "manufacturerId": "AO3400",
+             "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "G", "net": "GATE"},
+                      {"pinNumber": "2", "pinName": "S", "net": "GND"},
+                      {"pinNumber": "3", "pinName": "D", "net": "FAN_M"}]},
+            {"designator": "FAN1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "FAN-12V",
+             "pins": [{"pinNumber": "1", "pinName": "+", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "-", "net": "FAN_M"}]},
+            {"designator": "D1", "componentType": "part", "manufacturerId": "1N4148",
+             "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "K", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "A", "net": "FAN_M"}]},
+        ]
+        return {"components": parts + list(extras or [])}
+
+    def _intent(self, vds_max=None, ratings=None, power_rail_v=5.0,
+                power_rail="PWR5V"):
+        sw = {"part": "Q1", "load": "FAN1", "load_ma": 200, "kind": "mosfet",
+              "vgs_th": 1.05, "id_max_a": 4.0, "load_kind": "inductive",
+              "load_rail": "PWR12V"}
+        if vds_max is not None:
+            sw["vds_max"] = vds_max
+        body = {"schema": "easycirq-design-intent/v1", "power_rail": power_rail,
+                "load_rail": "PWR12V", "ground": "GND",
+                "rails": {power_rail: power_rail_v, "PWR12V": 12.0},
+                "grounds": ["GND"], "switches": [sw]}
+        if ratings:
+            body["ratings"] = ratings
+        return body
+
+    def _run(self, intent, extras=None):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._netlist(extras), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_over_voltage_fails(self):
+        """12V 轨上装 10V 额定的管子 —— 必须 fail。这是最容易被漏掉的一类错。"""
+        proc = self._run(self._intent(vds_max=10))
+        self.assertIn("OVER_RATING", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "ratings"), "fail")
+        self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
+
+    def test_adequate_voltage_passes(self):
+        proc = self._run(self._intent(vds_max=30))
+        self.assertEqual(check_status(proc.stdout, "ratings"), "pass")
+        self.assertIn("实际 12.0V / 额定 30.0V", proc.stdout)
+
+    def test_thin_margin_warns_without_failing(self):
+        """12V 配 13V 额定：通过，但必须给出余量不足的提示（不是 fail，也别沉默）。"""
+        proc = self._run(self._intent(vds_max=13))
+        self.assertEqual(check_status(proc.stdout, "ratings"), "pass")
+        self.assertIn("RATING_MARGIN_THIN", proc.stdout)
+
+    def test_capacitor_over_voltage_fails(self):
+        cap = {"designator": "C1", "componentType": "part",
+               "otherProperty": {"Value": "100nF"},
+               "pins": [{"pinNumber": "1", "net": "PWR12V"},
+                        {"pinNumber": "2", "net": "GND"}]}
+        proc = self._run(self._intent(
+            ratings=[{"part": "C1", "between": ["PWR12V", "GND"], "max_v": 10}]),
+            extras=[cap])
+        self.assertIn("OVER_RATING", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "ratings"), "fail")
+
+    def test_resistor_power_over_fails(self):
+        res = {"designator": "R9", "componentType": "part",
+               "otherProperty": {"Value": "1kΩ"},
+               "pins": [{"pinNumber": "1", "net": "PWR12V"},
+                        {"pinNumber": "2", "net": "GND"}]}
+        proc = self._run(self._intent(
+            ratings=[{"part": "R9", "between": ["PWR12V", "GND"],
+                      "max_power_w": 0.05}]), extras=[res])
+        self.assertIn("OVER_RATING", proc.stdout)
+        self.assertIn("144.0mW", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "ratings"), "fail")
+
+    def test_unknown_net_is_unknown_not_pass(self):
+        """一端不是已声明的电源轨 → 算不出电压，必须 unknown，不许当成 pass。"""
+        proc = self._run(self._intent(
+            ratings=[{"part": "R5", "between": ["GATE", "PWR5V"], "max_v": 10}]))
+        self.assertEqual(check_status(proc.stdout, "ratings"), "unknown")
+        self.assertIn("不猜", proc.stdout)
+
+    def test_no_ratings_declared_is_not_run(self):
+        proc = self._run(self._intent())
+        self.assertEqual(check_status(proc.stdout, "ratings"), "not_run")
+
+    def test_three_volt_rail_drive_is_not_judged_as_five(self):
+        """3.3V 逻辑轨上的栅极电压必须按 3.3V 算，不能写死 5V。
+
+        这是本轮修的一个既有缺陷：check_drive 原来取 VCC_FALLBACK=5.0，
+        一颗 Vgs(th)=4.0V 的管子挂在 3.3V 轨上会被误判成"够开"。
+        """
+        netlist = self.tmp / "v33.json"
+        netlist.write_text(json.dumps(self._netlist(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent = self._intent(power_rail_v=3.3)
+        intent["switches"][0]["vgs_th"] = 4.0   # 3.3V 打不开，5V 能打开
+        intent_path = self.tmp / "v33-intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False),
+                               encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        # 按 3.3V 算 → 低于 4.0V 门槛 → 必须 fail
+        self.assertEqual(check_status(proc.stdout, "switch_drive"), "fail")
+        self.assertIn("VGS_BELOW_THRESHOLD", proc.stdout)
 
 
 class HonestyTests(unittest.TestCase):

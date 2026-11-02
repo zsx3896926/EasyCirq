@@ -33,7 +33,20 @@
       "vgs_th": 1.05,
       "id_max_a": 4.0,
       "load_kind": "inductive",
-      "load_rail": "PWR12V"
+      "load_rail": "PWR12V",
+      "vds_max": 30,
+      "vgs_max": 12
+    }
+  ],
+  "ratings": [
+    {
+      "part": "C1",
+      "between": [
+        "PWR5V",
+        "GND"
+      ],
+      "max_v": 50,
+      "note": "0603 X7R 50V"
     }
   ]
 }
