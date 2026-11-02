@@ -1779,7 +1779,7 @@ part = part_by(netlist, comparator)
 
 | 测试 | 现象 |
 |---|---|
-| `TestModifyPatchWindowsPowerShell51/pcb` | 栈溢出 `0xc00000fd` |
+| TestModifyPatchWindowsPowerShell51 的 pcb 子用例 | 栈溢出 `0xc00000fd` |
 | `TestConvergeLedger_CountsSameSignatureAndStops` | 断言失败 |
 | `TestPcbLayoutPlanCrystalGuardWritesAllDeclaredSVGPreviews` | SVG 预览写入相关 |
 
