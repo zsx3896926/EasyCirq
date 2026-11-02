@@ -1377,7 +1377,7 @@ inductive_load     unknown
 而"看得见"是解决它的前提。回填能省事，但没有回填时至少现在不会静默降级。
 这条留作待办。
 
-## 已记录：`pcb dump` 不加 `--include-copper` 会静默地不给走线（2026-11-02）
+## 已修：`pcb dump` 不加 `--include-copper` 时，快照不说明走线没抓（2026-11-02）
 
 ### 我怎么被绊的
 
@@ -1424,12 +1424,33 @@ lists with per-category availability」——**从这句话读不出"不加就�
 已固化成 `tools/easycirq_read.py` 的 `run_json()`：有 `result` 就取 `result`，
 否则取整个对象。**这条本会话已造成两次误判。**
 
-### 没修（以及为什么）
+### 修法（不动默认字段，只借既有的降级通道）
 
-没动 `pcb dump` 的默认行为——它的 `--out` 会写「snapshot + capture.json」，
-加字段可能影响快照语义和既有消费者。**正确做法应该是像 `sch drc` 那样
-在默认输出里留一句 `routing_omitted: true, pass --include-copper`**，
-但这要先确认不破坏离线回归的冻结基准。
+`boardSnapshot` 本来就有 `Partial []string` —— 板框拿不到、铜层数读不出时都记在这里。
+`if opts.withCopper { … }` 这段**没有 else 分支**，补上：
+
+```
+capture provenance: copper NOT captured (no --include-copper) — routed traces,
+vias and pours are ABSENT from this snapshot; an absent list here is not an
+empty board. Re-run with --include-copper to read routing
+```
+
+三个细节是刻意的：
+
+1. **用 `capture provenance:` 前缀。** `boardSnapshotSemanticSHA256` 会把这个前缀的条目
+   排除在哈希外——因为"这次抓到了什么"属于采集事实，不是板子语义。
+   这样既有的冻结基准**不会**因为多了一句提示而失效。（有测试钉住。）
+2. **不新增字段。** 复用 `partial[]`，与"板框需要前台文档"那条同一机制，
+   不改变快照的字段集合，`--out` 写出的 capture.json 语义也不变。
+3. **文案自己解释陷阱**：明确写"这个列表不存在 ≠ 板子是空的"，并给出补救命令。
+
+### 验证
+
+- `TestBoardSnapshotNotesWhenCopperWasNotCaptured`：说明必须含
+  `NOT captured` / `--include-copper` / `not an empty board`
+- `TestBoardSnapshotCopperOmittedNoteDoesNotChangeSemanticHash`：
+  **加了这句说明，semanticSha256 不许变**（否则冻结基准全废）
+- `go test ./internal/app` → **ok 87.9s**；`go vet` 干净
 
 ### 教训
 
