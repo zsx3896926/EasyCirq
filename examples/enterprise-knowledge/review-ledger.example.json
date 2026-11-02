@@ -13,9 +13,16 @@
       "knowledge": {
         "title": "去耦电容摆放距离要盯着",
         "body": "去耦电容离 IC 电源脚越远，高频回路面积越大、去耦越无效。经典经验值 100 mil（2.54mm）以内。本板实测 108.9 mil，属于「偏大但还能用」。判断用 tools/check_decap_placement.py，它读 pcb dump 的焊盘坐标算中心距。注意：这条判不了网表——它需要 PCB 坐标，所以不是网表规则。",
-        "tags": ["布局", "去耦", "PCB"]
+        "tags": [
+          "布局",
+          "去耦",
+          "PCB"
+        ],
+        "why_not_rule": "这条判的是 PCB 上的焊盘距离，不是网表——本工具的知识/规则链只看网表，算不了坐标。要自动化得走 tools/check_decap_placement.py，那是另一条链。"
       },
-      "evidence": ["reports/fan-controller/evidence/21-enterprise-violations.json"]
+      "evidence": [
+        "reports/fan-controller/evidence/21-enterprise-violations.json"
+      ]
     },
     {
       "id": "R-2026-11-02-002",
@@ -27,9 +34,16 @@
       "knowledge": {
         "title": "这类分压电阻不必上 1% 精度",
         "body": "对 45±3°C 这种宽目标，1% 电阻带来的 2.5°C 散布已经够；上 5% 器件会把散布放大到 12.5°C，只有客户要求 ±1°C 时才需要 1%。判断依据是跑 design_validity 的 tolerances 分析，不是拍脑袋。",
-        "tags": ["选型", "成本", "容差"]
+        "tags": [
+          "选型",
+          "成本",
+          "容差"
+        ],
+        "why_not_rule": "「够不够」取决于客户给的目标容差，同一块板换个客户结论就相反。工具算得出散布（design_validity 的 tolerances 会给出区间），但「接不接受这个区间」是生意判断，不是电路判断。"
       },
-      "evidence": ["reports/fan-controller/evidence/16-tol-1pct-target3.txt"]
+      "evidence": [
+        "reports/fan-controller/evidence/16-tol-1pct-target3.txt"
+      ]
     },
     {
       "id": "R-2026-11-02-003",
@@ -41,7 +55,11 @@
       "knowledge": {
         "title": "XH2.54 端子的备选供应商",
         "body": "C9900016027 交期不稳时改用 C9900004348，引脚兼容，已核对封装。换料前仍需核对 pad 位置。",
-        "tags": ["供应链", "连接器"]
+        "tags": [
+          "供应链",
+          "连接器"
+        ],
+        "why_not_rule": "供应商交期是外部信息，图纸里没有任何字段能表示它。除非把交期数据接进 BOM（目前没有），否则无法自动化。"
       }
     },
     {
@@ -57,7 +75,9 @@
         "title": "禁用 0402 封装",
         "predicate": {
           "type": "footprint_forbidden",
-          "patterns": ["0402"]
+          "patterns": [
+            "0402"
+          ]
         },
         "evidence": "企业设计规范 DS-2024-07 §3.2",
         "verified_on": "2026-11-02 用一块故意改成 R0402 的风扇板副本跑过，报 fail（evidence/21-enterprise-violations.json）"

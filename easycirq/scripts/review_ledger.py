@@ -141,6 +141,23 @@ def validate_entry(entry, index):
             problems.append(f"{where}.knowledge: 缺 title")
         if not str(kn.get("body") or "").strip():
             problems.append(f"{where}.knowledge: 缺 body")
+        # ── 「规则不许降级成知识」
+        #
+        # 工具判断不了"这件事本来能不能自动查"——那是工程判断，只有人知道。
+        # 能做的是**要求写清为什么不能自动化**：
+        #
+        #   · 逼人真的想一遍，而不是"算不出来就丢进知识库"
+        #   · 事后有人能复核这个理由站不站得住
+        #   · `--promote` 与自检都会把它列出来，不会被埋掉
+        #
+        # 这是能做到的最强约束。工具不假装能自动区分。
+        if not str(kn.get("why_not_rule") or "").strip():
+            problems.append(
+                f"{where}.knowledge: 缺 why_not_rule —— 请写清**为什么这条不能"
+                f"写成一条自动判据**（比如依赖现场照片、依赖供应商口头承诺、"
+                f"依赖尚未定量的经验）。"
+                f"这一栏是为了防止把「本可以自动查」的东西降级成知识，"
+                f"降级等于下次没人执行")
     return problems
 
 

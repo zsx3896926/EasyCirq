@@ -144,7 +144,8 @@ def test_knowledge_only_ledger_promotes_nothing():
         ledger = write_ledger(tmp, [{
             "id": "K-1", "reviewer": "李工", "found": "经验",
             "disposition": "knowledge",
-            "knowledge": {"title": "t", "body": "b"},
+            "knowledge": {"title": "t", "body": "b",
+                          "why_not_rule": "依赖供应商口头承诺，图纸里没有这个字段"},
         }])
         proc = run(LEDGER_TOOL, ["--ledger", str(ledger),
                                  "--promote", "--target",
