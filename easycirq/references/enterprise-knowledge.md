@@ -29,6 +29,31 @@
 判断标准只有一条：**这条意见能不能写成「对网表做一次确定性判定」？**
 能 → 规则；不能 → 知识。**判错两边都致命，所以必须问用户，不许自己猜。**
 
+## 网表从哪来（别踩这个坑）
+
+所有脚本都要 `--netlist`。先导出：
+
+```bash
+easycirq sch list --include-bbox --include-pins > list.json
+```
+
+**大概率会失败**，三种原因逐个排：
+
+| 报错 | 原因 | 解法 |
+|---|---|---|
+| `AMBIGUOUS_WINDOW` | 开了多个 EasyEDA 窗口 | 加 `--window <id>` |
+| `AMBIGUOUS_PROJECT` | 同一项目开了多窗口，`--project` 也不够 | **只能** `--window` |
+| `PRECONDITION_REFUSED` | 前台是 PCB 不是原理图 | `easycirq doc ls` 查名字，再加 `--doc <原理图名>` |
+
+一次成功的写法：
+
+```bash
+easycirq sch list --include-bbox --include-pins \
+  --window <id> --doc <原理图名> > board.json
+```
+
+**别忘了 `--include-bbox --include-pins`**：没有引脚和坐标，封装规则和知识检索都用不了。
+
 ## 三条命令，先看有什么再动手
 
 ```bash
