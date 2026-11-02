@@ -1039,6 +1039,107 @@ class RatingStressTests(unittest.TestCase):
         self.assertIn("VGS_BELOW_THRESHOLD", proc.stdout)
 
 
+class ToleranceSpreadTests(unittest.TestCase):
+    """容差分析：只报标称动作温度不够，要报**最坏会摊到哪**。
+
+    第 1 轮就记过「NTC 的 B 值容差会让 45°C 摊成 61–67°C」，但那是手算的，
+    工具一直没算过。这里把它变成可算的：对每个带容差的量按 ±pct 扰动，
+    **枚举全部组合**（不是逐个扰动——同向叠加会把最坏情况低估）。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-tol-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _parts(self):
+        return {"components": [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "ALARM"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+        ]}
+
+    def _intent(self, tol_pct, target_tol):
+        return {"schema": "easycirq-design-intent/v1", "power_rail": "PWR5V",
+                "ground": "GND",
+                "threshold": {"comparator": "U1", "target_c": 45,
+                              "tolerance_c": target_tol, "vcc": 5.0,
+                              "sensor": {"kind": "ntc", "r25": 10000, "b": 3950},
+                              "r_pull_ohms": 10000,
+                              "tolerances": {"resistor_pct": tol_pct,
+                                             "ntc_r25_pct": tol_pct,
+                                             "ntc_b_pct": tol_pct}}}
+
+    def _run(self, tol_pct, target_tol):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._parts(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(tol_pct, target_tol),
+                                          ensure_ascii=False), encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_one_percent_tolerances_fit_a_three_degree_target(self):
+        proc = self._run(1, 3)
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "pass")
+        self.assertIn('"tolerance"', proc.stdout)
+        self.assertIn('"samples": 32', proc.stdout)
+        self.assertIn('"spread_c"', proc.stdout)
+
+    def test_same_circuit_fails_a_one_degree_target(self):
+        """同一个电路，客户要 ±1°C 就做不到 —— 标称值在范围内也不行。
+
+        这正是容差分析存在的理由：只报标称 45.3°C 会让这条需求看起来"满足"。
+        """
+        proc = self._run(1, 1)
+        self.assertIn("TOLERANCE_OUT_OF_TARGET", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "fail")
+        self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
+
+    def test_five_percent_parts_blow_the_target(self):
+        proc = self._run(5, 3)
+        self.assertIn("TOLERANCE_OUT_OF_TARGET", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "fail")
+        # 5% 器件散布应该明显大于 1% 的 2.5°C
+        match = re.search(r'"spread_c":\s*([0-9.]+)', proc.stdout)
+        self.assertIsNotNone(match)
+        self.assertGreater(float(match.group(1)), 5.0)
+
+    def test_no_tolerances_declared_means_no_claim(self):
+        """没声明容差就不算，也不能假装在容差范围内。"""
+        netlist = self.tmp / "nt.json"
+        netlist.write_text(json.dumps(self._parts(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent = self._intent(1, 3)
+        intent["threshold"].pop("tolerances")
+        intent_path = self.tmp / "nt-intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False),
+                               encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "pass")
+        self.assertNotIn('"tolerance"', proc.stdout)
+
+
 class HonestyTests(unittest.TestCase):
     """判不了的时候必须说判不了，不能默认 pass。"""
 

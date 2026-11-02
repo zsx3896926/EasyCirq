@@ -22,7 +22,12 @@
       "b": 3950
     },
     "hysteresis_c": 3,
-    "r_pull_ohms": 10000
+    "r_pull_ohms": 10000,
+    "tolerances": {
+      "resistor_pct": 1,
+      "ntc_r25_pct": 1,
+      "ntc_b_pct": 1
+    }
   },
   "switches": [
     {

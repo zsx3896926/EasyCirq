@@ -509,6 +509,66 @@ def check_ratings(netlist, nets, intent, findings) -> dict:
                     "工具只算实际应力并比较，不猜额定值"}
 
 
+def trip_point(vcc: float, th: float, r_sensor_up: float,
+               r25: float, beta: float) -> float | None:
+    """给定分压参数，算 NTC 分压穿越 th 的温度。
+
+    纯函数——不含网表、不含意图，所以容差分析可以直接换参数反复调用。
+    """
+    def v_at(temp_c: float) -> float:
+        resistance = ntc_resistance(temp_c, r25, beta)
+        return vcc * resistance / (r_sensor_up + resistance)
+
+    lo, hi = -40.0, 150.0
+    v_lo, v_hi = v_at(lo), v_at(hi)
+    if not (v_hi < th < v_lo):
+        return None
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if v_at(mid) > th:
+            lo = mid
+        else:
+            hi = mid
+    return lo
+
+
+def tolerance_spread(vcc: float, r_sensor_up: float, r_top: float, r_bot: float,
+                     r25: float, beta: float, pcts: dict) -> dict | None:
+    """动作温度的**最坏散布**：把每个带容差的量按 ±pct 扰动，枚举全部组合。
+
+    为什么需要这个（第 1 轮就记过、一直没算）：
+    报警板的记录里写着「NTC 的 B 值容差会让 45°C 摊成 61–67°C」，但那是手算的，
+    工具没算过。客户问「45±3°C 能做到吗」时，只报标称值 45.3°C 是不够的——
+    要报的是**最坏情况下会偏到哪**。
+
+    枚举而不是逐个扰动：±1% 的电阻和 ±1% 的 B 可能同向叠加，
+    逐个绕动会低估最坏情况。这里参数少（≤5 个），2^5=32 组全枚举得起。
+    """
+    def th_of(r_top_v: float, r_bot_v: float) -> float:
+        return vcc * r_bot_v / (r_top_v + r_bot_v)
+
+    trips = []
+    for d_r in (-1, 1):
+        r_sensor = r_sensor_up * (1 + d_r * pcts["resistor"])
+        for d_t in (-1, 1):
+            r_t = r_top * (1 + d_t * pcts["resistor"])
+            for d_b in (-1, 1):
+                r_b = r_bot * (1 + d_b * pcts["resistor"])
+                for d_25 in (-1, 1):
+                    v25 = r25 * (1 + d_25 * pcts["ntc_r25"])
+                    for d_beta in (-1, 1):
+                        vbeta = beta * (1 + d_beta * pcts["ntc_b"])
+                        trip = trip_point(vcc, th_of(r_t, r_b), r_sensor,
+                                          v25, vbeta)
+                        if trip is not None:
+                            trips.append(trip)
+    if not trips:
+        return None
+    return {"trip_min_c": round(min(trips), 2), "trip_max_c": round(max(trips), 2),
+            "spread_c": round(max(trips) - min(trips), 2),
+            "samples": len(trips)}
+
+
 def check_threshold(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold")
     if not spec:
@@ -598,12 +658,59 @@ def check_threshold(netlist, nets, intent, findings) -> dict:
 
     target = float(spec.get("target_c") or 60)
     tol = float(spec.get("tolerance_c") or 5)
-    detail = {
-        "id": "threshold_sanity",
-        "metrics": {"threshold_v": round(th, 4), "divider": divider,
-                    "trip_c": round(trip, 1), "target_c": target,
-                    "tolerance_c": tol, "delta_c": round(trip - target, 1)},
-    }
+    metrics = {"threshold_v": round(th, 4), "divider": divider,
+               "trip_c": round(trip, 1), "target_c": target,
+               "tolerance_c": tol, "delta_c": round(trip - target, 1)}
+    detail = {"id": "threshold_sanity", "metrics": metrics}
+
+    # ── 容差分析：只报标称值是不够的，客户问的是「45±3 能做到吗」
+    spread = None
+    tol_spec = spec.get("tolerances")
+    if isinstance(tol_spec, dict):
+        # 三个电阻值和两种 NTC 参数的容差，缺哪个都不猜（不默认成 0）
+        pcts = {}
+        for key, label in (("resistor_pct", "resistor"),
+                           ("ntc_r25_pct", "ntc_r25"),
+                           ("ntc_b_pct", "ntc_b")):
+            value = tol_spec.get(key)
+            if not isinstance(value, (int, float)):
+                pcts = None
+                break
+            pcts[label] = float(value) / 100.0
+        sensor_up = None
+        for node in (in_plus, in_minus):
+            up, _down = find_divider(netlist, nets, node, rail, ground)
+            if up is not None:
+                sensor_up = up[1]
+                break
+        th_up, th_down = None, None
+        for node in (in_plus, in_minus):
+            up, down = find_divider(netlist, nets, node, rail, ground)
+            if up and down:
+                th_up, th_down = up[1], down[1]
+                break
+        if pcts and sensor_up and th_up and th_down:
+            spread = tolerance_spread(vcc, sensor_up, th_up, th_down,
+                                      r25, beta, pcts)
+            if spread is None:
+                metrics["tolerance"] = None
+                detail["status"] = "unknown"
+                detail["reason"] = ("声明了容差，但扰动后算不出动作温度区间"
+                                    "（分压在某个角落永远不穿越阈值），不猜")
+                return detail
+            metrics["tolerance"] = spread
+            if (spread["trip_min_c"] < target - tol
+                    or spread["trip_max_c"] > target + tol):
+                findings.append({
+                    "code": "TOLERANCE_OUT_OF_TARGET", "status": "confirmed",
+                    "message": (f"标称动作温度 {trip:.1f}°C 在 {target:.0f}±{tol:.0f}°C 内，"
+                                f"但器件容差会让它摊到 {spread['trip_min_c']:.1f}–"
+                                f"{spread['trip_max_c']:.1f}°C（散布 "
+                                f"{spread['spread_c']:.1f}°C，{spread['samples']} 组组合）"
+                                f"——超出目标的批次会误动作"),
+                })
+                detail["status"] = "fail"
+                return detail
     if abs(trip - target) > tol:
         findings.append({
             "code": "THRESHOLD_OUT_OF_TARGET", "status": "confirmed",
