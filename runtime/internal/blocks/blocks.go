@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"io/fs"
 	"sort"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -183,12 +185,49 @@ func (b Block) Status() string {
 
 // Load parses every embedded block, sorted by id. It never touches the disk, so
 // it works from a bare binary.
+// externalBlockDirs 是企业块库目录，从 EASYCIRQ_BLOCKS_DIR 读。
+//
+// Why: the block library is go:embed'd, so a customer cannot add a block without
+// rebuilding the binary. That is fine for the shipped library and wrong for a
+// company's own standard circuits. An external directory lets them add blocks
+// the same way they add rules and parts: drop a JSON file and it is picked up.
+//
+// Empty/unset => embedded library only, which is the previous behaviour exactly.
+func externalBlockDirs() []string {
+	raw := strings.TrimSpace(os.Getenv("EASYCIRQ_BLOCKS_DIR"))
+	if raw == "" {
+		return nil
+	}
+	var out []string
+	for _, part := range strings.Split(raw, string(os.PathListSeparator)) {
+		if p := strings.TrimSpace(part); p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
+}
+
+// loadOneBlock parses one block JSON. Kept separate so embedded and external
+// blocks go through exactly the same decode path.
+func loadOneBlock(raw []byte, label string) (Block, error) {
+	var b Block
+	if err := json.Unmarshal(raw, &b); err != nil {
+		return Block{}, fmt.Errorf("block %s: %w", label, err)
+	}
+	if strings.TrimSpace(b.ID) == "" {
+		return Block{}, fmt.Errorf("block %s: missing id", label)
+	}
+	b.Raw = raw
+	return b, nil
+}
+
 func Load() ([]Block, error) {
 	entries, err := fs.ReadDir(data, "data")
 	if err != nil {
 		return nil, err
 	}
 	var out []Block
+	index := map[string]int{} // id -> position in out, for external override
 	for _, e := range entries {
 		name := e.Name()
 		if e.IsDir() || !strings.HasSuffix(name, ".json") || strings.HasPrefix(name, "_") {
@@ -198,12 +237,41 @@ func Load() ([]Block, error) {
 		if err != nil {
 			return nil, err
 		}
-		var b Block
-		if err := json.Unmarshal(raw, &b); err != nil {
-			return nil, fmt.Errorf("block %s: %w", name, err)
+		b, err := loadOneBlock(raw, name)
+		if err != nil {
+			return nil, err
 		}
-		b.Raw = raw
+		index[b.ID] = len(out)
 		out = append(out, b)
+	}
+
+	// 企业块库：同 id 覆盖内置。
+	// **坏的块必须报错并点出文件名**，不许静默跳过——企业会以为块生效了。
+	for _, dir := range externalBlockDirs() {
+		files, err := filepath.Glob(filepath.Join(dir, "*.json"))
+		if err != nil {
+			return nil, fmt.Errorf("external blocks dir %s: %w", dir, err)
+		}
+		sort.Strings(files)
+		for _, path := range files {
+			if strings.HasPrefix(filepath.Base(path), "_") {
+				continue
+			}
+			raw, err := os.ReadFile(path)
+			if err != nil {
+				return nil, fmt.Errorf("external block %s: %w", path, err)
+			}
+			b, err := loadOneBlock(raw, path)
+			if err != nil {
+				return nil, err
+			}
+			if at, ok := index[b.ID]; ok {
+				out[at] = b // 同名覆盖，位置不变
+				continue
+			}
+			index[b.ID] = len(out)
+			out = append(out, b)
+		}
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
 	return out, nil

@@ -1,0 +1,207 @@
+{
+  "id": "block.company_threshold_switch",
+  "desc": "企业改版：NTC 阈值 + 回差 + 12V 感性负载开关（把栅极上拉换成 47k，配合企业实测 Vgs(th)=1.3V）",
+  "category": "sensing",
+  "author": "@company-hardware",
+  "contributors": [],
+  "added": "v1.3.45",
+  "updated": "v1.3.45",
+  "source": "Fan-Controller-12V 实战样板（2026-11-02 从零画到五类设计有效性判据全过）。参数由 tools/size_fan_controller.py 算出：R_TH_TOP=10k / R_TH_BOT=4.3k → 45.3°C；R_HYST=39k → 回差 2.97°C；栅极上拉 100k（MOSFET 栅极不取直流电流）+ 串联 100Ω。",
+  "validated": "2026-11-02 手工搭板验证：11 器件 8 网络与设计表逐条一致；sch_design_validity 五类判据（threshold_sanity 45.3°C / switch_drive 5.0V>1.05V / hysteresis R6 / inductive_load / supply_domains）全 pass。**注意**：此块本身尚未经 block-apply 落块验证（本轮只做到手工搭板 + 标准件入库），首次落块需跑 --dry-run 并核对网表。",
+  "parts": {
+    "NTC": {
+      "part": "ntc.10k_3950",
+      "alt": [],
+      "qty": 1,
+      "note": "10K NTC，B=3950。脚序 1/2 无极性。传感器侧：一端 NTC_MID，一端 GND。"
+    },
+    "R_PULL": {
+      "part": "res.10k_0603",
+      "alt": [
+        "res.10k_0402"
+      ],
+      "qty": 1,
+      "note": "NTC_MID 上拉到逻辑电源。与 NTC 组成分压：25°C 时中点 = VCC/2。"
+    },
+    "R_TH_TOP": {
+      "part": "res.10k_0603",
+      "alt": [],
+      "qty": 1,
+      "note": "阈值分压上臂。配合 R_TH_BOT 决定动作温度：TH = VCC·R_TH_BOT/(R_TH_TOP+R_TH_BOT)。"
+    },
+    "R_TH_BOT": {
+      "part": "res.4k3_0603",
+      "alt": [],
+      "qty": 1,
+      "note": "阈值分压下臂。4.3k 配 10k 上臂 → TH=1.5035V → 动作 45.3°C。换目标温度必须重算：R_BOT = R_TOP·TH/(VCC−TH)。"
+    },
+    "U": {
+      "part": "ic.lm393_sop8",
+      "alt": [],
+      "qty": 1,
+      "note": "双比较器 LM393，开集输出。用其中一路：pin3=IN+ 接 NTC_MID，pin2=IN- 接 TH，pin1=OUT。pin8=VCC，pin4=GND，pin5/6/7 不用。"
+    },
+    "R_HYST": {
+      "part": "res.39k_0603",
+      "alt": [],
+      "qty": 1,
+      "note": "回差正反馈：从 OUT 接回 NTC_MID。39k → 回差 2.97°C。没有它，阈值附近会随噪声反复启停（客户明确要求「别疯狂启停」）。"
+    },
+    "R_GATE_PULL": {
+      "part": "res.100k_0603",
+      "alt": [],
+      "qty": 1,
+      "note": "栅极上拉到逻辑电源。开集输出只能灌电流、不能供电流——**没有这颗上拉，管子永远不会导通**（报警板上就是这个缺陷）。100k 够用，因为 MOSFET 栅极静态不取电流。"
+    },
+    "R_GATE_SER": {
+      "part": "res.100r_0603",
+      "alt": [],
+      "qty": 1,
+      "note": "栅极串联。限制开关瞬态的栅极电流。别取太大：它和上拉分压决定关断时栅压，取 2.4k 以上会让栅压高于 Vgs(th) 而关不断。"
+    },
+    "Q": {
+      "part": "mosfet.ao3400a_sot23",
+      "alt": [],
+      "qty": 1,
+      "note": "N-MOSFET AO3400A，SOT-23，Vgs(th)≈1.05V，Id 4A。脚：1=G，2=S，3=D。低边开关：S→GND，D→负载负极。"
+    },
+    "D": {
+      "part": "diode.1n4148w_sod123",
+      "alt": [],
+      "qty": 1,
+      "note": "续流二极管。**极性是这块板最容易接错的地方**：库里这颗 pin1=K（阴极）、pin2=A（阳极），与「1 阳 2 阴」的常见约定相反。接反会一上电就正向导通把负载电源短路。"
+    },
+    "LOAD": {
+      "part": "conn.xh254_2p",
+      "alt": [],
+      "qty": 1,
+      "note": "负载接线端子（风扇/继电器线圈）。pin1=+ 接负载电源轨，pin2=− 接 MOSFET 漏极。"
+    }
+  },
+  "internal_nets": [
+    [
+      "R_PULL.1",
+      "R_TH_TOP.1",
+      "U.8",
+      "R_GATE_PULL.1",
+      "PORT:PWR5V"
+    ],
+    [
+      "R_PULL.2",
+      "NTC.1",
+      "U.3",
+      "R_HYST.2"
+    ],
+    [
+      "NTC.2",
+      "R_TH_BOT.2",
+      "U.4",
+      "Q.2",
+      "PORT:GND"
+    ],
+    [
+      "R_TH_TOP.2",
+      "R_TH_BOT.1",
+      "U.2"
+    ],
+    [
+      "U.1",
+      "R_HYST.1",
+      "R_GATE_SER.2"
+    ],
+    [
+      "R_GATE_PULL.2",
+      "R_GATE_SER.1",
+      "Q.1"
+    ],
+    [
+      "Q.3",
+      "LOAD.2",
+      "D.2"
+    ],
+    [
+      "LOAD.1",
+      "D.1",
+      "PORT:PWR12V"
+    ]
+  ],
+  "ports": {
+    "PWR5V": {
+      "dir": "in",
+      "at": "U.8",
+      "desc": "逻辑电源（比较器/分压）。典型 5V。",
+      "default_net": "PWR5V"
+    },
+    "PWR12V": {
+      "dir": "in",
+      "at": "LOAD.1",
+      "desc": "负载电源（与逻辑电源可以是同一轨，也可以更高，如 12V/24V）。",
+      "default_net": "PWR12V"
+    },
+    "GND": {
+      "dir": "bidir",
+      "at": "U.4",
+      "desc": "系统地。两个电源域必须共地。",
+      "default_net": "GND"
+    }
+  },
+  "schematic_layout": {
+    "note": "信号流左入右出：NTC 传感 → 比较 → 驱动 → 负载。偏移为原理图单位（y 向上），须落 5 格。间距按实测 bbox 留 120。",
+    "roles": {
+      "NTC": {
+        "dx": 0,
+        "dy": 300
+      },
+      "R_PULL": {
+        "dx": 0,
+        "dy": 460
+      },
+      "U": {
+        "dx": 280,
+        "dy": 380
+      },
+      "R_TH_TOP": {
+        "dx": 200,
+        "dy": 580
+      },
+      "R_TH_BOT": {
+        "dx": 320,
+        "dy": 580
+      },
+      "R_HYST": {
+        "dx": 420,
+        "dy": 220
+      },
+      "R_GATE_PULL": {
+        "dx": 560,
+        "dy": 520
+      },
+      "R_GATE_SER": {
+        "dx": 580,
+        "dy": 380
+      },
+      "Q": {
+        "dx": 660,
+        "dy": 260
+      },
+      "D": {
+        "dx": 760,
+        "dy": 420
+      },
+      "LOAD": {
+        "dx": 860,
+        "dy": 520
+      }
+    }
+  },
+  "schematic_notes": [
+    "比较器方向：温度升高 → NTC 阻值下降 → NTC_MID 下降。IN+ 接 NTC_MID、IN- 接 TH，所以 NTC_MID 低于 TH 时输出拉低（动作）。",
+    "开集输出只能灌电流。栅极必须上拉到逻辑电源，否则 MOSFET 永远关断——这是报警板上实际踩过的缺陷。",
+    "回差靠 R_HYST 从 OUT 正反馈到 NTC_MID。只在输出拉低时起作用，方向正确（触发后更难退出）。",
+    "续流二极管反并在负载两端：阴极朝负载电源轨、阳极朝 MOSFET 漏极。**接反会把电源短路**。",
+    "两个电源域必须共地，否则比较器没有参考点。",
+    "改目标温度/回差/负载电流后，务必用 tools/size_fan_controller.py 重算三个电阻，并跑 sch_design_validity 复核。"
+  ],
+  "pcb_layout": [],
+  "_note": "这是企业自建块样例：放在 EASYCIRQ_BLOCKS_DIR 指向的目录里，同 id 会覆盖内置块"
+}

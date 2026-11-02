@@ -14,7 +14,8 @@
 - 七、知识类条目：存了还要能被检索到
 - 八、企业器件库：实测参数要真的被判据用上
 - 九、一条命令验证整个闭环
-- 十、还没做的（别当成能用）
+- 十一、企业自建块库：加自己的标准电路
+- 十二、还没做的（别当成能用）
 
 ## 一、先分清两种「经验」
 
@@ -360,7 +361,64 @@ python tools/verify_enterprise.py
 `tests/test_verify_enterprise.py` 把这个演练钉成回归测试：
 任何一条链断了，它必须返回非零。
 
-## 十、还没做的（别当成能用）
+## 十一、企业自建块库：加自己的标准电路
+
+块库原本是编译进二进制的（`go:embed`），企业加块就得重编 EasyCirq——
+这不对，企业自己的标准电路恰恰最该能自己加。
+
+现在有一个外部目录：
+
+```
+export EASYCIRQ_BLOCKS_DIR=/path/to/company-blocks      # Linux/macOS
+$env:EASYCIRQ_BLOCKS_DIR = "D:\company-blocks"         # Windows
+```
+
+目录里的 `*.json` 会被加载，**同 id 覆盖内置块**。
+
+### 一个企业块长什么样
+
+和内置块格式一致，改 `id` 和内容即可：
+
+```json
+{
+  "id": "block.company_threshold_switch",
+  "desc": "企业改版：NTC 阈值 + 回差 + 12V 感性负载开关（栅极上拉 47k，配合实测 Vgs(th)=1.3V）",
+  "category": "sensing",
+  "author": "@company-hardware",
+  "parts": { "…": "…" },
+  "internal_nets": [ ["R.1", "PORT:PWR5V"], "…" ],
+  "ports": { "…": "…" }
+}
+```
+
+### 验证它真的被看到
+
+```bash
+easycirq blocks ls | grep company      # 设了环境变量后应出现
+easycirq blocks show block.company_threshold_switch
+```
+
+实测：
+
+```
+block.company_threshold_switch   ready  sensing  @company-hardware  企业改版：…
+```
+
+**不设环境变量时看不见**——内置行为完全不变，这是回归测试钉住的
+（`TestNoEnvKeepsBuiltinBehaviour`）。
+
+### 坏的块会 loudly 失败
+
+块的 `id` 为空或 JSON 坏了，`Load()` 直接报错并**点出文件名**，
+不会静默跳过。企业用 `blocks ls` 看不到自己的块时，先看报错说了哪个文件。
+
+### 边界
+
+- **只加块，不改内置块的行为**：同 id 覆盖是显式选择，不会意外发生
+- 块里的器件仍然要能在标准件库里解析（`block-apply` 用 `standard-parts.json` 把
+  role 映射到真实 deviceUuid）；企业特有的料请同时放到企业器件库
+
+## 十二、还没做的（别当成能用）
 
 
 | 能力 | 状态 |
@@ -368,7 +426,7 @@ python tools/verify_enterprise.py
 | 企业**可检索知识**（历史工程教训、客户偏好） | ❌ 未实现。现在只支持可执行规则 |
 | **人审意见结构化沉淀**（人工核查指出问题 → 记录 → 下次生效） | ❌ 未实现。这是整个闭环的入口，最该做 |
 | 企业**器件库补充**（器件手册里的实测参数覆盖） | ❌ 未实现 |
-| 企业**块库**扩充 | ❌ 未实现 |
+| 企业**块库**扩充 | ✅ 已实现（见上一节） |
 | 规则接进 19 项 KPI 门禁 | ❌ 未接。现在要单独跑一条命令 |
 
 **当前能做到的完整闭环**：企业写规则（或人审记录标成 rule）→ 推进到知识目录 → 回读确认 → 下次跑检查时自动加载并阻断。
