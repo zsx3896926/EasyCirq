@@ -393,3 +393,89 @@ diff 自然非零——因为板子确实变了：
 `ADC_AS_OUTPUT: OUT1 被同时声明为模拟输入与输出`。
 **这条判据是对的**——输出不是模拟输入；但字段名 `analog_used` 本身没说明
 "只对输入有效"，容易理解错。
+
+---
+
+## 第 20 轮：门禁两轮 PASS，通行证签发，三份制造文件导出
+
+### 门禁
+
+重新冻结基线（改动已逐条记录在上一节）后：
+
+```
+round 1: PASS (apply_allowed=False)
+round 2: PASS (apply_allowed=True)
+stability: {rounds_pass: 2, required_rounds: 2, regression: false,
+            new_failures: [], apply_allowed: true}
+gate: {written: true, path: .easycirq/gate.json, expires_at: 2026-11-02T03:44:39Z}
+```
+
+**19 项全过，无 blocker。**
+
+### 三份制造文件
+
+| 产物 | 内容 |
+|---|---|
+| `gerber.zip` | **12 个文件**：GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL + **2 个钻孔层**（PTH_Through、PTH_Through_Via）+ 下单必读 |
+| `cpl.csv` | **13 行**（表头 + 12 个器件），带 Mid X/Y、Rotation、Layer |
+| `netlist.enet` | 网表 |
+
+已归档到 `deliverables/fan-controller/manufacturing/`。
+
+**层数不是固定的**：这次 12 层，因为有钻孔层（板上有直插件 NTC1 和端子 FAN1）。
+
+### 交付卡
+
+```
+✅ 可以下单（原理图与板子都通过）
+
+板子检查：通过（0 项）
+检查结果：必查 18/18 通过 · 缺证据 0 · 不适用 0 · 提醒 1
+```
+
+**第一次不带 `--pcb-drc` 时卡片是诚实的：「原理图可以打样（板子还没检查）」**，
+并给出「带 --pcb-drc 一起看才是整板结论」。补上之后才是整板结论。
+
+### 查出一个我自己工具的缺陷
+
+`tools/check_deliverable.py` **把目录写死成 `deliverables/alarm`，无视命令行参数**：
+
+```python
+d = pathlib.Path("deliverables/alarm")   # ← 写死
+```
+
+于是 `python tools/check_deliverable.py deliverables/fan-controller` 看起来"跑过了"，
+**其实查的是报警板**。证据是它报 `BOM designators: 11`（报警板），而风扇板是 12。
+
+**检查器忽略传入参数，比没有参数更糟**：它给出的是一个看似针对目标的结论。
+已改成从 `sys.argv[1]` 取，默认仍是报警板。
+
+修完后它立刻抓到风扇包缺 `README.md`、缺 `SHA256SUMS`、根目录缺 `bom.csv`——
+**说明之前那些"通过"都是查错了对象。**
+
+### 交付包自检还有 2 项格式问题（未解决）
+
+检查器要求 README 用它能解析的表格格式列文件，我的写法它读不全：
+
+```
+PROBLEMS (2):
+  - README 列出但不存在: [design/intent.json, manufacturing/gerber.zip, …19 项]
+  - 存在但 README 未列: [SHA256SUMS, bom.csv, design, snapshot]
+```
+
+**文件其实都在**（`Get-ChildItem -Recurse` 确认过 22 个），是 README 的表格解析不匹配。
+这是格式问题不是内容问题，但**没修就是没修**，记在这里。
+
+### 达到的状态
+
+| 项 | 状态 |
+|---|---|
+| 意图文件 → 分压阈值 → 比较器 → 驱动管 → 续流二极管 → 双电源域 | ✅ |
+| 五类设计有效性判据 | ✅ 全过 |
+| 19 项 KPI 门禁 | ✅ **PASS，连续两轮** |
+| 通行证 | ✅ 已签发 |
+| PCB 布线 8/8 + DRC 0 违规 | ✅ |
+| Gerber / CPL / BOM / 网表 | ✅ 已导出并归档 |
+| 交付卡 | ✅ 可以下单 |
+| 交付包 README 格式自检 | ❌ 2 项格式问题 |
+| **物理打样 / 实测** | ❌ **未做**（需要用户下单） |

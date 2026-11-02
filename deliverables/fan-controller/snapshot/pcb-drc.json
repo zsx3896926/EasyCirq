@@ -1,0 +1,31 @@
+{
+  "id": "req_270",
+  "type": "response",
+  "version": "v1",
+  "windowId": "1dfdcc80-e7ef-4c81-aeff-566ac4bb7781",
+  "createdAt": "2026-11-02T03:16:06.691787Z",
+  "ok": true,
+  "result": {
+    "passed": true,
+    "violations": []
+  },
+  "context": {
+    "projectUuid": "77ef9d0874cc48499400578c59eb2910",
+    "projectName": "Fan-Controller-12V",
+    "documentUuid": "696988895f5e0343",
+    "documentType": "pcb",
+    "tabId": "696988895f5e0343@77ef9d0874cc48499400578c59eb2910",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "77ef9d0874cc48499400578c59eb2910",
+    "projectName": "Fan-Controller-12V",
+    "documentUuid": "696988895f5e0343",
+    "documentType": "pcb",
+    "tabId": "696988895f5e0343@77ef9d0874cc48499400578c59eb2910",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1007,
+  "seqAbandoned": 0
+}

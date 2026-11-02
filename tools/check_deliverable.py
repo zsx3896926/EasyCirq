@@ -6,8 +6,17 @@
 import hashlib
 import pathlib
 import re
+import sys
 
-d = pathlib.Path("deliverables/alarm")
+# 目录从命令行取，默认报警板。
+# 原来这里写死了 deliverables/alarm，于是 `python tools/check_deliverable.py
+# deliverables/fan-controller` 看起来"跑过了"，其实查的是报警板——
+# 输出里 BOM 11 个（报警板的数）而风扇板是 12 个，才发现参数被无声忽略。
+# 检查器忽略传入参数，比没有参数更糟：它给出的是一个看似针对目标的结论。
+d = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else "deliverables/alarm")
+if not d.is_dir():
+    raise SystemExit(f"交付包目录不存在: {d}")
+print(f"检查交付包: {d}")
 problems = []
 
 # 1. every file listed in README's table must exist, and every file present should be listed
