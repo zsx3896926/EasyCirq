@@ -413,18 +413,18 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 ## 5.5 企业知识库（客户自己的规范/实测值/标准电路）
 
 用户说「我们公司规定」「按我们规范检查」「这颗料我们实测过」「用我们自己的标准电路」
-「上次评审说的别再犯」时，**先读 [企业知识库](references/enterprise-knowledge.md)**，
-再用 `scripts/` 下的 `enterprise_rules.py` / `knowledge_search.py` /
-`enterprise_parts.py` / `review_ledger.py` / `enterprise_selfcheck.py`。
+「上次评审说的别再犯」时：**上手读 [一页纸](references/enterprise-quickstart.md)，
+深入读 [企业知识库](references/enterprise-knowledge.md)**；脚本在 `scripts/`：
+`enterprise_rules.py` / `knowledge_search.py` / `enterprise_parts.py` /
+`review_ledger.py` / `enterprise_selfcheck.py`。企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`
+（默认 `~/.easycirq/knowledge/`）与项目 `.easycirq/knowledge/`，块库用
+`EASYCIRQ_BLOCKS_DIR`。**不改源码、不重装。**
 
 三条不可违反：①**经验必须分两类**——能写成「对网表一次确定性判定」的是规则（可阻断），
 依赖上下文的是知识（只提示）。判错两边都致命，**必须问用户，不许猜**。
 ②**「能加载」不等于「会生效」**，唯一验证办法是故意造一块违规的板看它报不报。
 ③**不许承诺没做的**：规则没接进 19 项 KPI 门禁；AI 不能自动提取规则；
 块里的 `pcb_layout` 没有任何代码读。
-
-企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`（默认 `~/.easycirq/knowledge/`）与项目
-`.easycirq/knowledge/`，块库用 `EASYCIRQ_BLOCKS_DIR`。**不改源码、不重装。**
 
 ## 6. 设计和执行的底线
 
