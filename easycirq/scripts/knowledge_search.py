@@ -152,7 +152,94 @@ def tokenize(text):
     return tokens
 
 
+# ── 概念派生：板子隐含了什么
+#
+# 问题（2026-11-03 实测）：检索上下文原本只有网表 + 意图的字面值，于是
+# 「负载类型 inductive」和客户写的「感性负载必须续流」**一个词都不重合**——
+# 风扇板明明就是感性负载，那条最该命中的知识却召回不到。5 条典型经验只召回 1 条。
+#
+# 这一层把板子的事实翻译成该领域的概念词，中英都加，因为客户两种都会写。
+#
+# **这是同义词表，不是语义理解。** 它只能覆盖下面列出的映射；表里没有的概念
+# 仍然召回不到。`--audit` 会报告永远召不回的条目，但不会替你补这颗表。
+CONCEPTS = {
+    "inductive": ["感性负载", "感性", "续流", "反向尖峰", "尖峰", "flyback",
+                  "反激", "二极管", "继电器", "电机", "线圈"],
+    "ntc": ["热敏", "热敏电阻", "ntc", "温度", "测温", "分压", "阈值"],
+    "rail": ["电源", "供电", "轨", "去耦", "退耦", "decoupling", "旁路"],
+    "switch": ["驱动", "开关", "三极管", "mosfet", "上拉", "下拉", "栅极", "基极"],
+    "hysteresis": ["回差", "迟滞", "抖动", "反复启停", "hysteresis"],
+    "tolerance": ["容差", "精度", "公差", "误差", "tolerance"],
+    "load": ["负载", "电流", "功耗", "发热"],
+    "comparator": ["比较器", "运放", "opamp", "lm393", "比较"],
+    "connector": ["连接器", "端子", "接口", "对外", "出机壳", "esd", "静电", "tvs"],
+}
+
+
+def derived_concepts(netlist, intent=None):
+    """从板子的事实推出该领域的概念词。返回 (tokens, facts)。"""
+    toks = set()
+    facts = []
+
+    # ── 网表侧的检测先做：它不依赖 intent，不能被下面的 early return 跳过
+    try:
+        for comp in (netlist or {}).get("components") or []:
+            if comp.get("componentType") != "part":
+                continue
+            if str(comp.get("designator") or "").upper().startswith("J"):
+                toks.update(CONCEPTS["connector"])
+                facts.append("板上有连接器 → 补入接口/静电保护概念")
+                break
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        for comp in (netlist or {}).get("components") or []:
+            mpn = str(comp.get("manufacturerId") or "").lower()
+            if any(k in mpn for k in ("lm393", "lm358", "opamp", "comparator")):
+                toks.update(CONCEPTS["comparator"])
+                facts.append(f"有比较器 {mpn.upper()} → 补入比较器概念")
+                break
+    except Exception:  # noqa: BLE001
+        pass
+
+    if not intent:
+        return toks, facts
+
+    sw = (intent.get("switches") or [{}])[0]
+    kind = str(sw.get("load_kind") or "").lower()
+    if "induct" in kind:
+        toks.update(CONCEPTS["inductive"])
+        facts.append("板上有感性负载 → 补入续流/尖峰相关概念")
+    if sw.get("load_ma") or sw.get("load"):
+        toks.update(CONCEPTS["load"])
+        facts.append("有负载电流 → 补入负载/发热概念")
+    if sw.get("part") or sw.get("kind"):
+        toks.update(CONCEPTS["switch"])
+        facts.append("有开关管 → 补入驱动相关概念")
+
+    sensor = str(((intent.get("threshold") or {}).get("sensor") or {})
+                 .get("kind") or "").lower()
+    if sensor:
+        toks.update(CONCEPTS["ntc"])
+        facts.append(f"传感器 {sensor} → 补入测温/分压概念")
+
+    if (intent.get("threshold") or {}).get("hysteresis_c"):
+        toks.update(CONCEPTS["hysteresis"])
+        facts.append("有回差要求 → 补入迟滞概念")
+
+    if (intent.get("threshold") or {}).get("tolerances"):
+        toks.update(CONCEPTS["tolerance"])
+        facts.append("有容差声明 → 补入精度概念")
+
+    if intent.get("rails"):
+        toks.update(CONCEPTS["rail"])
+        facts.append("有电源轨 → 补入去耦/供电概念")
+
+    return toks, facts
+
+
 def board_context(netlist, intent=None):
+
     """从网表 + 意图抽特征词。返回 (tokens, 描述用的事实)。"""
     parts = [c for c in (netlist.get("components") or [])
              if c.get("componentType") == "part"]
@@ -198,7 +285,12 @@ def board_context(netlist, intent=None):
             facts.append("有容差声明")
 
     query = " ".join(str(b) for b in bits)
-    return tokenize(query), facts
+    tokens = tokenize(query)
+    # 并入派生概念（同义词表，见 CONCEPTS 的说明）
+    derived, derived_facts = derived_concepts(netlist, intent)
+    tokens |= derived
+    facts = facts + derived_facts
+    return tokens, facts
 
 
 def score(entry, query_tokens):
