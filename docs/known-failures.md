@@ -1319,3 +1319,60 @@ supply_domains     pass
 
 暂时这样处理：为块落版单独留一份 `intent-block.json`（`load` = `J1`）。
 要不要把意图文件也纳入 `--spec` 那样的自动回填，记成待办。
+
+## 已修：位号对不上时，`unknown` 只剩三个字母（2026-11-02）
+
+### 症状
+
+用块落出来的电路跑设计有效性，只得到：
+
+```
+inductive_load     unknown
+```
+
+**看不出为什么判不了。** 手工排查才发现：块把 `LOAD` 角色分配成 `J1`，
+而我的意图文件写的是手工搭板时的 `FAN1`。
+
+**`unknown` 是最危险的失败形态**——它不像 `fail` 那样刺眼，
+很容易被当成"这一项不适用"略过，实际是"这一项根本没验"。
+
+### 两层问题，都修了
+
+**第一层：诊断信息不够。** `describe_missing_designator()` 现在把网表里
+**实际有哪些位号**列出来，并点明成因（块会重排位号）：
+
+```
+[unknown] FAN1: 意图写的是 FAN1，网表里没有这个位号；
+网表里的器件是：D1, J1, Q1, R1, R2, R3, R4, R5, R6, TH1, U1。
+（`block-apply` 落块后会重新分配位号，意图文件要跟着改）
+```
+
+**只说事实，不猜"最接近的是哪个"。** 猜错比不说更糟，而人一眼就能对上。
+
+**第二层：诊断写对了，但没打印出来。** 这句话写进了 `loads[].reason`，
+而打印器只遍历 `metrics` 和 `switches` —— **屏幕上照旧只剩三个字母**。
+修了打印器，现在 `loads[]` 每项的理由都会输出。
+
+**第二层是这次真正花时间的地方**：第一层改完我去验，仍然看不到原因，
+一度以为诊断没生效。
+
+### 验证
+
+`tests/test_design_validity.py` 新增 3 条：
+
+- `test_missing_load_designator_lists_what_exists`：必须列出真实位号、点明块重排位号
+- `test_missing_designator_is_visible_in_stdout_not_just_in_json`：
+  **断言它出现在 stdout 里**——写对了不打印等于没写（这条直接用实测踩的坑命名）
+- `test_correct_designator_passes`：位号对上时不许再报 unknown
+
+`tests/test_design_validity.py` → **31 passed**；相关四个套件 → **61 passed**。
+
+### 还没做的（以及为什么）
+
+**让 `block-apply` 把真实位号自动回填进意图文件**没做。它已经有 `--spec`
+能做到类似的事（回填 S0 spec 的 modules[].parts），但把设计意图也纳入回填
+是另一条改动路径，要动 Go 侧和意图的 schema。
+
+**先修诊断的理由**：位号对不上是必然发生的（块每次落都可能分到不同位号），
+而"看得见"是解决它的前提。回填能省事，但没有回填时至少现在不会静默降级。
+这条留作待办。

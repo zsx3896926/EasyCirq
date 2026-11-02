@@ -145,6 +145,25 @@ def ohms(value) -> float | None:
         return None
 
 
+def describe_missing_designator(netlist: dict, wanted: str) -> str:
+    """意图里的位号在网表里不存在时，把网表实际有什么列出来。
+
+    为什么这条重要（2026-11-02 实测）：`block-apply` 会重新分配位号
+    （块的角色 LOAD 被分到 J1），而设计意图文件里写的是手工搭板时的 FAN1。
+    于是 inductive_load 报 unknown —— **而 unknown 最容易被当成"没事"略过**，
+    实际是"这一项根本没验"。
+
+    只说事实：网表里有哪些位号。不猜"最接近的是哪个"——
+    猜错比不说更糟，而人一眼就能对上。
+    """
+    parts = sorted(c.get("designator") for c in parts_of(netlist))
+    if not parts:
+        return f"意图写的是 {wanted}，而网表里一个器件都没有"
+    return (f"意图写的是 {wanted}，网表里没有这个位号；"
+            f"网表里的器件是：{', '.join(parts)}。"
+            f"（`block-apply` 落块后会重新分配位号，意图文件要跟着改）")
+
+
 def part_by(netlist: dict, designator: str) -> dict | None:
     for part in parts_of(netlist):
         if part.get("designator") == designator:
@@ -190,7 +209,7 @@ def check_threshold(netlist, nets, intent, findings) -> dict:
     part = part_by(netlist, comparator)
     if part is None:
         return {"id": "threshold_sanity", "status": "unknown",
-                "reason": f"网表里找不到比较器 {comparator}"}
+                "reason": describe_missing_designator(netlist, comparator)}
 
     vcc = float(spec.get("vcc") or 5.0)
     roles = {}
@@ -302,7 +321,7 @@ def check_drive(netlist, nets, intent, findings) -> dict:
         part = part_by(netlist, designator)
         if part is None:
             results.append({"part": designator, "status": "unknown",
-                            "reason": "网表里找不到"})
+                            "reason": describe_missing_designator(netlist, designator)})
             continue
         control_net = None
         for pin in part.get("pins") or []:
@@ -647,7 +666,7 @@ def check_inductive_load(netlist, nets, intent, findings) -> dict:
         part = part_by(netlist, load) if load else None
         if part is None:
             results.append({"load": load, "status": "unknown",
-                            "reason": "意图里写了这个负载，但网表里找不到"})
+                            "reason": describe_missing_designator(netlist, load)})
             continue
         load_nets = [p.get("net") for p in part.get("pins") or [] if p.get("net")]
         if rail not in load_nets:
@@ -728,7 +747,7 @@ def check_hysteresis(netlist, nets, intent, findings) -> dict:
     part = part_by(netlist, comparator)
     if part is None:
         return {"id": "hysteresis", "status": "unknown",
-                "reason": f"找不到比较器 {comparator}"}
+                "reason": describe_missing_designator(netlist, comparator)}
 
     out_net = None
     input_nets = set()
@@ -856,6 +875,13 @@ def main(argv=None) -> int:
         print(f"  {check['id']:<18} {check['status']}")
         if check.get("reason"):
             print(f"    {check['reason']}")
+        # loads 里每一项都有自己的 reason（尤其 unknown 时那句"意图写的是 FAN1，
+        # 网表里是 J1 …"）。原来只打印 metrics/switches，这些理由全被吞掉，
+        # 于是 unknown 只剩三个字母，看不出为什么判不了。
+        for entry in check.get("loads") or []:
+            reason = entry.get("reason")
+            if reason:
+                print(f"    [{entry.get('status')}] {entry.get('load')}: {reason}")
         for key in ("metrics", "switches"):
             if check.get(key):
                 print(f"    {key}: {json.dumps(check[key], ensure_ascii=False)}")

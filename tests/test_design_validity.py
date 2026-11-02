@@ -544,6 +544,119 @@ class SupplyDomainTests(unittest.TestCase):
         self.assertNotIn("RAIL_SHORTED", proc.stdout)
 
 
+class MissingDesignatorTests(unittest.TestCase):
+    """意图里的位号在网表里不存在时，必须说清网表里有什么。
+
+    2026-11-02 实测：`block-apply` 会重新分配位号（块的角色 LOAD 被分到 J1），
+    而意图文件里写的是手工搭板时的 FAN1。判据于是报 unknown ——
+    **而 unknown 最容易被当成"没事"略过**，实际是这一项根本没验。
+
+    实测中还有个更隐蔽的问题：诊断信息写对了，但打印器只输出 metrics/switches，
+    loads[].reason 被吞掉，屏幕上只剩三个字母的 unknown。这里两条都钉住。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-missing-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _netlist(self):
+        # 只有比较器、阈值分压和一颗开关，没有意图里写的 FAN1
+        return {"components": [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "GATE"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+            {"designator": "Q1", "componentType": "part", "manufacturerId": "AO3400",
+             "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "G", "net": "GATE"},
+                      {"pinNumber": "2", "pinName": "S", "net": "GND"},
+                      {"pinNumber": "3", "pinName": "D", "net": "FAN_M"}]},
+        ]}
+
+    def _intent(self, load="FAN1"):
+        return {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "load_rail": "PWR12V", "ground": "GND",
+            "rails": {"PWR5V": 5.0, "PWR12V": 12.0},
+            "threshold": {"comparator": "U1", "target_c": 45, "tolerance_c": 3,
+                          "vcc": 5.0,
+                          "sensor": {"kind": "ntc", "r25": 10000, "b": 3950}},
+            "switches": [{"part": "Q1", "load": load, "load_ma": 200,
+                          "kind": "mosfet", "vgs_th": 1.05, "id_max_a": 4.0,
+                          "load_kind": "inductive", "load_rail": "PWR12V"}],
+        }
+
+    def _run(self, load):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._netlist(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(load), ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_missing_load_designator_lists_what_exists(self):
+        proc = self._run("FAN1")
+        self.assertIn("inductive_load     unknown", proc.stdout)
+        self.assertIn("意图写的是 FAN1", proc.stdout)
+        # 必须列出网表里真实的位号，让人一眼对得上
+        for designator in ("Q1", "U1", "NTC1"):
+            self.assertIn(designator, proc.stdout)
+        # 必须点出「块会重排位号」这个成因
+        self.assertIn("block-apply", proc.stdout)
+
+    def test_missing_designator_is_visible_in_stdout_not_just_in_json(self):
+        """诊断写对了但没打印出来，等于没有。
+
+        实测踩过：reason 写进了 loads[]，打印器只输出 metrics/switches，
+        屏幕上只剩 `inductive_load     unknown` 三个字母。
+        """
+        proc = self._run("FAN1")
+        self.assertIn("[unknown] FAN1:", proc.stdout)
+        self.assertIn("网表里的器件是", proc.stdout)
+
+    def test_correct_designator_passes(self):
+        # 把 load 指到真实存在的位号，判据不该再报 unknown
+        netlist = self.tmp / "ok.json"
+        data = self._netlist()
+        data["components"].append(
+            {"designator": "J1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "FAN-12V",
+             "pins": [{"pinNumber": "1", "pinName": "+", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "-", "net": "FAN_M"}]})
+        data["components"].append(
+            {"designator": "D1", "componentType": "part",
+             "manufacturerId": "1N4148", "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "K", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "A", "net": "FAN_M"}]})
+        netlist.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        intent_path = self.tmp / "i2.json"
+        intent_path.write_text(json.dumps(self._intent("J1"), ensure_ascii=False),
+                               encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertIn("inductive_load     pass", proc.stdout)
+
+
 class HonestyTests(unittest.TestCase):
     """判不了的时候必须说判不了，不能默认 pass。"""
 
