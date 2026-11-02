@@ -1,9 +1,9 @@
 {
-  "id": "req_225",
+  "id": "req_165",
   "type": "response",
   "version": "v1",
-  "windowId": "2e722b8b-663e-48ab-a1c9-ba6e000bc68f",
-  "createdAt": "2026-11-02T02:42:54.6438812Z",
+  "windowId": "1dfdcc80-e7ef-4c81-aeff-566ac4bb7781",
+  "createdAt": "2026-11-02T03:10:09.538858Z",
   "ok": true,
   "result": {
     "components": [
@@ -17588,6 +17588,6 @@
     "pageVisibility": "hidden"
   },
   "mutationContextAvailable": true,
-  "seq": 629,
+  "seq": 937,
   "seqAbandoned": 0
 }

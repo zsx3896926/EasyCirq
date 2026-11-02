@@ -1489,3 +1489,55 @@ partial:
 
 **连续两次因为"读到的键是空的"就断定"板子上没有"**。
 读到空集合时，先确认**这个键本来该不该有**，再下结论。
+
+## 已记录：`pcb autoroute` 只布未布线的网，重跑永远不会修好坏走线（2026-11-02）
+
+### 表现
+
+风扇板加去耦电容后重新摆件，DRC 出现 17~30 项 clearance 违规。
+我先后做了三次"重新布线"：
+
+| 尝试 | autoroute 报 | DRC |
+|---|---|---|
+| auto-place + outline(80) + autoroute | 8/8 成功 | **17 项** |
+| auto-place gap120 pitch150 + outline(100) + autoroute | 8/8 成功 | **30 项** |
+| auto-place 默认 + outline(200) + autoroute | 3/8 成功 | 不变 |
+
+**三次都报"成功"，三次违规都不消。** 而且第三次重读违规详情时发现——
+`(ALARM): e8` 对 `(PWR5V): R1_1` 这条**和第一次一模一样**。
+
+### 根因
+
+**`autoroute` 只处理"未布线的网络"，已经存在的走线它不碰。**
+所以对一块"布错但已布"的板重跑 autoroute，等于什么都不做——
+它把剩余未布的网布完（报 successNetsCount），坏走线原封不动。
+
+### 正解
+
+```
+pcb rip-up        # 拆掉全部走线与过孔（板框和锁定对象不受影响）
+pcb autoroute     # 从零布
+```
+
+实测：
+
+```
+rip-up  → autoroute: successNetsCount 8 / totalNetsCount 8
+save → doc reload → pcb drc: passed: true, 0 violations
+```
+
+**同一块板、同样的摆件，一次 rip-up 之后违规清零。**
+
+### 为什么这条值得记
+
+因为它**极容易误导**：autoroute 返回 `successNetsCount: 8`，看起来"布线成功了"，
+而 DRC 说"有 17 项违规"。人会以为是"路由器质量不行"，
+于是去调 gap、调板框——**钱花在错误的维度上**。
+
+正确的心智模型是：**autoroute 是增量操作，不是重布线操作。**
+
+### 顺带一条
+
+`--ignore-net` 的帮助文字里已经写了 `e.g. GND (poured later)`——
+说明路由器的设计意图里，地网本来就该靠铺铜而不是走线。这和"GND 占了 109 段中的 30 段"
+对得上，但本轮没走到铺铜。
