@@ -16,7 +16,10 @@ func writeBlock(t *testing.T, dir, name, id, desc string) string {
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		t.Fatal(err)
 	}
+	// 必填字段按 _block.schema.json：id/desc/category/author/source/parts/
+	// internal_nets/ports。少一个 validateBlock 会拒（2026-11-03 加）。
 	body := `{"id":"` + id + `","desc":"` + desc + `","category":"test",
+	  "author":"@tester","source":"unit test",
 	  "parts":{"R":{"part":"res.10k_0402","qty":1}},
 	  "internal_nets":[["R.1","PORT:A"],["R.2","PORT:B"]],
 	  "ports":{"A":{"dir":"in","at":"R.1"},"B":{"dir":"bidir","at":"R.2"}}}`

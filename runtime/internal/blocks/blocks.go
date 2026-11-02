@@ -10,9 +10,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
-	"sort"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -207,17 +207,123 @@ func externalBlockDirs() []string {
 	return out
 }
 
+// validateBlock 按 _block.schema.json 的 required 与引用关系做最小校验。
+//
+// 为什么需要：`json.Unmarshal` 只保证 JSON 合法，不保证这个块能用。
+// 2026-11-03 实测：缺 ports、缺 parts、缺 internal_nets、甚至 port 指向不存在的
+// 器件，`blocks ls` 全都正常显示、退出码 0。客户看到自己的块出现在列表里就以为
+// 成了，真正用的时候才炸——「能加载」被当成了「能用」。
+//
+// 这里只查**能在块内部判定**的东西（字段齐不齐、引用对不对）。
+// 器件能不能在标准件库里解析，那要 netlist，不在这里管。
+func validateBlock(b Block) error {
+	// internal_nets 不在 Block 的投影里（只保留在 Raw），这里单独取。
+	var extra struct {
+		InternalNets [][]string `json:"internal_nets"`
+	}
+	if len(b.Raw) > 0 {
+		_ = json.Unmarshal(b.Raw, &extra)
+	}
+	nets := extra.InternalNets
+
+	var missing []string
+	if strings.TrimSpace(b.ID) == "" {
+		missing = append(missing, "id")
+	}
+	if strings.TrimSpace(b.Desc) == "" {
+		missing = append(missing, "desc")
+	}
+	if strings.TrimSpace(b.Category) == "" {
+		missing = append(missing, "category")
+	}
+	if strings.TrimSpace(b.Author) == "" {
+		missing = append(missing, "author")
+	}
+	if strings.TrimSpace(b.Source) == "" {
+		missing = append(missing, "source")
+	}
+	if len(b.Parts) == 0 {
+		missing = append(missing, "parts")
+	}
+	if len(b.Ports) == 0 {
+		missing = append(missing, "ports")
+	}
+	if len(nets) == 0 {
+		missing = append(missing, "internal_nets")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("缺少必填字段 %s（块格式见 _block.schema.json）",
+			strings.Join(missing, ", "))
+	}
+
+	// port 的 at 必须是 "<part>.<pin>"，且 <part> 必须在这个块里
+	for name, port := range b.Ports {
+		at := strings.TrimSpace(port.At)
+		if at == "" {
+			return fmt.Errorf("port %q 没有 at（应写成 <part>.<pin>）", name)
+		}
+		part, rest, ok := strings.Cut(at, ".")
+		if !ok || strings.TrimSpace(part) == "" || strings.TrimSpace(rest) == "" {
+			return fmt.Errorf("port %q 的 at=%q 格式不对（应写成 <part>.<pin>）",
+				name, at)
+		}
+		if _, exists := b.Parts[part]; !exists {
+			return fmt.Errorf("port %q 指向的器件 %q 不在本块的 parts 里"+
+				"（本块有：%s）", name, part, partNames(b.Parts))
+		}
+	}
+
+	// internal_nets 的每个元素要么是 PORT:<name>，要么是 <part>.<pin>
+	portNames := make([]string, 0, len(b.Ports))
+	for n := range b.Ports {
+		portNames = append(portNames, n)
+	}
+	for _, net := range nets {
+		for _, token := range net {
+			token = strings.TrimSpace(token)
+			if strings.HasPrefix(token, "PORT:") {
+				ref := strings.TrimPrefix(token, "PORT:")
+				if _, exists := b.Ports[ref]; !exists {
+					return fmt.Errorf("internal_nets 引用了不存在的 port %q"+
+						"（本块有：%s）", ref, strings.Join(portNames, ", "))
+				}
+				continue
+			}
+			part, _, ok := strings.Cut(token, ".")
+			if !ok {
+				return fmt.Errorf("internal_nets 的 %q 既不是 PORT:<name> "+
+					"也不是 <part>.<pin>", token)
+			}
+			if _, exists := b.Parts[part]; !exists {
+				return fmt.Errorf("internal_nets 引用的器件 %q 不在本块的 parts 里"+
+					"（本块有：%s）", part, partNames(b.Parts))
+			}
+		}
+	}
+	return nil
+}
+
+func partNames(parts map[string]Part) string {
+	names := make([]string, 0, len(parts))
+	for n := range parts {
+		names = append(names, n)
+	}
+	sort.Strings(names)
+	return strings.Join(names, ", ")
+}
+
 // loadOneBlock parses one block JSON. Kept separate so embedded and external
+// blocks go through exactly the same decode path.
 // blocks go through exactly the same decode path.
 func loadOneBlock(raw []byte, label string) (Block, error) {
 	var b Block
 	if err := json.Unmarshal(raw, &b); err != nil {
 		return Block{}, fmt.Errorf("block %s: %w", label, err)
 	}
-	if strings.TrimSpace(b.ID) == "" {
-		return Block{}, fmt.Errorf("block %s: missing id", label)
-	}
 	b.Raw = raw
+	if err := validateBlock(b); err != nil {
+		return Block{}, fmt.Errorf("block %s: %w", label, err)
+	}
 	return b, nil
 }
 

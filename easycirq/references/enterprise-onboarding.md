@@ -535,6 +535,41 @@ block.company_threshold_switch   ready  sensing  @company-hardware  企业改版
 **不设环境变量时看不见**——内置行为完全不变，回归测试
 `TestNoEnvKeepsBuiltinBehaviour` 钉住这条。
 
+### 块写错了会怎样（字段清单在这里）
+
+块格式由 `_block.schema.json` 定义，**必填字段少一个就加载失败**：
+
+| 字段 | 说明 |
+|---|---|
+| `id` | 必须以 `block.` 开头 |
+| `desc` | 一句话说明 |
+| `category` | 分类，如 `sensing` |
+| `author` | 谁写的 |
+| `source` | 出处 |
+| `parts` | 块里用到的器件，键是角色名（`U`、`R`…） |
+| `ports` | 对外接口，`at` 写成 `<角色>.<引脚>` |
+| `internal_nets` | 内部连线，每项是 `<角色>.<引脚>` 或 `PORT:<端口名>` |
+
+**引用错了也会被拒**（这三条以前是静默通过，2026-11-03 起会报错）：
+
+```
+port "VIN" 指向的器件 "GHOST" 不在本块的 parts 里（本块有：C_IN, C_OUT, U）
+internal_nets 引用了不存在的 port "NOPE"（本块有：3V3, VIN_5V）
+port "A" 的 at="noDotHere" 格式不对（应写成 <part>.<pin>）
+```
+
+报错会**点出是哪个字段、哪个引用**，照着改就行。
+
+### 验证你的块真的能用
+
+```bash
+EASYCIRQ_BLOCKS_DIR=<你的块目录>
+easycirq blocks show block.你的块id     # 能看到完整 JSON 就说明加载通过了
+```
+
+> 注意：加载通过只说明**格式对**。器件能不能在标准件库里解析、原理图上放得下，
+> 要到 `block-apply` 才知道。所以第一次用新块，挑一块空板试落。
+
 ### 坏的块会 loudly 失败
 
 块的 `id` 为空或 JSON 坏了，`Load()` 直接报错并**点出文件名**，不会静默跳过。
