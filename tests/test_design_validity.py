@@ -977,10 +977,41 @@ class RatingStressTests(unittest.TestCase):
         self.assertIn("144.0mW", proc.stdout)
         self.assertEqual(check_status(proc.stdout, "ratings"), "fail")
 
-    def test_unknown_net_is_unknown_not_pass(self):
-        """一端不是已声明的电源轨 → 算不出电压，必须 unknown，不许当成 pass。"""
+    def test_intermediate_net_gets_a_worst_case_bound(self):
+        """中间节点（GATE 不是电源轨）现在算得出**最坏电位差**，不再一律 unknown。
+
+        GATE 经 R5 可达 PWR5V（5V）、经 Q1 可达 GND（0V）→ 范围 [0, 5]。
+        对 PWR5V（恒 5V）的最坏差 = max(|5-5|, |5-0|) = 5V。
+        这是最坏情况，不是工作点——所以输出里标注了「最坏情况」。
+        """
         proc = self._run(self._intent(
             ratings=[{"part": "R5", "between": ["GATE", "PWR5V"], "max_v": 10}]))
+        self.assertEqual(check_status(proc.stdout, "ratings"), "pass")
+        self.assertIn("最坏情况", proc.stdout)
+        self.assertIn("实际 5.0V / 额定 10.0V", proc.stdout)
+
+    def test_intermediate_net_over_rating_still_fails(self):
+        """最坏电位差超过额定 → 必须 fail，不能因为"算的是上界"就放过。"""
+        proc = self._run(self._intent(
+            ratings=[{"part": "R5", "between": ["GATE", "PWR5V"], "max_v": 3}]))
+        self.assertIn("OVER_RATING", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "ratings"), "fail")
+
+    def test_net_with_no_reachable_rail_is_unknown(self):
+        """孤立网络（整块连通部分够不到任何已声明轨）→ 仍然 unknown，不猜。"""
+        netlist = self.tmp / "island.json"
+        data = self._netlist()
+        data["components"].append(
+            {"designator": "R7", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "ISLAND_A"},
+                      {"pinNumber": "2", "net": "ISLAND_B"}]})
+        netlist.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        intent_path = self.tmp / "island-intent.json"
+        intent_path.write_text(json.dumps(self._intent(
+            ratings=[{"part": "R7", "between": ["ISLAND_A", "ISLAND_B"],
+                      "max_v": 10}]), ensure_ascii=False), encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
         self.assertEqual(check_status(proc.stdout, "ratings"), "unknown")
         self.assertIn("不猜", proc.stdout)
 

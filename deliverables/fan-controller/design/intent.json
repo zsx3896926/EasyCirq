@@ -47,6 +47,15 @@
       ],
       "max_v": 50,
       "note": "0603 X7R 50V"
+    },
+    {
+      "part": "D1",
+      "between": [
+        "FAN_M",
+        "PWR12V"
+      ],
+      "max_v": 100,
+      "note": "1N4148W 反向 100V"
     }
   ]
 }

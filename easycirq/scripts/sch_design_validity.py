@@ -292,6 +292,89 @@ def rail_voltages(intent: dict) -> dict:
     return volts
 
 
+def net_voltage_bounds(netlist, nets, intent) -> dict:
+    """每个网络的**电压范围** [下界, 上界]，供判耐压用。
+
+    ## 为什么是范围而不是一个值
+
+    GATE 这种节点在不同状态下电压不同：比较器输出拉低时 ≈0V，开集输出关断时
+    被上拉到 5V。**给一个"工作点"数字就是撒谎。** 而判耐压要的恰恰是最坏情况，
+    所以这里算的是**这个节点最坏能到多少伏**。
+
+    ## 规则（简单、可解释、方向安全）
+
+    从节点出发，经**任意器件**遍历连通部分，遇到已声明的电源轨就记下它的电压。
+    **地只作终点，不作中继**——否则全板会通过地短成一坨，每个节点都报 12V。
+
+    上界 = 可达轨里的最高电压；下界 = 可达轨里的最低电压。
+
+    这样得到的是**保守上界**：GATE 经 R5 可达 PWR5V → 上界 5V（哪怕比较器
+    永远拉低）；FAN_M 经 FAN1 可达 PWR12V、经 Q1 可达 GND → 范围 [0, 12]。
+
+    保守方向只在一处有代价：可能把"实际永远到不了"的电压算成最坏值。
+    对判耐压而言这是**安全的**（宁可早报，不可漏报），但输出里必须说明
+    这是最坏情况而不是工作点，别让人当成实测值。
+
+    ## 判不了的
+
+    连通部分里一个已声明轨都够不到 → 该网络不出现在结果里，调用方报 unknown。
+    """
+    volts = rail_voltages(intent)
+    ground = intent.get("ground") or "GND"
+
+    bounds = {}
+    for net in nets:
+        if net in volts:
+            bounds[net] = (volts[net], volts[net])
+            continue
+        reachable = set()
+        seen = {net}
+        queue = [net]
+        while queue:
+            current = queue.pop()
+            # nets 里存的是 (位号, 引脚号字符串)，role_of 要的是 pin dict，
+            # 所以要按引脚号找回那个 dict。
+            for designator, entry_pin_number in nets.get(current, []):
+                part = part_by(netlist, designator)
+                if part is None:
+                    continue
+                entry_pin = next(
+                    (pin for pin in part.get("pins") or []
+                     if str(pin.get("pinNumber")) == str(entry_pin_number)), None)
+                # **晶体管的控制脚与沟道是隔离的**：栅极/基极不通到漏/源/集/射。
+                # 上一版没管这条，于是 GATE 经 Q1 的栅极"走到"漏极再到 12V 轨，
+                # 算出 7V（|12-5|）——比真实的 5V 还高，凭空造出一个不存在的应力。
+                # 从控制脚进入的连通部分到此为止。
+                if (transistor_kind(part) is not None and entry_pin is not None
+                        and role_of(part, entry_pin) == "control"):
+                    continue
+                for pin in part.get("pins") or []:
+                    other = pin.get("net")
+                    if not other or other in seen:
+                        continue
+                    if other in volts:
+                        # 地只作为终点记下来，不作为中继继续扩散
+                        reachable.add(volts[other])
+                        continue
+                    if other == ground:
+                        continue
+                    seen.add(other)
+                    queue.append(other)
+        if not reachable:
+            continue
+        bounds[net] = (min(reachable), max(reachable))
+    return bounds
+
+
+def worst_gap(bounds: dict, a: str, b: str):
+    """两条网络之间的**最坏电位差**。任一端没有范围就返回 None。"""
+    if a not in bounds or b not in bounds:
+        return None
+    a_lo, a_hi = bounds[a]
+    b_lo, b_hi = bounds[b]
+    return max(abs(a_hi - b_lo), abs(b_hi - a_lo))
+
+
 def check_ratings(netlist, nets, intent, findings) -> dict:
     """器件额定应力：把**实际加在器件上的电压**和意图声明的额定值比。
 
@@ -315,6 +398,7 @@ def check_ratings(netlist, nets, intent, findings) -> dict:
     任何一端不是**已声明的电源轨**（比如中间网络）→ 该项 unknown，不猜。
     """
     volts = rail_voltages(intent)
+    bounds = net_voltage_bounds(netlist, nets, intent)
     items = []
     failed = False
 
@@ -344,7 +428,8 @@ def check_ratings(netlist, nets, intent, findings) -> dict:
                              "message": (f"{part} 的 {label} 实际 {actual:.2f}V 已达额定 "
                                          f"{limit:.2f}V 的 {ratio*100:.0f}%，余量不足 20%")})
         items.append({"part": part, "metric": label, "status": "pass",
-                      "actual_v": round(actual, 3), "limit_v": limit})
+                      "actual_v": round(actual, 3), "limit_v": limit,
+                      "where": where})
 
     # ① 开关管的电压额定
     for entry in intent.get("switches") or []:
@@ -373,9 +458,15 @@ def check_ratings(netlist, nets, intent, findings) -> dict:
                           "reason": "ratings 条目必须给 between: [网名A, 网名B]"})
             continue
         a, b = between
+        # 先按"两端都是已声明轨"算（精确），退一步再用最坏电位差（保守上界）。
+        # 中间节点（GATE / 漏极）走第二条。
         va, vb = volts.get(a), volts.get(b)
-        actual = None if (va is None or vb is None) else abs(va - vb)
-        where = f"{a} 与 {b} 之间"
+        if va is not None and vb is not None:
+            actual = abs(va - vb)
+            where = f"{a} 与 {b} 之间"
+        else:
+            actual = worst_gap(bounds, a, b)
+            where = f"{a} 与 {b} 之间（最坏情况）"
         if entry.get("max_v") is not None:
             judge(designator, "V", actual, float(entry["max_v"]), where)
         # 功率：需要阻值，从网表读
@@ -1217,8 +1308,10 @@ def main(argv=None) -> int:
             if reason:
                 print(f"    [{entry.get('status')}] {head}: {reason}")
             elif entry.get("actual_v") is not None:
+                where = entry.get("where")
+                tail = f"（{where}）" if where else ""
                 print(f"    [{entry.get('status')}] {head}: "
-                      f"实际 {entry['actual_v']}V / 额定 {entry.get('limit_v')}V")
+                      f"实际 {entry['actual_v']}V / 额定 {entry.get('limit_v')}V{tail}")
             elif entry.get("actual_w") is not None:
                 print(f"    [{entry.get('status')}] {head}: "
                       f"实际 {entry['actual_w']*1000:.1f}mW / "
