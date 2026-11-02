@@ -263,7 +263,12 @@ type bapInput struct {
 	// modules[].parts(#181:位号漂移每次都要人回头改 json)。纯执行侧字段,
 	// 规划不读它。
 	SpecPath string
-	Bind     map[string]string // PORT → host net
+	// PartsPath 是**实际读到的** standard-parts.json 绝对路径，PartsShadowed 是
+	// 硬盘上其它副本。两个字段只用于诊断：报「器件找不到」时必须说清读的是哪一份，
+	// 否则三份副本里命中旧的那份会让人查半天（2026-11-02 实际踩过）。
+	PartsPath     string
+	PartsShadowed []string
+	Bind          map[string]string // PORT → host net
 	KindOver map[string]string // NET → flag kind override
 	// Layout is the block's schematic_layout template (nil → fallback grid).
 	Layout *blocks.SchematicLayout
@@ -843,10 +848,12 @@ func planBlockApply(in bapInput) (bapPlan, error) {
 		}
 		dev, ok := in.Devices[p.Part]
 		if !ok {
-			return plan, fmt.Errorf("role %s: part %q not found in standard-parts.json", role, p.Part)
+			return plan, fmt.Errorf("role %s: part %q not found in the parts file%s",
+				role, p.Part, standardPartsDiagnostic(in.PartsPath, in.PartsShadowed))
 		}
 		if dev.DeviceUUID == "" {
-			return plan, fmt.Errorf("role %s: part %q has no deviceUuid in standard-parts.json", role, p.Part)
+			return plan, fmt.Errorf("role %s: part %q has no deviceUuid in the parts file%s",
+				role, p.Part, standardPartsDiagnostic(in.PartsPath, in.PartsShadowed))
 		}
 		prefix, err := bapPrefixFor(p.Part)
 		if err != nil {

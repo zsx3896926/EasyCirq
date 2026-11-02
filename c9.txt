@@ -1,0 +1,22 @@
+fix(block-apply): say WHICH standard-parts.json was read, and what else is on disk.
+
+Adding the threshold-switch block, the error was
+
+  role D: part "diode.1n4148w_sod123" not found in standard-parts.json
+
+for a key that was sitting on disk. Three installed skill dirs each hold a copy - .claude
+and .codex at 160 parts, .agents at 171 - and the resolver returns the first hit silently,
+so it had read a stale one. The label side made it worse: bapPartsFileLabel returned the
+bare filename whenever --parts was omitted, discarding the only useful fact.
+
+Copying the good file over all three is a workaround. The defect is the message.
+
+So: the resolved path is captured after resolve and carried on bapInput;
+shadowedStandardParts() walks the same ladder again and lists the other copies that
+exist; standardPartsDiagnostic() renders "read: <path> / other copies / how to fix", and
+stays empty when there is only one copy or the user pinned one with --parts. Both the
+not-found and the no-deviceUuid refusals use it.
+
+Verified against a deliberately trimmed parts file (1N4148 removed): the message now names
+the file it read, the three copies on disk, and the remedy. Two new tests pin it, one of
+them asserting silence when there is nothing useful to add. go test ./internal/app: ok, 92s.

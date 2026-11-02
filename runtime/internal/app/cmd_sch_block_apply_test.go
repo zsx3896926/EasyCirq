@@ -206,8 +206,50 @@ func TestPlanBlockApplyMissingPart(t *testing.T) {
 	_, err := planBlockApply(bapInput{
 		Block: b, Topology: topo, Devices: devices, Existing: map[string]bool{},
 	})
-	if err == nil || !strings.Contains(err.Error(), "not found in standard-parts.json") {
+	if err == nil || !strings.Contains(err.Error(), "not found in the parts file") {
 		t.Errorf("err = %v, want a missing-part error", err)
+	}
+}
+
+// TestPlanBlockApplyMissingPartNamesTheFile: 报「器件找不到」时必须说清读的是哪一份
+// standard-parts.json。
+//
+// 2026-11-02 实际踩过：这台机器三个已安装技能目录各有一份，.claude 与 .codex 是 160 条
+// 的旧版、.agents 是 171 条的新版，解析器先命中旧的，于是块对一个「文件就在硬盘上」的
+// 器件键报 not found，而错误信息只写了个文件名——看不出读的是三份里的哪一份。
+func TestPlanBlockApplyMissingPartNamesTheFile(t *testing.T) {
+	b, topo := ledBlock(t)
+	devices := fixtureDevices()
+	delete(devices, "led.yellow_0805")
+	_, err := planBlockApply(bapInput{
+		Block: b, Topology: topo, Devices: devices, Existing: map[string]bool{},
+		PartsPath:     `C:\skills\easycirq\references\standard-parts.json`,
+		PartsShadowed: []string{`C:\Users\x\.claude\skills\easycirq\references\standard-parts.json`},
+	})
+	if err == nil {
+		t.Fatal("want a missing-part error")
+	}
+	msg := err.Error()
+	if !strings.Contains(msg, "read: C:\\skills\\easycirq\\references\\standard-parts.json") {
+		t.Errorf("err lacks the resolved path it actually read:\n%s", msg)
+	}
+	if !strings.Contains(msg, ".claude") {
+		t.Errorf("err lacks the shadowed copies, so a stale copy stays invisible:\n%s", msg)
+	}
+	if !strings.Contains(msg, "easycirq skill sync") {
+		t.Errorf("err lacks a next step for the stale-copy case:\n%s", msg)
+	}
+}
+
+// TestStandardPartsDiagnosticEmptyWhenNothingToSay: 只有一份、或用户自己指定了 --parts
+// 时，不该往报错里塞一段无用的提示。
+func TestStandardPartsDiagnosticEmptyWhenNothingToSay(t *testing.T) {
+	if got := standardPartsDiagnostic("", nil); got != "" {
+		t.Errorf("no resolved path should yield an empty note, got %q", got)
+	}
+	got := standardPartsDiagnostic(`C:\a\standard-parts.json`, nil)
+	if strings.Contains(got, "other copies") {
+		t.Errorf("single copy should not mention shadowed copies: %q", got)
 	}
 }
 

@@ -1063,3 +1063,81 @@ PWR12V   net_label J1:1 D2:1 (port PWR12V)
 dry-run 层（器件全解析、8 网对得上、schema 测试通过），
 **硬塞进一张放不下的图纸只会得到一块废图**，对工具没有任何改进。
 把它记成待办比制造一个坏状态更有价值。
+
+## 已修：器件找不到时，报错不说是哪一份 standard-parts.json（2026-11-02）
+
+### 上一轮实际浪费的时间
+
+加 `block.threshold_switch_12v` 时，块报：
+
+```
+role D: part "diode.1n4148w_sod123" not found in standard-parts.json
+```
+
+**那个键就在硬盘上。** 我改了标准件库、同步了 `.agents` 那份、重编了二进制，
+还是同样的报错——因为解析器命中的是 `.claude` 下的**另一份旧副本**（160 条），
+而我改的那份是 `.agents`（171 条）。
+
+三份副本：
+
+| 位置 | 条数 |
+|---|---|
+| `~/.claude/skills/easycirq/references/standard-parts.json` | 160（旧） |
+| `~/.codex/skills/easycirq/references/standard-parts.json` | 160（旧） |
+| `~/.agents/skills/easycirq/references/standard-parts.json` | **171（新）** |
+
+### 根因不是"副本多"，是"报错不说读的哪一份"
+
+`skillAsset.resolve` 按阶梯找：
+`--parts` → `$EASYCIRQ_SKILLS_DIR` → 已安装技能目录（claude/codex/agents）→
+从二进制向上找 → 从 cwd 向上找。**命中第一个就返回，静默。**
+
+而报错侧的 `bapPartsFileLabel()` 在自动解析时只回一个字符串：
+
+```go
+return "standard-parts.json"   // 不说是三份里的哪一份
+```
+
+**同步三份副本只是绕过。** 真正的缺陷是这个标签丢掉了唯一有用的信息。
+
+### 修法
+
+1. `cmd_sch_block_apply_run.go`：解析出真实路径后**回填** `partsPath`，
+   并存进 `bapInput.PartsPath`（新增字段）。
+2. 新增 `shadowedStandardParts(resolved)`：沿**同一条阶梯**再走一遍，列出
+   硬盘上存在的其它副本。
+3. 新增 `standardPartsDiagnostic(resolved, shadowed)`：把"读了哪份 + 还有哪几份 +
+   怎么改"拼成一段附在报错后面。只有一份、或用户自己指定了 `--parts` 时不输出。
+4. 两处报错（`not found` / `no deviceUuid`）都带上这段。
+
+### 修完之后长这样
+
+```
+role D: part "diode.1n4148w_sod123" not found in the parts file
+  read: C:\Users\jlc\AppData\Local\Temp\stale-standard-parts.json
+  other copies on disk (the resolver returns the FIRST hit, so a stale
+  copy here is why a part can be missing while the file has it):
+    C:\Users\jlc\.claude\skills\easycirq\references\standard-parts.json
+    C:\Users\jlc\.codex\skills\easycirq\references\standard-parts.json
+    C:\Users\jlc\.agents\skills\easycirq\references\standard-parts.json
+  fix: `easycirq skill sync` (or copy the current file over them),
+       or pin the right one with --parts <path>
+```
+
+**同一个问题，现在一眼能看出来。** 这是拿一份故意缺少 1N4148 的副本实测的输出。
+
+### 验证
+
+- `TestPlanBlockApplyMissingPartNamesTheFile`：断言报错含解析到的绝对路径、
+  含被遮蔽副本、含下一步。故意传入 `PartsPath` 和 `PartsShadowed` 制造问题。
+- `TestStandardPartsDiagnosticEmptyWhenNothingToSay`：只有一份时不输出多余提示，
+  否则每条报错都长一截没人看。
+- `TestPlanBlockApplyMissingPart`：更新文案断言。
+- `go test ./internal/app` → **ok 92s**；`go test ./internal/app -run BlockApply` 全过。
+
+### 没做的（以及为什么）
+
+**多个副本内容不同时主动警告**没做。现在只在**出错时**才列出来。
+主动警告需要每次解析都去 stat 并读一遍所有副本做比对，
+为一个"装了三份"的部署状况给所有路径加常驻开销，不划算。
+**报错时够用，就够了。**
