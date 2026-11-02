@@ -6,7 +6,7 @@
 | # | 摩擦 | 提交 | 处置 / 防复发证据 |
 |---|---|---|---|
 | 1 | 交付卡写着「可以下单」而门禁 BLOCKED | fd8c8cdb / 2bda61f9 | tools/check_deliverable.py 规则 6 + tests/test_card_report_consistency.py（4 条） |
-| 2 | pcb add-component 详情是 [object Object] | 04b26592 | describeThrown 14 条用例（含 no input ever yields a bare [object X]）。实机新文案：Error: the message is the placeholder — the real cause was not put into it |
+| 2 | pcb add-component 详情是 [object Object] | 04b26592 + 18c868f5 | describeThrown 14 条用例（含 no input ever yields a bare [object X]）。**实机已验证**（v1.0.21 窗口）：detail = Error: the message is the placeholder — the real cause was not put into it |
 | 3 | MOSFET 被按三极管 hFE 判成驱动不足（假失败） | 第 3 轮 | TransistorKindTests（4 条）。对照：同一 100k 上拉，MOSFET 过 / BJT 不过 |
 | 4 | 感性负载没有续流二极管判据 | a0bc8a8d 系列 | InductiveLoadTests（4 条）+ evidence/1..3-*.txt |
 | 5 | 双电源域没有判据 | 473694e3 | SupplyDomainTests（6 条）+ evidence/4..6-*.txt。接错域实测 fail：SWITCH_LOAD_ON_LOGIC_RAIL |

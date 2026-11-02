@@ -1693,48 +1693,63 @@ npm test
 
 ### 仍然成立的结论
 
-## 未解决：[object Object] 实机仍不可读，因为连接器要先重导（2026-11-02）
+## ## 已修并实机验证：[object Object] 现在自己解释原因（2026-11-02）
 
-### 代码层已修，实机层未生效
+### 整条证据链
 
-修复本身（`describeThrownRaw` 重写，提交 `04b26592`）在代码里，
-`describeThrown` 相关测试全绿，包括这几条关键的：
+| 层 | 状态 |
+|---|---|
+| 代码（`describeThrownRaw` 重写，提交 `04b26592`） | ✅ |
+| 打包（v1.0.21 的 `dist/index.js` 含新文案） | ✅ 已核实包内字节 |
+| **实机** | ✅ **已在 v1.0.21 窗口上实测** |
 
-```
-✔ bare object is NOT flattened to [object Object]
-✔ cross-realm Error with a placeholder message explains itself
-✔ placeholder message from a plain object is called out, never emitted bare
-✔ no input ever yields a bare [object X]
-```
-
-**但实测 `pcb add-component` 仍然返回 `detail: "[object Object]"`**：
+实机原始输出（`--window 8d85a24f-…`，即装了 v1.0.21 的那个窗口）：
 
 ```
-easycirq ... pcb add-component --library deadbeef... --designator X99 ...
-  "ok": false,
-  "error": { "code": "EDA_CALL_FAILED",
-             "message": "Failed to place the component footprint on the PCB.",
-             "detail": "[object Object]" }
+"error": {
+  "code": "EDA_CALL_FAILED",
+  "message": "Failed to place the component footprint on the PCB.",
+  "detail": "Error: the message is the placeholder \"[object Object]\" — the real cause was not put into it"
+}
 ```
 
-### 为什么实机没生效
+字节级核对：`\xe2\x80\x94` 是正确的破折号，`detail.strip() == "[object Object]"` 为 **False**。
 
-**修复在连接器里，而 EasyEDA 里装着的还是旧的 `.eext`。**
+### 为什么之前三轮都说"实机仍不可读"
 
-重新导入是 GUI 操作：
+因为**一直装的是不含修复的包**，而版本号没升，看起来"已经是最新的"：
+
+| 包 | 大小 | 时间 | 含修复 |
+|---|---|---|---|
+| `hardware-design-skill\connector\build\dist\...v1.0.20.eext` | 2,200,829 | 10-28 | ❌ |
+| `hds-a-method\connector\build\dist\...v1.0.20.eext` | 2,201,237 | 11-01 | ✅ |
+| `AppData\...\easycirq-connector_v0.1.4.eext` | 259,235 | 10-28 | ❌ |
+
+**两个不同的包同名 v1.0.20。** 我据此三次让用户"重导 .eext"，但
+`easycirq connector path` 指向的是 AppData 里更旧的 v0.1.4 —— **命令把人指错了地方**。
+
+### 真正解决它的两处改动（提交 `18c868f5`）
+
+1. **版本升到 1.0.21**（`extension.json` 才是产物的命名来源，只改 `package.json` 没用）
+2. **`connector path` 按版本择优**，不再"取第一个含有 .eext 的目录"——
+   原来安装目录排在仓库构建目录之前，于是旧包永远赢
+
+顺带修了 `connector verify` 报了路径却写着 `source: not-found`（把返回值丢了）。
+
+### 遗留：三个窗口里还有两个跑 v1.0.20
 
 ```
-easycirq connector path      # 打印要导入的文件
-# 然后在 EasyEDA Pro 的插件管理里重新导入，完全退出再打开
+loadedWindows: [10a0f67b=v1.0.20, 4c13445c=v1.0.20, 8d85a24f=v1.0.21]
 ```
 
-**我做不了这一步。** 所以这条的结论是：
+`connector verify` 因此仍报 `degraded` —— 这是**对的**。另外两个窗口若要用，
+需要在它们里面也导入一次 v1.0.21；否则那边的事件详情仍是旧的。
 
-- 代码层：✅ 已修，有测试
-- **实机层：❌ 未生效，等用户重导 `.eext`**
+### 教训
 
-在此之前，不能说「`[object Object]` 能说明原因」。
-
+**"需要用户重做某步"这种结论，必须先确认：那条命令让用户做的是不是正确的事。**
+我让用户"重导 .eext"三次，而 `connector path` 指的是旧文件——
+**这不是用户没做，是我的指令把他引到了错的东西上。**
 
 ## 已修：`design_validity` 只支持一个比较器（2026-11-02）
 
