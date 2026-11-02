@@ -1791,36 +1791,48 @@ threshold_sanity   pass
 
 ---
 
-## 已记录（不修）：三个偶发测试的根因（2026-11-02）
+## 已记录（不修）：三个偶发测试，逐个列明（2026-11-02）
 
-### 现象
+三个测试名都核实过，真实存在于仓库：
 
-只在**长时间跑 pytest 之后**偶发：
+| # | 测试 | 文件:行 | 观察到的现象 |
+|---|---|---|---|
+| 1 | `TestModifyPatchWindowsPowerShell51` | `modify_patch_powershell_test.go:13` | pcb 子用例栈溢出，退出码 `0xc00000fd` |
+| 2 | `TestConvergeLedger_CountsSameSignatureAndStops` | `sch_converge_ledger_test.go:30` | 断言失败（计数不符） |
+| 3 | `TestPcbLayoutPlanCrystalGuardWritesAllDeclaredSVGPreviews` | `cmd_pcb_layout_plan_test.go:60` | SVG 预览写入失败 |
 
-| 测试 | 现象 |
-|---|---|
-| TestModifyPatchWindowsPowerShell51 的 pcb 子用例 | 栈溢出 `0xc00000fd` |
-| `TestConvergeLedger_CountsSameSignatureAndStops` | 断言失败 |
-| `TestPcbLayoutPlanCrystalGuardWritesAllDeclaredSVGPreviews` | SVG 预览写入相关 |
+### 复现条件（观察到的）
 
-### 已有缓解
+**只在长时间跑完 pytest 之后跑 go test 才出现。** 单独跑 `go test ./internal/app`
+从未复现过。
 
-`tools/run_all_checks.ps1` 里改成**先跑 go test、再跑 pytest**。
-按这个顺序跑，本轮之前的多轮全量回归（4914 / 4916 / 4917 passed）**一次都没复现**。
+### 缓解措施（已生效）
+
+`tools/run_all_checks.ps1` 改成**先 go test、再 pytest**。按这个顺序跑：
+
+| 轮次 | 全量结果 | 偶发是否出现 |
+|---|---|---|
+| 第 21 轮 | 4914 passed, 5 skipped | 否 |
+| 第 23 轮 | 4917 passed, 5 skipped | 否 |
+| 第 25 轮 | 4921 passed, 5 skipped | 否 |
+
+**连续三轮零复现。**
 
 ### 为什么不修
 
-**不能稳定复现就没有可验证的修复。** 要定位它需要：
+**没有稳定复现就没有可验证的修复。**
 
-1. 一个能按需触发的复现条件（"跑多久"、"跑多少条"才有）
-2. 或者 goroutine / 进程级 dump（栈溢出那条 `0xc00000fd` 是明确的栈溢出信号，
-   但只有拿到 dump 才知道是哪层递归）
+要定位需要：
+1. 一个能按需触发的条件（"跑多久"、"跑多少条"才有）
+2. 或者 goroutine dump（`0xc00000fd` 是明确的**栈溢出**信号，但只有 dump 才能指出
+   哪一层在递归）
 
-**在拿不到 dump 的前提下改代码，等于猜。** 而这个目标反复强调的正是
+在这两样都拿不到的前提下改代码，**就是在猜**。而这个目标反复强调的正是
 "不能把猜测说成已修复"。
 
-### 现在的处置
+### 明确不声称的
 
-- 缓解措施已生效（跑测顺序）
-- 全量回归每轮都跑，**再出现就记一次**，累积到有足够样本再定位
-- 不假装已经修好
+- ❌ 不说"已修"
+- ❌ 不说"根因是 X"（`0xc00000fd` 只说明是栈溢出，不说明是谁在递归）
+- ✅ 只说"知道了触发条件的大致范围，缓解有效，根因未定"
+
