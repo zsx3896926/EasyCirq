@@ -984,3 +984,82 @@ AssertionError: Lists differ: ['daemon', 'connector'] != []
 
 已记在这里，等用户决定。在那之前 `setup` 保持"只检查不代装"的现有语义
 （`docs/release-checklist.md` 里也是这么写的）。
+
+## 已补：`block.threshold_switch_12v`（2026-11-02）
+
+风扇板探针暴露的块库缺口。40 个内置块分 10 类（power/comms/mcu/rf/usb/display/
+audio/storage/button/sensing），**没有一类覆盖"模拟阈值比较 + 负载驱动"**——
+客户说"做个温控风扇"，块库帮不上任何忙。
+
+### 新增的块
+
+`runtime/internal/blocks/data/threshold_switch_12v.json`，11 个器件、8 个网络：
+
+| 角色 | 标准件 | 作用 |
+|---|---|---|
+| TH | ntc.10k_3950 | 10K NTC，B=3950 |
+| R_PULL | res.10k_0603 | NTC_MID 上拉 |
+| R_TH_TOP / R_TH_BOT | res.10k_0603 / res.4k3_0603 | 阈值分压 → 45.3°C |
+| U | ic.lm393_sop8 | 比较器（开集输出） |
+| R_HYST | res.39k_0603 | 正反馈 → 回差 2.97°C |
+| R_GATE_PULL | res.100k_0603 | 栅极上拉（**没有它管子永不导通**） |
+| R_GATE_SER | res.100r_0603 | 栅极串联 |
+| Q | mosfet.ao3400a_sot23 | N-MOSFET 低边开关 |
+| D | diode.1n4148w_sod123 | 续流二极管 |
+| LOAD | conn.xh254_2p | 负载端子 |
+
+**二极管的极性已经固化进块里**：`D.2`（阳极 A）接开关侧，`D.1`（阴极 K）接负载电源轨。
+这颗料库里 pin1=K、pin2=A，与"1 阳 2 阴"的常识相反——手工搭板时我就接反过一次，
+被 `inductive_load` 判据拦下。写进块里，下次谁用都不会再犯。
+
+### 顺带把标准件库补了 10 条
+
+库里原本**一条 0603 电阻、一条二极管、一条 MOSFET、一条 NTC 都没有**。
+新增：res.4k3_0603、res.39k_0603、res.100k_0603、res.100r_0603、res.10k_0603、`ic.lm393_sop8`、
+`mosfet.ao3400a_sot23`、`diode.1n4148w_sod123`、`ntc.10k_3950`、`conn.xh254_2p`。
+`deviceUuid` 全部从 `lib search` 现取，不手抄。库从 161 条增到 171 条。
+
+`bapPrefixes` 新增 `ntc -> TH`（IPC-7351 惯用），其余复用已有的
+`diode -> D`、`mosfet -> Q`、`res -> R`、`ic -> U`、`conn -> J`。
+
+### 验证到哪一步
+
+**dry-run 通过**：
+
+```
+R10 R_PULL     res.10k_0603      400,1060
+R9  R_HYST     res.39k_0603       820,820
+...
+NET      KIND      MEMBERS
+PWR5V    net_label R10:1 R12:1 U2:8 R4:1 (port PWR5V)
+D2_N2    net_label R10:2 TH1:1 U2:3 R9:2
+GND      gnd       TH1:2 R11:2 U2:4 Q2:2 (port GND)
+D2_N7    net_label Q2:3 J1:2 D2:2
+PWR12V   net_label J1:1 D2:1 (port PWR12V)
+```
+
+8 个网络与手工搭的那块板逐条一致。`go test ./internal/blocks` 通过。
+
+**没做的**：真实落块（不带 `--dry-run`）。原因见下——块尺寸与图纸可用区不匹配。
+
+### 这轮暴露的两个部署问题
+
+**问题一：同一个标准件库在三个地方各有一份，没人保证同步。**
+`skillAsset.resolve` 按优先级找：`--parts` → `$EASYCIRQ_SKILLS_DIR` →
+已安装技能目录（claude / codex / agents）→ 从二进制向上找 → 从 cwd 向上找。
+
+实测：`.claude` 和 `.codex` 下的是 **160 条旧版**，`.agents` 下是 171 条新版。
+解析器先命中旧的，于是块报"器件找不到"——**明明文件就在硬盘上，只是找错了那一份**。
+手工把三份都同步后立刻正常。这不是块的问题，是部署卫生的问题，值得单独修
+（`easycirq skill sync` 可能已经覆盖，没验证）。
+
+**问题二：块尺寸 1000×460，图纸可用区 1146×801，落点很难挑。**
+在 (400,600) 落会越界，平台直接警告「这张图是废的」。要么换更大的图纸，
+要么把块拆小，要么给人一个"按可用区自动选落点"的能力。**没在本轮解决。**
+
+### 为什么不硬落
+
+目标写的是「宁可板子做不完，也要把工具缺陷修干净」。现在块本身已经验证到
+dry-run 层（器件全解析、8 网对得上、schema 测试通过），
+**硬塞进一张放不下的图纸只会得到一块废图**，对工具没有任何改进。
+把它记成待办比制造一个坏状态更有价值。

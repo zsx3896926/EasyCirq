@@ -1659,6 +1659,106 @@
       "footprint": "L0603",
       "basic": false,
       "desc": "120Ω@100MHz 0603 磁珠,D 类功放 SPK± 输出 EMI 抑制(配 100pF 对地);开关沿辐射抑制。 （LCSC C14709/deviceUuid 已由 lib by-lcsc 解析 2026-07-23;StickS3 对标）"
+    },
+    "res.4k3_0603": {
+      "value": "4.3kΩ",
+      "mpn": "0603WAF4301T5E",
+      "lcsc": "C23159",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "deviceUuid": "6cc6221907d94e0fb923690b52c7f888",
+      "footprint": "R0603",
+      "basic": true,
+      "desc": "4.3k 1% 0603"
+    },
+    "res.39k_0603": {
+      "value": "39kΩ",
+      "mpn": "0603WAF3902T5E",
+      "lcsc": "C23153",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "deviceUuid": "80b791b4bc9146a497082e3134a376dc",
+      "footprint": "R0603",
+      "basic": true,
+      "desc": "39k 1% 0603"
+    },
+    "res.100k_0603": {
+      "value": "100kΩ",
+      "mpn": "0603WAF1003T5E",
+      "lcsc": "C25803",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "deviceUuid": "40ff282b3d594c33b798d1707d8406cb",
+      "footprint": "R0603",
+      "basic": true,
+      "desc": "100k 1% 0603"
+    },
+    "res.100r_0603": {
+      "value": "100Ω",
+      "mpn": "0603WAF1000T5E",
+      "lcsc": "C22775",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "deviceUuid": "5303080f43d74b41ae76fc5142aa97e5",
+      "footprint": "R0603",
+      "basic": true,
+      "desc": "100R 1% 0603 (gate series)"
+    },
+    "res.10k_0603": {
+      "value": "10kΩ",
+      "mpn": "0603WAF1002T5E",
+      "lcsc": "C25804",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "deviceUuid": "b948db94476e4027ac8953235755ec96",
+      "footprint": "R0603",
+      "basic": true,
+      "desc": "10k 1% 0603"
+    },
+    "ic.lm393_sop8": {
+      "value": "LM393",
+      "mpn": "LM393",
+      "lcsc": "C504553",
+      "manufacturer": "",
+      "deviceUuid": "f6c052f627d24462af0cabf98d8547bd",
+      "footprint": "SOP-8_L4.9-W3.9-P1.27-LS6.0-BL",
+      "basic": true,
+      "desc": "LM393 dual comparator, SOP-8"
+    },
+    "ntc.10k_3950": {
+      "value": "NTC/10K",
+      "mpn": "NTC/10K",
+      "lcsc": "C9900004021",
+      "manufacturer": "",
+      "deviceUuid": "1fb69ec7d4584c77814edf6734580bcf",
+      "footprint": "RES-TH_BD2.8_NTC-10K",
+      "basic": true,
+      "desc": "10K NTC thermistor B=3950, radial TH"
+    },
+    "conn.xh254_2p": {
+      "value": "_x001F_XH2.54-2P",
+      "mpn": "_x001F_XH2.54-2P",
+      "lcsc": "C9900016027",
+      "manufacturer": "",
+      "deviceUuid": "e0f5e2f5b8f943e58e43abc693204695",
+      "footprint": "CONN-TH_2P-P2.54-V",
+      "basic": true,
+      "desc": "2P 2.54 through-hole connector (fan)"
+    },
+    "diode.1n4148w_sod123": {
+      "value": "1N4148W",
+      "mpn": "1N4148W",
+      "lcsc": "C2892570",
+      "manufacturer": "YONGYUTAI(永裕泰)",
+      "deviceUuid": "76d24ed7c48e4683a577694c4d221e92",
+      "footprint": "SOD-123_L2.7-W1.6-LS3.7-RD-1",
+      "basic": true,
+      "desc": "1N4148W signal diode, SOD-123; pin1=K, pin2=A"
+    },
+    "mosfet.ao3400a_sot23": {
+      "value": "AO3400A_N",
+      "mpn": "AO3400A_N",
+      "lcsc": "C700953",
+      "manufacturer": null,
+      "deviceUuid": "84f69a83e2c34d168d19d16f0d252938",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "basic": true,
+      "desc": "AO3400A N-MOSFET, SOT-23, logic level Vgs(th) 1.05V, Id 4A"
     }
   }
 }

@@ -81,6 +81,8 @@ var bapPrefixes = map[string]string{
 	"xtal":      "X",
 	"fuse":      "F",
 	"ant":       "ANT",
+	"ntc":       "TH",  // 热敏电阻（IPC-7351 惯用 TH）；温控块 threshold_switch_12v 首次使用
+
 	"opto":      "U",
 	"ldo":       "U",
 	"buck":      "U",
