@@ -35,14 +35,34 @@ def run(*args):
 
 
 def daemon_up():
+    """后台在跑就够了。
+
+    这里原本要求 doctor 的 `verdict == "ok"`，但那把「后台可用」和
+    「环境完全健康」混成一件事：
+
+    · 下面两个测试断言的是 `status` / `setup` 的输出**对人友好**
+      （有「下一步」、不出现内部术语），这件事和连接器版本无关
+    · 只要有一个窗口装着旧连接器，verdict 就是 degraded，测试就跳过——
+      **恰恰在输出可能出问题的时候不去看它**
+    · 2026-11-03 实测：verdict 长期是 degraded（多个窗口版本不一致），
+      于是这两条长期不跑，而它们手跑都过
+
+    所以改成只看服务是否在跑。断言本身一条没动。
+    """
     proc = run("doctor")
-    return proc.returncode == 0 and '"verdict": "ok"' in proc.stdout
+    return proc.returncode == 0 and '"status": "running"' in proc.stdout
+
+
+# 文件路径里必然带内部词（比如 easycirq-connector_v1.0.21.eext）。
+# 路径是客户要复制去用的**数据**，不是散文里的术语——扫掉路径再查，
+# 否则「告诉客户该导入哪个文件」这件事永远过不了这条检查。
+_PATH_RE = re.compile(r"[A-Za-z]:\\[^\s，。；]+|(?<![\w])/[^\s，。；]+")
 
 
 def assert_speaks_to_customers(text, where):
-    lowered = text.lower()
+    prose = _PATH_RE.sub("<path>", text).lower()
     for term in FORBIDDEN:
-        assert term.lower() not in lowered, f"{where} 出现了内部术语 {term!r}:\n{text}"
+        assert term.lower() not in prose, f"{where} 出现了内部术语 {term!r}:\n{text}"
     assert "下一步" in text, f"{where} 没有告诉客户下一步做什么:\n{text}"
 
 
@@ -93,9 +113,11 @@ def test_setup_speaks_to_customers():
     # setup 的输出里没有「下一步：」字样时也必须给出行动指引
     text = proc.stdout
     assert ("下一步" in text) or ("做完再运行一次" in text), text
-    lowered = text.lower()
+    # 和 assert_speaks_to_customers 一样：先扫掉路径再查术语。
+    # 这里原本自己复制了一份循环，所以上面改 helper 时漏了它。
+    prose = _PATH_RE.sub("<path>", text).lower()
     for term in FORBIDDEN:
-        assert term.lower() not in lowered, f"setup 出现了内部术语 {term!r}:\n{text}"
+        assert term.lower() not in prose, f"setup 出现了内部术语 {term!r}:\n{text}"
 
 
 def test_every_command_explains_a_failure(have_reports):
