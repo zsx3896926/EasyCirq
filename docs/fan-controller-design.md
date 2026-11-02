@@ -134,3 +134,63 @@ button / sensing 十类，**没有"阈值比较 / 温控"**。所以"做个风�
 
 **这已经是第三次同类错误**（前两次：数 bundle 里的 `[object Object]`、
 按固定空格数断言状态列）。共同的病根是**用猜的格式去判成功**，而不是读回真实状态再判断。
+
+---
+
+## PCB 打通（2026-11-02）
+
+工程 `Fan-Controller-12V`，PCB 文档 `696988895f5e0343`。
+
+| 步骤 | 命令 | 结果 |
+|---|---|---|
+| 原理图→PCB 同步 | `pcb import-changes` | **0 → 11** 个器件 |
+| 自动摆件 | `pcb auto-place` | 完成（先 save + `doc reload` 处理 staleRisk） |
+| 板框 | `pcb outline-fit --margin 60` | **allInside: true**，940.5 高，锁定 |
+| 布线 | `pcb autoroute` | **8/8 网络全部成功** |
+| DRC | `pcb save` → `doc reload` → `pcb drc` | **passed: true, violations: []** |
+
+**顺序是照技能里记的实测教训走的**：没有板框就 autoroute 会报
+`successNetsCount: 0`（所有网络都 failed），而这最容易被误判成"路由器坏了"。
+这次先做 outline-fit 再布，8/8 一次通过。
+
+### 这轮踩到的四个摩擦
+
+**1. `project find --name` 枚举不出工程。**
+
+```
+presence: unknown, enumeration: {complete: false, uuidCount: 0,
+reason: "empty_uuid_list", scope: "unscoped"}
+```
+
+**连错误都算不上——它返回 ok:true 加一堆内部词。** 实际后果：从风扇板切到
+测试工程之后，**回不去了**，因为 `project open` 需要 uuid 而 find 给不出。
+
+**2. 最后是从审计日志里把 uuid 挖出来的。**
+
+`~/.easycirq/audit/2026-11-02.jsonl` 里 `project.create` 那条记录带着
+`"uuid": "77ef9d0874cc48499400578c59eb2910"`。
+
+**审计日志在这里救了一次。** 但"去 jsonl 里翻自己的工程 uuid"不该是正常路径。
+
+**3. `project open` 要同时满足三个条件**才肯动：
+`--window <当前id>` + `--project-uuid` + `--allow-discard-unsaved`。
+少一个就报一条不同的错，得试三轮才知道全貌。
+
+**4. 窗口 id 会变。** 那条错误信息本身写得很好：
+
+```
+window "e5f47efb-…" is not connected, but 1 connector window(s) ARE
+— window IDs change on reconnect. Connected now: 2e722b8b-…
+```
+
+**它直接告诉了你该填什么。** 这是本轮唯一一条"错误信息自己把问题解决了"的——
+值得作为标杆。
+
+### 还没做
+
+- **19 项 KPI 门禁**（`sch_offline_pipeline.py`）：未跑
+- **门禁两轮 + 通行证**：未跑
+- **Gerber / BOM / 交付卡**：未做
+- **PCB 视觉复核**（官方导图）：未做
+
+DRC 0 违规不等于板子对——技能里写得很清楚：**门禁绿 ≠ 板子对**。
