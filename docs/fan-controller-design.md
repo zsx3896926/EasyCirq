@@ -41,7 +41,10 @@ S8050 的 Ic 上限 700mA，稳态够用，启动时已贴近极限，而且大�
   "schema": "easycirq-design-intent/v1",
   "name": "12V 温控风扇",
   "power_rail": "PWR5V",
+  "load_rail": "PWR12V",
   "ground": "GND",
+  "rails": { "PWR5V": 5.0, "PWR12V": 12.0 },
+  "grounds": ["GND"],
   "threshold": {
     "comparator": "U1",
     "target_c": 45,
@@ -52,18 +55,22 @@ S8050 的 Ic 上限 700mA，稳态够用，启动时已贴近极限，而且大�
   },
   "switches": [
     { "part": "Q1", "load": "FAN1", "load_ma": 200,
-      "kind": "mosfet", "vgs_th": 1.05, "id_max_a": 4.0 }
+      "kind": "mosfet", "vgs_th": 1.05, "id_max_a": 4.0,
+      "load_kind": "inductive", "load_rail": "PWR12V" }
   ]
 }
 ```
 
 ## 尚未建模的部分（工具查不了，必须人判）
 
-| 项 | 为什么工具管不了 |
+| 项 | 状态 |
 |---|---|
-| 风扇启动电流的裕量 | `design_validity` 用的是意图里声明的 `load_ma`，不会自己去猜启动倍率 |
-| 续流二极管是否存在 | **完全没有判据**——感性负载缺二极管，18+1 项门禁一条都不会报 |
-| 双电源域（5V 逻辑 / 12V 负载） | `power_net` 只查电源网络冲突，不查"管子漏极接错了域" |
-| 12V 与 5V 共地 | 同上 |
+| 续流二极管是否存在 / 方向对不对 | ✅ **已有判据**：`inductive_load` 查 `NO_FLYWHEEL_DIODE` 与 `FLYWHEEL_DIODE_REVERSED` |
+| 双电源域接错（漏极接到 5V） | ✅ **已有判据**：`supply_domains` 查 `SWITCH_LOAD_ON_LOGIC_RAIL` |
+| 两轨被 0Ω 短接 | ✅ **已有判据**：`RAIL_SHORTED` |
+| 12V 与 5V 共地 | ✅ **已有判据**：`GROUNDS_DISCONNECTED`（只在 `grounds` 声明了多个地时才查） |
+| 风扇启动电流的裕量 | ❌ 工具不猜倍率，用意图里声明的 `load_ma` |
+| **器件额定电压是否够** | ❌ **要规格书**——"这颗管子 Vds 上限 30V，12V 打不穿"网表里没有。这一条只能人判 |
 
-前两项已经写进 `docs/known-failures.md` 的待补判据；后两项要靠人对照原理图核。
+前四类已由 `sch_design_validity.py` 覆盖；最后两项明确写在检查器的 `note` 里，
+不假装能判。

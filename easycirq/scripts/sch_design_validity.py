@@ -492,6 +492,131 @@ def net_of_pin(part: dict, pin_number: str) -> str | None:
     return None
 
 
+def check_supply_domains(netlist, nets, intent, findings) -> dict:
+    """双电源域：5V 逻辑 + 12V 负载这类板子，最容易看错电源符号。
+
+    能查的三条（纯拓扑，可靠）：
+      1. 两个不同电压的轨被 0Ω 电阻连在一起 → 短路
+      2. 开关管的负载脚落在逻辑轨上 → 负载两端同电位，永远不工作
+      3. 声明了多个地却互不相连 → 两个域没有共地，信号缺参考
+
+    **不能查的（必须承认）**：器件额定电压。要知道"这颗管子 Vds 上限 30V，
+    12V 不会击穿它"需要规格书，网表里没有。所以"接了高压会不会烧"这类问题，
+    工具判不了，只能人来判。
+    """
+    rails = intent.get("rails") or {}
+    grounds = intent.get("grounds") or []
+    if not rails:
+        return {"id": "supply_domains", "status": "not_run",
+                "reason": "意图文件没有声明 rails（电源轨→电压）；"
+                          "没有声明就无法判断哪些网络属于不同电压域"}
+
+    rail_names = {}
+    for name, value in rails.items():
+        try:
+            rail_names[name] = float(value)
+        except (TypeError, ValueError):
+            return {"id": "supply_domains", "status": "unknown",
+                    "reason": f"rails 里 {name} 的电压 {value!r} 不是数字"}
+
+    results = {"id": "supply_domains", "status": "pass", "checks": []}
+    failed = False
+
+    # 1. 不同电压的轨被短接
+    for designator in {d for members in nets.values() for d, _ in members}:
+        part = part_by(netlist, designator)
+        if part is None:
+            continue
+        part_nets = {p.get("net") for p in part.get("pins") or [] if p.get("net")}
+        touched = [n for n in part_nets if n in rail_names]
+        if len(touched) < 2 or len({rail_names[n] for n in touched}) < 2:
+            continue
+        value = ohms((part.get("otherProperty") or {}).get("Value"))
+        if value is not None and value <= 1.0:
+            failed = True
+            message = (f"{designator}（{value:g}Ω）把 {touched[0]}"
+                       f"（{rail_names[touched[0]]:g}V）与 {touched[1]}"
+                       f"（{rail_names[touched[1]]:g}V）直接连在一起，电源会被短路")
+            findings.append({"code": "RAIL_SHORTED", "status": "confirmed",
+                             "part": designator, "message": message})
+            results["checks"].append({"rule": "rail_not_shorted", "status": "fail",
+                                      "message": message})
+    if not any(c["rule"] == "rail_not_shorted" for c in results["checks"]):
+        results["checks"].append({"rule": "rail_not_shorted", "status": "pass"})
+
+    # 2. 开关管的负载脚落在逻辑轨上
+    for entry in intent.get("switches") or []:
+        designator = entry.get("part")
+        load_rail = entry.get("load_rail") or intent.get("load_rail")
+        part = part_by(netlist, designator) if designator else None
+        if part is None or not load_rail:
+            continue
+        load_net = None
+        for pin in part.get("pins") or []:
+            name = (pin.get("pinName") or pin.get("name") or "").strip().upper()
+            if name in ("C", "D"):
+                load_net = pin.get("net")
+                break
+        if not load_net:
+            results["checks"].append({"rule": "switch_load_not_on_logic_rail",
+                                      "status": "unknown",
+                                      "note": f"{designator} 的负载脚认不出来"})
+            continue
+        logic_rails = [n for n in rail_names if n != load_rail]
+        if load_net in logic_rails:
+            failed = True
+            message = (f"{designator} 的负载脚接在 {load_net}（逻辑轨）上，"
+                       f"而负载电源轨是 {load_rail}——负载两端会同电位，永远不工作")
+            findings.append({"code": "SWITCH_LOAD_ON_LOGIC_RAIL",
+                             "status": "confirmed", "part": designator,
+                             "message": message})
+            results["checks"].append({"rule": "switch_load_not_on_logic_rail",
+                                      "status": "fail", "message": message})
+        else:
+            results["checks"].append({"rule": "switch_load_not_on_logic_rail",
+                                      "status": "pass",
+                                      "note": f"{designator} 负载脚在 {load_net}"})
+
+    # 3. 多个地必须连通
+    if len(grounds) > 1:
+        joined = set()
+        for designator in {d for members in nets.values() for d, _ in members}:
+            part = part_by(netlist, designator)
+            if part is None:
+                continue
+            part_nets = {p.get("net") for p in part.get("pins") or [] if p.get("net")}
+            hit = [g for g in grounds if g in part_nets]
+            if len(hit) >= 2:
+                value = ohms((part.get("otherProperty") or {}).get("Value"))
+                if value is None or value <= 1.0:
+                    joined.add(tuple(sorted(hit)))
+        # 只有"同一个器件跨接两端（无阻值或 0Ω）"才算证明连通。
+        # 光有两个不同的网络名不算——那正是"没共地"的样子。
+        missing = [(a, b)
+                   for i, a in enumerate(grounds)
+                   for b in grounds[i + 1:]
+                   if (a, b) not in joined]
+        if missing:
+            failed = True
+            for a, b in missing:
+                message = (f"声明了两个地 {a} 和 {b}，但网表里没有器件把两者连起来——"
+                           f"两个电源域没有共地，信号失去参考点")
+                findings.append({"code": "GROUNDS_DISCONNECTED",
+                                 "status": "confirmed", "message": message})
+                results["checks"].append({"rule": "grounds_joined", "status": "fail",
+                                          "message": message})
+        else:
+            results["checks"].append({"rule": "grounds_joined", "status": "pass"})
+    else:
+        results["checks"].append({"rule": "grounds_joined", "status": "not_run",
+                                  "note": "只声明了一个地，无需连通性判断"})
+
+    results["status"] = "fail" if failed else "pass"
+    results["note"] = ("只查拓扑（短路 / 接错域 / 共地）；"
+                       "器件额定电压需要规格书，工具判不了")
+    return results
+
+
 def check_inductive_load(netlist, nets, intent, findings) -> dict:
     """感性负载必须续流。
 
@@ -670,7 +795,7 @@ def main(argv=None) -> int:
         # 自己要做什么"——判不了就是判不了，判为 na（不适用）并在卡片上可见，
         # 既不冒充 pass，也不假装成一次失败的检查。
         for cid in ("threshold_sanity", "switch_drive", "hysteresis",
-                    "inductive_load"):
+                    "inductive_load", "supply_domains"):
             checks.append({"id": cid, "status": "na",
                            "reason": "没有提供 --intent：这块板没有声明设计意图，"
                                      "无法判断阈值该是多少、管子该带多大负载"})
@@ -689,6 +814,7 @@ def main(argv=None) -> int:
         checks.append(check_drive(netlist, nets, intent, findings))
         checks.append(check_hysteresis(netlist, nets, intent, findings))
         checks.append(check_inductive_load(netlist, nets, intent, findings))
+        checks.append(check_supply_domains(netlist, nets, intent, findings))
 
     # 整体判定要区分两种"没做"：
     #   not_run —— 意图没要求这一项（例如板上没有电感负载，就没有续流二极管可查）

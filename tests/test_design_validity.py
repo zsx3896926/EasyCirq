@@ -146,7 +146,8 @@ class AfterFixesTests(unittest.TestCase):
         self.assertEqual(statuses, {"threshold_sanity": "pass",
                                     "switch_drive": "pass",
                                     "hysteresis": "pass",
-                                    "inductive_load": "not_run"})
+                                    "inductive_load": "not_run",
+                                    "supply_domains": "not_run"})
         self.assertEqual(self.report["verdict"], "pass")
 
 
@@ -425,6 +426,122 @@ class InductiveLoadTests(unittest.TestCase):
         proc = run(netlist, intent=intent_path)
         self.assertEqual(check_status(proc.stdout, "inductive_load"), "not_run")
         self.assertNotIn("NO_FLYWHEEL_DIODE", proc.stdout)
+
+
+class SupplyDomainTests(unittest.TestCase):
+    """双电源域：查拓扑，不查器件额定。
+
+    风扇板是 5V 逻辑 + 12V 负载。画图时最常犯的错是看错电源符号：
+    风扇漏极接到 5V 上，两端同电位，永远不转。power_net 不会报这个。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-supply-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _parts(self, drain_net="FAN_M", extra_diode=True, ground_tie=True,
+               short_resistor=False):
+        parts = [
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "GATE"}, {"pinNumber": "8", "net": "PWR5V"},
+                      {"pinNumber": "4", "net": "GND"}]},
+            {"designator": "R5", "componentType": "part",
+             "otherProperty": {"Value": "100kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "GATE"}]},
+            {"designator": "Q1", "componentType": "part", "manufacturerId": "AO3400",
+             "otherProperty": {},
+             "pins": [{"pinNumber": "1", "pinName": "G", "net": "GATE"},
+                      {"pinNumber": "2", "pinName": "S", "net": "GND"},
+                      {"pinNumber": "3", "pinName": "D", "net": drain_net}]},
+            {"designator": "FAN1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "FAN-12V",
+             "pins": [{"pinNumber": "1", "pinName": "+", "net": "PWR12V"},
+                      {"pinNumber": "2", "pinName": "-", "net": "FAN_M"}]},
+        ]
+        if extra_diode:
+            parts.append({"designator": "D1", "componentType": "part",
+                          "manufacturerId": "1N4148", "otherProperty": {},
+                          "pins": [{"pinNumber": "1", "pinName": "A", "net": "FAN_M"},
+                                   {"pinNumber": "2", "pinName": "K", "net": "PWR12V"}]})
+        if short_resistor:
+            parts.append({"designator": "R9", "componentType": "part",
+                          "otherProperty": {"Value": "0Ω"},
+                          "pins": [{"pinNumber": "1", "net": "PWR5V"},
+                                   {"pinNumber": "2", "net": "PWR12V"}]})
+        if ground_tie:
+            parts.append({"designator": "R10", "componentType": "part",
+                          "otherProperty": {"Value": "0Ω"},
+                          "pins": [{"pinNumber": "1", "net": "GND"},
+                                   {"pinNumber": "2", "net": "PGND"}]})
+        return parts
+
+    def _intent(self, grounds=None):
+        return {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "load_rail": "PWR12V", "ground": "GND",
+            "rails": {"PWR5V": 5.0, "PWR12V": 12.0},
+            "grounds": grounds or ["GND"],
+            "switches": [{"part": "Q1", "load": "FAN1", "load_ma": 200,
+                          "kind": "mosfet", "vgs_th": 1.05, "id_max_a": 4.0,
+                          "load_kind": "inductive", "load_rail": "PWR12V"}],
+        }
+
+    def _run(self, parts, grounds=None):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps({"components": parts}, ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(grounds), ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_healthy_dual_supply_passes(self):
+        proc = self._run(self._parts())
+        self.assertEqual(check_status(proc.stdout, "supply_domains"), "pass")
+        self.assertNotIn("RAIL_SHORTED", proc.stdout)
+
+    def test_drain_on_logic_rail_fails(self):
+        # 风扇漏极接到 5V：两端同电位，永远不转
+        proc = self._run(self._parts(drain_net="PWR5V"))
+        self.assertIn("SWITCH_LOAD_ON_LOGIC_RAIL", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "supply_domains"), "fail")
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_rails_shorted_fails(self):
+        proc = self._run(self._parts(short_resistor=True))
+        self.assertIn("RAIL_SHORTED", proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_grounds_not_joined_fails(self):
+        parts = self._parts(ground_tie=False)
+        proc = self._run(parts, grounds=["GND", "PGND"])
+        self.assertIn("GROUNDS_DISCONNECTED", proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+    def test_grounds_joined_by_zero_ohm_passes(self):
+        parts = self._parts(ground_tie=True)
+        proc = self._run(parts, grounds=["GND", "PGND"])
+        self.assertNotIn("GROUNDS_DISCONNECTED", proc.stdout)
+        self.assertEqual(check_status(proc.stdout, "supply_domains"), "pass")
+
+    def test_no_rails_declared_is_not_run(self):
+        netlist = self.tmp / "nr.json"
+        netlist.write_text(json.dumps({"components": self._parts()},
+                                      ensure_ascii=False), encoding="utf-8")
+        intent = self._intent()
+        intent.pop("rails")
+        intent_path = self.tmp / "nr-intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False), encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertEqual(check_status(proc.stdout, "supply_domains"), "not_run")
+        self.assertNotIn("RAIL_SHORTED", proc.stdout)
 
 
 class HonestyTests(unittest.TestCase):

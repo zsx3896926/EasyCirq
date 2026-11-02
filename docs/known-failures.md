@@ -934,3 +934,53 @@ errorDetail 恰好是 '[object Object]' 的记录: 7
 - **双电源域**（5V 逻辑 / 12V 负载）：`power_net` 只查电源网络冲突，
   不查"管子漏极接错了域"，也不查 12V 与 5V 有没有共地。**仍是人工核对项**。
 - 负载启动电流的裕量：模型用意图里声明的 `load_ma`，不猜倍率。
+
+## 术语测试靠环境运气通过（2026-11-01/02，已改）
+
+### 怎么暴露的
+
+一次全量跑挂在这里：
+
+```
+FAILED tests/test_customer_experience.py::CustomerTerms::test_setup_uses_no_tool_jargon
+AssertionError: Lists differ: ['daemon', 'connector'] != []
+```
+
+原因是**后台没在跑**（重打包时停掉没起来）。`easycirq setup` 于是走引导分支，
+输出里带两条命令字面量：
+
+```
+1. 启动后台服务：`easycirq daemon start`（EasyCirq 在后台常驻的那一部分）
+2. 在 EasyEDA Pro 里装一次 EasyCirq 插件（`easycirq connector path` ...）
+```
+
+**后台起着的时候这条测试是绿的**——也就是说它一直在靠环境碰运气，
+而不是在验证"客户要理解的术语数 = 1"。
+
+### 两个不同的问题，分开处置
+
+**问题一：测试判得不准。** 它对整段输出做子串匹配，把命令字面量也算成术语。
+但 `easycirq daemon start` 是客户**原样复制**的东西——他不需要知道 daemon 是什么
+也能跑。散文里出现"daemon"才是真的要求他理解。
+
+改法（**不是放宽**，是把判据对准它本来要测的东西）：
+1. `assert_no_jargon` 先剥掉反引号里的命令字面量，只查散文。
+2. 新增 `test_guidance_prose_has_no_tool_jargon`：直接扫 `cmd_setup.go` 里的
+   中文文案（客户真正会读到的东西），剥掉命令后不许有术语。**不依赖后台状态。**
+3. 新增 `test_commands_it_names_exist`：扫六个面向客户的源文件里出现的
+   `easycirq <子命令>`，逐个 `--help` 探测。**把"命令写进反引号就能绕过"
+   这个口子堵上**，同时能发现死命令。
+
+扫出来并逐个验证通过的：`acceptance` / `card` / `pcb` / `setup` / `status`，
+五个都真实存在（这条测试不是空转）。
+
+### 问题二：产品本身有个真缺口，我没擅自改
+
+**后台没起来时，客户要自己敲第二条命令。** 而目标写的是「一条命令装好」。
+
+这不是措辞问题，是流程问题：`setup` 现在只诊断、不代启动。
+要不要改成"检测到没启动就自动启动"是产品决策——涉及安装行为、
+权限、以及"能不能替用户起常驻进程"这类判断，**不该我一个人定**。
+
+已记在这里，等用户决定。在那之前 `setup` 保持"只检查不代装"的现有语义
+（`docs/release-checklist.md` 里也是这么写的）。
