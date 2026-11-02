@@ -1599,7 +1599,63 @@ present = {p.relative_to(d).as_posix() for p in d.rglob("*") if p.is_file()}
 - `pytest tests` → **4914 passed, 5 skipped**（起始 4897，本轮 +17）
 - `go test ./...` → 16 包全 ok；`go vet` 干净
 
-## 未解决：连接器有 2 个测试失败，而我第 2 轮说「80 全过」（2026-11-02）
+## 已查清：连接器测试的两个假失败，与三个真失败（2026-11-02）
+
+### 我用错了跑测器
+
+上一轮我报「2 个 describeThrown 测试失败」。**那是假的。**
+
+这个连接器用的是 **`node:test`**（`import { test } from 'node:test'`），
+`package.json` 里写的是：
+
+```
+"test": "node --require ts-node/register --test src/*.test.ts"
+```
+
+我却用 `npx vitest run` 去跑。vitest 不认识 `node:test` 的调用，
+产出一组自相矛盾的输出（78 pass / 2 fail，又说 "No test suite found"）。
+
+**换成 `npm test` 之后，那两个 `describeThrown` 测试是通过的。**
+
+单独验证也证实了：`describeThrown(new RangeError(''))` 实际返回 `'RangeError'`，
+正是断言要的值。
+
+**这是本会话第四次「先假设工具怎么用，再下结论」。**
+
+### 真正的失败是 3 个端口测试（与我的改动无关）
+
+```
+✖ 逃生口:单值 / 列表 / 区间 / 数组都能写
+✖ 多端口覆盖时,上次握手成功的端口排最前且不重复
+✖ 覆盖列表里没有 lastGood 时,顺序原样不动
+
+actual:   [23111, 23112, … 23122]      （整个 10 口保留段）
+expected: [23111, 60833, 60834]         （覆盖列表）
+```
+
+在 `src/transport-ports.test.ts`。而 `src/transport-identity.test.ts` 里明确写着：
+
+> 端口选择与退避的测试搬去了 transport-ports.test.ts —— 原来的 scanOrder
+> （整段 10 端口扫描 + lastGood 优先）已被「钉死 23111 + 指数退避」取代。
+
+**也就是端口选择的设计换了，这批测试还在测旧契约。**
+与 12V 风扇板无关，是既有的历史遗留。
+
+### 处置
+
+**没修**。理由：这是端口选择语义的重新对齐，要判断"该改测试还是改实现"，
+需要先确认当前 `resolvePorts` 的预期契约是谁定的。本轮预算到限，
+强行改测试去迎合实现，正是这个目标禁止的"为了让测试绿而改判据"。
+
+### 我要更正的记录
+
+第 2 轮我写「80 个测试全过」——那个数字是**用错的 runner 跑出来的读数**，
+不能作为证据。正确的是：`npm test` 下 `describeThrown` 全部通过，
+另有 3 个端口测试失败（既有问题）。
+
+### 仍然成立的结论
+
+## 未解决：[object Object] 实机仍不可读，因为连接器要先重导（2026-11-02）
 
 ### 事实
 
@@ -1632,7 +1688,7 @@ cd connector && npx vitest run src/util.test.ts
 
 ### 对 [object Object] 这条的影响
 
-修复本身（`describeThrownRaw` 重写）在代码里，且另外 **78 个测试是绿的**，
+修复本身（`describeThrownRaw` 重写）在代码里，`describeThrown` 相关测试全绿，
 包括关键的这几条：
 
 ```
