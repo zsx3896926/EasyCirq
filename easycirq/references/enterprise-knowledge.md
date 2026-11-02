@@ -111,6 +111,11 @@ python easycirq/scripts/enterprise_parts.py --resolve <part_key>
 
 推进：`python easycirq/scripts/review_ledger.py --promote`。它会写进企业目录并**回读确认**加载到。
 
+**默认目录跟随 `EASYCIRQ_KNOWLEDGE_DIR`**，输出会打印「写入目录」和「下次读取」两行。
+两行不一致就是写错了地方——这种时候规则存进去了但永远不会生效。
+
+如果客户报「我加了规则没生效」，第一件事是让他把这两行贴出来。
+
 ## 支持的谓词（现在只有这四个）
 
 | `predicate.type` | 参数 | 判什么 |

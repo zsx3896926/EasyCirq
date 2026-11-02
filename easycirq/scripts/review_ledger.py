@@ -33,6 +33,7 @@
 import argparse
 import datetime as _dt
 import json
+import os
 import pathlib
 import sys
 
@@ -42,6 +43,25 @@ import enterprise_rules  # noqa: E402
 
 SCHEMA = "easycirq-review-ledger/v1"
 ENTRY_DISPOSITIONS = ("rule", "knowledge")
+
+
+def default_target():
+    """**读取规则时真正会看的目录**。
+
+    必须是这个函数而不是写死 `~/.easycirq/knowledge`。
+
+    2026-11-03 实测的缺陷：客户设了 `EASYCIRQ_KNOWLEDGE_DIR=<公司目录>`，
+    跑 `--promote` 不给 `--target`，规则被写进 `~/.easycirq/knowledge`，
+    而 `enterprise_rules.py` 从公司目录读——**规则一条都不会生效**。
+
+    更坏的是它报成功：回读时把环境变量临时改成了写入目标，所以
+    「回读确认：加载到 1 条」验的是它自己刚设的路径，不是下一次真实运行。
+    这是最恶劣的一类：工具主动把「存了」说成「生效了」。
+    """
+    env = os.environ.get("EASYCIRQ_KNOWLEDGE_DIR", "").strip()
+    if env:
+        return pathlib.Path(env)
+    return pathlib.Path.home() / ".easycirq" / "knowledge"
 
 
 def load_ledger(path):
@@ -221,9 +241,9 @@ def main(argv=None):
     ap.add_argument("--verify", action="store_true", help="校验全部条目")
     ap.add_argument("--promote", action="store_true",
                     help="把 disposition=rule 的条目写进企业规则目录并回读验证")
-    ap.add_argument("--target",
-                    default=str(pathlib.Path.home() / ".easycirq" / "knowledge"),
-                    help="企业规则目录（默认 ~/.easycirq/knowledge）")
+    ap.add_argument("--target", default=None,
+                    help="企业规则目录（默认取 $EASYCIRQ_KNOWLEDGE_DIR，"
+                         "未设时用 ~/.easycirq/knowledge —— 与读取规则时一致）")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
@@ -249,7 +269,11 @@ def main(argv=None):
         return 0 if not problems else 2
 
     if args.promote:
-        result = promote(ledger, args.target, dry_run=args.dry_run)
+        target = pathlib.Path(args.target) if args.target else default_target()
+        result = promote(ledger, target, dry_run=args.dry_run)
+        # 明说写哪、下次从哪读——两者不一致就是问题，让人一眼看见
+        result["target"] = str(target)
+        result["read_by_next_run"] = str(default_target())
         if args.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
@@ -266,6 +290,8 @@ def main(argv=None):
             else:
                 print(f"已写入 {result['written']}（{result['rules']} 条规则）")
                 print(f"回读确认：加载到 {len(result['loaded_ids'])} 条规则 id")
+                print(f"写入目录：{result['target']}")
+                print(f"下次读取：{result['read_by_next_run']}")
                 if result["missing"]:
                     print(f"  ! 以下规则写进去了但**下一次加载不到**：{result['missing']}")
         return 0 if result["ok"] else 2

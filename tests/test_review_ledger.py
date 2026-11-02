@@ -151,3 +151,34 @@ def test_knowledge_only_ledger_promotes_nothing():
                                  str(pathlib.Path(tmp) / "knowledge")])
         assert proc.returncode == 0
         assert "无需写入" in proc.stdout
+
+
+def test_promote_defaults_to_the_env_dir_not_home():
+    """设了 EASYCIRQ_KNOWLEDGE_DIR 时，promote 不给 --target 必须写到那里。
+
+    这是 2026-11-03 实测出来的真实缺陷：默认写死 ~/.easycirq/knowledge，
+    而读取规则看的是环境变量目录，于是规则「存了但不生效」——而且 promote
+    还报成功，因为它的回读把环境变量临时改成了写入目标，验的是自己刚设的路径。
+    工具主动把「存了」说成「生效了」，是这个目标明令禁止的最恶劣一类。
+    """
+    with tempfile.TemporaryDirectory() as tmp:
+        company = pathlib.Path(tmp) / "company-lib"
+        company.mkdir()
+        ledger = write_ledger(tmp, [good_rule_entry()])
+
+        proc = run(LEDGER_TOOL, ["--ledger", str(ledger), "--promote"],
+                   env={"EASYCIRQ_KNOWLEDGE_DIR": str(company)})
+        assert proc.returncode == 0, proc.stdout[-800:]
+        assert (company / "rules.from-review.json").is_file(), \
+            "规则没写进环境变量指定的目录"
+        # 输出要让人一眼看见「写哪」和「下次读哪」
+        assert "写入目录" in proc.stdout and "下次读取" in proc.stdout
+
+        # 关键：下一次真实运行必须能找到并拦住
+        nl = pathlib.Path(tmp) / "bad.json"
+        nl.write_text(json.dumps(board("R0402"), ensure_ascii=False),
+                      encoding="utf-8")
+        check = run(RULES_TOOL, ["--netlist", str(nl)],
+                    env={"EASYCIRQ_KNOWLEDGE_DIR": str(company)})
+        assert check.returncode == 1, (
+            "规则推进入了却拦不住板子：\n" + check.stdout[-800:])

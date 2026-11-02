@@ -252,6 +252,19 @@ python easycirq/scripts/review_ledger.py --ledger .easycirq/review-ledger.json -
 它会写进企业规则目录，然后**立刻对着那个目录回读**，确认规则 id 真的出现在加载列表里。
 只写不验等于没数。
 
+**默认目录跟着 `EASYCIRQ_KNOWLEDGE_DIR` 走**，和读取规则时一致。输出会把两个路径都打出来：
+
+```
+已写入 .../company-lib/rules.from-review.json（1 条规则）
+回读确认：加载到 1 条规则 id
+写入目录：.../company-lib
+下次读取：.../company-lib     ← 两个不一致就是有问题
+```
+
+> 这一条是真踩过的：早先默认写死 `~/.easycirq/knowledge`，设了环境变量的客户
+> 规则被写到别处，而回读把环境变量临时改成写入目标，于是报「加载成功」——
+> **下一次真实运行一条都读不到**。工具主动把「存了」说成「生效了」。
+
 实测闭环：
 
 ```
