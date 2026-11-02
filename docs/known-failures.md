@@ -1281,7 +1281,7 @@ daemon 稳定之后再跑同一条命令（空工程 `BlockProbe`，空页）：
 
 ### 这次改用的诊断手段（值得留下）
 
-- **直连 daemon 的 `/action` 接口**拿干净 JSON。CLI 的 `sch list` 会往 stdout 掺
+- **直连 daemon 的 action 端点 接口**拿干净 JSON。CLI 的 `sch list` 会往 stdout 掺
   人读行、又**没有 `--json`**，用 CLI 读数已经在本轮绊了三次。
 - 解析 CLI 输出时**不要做行过滤**。我的过滤器把以 `{` 开头的行也删了
   （规则写得太窄），破坏了结构，还一度以为是 CLI 掺垃圾。
