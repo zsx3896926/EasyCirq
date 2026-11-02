@@ -9,10 +9,13 @@
       "title": "禁用 0402 封装",
       "predicate": {
         "type": "footprint_forbidden",
-        "patterns": ["0402"]
+        "patterns": [
+          "0402"
+        ]
       },
       "evidence": "企业设计规范 DS-2024-07 §3.2：产线贴片能力下限为 0603，0402 需外协",
-      "owner": "硬件部 张工"
+      "owner": "硬件部 张工",
+      "verified_on": "2026-11-02 用一块故意改成 R0402 的风扇板副本跑过，报 fail（evidence/21-enterprise-violations.json）"
     },
     {
       "id": "banned-transistor",
@@ -20,10 +23,13 @@
       "title": "禁用已停产器件 S8050",
       "predicate": {
         "type": "part_forbidden",
-        "parts": ["S8050"]
+        "parts": [
+          "S8050"
+        ]
       },
       "evidence": "2026-03 供应商通知停产；库存耗尽后新设计不得使用",
-      "owner": "供应链 李工"
+      "owner": "供应链 李工",
+      "verified_on": "2026-11-02 同一块违规板上把 R1 的型号改成 S8050，报 fail"
     },
     {
       "id": "no-test-net-naming",
@@ -31,10 +37,14 @@
       "title": "网络名不要用 TEST 前缀",
       "predicate": {
         "type": "net_name_forbidden",
-        "patterns": ["test*", "tmp*"]
+        "patterns": [
+          "test*",
+          "tmp*"
+        ]
       },
       "evidence": "出图习惯约定，不影响电气；只提示",
-      "owner": "硬件部"
+      "owner": "硬件部",
+      "verified_on": "2026-11-02 同一块违规板上把 PWR5V 改名成 TEST_FOO，报 advisory"
     }
   ]
 }

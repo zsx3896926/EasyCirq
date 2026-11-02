@@ -1,5 +1,61 @@
 # 变更记录
 
+## 1.3.57 — 2026-11-03
+
+### 企业知识系统（新）
+
+企业可以把**自己的**规范、实测参数、标准电路和人审经验接进 EasyCirq，**不改源码、不重装**。
+入口是四个脚本 + 两个环境变量：
+
+| 要加什么 | 放哪里 | 工具 |
+|---|---|---|
+| 可执行规则 | 知识目录的 *.json | nterprise_rules.py |
+| 可检索知识 | 同上 | knowledge_search.py |
+| 器件实测参数 | 同上 | nterprise_parts.py |
+| 标准电路块 | EASYCIRQ_BLOCKS_DIR | asycirq blocks ls |
+
+知识目录默认 ~/.easycirq/knowledge/，可用 EASYCIRQ_KNOWLEDGE_DIR 指定；
+项目级放 <项目>/.easycirq/knowledge/，覆盖企业级。
+
+### 两条设计铁律
+
+**经验必须分两类。** 能写成「对网表一次确定性判定」的是**规则**，可以阻断交付；
+依赖上下文的是**知识**，只做审阅参考、**永不阻断**。
+
+- 知识当规则 → 天天误报 → 被人关掉 → 等于没写
+- 规则当知识 → 能查的不查 → 下次没人看 → 等于没执行
+
+**「能加载」不等于「会生效」。** 所以规则可以要求 erified_on（人写清它曾抓到过什么），
+nterprise_selfcheck.py 会把「不会生效」的条目全部列出来：没有 erified_on 的规则、
+谓词执行不了的规则、永远检索不到的知识。
+
+### 配套
+
+- SKILL.md 新增「企业知识库」小节与按需读取条目，Agent 知道什么时候该用
+- 
+eferences/enterprise-knowledge.md：Agent 向的完整说明（含**不能承诺什么**）
+- nterprise_selfcheck.py：面向客户自己库的自检，空库不算错、有问题返回非零
+
+### 未做（别当成能用）
+
+- 企业规则**没有**接入 19 项 KPI 门禁，要单独跑
+- AI **不能**自动从对话里提取规则，必须人写进 ledger 并显式选边
+- 块里的 pcb_layout 约束**没有任何代码读**，写了等于装饰
+
+## 1.3.56 — 2026-11-02
+
+- 连接器升到 **1.0.21**：describeThrown 的修复此前打进了包但版本号没升，
+  两个内容不同的包同名 v1.0.20，导致「已加载 v1.0.20」无法判断修复在不在
+- asycirq connector path 改为**按版本择优**，不再取「第一个含 .eext 的目录」——
+  原来安装目录排在仓库构建目录之前，会打印比手上更旧的包，把人指向错误文件
+- connector verify 修掉「报了路径却写着 source: not-found」
+
+## 1.3.55 — 2026-11-02
+
+- 连接器：宿主抛出的 Error 若 message 字面就是 [object Object]，现在会渲染成
+  	he message is the placeholder ... the real cause was not put into it，
+  不再把占位符当整条详情吐出
+
 ## 1.1.0 — 2026-10-29
 
 - **破坏性重命名**：仓库 `hardware-design-skill` → `EasyCirq`；Skill `design-hardware` → `easycirq`；运行时 CLI/二进制 `zhigou` → `easycirq`；环境变量 `ZHIGOU_*` → `EASYCIRQ_*`；状态目录 `~/.zhigou` → `~/.easycirq`；协议服务 `zhigou-agent` → `easycirq-agent`；连接器 `zhigou-connector` → `easycirq-connector`。迁移见 `docs/migration-easycirq.md`。

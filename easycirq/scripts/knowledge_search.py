@@ -40,6 +40,10 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 LEDGER_SCHEMA = "easycirq-review-ledger/v1"
 KNOWLEDGE_DIR_NAMES = ("knowledge", "knowledge.json")
 
+# 同一个企业目录里三类文件并存，认得彼此
+SIBLING_SCHEMAS = ("easycirq-enterprise-rules/v1",
+                   "easycirq-enterprise-parts/v1")
+
 # 这些词太泛，匹配上说明不了什么，反而让每条都召回
 STOPWORDS = {"the", "and", "for", "with", "this", "that", "一个", "这个", "我们", "需要"}
 
@@ -117,6 +121,9 @@ def collect_knowledge(project_dir=None, explicit=None):
                         "from": str(path), "layer": layer,
                     })
             else:
+                # 认得的兄弟（规则/器件）静默跳过；不认识的才报
+                if data.get("schema") in SIBLING_SCHEMAS:
+                    continue
                 problems.append({
                     "file": str(path),
                     "error": f"schema {data.get('schema')!r} 不是知识来源，跳过"})

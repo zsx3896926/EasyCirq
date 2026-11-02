@@ -219,6 +219,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 初次使用、判断任务范围和评审节奏 | [首次协作](references/interaction.md) |
 | 组合新模块、避免漏掉外围 | [模块设计卡](references/module-cards.md) |
 | 用户要求选型、换料或BOM | [选型与装配变体](references/part-selection.md) |
+| 客户有内部规范、自己的料、实测参数、标准电路，或要沉淀人审意见（「按我们规范检查」「这颗料我们实测过」「上次评审说的别再犯」） | [企业知识库](references/enterprise-knowledge.md) |
 | 立创商城选料、查货、估价、BOM配单、缺料替代 | [立创商城选型与配单](references/lcsc-sourcing.md) |
 | 嘉立创打板/贴片、选择工艺、设置厂规或工厂驳回 | [生产规则接入](references/jlc-production.md)，Agent维护实际订单工艺与证据，不要求新手填表 |
 | PCB层叠/铜厚/线孔/阻焊/成型与特殊工艺 | [嘉立创PCB生产规则](references/jlc-pcb-rules.md)，数值为需重查的条件快照 |
@@ -409,6 +410,25 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 **一句话**：门禁绿 ≠ 板子对。门禁只保证「这一步没漏」。
 
+## 5.5 企业知识库（客户自己的规范/实测值/标准电路）
+
+用户说「我们公司规定」「按我们规范检查」「这颗料我们实测过」「用我们自己的标准电路」
+「上次评审说的别再犯」时，**先读 [企业知识库](references/enterprise-knowledge.md)**，
+再用 `easycirq/scripts/` 下的 `enterprise_rules.py` / `knowledge_search.py` /
+`enterprise_parts.py` / `review_ledger.py`。
+
+三条不可违反的约束：
+
+1. **经验必须分两类**：能写成「对网表一次确定性判定」的是**规则**（可阻断）；
+   依赖上下文的是**知识**（只提示，不阻断）。**判错两边都致命，必须问用户，不许猜。**
+2. **判据用 evidence + 用户可验证的输出**，不把「加载了 N 条」当成生效。
+   验证生效的唯一办法是故意造一块违规的板看它报不报。
+3. **不许承诺没做的**：规则**没有**接进 19 项 KPI 门禁；AI **不能**自动从对话提取规则；
+   块里的 `pcb_layout` 约束**没有任何代码读**。
+
+企业库放在 `$EASYCIRQ_KNOWLEDGE_DIR`（默认 `~/.easycirq/knowledge/`）与项目
+`.easycirq/knowledge/`，块库用 `EASYCIRQ_BLOCKS_DIR`。**不需要改源码或重装。**
+
 ## 6. 设计和执行的底线
 
 1. 精确到完整型号/后缀/封装，使用原厂资料与勘误；以适用的推荐工作条件设计，单独检查绝对最大额定值。
@@ -430,7 +450,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 15. 不用电气手段消几何告警：禁止用浮空/支撑假脚、改网络、删器件、伪造 NC 或降低约束来让 overlap/间距/连通/文字告警消失。任何电气变化必须有依据、影响分析和变更记录；检查器误判时修检查器或记录为误报，不改电气事实。见 [审查与验证](references/review.md)。
 
-## 6. 后台计算与自动化
+## 7. 后台计算与自动化
 
 需要时运行 `python scripts/calculate.py <mode> '<JSON>'`。支持 `led`、`divider`、`i2c`、`ldo`、`buck`、`boost`、`adc_settle`、`current_sense`、`wire`，全部采用SI单位，具体字段见脚本 `--help`。脚本只复核所声明的简化模型和输入，不能证明选型、稳定性、EMC或制造合格。无Python时手算并独立复核，不把脚本列为绘图的强制前置。
 
@@ -456,7 +476,7 @@ Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相
 
 需要把一次画板/改板/检查做成可恢复闭环时，先读 [反馈闭环](references/feedback-loop.md)：`observe` 采集带窗口/工程/文档 UUID 的观察，`plan` 生成 `hds-modification/v1` 契约（可写对象/区域/网络、锁定、不变量、验收、恢复点），`preview` 只读不写，`apply` 默认 dry-run、写入前重核基线，`readback`+`verify` 分开记录调用/写入/保存/重开/质量，`recover` 用 journal 和幂等键续做，`case-search` 先核对适用性再复用。调用成功、写入成功、保存成功、重新打开后仍存在、质量通过是五件事，缺一项就是 `NOT RUN`/`unknown`，不能合并成“完成”。
 
-## 7. 让用户看懂进度和结果
+## 8. 让用户看懂进度和结果
 
 对新手先按 [新手交付卡](assets/beginner-summary.md) 展示：做了什么、在哪看、检查发现什么、下一步怎么用；原理图解释为“电路连接图”，PCB解释为“实际电路板的布局和走线”，首次出现时解释一次即可。专业计算、脚号、网表与日志留在可展开说明/工程记录，关键失败不能藏起来。
 

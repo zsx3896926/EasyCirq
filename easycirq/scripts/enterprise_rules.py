@@ -64,6 +64,11 @@ import sys
 
 SCHEMA = "easycirq-enterprise-rules/v1"
 
+# 同一个企业目录里会并存这三类文件，各自加载器要认得彼此
+SIBLING_SCHEMAS = ("easycirq-enterprise-parts/v1",
+                   "easycirq-enterprise-knowledge/v1",
+                   "easycirq-review-ledger/v1")
+
 # 支持的谓词。每个都必须能对**网表**直接判定，判不了就报 unknown，不猜。
 PREDICATES = ("footprint_forbidden", "part_forbidden", "net_name_required",
               "net_name_forbidden")
@@ -129,6 +134,11 @@ def load_rules(project_dir=None, explicit=None):
                 problems.append({"file": str(path), "error": f"读不出来: {exc}"})
                 continue
             if data.get("schema") != SCHEMA:
+                # 知识目录是三类文件共用的。认得的兄弟 schema 静默跳过；
+                # 只有**不认识的**才报错——否则自检会被一堆假问题淹没，
+                # 然后没人再看它（和误报太多的门禁一个下场）。
+                if data.get("schema") in SIBLING_SCHEMAS:
+                    continue
                 problems.append({"file": str(path),
                                  "error": f"schema 必须是 {SCHEMA}，实际 "
                                           f"{data.get('schema')!r}"})
