@@ -4,6 +4,46 @@
   "documentId": "664436e68d969739",
   "components": [
     {
+      "id": "cmp-C1",
+      "uniqueId": "gge12",
+      "ref": "C1",
+      "device": {
+        "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+        "deviceUuid": "0b5a7f30091b47f2a06c8afe232033da",
+        "name": "={Value}"
+      },
+      "footprint": "afa2f5629c104f29",
+      "footprintRef": {
+        "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+        "name": "C0603",
+        "uuid": "afa2f5629c104f29"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "x": 310,
+          "y": 620
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "x": 350,
+          "y": 620
+        }
+      ],
+      "placement": {
+        "x": 330,
+        "y": 620,
+        "bbox": {
+          "minX": 319.5,
+          "minY": 611.5,
+          "maxX": 340.5,
+          "maxY": 628.5
+        }
+      }
+    },
+    {
       "id": "cmp-D1",
       "uniqueId": "gge10",
       "ref": "D1",
@@ -451,21 +491,18 @@
         {
           "number": "5",
           "name": "5",
-          "connectionState": "unconnected",
           "x": 520,
           "y": 420
         },
         {
           "number": "6",
           "name": "6",
-          "connectionState": "unconnected",
           "x": 520,
           "y": 430
         },
         {
           "number": "7",
           "name": "7",
-          "connectionState": "unconnected",
           "x": 520,
           "y": 460
         },
@@ -539,6 +576,18 @@
     }
   ],
   "connections": [
+    {
+      "componentId": "cmp-C1",
+      "pinNumber": "1",
+      "netId": "net-d8c7ddc7a399ea76c2a90579ffc96c70208d8b4b7bed3f2b671dadee6afe5253",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-C1",
+      "pinNumber": "2",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
     {
       "componentId": "cmp-D1",
       "pinNumber": "1",
@@ -691,32 +740,27 @@
     },
     {
       "componentId": "cmp-U1",
+      "pinNumber": "5",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U1",
+      "pinNumber": "6",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U1",
+      "pinNumber": "7",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U1",
       "pinNumber": "8",
       "netId": "net-d8c7ddc7a399ea76c2a90579ffc96c70208d8b4b7bed3f2b671dadee6afe5253",
       "kind": "netlist"
-    }
-  ],
-  "issues": [
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U1",
-      "pinNumber": "5",
-      "message": "U1 pin 5 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U1",
-      "pinNumber": "6",
-      "message": "U1 pin 6 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U1",
-      "pinNumber": "7",
-      "message": "U1 pin 7 has no net and no NC marker"
     }
   ]
 }

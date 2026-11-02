@@ -257,3 +257,70 @@ KPI 查"结构/供电/一致性"。门禁在这里抓到了我自己漏掉的东
 
 补两个真缺陷（加去耦电容、处理悬空引脚）→ 补四条缺失证据 → 连续两轮 PASS → 通行证 →
 Gerber/BOM/卡片。
+
+---
+
+## 按门禁意见改板（2026-11-02）
+
+### 改了什么
+
+| 缺陷 | 修法 |
+|---|---|
+| #11 去耦缺失 | 加 **C1**（100nF / 0603 / C1591 三星 CL10B104KB8NNNC）接 PWR5V–GND |
+| #1 三个悬空引脚 | U1 的 pin5(IN2+) / pin6(IN2-) / pin7(OUT2) 全部接 GND |
+
+**第 2 条的取舍**：闲置比较器输入**不能浮空**——会自激、往同一片硅上灌噪声。
+标准做法是把两输入短接到同一确定电平。开集输出（pin7）接 GND 也无害：
+它本来就只能拉低，接低相当于常低。
+
+### 门禁复验：两条真缺陷确实消失了
+
+```
+改前: fail #1 unconnected (floating_pins=3)
+      fail #11 decoupling (decap_missing=1)
+
+改后: 两条都不在列表里了
+      新的 fail: #18 bom_match   ← 因为加了 C1，PCB 还没同步
+```
+
+**#18 冒出来是对的**，不是倒退：改了原理图、BOM 和 PCB 自然对不上。
+门禁在这里做的正是它该做的事。
+
+### 顺带踩到一个好错误信息
+
+查 C1591 时 `lib search` 报：
+
+```
+No device exactly matches LCSC id "C1591". The raw search returned 10 fuzzy
+candidate(s) whose LCSC field differs — re-run with allowFuzzy (CLI: --allow-fuzzy)
+to see them, or use "lib by-lcsc" for a deterministic lookup.
+```
+
+**它说了原因（模糊匹配不是精确匹配）、给了两个解法、还指明了命令。**
+按它说的用 `lib by-lcsc` 立刻拿到正确的 libraryUuid / uuid。
+
+同时注意到 daemon 有个降级机制：连续失败 4 次后
+`degraded: {consecutiveFailures: 4, degradedActions: ["schematic.library.search"]}`，
+但**错误信息照旧给全**——降级没有把它变成一句"内部错误"。
+
+### PCB 现在的真实状态：不是绿灯
+
+加 C1 后：
+
+| 步骤 | 结果 |
+|---|---|
+| `pcb import-changes` | 11 → **12** 个器件 |
+| `pcb auto-place` | 完成 |
+| `pcb outline-fit --margin 60` | allInside: true |
+| `pcb autoroute`（第 1 遍） | **6/8** 网络 |
+| `pcb autoroute`（第 2 遍） | successNetsCount: 0（没有更多可布的） |
+| `pcb drc` | **passed: false，17 项违规** |
+
+**从"8/8 布通、DRC 0 违规"退回到"6/8、17 违规"。** 这是加器件后重摆的正常代价，
+但必须如实说：**现在的 PCB 不是可交付状态**，需要重新布局或加大板框再布。
+
+### 剩下要做的
+
+- PCB 重新布通（6/8 → 8/8）并回到 DRC 0 违规
+- 补证据：`pin_mux`、`netlist_diff`、`readback`、`pcb_match`
+- 连续两轮 PASS → 通行证 → Gerber / BOM / 卡片

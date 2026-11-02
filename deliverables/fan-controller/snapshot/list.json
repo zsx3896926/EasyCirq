@@ -1,9 +1,9 @@
 {
-  "id": "req_166",
+  "id": "req_225",
   "type": "response",
   "version": "v1",
   "windowId": "2e722b8b-663e-48ab-a1c9-ba6e000bc68f",
-  "createdAt": "2026-11-02T02:39:27.6192172Z",
+  "createdAt": "2026-11-02T02:42:54.6438812Z",
   "ok": true,
   "result": {
     "components": [
@@ -42,7 +42,7 @@
           "@Project Name": "Fan-Controller-12V",
           "@Schematic Name": "Schematic1",
           "@Update Date": "2026-11-02",
-          "@Update Time": "09:17:49",
+          "@Update Time": "10:42:47",
           "Blade Width": "10",
           "Border": "1",
           "Color": "",
@@ -379,7 +379,7 @@
             "y": 470
           },
           {
-            "net": "",
+            "net": "GND",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "7",
@@ -390,7 +390,7 @@
             "y": 460
           },
           {
-            "net": "",
+            "net": "GND",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "6",
@@ -401,7 +401,7 @@
             "y": 430
           },
           {
-            "net": "",
+            "net": "GND",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "5",
@@ -1608,18 +1608,371 @@
         },
         "x": 860,
         "y": 520
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 340.5,
+          "maxY": 628.5,
+          "minX": 319.5,
+          "minY": 611.5
+        },
+        "component": {
+          "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+          "name": "CL10B104KB8NNNC",
+          "uuid": "c7714504166f427c"
+        },
+        "componentType": "part",
+        "designator": "C1",
+        "device": {
+          "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+          "name": "={Value}",
+          "uuid": "c7714504166f427c"
+        },
+        "footprint": {
+          "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+          "name": "C0603",
+          "uuid": "afa2f5629c104f29"
+        },
+        "manufacturer": "SAMSUNG(三星)",
+        "manufacturerId": "CL10B104KB8NNNC",
+        "mirror": false,
+        "name": "={Value}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160218/1457707763339.pdf",
+          "Description": "容值:100nF;精度:±10%;额定电压:50V;材质(温度系数):X7R;",
+          "JLCPCB Part Class": "扩展库",
+          "LCSC Part Name": "100nF ±10% 50V",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "0603",
+          "Temperature Coefficient": "X7R",
+          "Tolerance": "±10%",
+          "Value": "100nF",
+          "Voltage Rated": "50V"
+        },
+        "pins": [
+          {
+            "net": "PWR5V",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "92d0403f7f2149a5-e4",
+            "rotation": 180,
+            "x": 310,
+            "y": 620
+          },
+          {
+            "net": "GND",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "92d0403f7f2149a5-e10",
+            "rotation": 0,
+            "x": 350,
+            "y": 620
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "92d0403f7f2149a5",
+        "rotation": 0,
+        "subPartName": "CL10B104KB8NNNC.1",
+        "supplier": "LCSC",
+        "supplierId": "C1591",
+        "symbol": {
+          "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+          "name": "CL10B104KB8NNNC",
+          "uuid": "830dfcd582fd0d86"
+        },
+        "uniqueId": "gge12",
+        "x": 330,
+        "y": 620
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 280.5,
+          "maxY": 625.5,
+          "minX": 274.5,
+          "minY": 614.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "3aef82cf9165dfee"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "PWR5V",
+          "uuid": "3aef82cf9165dfee"
+        },
+        "mirror": false,
+        "name": "PWR5V",
+        "net": "PWR5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "PWR5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "d3b4526e86b142d6-e11",
+            "rotation": 0,
+            "x": 285,
+            "y": 620
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "d3b4526e86b142d6",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "197acd6d4b8badbf"
+        },
+        "x": 285,
+        "y": 620
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 389.5,
+          "maxY": 630.5,
+          "minX": 379.5,
+          "minY": 609.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "0c38e95e81b9474c-e15",
+            "rotation": 180,
+            "x": 370,
+            "y": 620
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "0c38e95e81b9474c",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "b240886b3d5bdfe6"
+        },
+        "x": 370,
+        "y": 620
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 589.5,
+          "maxY": 430.5,
+          "minX": 579.5,
+          "minY": 409.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "c596dca8e15d472c-e15",
+            "rotation": 180,
+            "x": 570,
+            "y": 420
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "c596dca8e15d472c",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "b240886b3d5bdfe6"
+        },
+        "x": 570,
+        "y": 420
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 559.5,
+          "maxY": 440.5,
+          "minX": 549.5,
+          "minY": 419.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "1c57b062cb87b081-e15",
+            "rotation": 180,
+            "x": 540,
+            "y": 430
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "1c57b062cb87b081",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "b240886b3d5bdfe6"
+        },
+        "x": 540,
+        "y": 430
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 594.5,
+          "maxY": 470.5,
+          "minX": 584.5,
+          "minY": 449.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "082523f08ff4b876"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "24e22ce6171c3b3d-e15",
+            "rotation": 180,
+            "x": 575,
+            "y": 460
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "24e22ce6171c3b3d",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "b240886b3d5bdfe6"
+        },
+        "x": 575,
+        "y": 460
       }
     ],
     "connectivitySummary": {
       "buses": 0,
-      "netflags": 10,
+      "netflags": 15,
       "netlabels": 0,
       "netports": 0,
       "scope": "activePage",
       "shortSymbols": 0,
-      "wires": 25
+      "wires": 30
     },
-    "count": 22,
+    "count": 28,
     "pagePrimitives": {
       "arcs": [],
       "attributes": [
@@ -1679,6 +2032,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "00e58179e7922ff5"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "c7714504166f427c",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "010c8a90569a1112"
         },
         {
           "AlignMode": null,
@@ -1835,6 +2207,25 @@
         {
           "AlignMode": null,
           "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "03dad851deb815f0"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
           "Color": "#000080",
           "FillColor": null,
           "FontName": null,
@@ -1878,6 +2269,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "082523f08ff4b876",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "0593007154f883a6"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "3D Model Transform",
           "KeyVisible": null,
           "ParentPrimitiveId": "0ede713fa9b45aa3",
@@ -1888,6 +2298,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "06b41dd77723a71d"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": 10,
+          "Italic": null,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "b240886b3d5bdfe6",
+          "ValueVisible": false,
+          "X": 400,
+          "Y": 620,
+          "primitiveId": "073e7d05f774fd52"
         },
         {
           "AlignMode": null,
@@ -1907,6 +2336,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "07a49fb915e3db84"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Convert to PCB",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "yes",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "08a323446738ef44"
         },
         {
           "AlignMode": null,
@@ -1994,6 +2442,25 @@
           "Italic": null,
           "Key": "3D Model Title",
           "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "0912ee553f346dbb"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
           "ParentPrimitiveId": "d3738ccb66907b50",
           "Rotation": null,
           "UnderLine": null,
@@ -2002,6 +2469,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "093a4e9a75a76dfa"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Group ID",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "093c5b9eb5cd676e"
         },
         {
           "AlignMode": null,
@@ -2346,6 +2832,25 @@
           "primitiveId": "0ff5599211c28ff1"
         },
         {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Global Net Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": false,
+          "X": 565,
+          "Y": 430,
+          "primitiveId": "106245f7e3589e44"
+        },
+        {
           "AlignMode": 3,
           "Bold": null,
           "Color": null,
@@ -2505,6 +3010,44 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Manufacturer",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "SAMSUNG(三星)",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "13e2d67f59ee71f0"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "13fa0c661edbc643"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Value",
           "KeyVisible": null,
           "ParentPrimitiveId": "a3b2dea3f6e8a629",
@@ -2543,6 +3086,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Supplier",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "LCSC",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "1664b472947d4287"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "3D Model",
           "KeyVisible": null,
           "ParentPrimitiveId": "a3b2dea3f6e8a629",
@@ -2572,6 +3134,25 @@
           "X": 215,
           "Y": 359.08502,
           "primitiveId": "16c218e7bcf7682e"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Supplier Footprint",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "0603",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "16c750285aa9c43c"
         },
         {
           "AlignMode": null,
@@ -2631,6 +3212,25 @@
           "primitiveId": "1757ccdbe4fdd486"
         },
         {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "62.992,31.496,0,0,0,0,0,0,0",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "17906310a6dc90c6"
+        },
+        {
           "AlignMode": 9,
           "Bold": null,
           "Color": null,
@@ -2667,6 +3267,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "183034cd994d2b29"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "f5ca49bd2167f454",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": true,
+          "X": 297.5,
+          "Y": 620,
+          "primitiveId": "187ae155439c4323"
         },
         {
           "AlignMode": null,
@@ -2783,6 +3402,25 @@
           "primitiveId": "1a21241aab56fcca"
         },
         {
+          "AlignMode": 3,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e4",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 324,
+          "Y": 618.08502,
+          "primitiveId": "1a391a05863bcef7"
+        },
+        {
           "AlignMode": null,
           "Bold": false,
           "Color": null,
@@ -2876,6 +3514,44 @@
           "X": 415,
           "Y": 239.08502,
           "primitiveId": "1d74445c5325c542"
+        },
+        {
+          "AlignMode": 7,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": "宋体",
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "0c38e95e81b9474c-e15",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 380,
+          "Y": 619,
+          "primitiveId": "1d79fe9cc80bd5d0"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "1df852b8358d6fee"
         },
         {
           "AlignMode": 3,
@@ -3028,6 +3704,25 @@
           "X": 506.3,
           "Y": 464.08502,
           "primitiveId": "232d2f8018162f1a"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "2340a9facb4f6b72"
         },
         {
           "AlignMode": 3,
@@ -3410,6 +4105,25 @@
           "primitiveId": "2c895afe1ca0deec"
         },
         {
+          "AlignMode": 8,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "d3b4526e86b142d6-e11",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Pin1",
+          "ValueVisible": false,
+          "X": 280,
+          "Y": 620,
+          "primitiveId": "2c9f6718184d54b8"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -3465,6 +4179,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "2d5426b2f10a5869"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "3aef82cf9165dfee",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "2da62766297c52e0"
         },
         {
           "AlignMode": 3,
@@ -3579,6 +4312,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "3203989790de84b6"
+        },
+        {
+          "AlignMode": 6,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "PWR5V",
+          "ValueVisible": true,
+          "X": 275,
+          "Y": 620,
+          "primitiveId": "3215a0d921d8166b"
         },
         {
           "AlignMode": null,
@@ -3740,6 +4492,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "容值:100nF;精度:±10%;额定电压:50V;材质(温度系数):X7R;",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "357a81db401319d4"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Manufacturer Part",
           "KeyVisible": null,
           "ParentPrimitiveId": "69309013c766f9a2",
@@ -3864,6 +4635,25 @@
           "X": 1051,
           "Y": 97,
           "primitiveId": "3996a86bb84173b9"
+        },
+        {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": true,
+          "X": 600,
+          "Y": 460,
+          "primitiveId": "3a0650ecc82d8b45"
         },
         {
           "AlignMode": 3,
@@ -3997,6 +4787,25 @@
           "X": 980,
           "Y": 400,
           "primitiveId": "3b7f6500fc54f6ea"
+        },
+        {
+          "AlignMode": null,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Designator",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "C1",
+          "ValueVisible": true,
+          "X": 320,
+          "Y": 630,
+          "primitiveId": "3bad2b157c1ab4a9"
         },
         {
           "AlignMode": null,
@@ -4588,6 +5397,25 @@
           "primitiveId": "482a22fcb8c60397"
         },
         {
+          "AlignMode": 2,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "0c38e95e81b9474c-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Pin1",
+          "ValueVisible": false,
+          "X": 380,
+          "Y": 620,
+          "primitiveId": "4911b2b9d31ee2aa"
+        },
+        {
           "AlignMode": 9,
           "Bold": false,
           "Color": null,
@@ -4702,6 +5530,25 @@
           "primitiveId": "4b91bbf3d7867791"
         },
         {
+          "AlignMode": null,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "830dfcd582fd0d86",
+          "ValueVisible": false,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "4bc575d1711ebd69"
+        },
+        {
           "AlignMode": 9,
           "Bold": null,
           "Color": null,
@@ -4797,6 +5644,25 @@
           "primitiveId": "4cedda088222b92b"
         },
         {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "24e22ce6171c3b3d-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "IN",
+          "ValueVisible": false,
+          "X": 575,
+          "Y": 460,
+          "primitiveId": "4cf7d8eb7d490051"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -4833,6 +5699,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "4d452cb1917f333e"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Voltage Rated",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "50V",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "4db256c726536930"
         },
         {
           "AlignMode": null,
@@ -5082,6 +5967,25 @@
           "primitiveId": "51bc5e8ea30ee03d"
         },
         {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Manufacturer Part",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "CL10B104KB8NNNC",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "5276c60a3acbf781"
+        },
+        {
           "AlignMode": 9,
           "Bold": false,
           "Color": null,
@@ -5184,6 +6088,44 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "5717a584893bf42d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "5498ec556c3e8822"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "00aa244648018e2c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "55dff9c52598122f"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Supplier Part",
           "KeyVisible": null,
           "ParentPrimitiveId": "c601fbaced4bafd8",
@@ -5194,6 +6136,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "563107f1e6bfe373"
+        },
+        {
+          "AlignMode": 7,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": "宋体",
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "c596dca8e15d472c-e15",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 580,
+          "Y": 419,
+          "primitiveId": "568b5998ac473290"
         },
         {
           "AlignMode": null,
@@ -5291,6 +6252,25 @@
           "primitiveId": "583f9464c00a462d"
         },
         {
+          "AlignMode": 9,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e10",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "2",
+          "ValueVisible": false,
+          "X": 336,
+          "Y": 618.08502,
+          "primitiveId": "58bdd5922e9dd276"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -5348,6 +6328,25 @@
           "primitiveId": "59358d7ec78e3854"
         },
         {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": true,
+          "X": 565,
+          "Y": 430,
+          "primitiveId": "59ae74119eb51dc0"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -5384,6 +6383,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "5aca6dc1380b5737"
+        },
+        {
+          "AlignMode": 2,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "c596dca8e15d472c-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Pin1",
+          "ValueVisible": false,
+          "X": 580,
+          "Y": 420,
+          "primitiveId": "5b538b6ac7c0f954"
         },
         {
           "AlignMode": 7,
@@ -5564,6 +6582,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Datasheet",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "https://atta.szlcsc.com/upload/public/pdf/source/20160218/1457707763339.pdf",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "5fd45305c509b0bb"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Description",
           "KeyVisible": null,
           "ParentPrimitiveId": "4fdfaa9890d2398d",
@@ -5593,6 +6630,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "604d7656cb64c64b"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "60bc643f2bb62d20"
         },
         {
           "AlignMode": null,
@@ -5688,6 +6744,25 @@
           "X": 745,
           "Y": 299.08502,
           "primitiveId": "62d528bae71c1c6e"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "62e973385df2aaec"
         },
         {
           "AlignMode": null,
@@ -5954,6 +7029,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "686efa4647412381"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "68f06105b61a2f53"
         },
         {
           "AlignMode": 9,
@@ -6267,6 +7361,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "dd53c71d8e9ade3e",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": true,
+          "X": 530,
+          "Y": 430,
+          "primitiveId": "6e93f29023da96a0"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "3D Model Transform",
           "KeyVisible": null,
           "ParentPrimitiveId": "845da4935acce865",
@@ -6438,6 +7551,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Unique ID",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "gge12",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "72ccd2b843e52911"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Name",
           "KeyVisible": false,
           "ParentPrimitiveId": "087670f4648528d9",
@@ -6505,6 +7637,25 @@
           "X": 1051,
           "Y": 117,
           "primitiveId": "73a82393245cbd97"
+        },
+        {
+          "AlignMode": 7,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": "宋体",
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "1c57b062cb87b081-e15",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 550,
+          "Y": 429,
+          "primitiveId": "73b45b881227c5cf"
         },
         {
           "AlignMode": 3,
@@ -6583,6 +7734,25 @@
           "primitiveId": "7567fa95772758dc"
         },
         {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "0c38e95e81b9474c-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "IN",
+          "ValueVisible": false,
+          "X": 370,
+          "Y": 620,
+          "primitiveId": "759a9c1ade66b305"
+        },
+        {
           "AlignMode": null,
           "Bold": false,
           "Color": null,
@@ -6647,6 +7817,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "C0603_L1.6-W0.8-H0.8",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "76e201f9dafd210e"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "LCSC Part Name",
           "KeyVisible": null,
           "ParentPrimitiveId": "98ec923289192efa",
@@ -6657,6 +7846,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "778cebcb0e63b2ab"
+        },
+        {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e4",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Undefined",
+          "ValueVisible": false,
+          "X": 310,
+          "Y": 620,
+          "primitiveId": "781e247e5cfafd0e"
         },
         {
           "AlignMode": null,
@@ -6951,6 +8159,44 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "082523f08ff4b876",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "7e3737461831425b"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": 10,
+          "Italic": null,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "b240886b3d5bdfe6",
+          "ValueVisible": false,
+          "X": 600,
+          "Y": 420,
+          "primitiveId": "7eac6b27edbdac96"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "LCSC Part Name",
           "KeyVisible": null,
           "ParentPrimitiveId": "ad2bafb86618cb3c",
@@ -7058,6 +8304,25 @@
           "primitiveId": "80899d4155513f00"
         },
         {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "c596dca8e15d472c-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "IN",
+          "ValueVisible": false,
+          "X": 570,
+          "Y": 420,
+          "primitiveId": "8111e677e1512480"
+        },
+        {
           "AlignMode": null,
           "Bold": false,
           "Color": null,
@@ -7160,6 +8425,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "836f0a5966e17c08"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "JLCPCB Part Class",
           "KeyVisible": null,
           "ParentPrimitiveId": "a3b2dea3f6e8a629",
@@ -7208,6 +8492,25 @@
           "X": 550,
           "Y": 470,
           "primitiveId": "84bfe6e015d4391e"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "8505e3a23fee0c3c"
         },
         {
           "AlignMode": null,
@@ -7324,6 +8627,25 @@
           "primitiveId": "870f960ac06e0ce7"
         },
         {
+          "AlignMode": 2,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "1c57b062cb87b081-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Pin1",
+          "ValueVisible": false,
+          "X": 550,
+          "Y": 430,
+          "primitiveId": "877da5db16949573"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -7398,6 +8720,44 @@
           "X": null,
           "Y": 0,
           "primitiveId": "8a3a11b17c8a6c34"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "082523f08ff4b876",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "8a40394596c5e946"
+        },
+        {
+          "AlignMode": 6,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Global Net Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "PWR5V",
+          "ValueVisible": false,
+          "X": 275,
+          "Y": 620,
+          "primitiveId": "8a4d5ef0ce645024"
         },
         {
           "AlignMode": null,
@@ -7609,6 +8969,25 @@
           "primitiveId": "8c42e48cf9f471f6"
         },
         {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": true,
+          "X": 395,
+          "Y": 620,
+          "primitiveId": "8c7bba678c21afd6"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -7704,6 +9083,25 @@
           "primitiveId": "8d33a4366a99c04a"
         },
         {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "8ddf47f9c00b96cb"
+        },
+        {
           "AlignMode": 9,
           "Bold": false,
           "Color": null,
@@ -7759,6 +9157,44 @@
           "X": null,
           "Y": 0,
           "primitiveId": "8eafe5b821dd0e01"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "e387161bb8cbbf6c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "8f33c17b41369cc5"
+        },
+        {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "1c57b062cb87b081-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "IN",
+          "ValueVisible": false,
+          "X": 540,
+          "Y": 430,
+          "primitiveId": "8faf6a0b5e6aab5c"
         },
         {
           "AlignMode": null,
@@ -7970,6 +9406,25 @@
           "primitiveId": "94306a073f390d97"
         },
         {
+          "AlignMode": 7,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": "宋体",
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "24e22ce6171c3b3d-e15",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 585,
+          "Y": 459,
+          "primitiveId": "94be8f63a475f79d"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -8082,6 +9537,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "95c5feb7084414a5"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "={Value}",
+          "ValueVisible": true,
+          "X": 320,
+          "Y": 600,
+          "primitiveId": "95de467d8bab9560"
         },
         {
           "AlignMode": null,
@@ -8205,6 +9679,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Value",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "100nF",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "97e37532604d5122"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Symbol",
           "KeyVisible": false,
           "ParentPrimitiveId": "451c87a100937780",
@@ -8274,6 +9767,44 @@
           "primitiveId": "98d74db06b25a36a"
         },
         {
+          "AlignMode": 9,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e4",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 316,
+          "Y": 622.08502,
+          "primitiveId": "98f0e40570bc6b99"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "Power-5V",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "98fa7ca71c65a1dd"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -8310,6 +9841,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "99f073f6d885b755"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Channel ID",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "99fc2373e7f75d42"
         },
         {
           "AlignMode": 9,
@@ -8395,6 +9945,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "9c03c657c6b36ab2"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Relevance",
           "KeyVisible": null,
           "ParentPrimitiveId": "66750d91db6022c8",
@@ -8405,6 +9974,44 @@
           "X": null,
           "Y": 0,
           "primitiveId": "9cf8b8a4cc786063"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Supplier Part",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "C1591",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "9d1645d163e78316"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Reuse Block",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "9d6be3b435e289c8"
         },
         {
           "AlignMode": null,
@@ -8633,6 +10240,25 @@
           "X": 760,
           "Y": 440,
           "primitiveId": "a1743e1991893e1d"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "f5ca49bd2167f454",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "a1cb4171209a022c"
         },
         {
           "AlignMode": 5,
@@ -8984,6 +10610,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "a901e2bd4e3309e3"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "@Page Name",
           "KeyVisible": null,
           "ParentPrimitiveId": "1dcf56b22752f491",
@@ -9250,6 +10895,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "af357d62be90da0b"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Description",
           "KeyVisible": null,
           "ParentPrimitiveId": "1dcf56b22752f491",
@@ -9490,6 +11154,25 @@
           "primitiveId": "b5d451ae7ef53d9a"
         },
         {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Global Net Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": false,
+          "X": 600,
+          "Y": 460,
+          "primitiveId": "b610b9f7a7429852"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -9507,6 +11190,25 @@
           "X": 230,
           "Y": 520,
           "primitiveId": "b6729bdb10f29745"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Temperature Coefficient",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "X7R",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "b692283bd1d68863"
         },
         {
           "AlignMode": null,
@@ -9602,6 +11304,63 @@
           "X": 515,
           "Y": 470,
           "primitiveId": "b78641fa2a4f39a4"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Transform",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "b7866ab7bc550eb7"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": 10,
+          "Italic": null,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "b240886b3d5bdfe6",
+          "ValueVisible": false,
+          "X": 605,
+          "Y": 460,
+          "primitiveId": "b7c603fa31f2dd3a"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "b836c9c9e72b781f"
         },
         {
           "AlignMode": null,
@@ -10022,6 +11781,25 @@
           "primitiveId": "bf356ce4cf6a990b"
         },
         {
+          "AlignMode": 7,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "d3b4526e86b142d6-e11",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "1",
+          "ValueVisible": false,
+          "X": 280.5,
+          "Y": 620,
+          "primitiveId": "bf9dc5499f401b8e"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -10058,6 +11836,25 @@
           "X": 405,
           "Y": 235.08502,
           "primitiveId": "c0947d2aa0566617"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "5717a584893bf42d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": true,
+          "X": 360,
+          "Y": 620,
+          "primitiveId": "c1046bb54a4f5f19"
         },
         {
           "AlignMode": null,
@@ -10250,6 +12047,25 @@
           "primitiveId": "c2e66d04ee209e55"
         },
         {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Footprint",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "afa2f5629c104f29",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "c304e61ccc87a5da"
+        },
+        {
           "AlignMode": 5,
           "Bold": null,
           "Color": null,
@@ -10331,6 +12147,25 @@
           "Color": null,
           "FillColor": null,
           "FontName": null,
+          "FontSize": 10,
+          "Italic": null,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "b240886b3d5bdfe6",
+          "ValueVisible": false,
+          "X": 570,
+          "Y": 430,
+          "primitiveId": "c5730fcdc0d52178"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
           "FontSize": null,
           "Italic": null,
           "Key": "Reuse Block",
@@ -10381,6 +12216,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "c5d4772fa6004a9f"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "e387161bb8cbbf6c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": true,
+          "X": 545,
+          "Y": 420,
+          "primitiveId": "c605c6b7578e2b55"
         },
         {
           "AlignMode": null,
@@ -10504,6 +12358,63 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "LCSC Part Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "100nF ±10% 50V",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "c83aebec72f2dc24"
+        },
+        {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Global Net Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "0c38e95e81b9474c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": false,
+          "X": 395,
+          "Y": 620,
+          "primitiveId": "c875cf1edc9cadf3"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "c8f3d6bcb6521815"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Relevance",
           "KeyVisible": null,
           "ParentPrimitiveId": "4c047ab795a3ab14",
@@ -10571,6 +12482,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "cabe7413e4753471"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "cad8468d92f17973"
         },
         {
           "AlignMode": 9,
@@ -10884,6 +12814,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "00aa244648018e2c",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": true,
+          "X": 547.5,
+          "Y": 460,
+          "primitiveId": "d080c96bd8363168"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Footprint",
           "KeyVisible": null,
           "ParentPrimitiveId": "422572d3af6b3598",
@@ -10913,6 +12862,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "d1e2f0d27d674305"
+        },
+        {
+          "AlignMode": 2,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "24e22ce6171c3b3d-e15",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Pin1",
+          "ValueVisible": false,
+          "X": 585,
+          "Y": 460,
+          "primitiveId": "d2013ff0ce9bc6d4"
         },
         {
           "AlignMode": null,
@@ -10989,6 +12957,44 @@
           "X": 150,
           "Y": 360,
           "primitiveId": "d48be0d8bb2def4d"
+        },
+        {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Name",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": true,
+          "X": 595,
+          "Y": 420,
+          "primitiveId": "d4c6c36bade4feec"
+        },
+        {
+          "AlignMode": 5,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Global Net Name",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "c596dca8e15d472c",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "GND",
+          "ValueVisible": false,
+          "X": 595,
+          "Y": 420,
+          "primitiveId": "d4e1252b1366f812"
         },
         {
           "AlignMode": null,
@@ -11162,6 +13168,25 @@
           "primitiveId": "d889594efa3424fe"
         },
         {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Device",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "082523f08ff4b876",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "d8a595d3747fb505"
+        },
+        {
           "AlignMode": 3,
           "Bold": null,
           "Color": null,
@@ -11217,6 +13242,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "d9a981ec91d4f820"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "da48f5abd2848022"
         },
         {
           "AlignMode": null,
@@ -11283,6 +13327,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "db958dc1ab49c95f"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "JLCPCB Part Class",
           "KeyVisible": null,
           "ParentPrimitiveId": "4fdfaa9890d2398d",
@@ -11331,6 +13394,25 @@
           "X": 449.5,
           "Y": 439.08502,
           "primitiveId": "dbfaa98c1a8aba0a"
+        },
+        {
+          "AlignMode": 3,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e10",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "Undefined",
+          "ValueVisible": false,
+          "X": 350,
+          "Y": 620,
+          "primitiveId": "dc05fb53ad5e17b2"
         },
         {
           "AlignMode": null,
@@ -11388,6 +13470,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "dea3a6ac14963dad"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Add into BOM",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "yes",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "def33115b0704f0a"
         },
         {
           "AlignMode": null,
@@ -11464,6 +13565,25 @@
           "X": 599,
           "Y": 57,
           "primitiveId": "e06b84618bfb8605"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Relevance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "dd53c71d8e9ade3e",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "[]",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "e082ab691516208d"
         },
         {
           "AlignMode": null,
@@ -11580,6 +13700,44 @@
           "primitiveId": "e202cd29843283c8"
         },
         {
+          "AlignMode": 7,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Pin Type",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "d3b4526e86b142d6-e11",
+          "Rotation": 0,
+          "UnderLine": null,
+          "Value": "IN",
+          "ValueVisible": false,
+          "X": 287,
+          "Y": 606,
+          "primitiveId": "e216fe2fd5fb3b74"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Tolerance",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "±10%",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "e2af26f005fe495b"
+        },
+        {
           "AlignMode": null,
           "Bold": null,
           "Color": null,
@@ -11673,6 +13831,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "e58040705c65bf09"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "PCB Layer",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "Default",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "e5a456b1270e1786"
         },
         {
           "AlignMode": 3,
@@ -11787,6 +13964,63 @@
           "X": null,
           "Y": 0,
           "primitiveId": "e6ea932368c1a145"
+        },
+        {
+          "AlignMode": 3,
+          "Bold": false,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": false,
+          "Key": "Pin Number",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "92d0403f7f2149a5-e10",
+          "Rotation": 0,
+          "UnderLine": false,
+          "Value": "2",
+          "ValueVisible": false,
+          "X": 344,
+          "Y": 622.08502,
+          "primitiveId": "e700503e012dccf5"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "JLCPCB Part Class",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "扩展库",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "e75beb5bd9f3d9cd"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "Description",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "1c57b062cb87b081",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "e79351980fb2fe11"
         },
         {
           "AlignMode": null,
@@ -11986,6 +14220,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "ed445ff030112ea7"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Manufacturer",
           "KeyVisible": null,
           "ParentPrimitiveId": "8c7f2b641005deb3",
@@ -12113,6 +14366,25 @@
         },
         {
           "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "ef24a7365629312a"
+        },
+        {
+          "AlignMode": null,
           "Bold": false,
           "Color": null,
           "FillColor": null,
@@ -12186,6 +14458,25 @@
           "X": 380,
           "Y": 420.99999999999994,
           "primitiveId": "f0c400f4d2c1634f"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model Title",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "24e22ce6171c3b3d",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "f12841ba5825c4b1"
         },
         {
           "AlignMode": null,
@@ -12547,6 +14838,25 @@
           "X": null,
           "Y": 0,
           "primitiveId": "f56e0aa994edc403"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
+          "Key": "3D Model",
+          "KeyVisible": null,
+          "ParentPrimitiveId": "92d0403f7f2149a5",
+          "Rotation": null,
+          "UnderLine": null,
+          "Value": "ac125912035d415993ca9572d50418b1|78757fbff56447419bdcfbdb07cfbf65",
+          "ValueVisible": null,
+          "X": null,
+          "Y": 0,
+          "primitiveId": "f5749fe9e217402d"
         },
         {
           "AlignMode": null,
@@ -12974,6 +15284,25 @@
           "FontName": null,
           "FontSize": null,
           "Italic": null,
+          "Key": "Symbol",
+          "KeyVisible": false,
+          "ParentPrimitiveId": "d3b4526e86b142d6",
+          "Rotation": 90,
+          "UnderLine": null,
+          "Value": "197acd6d4b8badbf",
+          "ValueVisible": false,
+          "X": 315,
+          "Y": 620,
+          "primitiveId": "fe89d3478a12fcbb"
+        },
+        {
+          "AlignMode": null,
+          "Bold": null,
+          "Color": null,
+          "FillColor": null,
+          "FontName": null,
+          "FontSize": null,
+          "Italic": null,
           "Key": "Manufacturer",
           "KeyVisible": null,
           "ParentPrimitiveId": "4fdfaa9890d2398d",
@@ -13087,6 +15416,39 @@
             "Global Net Name": "GND",
             "Relevance": "[]"
           },
+          "primitiveId": "0c38e95e81b9474c",
+          "rotation": 90,
+          "subPartName": "pid8a0e77bacb214e",
+          "symbol": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "b240886b3d5bdfe6"
+          },
+          "x": 370,
+          "y": 620
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "componentType": "netflag",
+          "device": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "mirror": false,
+          "name": "GND",
+          "net": "GND",
+          "otherProperty": {
+            "Description": "",
+            "Global Net Name": "GND",
+            "Relevance": "[]"
+          },
           "primitiveId": "0ede713fa9b45aa3",
           "rotation": 90,
           "subPartName": "pid8a0e77bacb214e",
@@ -13130,6 +15492,39 @@
           },
           "x": 240,
           "y": 520
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "componentType": "netflag",
+          "device": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "mirror": false,
+          "name": "GND",
+          "net": "GND",
+          "otherProperty": {
+            "Description": "",
+            "Global Net Name": "GND",
+            "Relevance": "[]"
+          },
+          "primitiveId": "1c57b062cb87b081",
+          "rotation": 90,
+          "subPartName": "pid8a0e77bacb214e",
+          "symbol": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "b240886b3d5bdfe6"
+          },
+          "x": 540,
+          "y": 430
         },
         {
           "addIntoBom": true,
@@ -13187,6 +15582,39 @@
           },
           "x": 0,
           "y": 0
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "componentType": "netflag",
+          "device": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "mirror": false,
+          "name": "GND",
+          "net": "GND",
+          "otherProperty": {
+            "Description": "",
+            "Global Net Name": "GND",
+            "Relevance": "[]"
+          },
+          "primitiveId": "24e22ce6171c3b3d",
+          "rotation": 90,
+          "subPartName": "pid8a0e77bacb214e",
+          "symbol": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "b240886b3d5bdfe6"
+          },
+          "x": 575,
+          "y": 460
         },
         {
           "addIntoBom": true,
@@ -13559,6 +15987,57 @@
           "addIntoBom": true,
           "addIntoPcb": true,
           "component": {
+            "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+            "name": "CL10B104KB8NNNC",
+            "uuid": "c7714504166f427c"
+          },
+          "componentType": "part",
+          "designator": "C1",
+          "device": {
+            "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+            "name": "={Value}",
+            "uuid": "c7714504166f427c"
+          },
+          "footprint": {
+            "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+            "name": "C0603",
+            "uuid": "afa2f5629c104f29"
+          },
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturerId": "CL10B104KB8NNNC",
+          "mirror": false,
+          "name": "={Value}",
+          "net": "",
+          "otherProperty": {
+            "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160218/1457707763339.pdf",
+            "Description": "容值:100nF;精度:±10%;额定电压:50V;材质(温度系数):X7R;",
+            "JLCPCB Part Class": "扩展库",
+            "LCSC Part Name": "100nF ±10% 50V",
+            "PCB Layer": "Default",
+            "Supplier Footprint": "0603",
+            "Temperature Coefficient": "X7R",
+            "Tolerance": "±10%",
+            "Value": "100nF",
+            "Voltage Rated": "50V"
+          },
+          "primitiveId": "92d0403f7f2149a5",
+          "rotation": 0,
+          "subPartName": "CL10B104KB8NNNC.1",
+          "supplier": "LCSC",
+          "supplierId": "C1591",
+          "symbol": {
+            "libraryUuid": "78757fbff56447419bdcfbdb07cfbf65",
+            "name": "CL10B104KB8NNNC",
+            "uuid": "830dfcd582fd0d86"
+          },
+          "uniqueId": "gge12",
+          "x": 330,
+          "y": 620
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
             "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
             "name": "1N4148W",
             "uuid": "6228b7bcef44e6d9"
@@ -13724,6 +16203,39 @@
           "addIntoPcb": true,
           "component": {
             "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "componentType": "netflag",
+          "device": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "GND",
+            "uuid": "082523f08ff4b876"
+          },
+          "mirror": false,
+          "name": "GND",
+          "net": "GND",
+          "otherProperty": {
+            "Description": "",
+            "Global Net Name": "GND",
+            "Relevance": "[]"
+          },
+          "primitiveId": "c596dca8e15d472c",
+          "rotation": 90,
+          "subPartName": "pid8a0e77bacb214e",
+          "symbol": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Ground-GND",
+            "uuid": "b240886b3d5bdfe6"
+          },
+          "x": 570,
+          "y": 420
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
             "name": "0603WAF4301T5E",
             "uuid": "06e382eff6de1e0f"
           },
@@ -13849,6 +16361,39 @@
           "uniqueId": "gge9",
           "x": 860,
           "y": 560
+        },
+        {
+          "addIntoBom": true,
+          "addIntoPcb": true,
+          "component": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Power-5V",
+            "uuid": "3aef82cf9165dfee"
+          },
+          "componentType": "netflag",
+          "device": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "PWR5V",
+            "uuid": "3aef82cf9165dfee"
+          },
+          "mirror": false,
+          "name": "PWR5V",
+          "net": "PWR5V",
+          "otherProperty": {
+            "Description": "Power-5V",
+            "Global Net Name": "PWR5V",
+            "Relevance": "[]"
+          },
+          "primitiveId": "d3b4526e86b142d6",
+          "rotation": 90,
+          "subPartName": "pid8a0e77bacb214e",
+          "symbol": {
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "name": "Power-5V",
+            "uuid": "197acd6d4b8badbf"
+          },
+          "x": 285,
+          "y": 620
         },
         {
           "addIntoBom": true,
@@ -14077,6 +16622,14 @@
           "primitiveId": "8c7f2b641005deb3-e9"
         },
         {
+          "componentId": "92d0403f7f2149a5",
+          "primitiveId": "92d0403f7f2149a5-e10"
+        },
+        {
+          "componentId": "92d0403f7f2149a5",
+          "primitiveId": "92d0403f7f2149a5-e4"
+        },
+        {
           "componentId": "98ec923289192efa",
           "primitiveId": "98ec923289192efa-e3"
         },
@@ -14141,6 +16694,19 @@
       "rectangles": [],
       "texts": [],
       "wires": [
+        {
+          "Color": null,
+          "Line": [
+            575,
+            460,
+            520,
+            460
+          ],
+          "LineType": null,
+          "LineWidth": null,
+          "Net": "",
+          "primitiveId": "00aa244648018e2c"
+        },
         {
           "Color": null,
           "Line": [
@@ -14296,6 +16862,19 @@
           "LineWidth": null,
           "Net": "ALARM",
           "primitiveId": "4a7a83c86c60f694"
+        },
+        {
+          "Color": null,
+          "Line": [
+            370,
+            620,
+            350,
+            620
+          ],
+          "LineType": null,
+          "LineWidth": null,
+          "Net": "",
+          "primitiveId": "5717a584893bf42d"
         },
         {
           "Color": null,
@@ -14465,6 +17044,45 @@
           "LineWidth": null,
           "Net": "",
           "primitiveId": "d14add7f005ad8f7"
+        },
+        {
+          "Color": null,
+          "Line": [
+            540,
+            430,
+            520,
+            430
+          ],
+          "LineType": null,
+          "LineWidth": null,
+          "Net": "",
+          "primitiveId": "dd53c71d8e9ade3e"
+        },
+        {
+          "Color": null,
+          "Line": [
+            570,
+            420,
+            520,
+            420
+          ],
+          "LineType": null,
+          "LineWidth": null,
+          "Net": "",
+          "primitiveId": "e387161bb8cbbf6c"
+        },
+        {
+          "Color": null,
+          "Line": [
+            285,
+            620,
+            310,
+            620
+          ],
+          "LineType": null,
+          "LineWidth": null,
+          "Net": "",
+          "primitiveId": "f5ca49bd2167f454"
         }
       ]
     },
@@ -14869,6 +17487,86 @@
         "x1": 940,
         "y0": 400,
         "y1": 400
+      },
+      {
+        "net": "",
+        "primitiveId": "f5ca49bd2167f454",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          285,
+          620,
+          310,
+          620
+        ],
+        "segmentIndex": 0,
+        "x0": 285,
+        "x1": 310,
+        "y0": 620,
+        "y1": 620
+      },
+      {
+        "net": "",
+        "primitiveId": "5717a584893bf42d",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          370,
+          620,
+          350,
+          620
+        ],
+        "segmentIndex": 0,
+        "x0": 370,
+        "x1": 350,
+        "y0": 620,
+        "y1": 620
+      },
+      {
+        "net": "",
+        "primitiveId": "e387161bb8cbbf6c",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          570,
+          420,
+          520,
+          420
+        ],
+        "segmentIndex": 0,
+        "x0": 570,
+        "x1": 520,
+        "y0": 420,
+        "y1": 420
+      },
+      {
+        "net": "",
+        "primitiveId": "dd53c71d8e9ade3e",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          540,
+          430,
+          520,
+          430
+        ],
+        "segmentIndex": 0,
+        "x0": 540,
+        "x1": 520,
+        "y0": 430,
+        "y1": 430
+      },
+      {
+        "net": "",
+        "primitiveId": "00aa244648018e2c",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          575,
+          460,
+          520,
+          460
+        ],
+        "segmentIndex": 0,
+        "x0": 575,
+        "x1": 520,
+        "y0": 460,
+        "y1": 460
       }
     ],
     "wiresAvailable": true
@@ -14890,6 +17588,6 @@
     "pageVisibility": "hidden"
   },
   "mutationContextAvailable": true,
-  "seq": 574,
+  "seq": 629,
   "seqAbandoned": 0
 }

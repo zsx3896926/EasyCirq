@@ -1,5 +1,5 @@
 {
-  "id": "req_176",
+  "id": "req_235",
   "ok": true,
   "result": {
     "passed": true,
@@ -9,10 +9,10 @@
     "summary": {
       "fatal": 0,
       "error": 0,
-      "warn": 3,
+      "warn": 2,
       "info": 0,
       "unknown": 0,
-      "total": 3
+      "total": 2
     },
     "violations": [
       {
@@ -45,35 +45,6 @@
             }
           ],
           "rule": "ATTRMATCHCODE",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "CHECKFLOATPIN",
-        "raw": {
-          "primitives": [
-            {
-              "designator": "U1",
-              "name": "7",
-              "primitiveId": "69309013c766f9a2-e21",
-              "sheet": "664436e68d969739"
-            },
-            {
-              "designator": "U1",
-              "name": "6",
-              "primitiveId": "69309013c766f9a2-e25",
-              "sheet": "664436e68d969739"
-            },
-            {
-              "designator": "U1",
-              "name": "5",
-              "primitiveId": "69309013c766f9a2-e29",
-              "sheet": "664436e68d969739"
-            }
-          ],
-          "rule": "CHECKFLOATPIN",
           "type": "warn"
         }
       }
