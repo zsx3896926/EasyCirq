@@ -54,6 +54,68 @@ func TestBapBlockRect_UsesRealHalfExtent(t *testing.T) {
 	}
 }
 
+
+// 「找不到位置」的两种原因必须分开说（2026-11-02 实测）。
+//
+// 一块 1000×460 的块放进 1146×801 的可用区，**装得下**。但那张页上已经有 11 个器件，
+// 拼不出空位，于是扫描失败。原来的文案对此一律说：
+//
+//	"整张图纸都找不到放得下的位置（块估算 1000×460，可用区 1146×801）
+//	 — 这张图是废的：换更大图纸、拆到别的页，或先清出空间"
+//
+// 它一边报出「1000×460 对 1146×801」这两个数，一边断言放不下——**文案自己自相矛盾**。
+// 更糟的是它给出的补救动作（换图纸/拆块）是错的：真正该做的是清空位。
+func TestBapResolveOrigin_SeparatesTooBigFromPageFull(t *testing.T) {
+	sheet := &layoutBBox{MinX: 0, MinY: 0, MaxX: 1170, MaxY: 825}
+	// 块比可用区小，但页面上布满障碍物，任何位置都躲不开。
+	offsets := map[string]bapRoleOffset{"U": {dx: 0, dy: 0}}
+	half := func(string) float64 { return 50 } // 块约 100×100
+	crowd := []layoutBBox{
+		{MinX: -50, MinY: -50, MaxX: 1200, MaxY: 400},
+		{MinX: -50, MinY: 500, MaxX: 1200, MaxY: 900},
+	}
+	// 原点放在图纸右下角之外：这样才会走到「--at 出界」那条分支。
+	// 放一张空页上是能自动挪进来的，但页面被占满时挪不动 —— 这才是我要测的情形。
+	_, _, origin, warns := bapResolveOrigin(bapInput{
+		OriginX: 1150, OriginY: 810, AtExplicit: true,
+		Sheet: sheet, Obstacles: crowd,
+	}, offsets, half)
+	if len(warns) == 0 {
+		t.Fatal("want a warning when nothing fits")
+	}
+	msg := warns[0]
+	if strings.Contains(msg, "块本身") && strings.Contains(msg, "大") {
+		t.Errorf("块明显小于可用区，不许归因为「块太大」:\n%s", msg)
+	}
+	if !strings.Contains(msg, "放得进") {
+		t.Errorf("页面满时必须明说块放得进、原因是页面占满:\n%s", msg)
+	}
+	if !strings.Contains(msg, "清出空间") || !strings.Contains(msg, "挪开") {
+		t.Errorf("页面满时的补救动作应指向清空位/挪器件:\n%s", msg)
+	}
+	_ = origin
+}
+
+// 反过来：块**比可用区大**时，边界谓词是有意关掉的（cmd_sch_block_apply.go 614 行
+// 的注释解释过：此时 inBounds 恒 false 会让 96 个候选全否决，回落到原坐标压在已有
+// 器件上，比不加边界约束更糟）。所以那条「出界」告警对超大块**不该**出现。
+//
+// 这条用例把这个既有设计钉住：如果有人"顺手"让超大块也走边界检查，
+// 这个测试会红，提醒他先读那段注释。
+func TestBapResolveOrigin_OversizeBlockSkipsBoundsWarning(t *testing.T) {
+	sheet := &layoutBBox{MinX: 0, MinY: 0, MaxX: 400, MaxY: 300}
+	offsets := map[string]bapRoleOffset{"U": {dx: 0, dy: 0}, "BIG": {dx: 1200, dy: 1200}}
+	half := func(string) float64 { return 100 }
+	_, _, _, warns := bapResolveOrigin(bapInput{
+		OriginX: 380, OriginY: 280, AtExplicit: true, Sheet: sheet,
+	}, offsets, half)
+	for _, w := range warns {
+		if strings.Contains(w, "放得进") || strings.Contains(w, "块本身") {
+			t.Errorf("超大块不应走出界告警（边界检查对它是有意关闭的）:\n%s", w)
+		}
+	}
+}
+
 // Fix B:图纸边界必须**参与搜索**。种子原点贴着图纸右缘时,搜出来的原点不许让
 // 块探出可用区。
 func TestBapResolveOrigin_KeepsBlockInsideSheet(t *testing.T) {

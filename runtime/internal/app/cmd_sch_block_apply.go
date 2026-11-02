@@ -650,13 +650,25 @@ func bapResolveOriginEdge(in bapInput, offsets map[string]bapRoleOffset, half fu
 					in.Sheet.MinX, in.Sheet.MinY, in.Sheet.MaxX, in.Sheet.MaxY, sheetEdgeMinGap,
 					nx, ny)}
 			}
-			// 连有界扫描都找不到:图纸真的塞不下这一块。此刻画布**还没动过**,
-			// 大声说出来比放到纸外强 —— 出界的块后面每一步(分区、导出、评审)都是坏的。
+			// 连有界扫描都找不到。此刻画布**还没动过**,大声说出来比放到纸外强 ——
+			// 出界的块后面每一步(分区、导出、评审)都是坏的。
+			//
+			// 但「找不到位置」有**两种完全不同的原因**,原来的文案把它们混成了一句,
+			// 而且混错了(2026-11-02 实测):一块 1000×460 的块放进 1146×801 的可用区,
+			// 明明装得下,却被告知"整张图纸都找不到放得下的位置……这张图是废的",
+			// 真正的原因是那张页上已经有 11 个器件,拼不出空位。
+			// 「块太大」让人去换图纸/拆块,「页面太满」让人去清空位 —— 补救动作不同,
+			// 所以必须按 oversize 分开说。
+			// 这条只有**块放得进、但空位被占满**时才走得到：oversize 为真时上面
+			// 根本没设 inBounds（有意为之，见 614 行），出界分支不可达。
+			// 所以文案只保留这一种原因，不再假装它能区分两种情况。
+			blockW, blockH := rect.MaxX-rect.MinX, rect.MaxY-rect.MinY
+			usableW, usableH := usable.MaxX-usable.MinX, usable.MaxY-usable.MinY
 			return in.OriginX, in.OriginY, origin, []string{fmt.Sprintf(
-				"--at (%.0f,%.0f) 会让这一块超出图纸可用区,且整张图纸都找不到放得下的位置(块估算 %.0f×%.0f,可用区 %.0f×%.0f)— 照你的坐标放置,但这张图是废的:换更大图纸、拆到别的页,或先清出空间",
-				in.OriginX, in.OriginY,
-				rect.MaxX-rect.MinX, rect.MaxY-rect.MinY,
-				usable.MaxX-usable.MinX, usable.MaxY-usable.MinY)}
+				"--at (%.0f,%.0f) 会让这一块超出图纸可用区；块尺寸 %.0f×%.0f 是**放得进**可用区 %.0f×%.0f 的，"+
+					"所以原因不是块太大，而是这张页上已有的器件把空位占满了 —— 清出空间、换一页空图，或先挪开已有器件"+
+					"（仍然按你给的坐标放置，但这张图是废的）",
+				in.OriginX, in.OriginY, blockW, blockH, usableW, usableH)}
 		}
 		return in.OriginX, in.OriginY, origin, []string{
 			"--at 指定的原点与已有图元(器件本体 / marker 连名字带 / 本块 marker 晕圈)或标题栏图签重叠 — 按你的坐标照常放置(显式 --at 优先);放完请跑 `sch layout-lint` + `sch clusters` 确认"}
