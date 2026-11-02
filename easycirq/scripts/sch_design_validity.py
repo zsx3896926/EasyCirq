@@ -197,6 +197,76 @@ def find_divider(netlist: dict, nets: dict, node: str, rail: str, ground: str):
     return to_rail, to_ground
 
 
+def threshold_specs(intent: dict) -> list:
+    """意图里声明的阈值规格，可能有多组（窗口比较器、双阈值报警）。
+
+    两种写法都接受：
+      "threshold":  { ... }           单比较器（旧写法，全部既有文件都用它）
+      "thresholds": [ {...}, {...} ]  多比较器（新写法）
+
+    单数值数组也容忍：`"thresholds": [ {...} ]` 等价于单比较器。
+    """
+    many = intent.get("thresholds")
+    if isinstance(many, list) and many:
+        return [spec for spec in many if isinstance(spec, dict)]
+    single = intent.get("threshold")
+    if isinstance(single, dict):
+        return [single]
+    return []
+
+
+def run_per_spec(check_fn, check_id, specs, netlist, nets, intent, findings):
+    """对每一组阈值规格各跑一遍，把结果聚合成一条检查。
+
+    聚合规则要保证"多比较器板不比单比较器板更宽松"：
+      - 任何一组 fail          → fail
+      - 否则任何一组 unknown   → unknown
+      - 否则任何一组 not_run   → not_run
+      - 全 pass                → pass
+
+    `per_comparator` 里保留每组的完整 metrics，单比较器板不写这个字段，
+    所以既有的读取方式（check["metrics"]）在单组时行为不变。
+    """
+    runs = []
+    for spec in specs:
+        local_findings = []
+        sub_intent = dict(intent)
+        sub_intent.pop("thresholds", None)
+        sub_intent["threshold"] = spec
+        result = check_fn(netlist, nets, sub_intent, local_findings)
+        findings.extend(local_findings)
+        runs.append(result)
+
+    statuses = [r.get("status") for r in runs]
+    if "fail" in statuses:
+        worst = "fail"
+    elif "unknown" in statuses:
+        worst = "unknown"
+    elif "not_run" in statuses:
+        worst = "not_run"
+    elif all(s == "pass" for s in statuses):
+        worst = "pass"
+    else:
+        worst = "unknown"
+
+    comparator = (specs[0] or {}).get("comparator")
+    if len(runs) == 1:
+        result = dict(runs[0])
+        result["id"] = check_id
+        return result
+    return {
+        "id": check_id,
+        "status": worst,
+        "metrics": runs[0].get("metrics") if comparator else None,
+        "per_comparator": [
+            {"comparator": (spec or {}).get("comparator"),
+             "status": run.get("status"),
+             "metrics": run.get("metrics")}
+            for spec, run in zip(specs, runs)
+        ],
+    }
+
+
 def check_threshold(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold")
     if not spec:
@@ -919,9 +989,18 @@ def main(argv=None) -> int:
                   file=sys.stderr)
             return 3
         nets = build_nets(netlist)
-        checks.append(check_threshold(netlist, nets, intent, findings))
-        checks.append(check_drive(netlist, nets, intent, findings))
-        checks.append(check_hysteresis(netlist, nets, intent, findings))
+        specs = threshold_specs(intent)
+        if not specs:
+            # 意图没声明阈值：让原函数自己报 not_run，别在这里另造一个理由
+            checks.append(check_threshold(netlist, nets, intent, findings))
+            checks.append(check_drive(netlist, nets, intent, findings))
+            checks.append(check_hysteresis(netlist, nets, intent, findings))
+        else:
+            checks.append(run_per_spec(check_threshold, "threshold_sanity",
+                                       specs, netlist, nets, intent, findings))
+            checks.append(check_drive(netlist, nets, intent, findings))
+            checks.append(run_per_spec(check_hysteresis, "hysteresis",
+                                       specs, netlist, nets, intent, findings))
         checks.append(check_inductive_load(netlist, nets, intent, findings))
         checks.append(check_supply_domains(netlist, nets, intent, findings))
 
@@ -972,6 +1051,10 @@ def main(argv=None) -> int:
             reason = entry.get("reason")
             if reason:
                 print(f"    [{entry.get('status')}] {entry.get('load')}: {reason}")
+        # 多比较器板：每组各一条，不能只印第一组
+        for entry in check.get("per_comparator") or []:
+            metrics = json.dumps(entry.get("metrics") or {}, ensure_ascii=False)
+            print(f"    [{entry.get('status')}] {entry.get('comparator')}: {metrics}")
         for key in ("metrics", "switches"):
             if check.get(key):
                 print(f"    {key}: {json.dumps(check[key], ensure_ascii=False)}")

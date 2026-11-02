@@ -1736,38 +1736,58 @@ easycirq connector path      # 打印要导入的文件
 在此之前，不能说「`[object Object]` 能说明原因」。
 
 
-## 已记录（不修）：`design_validity` 只支持一个比较器（2026-11-02）
+## 已修：`design_validity` 只支持一个比较器（2026-11-02）
 
-### 事实
+### 原来的限制
 
-意图文件里 `threshold.comparator` 是**单个字符串**，检查器这样用它：
+意图里 `threshold.comparator` 是**单个字符串**，一块板只能表达一个阈值，
+窗口比较器（高低双限）表达不了。
+
+我第 24 轮先记成了"不修"，理由是"探针板只需要一个、支持 N 个要改 schema"。
+**那个理由站不住**：向后兼容的加法不需要改既有文件，也不会动 34 个现有测试。
+有 55 轮余量的情况下，"要改 schema"不是不做的理由。
+
+### 修法（向后兼容）
 
 ```python
-comparator = spec.get("comparator")
-part = part_by(netlist, comparator)
+def threshold_specs(intent):
+    many = intent.get("thresholds")      # 新写法：列表
+    if isinstance(many, list) and many:
+        return [s for s in many if isinstance(s, dict)]
+    single = intent.get("threshold")     # 旧写法：单对象，全部既有文件都用它
+    return [single] if isinstance(single, dict) else []
 ```
 
-`check_threshold` 和 `check_hysteresis` 都是"一个比较器 → 一个翻转点 → 一个回差宽度"。
+`run_per_spec()` 对每一组各跑一遍 `check_threshold` / `check_hysteresis`，聚合规则：
 
-### 影响
+| 情况 | 聚合结果 |
+|---|---|
+| 任何一组 fail | **fail** |
+| 否则任何一组 unknown | unknown |
+| 否则任何一组 not_run | not_run |
+| 全 pass | pass |
 
-**窗口比较器表达不了。** 比如"低于 5°C 或高于 45°C 都报警"这种双阈值设计，
-或者一个 LM393 两路都用上（本板第二路是接到 GND 闲置的，正因为没有两路需求）。
+**多比较器板不比单比较器板更宽松**——任何一组不通过，整体就不通过。
 
-### 为什么不修
+### 实测（两个比较器的板）
 
-1. **探针板不需要。** 12V 温控风扇只有一个阈值（45°C 开、回差 3°C），
-   这是客户原话里的全部电气要求。为它加 N 比较器支持是**没有需求驱动的功能扩展**。
-2. **它不是 bug，是 schema 的设计决定。** 要支持 N 个，意图格式得从
-   `comparator: "U1"` 变成一组条目（每个带自己的靶温、容差、回差），
-   这是**新功能设计**，不是修一个错误行为。
-3. **改错了会连累现有的 34 个 design_validity 测试**，它们全用当前 schema。
+```
+threshold_sanity   pass
+  [pass] U1: {"threshold_v": 1.5035, "divider": "R2/R3", "trip_c": 45.3, ...}
+  [pass] U2: {"threshold_v": 3.4375, "divider": "R4/R5", "trip_c": 8.3, ...}
+```
 
-### 如果将来要做
+第二组靶温写错 → 整体 **fail**；第二组指向不存在的位号 → 整体 **unknown**（不许因第一组 pass 就整体 pass）。
 
-向后兼容的做法：新增可选 `thresholds: [ {...}, ... ]`，缺省时回落到 `threshold`，
-检查器对每一项跑一遍 `check_threshold` / `check_hysteresis`，并把结果按比较器分组。
-测试已有的 34 条不用动，新增覆盖多比较器的用例即可。
+### 风扇板回归
+
+单比较器路径**输出形状不变**（不打印逐条明细），
+`metrics` 仍是那一组的值：`trip_c 45.3` / `width_c 2.97`。
+
+### 验证
+
+`tests/test_design_validity.py` **38 passed**（34 + 4 条多比较器）；
+三个相关套件 **64 passed**。
 
 ---
 

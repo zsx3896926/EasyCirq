@@ -749,6 +749,124 @@ class HysteresisWidthTests(unittest.TestCase):
         self.assertIn("算不出宽度", proc.stdout)
 
 
+class MultiComparatorTests(unittest.TestCase):
+    """一块板上有两个阈值（窗口比较器 / 高低双限）时，两组都要判。
+
+    原来意图里的 `threshold.comparator` 是单个字符串，一块板只能表达一个阈值。
+    现在接受 `thresholds: [...]`，缺省仍回落到单个 `threshold` —— 旧文件不用改。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-multi-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _netlist(self):
+        # 两个独立的分压 + 两个比较器（都用内置器件表里的 LM393 引脚名）
+        parts = [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            # 比较器 A：TH_A = 10k/4.3k → 约 45°C
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "ALARM_A"}, {"pinNumber": "2", "net": "TH_A"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH_A"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH_A"}, {"pinNumber": "2", "net": "GND"}]},
+            # 比较器 B：TH_B = 10k/22k → 约 5°C
+            {"designator": "U2", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "ALARM_B"}, {"pinNumber": "2", "net": "TH_B"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R4", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH_B"}]},
+            {"designator": "R5", "componentType": "part",
+             "otherProperty": {"Value": "22kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH_B"}, {"pinNumber": "2", "net": "GND"}]},
+        ]
+        return {"components": parts}
+
+    def _intent(self, specs):
+        return {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "ground": "GND",
+            "thresholds": specs,
+        }
+
+    def _run(self, specs):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._netlist(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(specs), ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def _spec(self, comparator, target_c):
+        return {"comparator": comparator, "target_c": target_c, "tolerance_c": 3,
+                "vcc": 5.0, "sensor": {"kind": "ntc", "r25": 10000, "b": 3950}}
+
+    def test_two_comparators_both_checked(self):
+        # U1 的 10k/4.3k 分压 → 45.3°C；U2 的 10k/22k → 3.4375V → 8.3°C。
+        # （第一版我把 U2 的靶温写成 5°C，实测 8.3°C 被判偏 3.3°C —— 那是我的测试写错，
+        #   不是判据错。判据算出来的 8.3°C 是对的。）
+        proc = self._run([self._spec("U1", 45), self._spec("U2", 8)])
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "pass")
+        # 两组都必须出现在输出里，各带自己的分压与算出温度
+        self.assertIn("[pass] U1:", proc.stdout)
+        self.assertIn("[pass] U2:", proc.stdout)
+        self.assertIn("R2/R3", proc.stdout)
+        self.assertIn("R4/R5", proc.stdout)
+        self.assertIn('"trip_c": 45.3', proc.stdout)
+        self.assertIn('"trip_c": 8.3', proc.stdout)
+
+    def test_second_comparator_wrong_target_fails(self):
+        """第二组的靶温写错时必须 fail —— 多比较器不能让任何一组蒙混过关。"""
+        proc = self._run([self._spec("U1", 45), self._spec("U2", 30)])
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "fail")
+        self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
+
+    def test_second_comparator_missing_part_is_unknown(self):
+        """第二组指向不存在的位号 → unknown，不能因为第一组 pass 就整体 pass。"""
+        proc = self._run([self._spec("U1", 45), self._spec("U9", 8)])
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "unknown")
+
+    def test_single_threshold_still_works(self):
+        """旧写法 `threshold`（单对象）必须继续工作 —— 34 个既有测试都靠它。"""
+        netlist = self.tmp / "one.json"
+        netlist.write_text(json.dumps(self._netlist(), ensure_ascii=False),
+                           encoding="utf-8")
+        intent = {
+            "schema": "easycirq-design-intent/v1",
+            "power_rail": "PWR5V", "ground": "GND",
+            "threshold": self._spec("U1", 45),
+        }
+        intent_path = self.tmp / "one-intent.json"
+        intent_path.write_text(json.dumps(intent, ensure_ascii=False), encoding="utf-8")
+        proc = run(netlist, intent=intent_path)
+        self.assertEqual(check_status(proc.stdout, "threshold_sanity"), "pass")
+        # 单比较器不打印逐条明细，保持旧输出形状（34 个既有测试靠这个形状）
+        self.assertNotIn("[pass] U1:", proc.stdout)
+        self.assertIn('"trip_c": 45.3', proc.stdout)
+
+
 class HonestyTests(unittest.TestCase):
     """判不了的时候必须说判不了，不能默认 pass。"""
 
