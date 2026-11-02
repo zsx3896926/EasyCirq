@@ -1,0 +1,67 @@
+{
+  "schema": "easycirq-review-ledger/v1",
+  "_doc": "人工核查记录。每条必须显式选边：能写成对网表的确定性判定的 → disposition=rule；依赖上下文/经验的 → disposition=knowledge。工具不替你判断，因为判错两边都致命。",
+  "project": "Fan-Controller-12V",
+  "entries": [
+    {
+      "id": "R-2026-11-02-001",
+      "date": "2026-11-02",
+      "reviewer": "硬件部 张工",
+      "board": "Fan-Controller-12V",
+      "found": "去耦电容 C1 离 U1 电源脚 108.9 mil，比经验值 100 mil 大；高频回路偏大，去耦效果打折",
+      "disposition": "knowledge",
+      "knowledge": {
+        "title": "去耦电容摆放距离要盯着",
+        "body": "去耦电容离 IC 电源脚越远，高频回路面积越大、去耦越无效。经典经验值 100 mil（2.54mm）以内。本板实测 108.9 mil，属于「偏大但还能用」。判断用 tools/check_decap_placement.py，它读 pcb dump 的焊盘坐标算中心距。注意：这条判不了网表——它需要 PCB 坐标，所以不是网表规则。",
+        "tags": ["布局", "去耦", "PCB"]
+      },
+      "evidence": ["reports/fan-controller/evidence/21-enterprise-violations.json"]
+    },
+    {
+      "id": "R-2026-11-02-002",
+      "date": "2026-11-02",
+      "reviewer": "硬件部 张工",
+      "board": "Fan-Controller-12V",
+      "found": "R3 用了 1% 精度，但按容差分析 1% 已经够了；改用 5% 的 0603 更省钱，产线也更好贴",
+      "disposition": "knowledge",
+      "knowledge": {
+        "title": "这类分压电阻不必上 1% 精度",
+        "body": "对 45±3°C 这种宽目标，1% 电阻带来的 2.5°C 散布已经够；上 5% 器件会把散布放大到 12.5°C，只有客户要求 ±1°C 时才需要 1%。判断依据是跑 design_validity 的 tolerances 分析，不是拍脑袋。",
+        "tags": ["选型", "成本", "容差"]
+      },
+      "evidence": ["reports/fan-controller/evidence/16-tol-1pct-target3.txt"]
+    },
+    {
+      "id": "R-2026-11-02-003",
+      "date": "2026-11-02",
+      "reviewer": "供应链 李工",
+      "board": "*",
+      "found": "本次用的 XH2.54 端子供应商换了，新型号交期更稳",
+      "disposition": "knowledge",
+      "knowledge": {
+        "title": "XH2.54 端子的备选供应商",
+        "body": "C9900016027 交期不稳时改用 C9900004348，引脚兼容，已核对封装。换料前仍需核对 pad 位置。",
+        "tags": ["供应链", "连接器"]
+      }
+    },
+    {
+      "id": "R-2026-11-02-004",
+      "date": "2026-11-02",
+      "reviewer": "硬件部 张工",
+      "board": "*",
+      "found": "产线贴片能力下限是 0603，0402 需外协，成本和交期都变差；新设计一律不用 0402",
+      "disposition": "rule",
+      "rule": {
+        "id": "no-0402-packaging",
+        "kind": "hard",
+        "title": "禁用 0402 封装",
+        "predicate": {
+          "type": "footprint_forbidden",
+          "patterns": ["0402"]
+        },
+        "evidence": "企业设计规范 DS-2024-07 §3.2",
+        "verified_on": "2026-11-02 用一块故意改成 R0402 的风扇板副本跑过，报 fail（evidence/21-enterprise-violations.json）"
+      }
+    }
+  ]
+}
