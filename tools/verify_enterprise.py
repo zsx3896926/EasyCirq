@@ -160,6 +160,34 @@ def main():
               f"（实际 exit={rc3}）")
         steps.extend([valid, written, effective])
 
+    # ── 5. 审阅报告：把规则/知识合成给人看的一份结论
+    section("审阅报告（终态：能指出违反贵司规范）")
+    rc, out = run("enterprise_review.py",
+                  ["--netlist", str(clean), "--intent", str(it),
+                   "--label", "Fan-Controller-12V"],
+                  env={"EASYCIRQ_KNOWLEDGE_DIR": str(KNOW)})
+    cites = "命中：" in out and "来源：" in out
+    clean_verdict = "没有违反已知的企业规范" in out
+    print(f"  {mark(cites)} 引用了具体的知识条目并说出命中什么")
+    print(f"  {mark(clean_verdict)} 干净板结论明确")
+
+    # 造一块真违规板：必须给出违反项 + 依据 + 找谁
+    with tempfile.TemporaryDirectory() as tmp2:
+        bad2 = json.loads(clean.read_text(encoding="utf-8"))
+        root2 = bad2.get("result") or bad2
+        for comp in root2.get("components") or []:
+            if comp.get("designator") == "R1":
+                comp["footprintRef"] = {"name": "R0402"}
+        bp = pathlib.Path(tmp2) / "bad2.json"
+        bp.write_text(json.dumps(root2, ensure_ascii=False), encoding="utf-8")
+        rc2, out2 = run("enterprise_review.py",
+                        ["--netlist", str(bp), "--intent", str(it)],
+                        env={"EASYCIRQ_KNOWLEDGE_DIR": str(KNOW)})
+    blocked_review = (rc2 == 1 and "违反企业规范" in out2
+                      and "依据：" in out2 and "找谁：" in out2)
+    print(f"  {mark(blocked_review)} 违规板：说违反、给依据、给找人")
+    steps.extend([cites, clean_verdict, blocked_review])
+
     # ── 汇总
     print()
     print("=" * 64)

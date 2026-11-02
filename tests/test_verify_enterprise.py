@@ -20,10 +20,11 @@ def test_enterprise_loop_is_intact():
                           errors="replace", timeout=900, cwd=str(ROOT))
     out = (proc.stdout or "") + (proc.stderr or "")
     assert proc.returncode == 0, out[-2000:]
-    assert "12/12" in out, out[-2000:]
+    assert "15/15" in out, out[-2000:]
     # 每一层都要有正反例，不能只报"加载了 N 条"
     for must in ("故意违规板 → 必须拦住",
                  "无关上下文不误召回",
                  "判据用企业实测值并标出来源",
-                 "不加任何参数"):
+                 "不加任何参数",
+                 "违规板：说违反、给依据、给找人"):
         assert must in out, f"缺少这条生效证据：{must}\n{out[-1500:]}"

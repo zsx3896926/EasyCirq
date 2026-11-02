@@ -416,7 +416,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 「上次评审说的别再犯」时：**上手读 [一页纸](references/enterprise-quickstart.md)，
 深入读 [企业知识库](references/enterprise-knowledge.md)**；脚本在 `scripts/`：
 `enterprise_rules.py` / `knowledge_search.py` / `enterprise_parts.py` /
-`review_ledger.py` / `enterprise_selfcheck.py`。企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`
+`review_ledger.py` / `enterprise_review.py`（**给人看的审阅结论**）/ `enterprise_selfcheck.py`。企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`
 （默认 `~/.easycirq/knowledge/`）与项目 `.easycirq/knowledge/`，块库用
 `EASYCIRQ_BLOCKS_DIR`。**不改源码、不重装。**
 

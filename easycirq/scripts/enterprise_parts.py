@@ -36,6 +36,11 @@ import sys
 
 SCHEMA = "easycirq-enterprise-parts/v1"
 
+# 同一个企业目录里三类文件并存，认得彼此
+SIBLING_SCHEMAS = ("easycirq-enterprise-rules/v1",
+                   "easycirq-enterprise-knowledge/v1",
+                   "easycirq-review-ledger/v1")
+
 
 def layer_dirs(project_dir=None):
     import os
@@ -86,8 +91,14 @@ def load_parts(project_dir=None, explicit=None):
                 problems.append({"file": str(path), "error": f"读不出来: {exc}"})
                 continue
             if data.get("schema") != SCHEMA:
-                # 知识目录里同时放规则/知识/器件，schema 不匹配是正常的，
-                # 但**要能看出跳过了哪个文件**，不能默默不管。
+                # 知识目录里规则/知识/器件三类文件并存，是**正常用法**。
+                # 认得的兄弟静默跳过；不认识的才报。
+                #
+                # 这一层改成静默（原来是报 problem），因为过滤逻辑放在调用方
+                # 会在每个调用方漏一次——2026-11-03 enterprise_review 就没过滤，
+                # 把另外两类文件报成了「加载问题」，把真问题盖住了。
+                if data.get("schema") in SIBLING_SCHEMAS:
+                    continue
                 problems.append({
                     "file": str(path),
                     "error": f"schema {data.get('schema')!r} 不是器件库，已跳过"})
