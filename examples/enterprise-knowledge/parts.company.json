@@ -1,0 +1,28 @@
+{
+  "schema": "easycirq-enterprise-parts/v1",
+  "_doc": "企业器件库。整条替换内置库条目（不做字段级合并，避免「各字段来自不同来源」的歧义）。measured 段放本企业实测参数。",
+  "parts": {
+    "mosfet.ao3400a_sot23": {
+      "value": "AO3400A",
+      "mpn": "AO3400A",
+      "lcsc": "C700953",
+      "manufacturer": "Alpha & Omega",
+      "deviceUuid": "84f69a83e2c34d168d19d16f0d252938",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4",
+      "measured": {
+        "vgs_th": 1.3,
+        "note": "2026-09 批次 30 颗抽测均值；手册保证范围 0.65–1.45V，设计判据用 1.3V 更接近实际"
+      },
+      "_why": "手册的 Vgs(th) 下限 0.65V 太乐观、上限 1.45V 太保守；用实测 1.3V 判「栅极电压够不够开」更贴近产线实际"
+    },
+    "conn.xh254_2p_alt": {
+      "value": "XH2.54-2P",
+      "mpn": "XH2.54-2P",
+      "lcsc": "C9900004348",
+      "manufacturer": "国产替代",
+      "footprint": "CONN-SMD_2P-P2.50-WT",
+      "measured": {},
+      "_why": "原型号交期不稳时的备选，引脚兼容"
+    }
+  }
+}

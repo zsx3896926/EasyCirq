@@ -267,6 +267,39 @@ def run_per_spec(check_fn, check_id, specs, netlist, nets, intent, findings):
     }
 
 
+def enterprise_param(intent: dict, part_designator: str, field: str):
+    """从企业器件库取实测参数。返回 (值, 来源说明) 或 (None, 原因)。
+
+    器件手册给的是**保证范围**，不是实际值。企业自己测过就更准。
+    这里只取不猜：企业库没给就返回 None，由调用方回落到默认。
+    """
+    library = intent.get("_enterprise_parts") or {}
+    if not library:
+        return None, "没有加载企业器件库"
+    part = part_by_netlist_designator(intent, part_designator)
+    # 用器件键匹配：企业库按 standard-parts 的 key 组织，
+    # 意图里只能给位号，所以先看意图有没有显式给 part_key
+    keys = []
+    switches = intent.get("switches") or []
+    for entry in switches:
+        if entry.get("part") == part_designator and entry.get("part_key"):
+            keys.append(entry["part_key"])
+    if not keys:
+        return None, "意图没给 part_key，无法在企业库里定位这颗料"
+    for key in keys:
+        if key not in library:
+            continue
+        measured = (library[key] or {}).get("measured") or {}
+        if field in measured:
+            return float(measured[field]), f"企业实测（{library[key].get('_file')}）"
+    return None, "企业库里没有这条实测参数"
+
+
+def part_by_netlist_designator(intent, designator):
+    """占位：企业库按 key 组织，不按位号。保留函数名以免调用点难读。"""
+    return designator
+
+
 def rail_voltages(intent: dict) -> dict:
     """网络名 → 电压。判「实际加在器件上多少伏」必须先有这个。
 
@@ -787,7 +820,27 @@ def check_drive(netlist, nets, intent, findings) -> dict:
         # ── MOSFET：栅极不消耗直流电流，判的是"栅极有没有确定的电平"和
         #    "这个电平够不够开"；绝不能拿 hFE 去乘栅极电流。
         if kind == "mosfet":
-            vth = float(entry.get("vgs_th") or 1.5)      # 逻辑电平管典型 1.0~2.0V
+            # 优先级：意图显式声明 > 企业实测 > 内置默认。
+            # 意图是"这块板的选择"，企业实测是"这颗料的实际"，默认是兜底。
+            declared = entry.get("vgs_th")
+            measured, measured_from = enterprise_param(intent, designator, "vgs_th")
+            if declared is not None:
+                vth = float(declared)
+                vth_from = "意图声明"
+                if measured is not None and abs(measured - vth) > 0.2 * vth:
+                    findings.append({
+                        "code": "VGS_TH_DISAGREES_WITH_MEASURED",
+                        "status": "advisory",
+                        "message": (f"{designator}：意图写 Vgs(th)={vth:.2f}V，"
+                                    f"但企业实测是 {measured:.2f}V（{measured_from}）。"
+                                    f"判据用的是意图值；若这块板该按实测值判，"
+                                    f"请改意图或在企业库里对齐")})
+            elif measured is not None:
+                vth = float(measured)
+                vth_from = measured_from
+            else:
+                vth = 1.5
+                vth_from = "内置默认（意图未声明，企业库也没有）"
             id_max = float(entry.get("id_max_a") or 4.0)
             need = float(entry.get("load_ma") or 30) / 1000.0
             if not has_rail_path and not has_ground_path:
@@ -835,6 +888,7 @@ def check_drive(netlist, nets, intent, findings) -> dict:
                     results.append({"part": designator, "kind": "mosfet",
                                     "status": "pass", "reason": reason,
                                     "vgs": round(v_gs, 2), "vgs_th": vth,
+                                    "vgs_th_from": vth_from,
                                     "gate_pullup": driver})
                     continue
             results.append({"part": designator, "kind": "mosfet",
@@ -1442,6 +1496,8 @@ def check_hysteresis(netlist, nets, intent, findings) -> dict:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--netlist", required=True, help="sch list 导出的 list.json")
+    ap.add_argument("--enterprise-parts", action="append", default=[],
+                    help="企业器件库（文件或目录，可重复）；给了就用其中的实测参数，优先级低于意图显式声明")
     ap.add_argument("--intent", help="设计意图 JSON；不给则全部 NOT RUN")
     ap.add_argument("--out", help="把结果写成 JSON")
     args = ap.parse_args(argv)
@@ -1479,6 +1535,22 @@ def main(argv=None) -> int:
             print(f"sch_design_validity: intent.schema 必须是 {INTENT_SCHEMA}",
                   file=sys.stderr)
             return 3
+        # 企业器件库：给了才加载，没给就是空——**不假装有**。
+        if args.enterprise_parts:
+            try:
+                sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+                import enterprise_parts as _ep
+                merged = {}
+                for target in args.enterprise_parts:
+                    got, _src, probs = _ep.load_parts(explicit=target)
+                    merged.update(got)
+                    for prob in probs:
+                        print(f"企业器件库: {prob.get('file')}: {prob['error']}",
+                              file=sys.stderr)
+                intent["_enterprise_parts"] = merged
+            except Exception as exc:  # noqa: BLE001
+                print(f"企业器件库加载失败: {exc}", file=sys.stderr)
+                return 3
         nets = build_nets(netlist)
         specs = threshold_specs(intent)
         if not specs:

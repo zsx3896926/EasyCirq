@@ -244,3 +244,69 @@ python easycirq/scripts/knowledge_search.py --audit
 
 **纯数字不当检索词**：实测发现正文里的 `XH2.54` 会切出 `54`，导致连接器那条知识
 被任何含 54 的板误召回。带单位的数字（`200ma`、`12v`）保留，它们有意义。
+
+## 十、企业器件库：实测参数要真的被判据用上
+
+器件手册给的是**保证范围**，不是实际值。企业自己测过更准的数，就该被设计判据用上。
+
+```json
+{
+  "schema": "easycirq-enterprise-parts/v1",
+  "parts": {
+    "mosfet.ao3400a_sot23": {
+      "value": "AO3400A", "mpn": "AO3400A", "lcsc": "C700953",
+      "deviceUuid": "84f69a83e2c34d168d19d16f0d252938",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4",
+      "measured": {
+        "vgs_th": 1.3,
+        "note": "2026-09 批次 30 颗抽测均值；手册保证 0.65–1.45V"
+      }
+    }
+  }
+}
+```
+
+### 每个字段都能说出它来自哪一层
+
+```bash
+python easycirq/scripts/enterprise_parts.py \
+  --parts parts.company.json --resolve mosfet.ao3400a_sot23
+```
+
+```
+value        = 'AO3400A'      ← explicit
+deviceUuid   = '84f69a83...'  ← explicit
+basic        = True           ← builtin
+desc         = '...Vgs(th) 1.05V, Id 4A'  ← builtin
+measured     = {'vgs_th': 1.3, ...}       ← explicit
+条目来源: examples/enterprise-knowledge/parts.company.json
+```
+
+**合并是字段级的**，不是整条替换——企业只想补一个实测值，不该被迫把
+`deviceUuid` 也抄一遍（抄漏一个就是一条坏料）。歧义靠**逐字段标注来源**消解：
+看见 `vgs_th ← explicit` 和 `basic ← builtin`，人立刻知道哪些是企业改的。
+
+### 判据真的会用上（这是关键）
+
+```bash
+python easycirq/scripts/sch_design_validity.py \
+  --netlist .../list.json --intent .../intent.json \
+  --enterprise-parts parts.company.json
+```
+
+意图里不写 `vgs_th`、只给 `part_key` 时，判据输出：
+
+```json
+{"vgs_th": 1.3, "vgs_th_from": "企业实测（parts.company.json）", "vgs": 5.0}
+```
+
+**优先级**：意图显式声明 > 企业实测 > 内置默认。三者都会在 `vgs_th_from` 里标出来。
+
+意图与企业实测差超过 20% 时给 `VGS_TH_DISAGREES_WITH_MEASURED`（advisory）：
+判据仍用意图值（那是**这块板的选择**），但提醒你两边对不上。
+
+### 为什么优先级是「意图 > 企业库」
+
+企业库说的是"这颗料的实际参数"，意图说的是"这块板怎么用"。
+后者是针对具体项目做的决定，不能被人测的平均值悄悄盖掉。所以冲突时
+**保意图、提示差异**，而不是静默替换。
