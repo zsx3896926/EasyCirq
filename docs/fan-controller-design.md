@@ -194,3 +194,66 @@ window "e5f47efb-…" is not connected, but 1 connector window(s) ARE
 - **PCB 视觉复核**（官方导图）：未做
 
 DRC 0 违规不等于板子对——技能里写得很清楚：**门禁绿 ≠ 板子对**。
+
+---
+
+## 19 项 KPI 门禁跑通了（2026-11-02）
+
+### 先修了一个我自己的 bug
+
+管线第一次报：
+
+```
+BLOCKED — layout_from_easycirq failed rc=2:
+{"status": "invalid_input", "error": "Invalid control character at: line 194 column 49"}
+```
+
+**这不是 CLI 的问题，是我的捕获管道。** 我用 `Start-Job` + `Out-File` 抓 JSON，
+非 ASCII 被当 GBK 重解释：`-55℃~+155℃` 变成 `-55℃傈+155℃?`，
+文件从 417111 字节被撑到 433361 字节。
+
+改成 **Python subprocess 拿原始字节直接写文件**之后，三份快照全部严格解析通过。
+
+**教训**：报错说"控制字符"时，先怀疑自己的读写路径，别急着赖工具。
+
+### 结果
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  fail     #1  unconnected     connectivity.floating_pins=3
+  missing  #10 pin_mux         pinplan: 未提供
+  fail     #11 decoupling      power.decap_missing=1
+  missing  #14 netlist_diff    netlist: 未提供
+  missing  #15 readback        readback: 未提供
+  missing  #17 pcb_match       pcb_match: 未提供
+```
+
+**#19 design_validity = pass**（五类判据全过，已集成进管线）。
+
+### 两个是真缺陷，不是缺证据
+
+| 项 | 具体 | 为什么是真错 |
+|---|---|---|
+| #1 | `U1 pin 5 / 6 / 7 未连接` | LM393 **另一路比较器完全悬空**。闲置比较器的输入不能浮着——会自激、往同一片硅上灌噪声 |
+| #11 | `U1 pin 8 (VDD) 所在网 PWR5V 没有电容` | **整块板没有去耦电容** |
+
+**这两条都是五类设计判据查不到的**：design_validity 查"电路功能对不对"，
+KPI 查"结构/供电/一致性"。门禁在这里抓到了我自己漏掉的东西。
+
+### 四条是缺证据（标 missing，不填 pass）
+
+`pin_mux`（要给 pinplan.json）、`netlist_diff`、`readback`（要先 save→reload 回读）、
+`pcb_match`（要 pcb dump）。
+
+### 一处我传错了参数
+
+第一次跑传的是 `intent-block.json`（块版，连接器叫 **J1**），
+而快照是 `Fan-Controller-12V`（手工版，连接器叫 **FAN1**），于是 `#19` 报 unknown。
+换成 `intent.json` 后 pass。
+
+**unknown 如实反映了"判不了"，没有假装通过——正是第 12 轮修的那个行为在起作用。**
+
+### 还没做
+
+补两个真缺陷（加去耦电容、处理悬空引脚）→ 补四条缺失证据 → 连续两轮 PASS → 通行证 →
+Gerber/BOM/卡片。
