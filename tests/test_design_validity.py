@@ -1140,6 +1140,90 @@ class ToleranceSpreadTests(unittest.TestCase):
         self.assertNotIn('"tolerance"', proc.stdout)
 
 
+class HysteresisToleranceTests(unittest.TestCase):
+    """回差宽度也要做容差分析——刚做的阈值容差没覆盖到回差。
+
+    工程意义：客户说「别在边上疯狂启停」，回差太**小**才抖。
+    所以硬判据只有一条：**某些批次回差归零或根本不动作**（必然抖）。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-htol-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _parts(self, r_hyst):
+        return {"components": [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "ALARM"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+            {"designator": "R6", "componentType": "part",
+             "otherProperty": {"Value": r_hyst},
+             "pins": [{"pinNumber": "1", "net": "ALARM"},
+                      {"pinNumber": "2", "net": "NTC_MID"}]},
+        ]}
+
+    def _intent(self, tol_pct):
+        return {"schema": "easycirq-design-intent/v1", "power_rail": "PWR5V",
+                "ground": "GND",
+                "threshold": {"comparator": "U1", "target_c": 45,
+                              "tolerance_c": 3, "vcc": 5.0,
+                              "sensor": {"kind": "ntc", "r25": 10000, "b": 3950},
+                              "r_pull_ohms": 10000, "hysteresis_c": 3,
+                              "tolerances": {"resistor_pct": tol_pct,
+                                             "ntc_r25_pct": tol_pct,
+                                             "ntc_b_pct": tol_pct}}}
+
+    def _run(self, r_hyst, tol_pct):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._parts(r_hyst), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(tol_pct), ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_width_spread_is_computed(self):
+        """39k 回差电阻、1% 器件：宽度散布要算出来，且不该归零。"""
+        proc = self._run("39kΩ", 1)
+        self.assertEqual(check_status(proc.stdout, "hysteresis"), "pass")
+        self.assertIn('"width_min_c"', proc.stdout)
+        self.assertIn('"samples": 64', proc.stdout)
+        match = re.search(r'"width_min_c":\s*([0-9.]+)', proc.stdout)
+        self.assertIsNotNone(match)
+        self.assertGreater(float(match.group(1)), 0.0)
+
+    def test_width_vanishes_under_tolerance_fails(self):
+        """5% 器件 + 小回差电阻：某些组合穿越不了阈值 → 必须 fail。
+
+        这一条是回差容差的**核心**：标称值再好看，只要有一批货没有回差，
+        现场就是反复启停。
+        """
+        proc = self._run("1kΩ", 5)
+        self.assertEqual(check_status(proc.stdout, "hysteresis"), "fail")
+        self.assertEqual(proc.returncode, 1, proc.stdout[-600:])
+
+
 class HonestyTests(unittest.TestCase):
     """判不了的时候必须说判不了，不能默认 pass。"""
 

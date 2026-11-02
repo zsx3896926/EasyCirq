@@ -1223,6 +1223,76 @@ def hysteresis_width_c(spec: dict, r_hyst: float, th: float) -> dict | None:
     return {"trip_c": trip, "release_c": release, "width_c": trip - release}
 
 
+def release_point(vcc: float, th: float, r_sensor_up: float, r_hyst: float,
+                   r25: float, beta: float) -> float | None:
+    """带正反馈的释放温度（输出已拉低，R_hyst 把中点往下拽）。"""
+    def v_at(temp_c: float) -> float:
+        return ntc_mid_with_feedback(temp_c, r_sensor_up, r_hyst, r25, beta, vcc)
+
+    lo, hi = -40.0, 150.0
+    v_lo, v_hi = v_at(lo), v_at(hi)
+    if not (v_hi < th < v_lo):
+        return None
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if v_at(mid) > th:
+            lo = mid
+        else:
+            hi = mid
+    return lo
+
+
+def hysteresis_spread(vcc: float, r_sensor_up: float, r_top: float,
+                      r_bot: float, r25: float, beta: float, r_hyst: float,
+                      pcts: dict) -> dict | None:
+    """回差宽度的**最坏散布**。
+
+    阈值和回差是耦合的：R_top/R_bot 的容差会挪阈值，R_hyst 的容差会挪反馈量，
+    两者的容差还会互相放大。所以这里把 6 个量一起枚举（2^6 = 64 组），
+    每组各算一次 trip 和 release，取宽度的最小/最大值。
+
+    ## 工程意义：回差敏感的是**下限**
+
+    客户说「别在边上疯狂启停」——回差太**小**才会抖，太大只是迟钝。
+    所以这里最要紧的输出是 `width_min_c`：
+      - `width_min_c <= 0` → 有些批次**根本没有回差**，必然抖（硬错误）
+      - `width_min_c` 明显小于目标 → 提示，但那是用户标准，不是我该发明的阈值
+    """
+    widths = []
+    vanished = 0
+    for d_r in (-1, 1):
+        r_sensor = r_sensor_up * (1 + d_r * pcts["resistor"])
+        for d_t in (-1, 1):
+            r_t = r_top * (1 + d_t * pcts["resistor"])
+            for d_b in (-1, 1):
+                r_b = r_bot * (1 + d_b * pcts["resistor"])
+                for d_25 in (-1, 1):
+                    v25 = r25 * (1 + d_25 * pcts["ntc_r25"])
+                    for d_beta in (-1, 1):
+                        vbeta = beta * (1 + d_beta * pcts["ntc_b"])
+                        for d_h in (-1, 1):
+                            r_h = r_hyst * (1 + d_h * pcts.get("hyst_pct",
+                                                               pcts["resistor"]))
+                            th = vcc * r_b / (r_t + r_b)
+                            trip = trip_point(vcc, th, r_sensor, v25, vbeta)
+                            release = release_point(vcc, th, r_sensor, r_h,
+                                                    v25, vbeta)
+                            if trip is None or release is None:
+                                # 这一组参数下阈值根本穿越不了 —— 那是**最坏的
+                                # 情形**（该批次没有回差，甚至完全不动），
+                                # 不是"跳过"。记下来当作宽度 0。
+                                vanished += 1
+                                continue
+                            widths.append(trip - release)
+    if not widths:
+        return {"width_min_c": 0.0, "width_max_c": 0.0, "spread_c": 0.0,
+                "samples": 0, "vanished_samples": vanished}
+    return {"width_min_c": round(min(widths), 2),
+            "width_max_c": round(max(widths), 2),
+            "spread_c": round(max(widths) - min(widths), 2),
+            "samples": len(widths), "vanished_samples": vanished}
+
+
 def check_hysteresis(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold") or {}
     want = spec.get("hysteresis_c")
@@ -1281,6 +1351,74 @@ def check_hysteresis(netlist, nets, intent, findings) -> dict:
         metrics["target_c"] = want
         delta = abs(width["width_c"] - want)
         metrics["delta_c"] = delta
+
+        # ── 回差宽度的容差：客户要的是"别在边上疯狂启停"，
+        #    真正致命的是**某个批次回差归零**（必然抖），而不是标称值差一点。
+        tol_spec = spec.get("tolerances")
+        if isinstance(tol_spec, dict):
+            pcts = {}
+            ok = True
+            for key, label in (("resistor_pct", "resistor"),
+                               ("ntc_r25_pct", "ntc_r25"),
+                               ("ntc_b_pct", "ntc_b")):
+                value = tol_spec.get(key)
+                if not isinstance(value, (int, float)):
+                    ok = False
+                    break
+                pcts[label] = float(value) / 100.0
+            # 回差电阻可以单独给容差；没给就沿用电阻档
+            if isinstance(tol_spec.get("hyst_pct"), (int, float)):
+                pcts["hyst_pct"] = float(tol_spec["hyst_pct"]) / 100.0
+            # check_hysteresis 里没有 in_plus/in_minus/rail/ground 这些名字，
+            # 它用的是 input_nets 集合。这里的变量要自己取。
+            rail = intent.get("power_rail") or "PWR5V"
+            ground = intent.get("ground") or "GND"
+            sensor_up = th_up = th_down = None
+            for node in sorted(n for n in input_nets if n):
+                up, down = find_divider(netlist, nets, node, rail, ground)
+                if up is not None and sensor_up is None:
+                    sensor_up = up[1]
+                if up and down and th_up is None:
+                    th_up, th_down = up[1], down[1]
+            if ok and sensor_up and th_up and th_down and r_hyst:
+                spread = hysteresis_spread(
+                    float(spec.get("vcc") or 5.0), sensor_up, th_up, th_down,
+                    float((spec.get("sensor") or {}).get("r25") or 0),
+                    float((spec.get("sensor") or {}).get("b") or 0),
+                    r_hyst, pcts)
+                if spread is None:
+                    metrics["tolerance"] = None
+                    return {"id": "hysteresis", "status": "unknown",
+                            "metrics": metrics,
+                            "reason": "声明了容差，但扰动后回差算不出宽度，不猜"}
+                metrics["tolerance"] = spread
+                # 硬判据只有一条：回差归零就是没有回差，任何批次都不许
+                if spread.get("vanished_samples"):
+                    findings.append({
+                        "code": "HYSTERESIS_VANISHES", "status": "confirmed",
+                        "message": (f"标称回差 {width['width_c']:.2f}°C，但 {spread['samples']}"
+                                    f"+{spread['vanished_samples']} 组参数组合里有 "
+                                    f"{spread['vanished_samples']} 组**阈值根本穿越不了**——"
+                                    f"那些批次要么不回差、要么根本不动作")})
+                    return {"id": "hysteresis", "status": "fail",
+                            "metrics": metrics}
+                if spread["width_min_c"] <= 0:
+                    findings.append({
+                        "code": "HYSTERESIS_VANISHES",
+                        "status": "confirmed",
+                        "message": (f"标称回差 {width['width_c']:.2f}°C，但器件容差下最坏"
+                                    f"会缩到 {spread['width_min_c']:.2f}°C"
+                                    f"（{spread['samples']} 组组合）——那些批次等于没有回差，"
+                                    f"阈值边上必然反复启停")})
+                    return {"id": "hysteresis", "status": "fail",
+                            "metrics": metrics}
+                if spread["width_min_c"] < want * 0.5:
+                    findings.append({
+                        "code": "HYSTERESIS_MARGIN_THIN",
+                        "status": "advisory",
+                        "message": (f"回差目标 {want}°C，最坏情况下只剩 "
+                                    f"{spread['width_min_c']:.2f}°C（不足目标一半）")})
+
         if delta > 1.0:
             findings.append({
                 "code": "HYSTERESIS_WIDTH_OFF", "status": "confirmed",
