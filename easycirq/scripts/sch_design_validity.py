@@ -737,6 +737,69 @@ def check_inductive_load(netlist, nets, intent, findings) -> dict:
             "failures": len(findings_here)}
 
 
+def ntc_resistance(t_c: float, r25: float, b: float) -> float:
+    """NTC 在温度 t_c 时的阻值（B 值模型）。"""
+    return r25 * math.exp(b * (1.0 / (t_c + 273.15) - 1.0 / 298.15))
+
+
+def ntc_mid_voltage(t_c: float, r_pull: float, r25: float, b: float,
+                    vcc: float) -> float:
+    """分压中点：上拉 r_pull，NTC 下地。"""
+    r = ntc_resistance(t_c, r25, b)
+    return vcc * r / (r_pull + r)
+
+
+def ntc_mid_with_feedback(t_c: float, r_pull: float, r_hyst: float,
+                          r25: float, b: float, vcc: float) -> float:
+    """输出已拉低（≈0V）时，回差电阻把中点往下拽。"""
+    r = ntc_resistance(t_c, r25, b)
+    down = r * r_hyst / (r + r_hyst)
+    return vcc * down / (r_pull + down)
+
+
+def _crossing(th: float, fn) -> float:
+    """二分找 fn(t) == th 的温度。NTC 阻值随温度单调降，所以单调可解。"""
+    lo, hi = -40.0, 150.0
+    for _ in range(90):
+        mid = (lo + hi) / 2
+        if fn(mid) > th:
+            lo = mid
+        else:
+            hi = mid
+    return lo
+
+
+def hysteresis_width_c(spec: dict, r_hyst: float, th: float) -> dict | None:
+    """算这条正反馈到底带来多少度的回差。
+
+    目标里点名了这件事：「客户明确要求回差：hysteresis 只判有没有正反馈，不算宽度」。
+    所以这里不只回答"有/没有"，而是把宽度算出来和意图里的 hysteresis_c 比。
+
+    模型：
+      动作点 trip  —— 温度上升、中点降到 TH 时翻转（此时输出还是高，无反馈）
+      释放点 release —— 温度下降、带反馈的中点升回 TH 时翻转
+      宽度 = trip - release
+
+    返回 None 表示参数不全，判不了。
+    """
+    sensor = spec.get("sensor") or {}
+    r25 = sensor.get("r25")
+    b = sensor.get("b")
+    vcc = spec.get("vcc")
+    if not isinstance(r25, (int, float)) or not isinstance(b, (int, float)):
+        return None
+    if not isinstance(vcc, (int, float)):
+        return None
+    r_pull = spec.get("r_pull_ohms")
+    if not isinstance(r_pull, (int, float)):
+        return None
+
+    trip = _crossing(th, lambda t: ntc_mid_voltage(t, r_pull, r25, b, vcc))
+    release = _crossing(th, lambda t: ntc_mid_with_feedback(
+        t, r_pull, r_hyst, r25, b, vcc))
+    return {"trip_c": trip, "release_c": release, "width_c": trip - release}
+
+
 def check_hysteresis(netlist, nets, intent, findings) -> dict:
     spec = intent.get("threshold") or {}
     want = spec.get("hysteresis_c")
@@ -773,9 +836,36 @@ def check_hysteresis(netlist, nets, intent, findings) -> dict:
             feedback.append(designator)
 
     if feedback:
-        return {"id": "hysteresis", "status": "pass",
-                "metrics": {"feedback_parts": feedback},
-                "note": "存在输出到输入的正反馈，具备回差（具体宽度未计算）"}
+        # 有正反馈只是"具备回差"。客户要的是"回差多少度"，
+        # 所以算出来和意图里的 hysteresis_c 比 —— 判不了就说判不了。
+        r_hyst = ohms((part_by(netlist, feedback[0]).get("otherProperty") or {})
+                      .get("Value")) if feedback else None
+        th = None
+        divider_metrics = check_threshold(netlist, nets, intent, [])
+        if divider_metrics.get("metrics"):
+            th = divider_metrics["metrics"].get("threshold_v")
+        width = None
+        if r_hyst and th:
+            width = hysteresis_width_c(spec, r_hyst, th)
+
+        metrics = {"feedback_parts": feedback, "r_hyst_ohms": r_hyst}
+        if width is None:
+            metrics["width_c"] = None
+            return {"id": "hysteresis", "status": "unknown", "metrics": metrics,
+                    "reason": "有正反馈，但算不出宽度——意图里缺 sensor.r25 / sensor.b / "
+                              "vcc / threshold.r_pull_ohms 之一；不猜"}
+        metrics.update(width)
+        metrics["target_c"] = want
+        delta = abs(width["width_c"] - want)
+        metrics["delta_c"] = delta
+        if delta > 1.0:
+            findings.append({
+                "code": "HYSTERESIS_WIDTH_OFF", "status": "confirmed",
+                "message": (f"回差实测 {width['width_c']:.2f}°C，意图要 {want}°C，"
+                            f"差 {delta:.2f}°C（超过 1°C）；"
+                            f"改 R_HYST={r_hyst/1000:g}k 或用 tools/size_fan_controller.py 重算")})
+            return {"id": "hysteresis", "status": "fail", "metrics": metrics}
+        return {"id": "hysteresis", "status": "pass", "metrics": metrics}
 
     findings.append({
         "code": "NO_HYSTERESIS", "status": "confirmed",

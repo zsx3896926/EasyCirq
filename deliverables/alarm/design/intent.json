@@ -8,10 +8,20 @@
     "target_c": 60,
     "tolerance_c": 5,
     "vcc": 5.0,
-    "sensor": { "kind": "ntc", "r25": 10000, "b": 3950 },
-    "hysteresis_c": 3
+    "sensor": {
+      "kind": "ntc",
+      "r25": 10000,
+      "b": 3950
+    },
+    "hysteresis_c": 3,
+    "r_pull_ohms": 10000
   },
   "switches": [
-    { "part": "Q1", "load": "BZ1", "load_ma": 30, "hfe": 120 }
+    {
+      "part": "Q1",
+      "load": "BZ1",
+      "load_ma": 30,
+      "hfe": 120
+    }
   ]
 }

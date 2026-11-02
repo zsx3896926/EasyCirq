@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import json
+import re
 import pathlib
 import subprocess
 import tempfile
@@ -655,6 +656,97 @@ class MissingDesignatorTests(unittest.TestCase):
                                encoding="utf-8")
         proc = run(netlist, intent=intent_path)
         self.assertIn("inductive_load     pass", proc.stdout)
+
+
+class HysteresisWidthTests(unittest.TestCase):
+    """回差要算**多少度**，不能只回答"有没有正反馈"。
+
+    目标里点名了这条：「客户明确要求回差：hysteresis 只判有没有正反馈，不算宽度」。
+    客户原话是「别在边上疯狂启停」——宽度不够或太大都不行，所以必须算出数值来比。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = pathlib.Path(tempfile.mkdtemp(prefix="dv-hyst-"))
+
+    @classmethod
+    def tearDownClass(cls):
+        for path in cls.tmp.glob("*"):
+            path.unlink()
+        cls.tmp.rmdir()
+
+    def _parts(self, r_hyst):
+        return {"components": [
+            {"designator": "NTC1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "NTC/10K",
+             "pins": [{"pinNumber": "1", "pinName": "1", "net": "NTC_MID"},
+                      {"pinNumber": "2", "pinName": "2", "net": "GND"}]},
+            {"designator": "R1", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"},
+                      {"pinNumber": "2", "net": "NTC_MID"}]},
+            {"designator": "U1", "componentType": "part", "otherProperty": {},
+             "manufacturerId": "LM393",
+             "pins": [{"pinNumber": "1", "net": "ALARM"}, {"pinNumber": "2", "net": "TH"},
+                      {"pinNumber": "3", "net": "NTC_MID"}, {"pinNumber": "4", "net": "GND"},
+                      {"pinNumber": "8", "net": "PWR5V"}]},
+            {"designator": "R2", "componentType": "part",
+             "otherProperty": {"Value": "10kΩ"},
+             "pins": [{"pinNumber": "1", "net": "PWR5V"}, {"pinNumber": "2", "net": "TH"}]},
+            {"designator": "R3", "componentType": "part",
+             "otherProperty": {"Value": "4.3kΩ"},
+             "pins": [{"pinNumber": "1", "net": "TH"}, {"pinNumber": "2", "net": "GND"}]},
+            {"designator": "R6", "componentType": "part",
+             "otherProperty": {"Value": r_hyst},
+             "pins": [{"pinNumber": "1", "net": "ALARM"},
+                      {"pinNumber": "2", "net": "NTC_MID"}]},
+        ]}
+
+    def _intent(self, with_pull=True):
+        spec = {
+            "comparator": "U1", "target_c": 45, "tolerance_c": 3, "vcc": 5.0,
+            "sensor": {"kind": "ntc", "r25": 10000, "b": 3950},
+            "hysteresis_c": 3,
+        }
+        if with_pull:
+            spec["r_pull_ohms"] = 10000
+        return {"schema": "easycirq-design-intent/v1", "power_rail": "PWR5V",
+                "ground": "GND", "threshold": spec}
+
+    def _run(self, r_hyst, with_pull=True):
+        netlist = self.tmp / "list.json"
+        netlist.write_text(json.dumps(self._parts(r_hyst), ensure_ascii=False),
+                           encoding="utf-8")
+        intent_path = self.tmp / "intent.json"
+        intent_path.write_text(json.dumps(self._intent(with_pull), ensure_ascii=False),
+                               encoding="utf-8")
+        return run(netlist, intent=intent_path)
+
+    def test_width_is_computed_not_just_presence(self):
+        proc = self._run("39kΩ")
+        self.assertEqual(check_status(proc.stdout, "hysteresis"), "pass")
+        # 必须有具体数值，不能只有 feedback_parts
+        self.assertIn('"width_c"', proc.stdout)
+        self.assertIn('"trip_c"', proc.stdout)
+        self.assertIn('"release_c"', proc.stdout)
+        match = re.search(r'"width_c":\s*([0-9.]+)', proc.stdout)
+        self.assertIsNotNone(match, "没算出回差宽度")
+        width = float(match.group(1))
+        # 39k 应该落在 3°C 附近（工具算的是 2.97）
+        self.assertGreater(width, 2.0)
+        self.assertLess(width, 4.0)
+
+    def test_wrong_hysteresis_resistor_fails(self):
+        """故意换一颗差很多的回差电阻 → 必须报宽度不对，而不是"有正反馈就 pass"。"""
+        proc = self._run("4.7kΩ")
+        self.assertIn("HYSTERESIS_WIDTH_OFF", proc.stdout)
+        self.assertEqual(proc.returncode, 1, proc.stdout[-500:])
+
+    def test_missing_pull_value_is_unknown_not_pass(self):
+        """算宽度需要上拉阻值；没给就如实说判不了，不许默认 pass。"""
+        proc = self._run("39kΩ", with_pull=False)
+        self.assertEqual(check_status(proc.stdout, "hysteresis"), "unknown")
+        self.assertIn("算不出宽度", proc.stdout)
 
 
 class HonestyTests(unittest.TestCase):

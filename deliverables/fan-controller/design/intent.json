@@ -4,15 +4,25 @@
   "power_rail": "PWR5V",
   "load_rail": "PWR12V",
   "ground": "GND",
-  "rails": { "PWR5V": 5.0, "PWR12V": 12.0 },
-  "grounds": ["GND"],
+  "rails": {
+    "PWR5V": 5.0,
+    "PWR12V": 12.0
+  },
+  "grounds": [
+    "GND"
+  ],
   "threshold": {
     "comparator": "U1",
     "target_c": 45,
     "tolerance_c": 3,
     "vcc": 5.0,
-    "sensor": { "kind": "ntc", "r25": 10000, "b": 3950 },
-    "hysteresis_c": 3
+    "sensor": {
+      "kind": "ntc",
+      "r25": 10000,
+      "b": 3950
+    },
+    "hysteresis_c": 3,
+    "r_pull_ohms": 10000
   },
   "switches": [
     {
