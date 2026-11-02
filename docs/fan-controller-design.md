@@ -74,3 +74,63 @@ S8050 的 Ic 上限 700mA，稳态够用，启动时已贴近极限，而且大�
 
 前四类已由 `sch_design_validity.py` 覆盖；最后两项明确写在检查器的 `note` 里，
 不假装能判。
+
+---
+
+## 板子已画出（2026-11-02）
+
+工程 `Fan-Controller-12V`，原理图页 `P1`，11 个器件、8 个网络，全部与设计一致：
+
+```
+PWR5V    R1.1 R2.1 R5.1 U1.8
+PWR12V   D1.1 FAN1.1
+GND      NTC1.2 Q1.2 R3.2 U1.4
+NTC_MID  NTC1.1 R1.2 R6.2 U1.3
+TH       R2.2 R3.1 U1.2
+ALARM    R6.1 R7.2 U1.1
+GATE     Q1.1 R5.2 R7.1
+FAN_M    D1.2 FAN1.2 Q1.3
+```
+
+### 判据在全新板上抓到的东西
+
+第一次跑，五类里 `inductive_load` 直接 **fail**：
+
+```
+! FLYWHEEL_DIODE_REVERSED: 续流二极管 D1 极性接反：
+  阳极接 PWR12V、阴极接 FAN_M。
+  应该反过来——阴极朝 PWR12V、阳极朝 FAN_M，
+  否则它正向导通，一上电就把 PWR12V 短路
+```
+
+**判据是对的，线是我接错的。** 库里这颗 1N4148W 的引脚定义是
+**pin2 = A（阳极）、pin1 = K（阴极）**，我按"1 阳 2 阴"的常见约定接反了。
+
+`sch disconnect` 断开后按正确极性重接，五类全过：
+
+```
+threshold_sanity   pass   45.3°C（目标 45±3）
+switch_drive       pass   栅极 5.0V » 1.05V，200mA « 4A
+hysteresis         pass   反馈件 R6
+inductive_load     pass   阴极朝 12V、阳极朝开关侧
+supply_domains     pass
+设计有效性：pass
+```
+
+**这是这次压力测试最重要的产出**：一块从零画的板子，
+第一个让工具拦住的就是"会让电源短路"的那一处。
+
+### 顺带记两个坑
+
+**坑一：40 个内置块里没有模拟比较器这一类。**
+`easycirq blocks ls` 有 power / comms / mcu / rf / usb / display / audio / storage /
+button / sensing 十类，**没有"阈值比较 / 温控"**。所以"做个风扇控制器"这个需求，
+块库给不了任何帮助，只能 11 个器件一个个手放。这是块库的真实缺口。
+
+**坑二：我自己的成功判定又错了一次。**
+`sch autoconnect` 输出的是人读文本（`✓ R1:1 → PWR5V [net_label] ...`），
+我却按 `"ok": true` 去匹配，于是 26 次**全部成功**的连线被我报成 26 个失败。
+读回网表才知道 8 个网络分毫不差。
+
+**这已经是第三次同类错误**（前两次：数 bundle 里的 `[object Object]`、
+按固定空格数断言状态列）。共同的病根是**用猜的格式去判成功**，而不是读回真实状态再判断。

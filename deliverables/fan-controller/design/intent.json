@@ -1,0 +1,29 @@
+{
+  "schema": "easycirq-design-intent/v1",
+  "name": "12V 温控风扇",
+  "power_rail": "PWR5V",
+  "load_rail": "PWR12V",
+  "ground": "GND",
+  "rails": { "PWR5V": 5.0, "PWR12V": 12.0 },
+  "grounds": ["GND"],
+  "threshold": {
+    "comparator": "U1",
+    "target_c": 45,
+    "tolerance_c": 3,
+    "vcc": 5.0,
+    "sensor": { "kind": "ntc", "r25": 10000, "b": 3950 },
+    "hysteresis_c": 3
+  },
+  "switches": [
+    {
+      "part": "Q1",
+      "load": "FAN1",
+      "load_ma": 200,
+      "kind": "mosfet",
+      "vgs_th": 1.05,
+      "id_max_a": 4.0,
+      "load_kind": "inductive",
+      "load_rail": "PWR12V"
+    }
+  ]
+}

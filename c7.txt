@@ -1,0 +1,23 @@
+feat(fan): the board is drawn, and the inductive check caught a reversed flywheel diode.
+
+Built Fan-Controller-12V from scratch: 11 parts and 8 nets, verified against the design
+table - all eight match exactly. This is the first board where the design-validity checks
+ran on something that did not exist before.
+
+The first run failed on inductive_load with FLYWHEEL_DIODE_REVERSED, and the check was
+right. The 1N4148W in the library defines pin2 as A and pin1 as K. I wired it to the common
+"1 is anode" convention, so the anode sat on 12V, and the diode would have conducted
+forward on power-up and shorted the rail. Disconnected, rewired with the correct polarity,
+and all five classes now pass: threshold 45.3C, drive 5.0V against a 1.05V Vgs(th) with
+200mA loading a 4A part, hysteresis via R6, flywheel correct, supply domains clean.
+
+Two findings recorded alongside:
+
+1. None of the 40 built-in blocks covers an analog threshold or comparator. The categories
+   are power, comms, mcu, rf, usb, display, audio, storage, button and sensing - so
+   "make a fan controller" gets no help and every part has to be placed by hand.
+
+2. My own success detection was wrong again. sch autoconnect prints human text rather than
+   a JSON envelope, and I matched on "ok": true, so 26 successful connections were reported
+   as 26 failures. Reading the netlist back showed all eight nets exact. Third instance of
+   this class: guessing an output format instead of reading the real state.
