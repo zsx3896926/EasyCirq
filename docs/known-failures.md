@@ -1735,3 +1735,72 @@ easycirq connector path      # 打印要导入的文件
 
 在此之前，不能说「`[object Object]` 能说明原因」。
 
+
+## 已记录（不修）：`design_validity` 只支持一个比较器（2026-11-02）
+
+### 事实
+
+意图文件里 `threshold.comparator` 是**单个字符串**，检查器这样用它：
+
+```python
+comparator = spec.get("comparator")
+part = part_by(netlist, comparator)
+```
+
+`check_threshold` 和 `check_hysteresis` 都是"一个比较器 → 一个翻转点 → 一个回差宽度"。
+
+### 影响
+
+**窗口比较器表达不了。** 比如"低于 5°C 或高于 45°C 都报警"这种双阈值设计，
+或者一个 LM393 两路都用上（本板第二路是接到 GND 闲置的，正因为没有两路需求）。
+
+### 为什么不修
+
+1. **探针板不需要。** 12V 温控风扇只有一个阈值（45°C 开、回差 3°C），
+   这是客户原话里的全部电气要求。为它加 N 比较器支持是**没有需求驱动的功能扩展**。
+2. **它不是 bug，是 schema 的设计决定。** 要支持 N 个，意图格式得从
+   `comparator: "U1"` 变成一组条目（每个带自己的靶温、容差、回差），
+   这是**新功能设计**，不是修一个错误行为。
+3. **改错了会连累现有的 34 个 design_validity 测试**，它们全用当前 schema。
+
+### 如果将来要做
+
+向后兼容的做法：新增可选 `thresholds: [ {...}, ... ]`，缺省时回落到 `threshold`，
+检查器对每一项跑一遍 `check_threshold` / `check_hysteresis`，并把结果按比较器分组。
+测试已有的 34 条不用动，新增覆盖多比较器的用例即可。
+
+---
+
+## 已记录（不修）：三个偶发测试的根因（2026-11-02）
+
+### 现象
+
+只在**长时间跑 pytest 之后**偶发：
+
+| 测试 | 现象 |
+|---|---|
+| `TestModifyPatchWindowsPowerShell51/pcb` | 栈溢出 `0xc00000fd` |
+| `TestConvergeLedger_CountsSameSignatureAndStops` | 断言失败 |
+| `TestPcbLayoutPlanCrystalGuardWritesAllDeclaredSVGPreviews` | SVG 预览写入相关 |
+
+### 已有缓解
+
+`tools/run_all_checks.ps1` 里改成**先跑 go test、再跑 pytest**。
+按这个顺序跑，本轮之前的多轮全量回归（4914 / 4916 / 4917 passed）**一次都没复现**。
+
+### 为什么不修
+
+**不能稳定复现就没有可验证的修复。** 要定位它需要：
+
+1. 一个能按需触发的复现条件（"跑多久"、"跑多少条"才有）
+2. 或者 goroutine / 进程级 dump（栈溢出那条 `0xc00000fd` 是明确的栈溢出信号，
+   但只有拿到 dump 才知道是哪层递归）
+
+**在拿不到 dump 的前提下改代码，等于猜。** 而这个目标反复强调的正是
+"不能把猜测说成已修复"。
+
+### 现在的处置
+
+- 缓解措施已生效（跑测顺序）
+- 全量回归每轮都跑，**再出现就记一次**，累积到有足够样本再定位
+- 不假装已经修好
