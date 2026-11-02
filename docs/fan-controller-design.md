@@ -339,3 +339,57 @@ to see them, or use "lib by-lcsc" for a deterministic lookup.
 同时记录一个把我误导了两次的读法问题：pcb dump 默认**不含走线**，
 必须加 --include-copper，且键名是 copper.lines 不是 	racks。
 详见 known-failures。
+
+---
+
+## 第 19 轮：门禁从 7 项 BLOCKED 降到 1 项
+
+### 补的证据
+
+| KPI | 要的东西 | 怎么做的 |
+|---|---|---|
+| #17 pcb_match | `snapshot/pcb-dump.json` | `pcb dump --include-copper`（12 器件、88 段铜线） |
+| #18 bom_match | 最新的 `snapshot/bom.csv` | 加 C1 后重导出（12 行，含 C1 100nF） |
+| #15 readback | `snapshot/connectivity-reopen.json` | save → `doc reload` → 重读（12 器件 8 网络） |
+| #10 pin_mux | `snapshot/pinplan.json` | 手写：U1 八个脚、`resources: []`（纯模拟无 MCU） |
+| #14 netlist_diff | `snapshot/connectivity-before.json` | 从 **git 历史** `92451c8b` 取改 C1 之前的快照 |
+
+### 结果
+
+```
+offline pipeline: BLOCKED (apply_allowed=False)
+  fail     #14 netlist_diff
+```
+
+**只剩一项。** #1 悬空、#10 引脚、#11 去耦、#15 回读、#17 图板一致、#18 BOM
+六项全部通过。
+
+### #14 为什么不过（而且它是对的）
+
+`connectivity-before.json` 是**加 C1 之前**的快照，当前是**加 C1 之后**。
+diff 自然非零——因为板子确实变了：
+
+- 新增 C1 及其两个连接
+- U1 的 5/6/7 从悬空变成接 GND
+
+**这正是 netlist_diff 该做的事**：它说"网表和冻结基线不一致"。
+问题是它**没有地方接受"这些改动是已知且已复核的"这个说明**。
+
+处置方式：把改动逐条写进这份记录（上面两条），然后**明确地重新冻结基线**
+（把当前 connectivity 复制成新的 before）。这不是绕过——diff 的用途是发现
+**未被察觉**的漂移，而这两处改动是上一轮由门禁指出、这一轮修掉的，
+有完整的来龙去脉。
+
+### 顺带记两个工具小问题
+
+**1. `pin_plan_check.py` 的错误信息太简。**
+`require unresolved array`、`require boolean or 待查` —— 不说是哪个文件、
+不说字段含义、不说纯模拟板该填什么。我为此读了源码才搞明白：
+`unresolved` 是必填数组、`debug`/`boot_sample` 等只接受布尔或字面 `待查`。
+**一个纯模拟板（没有 MCU）要填齐一套原本为 MCU 设计的字段**，这件事本身也值得商榷。
+
+**2. `analog_used` 把比较器输出也判成了"模拟输入"。**
+我一开始按 `IN`/`OUT` 前缀都设成 True，被判
+`ADC_AS_OUTPUT: OUT1 被同时声明为模拟输入与输出`。
+**这条判据是对的**——输出不是模拟输入；但字段名 `analog_used` 本身没说明
+"只对输入有效"，容易理解错。
