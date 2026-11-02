@@ -22,7 +22,13 @@ problems = []
 # 1. every file listed in README's table must exist, and every file present should be listed
 readme = (d / "README.md").read_text(encoding="utf-8")
 listed = set(re.findall(r"\| `([^`]+)` \|", readme))
-present = {p.name.rstrip("/") for p in d.iterdir() if p.is_file() or p.is_dir()}
+# 用**相对路径**而不是顶层名。
+#
+# 原来取 p.name，然后拿它跟 README 里的相对路径比，于是任何嵌套目录的交付包
+# 都会被判「列出了不存在的文件」+「存在但未列出」两条。报警板是平铺的所以没暴露，
+# 风扇包有 design/ snapshot/ manufacturing/ 三层，一上来就撞上。
+# 比对的是"哪个文件"，路径才是它的身份。
+present = {p.relative_to(d).as_posix() for p in d.rglob("*") if p.is_file()}
 present.discard("README.md")
 listed = {name.rstrip("/") for name in listed}
 

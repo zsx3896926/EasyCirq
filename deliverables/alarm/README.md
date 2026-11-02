@@ -8,13 +8,19 @@
 
 ## 什么时候看哪一份
 
-| 你的问题（决策点） | 只看这一份 |
+| 你要决定的事 | 只看这一份 |
 |---|---|
-| 这个板子能不能做？多少钱？多久？ | `cost-and-leadtime.md` |
-| 具体怎么下单、选哪个工艺？ | `HOW-TO-ORDER.md` |
-| AI 说"可以下单"了吗？还差什么？ | `card.txt` |
-| 板子回来了，测哪几个数？ | `electrical-checklist.md` |
-| 测完了，怎么判断能不能用？ | `acceptance-guide.md` |
+| 现在能不能打样 | `card.txt` |
+| 板子有什么电路、为什么这么选 | `schematic.svg` |
+| 买什么料、C 号对不对 | `bom.csv` |
+| 电气上还差什么才能上电 | `electrical-checklist.md` |
+| 打样回来怎么验 | `acceptance-guide.md` |
+| 多少钱、多久 | `cost-and-leadtime.md` |
+| 怎么下单 | `HOW-TO-ORDER.md` |
+
+其余文件是给复核用的证据，客户不需要主动打开。
+
+
 
 其余文件是**证据与数据**，不是要你读的说明：
 `schematic.svg`（图）、`bom.csv`（料）、`board-gerber.zip`（给板厂）、
@@ -22,19 +28,6 @@
 
 ## 文件清单
 
-| 文件 | 是什么 |
-|---|---|
-| `schematic.svg` | 原理图（可放大看细节） |
-| `bom.csv` | 物料清单（9 个位号，每个都有立创编号，可直接配单） |
-| `card.txt` | 上机前的卡（能不能打样 / 还差什么） |
-| `HOW-TO-ORDER.md` | **从这里开始**：四步走完从下单到验收，含关键选项怎么选、没响时按什么顺序查 |
-| `cost-and-leadtime.md` | **开工前的回答**：能不能做（能）+ 价格驱动因素（面积/层数/贴片点/料种），报价与交期标为未核实 |
-| `board-gerber.zip` | 给板厂的生产文件（12 层，含两套钻孔） |
-| `acceptance-guide.md` | 打样回来后怎么验收 |
-| `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
-| `electrical-checklist.md` | **打样后按这张表测**：每个节点该有的电压、六个必测数、最可能接反的那一项 |
-| `design/` | **可复现的输入**：引脚计划、BOM、9 个快照文件 + 门禁报告 kpi-report.json。换一台机器能重跑全部 19 项检查，命令见 `design/README.md` |
-| `SHA256SUMS` | 校验和（核对传输是否完整） |
 
 ## 电路是什么
 
@@ -50,13 +43,6 @@
 
 ## 物料清单
 
-| 数量 | 器件 | 立创编号 |
-|---|---|---|
-| 1 | 5025 贴片蜂鸣器 | C9900027059 |
-| 1 | 100nF 贴片电容 | C9900013340 |
-| 1 | 10K 热敏电阻 | C9900004021 |
-| 1 | LM393 双比较器 | C504553 |
-| 4 | 10kΩ 贴片电阻 | C25804 |
 
 （清单里还有一颗 LED 与一颗电阻，因为**这块板合并了之前做的 LED 演示电路**。
 若只要纯净的报警器板，需把 LED 那页删掉再做一次。）
@@ -96,21 +82,9 @@
 
 ### 检查结果
 
-| 层面 | 检查 | 结果 | 证据 |
-|---|---|---|---|
-| 原理图 | 19 项门禁 | 见 card.txt（当前 pcb_match 未通过） | `card.txt` |
-| PCB | 设计规则检查（DRC） | **total: 0**，`passed: true` | 保存 → 重开 → 重读 确认 |
-| 布线 | 官方自动布线器 | **5/5** 网络连通，15 秒 | `pcb autoroute` 报告 |
-| 制造 | 生产文件 | **11 层**，含 `Drill_PTH_Through.DRL` | `board-gerber.zip` |
 
 ### 文件内容核验
 
-| 检查 | 结果 |
-|---|---|
-| `schematic.svg` 体积 | 92,410 字节 |
-| viewBox | `-10.5 -835.5 1191 846`（A4 横向） |
-| 图元 | 36 path · 47 rect · 104 line · 90 polyline · 10 circle · 81 text |
-| 关键器件名 | `NTC` ✓ `LM393`/`U1` ✓ `BZ1` ✓ |
 
 导出后专门查过内容不是空白——否则交付包里那张"原理图"就是一张白纸。
 （未做位图渲染：本机没有确定性的 SVG→PNG 工具链，所以"看起来对不对"没有验证。）
@@ -146,3 +120,32 @@ Get-FileHash * -Algorithm SHA256   # Windows PowerShell
 `
 
 每个文件都应该显示 OK。不一致说明下载或拷贝过程中坏了，重新拿一份。
+
+## 文件清单
+
+| 文件 | 是什么 |
+|---|---|
+| `HOW-TO-ORDER.md` | **从这里开始**：四步走完从下单到验收，含关键选项怎么选、没响时按什么顺序查 |
+| `acceptance-guide.md` | 打样回来后怎么验收 |
+| `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
+| `board-gerber.zip` | 给板厂的生产文件（12 层，含两套钻孔） |
+| `bom.csv` | 物料清单（9 个位号，每个都有立创编号，可直接配单） |
+| `card.txt` | 上机前的卡（能不能打样 / 还差什么） |
+| `cost-and-leadtime.md` | **开工前的回答**：能不能做（能）+ 价格驱动因素（面积/层数/贴片点/料种），报价与交期标为未核实 |
+| `design/README.md` | （见目录说明） |
+| `design/bom.tsv` | （见目录说明） |
+| `design/intent.json` | （见目录说明） |
+| `design/kpi-report.json` | （见目录说明） |
+| `design/pinplan.json` | （见目录说明） |
+| `design/snapshot/bom.tsv` | （见目录说明） |
+| `design/snapshot/connectivity-before.json` | （见目录说明） |
+| `design/snapshot/connectivity-reopen.json` | （见目录说明） |
+| `design/snapshot/connectivity.json` | （见目录说明） |
+| `design/snapshot/drc.json` | （见目录说明） |
+| `design/snapshot/list.json` | （见目录说明） |
+| `design/snapshot/pcb-dump.json` | （见目录说明） |
+| `design/snapshot/pinplan.json` | （见目录说明） |
+| `design/snapshot/sheet.json` | （见目录说明） |
+| `electrical-checklist.md` | **打样后按这张表测**：每个节点该有的电压、六个必测数、最可能接反的那一项 |
+| `schematic.svg` | 原理图（可放大看细节） |
+| `SHA256SUMS` | 全部文件的 SHA256 |

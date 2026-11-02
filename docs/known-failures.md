@@ -1541,3 +1541,60 @@ save → doc reload → pcb drc: passed: true, 0 violations
 `--ignore-net` 的帮助文字里已经写了 `e.g. GND (poured later)`——
 说明路由器的设计意图里，地网本来就该靠铺铜而不是走线。这和"GND 占了 109 段中的 30 段"
 对得上，但本轮没走到铺铜。
+
+## 已修：交付包自检器拿顶层名比相对路径（2026-11-02）
+
+### 缺陷
+
+`tools/check_deliverable.py`：
+
+```python
+listed  = set(re.findall(r"\| `([^`]+)` \|", readme))   # README 里是相对路径
+present = {p.name for p in d.iterdir()}                   # 只取顶层名
+```
+
+两个集合比的是**不同的东西**：README 写 `design/intent.json`，
+而 `present` 里只有 `design`。于是任何**嵌套目录的交付包**必然报两条
+「列出了不存在的文件」+「存在但未列出」。
+
+报警板是平铺的（所有文件在根目录），所以这个 bug 一直没暴露。
+风扇包有 `design/` `snapshot/` `manufacturing/` 三层，一上来就撞上。
+
+### 修法
+
+```python
+present = {p.relative_to(d).as_posix() for p in d.rglob("*") if p.is_file()}
+```
+
+比对的是"哪个文件"，**路径才是它的身份**。
+
+### 修完立刻暴露两件事
+
+**1. 风扇包根本没有 README**（上一轮的"通过"是查错了对象）。
+补了一份，按新约定列出全部 23 个文件。
+
+**2. 报警板的 README 是照着旧语义写的**——只列 11 个顶层条目，
+其中 `design` 是个目录。按新约定重建成 24 个文件。
+
+### 重建时我把导航表删掉了，测试立刻抓到
+
+重建脚本把所有 `|` 开头的行当表格剥掉，**连带删了「什么时候看哪一份」那张导航表**。
+`tests/test_deliverable_navigation.py` 立刻红：
+
+```
+导航表只列了 0 个决策点：[]
+```
+
+这张表是有契约的（指标 3：一个决策点只看一份），不是装饰。
+已补回，7 个决策点重新就位。
+
+**教训**：我的重建脚本按"删掉所有表格行"来清理，而 README 里**有两张用途不同的表**——
+文件清单（我想要的）和导航表（我误删的）。**按形状而不是按语义删东西，会删掉不该删的。**
+
+### 验证
+
+- `tests/test_deliverable_navigation.py` → **10 passed**
+- `python tools/check_deliverable.py`（报警板）→ 自检通过
+- `python tools/check_deliverable.py deliverables/fan-controller` → 自检通过
+- `pytest tests` → **4914 passed, 5 skipped**（起始 4897，本轮 +17）
+- `go test ./...` → 16 包全 ok；`go vet` 干净
