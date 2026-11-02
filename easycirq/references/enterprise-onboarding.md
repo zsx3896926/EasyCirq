@@ -5,7 +5,6 @@
 
 ## 目录
 
-- 零、先把网表拿出来（第一个坑）
 - 一、先分清两种「经验」
 - 二、放哪里
 - 三、规则怎么写
@@ -16,7 +15,8 @@
 - 八、企业器件库：实测参数要真的被判据用上
 - 九、一条命令验证整个闭环
 - 十、企业自建块库：加自己的标准电路
-- 十一、还没做的（别当成能用）
+- 十一、升级会不会丢库
+- 十二、还没做的（别当成能用）
 
 ## 零、先把网表拿出来（第一个坑）
 
@@ -505,7 +505,64 @@ block.company_threshold_switch   ready  sensing  @company-hardware  企业改版
   把 role 映射到真实 deviceUuid）；企业特有的料请同时放进企业器件库
 - 块里的 `pcb_layout` 约束**目前没有任何代码读**，写了等于装饰（见最后一节）
 
-## 十一、还没做的（别当成能用）
+## 十一、升级会不会丢库
+
+**不会——前提是库放在正确的位置。** 这一节说清哪些会被替换、哪些不会，以及一个容易犯的错。
+
+### 两个目录是分开的
+
+| 目录 | 放什么 | 升级时 |
+|---|---|---|
+| `%LOCALAPPDATA%\EasyCirq\`（对应安装目录） | 程序本体、内置技能、内置标准件 | **整个替换** |
+| `~/.easycirq/` | 运行状态：`knowledge/`、`audit/`、`backups/`、`workflow/` | **不碰** |
+
+依据（可自行核对）：
+
+- 安装器的删除/替换动作只作用于 `install_dir`（`distribution/easycirq_install.py` 里的
+  `_replace_dir(install_dir, displaced)` 与 `_rmtree(install_dir)`），失败时会把
+  `displaced` 搬回来
+- 运行时的状态目录由 `stateDir()` 算成 `~/.easycirq`（`runtime/internal/app/cmd_doctor.go`），
+  与安装目录**没有包含关系**
+- 安装器自己的记录放在 `install_dir.parent/.easycirq-install-state/<hash>/`，
+  也不在 `~/.easycirq` 里
+
+### 所以你的库要放在这三个位置之一
+
+```
+~/.easycirq/knowledge/                 ← 默认企业库，升级不丢
+%YOUR_DIR%\company-lib\              ← 配 EASYCIRQ_KNOWLEDGE_DIR，最保险
+<项目>/.easycirq/knowledge/            ← 跟着项目走，本就在版本管理里
+```
+
+### 一个容易犯的错
+
+**别把库放进安装目录。**
+
+```
+%LOCALAPPDATA%\EasyCirq\knowledge\     ← 错的：升级时整个目录被替换，全丢
+```
+
+看起来"放在工具旁边很方便"，但那是唯一会被清空的地方。
+
+放完用自检确认工具看到的是对的位置：
+
+```bash
+python easycirq/scripts/enterprise_selfcheck.py
+```
+
+它会打出 `[enterprise(默认)] ~/.easycirq/knowledge` 或 `[enterprise(env)] <你的目录>`
+——**看到 `%LOCALAPPDATA%` 就是放错了**。
+
+### 还没实测的部分
+
+上面是**读代码得出的结论**，不是跑了一遍真实升级。真机升级验证需要在一台装过旧版的
+机器上跑完整安装包，目前没有做。
+
+所以：**库放对位置就不用担心**；如果要在生产环境升级，第一次升级前把
+`~/.easycirq/knowledge/` 备份一份，升完跑一次自检对比条数。
+
+
+## 十二、还没做的（别当成能用）
 
 | 能力 | 状态 |
 |---|---|
