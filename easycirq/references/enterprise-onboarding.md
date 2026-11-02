@@ -378,6 +378,48 @@ measured     = {'vgs_th': 1.3, ...}       ← explicit
 `deviceUuid` 也抄一遍（抄漏一个就是一条坏料）。歧义靠**逐字段标注来源**消解：
 看见 `vgs_th ← explicit` 和 `basic ← builtin`，人立刻知道哪些是企业改的。
 
+### 先查键名（不做这步，你的实测值不会生效）
+
+要覆盖某个内置器件，**必须知道它的键**。直接查：
+
+```bash
+python easycirq/scripts/enterprise_parts.py --list-builtin --filter mosfet
+```
+
+```
+内置标准件库：171 个键，匹配 'mosfet' 的 4 个
+    mosfet.2n7002                      2N7002
+    mosfet.ao3400a_sot23               AO3400A_N
+    mosfet.cj3439kdw                   CJ3439KDW
+```
+
+### 然后两处都要写，缺一处就不生效
+
+**① 企业器件库里用这个键：**
+
+```json
+{ "schema": "easycirq-enterprise-parts/v1",
+  "parts": { "mosfet.ao3400a_sot23": {
+      "measured": { "vgs_th": 1.3 } } } }
+```
+
+**② 意图里给对应开关声明同一个键：**
+
+```json
+{ "switches": [ { "part": "Q1", "kind": "mosfet",
+                  "part_key": "mosfet.ao3400a_sot23" } ] }
+```
+
+> **只写①不写②，实测值一条都不会被用到**——而且你从判据输出上看不出来。
+> 判据会在这两种情况下给出告警：
+>
+> | 情况 | 告警 |
+> |---|---|
+> | 库里有东西，但没有任何开关声明 `part_key` | `ENTERPRISE_PARTS_UNUSED` |
+> | `part_key` 在企业库里找不到 | `ENTERPRISE_PART_KEY_NOT_FOUND`（并列出库里有哪些键） |
+>
+> 两个都是 **advisory**，不改变交付判定——但你会知道自己的数据没被用上。
+
 ### 判据真的会用上（这是关键）
 
 ```bash

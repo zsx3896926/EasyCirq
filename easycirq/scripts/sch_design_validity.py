@@ -1548,6 +1548,34 @@ def main(argv=None) -> int:
                         print(f"企业器件库: {prob.get('file')}: {prob['error']}",
                               file=sys.stderr)
                 intent["_enterprise_parts"] = merged
+                if merged:
+                    # 企业库非空，但没有任何开关声明 part_key → 里面的实测值
+                    # 一条都不会被用到。**必须说出来**：客户会以为"我已经把
+                    # 实测参数加进去了"，而实际效果和没加一样。
+                    declared = [w.get("part_key") for w in
+                                (intent.get("switches") or []) if w.get("part_key")]
+                    if not declared:
+                        findings.append({
+                            "code": "ENTERPRISE_PARTS_UNUSED",
+                            "status": "advisory",
+                            "message": (
+                                "加载了 %d 条企业器件参数（%s%s），但意图里没有任何"
+                                "开关声明 part_key，这些实测值**一条都没被用到**。"
+                                "要让它生效：给对应开关加 "
+                                "\"part_key\": \"<企业库里的键>\""
+                                % (len(merged), ", ".join(sorted(merged)[:3]),
+                                   "…" if len(merged) > 3 else ""))})
+                    else:
+                        missing = [k for k in declared if k not in merged]
+                        if missing:
+                            findings.append({
+                                "code": "ENTERPRISE_PART_KEY_NOT_FOUND",
+                                "status": "advisory",
+                                "message": (
+                                    "意图里的 part_key %s 在企业器件库里找不到；"
+                                    "库里有的是 %s%s。这些开关会回落到默认参数"
+                                    % (missing, sorted(merged)[:5],
+                                       "…" if len(merged) > 5 else ""))})
             except Exception as exc:  # noqa: BLE001
                 print(f"企业器件库加载失败: {exc}", file=sys.stderr)
                 return 3

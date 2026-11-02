@@ -149,6 +149,11 @@ def resolve(part_key, enterprise=None):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--list-builtin", action="store_true",
+                    help="列出内置标准件库的全部键（要覆盖某个内置器件时，"
+                         "先在这里查它的键）")
+    ap.add_argument("--filter", default="",
+                    help="配合 --list-builtin 按子串过滤，如 --filter mosfet")
     ap.add_argument("--resolve", help="显示某个器件键的合并后有效参数")
     ap.add_argument("--project-dir")
     ap.add_argument("--parts", action="append", default=[],
@@ -164,6 +169,31 @@ def main(argv=None):
         enterprise.update(got)
         sources_all.extend(src)
         problems_all.extend(prob)
+
+    if args.list_builtin:
+        builtin, builtin_path = builtin_parts()
+        needle = args.filter.strip().lower()
+        keys = sorted(k for k in builtin
+                      if not needle or needle in k.lower())
+        report = {"schema": "easycirq-enterprise-parts-builtin/v1",
+                  "file": str(builtin_path) if builtin_path else None,
+                  "total": len(builtin), "shown": len(keys),
+                  "keys": keys}
+        if args.json:
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+        else:
+            print(f"内置标准件库：{len(builtin)} 个键"
+                  + (f"，匹配 {needle!r} 的 {len(keys)} 个" if needle else ""))
+            print(f"  来源：{builtin_path or '（找不到）'}")
+            for k in keys:
+                entry = builtin[k]
+                label = entry.get("mpn") or entry.get("value") or ""
+                print(f"    {k:34} {label}")
+            if not keys:
+                print("    （没有匹配的键；不加 --filter 看全部）")
+            print()
+            print("要覆盖其中某个器件，就在你的 parts.*.json 里用同一个键。")
+        return 0
 
     if args.resolve:
         params, origin, builtin_path = resolve(args.resolve, enterprise)
@@ -204,6 +234,9 @@ def main(argv=None):
             entry = enterprise[key]
             over = "（覆盖内置）" if entry.get("_overrides") else ""
             print(f"    - {key}{over}  {entry.get('mpn') or entry.get('value') or ''}")
+        print()
+        print("要用实测值覆盖某个内置器件？先查它的键：")
+        print("  python easycirq/scripts/enterprise_parts.py --list-builtin --filter mosfet")
         if problems_all:
             print("\n问题：")
             for p in problems_all:

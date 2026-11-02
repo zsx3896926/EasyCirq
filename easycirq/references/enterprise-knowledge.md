@@ -129,6 +129,18 @@ python easycirq/scripts/enterprise_parts.py --resolve <part_key>
 
 ## 器件实测值：优先级是「意图 > 企业库 > 内置默认」
 
+**两处都要写，缺一处就不生效**（这是最容易踩的坑）：
+
+1. 企业器件库里用 `--list-builtin --filter <关键词>` 查到的那个键
+2. 意图里给对应开关加 `"part_key": "<同一个键>"`
+
+只写第 1 步，实测值一条都用不上，而判据输出上看不出来——所以加了两个告警：
+`ENTERPRISE_PARTS_UNUSED`（库非空但没人声明 part_key）、
+`ENTERPRISE_PART_KEY_NOT_FOUND`（键对不上，会列出库里有哪些键）。
+
+两个都是 advisory，不改判定。客户说"我把实测参数加进去了但没效果"时，先看这两条。
+
+
 `design_validity` 加 `--enterprise-parts <path>` 就会用企业实测值，输出里带
 `vgs_th_from` 说明用的是哪个来源。
 
