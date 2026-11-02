@@ -414,20 +414,17 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 用户说「我们公司规定」「按我们规范检查」「这颗料我们实测过」「用我们自己的标准电路」
 「上次评审说的别再犯」时，**先读 [企业知识库](references/enterprise-knowledge.md)**，
-再用 `easycirq/scripts/` 下的 `enterprise_rules.py` / `knowledge_search.py` /
-`enterprise_parts.py` / `review_ledger.py`。
+再用 `scripts/` 下的 `enterprise_rules.py` / `knowledge_search.py` /
+`enterprise_parts.py` / `review_ledger.py` / `enterprise_selfcheck.py`。
 
-三条不可违反的约束：
+三条不可违反：①**经验必须分两类**——能写成「对网表一次确定性判定」的是规则（可阻断），
+依赖上下文的是知识（只提示）。判错两边都致命，**必须问用户，不许猜**。
+②**「能加载」不等于「会生效」**，唯一验证办法是故意造一块违规的板看它报不报。
+③**不许承诺没做的**：规则没接进 19 项 KPI 门禁；AI 不能自动提取规则；
+块里的 `pcb_layout` 没有任何代码读。
 
-1. **经验必须分两类**：能写成「对网表一次确定性判定」的是**规则**（可阻断）；
-   依赖上下文的是**知识**（只提示，不阻断）。**判错两边都致命，必须问用户，不许猜。**
-2. **判据用 evidence + 用户可验证的输出**，不把「加载了 N 条」当成生效。
-   验证生效的唯一办法是故意造一块违规的板看它报不报。
-3. **不许承诺没做的**：规则**没有**接进 19 项 KPI 门禁；AI **不能**自动从对话提取规则；
-   块里的 `pcb_layout` 约束**没有任何代码读**。
-
-企业库放在 `$EASYCIRQ_KNOWLEDGE_DIR`（默认 `~/.easycirq/knowledge/`）与项目
-`.easycirq/knowledge/`，块库用 `EASYCIRQ_BLOCKS_DIR`。**不需要改源码或重装。**
+企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`（默认 `~/.easycirq/knowledge/`）与项目
+`.easycirq/knowledge/`，块库用 `EASYCIRQ_BLOCKS_DIR`。**不改源码、不重装。**
 
 ## 6. 设计和执行的底线
 

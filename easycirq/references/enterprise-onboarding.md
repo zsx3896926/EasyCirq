@@ -84,7 +84,7 @@
 | `predicate.type` | 参数 | 判什么 |
 |---|---|---|
 | `footprint_forbidden` | `patterns: ["0402"]` | 封装名命中禁用模式（子串匹配，不分大小写） |
-| `part_forbidden` | `parts: ["S8050"]` / `lcsc: ["C1234"]` | 器件型号或立创 C 号在禁用列表 |
+| `part_forbidden` | `parts: ["S8050"]` / `lcsc: ["<你的立创C号>"]` | 器件型号或立创 C 号在禁用列表 |
 | `net_name_forbidden` | `patterns: ["test*", "tmp*"]` | 网络名命中禁用模式（通配符） |
 | `net_name_required` | `required_for: ["VCC_"]` | 必须有以此开头的网络 |
 
@@ -260,7 +260,7 @@ python easycirq/scripts/knowledge_search.py --audit
   "schema": "easycirq-enterprise-parts/v1",
   "parts": {
     "mosfet.ao3400a_sot23": {
-      "value": "AO3400A", "mpn": "AO3400A", "lcsc": "C700953",
+      "value": "AO3400A", "mpn": "AO3400A",   // lcsc 填你自己核过的编号
       "deviceUuid": "84f69a83e2c34d168d19d16f0d252938",
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4",
       "measured": {
