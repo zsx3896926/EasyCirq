@@ -5,6 +5,7 @@
 
 ## 目录
 
+- 零、先把网表拿出来（第一个坑）
 - 一、先分清两种「经验」
 - 二、放哪里
 - 三、规则怎么写
@@ -16,6 +17,78 @@
 - 九、一条命令验证整个闭环
 - 十、企业自建块库：加自己的标准电路
 - 十一、还没做的（别当成能用）
+
+## 零、先把网表拿出来（第一个坑）
+
+下面所有命令都要 `--netlist <list.json>`。**这个文件不会自己出现**，得从 EasyEDA 导出。
+我第一次按自己写的文档走，就在这里卡住了三次。
+
+### 正确命令
+
+```bash
+easycirq sch list --include-bbox --include-pins > list.json
+```
+
+### 但它大概率直接报错，原因有三
+
+**① 开了多个 EasyEDA 窗口 → `AMBIGUOUS_WINDOW`**
+
+```
+message: 2 connector windows are connected; the target is ambiguous
+detail : pass --project <name> (preferred) or --window <id>. Connected now:
+         6caac012-... [project=Fan-Controller-12V doc=pcb], bac2292b-... [...]
+```
+
+加上 `--window <id>` 就行。
+
+**② 同一个项目开了多个窗口 → `AMBIGUOUS_PROJECT`，这时 `--project` 也不够**
+
+```
+message: multiple connected windows match project "Fan-Controller-12V"
+detail : pass --window to pick one: 6caac012-... [doc=pcb], bac2292b-... [doc=pcb]
+```
+
+**只能靠 `--window`**。`--doc` 帮不上忙——两个窗口的前台文档都是 `pcb`。
+
+**③ 前台是 PCB 不是原理图 → `PRECONDITION_REFUSED`**
+
+```
+message: schematic.components.list needs a schematic document, but the foreground
+         document is pcb "696988895f5e0343". Retry with --doc set to the target
+         schematic name or uuid (list them with `easycirq doc ls`)
+```
+
+先查有哪些文档：
+
+```bash
+easycirq doc ls --project <项目名>
+```
+
+```
+    TYPE       NAME    UUID
+★   pcb        PCB1    696988895f5e0343      ← ★ 是前台
+    schematic  P1      664436e68d969739
+```
+
+然后指定**原理图**的名字或 uuid。
+
+### 一次成功的完整写法
+
+```bash
+easycirq sch list --include-bbox --include-pins \
+  --window 6caac012-8d84-4cab-8bc7-c61aa8aaa463 --doc P1 > board.json
+```
+
+实测输出：`ok: true`，28 颗器件。
+
+> `--include-bbox --include-pins` 要带上：没有引脚和坐标，后面的企业规则查不了封装，
+> 知识检索也抽不出上下文。
+
+### 报错看不懂时
+
+上面三类错误的 `message` / `detail` **都说清了下一步该做什么**。照着做就行。
+如果你看到的是 `[object Object]` 之类的空话，那是连接器版本太旧——先跑
+`easycirq connector verify`（应显示连接器 1.0.21）。
 
 ## 一、先分清两种「经验」
 
@@ -84,7 +157,7 @@
 | `predicate.type` | 参数 | 判什么 |
 |---|---|---|
 | `footprint_forbidden` | `patterns: ["0402"]` | 封装名命中禁用模式（子串匹配，不分大小写） |
-| `part_forbidden` | `parts: ["S8050"]` / `lcsc: ["C1234"]` | 器件型号或立创 C 号在禁用列表 |
+| `part_forbidden` | `parts: ["S8050"]` / `lcsc: ["<你的立创C号>"]` | 器件型号或立创 C 号在禁用列表 |
 | `net_name_forbidden` | `patterns: ["test*", "tmp*"]` | 网络名命中禁用模式（通配符） |
 | `net_name_required` | `required_for: ["VCC_"]` | 必须有以此开头的网络 |
 
@@ -179,6 +252,19 @@ python easycirq/scripts/review_ledger.py --ledger .easycirq/review-ledger.json -
 它会写进企业规则目录，然后**立刻对着那个目录回读**，确认规则 id 真的出现在加载列表里。
 只写不验等于没数。
 
+**默认目录跟着 `EASYCIRQ_KNOWLEDGE_DIR` 走**，和读取规则时一致。输出会把两个路径都打出来：
+
+```
+已写入 .../company-lib/rules.from-review.json（1 条规则）
+回读确认：加载到 1 条规则 id
+写入目录：.../company-lib
+下次读取：.../company-lib     ← 两个不一致就是有问题
+```
+
+> 这一条是真踩过的：早先默认写死 `~/.easycirq/knowledge`，设了环境变量的客户
+> 规则被写到别处，而回读把环境变量临时改成写入目标，于是报「加载成功」——
+> **下一次真实运行一条都读不到**。工具主动把「存了」说成「生效了」。
+
 实测闭环：
 
 ```
@@ -260,7 +346,7 @@ python easycirq/scripts/knowledge_search.py --audit
   "schema": "easycirq-enterprise-parts/v1",
   "parts": {
     "mosfet.ao3400a_sot23": {
-      "value": "AO3400A", "mpn": "AO3400A", "lcsc": "C700953",
+      "value": "AO3400A", "mpn": "AO3400A",   // lcsc 填你自己核过的编号
       "deviceUuid": "84f69a83e2c34d168d19d16f0d252938",
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4",
       "measured": {
