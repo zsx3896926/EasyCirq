@@ -1376,3 +1376,62 @@ inductive_load     unknown
 **先修诊断的理由**：位号对不上是必然发生的（块每次落都可能分到不同位号），
 而"看得见"是解决它的前提。回填能省事，但没有回填时至少现在不会静默降级。
 这条留作待办。
+
+## 已记录：`pcb dump` 不加 `--include-copper` 会静默地不给走线（2026-11-02）
+
+### 我怎么被绊的
+
+检查风扇板布线状态时：
+
+```python
+payload = data.get("result") or data
+tracks = payload.get("tracks") or []      # ← 空
+```
+
+得到「器件 12，走线 0」，于是判断「板子没布线」。**连续判断错两次**，
+还据此重跑了 auto-place 和 autoroute。
+
+真实情况：
+
+| 读法 | 结果 |
+|---|---|
+| `pcb dump`（默认） | 有 `components`，**没有任何走线字段** |
+| `pcb dump --include-copper` | `copper.lines` = **109 段**，8 个网络全有 |
+
+**键名也不是 `tracks`，是 `copper.lines`。**
+
+### 为什么算缺陷
+
+默认输出里**完全没有提示**"走线这次没取"。一个把 `pcb dump` 当"板子全貌"用的
+调用方（包括我自己写的脚本、也包括技能里的离线分析），会得到
+「这块板一条线都没布」这个**看起来合理但完全错误**的结论。
+
+`--include-copper` 的帮助文字是「capture exact routed/area copper and rule-region
+lists with per-category availability」——**从这句话读不出"不加就没有走线"**。
+
+### 顺带第二个坑：两种信封形状
+
+同一个 CLI 里：
+
+| 命令 | 形状 |
+|---|---|
+| `sch list` / `sch connectivity` / `pcb drc` | `{"ok":…, "result": {…}}` |
+| `pcb dump` | 直接就是 `{"components": […]}` |
+
+按一种写解析器，遇到另一种 `data.get("result") or data` 会返回 `{}`，
+表现同样是"板子上什么都没有"。
+
+已固化成 `tools/easycirq_read.py` 的 `run_json()`：有 `result` 就取 `result`，
+否则取整个对象。**这条本会话已造成两次误判。**
+
+### 没修（以及为什么）
+
+没动 `pcb dump` 的默认行为——它的 `--out` 会写「snapshot + capture.json」，
+加字段可能影响快照语义和既有消费者。**正确做法应该是像 `sch drc` 那样
+在默认输出里留一句 `routing_omitted: true, pass --include-copper`**，
+但这要先确认不破坏离线回归的冻结基准。
+
+### 教训
+
+**连续两次因为"读到的键是空的"就断定"板子上没有"**。
+读到空集合时，先确认**这个键本来该不该有**，再下结论。

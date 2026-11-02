@@ -324,3 +324,18 @@ to see them, or use "lib by-lcsc" for a deterministic lookup.
 - PCB 重新布通（6/8 → 8/8）并回到 DRC 0 违规
 - 补证据：`pin_mux`、`netlist_diff`、`readback`、`pcb_match`
 - 连续两轮 PASS → 通行证 → Gerber / BOM / 卡片
+
+
+### 第 16 轮：PCB 复布，仍不合格
+
+| 尝试 | 结果 |
+|---|---|
+| 重新 auto-place + outline-fit(margin 80) + autoroute | **8/8 布通**，但 DRC **17 项违规**（全是 SMD Pad↔Track clearance） |
+| auto-place --gap 120 --pitch 150 + outline(margin 100) + autoroute | 8/8 布通，DRC **30 项**（19 clearance + 11 connection）——**更差** |
+
+**结论：加大间距没有解决问题，反而更糟。** 这类 clearance 违规需要真正重排布局
+（或手工调整关键器件位置），不是调参能消掉的。本轮止损，如实记为**不合格**。
+
+同时记录一个把我误导了两次的读法问题：pcb dump 默认**不含走线**，
+必须加 --include-copper，且键名是 copper.lines 不是 	racks。
+详见 known-failures。
