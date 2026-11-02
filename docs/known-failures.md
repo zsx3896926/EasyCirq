@@ -1444,6 +1444,39 @@ empty board. Re-run with --include-copper to read routing
    不改变快照的字段集合，`--out` 写出的 capture.json 语义也不变。
 3. **文案自己解释陷阱**：明确写"这个列表不存在 ≠ 板子是空的"，并给出补救命令。
 
+### 实测确认，以及一个更扎心的事实
+
+不传 `--include-copper` 现在输出：
+
+```
+components: 12
+copper 字段存在: False
+routedLines: 147
+partial:
+  - capture provenance: copper NOT captured (no --include-copper) — routed traces,
+    vias and pours are ABSENT from this snapshot; an absent list here is not an
+    empty board. Re-run with --include-copper to read routing
+```
+
+**注意 `routedLines: 147`。** 这个字段**一直都在**，而且它明明白白说着
+"板子上有 147 段已布铜线"。
+
+所以真相是：工具当时给了**两个**信号（`routedLines` 和 `copper.lines`），
+**我一个都没读**——我的解析器只找 `tracks`，找不到就当空。
+
+这不改变"默认输出该说明缺了什么"这个改进的必要性（新加的提示让人不可能再漏），
+但**必须记清楚：这次误判的主因是我按猜的键名去读，不是工具藏了信息。**
+
+连续三轮的同类错误，机理完全一样：
+
+| 轮 | 我以为 | 实际 |
+|---|---|---|
+| 11 | `sch autoconnect` 失败 26 次 | 输出是人读文本，我按 `"ok": true` 匹配 |
+| 16 | 板子 0 条走线 | 键是 `copper.lines` / `routedLines`，不是 `tracks` |
+| 16 | `pcb dump` 没给数据 | 它直接返回载荷，没有 `result` 信封 |
+
+**共同的病根：先假设输出长什么样，再去读。** 正确做法是先看一遍真实输出（或读它的 JSON 一次），再写解析。
+
 ### 验证
 
 - `TestBoardSnapshotNotesWhenCopperWasNotCaptured`：说明必须含
