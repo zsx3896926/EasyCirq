@@ -2,6 +2,8 @@ package app
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -21,10 +23,27 @@ func doctorFixture(daemon, connector, skill string, next ...string) doctorReport
 	return rep
 }
 
+// withKnowledgeBase pins EASYCIRQ_KNOWLEDGE_DIR to a temp dir holding one file.
+//
+// setupLines now reports the enterprise knowledge base, so it reads the
+// environment. Without pinning it, these tests would pass or fail depending on
+// whether the machine running them happens to have a company library — a test
+// whose result depends on the developer's home directory is not a test.
+func withKnowledgeBase(t *testing.T) {
+	t.Helper()
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "rules.json"), []byte("{}"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("EASYCIRQ_KNOWLEDGE_DIR", dir)
+}
+
 func TestSetupLinesMapStates(t *testing.T) {
+	withKnowledgeBase(t)
 	lines := setupLines(doctorFixture("running", "connected", "installed"))
-	if len(lines) != 4 {
-		t.Fatalf("lines = %d, want 4", len(lines))
+	// 软件 / 后台运行 / EasyEDA / 技能 / 企业知识库
+	if len(lines) != 5 {
+		t.Fatalf("lines = %d, want 5", len(lines))
 	}
 	for _, line := range lines {
 		if !line.OK {
@@ -43,6 +62,7 @@ func TestSetupLinesMapStates(t *testing.T) {
 }
 
 func TestSetupLinesShowFailures(t *testing.T) {
+	withKnowledgeBase(t)
 	lines := setupLines(doctorFixture("stopped", "disconnected", "missing"))
 	if lines[1].OK || lines[2].OK || lines[3].OK {
 		t.Fatalf("expected three failures: %+v", lines)
