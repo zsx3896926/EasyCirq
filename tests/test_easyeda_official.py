@@ -54,3 +54,16 @@ def test_api_dump_is_kept():
 def test_check_script_exists():
     p = ROOT / "tools" / "check_against_official.py"
     assert p.is_file(), "核对脚本丢了，结论就无法复现"
+
+def test_research_doc_stays_out_of_the_skill_references():
+    """调研文档不属于技能参考目录。
+
+    技能 references/ 是给工程师做板用的方法论；这份是产品侧的调研。
+    放进去不仅跑偏，还会撞上「不得引用旧工具链」的守卫——那个守卫按
+    `EASYEDA` 字样扫描，而本文档里的 `EASYEDA_PRO` 是官方枚举名，
+    属于误报，但正确做法是把文档放对位置，而不是放宽守卫。
+    """
+    assert DOC.is_file(), "调研文档应该在 docs/ 下"
+    stale = ROOT / "easycirq" / "references" / "easyeda-official-resources.md"
+    assert not stale.exists(), (
+        "调研文档又被放进技能参考目录了；它是产品侧资料，不是方法论")
