@@ -2116,7 +2116,7 @@ ratings            pass
 |---|---|---|
 | 连接器连 `wss://服务器` | ✅ **已做**（1.0.22） | `easycirqDaemonUrl` / `easycirqAuthToken` 两个用户配置；不设则行为完全不变，有测试钉住。**未在真实远程服务端上验证过**——只验了 URL 构造 |
 | 服务端多租户路由 | ✅ **已做**（asycirq gateway） | 进程内按 token 复用 daemon；跨租户隔离有测试（甲拿乙的 windowId 打不进去）。**未在真实 TLS 代理后验证**，只在本机明文上验过 |
-| 工程师不装 `easycirq.exe` | 未做 | 依赖上面两条 |
+| 工程师不装 `easycirq.exe` | ⚠️ **部分** | `easycirq login --server` 已实现，登录后命令直接发往 gateway，本机不需要 daemon。**但仍需要 CLI 本身**——要让工程师连 CLI 都不装，得由 Agent 直接调 gateway 的 HTTP 接口，那是不同的工作流，未做 |
 
 **门：`docs/enterprise-discovery.md` 的 A2（客户插件 API 是否与 `eda.*` 同构）。**
 

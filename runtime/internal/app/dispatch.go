@@ -1235,10 +1235,20 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	scan := scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
-	if scan.Found == nil {
-		return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start`)", cfg.host, scan.Ports)
+	// 登录到公司服务器后不需要本机 daemon，所以扫描是**有条件的**。
+	// 先看凭据，再决定要不要找本机。
+	cred, remote, credErr := loadCredentials()
+	if credErr != nil {
+		return nil, credErr
 	}
+	var scan healthResult
+	if !remote {
+		scan = scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
+		if scan.Found == nil {
+			return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start`)", cfg.host, scan.Ports)
+		}
+	}
+	_ = cred
 
 	body := map[string]any{"action": action}
 	// Identify this client process for audit attribution and the daemon's
@@ -1281,12 +1291,18 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 		return nil, fmt.Errorf("encode request: %w", err)
 	}
 
-	url := fmt.Sprintf("http://%s:%d/action", cfg.host, scan.Found.Port)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(buf))
+	endpoint, err := resolveActionEndpoint(cfg, scan)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint.url, bytes.NewReader(buf))
 	if err != nil {
 		return nil, fmt.Errorf("build request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+	if endpoint.token != "" {
+		req.Header.Set("Authorization", "Bearer "+endpoint.token)
+	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -1455,4 +1471,39 @@ func serviceName(body []byte) string {
 		return ""
 	}
 	return payload.Service
+}
+
+// actionEndpoint 是「这条命令往哪发」的结论。
+type actionEndpoint struct {
+	url   string
+	token string
+	// remote 为真表示发往公司服务器。诊断与报错文案要靠它区分两种模式。
+	remote bool
+}
+
+// resolveActionEndpoint 决定命令发往哪里。
+//
+// **这是唯一的判定点。** 有凭据 → 公司服务器；没有 → 本机 daemon。
+// 不要在别处再写一份同样的判断，否则两个地方早晚不一致。
+func resolveActionEndpoint(cfg *appConfig, scan healthResult) (actionEndpoint, error) {
+	cred, remote, err := loadCredentials()
+	if err != nil {
+		return actionEndpoint{}, err
+	}
+	if remote {
+		return actionEndpoint{
+			url:    cred.Server + "/action",
+			token:  cred.Token,
+			remote: true,
+		}, nil
+	}
+	if scan.Found == nil {
+		return actionEndpoint{}, fmt.Errorf(
+			"没有找到本机 daemon，也没有登录公司服务器。\n"+
+				"  本机用法：easycirq daemon start\n"+
+				"  企业用法：easycirq login --server https://<公司服务器> --token <token>")
+	}
+	return actionEndpoint{
+		url: fmt.Sprintf("http://%s:%d/action", cfg.host, scan.Found.Port),
+	}, nil
 }
