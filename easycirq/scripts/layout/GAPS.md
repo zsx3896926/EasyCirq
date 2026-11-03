@@ -2,7 +2,7 @@
 
 > **一条命令看现状**（P1 全部工具 + 当前候选的实测）：
 > ```bash
-> python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+> python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
 >     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g --iters 25
 > ```
 > 默认候选是 **`frontier-g`**（唯一合法的候选）；弃用候选默认拒跑（§148）。
@@ -10,7 +10,7 @@
 >
 > **一条命令看全部合法取舍点**（每个候选跑一次布线，约 18 分钟）：
 > ```bash
-> python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+> python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
 >     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate all --iters 25
 > ```
 
@@ -54,7 +54,7 @@
 - **卡点（剩余 130 + 等长重调）**：位移搜索（每点 4 分钟筛法）；间距要到 0 仍需更根本的密度改动。
 - **验收命令**：
   ```bash
-  python tools/layout/pipeline.py --dump <新dump> --place <新place> --profile strict-via-thin --out-dir out/g1
+  python easycirq/scripts/layout/pipeline.py --dump <新dump> --place <新place> --profile strict-via-thin --out-dir out/g1
   ```
 
 ### G2 CAM 总线等长（合法口径：frontier-h 144.9 / frontier-g 398.6）→ 目标 <50 `BLOCKED-ON-DECISION`
@@ -79,7 +79,7 @@
 - **状态**：**已完成**（§128）。`candidates.py` 定义 `frontier-d` / `recipe-only`，`pipeline.py --candidate` 串起全链路并写 `summary.json.candidate`。
 - **验收命令**：
   ```bash
-  python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+  python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
       --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-d --out-dir out/fd
   ```
 - **复现证据**：25 轮筛法下 0 拥塞 / 345 间距 / 80.0-41.4-31.9，与 §123 逐项一致。
@@ -90,7 +90,7 @@
 - **状态**：**已完成**（§129）。`regress.py` 重测候选并逐项比对记录值；门禁项不得升高、间距不得升高、已进 50 目标内的组必须保持在内。
 - **验收命令**：
   ```bash
-  python tools/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
+  python easycirq/scripts/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
       --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-d --iters 25
   ```
 - **复现证据**：25 轮下 9 项全 OK（含 CAM 80.0 / LCD 41.4 / SD 31.9 与间距 345）；`frontier-e` 在

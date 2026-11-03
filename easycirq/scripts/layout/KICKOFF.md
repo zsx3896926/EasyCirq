@@ -12,10 +12,10 @@
 板子数据在同级目录 <仓库根>/retrocam-02。
 
 先做三件事，不要跳过：
-1) 读这三个文件（按顺序）：tools/layout/WRAP-UP.md、tools/layout/WORKING-RULES.md、tools/layout/GAPS.md
-   （不要把 HANDOFF.md 从头读——它有 192 节，用 tools/layout/HANDOFF-INDEX.md 按主题查）
-2) 跑健康检查：python tools/layout/verify.py            （约 46 秒，13 项，必须全 PASS）
-3) 跑一次基线对比：python tools/layout/bench.py --iters 3 --compare
+1) 读这三个文件（按顺序）：easycirq/scripts/layout/WRAP-UP.md、easycirq/scripts/layout/WORKING-RULES.md、easycirq/scripts/layout/GAPS.md
+   （不要把 HANDOFF.md 从头读——它有 192 节，用 easycirq/scripts/layout/HANDOFF-INDEX.md 按主题查）
+2) 跑健康检查：python easycirq/scripts/layout/verify.py            （约 46 秒，13 项，必须全 PASS）
+3) 跑一次基线对比：python easycirq/scripts/layout/bench.py --iters 3 --compare
    （应看到 retrocam/frontier-i 约 26 s、判定 identical KPI fingerprint；若不同，先查是谁改了内核）
 
 当前状态（不要重复劳动）：
@@ -57,9 +57,9 @@ C. 否则继续性能：A* 内循环编译（Cython/Rust，当前最大头 ≈33
 ## 3. 三条验证命令（第一条就要跑）
 
 ```bash
-python tools/layout/verify.py                      # 13 项、46 s
-python tools/layout/bench.py --iters 3 --compare   # 期望 ~26 s + identical KPI fingerprint
-python tools/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/verify.py                      # 13 项、46 s
+python easycirq/scripts/layout/bench.py --iters 3 --compare   # 期望 ~26 s + identical KPI fingerprint
+python easycirq/scripts/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidates frontier-i --iters 3 --brief
 ```
 

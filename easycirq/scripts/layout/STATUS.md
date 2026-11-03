@@ -76,9 +76,9 @@ this board is not deliverable as it stands.
 provenance:
 
 ```bash
-python tools/layout/prescribe.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/prescribe.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/recipe
-python tools/layout/reproduce.py --dump out/recipe/dump.json --place out/recipe/place.json \
+python easycirq/scripts/layout/reproduce.py --dump out/recipe/dump.json --place out/recipe/place.json \
     --profile strict-via-thin --out-dir out/recipe-run
 ```
 
@@ -133,11 +133,11 @@ remaining idea is either the router core (D7) or a board-level change (area, par
 
 ```bash
 # whole chain, delivery grade (~45 min): report.md + summary.json, exit 0 only if deliverable
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/run1
 
 # fast answer (~6-14 min; one congestion cell left)
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/fast --profile thin-10mil
 
 python -m pytest tests/test_ec_layout.py tests/test_bus_order.py -q     # 81 passed
@@ -176,8 +176,8 @@ the red lines.  When that happens, nothing in the pipeline needs rebuilding:
 
 ```bash
 # after a pinout / placement / stackup change:
-python tools/layout/reproduce.py --dump newdump.json --place ec-placed.json --out-dir out/
-python tools/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
+python easycirq/scripts/layout/reproduce.py --dump newdump.json --place ec-placed.json --out-dir out/
+python easycirq/scripts/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
     --dump newdump.json --stackup 4      # must print contract: PASS before any apply
 ```
 
@@ -214,11 +214,11 @@ worth reading before touching the router again.
 
 ```bash
 # DEFAULT: the best measured point (10 mil grid, 5 mil tracks, budget 16) - ~6-14 min
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/thin-10mil
 
 # the finer-grid alternative (5 mil grid, reserved via discs) - ~27 min
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json \
     --profile strict-via --out-dir out/strict-via
 ```
@@ -375,33 +375,33 @@ rules say `copperLayers = 2`, so the 4-layer stackup is an assumption — D1).
 
 ```bash
 # 0. context
-sed -n '1,120p' tools/layout/STATUS.md          # this file
-python tools/layout/ec_layout.py --help
+sed -n '1,120p' easycirq/scripts/layout/STATUS.md          # this file
+python easycirq/scripts/layout/ec_layout.py --help
 
 # 1. reproduce the frontier (default = strict-via, ~40 min) and read the scorecard
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/
 
 # 1a. the best measured point: 5 mil, reserved via discs, 0 dead legs + 0 islands (40 min)
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --grid 5 --profile strict-via --out-dir out/strict-via
 
 # 1b. or compare configurations under one ranking rule (portfolio.json/md)
-python tools/layout/portfolio.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/portfolio.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --jobs 3 --out-dir out/pf
 
 # 2. understand the red lines instead of guessing
-python tools/layout/spacing_audit.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/spacing_audit.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir out/
-python tools/layout/pour_cut.py out/plan.json --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pour_cut.py out/plan.json --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json
-python tools/layout/bus_capacity.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/bus_capacity.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json
-python tools/layout/forced_spacing.py out/plan.json --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/forced_spacing.py out/plan.json --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json
 
 # 3. prove the delivery mechanism still works (<1 min, no routing)
-python tools/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
+python easycirq/scripts/layout/acceptance.py --plan out/plan.json --kpi out/kpi.json \
     --dump ../retrocam-02/pcb/dump2.json --stackup 4
 
 # 4. the metrics themselves

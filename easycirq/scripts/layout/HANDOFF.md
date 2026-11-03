@@ -11,7 +11,7 @@
 门禁 **FAIL**，未上真机板（机制：离线全绿才允许上机）。
 
 ```
-路线: pcb dump → tools/layout/ec_layout.py place → route → check
+路线: pcb dump → easycirq/scripts/layout/ec_layout.py place → route → check
 ```
 
 ---
@@ -19,7 +19,7 @@
 ## 2. 代码与命令
 
 ```
-hds-verifier/tools/layout/
+hds-verifier/easycirq/scripts/layout/
   ec_layout.py          主流程 place / route / report / check
   reproduce.py          **一条命令复现当前前沿**（参数、KPI 记分卡、门禁结论）
   run_best.py           单次布线实验驱动（暴露 route() 的全部开关）
@@ -39,7 +39,7 @@ hds-verifier/tests/
 **想复现当前前沿，只需要一条命令**：
 
 ```bash
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir ../retrocam-02/pcb/offline/frontier
 ```
 
@@ -47,11 +47,11 @@ python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
 `reproduce.py` 的 `FRONTIER` 字典里，**改任何一项都会改变数字**，所以只放在一处。
 
 ```bash
-python tools/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
-python tools/layout/ec_layout.py route  dump.json --place placed.json --iters 20 --layers 4 --out plan.json
-python tools/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json   # exit 1 = 禁止上机
-python tools/layout/run_best.py dump.json --place placed.json --out plan.json --kpi kpi.json   # 带 segment_check
-python tools/layout/sweep_placement.py dump2.json --configs baseline,face,btn --out sweep.json
+python easycirq/scripts/layout/ec_layout.py place  dump.json --iters 40000 --out placed.json
+python easycirq/scripts/layout/ec_layout.py route  dump.json --place placed.json --iters 20 --layers 4 --out plan.json
+python easycirq/scripts/layout/ec_layout.py check  dump.json --place placed.json --plan plan.json   # exit 1 = 禁止上机
+python easycirq/scripts/layout/run_best.py dump.json --place placed.json --out plan.json --kpi kpi.json   # 带 segment_check
+python easycirq/scripts/layout/sweep_placement.py dump2.json --configs baseline,face,btn --out sweep.json
 ```
 
 `place` 的三个可调开关（默认值见文件头常量）：
@@ -1292,7 +1292,7 @@ objective 里有半句是"**一律离线跑通并达标后才允许上真机**"�
 现在它是**代码行为**：
 
 ```bash
-python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --out-dir DIR
+python easycirq/scripts/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --out-dir DIR
 ```
 
 * 门禁不绿 → **拒绝**（exit 2），并逐条列出未达标的 KPI；
@@ -1367,7 +1367,7 @@ copperLayers 2
 ### 33.4 新增 `plan_lint.py` + 交付闸门升级
 
 ```bash
-python tools/layout/plan_lint.py plan.json --dump dump2.json    # exit 1 = 不要上机
+python easycirq/scripts/layout/plan_lint.py plan.json --dump dump2.json    # exit 1 = 不要上机
 ```
 
 六项检查：层数、过孔直径（板规则 vs 路由器常量）、最小线宽、电源线宽、铜到板边、塞孔过孔。
@@ -1548,8 +1548,8 @@ L4 上有大量走线：CAM_XCLK 723 mil、CAM_SIOD 442、LCD_CS 424……铺铜
 ### 37.2 做法：显式且可追溯的 override
 
 ```bash
-python tools/layout/plan_lint.py  plan.json --dump dump2.json --stackup 4
-python tools/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --stackup 4 --out-dir DIR
+python easycirq/scripts/layout/plan_lint.py  plan.json --dump dump2.json --stackup 4
+python easycirq/scripts/layout/emit_apply.py plan.json --kpi kpi.json --dump dump2.json --stackup 4 --out-dir DIR
 ```
 
 * lint 的层数检查按 **4** 判定，并在明细里写明
@@ -2139,8 +2139,8 @@ contract: PASS
 
 ```
 pytest tests/test_ec_layout.py tests/test_bus_order.py -q   -> 47 passed（新增 portfolio 排序单测）
-python tools/layout/portfolio.py --jobs 3                  -> 上表，winner pour-step-8
-python tools/layout/reproduce.py（默认 profile=frontier）   -> 511 / 铜岛 1 / 186 vias(59/6) /
+python easycirq/scripts/layout/portfolio.py --jobs 3                  -> 上表，winner pour-step-8
+python easycirq/scripts/layout/reproduce.py（默认 profile=frontier）   -> 511 / 铜岛 1 / 186 vias(59/6) /
                                                               527 tracks / 38999.0 mil / 等长 713.1-165.3-297.6
 ```
 
@@ -2437,7 +2437,7 @@ islands(gate): 0 | island report layers: [] | plane_layer vias: 59 | GRID 5
 ### 51.5 复现命令
 
 ```bash
-python tools/layout/grid_experiment.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/grid_experiment.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --grid 5 --pour-step 8 \
     --best-effort-conflicts 10 --out-dir out/grid5
 ```
@@ -2462,8 +2462,8 @@ grid_experiment --grid 5 --best-effort-conflicts 16    -> 0 断腿 / 831 间距 
 
 ```bash
 # D6 的两个点现在是同一套 scorecard / gate 路径产出的
-python tools/layout/reproduce.py ...                                   # GRID=10（默认）
-python tools/layout/reproduce.py ... --grid 5 --best-effort-budget 40   # GRID=5
+python easycirq/scripts/layout/reproduce.py ...                                   # GRID=10（默认）
+python easycirq/scripts/layout/reproduce.py ... --grid 5 --best-effort-budget 40   # GRID=5
 ```
 
 实现上 `use_grid()` 把模块级 `ec` 重绑到"同一份源码、改一个常数"的私有模块
@@ -2757,7 +2757,7 @@ reproduce.py --grid 5 --best-effort-budget 30 --iters 25 --via-sites --via-margi
   一条命令复现本轮最佳点：
 
 ```bash
-python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json \
+python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json \
     --grid 5 --profile strict-via --out-dir out/strict-via
 ```
 
@@ -2836,7 +2836,7 @@ strict-via 453：pad hits forced 274-289 of 327（open 仅 38-53）
 间距 453 ❌（其中约 275 条为几何强制）
 等长 751.1 / 165.3 / 359.3 ❌（设计冲突）
 
-复现：python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json \
+复现：python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json \
           --grid 5 --profile strict-via --out-dir out/strict-via
 ```
 
@@ -2876,7 +2876,7 @@ strict-via 453：pad hits forced 274-289 of 327（open 仅 38-53）
 未布通 0 ✅ | 拥塞 0 ✅ | 未连通 0 ✅ | 焊盘层缺口 0 ✅ | 铜岛 0 ✅
 间距 453 ❌（其中约 275 条几何强制、约 165~180 条可动）
 等长 751.1 / 165.3 / 359.3 ❌（设计冲突：ρ = −0.21 / −0.37 / 0.70）
-复现：python tools/layout/reproduce.py --grid 5 --profile strict-via --dump ... --place ...
+复现：python easycirq/scripts/layout/reproduce.py --grid 5 --profile strict-via --dump ... --place ...
 ```
 
 ### 59.3 工具侧还剩下的两类活（都已被测量封顶）
@@ -2917,7 +2917,7 @@ strict-via 453：pad hits forced 274-289 of 327（open 仅 38-53）
 ### 60.2 端到端交付验收（用 strict-via 的 plan，而不是旧 plan）
 
 ```
-python tools/layout/acceptance.py --plan out/strict-via/plan.json \
+python easycirq/scripts/layout/acceptance.py --plan out/strict-via/plan.json \
     --kpi out/strict-via/kpi.json --dump ../retrocam-02/pcb/dump2.json --stackup 4
 ```
 
@@ -2963,7 +2963,7 @@ STATUS.md 200 行 / README.md 176 行，均无重复段落
 于是现在的最小复现命令是：
 
 ```bash
-python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json \
+python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json \
     --profile strict-via --out-dir out/strict-via
 ```
 
@@ -3032,7 +3032,7 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q   -> 58 passed
 ### 63.1 对账结果（默认命令，未加任何参数）
 
 ```
-python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --out-dir out/
+python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json --out-dir out/
 ```
 
 | 项目 | 文档声称 | 实测 | 结论 |
@@ -4102,13 +4102,13 @@ pytest tests/... -q          -> 73 passed（未改代码）
 `whatif.py`、`portfolio.py`、`compare.py`、`plan_lint.py`、`emit_apply.py`、`acceptance.py`、
 `bus_capacity.py`、`place_repair.py`、`congestion_map.py`、`sweep_placement.py`）**全部存在**。
 
-文档里被引用但不在 `tools/layout/` 下的只有测试文件（`test_ec_layout.py`、`test_bus_order.py`、
+文档里被引用但不在 `easycirq/scripts/layout/` 下的只有测试文件（`test_ec_layout.py`、`test_bus_order.py`、
 `test_datascale.py`），它们属于 `tests/`，引用正确。
 
 ### 86.2 git 状态
 
 `git status` 未见改动（`.gitignore` 已覆盖 `out/`、`dist/`、`node_modules/` 等历史目录）。
-`tools/layout/` 下被跟踪的只有 `*.md` 与工具源码，没有把运行产物提交进仓库。
+`easycirq/scripts/layout/` 下被跟踪的只有 `*.md` 与工具源码，没有把运行产物提交进仓库。
 
 ### 86.3 全量测试（10 分 18 秒实测）
 
@@ -4139,7 +4139,7 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q -> 73 passed
 ### 87.1 新工具：一条命令跑完整条链
 
 ```
-python tools/layout/pipeline.py --dump dump2.json --place ec-placed.json --out-dir out/run1
+python easycirq/scripts/layout/pipeline.py --dump dump2.json --place ec-placed.json --out-dir out/run1
 ```
 
 它按文档顺序串起：**布线 → KPI → 间距分组 → `plan_lint` → 交付闸门**，写出
@@ -4185,7 +4185,7 @@ README/STATUS 里的命令默认读者在 **`hds-verifier/` 仓库根目录**执
 `retrocam-02/`，所以示例用 `../retrocam-02/...`。本轮**按文档原样跑了一遍**验证路径：
 
 ```
-python tools/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/reproduce.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir <tmp> --iters 2
 -> 正常出 scorecard（iter 2 的低质量读数，仅用于验证路径与参数解析），exit 1（门禁红）
 ```
@@ -4484,7 +4484,7 @@ pytest tests/... -q               -> 76 passed（未改代码）
 ### 95.3 本轮验证
 
 ```
-grep waiver（tools/layout/*.md）      -> 只剩本条历史记录，决策项已无豁免选项
+grep waiver（easycirq/scripts/layout/*.md）      -> 只剩本条历史记录，决策项已无豁免选项
 STATUS 交接第 3 条                    -> 改为"必须在设计上消除"
 pytest tests/... -q                   -> 76 passed（未改代码）
 ```
@@ -5545,9 +5545,9 @@ git status                                -> 干净
 ### 118.2 复现实验
 
 ```
-python tools/layout/prescribe.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/prescribe.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --out-dir <tmp>/recipe
-python tools/layout/reproduce.py --dump <tmp>/recipe/dump.json --place <tmp>/recipe/place.json \
+python easycirq/scripts/layout/reproduce.py --dump <tmp>/recipe/dump.json --place <tmp>/recipe/place.json \
     --profile strict-via-thin --out-dir <tmp>/run
 ```
 
@@ -5667,7 +5667,7 @@ pytest tests/... -q                  -> 82 passed（未改代码）
 
 ### 121.1 工程师选定"改板"路线后，先落出可布线的输入对
 
-`board_change.py`（幂等、带 provenance）生成 `tools/layout/board-change/{dump,place}.json`：
+`board_change.py`（幂等、带 provenance）生成 `easycirq/scripts/layout/board-change/{dump,place}.json`：
 
 1. **外框 +500 mil/轴**：2680×1890 → **3266×2478 mil**（68×48 → 83×63 mm），轮廓点随 bbox 等比缩放，形状不变；
 2. **焊盘改小**：U1 → 20 mil 高（原 27.6）、U4 → 40（原 57.2）、L1 → 80（原 165.4）；
@@ -6028,7 +6028,7 @@ pytest tests/... -q       -> 82 passed
   并把候选的 provenance 写进 `summary.json`。
 
 ```bash
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-d --out-dir out/fd
 ```
 
@@ -6385,11 +6385,11 @@ P0 items (need a design decision, not scored): G1 spacing 358 -> 0, G2 CAM 80 ->
 
 ```bash
 # 1) P1 验收矩阵（约 5 分钟）
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-e --iters 25
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-e --iters 25
 # 2) 完整交付档位（约 45 分钟）
-python tools/layout/pipeline.py --dump ... --place ... --candidate frontier-e --out-dir out/fe
+python easycirq/scripts/layout/pipeline.py --dump ... --place ... --candidate frontier-e --out-dir out/fe
 # 3) 回归门（任何改动后跑）
-python tools/layout/regress.py --dump ... --place ... --candidate frontier-e --iters 25
+python easycirq/scripts/layout/regress.py --dump ... --place ... --candidate frontier-e --iters 25
 ```
 
 ### 135.4 本轮验证
@@ -7013,10 +7013,10 @@ pytest tests/... -q      -> 93 passed
 
 ```bash
 # 回归门（默认就是合法的 frontier-g）
-python tools/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --iters 25
 # 验收矩阵（默认 frontier-g）
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --iters 25
 ```
 
@@ -7269,8 +7269,8 @@ pytest tests/... -q           -> 98 passed（新增：报告三节 + "NOT RUN/Ge
 ### 154.4 本轮验证
 
 ```
-git diff --stat tools/layout/PRESCRIPTION.md   -> 重写（145 -> 190 行，全部数字挂 §编号）
-grep '^## ' tools/layout/PRESCRIPTION.md       -> 7 节齐全（合法性/实测/两道墙/已完成/证否/复现/待决）
+git diff --stat easycirq/scripts/layout/PRESCRIPTION.md   -> 重写（145 -> 190 行，全部数字挂 §编号）
+grep '^## ' easycirq/scripts/layout/PRESCRIPTION.md       -> 7 节齐全（合法性/实测/两道墙/已完成/证否/复现/待决）
 pytest tests/... -q                            -> 98 passed
 ```
 
@@ -7511,10 +7511,10 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q -> 101 passed
 ### 161.1 工具
 
 ```bash
-python tools/layout/verify.py              # 4 个阶段，12 项检查，约 30 秒（含布局单测）
-python tools/layout/verify.py --skip-tests # 只做构建/合法性/计算器（测试内调用用）
-python tools/layout/verify.py --route      # 追加默认候选的 25 轮筛法（~5 分钟）
-python tools/layout/verify.py --all-routes # 追加四候选对比（~18 分钟）
+python easycirq/scripts/layout/verify.py              # 4 个阶段，12 项检查，约 30 秒（含布局单测）
+python easycirq/scripts/layout/verify.py --skip-tests # 只做构建/合法性/计算器（测试内调用用）
+python easycirq/scripts/layout/verify.py --route      # 追加默认候选的 25 轮筛法（~5 分钟）
+python easycirq/scripts/layout/verify.py --all-routes # 追加四候选对比（~18 分钟）
 ```
 
 四个阶段：① 布局单测；② 每个活跃候选**幂等 + 合法摆放**；③ 记录值自描述（有 §编号、有 KPI 键）；
@@ -7628,8 +7628,8 @@ verify.py（默认）                -> 12 项 PASS
 现在补节后一条命令即可：
 
 ```bash
-python tools/layout/handoff_index.py --check  # 是否过期
-python tools/layout/handoff_index.py          # 重写（163 节，校验 OK）
+python easycirq/scripts/layout/handoff_index.py --check  # 是否过期
+python easycirq/scripts/layout/handoff_index.py          # 重写（163 节，校验 OK）
 ```
 
 ### 163.4 过程中自己的三次返工（记录在案）
@@ -8300,10 +8300,10 @@ calibration vs 70 passes: clearance rho 0.xx, CAM rho 0.xx (threshold 0.80)
 ### 177.3 用法
 
 ```bash
-python tools/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json \
     --candidates frontier-i,frontier-j --iters 25 --jobs 4
-python tools/layout/sweep.py ... --calibrate 70        # 秩相关裁决
+python easycirq/scripts/layout/sweep.py ... --calibrate 70        # 秩相关裁决
 ```
 
 ### 177.4 一个实现细节（顺手修掉）
@@ -8413,7 +8413,7 @@ pytest tests/test_ec_layout.py tests/test_bus_order.py -q -> 112 passed
 | second-2layer | two-layer | **2.2 s** | 117 | 29 | — |
 | selftest | strict-via-thin | **0.1 s** | 8 | 0 | 0.0 |
 
-基线写入 `tools/layout/.bench/baseline.json`；`bench.py --compare` 只允许"时间变、KPI 指纹不变"。
+基线写入 `easycirq/scripts/layout/.bench/baseline.json`；`bench.py --compare` 只允许"时间变、KPI 指纹不变"。
 
 ### 180.2 实测 profile（`--profile-call`，同一 spot 205 s 含采样开销）
 

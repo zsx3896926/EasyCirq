@@ -157,10 +157,10 @@ moves; that is reported, not generalised (one board, three passes, two moves).
 ## 5. Reproduce the state in three commands
 
 ```bash
-python tools/layout/verify.py                       # 46 s: 13 health checks (incl. the green path + Gerber round trip)
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/verify.py                       # 46 s: 13 health checks (incl. the green path + Gerber round trip)
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate all --iters 25    # ~18 min: the four points
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-i --out-dir out/fi   # ~20 min: the report
 ```
 

@@ -46,8 +46,8 @@ elsewhere), or pay capacity for a whole pour, or move to 6 layers.
 Both branches are one command now, so the comparison can be re-run at any time:
 
 ```bash
-python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile shared-pour
-python tools/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile exclusive-pour
+python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile shared-pour
+python easycirq/scripts/layout/reproduce.py --dump dump2.json --place ec-placed.json --profile exclusive-pour
 ```
 
 `--profile two-layer` covers the other branch of D1 (measured: 6 open nets,
@@ -147,7 +147,7 @@ Three consequences for this decision:
 open nets versus a whole ground plane. Reproduce with:
 
 ```bash
-python tools/layout/compare.py --dump dump2.json --place ec-placed.json \
+python easycirq/scripts/layout/compare.py --dump dump2.json --place ec-placed.json \
     --profiles shared-pour,exclusive-pour,trim-pour --out compare.md
 ```
 
@@ -251,7 +251,7 @@ change.
 Re-measure any time with:
 
 ```bash
-python tools/layout/grid_experiment.py --dump dump2.json --place ec-placed.json \
+python easycirq/scripts/layout/grid_experiment.py --dump dump2.json --place ec-placed.json \
     --grid 5 --pour-step 8 --best-effort-conflicts 10 --out-dir out/grid5
 ```
 

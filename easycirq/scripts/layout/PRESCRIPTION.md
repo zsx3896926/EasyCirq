@@ -129,24 +129,24 @@ confirm it.
 
 ```bash
 # 12-row acceptance matrix, ~5 min, default candidate is the legal one
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --iters 25
 
 # regression gate (refuses deprecated candidates)
-python tools/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/regress.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --iters 25
 
 # delivery grade run, ~45 min, writes report.md (8 sections) + summary.json
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g --out-dir out/fg
 
 # the supporting calculators
-python tools/layout/impedance.py --plan out/fg/plan.json --target 50
-python tools/layout/current.py   --plan out/fg/plan.json
-python tools/layout/thermal.py
-python tools/layout/dfm.py        --dump out/fg/candidate-dump.json --plan out/fg/plan.json
-python tools/layout/footprints.py --dump out/fg/candidate-dump.json
-python tools/layout/fabrication.py --dump out/fg/candidate-dump.json --plan out/fg/plan.json
+python easycirq/scripts/layout/impedance.py --plan out/fg/plan.json --target 50
+python easycirq/scripts/layout/current.py   --plan out/fg/plan.json
+python easycirq/scripts/layout/thermal.py
+python easycirq/scripts/layout/dfm.py        --dump out/fg/candidate-dump.json --plan out/fg/plan.json
+python easycirq/scripts/layout/footprints.py --dump out/fg/candidate-dump.json
+python easycirq/scripts/layout/fabrication.py --dump out/fg/candidate-dump.json --plan out/fg/plan.json
 ```
 
 ---

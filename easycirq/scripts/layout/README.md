@@ -1,4 +1,9 @@
-# EasyCirq offline layout & routing toolchain (`tools/layout/`)
+# 离线布局与布线工具链
+
+> **这段工具链原在 `hds-verifier/tools/layout/`，2026-11 整体并入 EasyCirq。**
+> 动手前先读 `WORKING-RULES.md`（八条纪律）与 `WRAP-UP.md`（能做什么/不能做什么）。
+> 入口已统一到 `easycirq layout <子命令>`；下面出现的路径均已改为新位置。
+> 板子数据用随包 `fixtures/`，可用 `EASYCIRQ_LAYOUT_BOARD` 覆盖。
 
 > **Handing this to another session?** Paste [`KICKOFF.md`](KICKOFF.md) — it carries the self-contained
 > prompt, the three verification commands, the refuted list and the rules that must not be deleted.
@@ -9,11 +14,11 @@
 **Start here — the ten-minute path (measured on this machine, HANDOFF §169):**
 
 ```bash
-python tools/layout/verify.py                      #   46 s  repository health (12 checks)
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/verify.py                      #   46 s  repository health (12 checks)
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g --iters 25
                                                    # 4 min 47 s  12-row acceptance matrix
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g \
     --profile thin-10mil --out-dir out/first
                                                    # 3 min 42 s  report.md (8 sections)
@@ -60,39 +65,39 @@ numbers were partly merged copper. They stay in `candidates.py` as `deprecated_i
 
 ```bash
 # is the repository healthy?  (unit tests, deterministic+legal candidates, calculators)
-python tools/layout/verify.py
+python easycirq/scripts/layout/verify.py
 
 # what does each legal candidate cost?  (12-row matrix, or the four-way comparison)
-python tools/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/gaps_check.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g --iters 25
-python tools/layout/gaps_check.py ... --candidate all --iters 25      # four-way, ~18 min
+python easycirq/scripts/layout/gaps_check.py ... --candidate all --iters 25      # four-way, ~18 min
 
 # did anything regress against the recorded numbers?  (refuses withdrawn candidates)
-python tools/layout/regress.py --dump ... --place ... --iters 25
+python easycirq/scripts/layout/regress.py --dump ... --place ... --iters 25
 
 # full delivery-grade run: route -> 11 KPIs -> plan_lint -> DFM -> footprints -> manifest
 # writes report.md (8 sections) + summary.json; ~45 min
-python tools/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/pipeline.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json --candidate frontier-g --out-dir out/fg
 
 # before searching: what is even possible?  (bounds in seconds, not after 30 routing runs)
-python tools/layout/feasibility.py --dump ../retrocam-02/pcb/dump2.json
+python easycirq/scripts/layout/feasibility.py --dump ../retrocam-02/pcb/dump2.json
 
 # many configurations at once: parallel + cached + rank-calibrated
-python tools/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
+python easycirq/scripts/layout/sweep.py --dump ../retrocam-02/pcb/dump2.json \
     --place ../retrocam-02/pcb/offline/ec-placed.json \
     --candidates frontier-i,frontier-j --iters 25 --jobs 4
 
 # the offline calculators behind the report
-python tools/layout/impedance.py   --plan out/fg/plan.json --target 50
-python tools/layout/current.py     --plan out/fg/plan.json
-python tools/layout/thermal.py
-python tools/layout/dfm.py         --dump out/fg/candidate-dump.json --plan out/fg/plan.json
-python tools/layout/footprints.py  --dump out/fg/candidate-dump.json
-python tools/layout/fabrication.py --dump out/fg/candidate-dump.json --plan out/fg/plan.json
+python easycirq/scripts/layout/impedance.py   --plan out/fg/plan.json --target 50
+python easycirq/scripts/layout/current.py     --plan out/fg/plan.json
+python easycirq/scripts/layout/thermal.py
+python easycirq/scripts/layout/dfm.py         --dump out/fg/candidate-dump.json --plan out/fg/plan.json
+python easycirq/scripts/layout/footprints.py  --dump out/fg/candidate-dump.json
+python easycirq/scripts/layout/fabrication.py --dump out/fg/candidate-dump.json --plan out/fg/plan.json
 
 # proof that the delivery guard refuses a red plan and emits a green one
-python tools/layout/acceptance.py --plan out/fg/plan.json --kpi out/fg/summary.json
+python easycirq/scripts/layout/acceptance.py --plan out/fg/plan.json --kpi out/fg/summary.json
 ```
 
 Step-by-step routing, spacing audits and pour diagnosis are still available (`ec_layout.py`,
