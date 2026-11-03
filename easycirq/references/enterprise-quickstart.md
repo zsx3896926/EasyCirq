@@ -44,8 +44,11 @@ mkdir -p ~/.easycirq/knowledge          # Windows: New-Item -ItemType Directory 
 
 ## 第 2 步：确认工具读到了
 
+> 所有企业命令都在 `easycirq enterprise` 下面，**不用记 Python 路径**。
+> 完整清单：`easycirq enterprise`
+
 ```bash
-python easycirq/scripts/enterprise_selfcheck.py
+easycirq enterprise audit
 ```
 
 期望：
@@ -87,7 +90,7 @@ easycirq sch list --include-bbox --include-pins --window <id> --doc <原理图�
 ## 第 4 步：查板子
 
 ```bash
-python easycirq/scripts/enterprise_rules.py --netlist board.json
+easycirq enterprise check --netlist board.json
 ```
 
 两块板，两种结果：
@@ -109,7 +112,7 @@ exit=1
 ## 第 4.5 步：看一份完整审阅结论
 
 ```bash
-python easycirq/scripts/enterprise_review.py --netlist board.json --label "你的项目名"
+easycirq enterprise review --netlist board.json --label "你的项目名"
 ```
 
 把规则和知识合成一份给人看的结论：
@@ -158,7 +161,7 @@ python easycirq/scripts/enterprise_review.py --netlist board.json --label "你�
 推进：
 
 ```bash
-python easycirq/scripts/review_ledger.py --ledger ledger.json --promote
+easycirq enterprise promote --ledger ledger.json
 ```
 
 ```
@@ -186,8 +189,8 @@ python easycirq/scripts/review_ledger.py --ledger ledger.json --promote
 ## 出问题时先跑这三条
 
 ```bash
-python easycirq/scripts/enterprise_selfcheck.py          # 库健康检查
-python easycirq/scripts/enterprise_rules.py --describe   # 到底读了哪些文件
+easycirq enterprise audit          # 库健康检查
+easycirq enterprise check --describe   # 到底读了哪些文件
 easycirq connector verify                                # 连接器版本对不对
 ```
 

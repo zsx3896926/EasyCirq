@@ -22,6 +22,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -176,18 +177,50 @@ func newEnterpriseAuditCmd(stdout, stderr io.Writer) *cobra.Command {
 }
 
 func newEnterpriseReportCmd(stdout, stderr io.Writer) *cobra.Command {
-	return passThrough("report --html-out <kb.html>", "导出可分享的 HTML 报告",
-		"生成自包含 HTML（不依赖网络），可放内网共享、直接分发。\n\n"+
-			"  easycirq enterprise report --html-out kb.html\n"+
-			"  easycirq enterprise report --html-out \\\\server\\share\\kb.html --title \"公司规范库\"",
-		scriptKnowlg, stdout, stderr)
+	c := &cobra.Command{
+		Use:   "report --html-out <kb.html>",
+		Short: "导出可分享的 HTML 报告",
+		Long: "生成自包含 HTML（不依赖网络），可放内网共享、直接分发。\n\n" +
+			"  easycirq enterprise report --html-out kb.html\n" +
+			"  easycirq enterprise report --html-out kb.html --title \"公司规范库\"",
+		DisableFlagParsing: true,
+		RunE: func(_ *cobra.Command, args []string) error {
+			// 没给 --html-out 时脚本会退化成"列条目"，那不是 report 该干的事
+			hasOut := false
+			for _, a := range args {
+				if a == "--html-out" || strings.HasPrefix(a, "--html-out=") {
+					hasOut = true
+					break
+				}
+			}
+			if !hasOut {
+				return fmt.Errorf("report 需要 --html-out <路径>：\n" +
+					"  easycirq enterprise report --html-out kb.html\n" +
+					"（只想看库里有什么，用 easycirq enterprise ls）")
+			}
+			return runEnterpriseScript(scriptKnowlg, args, stdout, stderr)
+		},
+	}
+	return c
 }
 
 func newEnterprisePromoteCmd(stdout, stderr io.Writer) *cobra.Command {
-	return passThrough("promote --ledger <ledger.json>", "把人审记录写进企业规则",
-		"把 disposition=rule 的条目推进企业知识目录，并回读确认真的能加载。\n\n"+
-			"  easycirq enterprise promote --ledger ledger.json",
-		scriptLedger, stdout, stderr)
+	// 这里不能用 passThrough：脚本的默认动作是"列出来"，推进要显式 --promote。
+	// 子命令叫 promote 却打出清单，是 2026-11-03 实测发现的真问题——
+	// 客户会以为已经推进了，实际上一条都没写进去。
+	c := &cobra.Command{
+		Use:   "promote --ledger <ledger.json>",
+		Short: "把人审记录写进企业规则",
+		Long: "把 disposition=rule 的条目推进企业知识目录，并回读确认真的能加载。\n\n" +
+			"  easycirq enterprise promote --ledger ledger.json\n" +
+			"  easycirq enterprise promote --ledger ledger.json --dry-run",
+		DisableFlagParsing: true,
+		RunE: func(_ *cobra.Command, args []string) error {
+			full := append([]string{"--promote"}, args...)
+			return runEnterpriseScript(scriptLedger, full, stdout, stderr)
+		},
+	}
+	return c
 }
 
 func newEnterprisePartsCmd(stdout, stderr io.Writer) *cobra.Command {

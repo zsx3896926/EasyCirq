@@ -18,11 +18,23 @@ QUICK = ROOT / "easycirq" / "references" / "enterprise-quickstart.md"
 
 
 def run(script, args, cwd, env=None):
+    """跑 scripts/ 下的脚本（一页纸里还剩少量这种写法）。"""
     e = dict(os.environ)
     e.pop("EASYCIRQ_KNOWLEDGE_DIR", None)
     if env:
         e.update(env)
     return subprocess.run([sys.executable, str(SCRIPTS / script), *args],
+                          capture_output=True, text=True, encoding="utf-8",
+                          errors="replace", timeout=180, cwd=str(cwd), env=e)
+
+
+def run_ec(args, cwd, env=None):
+    """跑**一页纸里写的**那一层命令：easycirq enterprise ..."""
+    e = dict(os.environ)
+    e.pop("EASYCIRQ_KNOWLEDGE_DIR", None)
+    if env:
+        e.update(env)
+    return subprocess.run(["easycirq", "enterprise", *args],
                           capture_output=True, text=True, encoding="utf-8",
                           errors="replace", timeout=180, cwd=str(cwd), env=e)
 
@@ -60,8 +72,8 @@ def test_step1_and_2_exactly_as_written():
                 "verified_on": "在一块 R0402 的板子上跑过，报 fail",
             }]}, ensure_ascii=False), encoding="utf-8")
 
-        proc = run("enterprise_selfcheck.py", [], work,
-                   env={"EASYCIRQ_KNOWLEDGE_DIR": str(lib)})
+        proc = run_ec(["audit"], work,
+                      env={"EASYCIRQ_KNOWLEDGE_DIR": str(lib)})
         assert proc.returncode == 0, proc.stdout[-800:]
         assert "规则：1 条" in proc.stdout
         assert "全部可加载" in proc.stdout
@@ -84,13 +96,13 @@ def test_step4_exactly_as_written():
 
         (work / "clean.json").write_text(json.dumps(board("R0603")),
                                          encoding="utf-8")
-        p = run("enterprise_rules.py", ["--netlist", "clean.json"], work, env)
+        p = run_ec(["check", "--netlist", "clean.json"], work, env)
         assert p.returncode == 0, p.stdout[-600:]
         assert "pass" in p.stdout
 
         (work / "bad.json").write_text(json.dumps(board("R0402")),
                                        encoding="utf-8")
-        p = run("enterprise_rules.py", ["--netlist", "bad.json"], work, env)
+        p = run_ec(["check", "--netlist", "bad.json"], work, env)
         assert p.returncode == 1, p.stdout[-600:]
         assert "R0402" in p.stdout
 
@@ -115,8 +127,8 @@ def test_step5_exactly_as_written():
                          "verified_on": "在一块用 S8050 的板子上跑过，报 fail"},
             }]}, ensure_ascii=False), encoding="utf-8")
 
-        proc = run("review_ledger.py", ["--ledger", str(ledger), "--promote"],
-                   work, env={"EASYCIRQ_KNOWLEDGE_DIR": str(lib)})
+        proc = run_ec(["promote", "--ledger", str(ledger)],
+                      work, env={"EASYCIRQ_KNOWLEDGE_DIR": str(lib)})
         assert proc.returncode == 0, proc.stdout[-900:]
         assert "回读确认" in proc.stdout
         # 文档说「两行必须一样」——这里真的验一遍

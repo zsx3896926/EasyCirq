@@ -3,6 +3,10 @@
 > 当前进度：**可执行规则**已能跑通（加载 → 执行 → 阻断）。
 > **可检索知识**、**人审记录结构化**、**企业器件/块库**还没做，见文末「还没做的」。
 
+> **给多家企业做接入时**，先让客户填
+> [企业接入信息清单](../enterprise-discovery.md)——
+> 尤其 A2（插件 API 形态）、A3（能否导出网表）、C4（图纸能否出公司）、
+> D1（库放哪）、D5（有没有成文规范）。这五条拿不到，后面的配置都是猜的。
 ## 目录
 
 - 一、先分清两种「经验」
@@ -169,14 +173,14 @@ easycirq sch list --include-bbox --include-pins \
 
 ```bash
 # 只看加载了什么（先确认读到了哪些文件）
-python easycirq/scripts/enterprise_rules.py --describe
+easycirq enterprise check --describe
 
 # 对一块板跑规则
-python easycirq/scripts/enterprise_rules.py \
+easycirq enterprise check \
   --netlist deliverables/fan-controller/snapshot/list.json
 
 # 临时指定某份规则文件（优先级最高）
-python easycirq/scripts/enterprise_rules.py --netlist <list.json> \
+easycirq enterprise check --netlist <list.json> \
   --rule examples/enterprise-knowledge/rules.company.json
 ```
 
@@ -194,7 +198,7 @@ python easycirq/scripts/enterprise_rules.py --netlist <list.json> \
 第 2 步的样例：
 
 ```bash
-python easycirq/scripts/enterprise_rules.py \
+easycirq enterprise check \
   --netlist reports/fan-controller/evidence/21-enterprise-violations.json \
   --rule examples/enterprise-knowledge/rules.company.json
 # 期望 exit=1，且三条规则各报一条违规
@@ -206,7 +210,7 @@ python easycirq/scripts/enterprise_rules.py \
 人核查时指出的问题，不要留在聊天记录里。记成结构化条目：
 
 ```bash
-python easycirq/scripts/review_ledger.py --ledger .easycirq/review-ledger.json --list
+easycirq enterprise promote --ledger .easycirq/review-ledger.json --list
 ```
 
 ### 每条必须显式选边
@@ -246,7 +250,7 @@ python easycirq/scripts/review_ledger.py --ledger .easycirq/review-ledger.json -
 ### 推进去，并回读确认
 
 ```bash
-python easycirq/scripts/review_ledger.py --ledger .easycirq/review-ledger.json --promote
+easycirq enterprise promote --ledger .easycirq/review-ledger.json --promote
 ```
 
 它会写进企业规则目录，然后**立刻对着那个目录回读**，确认规则 id 真的出现在加载列表里。
@@ -290,7 +294,7 @@ exit=0
 ## 六点五、看一份完整审阅结论
 
 ```bash
-python easycirq/scripts/enterprise_review.py --netlist board.json --intent intent.json
+easycirq enterprise review --netlist board.json --intent intent.json
 ```
 
 这是终态第 2 条「能指出『这条违反贵司规范』」的落点。输出分三块：
@@ -323,7 +327,7 @@ python easycirq/scripts/enterprise_review.py --netlist board.json --intent inten
 用检索把它们接进审阅：
 
 ```bash
-python easycirq/scripts/knowledge_search.py   --netlist deliverables/fan-controller/snapshot/list.json   --intent  deliverables/fan-controller/design/intent.json
+easycirq enterprise search   --netlist deliverables/fan-controller/snapshot/list.json   --intent  deliverables/fan-controller/design/intent.json
 ```
 
 实测输出：
@@ -344,7 +348,7 @@ python easycirq/scripts/knowledge_search.py   --netlist deliverables/fan-control
 3. **没被召回的知识是死的**：
 
 ```bash
-python easycirq/scripts/knowledge_search.py --audit
+easycirq enterprise search --audit
 ```
 
 审计查两件事：
@@ -418,7 +422,7 @@ python easycirq/scripts/knowledge_search.py --audit
 ### 每个字段都能说出它来自哪一层
 
 ```bash
-python easycirq/scripts/enterprise_parts.py \
+easycirq enterprise parts \
   --parts parts.company.json --resolve mosfet.ao3400a_sot23
 ```
 
@@ -440,7 +444,7 @@ measured     = {'vgs_th': 1.3, ...}       ← explicit
 要覆盖某个内置器件，**必须知道它的键**。直接查：
 
 ```bash
-python easycirq/scripts/enterprise_parts.py --list-builtin --filter mosfet
+easycirq enterprise parts --list-builtin --filter mosfet
 ```
 
 ```
@@ -681,7 +685,7 @@ easycirq blocks show block.你的块id     # 能看到完整 JSON 就说明加�
 放完用自检确认工具看到的是对的位置：
 
 ```bash
-python easycirq/scripts/enterprise_selfcheck.py
+easycirq enterprise audit
 ```
 
 它会打出 `[enterprise(默认)] ~/.easycirq/knowledge` 或 `[enterprise(env)] <你的目录>`

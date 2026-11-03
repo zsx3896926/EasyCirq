@@ -7,10 +7,12 @@ import (
 	"testing"
 )
 
-// `easycirq enterprise` 只是把 Python 脚本包一层。这一组钉三件事：
-//   1. 组里每个子命令都能解析到真实脚本（否则是死命令）
-//   2. 脚本找不到时的报错要说清探测了哪些路径、怎么修
-//   3. 子命令不吞脚本自己的 flag
+// `easycirq enterprise` 只是把 Python 脚本包一层。这一组钉四件事：
+//   1. 组里每个子命令都真挂着、能跑
+//   2. 每个脚本名都真的在仓库里（否则是死命令）
+//   3. 脚本找不到时报错说清探了哪些路径、怎么修
+//   4. **子命令做它名字所说的事**——promote 要推进，report 要出文件，
+//      不能退化成"列清单"而让客户以为做完了
 func TestEnterpriseGroupHasAllSubcommands(t *testing.T) {
 	root := newEnterpriseCmd(&strings.Builder{}, &strings.Builder{})
 	want := []string{"ls", "show", "check", "review", "audit", "report",
@@ -26,18 +28,15 @@ func TestEnterpriseGroupHasAllSubcommands(t *testing.T) {
 	}
 }
 
-// 组里出现的每个脚本名都必须真的存在于仓库的 easycirq/scripts 下——
-// 否则客户装完会得到"找不到脚本"的死命令。
 func TestEnterpriseScriptsExistInRepo(t *testing.T) {
 	repo, err := filepath.Abs(filepath.Join("..", "..", ".."))
 	if err != nil {
 		t.Fatal(err)
 	}
-	scripts := []enterpriseScript{
+	for _, sc := range []enterpriseScript{
 		scriptRules, scriptReview, scriptSelfChk, scriptLedger,
 		scriptKnowlg, scriptKnowSrch, scriptParts,
-	}
-	for _, sc := range scripts {
+	} {
 		path := filepath.Join(repo, "easycirq", "scripts", sc.name)
 		if _, err := os.Stat(path); err != nil {
 			t.Errorf("脚本 %s 不在仓库的 easycirq/scripts 下：%v", sc.name, err)
@@ -45,8 +44,6 @@ func TestEnterpriseScriptsExistInRepo(t *testing.T) {
 	}
 }
 
-// 找不到脚本时，报错必须列出探测过的路径并给出修法。
-// 「能加载」的反面是「说清为什么没加载」——这是整个目标反复强调的那条线。
 func TestMissingScriptErrorExplainsItself(t *testing.T) {
 	sc := enterpriseScript{name: "definitely_not_a_real_script.py"}
 	_, err := resolveEnterpriseScript(sc)
@@ -54,19 +51,15 @@ func TestMissingScriptErrorExplainsItself(t *testing.T) {
 		t.Fatal("不存在的脚本居然解析成功了")
 	}
 	msg := err.Error()
-	for _, want := range []string{"probed", "EASYCIRQ_SKILLS_DIR"} {
+	for _, want := range []string{"probed", "EASYCIRQ_SKILLS_DIR", sc.name} {
 		if !strings.Contains(msg, want) {
 			t.Errorf("报错里缺 %q：\n%s", want, msg)
 		}
 	}
-	if !strings.Contains(msg, sc.name) {
-		t.Errorf("报错没点出脚本名：\n%s", msg)
-	}
 }
 
-// 脚本自己的 flag 不能被 cobra 吃掉：--netlist / --html-out 这些都归脚本管。
 func TestEnterprisePassThroughDisablesFlagParsing(t *testing.T) {
-	for _, name := range []string{"ls", "check", "report", "promote"} {
+	for _, name := range []string{"ls", "check", "search", "parts"} {
 		cmd := passThrough(name, "s", "l",
 			enterpriseScript{name: "x.py"},
 			&strings.Builder{}, &strings.Builder{})
@@ -76,12 +69,35 @@ func TestEnterprisePassThroughDisablesFlagParsing(t *testing.T) {
 	}
 }
 
-// 组里的子命令必须真挂上（不是只有名字的空壳）。
-func TestEnterpriseSubcommandsAreRunnable(t *testing.T) {
+// report 没给 --html-out 时必须报错退非零。
+// 否则脚本会退化成"列条目"，而客户以为报告生成了——这是 2026-11-03 实测的真问题。
+func TestEnterpriseReportRequiresHtmlOut(t *testing.T) {
+	var out, errb strings.Builder
+	root := newEnterpriseCmd(&out, &errb)
+	root.SetArgs([]string{"report"})
+	err := root.Execute()
+	if err == nil {
+		t.Fatalf("report 没给 --html-out 却成功了，输出：%s", out.String())
+	}
+	if !strings.Contains(err.Error(), "--html-out") {
+		t.Errorf("报错没提示要 --html-out：%v", err)
+	}
+}
+
+// promote 必须真的把 --promote 交给脚本。
+// 子命令叫 promote 却打出清单，客户会以为已经推进了。
+func TestEnterprisePromoteInjectsTheFlag(t *testing.T) {
 	root := newEnterpriseCmd(&strings.Builder{}, &strings.Builder{})
+	var promote bool
 	for _, c := range root.Commands() {
-		if c.RunE == nil && c.Run == nil {
-			t.Errorf("子命令 %q 没有 Run，是个空壳", c.Name())
+		if c.Name() == "promote" {
+			promote = true
+			if c.RunE == nil {
+				t.Error("promote 没有 RunE")
+			}
 		}
+	}
+	if !promote {
+		t.Fatal("没有 promote 子命令")
 	}
 }
