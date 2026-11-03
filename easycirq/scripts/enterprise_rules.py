@@ -177,6 +177,71 @@ def _pins_net_of(part):
     return {p.get("net") for p in part.get("pins") or [] if p.get("net")}
 
 
+# ── 拦截计数
+#
+# `verified_on` 是人写的声明；计数是**运行时留下的记录**。两者不是一回事：
+# 前者说"我验过它有用"，后者说"它在这台机器上真的拦过 N 次"。
+#
+# 记在**本机**（~/.easycirq/audit/），不写进共享知识目录——那里没有锁，
+# 每个工程师往共享文件里加计数会互相覆盖。代价是它只反映这台机器，
+# 所以报告里一律标「本机」，不许当成公司汇总。
+HITS_ENV = "EASYCIRQ_ENTERPRISE_HITS"
+
+
+def hits_path():
+    env = os.environ.get(HITS_ENV, "").strip()
+    if env:
+        return pathlib.Path(env)
+    home = pathlib.Path.home()
+    return home / ".easycirq" / "audit" / "enterprise-hits.json"
+
+
+def load_hits(path=None):
+    p = pathlib.Path(path) if path else hits_path()
+    if not p.is_file():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8-sig")) or {}
+    except Exception:  # noqa: BLE001
+        # 计数坏了不该让检查失败——它只是附加信息
+        return {}
+
+
+def record_hits(results, path=None):
+    """把本次拦到的规则累加进计数文件。返回更新后的字典。"""
+    p = pathlib.Path(path) if path else hits_path()
+    hits = load_hits(p)
+    now = _now_iso()
+    changed = False
+    for r in results:
+        if r.get("status") != "fail":
+            continue
+        rid = r.get("id")
+        if not rid:
+            continue
+        entry = hits.get(rid) or {}
+        entry["count"] = int(entry.get("count") or 0) + 1
+        entry["last_seen"] = now
+        entry["kind"] = r.get("kind")
+        hits[rid] = entry
+        changed = True
+    if not changed:
+        return hits
+    try:
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(hits, ensure_ascii=False, indent=2) + "\n",
+                     encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        # 写不进去（只读盘、共享冲突）不该让检查失败
+        pass
+    return hits
+
+
+def _now_iso():
+    import datetime as _dt
+    return _dt.datetime.now().astimezone().isoformat(timespec="seconds")
+
+
 def evaluate(rules, netlist):
     """对网表跑所有规则。返回 (results, findings)。
 
@@ -321,6 +386,8 @@ def main(argv=None):
     netlist = json.loads(pathlib.Path(args.netlist).read_text(encoding="utf-8-sig"))
     netlist = netlist.get("result") or netlist
     results, findings = evaluate(rules, netlist)
+    # 真的查过一块板才计——--describe 不算
+    record_hits(results)
     verdict = summarize(results)
 
     report = {"schema": "enterprise-rules-report/v1", "verdict": verdict,

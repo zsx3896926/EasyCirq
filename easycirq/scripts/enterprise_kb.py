@@ -59,6 +59,7 @@ code { background:var(--tint); padding:1px 5px; border-radius:3px;
 .card { border:1px solid var(--line); border-radius:8px; padding:14px 16px;
         margin:0 0 14px; }
 .empty { color:var(--muted); font-style:italic; }
+.muted { color:var(--muted); }
 .foot { margin-top:40px; color:var(--muted); font-size:12px;
         border-top:1px solid var(--line); padding-top:12px; }
 """
@@ -66,6 +67,14 @@ code { background:var(--tint); padding:1px 5px; border-radius:3px;
 
 def esc(value):
     return html.escape("" if value is None else str(value))
+
+
+def load_hits():
+    """读本机拦截计数。没有就是空——「没记录」不等于「没拦过」。"""
+    try:
+        return enterprise_rules.load_hits()
+    except Exception:  # noqa: BLE001
+        return {}
 
 
 def load_all(project_dir=None, explicit=None):
@@ -139,8 +148,10 @@ def render_html(bundle, title="企业知识库"):
         out.append('<p class="empty">没有规则。企业规范里能写成'
                    '「对网表做一次确定性判定」的，放这里。</p>')
     else:
+        hits = load_hits()
         out.append("<table><tr><th>ID</th><th>标题</th><th>强度</th>"
-                   "<th>依据</th><th>找谁</th><th>拦过什么</th></tr>")
+                   "<th>依据</th><th>找谁</th><th>拦过什么（人工声明）</th>"
+                   "<th>本机拦截次数</th></tr>")
         for r in rules:
             kind = r.get("kind") or "hard"
             kind_cell = ('<span class="bad">hard</span>' if kind == "hard"
@@ -148,13 +159,20 @@ def render_html(bundle, title="企业知识库"):
             ev = r.get("verified_on") or ""
             ev_cell = (esc(ev) if ev.strip()
                        else '<span class="bad">未证明会触发</span>')
+            h = hits.get(r["id"]) or {}
+            if h.get("count"):
+                count_cell = (f'<span class="ok">{int(h["count"])} 次</span>'
+                              f'<br><span class="mono">{esc(h.get("last_seen"))}</span>')
+            else:
+                count_cell = '<span class="muted">无记录</span>'
             out.append(
                 f'<tr><td class="mono">{esc(r["id"])}</td>'
                 f'<td>{esc(r.get("title"))}</td>'
                 f'<td>{kind_cell}</td>'
                 f'<td>{esc(r.get("evidence"))}</td>'
                 f'<td>{esc(r.get("owner"))}</td>'
-                f'<td>{ev_cell}</td></tr>')
+                f'<td>{ev_cell}</td>'
+                f'<td>{count_cell}</td></tr>')
         out.append("</table>")
 
     # ── 知识
@@ -207,7 +225,10 @@ def render_html(bundle, title="企业知识库"):
     out.append("</table>")
 
     out.append('<div class="foot">规则决定能不能交付；知识只是提醒，'
-               '从不算通过或失败。<br>本文件自包含，不依赖网络，可直接分发。</div>')
+               '从不算通过或失败。<br>'
+               '「拦过什么」是人写的声明；「本机拦截次数」是这台机器上的运行记录，'
+               '<b>不是公司汇总</b>——换一台机器会从零开始。<br>'
+               '本文件自包含，不依赖网络，可直接分发。</div>')
     out.append("</body></html>")
     return "\n".join(out)
 
@@ -218,7 +239,8 @@ def main(argv=None):
     ap.add_argument("--knowledge", action="append", default=[])
     ap.add_argument("--list", action="store_true", help="列出三类条目")
     ap.add_argument("--show", help="看某一条的全文（JSON）")
-    ap.add_argument("--html-out", help="导出自包含 HTML 到指定路径")
+    ap.add_argument("--html-out", "--out", dest="html_out",
+                    help="导出自包含 HTML 到指定路径")
     ap.add_argument("--title", default="企业知识库")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
@@ -263,10 +285,14 @@ def main(argv=None):
         }, ensure_ascii=False, indent=2))
         return 0
 
+    hits = load_hits()
     print(f"一、可执行规则 {len(bundle['rules'])} 条")
     for r in bundle["rules"]:
         flag = "" if r.get("verified_on") else "  ⚠ 未证明会触发"
-        print(f"   [{r.get('kind','hard'):8}] {r['id']}  {r.get('title','')}{flag}")
+        h = hits.get(r["id"]) or {}
+        cnt = f"  本机拦 {h['count']} 次" if h.get("count") else "  本机无记录"
+        print(f"   [{r.get('kind','hard'):8}] {r['id']}  {r.get('title','')}"
+              f"{flag}{cnt}")
     print(f"\n二、可检索知识 {len(bundle['knowledge'])} 条")
     for k in bundle["knowledge"]:
         why = "" if k.get("why_not_rule") else "  ⚠ 未说明为何不能自动查"
