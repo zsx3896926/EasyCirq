@@ -113,5 +113,5 @@ def test_demo_states_what_is_not_done():
         assert claim in text
     # 关键：必须明说没在客户 EDA 上验过
     assert "没在客户的 EDA 上验过" in text
-    # 必须明说没有写入锁
-    assert "没有写入锁" in text
+    # 必须明说人工编辑仍没有锁（工具写入已加锁）
+    assert "人工用编辑器同时改仍未加锁" in text

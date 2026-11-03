@@ -191,6 +191,33 @@ def rule_files_from_ledger(ledger):
     return rules
 
 
+def _read_existing_rules(path):
+    """读现有规则文件。读不出来就当空的——但**不静默吞掉**，调���方会看到
+    合并结果里少了东西。文件不存在是正常的（第一次 promote）。"""
+    p = pathlib.Path(path)
+    if not p.is_file():
+        return []
+    try:
+        data = json.loads(p.read_text(encoding="utf-8-sig"))
+    except Exception:  # noqa: BLE001
+        return []
+    return [r for r in (data.get("rules") or []) if isinstance(r, dict)]
+
+
+def _strip_bookkeeping(rule):
+    """去掉我们加的内部字段再比内容。"""
+    return {k: v for k, v in rule.items() if not k.startswith("_")}
+
+
+def _same_rule(a, b):
+    return _strip_bookkeeping(a) == _strip_bookkeeping(b)
+
+
+def _brief(rule):
+    return {"title": rule.get("title"), "kind": rule.get("kind"),
+            "evidence": rule.get("evidence")}
+
+
 def promote(ledger, target_dir, dry_run=False):
     """把 rule 类条目写进企业规则目录，并**回读验证真的能被加载**。"""
     problems = validate(ledger)
@@ -214,8 +241,48 @@ def promote(ledger, target_dir, dry_run=False):
 
     target.mkdir(parents=True, exist_ok=True)
     out = target / "rules.from-review.json"
-    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                   encoding="utf-8")
+
+    # ── 合并，不是覆盖 ────────────────────────────────────────────────
+    #
+    # 原来的写法是整文件覆盖：两个人各自 promote，第二个会把第一个人的
+    # 规则整条抹掉，且没有任何提示。共享目录上这是必然会发生的。
+    #
+    # 现在按 id 合并；同一个 id 但内容不同 = **真冲突**，不替人挑，
+    # 保留原有的、跳过新的、报出来让人决定。宁可少写一条，不能悄悄丢一条。
+    import enterprise_lock
+
+    merged, conflicts = [], []
+    try:
+        with enterprise_lock.FileLock(out) as lock:
+            existing = _read_existing_rules(out)
+            by_id = {r.get("id"): r for r in existing if r.get("id")}
+            order = [r.get("id") for r in existing if r.get("id")]
+
+            for rule in rules:
+                rid = rule.get("id")
+                prev = by_id.get(rid)
+                if prev is None:
+                    by_id[rid] = rule
+                    order.append(rid)
+                elif _same_rule(prev, rule):
+                    pass  # 已经在了，什么都不用做
+                else:
+                    conflicts.append({
+                        "id": rid,
+                        "kept": _brief(prev),
+                        "skipped": _brief(rule),
+                        "why": "同一 id 内容不同：保留库里已有的，跳过这次的。"
+                               "要么改 id，要么先手工对齐",
+                    })
+
+            merged = [by_id[rid] for rid in order if rid in by_id]
+            payload["rules"] = merged
+            out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                           encoding="utf-8")
+            took_over = getattr(lock, "took_over_stale", False)
+    except enterprise_lock.LockTimeout as exc:
+        return {"ok": False, "locked": True, "problems": [
+            {"file": str(out), "error": str(exc)}]}
 
     # ── 写完之后必须回读，确认「下一次真的会加载」。
     #
@@ -246,7 +313,11 @@ def promote(ledger, target_dir, dry_run=False):
                     loaded_ids.add(rule["id"])
 
     missing = [r["id"] for r in rules if r["id"] not in loaded_ids]
-    return {"ok": not missing, "written": str(out), "rules": len(rules),
+    return {"ok": not missing and not conflicts, "written": str(out),
+            "rules": len(rules), "merged_total": len(merged),
+            "kept_existing": max(0, len(merged) - len(rules)),
+            "conflicts": conflicts,
+            "took_over_stale_lock": took_over,
             "loaded_ids": sorted(loaded_ids), "missing": missing,
             "load_problems": load_problems}
 
@@ -294,10 +365,30 @@ def main(argv=None):
         if args.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
-            if not result["ok"]:
-                print("推进失败：")
+            if result.get("note"):
+                print(result["note"])
+            elif result.get("dry_run"):
+                print(f"（dry-run）会写入 {result['would_write']}，{result['rules']} 条规则")
+            elif not result["ok"] and not result.get("written"):
+                # 真正没写：校验没过，或者锁被占着
+                print("没有写入：")
                 for p in result.get("problems") or []:
                     print(f"  ! {p}")
+            elif not result["ok"]:
+                # 写了，但有冲突或加载不到——**不是全失败**，别用"失败"二字
+                print(f"已写入 {result['written']}（但有问题，见下）")
+                print(f"  本次推入：{result['rules']} 条")
+                print(f"  库中共有：{result['merged_total']} 条"
+                      + (f"（保留原有的 {result['kept_existing']} 条）"
+                         if result.get("kept_existing") else ""))
+                if result.get("conflicts"):
+                    print()
+                    print(f"  ⚠ 有 {len(result['conflicts'])} 处冲突，"
+                          f"**这些没有写入**：")
+                    for c in result["conflicts"]:
+                        print(f"    {c['id']}：{c['why']}")
+                        print(f"      库里已有：{c['kept']}")
+                        print(f"      本次跳过：{c['skipped']}")
                 for m in result.get("missing") or []:
                     print(f"  ! 写进去了但加载不到：{m}")
             elif result.get("note"):
@@ -305,8 +396,25 @@ def main(argv=None):
             elif result.get("dry_run"):
                 print(f"（dry-run）会写入 {result['would_write']}，{result['rules']} 条规则")
             else:
-                print(f"已写入 {result['written']}（{result['rules']} 条规则）")
+                # 说清两件事：这一次推了几条、库里现在一共几条。
+                # 只说"1 条规则"会让人以为库里只有 1 条——合并语义下这是误导。
+                print(f"已写入 {result['written']}")
+                print(f"  本次推入：{result['rules']} 条")
+                print(f"  库中共有：{result['merged_total']} 条"
+                      + (f"（保留原有的 {result['kept_existing']} 条）"
+                         if result.get("kept_existing") else ""))
                 print(f"回读确认：加载到 {len(result['loaded_ids'])} 条规则 id")
+                if result.get("took_over_stale_lock"):
+                    print("  注意：接管了一个残留锁（上次可能异常退出）。"
+                          "确认没有别人正在改。")
+                if result.get("conflicts"):
+                    print()
+                    print(f"  ⚠ 有 {len(result['conflicts'])} 处冲突，"
+                          f"**这些没有写入**：")
+                    for c in result["conflicts"]:
+                        print(f"    {c['id']}：{c['why']}")
+                        print(f"      库里已有：{c['kept']}")
+                        print(f"      本次跳过：{c['skipped']}")
                 print(f"写入目录：{result['target']}")
                 print(f"下次读取：{result['read_by_next_run']}")
                 if result["missing"]:
