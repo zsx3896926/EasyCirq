@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -14,6 +16,12 @@ type setupLine struct {
 	Label string
 	OK    bool
 	State string
+	// Optional marks a line that is an add-on, not a requirement. When an
+	// optional line is not OK it renders as "-" rather than "✗", because a
+	// company that never configured a knowledge base has not done anything
+	// wrong — it has just not started. Rendering that as a failure would train
+	// people to ignore the marks, which is the opposite of the point.
+	Optional bool
 }
 
 // zhState maps a raw status word to the customer-facing one; a status the
@@ -57,7 +65,71 @@ func setupLines(rep doctorReport) []setupLine {
 	lines = append(lines, setupLine{Label: "技能", OK: skillOK,
 		State: zhState(rep.Skill.Status,
 			map[string]string{"installed": "已装入", "missing": "未装入", "unknown": "未知"}, "未知")})
+	lines = append(lines, enterpriseKnowledgeLine())
 	return lines
+}
+
+// enterpriseKnowledgeLine reports whether a company knowledge library is
+// configured, without parsing it.
+//
+// Why not parse here: the loading rules (which files count, what a valid schema
+// is, which entries are dead) live in Python and are already tested. Duplicating
+// a weaker version in Go would let the two disagree, and the Go one would be the
+// one the customer sees first. This line answers "is there a library and did the
+// path resolve", and points at `easycirq enterprise ls` for the rest.
+//
+// The three outcomes are deliberately distinct:
+//   - a directory with files            -> configured
+//   - the default directory absent      -> not configured (optional, "-")
+//   - a directory the user SET is absent -> wrong path, and it says which one
+//
+// The last case matters most: someone who set EASYCIRQ_KNOWLEDGE_DIR and got it
+// wrong would otherwise believe the company library is in effect.
+func enterpriseKnowledgeLine() setupLine {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return setupLine{Label: "企业知识库", Optional: true, State: "无法确定用户目录"}
+	}
+	return enterpriseKnowledgeState(os.Getenv("EASYCIRQ_KNOWLEDGE_DIR"), home)
+}
+
+// enterpriseKnowledgeState is the testable core: env and home are injected so
+// the three outcomes can be asserted without touching the real user profile.
+func enterpriseKnowledgeState(rawEnv, home string) setupLine {
+	env := strings.TrimSpace(rawEnv)
+	dir := env
+	explicit := env != ""
+	if dir == "" {
+		dir = filepath.Join(home, ".easycirq", "knowledge")
+	}
+
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		if explicit {
+			// 配了但路径不对——这是真问题，要让人看见配的是哪一条
+			return setupLine{Label: "企业知识库", Optional: false,
+				State: "目录不存在：" + dir}
+		}
+		return setupLine{Label: "企业知识库", Optional: true,
+			State: "未配置（可选；运行 easycirq enterprise ls 了解怎么开始）"}
+	}
+
+	files := 0
+	for _, e := range entries {
+		if !e.IsDir() && strings.HasSuffix(strings.ToLower(e.Name()), ".json") {
+			files++
+		}
+	}
+	if files == 0 {
+		if explicit {
+			return setupLine{Label: "企业知识库", Optional: false,
+				State: "目录里没有 .json：" + dir}
+		}
+		return setupLine{Label: "企业知识库", Optional: true,
+			State: "空库（" + dir + "）"}
+	}
+	return setupLine{Label: "企业知识库", OK: true,
+		State: fmt.Sprintf("%d 个文件（%s）", files, dir)}
 }
 
 func renderSetup(rep doctorReport, out io.Writer) {
@@ -67,6 +139,9 @@ func renderSetup(rep doctorReport, out io.Writer) {
 		mark := "✓"
 		if !line.OK {
 			mark = "✗"
+			if line.Optional {
+				mark = "-"
+			}
 		}
 		fmt.Fprintf(out, "  %s %-14s %s\n", mark, line.Label, line.State)
 	}
@@ -100,8 +175,8 @@ because importing a connector and allowing external interaction must happen
 inside EasyEDA.
 
 Exit codes: 0 ready, 2 not ready.`,
-		Args:      cobra.NoArgs,
-		Example:   `  easycirq setup`,
+		Args:    cobra.NoArgs,
+		Example: `  easycirq setup`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			rep := collectDoctorReport(cfg)
 			if asJSON {
