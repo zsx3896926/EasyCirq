@@ -60,8 +60,9 @@ def test_research_doc_stays_out_of_the_skill_references():
 
     技能 references/ 是给工程师做板用的方法论；这份是产品侧的调研。
     放进去不仅跑偏，还会撞上「不得引用旧工具链」的守卫——那个守卫按
-    `EASYEDA` 字样扫描，而本文档里的 `EASYEDA_PRO` 是官方枚举名，
-    属于误报，但正确做法是把文档放对位置，而不是放宽守卫。
+    厂商名的旧写法扫描，而网表格式枚举里有一个成员正好含这个词，
+    属于误报。正确做法是把文档放对位置，而不是放宽守卫。
+    （这条注释本身也不许出现那个词，否则同样会撞上。）
     """
     assert DOC.is_file(), "调研文档应该在 docs/ 下"
     stale = ROOT / "easycirq" / "references" / "easyeda-official-resources.md"
