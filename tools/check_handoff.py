@@ -73,7 +73,11 @@ def looks_like_path(token: str) -> bool:
     if not token:
         return False
     # commands, URLs, flags and shells are not paths
-    if token.startswith(("http://", "https://", "-")):
+    #
+    # ws:// / wss:// 也算 URL：2026-11-03 在写企业部署文档时发现漏了它们，
+    # `wss://服务器` 和 `ws://127.0.0.1:23111` 被当成文件路径报"引用不存在"。
+    # WebSocket 地址不是文件，加进来。
+    if token.startswith(("http://", "https://", "ws://", "wss://", "-")):
         return False
     if re.match(r"^(easycirq|python|python3|git|bash|pwsh|pip|go)\s", token):
         return False
