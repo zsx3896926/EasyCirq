@@ -128,6 +128,7 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 		newSkillCmd(stdout, stderr),
 		newUpdateCmd(cfg, stdout, stderr),
 		newTaskCmd(stdout, stderr),
+		newEnterpriseCmd(stdout, stderr),
 	)
 	installMissingSubcommandErrors(root)
 

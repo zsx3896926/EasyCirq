@@ -109,6 +109,8 @@ def collect_knowledge(project_dir=None, explicit=None):
                         "title": kn.get("title") or "",
                         "body": kn.get("body") or "",
                         "tags": kn.get("tags") or [],
+                        # 这一栏是「规则不许降级成知识」的凭据，报告要看得见
+                        "why_not_rule": kn.get("why_not_rule") or "",
                         "from": str(path), "layer": layer,
                     })
             elif data.get("schema") == "easycirq-enterprise-knowledge/v1":
@@ -118,6 +120,7 @@ def collect_knowledge(project_dir=None, explicit=None):
                         "title": item.get("title") or "",
                         "body": item.get("body") or "",
                         "tags": item.get("tags") or [],
+                        "why_not_rule": item.get("why_not_rule") or "",
                         "from": str(path), "layer": layer,
                     })
             else:
