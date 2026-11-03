@@ -174,6 +174,10 @@ $ easycirq login --server https://easycirq.company.com --token <管理员发的>
 
 ## 试点怎么开始
 
+> 验收标准见 [交付验收单](delivery-acceptance.md)：10 项，每项带可复制命令和明确的过/不过。
+> **那张单子就是「交付到哪算完」的定义。**
+
+
 ```
 第 1 周   客户填信息清单（重点 A2、A3）
           我们确认：能不能接、值不值得接
