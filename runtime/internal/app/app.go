@@ -131,6 +131,7 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 		newEnterpriseCmd(stdout, stderr),
 		newGatewayCmd(stdout, stderr),
 		newLoginCmd(stdout, stderr),
+		newLayoutCmd(stdout, stderr),
 		newLLMProxyCmd(stdout, stderr),
 	)
 	installMissingSubcommandErrors(root)

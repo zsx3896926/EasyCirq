@@ -1,0 +1,95 @@
+{
+ "iters": 3,
+ "rows": [
+  {
+   "label": "retrocam/frontier-i",
+   "profile": "strict-via-thin",
+   "iters": 3,
+   "seconds": 53.5,
+   "fingerprint": {
+    "gate": {
+     "unrouted_legs": 3,
+     "congestion_cells": 0,
+     "clearance_violations": 150,
+     "nets_unconnected": 3,
+     "pad_layer_gaps": 0,
+     "pour_islands": 0
+    },
+    "skew": {
+     "CAM_D": 654.2,
+     "LCD_": 41.4,
+     "SD_": 31.9
+    },
+    "tracks": 555,
+    "vias": 138,
+    "total_length_mil": 0.0
+   }
+  },
+  {
+   "label": "retrocam/frontier-i-fast",
+   "profile": "thin-10mil",
+   "iters": 3,
+   "seconds": 11.9,
+   "fingerprint": {
+    "gate": {
+     "unrouted_legs": 2,
+     "congestion_cells": 1,
+     "clearance_violations": 177,
+     "nets_unconnected": 2,
+     "pad_layer_gaps": 0,
+     "pour_islands": 0
+    },
+    "skew": {
+     "CAM_D": 621.4,
+     "LCD_": 41.4,
+     "SD_": 29.0
+    },
+    "tracks": 503,
+    "vias": 152,
+    "total_length_mil": 0.0
+   }
+  },
+  {
+   "label": "second-2layer",
+   "profile": "two-layer",
+   "iters": 3,
+   "seconds": 2.1,
+   "fingerprint": {
+    "gate": {
+     "unrouted_legs": 4,
+     "congestion_cells": 1,
+     "clearance_violations": 29,
+     "nets_unconnected": 2,
+     "pad_layer_gaps": 0,
+     "pour_islands": 0
+    },
+    "skew": {},
+    "tracks": 117,
+    "vias": 24,
+    "total_length_mil": 0.0
+   }
+  },
+  {
+   "label": "selftest",
+   "profile": "strict-via-thin",
+   "iters": 3,
+   "seconds": 0.1,
+   "fingerprint": {
+    "gate": {
+     "unrouted_legs": 0,
+     "congestion_cells": 0,
+     "clearance_violations": 0,
+     "nets_unconnected": 0,
+     "pad_layer_gaps": 0,
+     "pour_islands": 0
+    },
+    "skew": {
+     "CAM_D": 0.0
+    },
+    "tracks": 8,
+    "vias": 0,
+    "total_length_mil": 0.0
+   }
+  }
+ ]
+}
