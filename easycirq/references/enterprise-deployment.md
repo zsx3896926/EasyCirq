@@ -306,6 +306,8 @@ easycirq gateway --tokens tokens.json --listen :8443 \
 
 ### 为什么不让服务端代调 LLM（否掉 A 方案）
 
+> 完整设计见 [LLM 网关设计](enterprise-llm-design.md)。
+
 A 方案是：服务端自己当 Agent，工程师只提交"我要做块板"，服务端全自动跑完。
 
 **否掉的理由**：

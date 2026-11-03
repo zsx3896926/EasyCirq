@@ -32,6 +32,9 @@ import (
 // credentialsPath 允许测试覆盖。
 const envCredentials = "EASYCIRQ_CREDENTIALS"
 
+// defaultAgentBaseURL 是 B 方案里定的本机代理地址。
+const defaultAgentBaseURL = "http://127.0.0.1:23190/v1"
+
 // Credentials 是登录后保存的凭据。
 type Credentials struct {
 	// Server 形如 https://easycirq.company.com（不带结尾斜杠）。
@@ -40,6 +43,12 @@ type Credentials struct {
 	Token string `json:"token"`
 	// Engineer 只用于展示，方便确认登录的是谁。
 	Engineer string `json:"engineer,omitempty"`
+	// AgentBaseURL 是 login 时确定下来的 Agent 配置值。
+	//
+	// 它是**本机回环地址**，不含任何凭据——这正是本机代理存在的理由：
+	// 直接让 Agent 指服务器地址，就得把 token 写进 Agent 的配置文件，
+	// 而这类文件经常被截图、贴群、提交到仓库。
+	AgentBaseURL string `json:"agentBaseUrl,omitempty"`
 }
 
 func credentialsFile() string {
@@ -81,6 +90,10 @@ func loadCredentials() (Credentials, bool, error) {
 	}
 	c.Server = strings.TrimRight(strings.TrimSpace(c.Server), "/")
 	c.Token = strings.TrimSpace(c.Token)
+	// 老凭据文件没有这个字段：补上默认值，不用重登录。
+	if strings.TrimSpace(c.AgentBaseURL) == "" {
+		c.AgentBaseURL = defaultAgentBaseURL
+	}
 	return c, true, nil
 }
 

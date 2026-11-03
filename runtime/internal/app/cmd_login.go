@@ -82,7 +82,8 @@ func newLoginCmd(stdout, stderr io.Writer) *cobra.Command {
 			}
 
 			cred := Credentials{Server: srv, Token: strings.TrimSpace(token),
-				Engineer: strings.TrimSpace(engineer)}
+				Engineer:     strings.TrimSpace(engineer),
+				AgentBaseURL: defaultAgentBaseURL}
 			path, err := saveCredentials(cred)
 			if err != nil {
 				return fmt.Errorf("保存凭据失败: %w", err)
@@ -94,6 +95,11 @@ func newLoginCmd(stdout, stderr io.Writer) *cobra.Command {
 			}
 			fmt.Fprintf(stdout, "  服务器：%s（%v 个已登记 token）\n", srv, health["tokens"])
 			fmt.Fprintf(stdout, "  凭据保存到：%s\n", path)
+			fmt.Fprintln(stdout)
+			fmt.Fprintln(stdout, "Agent 配置（复制这一段，token 不会出现在里面）：")
+			fmt.Fprintf(stdout, "  base_url = %s\n", cred.AgentBaseURL)
+			fmt.Fprintf(stdout, "  api_key  = 任意非空值（真 key 在服务器，本机没有）\n")
+			fmt.Fprintln(stdout, "  先运行 easycirq llm-proxy 让这个地址可用。")
 			fmt.Fprintln(stdout)
 			fmt.Fprintln(stdout, "之后的命令都发往公司服务器。要回到本机模式：easycirq login --logout")
 			fmt.Fprintln(stdout, "注意：这只代表你能连上服务器，不代表你的 EDA 客户端已经连上——")
@@ -152,6 +158,7 @@ func printLoginStatus(out io.Writer) error {
 	}
 	fmt.Fprintf(out, "  token：%s\n", redactToken(cred.Token))
 	fmt.Fprintf(out, "  凭据文件：%s\n", credentialsFile())
+	fmt.Fprintf(out, "  Agent base_url：%s\n", cred.AgentBaseURL)
 	// 顺手探一次，让「登录了但服务器没了」当场可见
 	if _, err := probeServerHealth(cred.Server); err != nil {
 		fmt.Fprintf(out, "  ⚠ 现在连不上：%v\n", err)
