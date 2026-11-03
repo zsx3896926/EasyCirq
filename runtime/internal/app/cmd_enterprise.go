@@ -186,17 +186,22 @@ func newEnterpriseReportCmd(stdout, stderr io.Writer) *cobra.Command {
 			"  easycirq enterprise report --html-out kb.html --title \"公司规范库\"",
 		DisableFlagParsing: true,
 		RunE: func(_ *cobra.Command, args []string) error {
-			// 没给 --html-out 时脚本会退化成"列条目"，那不是 report 该干的事
+			// 没给输出路径时脚本会退化成"列条目"，那不是 report 该干的事。
+			//
+			// 两个名字都要认：`--out` 是目标与文档里写的那个，
+			// `--html-out` 是更早的写法。2026-11-03 实测发现只认后者，
+			// 于是文档里的 `--out` 直接失败——文档承诺了实现没做的事。
 			hasOut := false
 			for _, a := range args {
-				if a == "--html-out" || strings.HasPrefix(a, "--html-out=") {
+				if a == "--out" || strings.HasPrefix(a, "--out=") ||
+					a == "--html-out" || strings.HasPrefix(a, "--html-out=") {
 					hasOut = true
 					break
 				}
 			}
 			if !hasOut {
-				return fmt.Errorf("report 需要 --html-out <路径>：\n" +
-					"  easycirq enterprise report --html-out kb.html\n" +
+				return fmt.Errorf("report 需要 --out <路径>：\n" +
+					"  easycirq enterprise report --out kb.html\n" +
 					"（只想看库里有什么，用 easycirq enterprise ls）")
 			}
 			return runEnterpriseScript(scriptKnowlg, args, stdout, stderr)

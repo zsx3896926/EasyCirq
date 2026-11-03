@@ -413,7 +413,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 ## 5.5 企业知识库（客户自己的规范/实测值/标准电路）
 
 用户说「我们公司规定」「按我们规范检查」「这颗料我们实测过」「用我们自己的标准电路」
-「上次评审说的别再犯」时：**上手读 [一页纸](references/enterprise-quickstart.md)，
+「上次评审说的别再犯」时：**给人看读 [演示](references/enterprise-demo.md)，上手读 [一页纸](references/enterprise-quickstart.md)，
 深入读 [企业知识库](references/enterprise-knowledge.md)**；脚本在 `scripts/`：
 `enterprise_rules.py` / `knowledge_search.py` / `enterprise_parts.py` /
 `review_ledger.py` / `enterprise_review.py`（**给人看的审阅结论**）/ `enterprise_selfcheck.py`。企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`

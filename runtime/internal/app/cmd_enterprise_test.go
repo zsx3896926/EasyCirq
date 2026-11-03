@@ -69,18 +69,36 @@ func TestEnterprisePassThroughDisablesFlagParsing(t *testing.T) {
 	}
 }
 
-// report 没给 --html-out 时必须报错退非零。
+// report 没给输出路径时必须报错退非零。
 // 否则脚本会退化成"列条目"，而客户以为报告生成了——这是 2026-11-03 实测的真问题。
-func TestEnterpriseReportRequiresHtmlOut(t *testing.T) {
+func TestEnterpriseReportRequiresOutputPath(t *testing.T) {
 	var out, errb strings.Builder
 	root := newEnterpriseCmd(&out, &errb)
 	root.SetArgs([]string{"report"})
 	err := root.Execute()
 	if err == nil {
-		t.Fatalf("report 没给 --html-out 却成功了，输出：%s", out.String())
+		t.Fatalf("report 没给输出路径却成功了，输出：%s", out.String())
 	}
-	if !strings.Contains(err.Error(), "--html-out") {
-		t.Errorf("报错没提示要 --html-out：%v", err)
+	if !strings.Contains(err.Error(), "--out") {
+		t.Errorf("报错没提示要 --out：%v", err)
+	}
+}
+
+// --out 和 --html-out 两个名字都必须被接受。
+//
+// 2026-11-03 实测：Go 侧只认 --html-out，而文档与 Python 侧用 --out，
+// 于是文档里写的命令直接失败。文档承诺了实现没做的事。
+func TestEnterpriseReportAcceptsBothFlagNames(t *testing.T) {
+	for _, flag := range []string{"--out", "--html-out"} {
+		var out, errb strings.Builder
+		root := newEnterpriseCmd(&out, &errb)
+		root.SetArgs([]string{"report", flag, filepath.Join(t.TempDir(), "kb.html")})
+		err := root.Execute()
+		// 脚本可能因为找不到 skill 目录而失败；这里只关心**没有**报
+		// "需要 --out"，也就是两个名字都通过了参数校验这一关。
+		if err != nil && strings.Contains(err.Error(), "需要 --out") {
+			t.Errorf("%s 被误判为没给输出路径", flag)
+		}
 	}
 }
 
