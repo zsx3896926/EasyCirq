@@ -118,6 +118,7 @@ func newEnterpriseCmd(stdout, stderr io.Writer) *cobra.Command {
 		newEnterprisePromoteCmd(stdout, stderr),
 		newEnterprisePartsCmd(stdout, stderr),
 		newEnterpriseSearchCmd(stdout, stderr),
+		newEnterpriseDoctorCmd(stdout, stderr),
 	)
 	return c
 }

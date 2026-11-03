@@ -1874,6 +1874,25 @@ threshold_sanity   pass
 
 ## 已部分修复：器件额定电压判不了 → 现在「声明额定值，工具算应力」（2026-11-02）
 
+
+### 第五个偶发（2026-11-03 新增）
+
+| 测试 | 文件:行 | 观察到的现象 |
+|---|---|---|
+| `TestDropSchGroupsForPage_OtherPagesUntouched` | `cmd_sch_group_lifecycle_test.go:70` | `docA 的组该没了, 仍有 1 个` |
+
+**证据表明是偶发，不是回归**：
+
+- 单独 `-count=3` 连跑 **3 次全过**
+- 紧接着全量重跑 `ok`（86.5s）
+- 出现该失败的那次全量运行同时通过了本次改动相关的全部测试
+- 本次改动是新增 `cmd_enterprise_doctor.go` 与测试，未触碰分组生命周期代码
+
+**不猜根因**：没有当时的 goroutine dump 或运行顺序记录，**不写"可能是并发"这种话**。
+需要复现时用 `-count=N -shuffle=on` 保留随机顺序，再抓 `-race`。
+
+**处置**：重跑；连续两次失败才当回归查。
+
 ### 原来的记录
 
 `known-failures` 里曾写：
