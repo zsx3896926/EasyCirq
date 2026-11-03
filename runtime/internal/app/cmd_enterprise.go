@@ -104,8 +104,11 @@ func newEnterpriseCmd(stdout, stderr io.Writer) *cobra.Command {
 			"  easycirq enterprise check         按企业规则查一块板\n" +
 			"  easycirq enterprise review        一份给人看的审阅结论\n" +
 			"  easycirq enterprise audit         库健康检查（哪些条目不会生效）\n" +
+			"  easycirq enterprise doctor        环境自检（目录、写权限）\n" +
 			"  easycirq enterprise report        导出可分享的 HTML 报告\n" +
-			"  easycirq enterprise promote       把人审记录写进企业规则\n\n" +
+			"  easycirq enterprise promote       把人审记录写进企业规则\n" +
+			"  easycirq enterprise parts         企业器件参数 / 查内置键\n" +
+			"  easycirq enterprise search        按板子检索企业知识\n\n" +
 			"规则能拦住交付；知识只做提示，永远不影响结论。",
 	}
 	c.AddCommand(
