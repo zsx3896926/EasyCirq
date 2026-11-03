@@ -125,6 +125,8 @@ type Options struct {
 	// DaemonOptions 用于给每个租户造 daemon。Host/Port 必须为空——
 	// 租户的 daemon 不绑端口。
 	DaemonOptions daemon.Options
+	// LLM 是转发配置。BaseURL 为空表示**不启用**转发。
+	LLM LLMOptions
 }
 
 // Server 是多租户入口。
@@ -201,6 +203,8 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("/health", s.handleHealth)
 	mux.HandleFunc("/eda", s.handleConnector)
 	mux.HandleFunc("/action", s.handleAction)
+	// "/llm/" 之后是原样透传的上游路径（如 /llm/v1/chat/completions）
+	mux.HandleFunc("/llm/", s.handleLLM)
 	return mux
 }
 
@@ -227,6 +231,7 @@ func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 		"service": "easycirq-gateway",
 		"tenants": n,
 		"tokens":  tokenCount(s.opts.Tokens),
+		"llm":     strings.TrimSpace(s.opts.LLM.BaseURL) != "",
 		"version": "1",
 	})
 }
