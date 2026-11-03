@@ -128,6 +128,48 @@ easycirq enterprise ls         # 看条目
 
 **这五条一条不清楚，写出来的网关就要返工。**
 
+### 客户端怎么指向公司服务器（连接器 1.0.22+）
+
+在 EDA 的插件用户配置里设两项即可，**不用改连接器代码**：
+
+| 配置键 | 值 | 说明 |
+|---|---|---|
+| `easycirqDaemonUrl` | `wss://easycirq.company.com/eda` | 必须是 `ws://` 或 `wss://`；设了就**不再扫端口** |
+| `easycirqAuthToken` | 一次性 token | 作为 `?token=` 附在连接上 |
+
+```js
+// 在 EDA 的脚本控制台里执行一次
+eda.sys_Storage.setExtensionUserConfig(
+  'easycirqDaemonUrl', 'wss://easycirq.company.com/eda');
+eda.sys_Storage.setExtensionUserConfig('easycirqAuthToken', '<token>');
+```
+
+**不设这两项 = 完全等于以前的行为**（连 `ws://127.0.0.1:23111/eda`）。
+这一条有单元测试钉住：`connector/src/transport-remote.test.ts` 里
+「unset override keeps the localhost default exactly as before」。
+
+#### token 放在 query 里的代价（必须知道）
+
+`eda.sys_WebSocket.register` 只接受一个 URL 字符串，**没有设置请求头的地方**，
+所以 token 只能走 query 参数。这带来两个后果：
+
+1. **token 会出现在代理/网关的访问日志里**
+2. 浏览器历史、抓包工具都可能留下它
+
+因此：
+
+- token 必须是**短期的、可吊销的**，不能是长期密钥
+- 服务端要按 token 记审计，出事能对应到人
+- 不要把 token 写进工单、聊天记录
+
+这也是为什么方案 B 里"真 key 在服务器"很重要：**泄露的 token 只影响一次会话，
+泄露的 LLM key 影响整家公司。**
+
+#### 目前**还没有**的
+
+**服务端那一侧还没实现。** 连接器现在**能**连远程地址，但公司服务器上还没有
+一个能接受它、并把命令路由到对应工程师窗口的进程。见下方「L2 进度」。
+
 ### 为什么不让服务端代调 LLM（否掉 A 方案）
 
 A 方案是：服务端自己当 Agent，工程师只提交"我要做块板"，服务端全自动跑完。
