@@ -217,6 +217,35 @@ token 表：
    是硬杀，进程会被直接终止。生产用服务管理器时要配**优雅停止**（发送 Ctrl+C 等价信号），
    否则在途请求会被切断。这一条**在本机实测过**（`proc.terminate()` 后退出码 1）。
 
+### Agent 直接调 HTTP：工程师机器可以不装 CLI
+
+`easycirq` 命令行只是 `/action` 的一个 HTTP 客户端。**gateway 的接口本身就是
+全部能力**——任何能发 HTTP 的 Agent 都能驱动它，不需要在工程师机器上装 CLI。
+
+```bash
+curl -sS https://easycirq.company.com/action \
+  -H "Authorization: Bearer $EASYCIRQ_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"type":"request","version":"v1","action":"schematic.pages.list"}'
+```
+
+服务器会把这个请求路由到**你名下**的连接器，由 EDA 客户端执行并回读。
+`windowId` 可选；同一人有多个窗口时用 `--project` 或 `windowId` 消歧。
+
+#### 已验证到什么程度
+
+| 断言 | 验证 |
+|---|---|
+| 裸 HTTP 能让连接器执行动作并回读 | ✅ `TestRawHTTPDrivesConnectorWithoutCLI`（不经 CLI） |
+| 没有 token 的裸 HTTP 被拒、且不打扰连接器 | ✅ `TestRawHTTPWithoutTokenIsRefused` |
+| 跨租户隔离在裸 HTTP 下同样成立 | ✅ 沿用 `/action`，与 CLI 同一条路径 |
+
+#### 没验证到的
+
+**具体某个 Agent 怎么发这个请求**（工具调用格式、是否支持自定义 header）
+取决于那家 Agent 的形态——这是 B1/B3 之外的新变量，**没拿到答复就不猜**。
+上面那条 curl 是通用形态；把它变成某家 Agent 的工具定义是最后一公里。
+
 ### 工程师怎么接入（一条命令）
 
 ```bash
