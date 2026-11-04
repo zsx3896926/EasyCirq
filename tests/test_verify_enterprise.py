@@ -15,6 +15,10 @@ TOOL = ROOT / "tools" / "verify_enterprise.py"
 
 @pytest.mark.skipif(not TOOL.is_file(), reason="演练脚本不存在")
 def test_enterprise_loop_is_intact():
+    # 产物可能不存在于全新 checkout（构建产物或可再生证据）。
+    # 在就跑真断言，不在就明确 skip —— 不伪装成通过。
+    if not (ROOT / "examples/enterprise-knowledge/parts.company.json").exists():
+        pytest.skip("缺少 examples/enterprise-knowledge/parts.company.json（示例库）")
     proc = subprocess.run([sys.executable, str(TOOL)],
                           capture_output=True, text=True, encoding="utf-8",
                           errors="replace", timeout=900, cwd=str(ROOT))

@@ -27,6 +27,10 @@ def run_verify(package):
 
 @pytest.mark.skipif(not PKG.is_dir(), reason="风扇板交付包不存在")
 def test_real_package_passes():
+    # 产物可能不存在于全新 checkout（构建产物或可再生证据）。
+    # 在就跑真断言，不在就明确 skip —— 不伪装成通过。
+    if not (ROOT / "reports/fan-controller/evidence").exists():
+        pytest.skip("缺少 reports/fan-controller/evidence（可再生的证据，不入库）")
     proc = run_verify(PKG)
     assert proc.returncode == 0, proc.stdout[-1500:] + proc.stderr[-500:]
     assert "总判定：全部通过" in proc.stdout
