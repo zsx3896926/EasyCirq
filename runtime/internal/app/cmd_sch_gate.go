@@ -6,6 +6,7 @@ import (
 	"io"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
@@ -578,6 +579,17 @@ func runSchGate(cfg *appConfig, window string, allPages, strict, asJSON, failFas
 		minGap, pinEps, overlapEps, stderr)
 	if err != nil {
 		return err
+	}
+
+	// 卡点 #4：daemon 刚因版本升级重启时，连接器要几秒才回来，这一次必然是
+	// BLOCKED。能等就等，而不是让用户自己数秒重试；等不到仍然如实报 BLOCKED。
+	rep, waited := retryGateAfterReconnect(rep, func() (*gateReport, error) {
+		return collectSchGate(cfg, window, allPages, strict, failFast, only, skip,
+			minGap, pinEps, overlapEps, stderr)
+	}, time.Sleep)
+	if waited {
+		fmt.Fprintf(stderr,
+			"连接器刚掉线（多半是 daemon 因版本升级重启），已等待重连后重跑。\n")
 	}
 
 	if asJSON {
