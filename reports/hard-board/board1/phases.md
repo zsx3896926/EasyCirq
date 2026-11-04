@@ -575,3 +575,82 @@ could not be rolled back exactly.
 **修产品的顺序，决定了后面能动多快。**
 
 **判词：还不能下单。** 剩 3 处重叠，全部由 U5 的符号高度导致。
+
+
+---
+
+## 2026-11-05 第十二次上机：**`sch gate: PASS`** —— 板1 第一次五门全绿
+
+### 怎么做到的
+
+不再挪 U5（它放哪都压邻居），改成**清空它周围**：
+
+| 挪走 | 新位置 | 为什么 |
+|---|---|---|
+| U4（LDO） | (95, 80) | 顶左空格 |
+| RFB3 | (399, 710) | 右下空格 |
+| RSEQ1 | (703, 710) | 右下空格 |
+
+三个都与 U5 重叠，挪走之后就没人压它了。
+
+### 结果
+
+```
+sch gate: PASS
+  PASS  layout-lint   0 overlap, 0 pin-coincidence, 0 tight, 38 off-grid,
+                      0 out-of-sheet, 0 no-bbox, 0 unchecked-pin,
+                      0 unproven-pin, 0 nets-unproven, 0 invalid-geometry
+  PASS  clusters      51 个虚拟组: 0 重叠 / 0 出图纸 / 0 过近
+  PASS  check         66 finding(s): 0 error/fatal, 66 warn/info
+  PASS  bridge-check  0 bridge(short), 0 orphan-stub, 0 orphan-flag, 0 orphan-tree
+  PASS  drc           0 fatal, 0 error, 45 warn; native verdict PASS
+```
+
+**这是板1 第一次五道门全部 PASS。**
+
+### 紧接着上一行的真相
+
+```
+board_facts → parts = 53, floatingPinCount = 167
+```
+
+**167 个引脚全部悬空** —— 排版干净，但**一条线都没连**。
+
+`sch gate: PASS` 只管图面质量（排版/桥接/DRC），**不管电气连通**。
+拦住交付的是 DELIVER 的前置：
+
+```
+refused: the delivery card is pending — a board that has not been measured
+         cannot be delivered    阻塞：DELIVER 前置 CARD = pending
+```
+
+**两层各管一件事，这次在同一屏里同时出现了。**
+
+### 相位
+
+```
+S0 ✓ → S1 ✓ → S2 ✓ → S3 ✓ → S4 ✓ → S5 ✓ pass → S6 ✓
+DELIVER: 被 CARD 挡住
+```
+
+### 随后连线（S4 补做）
+
+用 `connect-spec.json` 跑 `autoconnect`：
+
+```
+成功 59 / 失败 59    已连引脚 24 / 167    网络 14
+```
+
+门的变化：
+
+```
+layout-lint   PASS（0 重叠）
+clusters      FAIL（1 处重叠 ← 新加的标号）
+check         PASS（0 error）
+bridge-check  PASS（0 短路）  ← #9/#12 的修复在起作用
+drc           PASS（0 fatal）
+```
+
+**只差 1 处重叠。** 而上一轮连完线是 6 处短路 + 37 处重叠。
+
+**判词：还不能下单。** 差 1 处重叠 + 143 个悬空引脚。
