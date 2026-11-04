@@ -143,6 +143,13 @@ daemon 级强制留到有真实任务数据之后再谈。
 
 ---
 
+> **交付边界（2026-11-04 实测）**：本机 `EASYCIRQ_LLM_KEY` /
+> `OPENAI_API_KEY` / `DEEPSEEK_API_KEY` / `ANTHROPIC_API_KEY` /
+> `DASHSCOPE_API_KEY` / `MOONSHOT_API_KEY` **全部为空**，
+> `~/.easycirq/credentials.json` 与 `config.json` 均不存在。
+> 所以真实模型端到端**在这一环境里跑不了**，不是没跑。
+> 这一条已列入 [本地交付说明](enterprise-local.md) 的「已知交付边界」。
+
 ## 十、验证到了哪一步（分三层说清）
 
 | 层 | 怎么验的 | 结果 |

@@ -139,3 +139,45 @@ easycirq doctor     # 确认 connector 版本已跟上
 **Q：客户 EDA 不是嘉立创 EDA 怎么办？**
 **当前版本不支持**，产品边界就是嘉立创 EDA（用户 2026-11 明确）。
 但 `enterprise check` 这一条只吃网表文件，只要客户能导出结构化网表就与 EDA 无关。
+
+
+---
+
+## 八、已知交付边界（交付时必须对客户说）
+
+这一节列的**不是待办**，是**这一版客观上没做到的事**。写在这里是为了让它
+出现在交付清单上，而不是埋在某个文档的脚注里。
+
+| 边界 | 现状 | 客户会感知到什么 |
+|---|---|---|
+| **真实模型没有端到端跑过** | 编排层与**协议层**都验过（本地 OpenAI 兼容服务端，4 次 POST、`tools:5`、工具结果回灌）；**真模型行为未验**——本机没有任何 API key | 第一次接真模型时，可能遇到提示词、工具描述、模型选型导致的效果差异。**这不是 bug，是没验过** |
+| **自动布线不能交付** | 我们自己的样板 `clearance 146`（目标 0）；几何下界算过，不换连接器做不到 | 不要承诺"自动布线出可投产的板" |
+| **不做账号体系 / 多租户** | 本地交付，无中心 | 没有登录，没有集中管理 |
+| **动作白名单在循环层，不在 daemon** | 模型走 `easycirq run` 时受约束；绕过 `run` 直接调 CLI 不受相位白名单限制 | 客户若不用 `run`，相位约束只剩 `phase advance` 那一层 |
+| **只支持嘉立创 EDA** | 产品边界（2026-11 用户明确） | 其他 EDA 不支持；但 `enterprise check` 只吃网表，与 EDA 无关 |
+
+### 关于「真实模型未验」的具体说明
+
+已经验的：
+
+```
+$ easycirq run --goal … --endpoint http://127.0.0.1:<port>/v1 --model mock-model
+服务端收到 4 次 POST /v1/chat/completions
+  tools: 5   messages: 2 → 4 → 6 → 8   Authorization: Bearer sk-…
+  [cli] REFUSED 'sch place --x 1'（相位 S0 不许）
+  [advance] OK advanced S0 → S1
+```
+
+`messages` 递增说明**工具结果确实回灌进了对话**；`REFUSED` 说明越界动作在
+HTTP 路径上也被拦住。
+
+**没验的是**：一个真模型拿到这份系统提示和这 5 个工具之后，会不会按预期推进。
+
+补齐只需要一件事：在有 key 的机器上
+
+```powershell
+easycirq run --goal "给这块板加一个 3.3V LDO" --project <uuid> `
+    --endpoint <OpenAI 兼容端点> --model <模型名>
+```
+
+把输出补进 `references/harness-run.md` 第十节即可。
