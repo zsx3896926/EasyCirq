@@ -105,6 +105,31 @@ func runPanel(cfg *appConfig, portRaw, project string, noBrowser bool,
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Write(panelHTML)
 	})
+	// ── /api/run：面板上的"跑门 / 推进"（P3）────────────────────────────
+	//
+	// 硬要求是「面板操作与 CLI 逐字节一致」。唯一能满足它的做法是**重执行 CLI
+	// 本身**并把它的输出原样返回 —— 面板不拼命令、不改写、不解释。
+	mux.HandleFunc("/api/run", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			w.Header().Set("Allow", http.MethodPost)
+			http.Error(w, "此端点只接受 POST：写操作不能被链接/预取顺带触发", http.StatusMethodNotAllowed)
+			return
+		}
+		var req panelRunRequest
+		if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 8<<10)).Decode(&req); err != nil {
+			http.Error(w, "请求体不是合法 JSON: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+		if req.Project == "" {
+			req.Project = project
+		}
+		res := runPanelCommand(self, req.Cmd, req.Project, 120*time.Second)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		enc := json.NewEncoder(w)
+		enc.SetIndent("", "  ")
+		enc.Encode(res)
+	})
+
 	mux.HandleFunc("/api/snapshot", func(w http.ResponseWriter, r *http.Request) {
 		q := r.URL.Query().Get("project")
 		if q == "" {

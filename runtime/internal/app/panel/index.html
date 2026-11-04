@@ -129,6 +129,27 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
 
   <div id="errors"></div>
 
+  <!-- 操作区（P3）：按钮只重执行 CLI，输出原样显示 —— 与命令行逐字节一致 -->
+  <div class="card">
+    <h2>操作</h2>
+    <div class="row actions">
+      <button class="act" data-cmd="gate">跑门</button>
+      <button class="act" data-cmd="phase-advance">推进相位</button>
+      <button class="act" data-cmd="phase-run-s5">记录 S5 结果</button>
+      <button class="act" data-cmd="card">看交付卡</button>
+    </div>
+    <p class="sub" id="actHint">面板不判断任何事：按一下就相当于在命令行敲同一句话，下面是它的原样输出。</p>
+    <div class="row" id="actResultRow" hidden>
+      <div class="lbl">
+        <span id="actCmd" class="mono"></span>
+        <span id="actExit" class="mono"></span>
+        <span id="actDur" class="mono"></span>
+      </div>
+      <pre id="actOut"></pre>
+      <button class="copy" id="copyAct">复制这条命令</button>
+    </div>
+  </div>
+
   <!-- ① 概览：三秒可判 -->
   <div class="card">
     <h2>这块板能不能下单</h2>
@@ -366,6 +387,55 @@ async function tick(){
     renderErrors({snapshot: String(e)});
   }
 }
+// ── 操作区（P3）──────────────────────────────────────────────────────────
+// 按钮只做一件事：让**命令行自己**再跑一遍，然后把它的输出原样贴出来。
+// 面板不拼命令、不改写输出、不解释结论 —— 所以"面板跑出来的结果"与
+// "人敲出来的结果"是同一份字节。
+let LAST_ACT = null;
+
+async function runCommand(key){
+  const hint = document.getElementById("actHint");
+  const row  = document.getElementById("actResultRow");
+  hint.textContent = "正在跑 …（下面会显示命令的原样输出）";
+  try{
+    const r = await fetch("/api/run", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({cmd: key, project: (LAST && LAST.project) || ""})
+    });
+    const res = await r.json();
+    LAST_ACT = res;
+    document.getElementById("actCmd").textContent = "easycirq " + (res.args || []).join(" ");
+    document.getElementById("actExit").textContent = "退出码 " + res.exitCode;
+    document.getElementById("actDur").textContent = res.duration || "";
+    document.getElementById("actOut").textContent =
+      [res.stdout || "", res.stderr || "", res.error || ""].filter(Boolean).join("\n");
+    row.hidden = false;
+    hint.textContent = "上面就是这条命令的原样输出。刷新页面会重新读一次状态。";
+    // 跑完立刻刷新一次快照，让概览与相位条跟上
+    tick();
+  }catch(e){
+    hint.textContent = "没能跑起来：" + String(e);
+  }
+}
+
+document.querySelectorAll("button.act").forEach(b => {
+  b.addEventListener("click", () => runCommand(b.dataset.cmd));
+});
+
+document.getElementById("copyAct").addEventListener("click", async () => {
+  if (!LAST_ACT) return;
+  const txt = "easycirq " + (LAST_ACT.args || []).join(" ");
+  const btn = document.getElementById("copyAct");
+  try{
+    await navigator.clipboard.writeText(txt);
+    btn.textContent = "已复制";
+    setTimeout(() => btn.textContent = "复制这条命令", 1200);
+  }catch(e){
+    btn.textContent = "剪贴板不可用，请手抄";
+  }
+});
+
 tick();
 setInterval(tick, 2000);
 </script>
