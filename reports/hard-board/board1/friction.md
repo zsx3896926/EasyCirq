@@ -1063,3 +1063,35 @@ clusters     FAIL（6 处重叠 —— 全是块内部标号）
 
 这五次误诊里，有四次差点导致我去"修"一个不存在的问题 ——
 其中 #33 那次如果真的把 `check` 升到 error，会**让产品变严、却不更真**。
+
+
+---
+
+## #37 工程没打开 ≠ daemon 有问题：`no connected window` 的文案曾把人带偏（1.4.19 已修）
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**诊断方向错误**，这一轮唯一一条查证过实现才下的结论） |
+| **发现方式** | 板1b 的工程没在编辑器里打开时跑 `sch reconcile` |
+| **旧文案** | `no connected window for project "…" (run \`easycirq daemon health\`)` |
+| **为什么坏** | **daemon 是健康的、连接器也连着**，只是那个工程没打开。`daemon health` 会显示一切正常 —— 用户白查一圈，而且查完仍然不知道真正的问题在哪 |
+| **实现里看清的两件事** | `selectWindow`（`dispatch.go:808`）拿得到**完整窗口列表**，所以它能分辨两种完全不同的情况：<br>① 一个窗口都没有 → 连接器没挂上，该查 daemon / 重导连接器<br>② 有窗口，但没有一个开着这个工程 → **工程没打开**，该去开它 |
+| **新文案（实测输出）** | `no window has project "c5443f…" open — currently open: 板2-24V隔离控制板(23ce6e4e). Open that project in EasyEDA, or route explicitly with --window <id> (this is not a daemon problem, so \`daemon health\` will look fine)` |
+| **做对了什么** | ① 说清是哪种情况 ② **列出现在开着哪些**（用户立刻知道开错了哪个）③ 给出两条动作（去开 / 用 `--window`）④ **明说这不是 daemon 问题**，堵掉那条死路 |
+| **测试** | `TestSelectWindowMessageDistinguishesNoProjectFromNoWindow` —— 两种情况措辞必须不同；"一个都没有"时仍然提 `daemon health`；"有窗口但没开这个工程"时**不许**提，必须改为列出当前打开的工程 |
+| **提交** | ✅ 1.4.19 |
+
+### 这条为什么值得记
+
+它不是"功能缺失"，是**错误信息的方向错**。而方向错的代价是：
+
+> 用户按提示走完了唯一给出的下一步，而那个下一步与他遇到的问题无关。
+
+这与 #14（`Cannot destructure property 'cmdKey'`）、#35（"旧副本"的误诊）是同一类：
+**产品知道得比它说出来的多** —— 它手里已经有窗口列表，只是没用来分辨。
+
+### 本轮遵守了纪律
+
+下结论前读了 `selectWindow` 的**实现**（`dispatch.go:808-830`），确认它确实持有
+完整 `windows` 列表，只是没用它区分两种情况。**这是"先读实现再下判断"第一次
+产出一条新的、已验证的修复。**

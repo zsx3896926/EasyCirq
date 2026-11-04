@@ -820,7 +820,32 @@ func selectWindow(windows []healthWindow, project, window string) (string, error
 		case 1:
 			return matches[0].WindowID, nil
 		case 0:
-			return "", fmt.Errorf("no connected window for project %q (run `easycirq daemon health`)", project)
+			// 「没有窗口」和「有窗口但没开这个工程」是两件事，补救动作完全不同
+			// （板1 实测：daemon 健康、连接器连着，只是那个工程没在编辑器里打开，
+			// 而旧文案把人指向 `daemon health`，白查一圈）。
+			// 这里用**同一个** windows 列表分情况说清，并把当前开着的工程列出来。
+			var open []string
+			for _, w := range windows {
+				name := strings.TrimSpace(w.Context.ProjectName)
+				if id := strings.TrimSpace(w.Context.ProjectUUID); id != "" {
+					if name != "" {
+						name = name + "(" + shortID(id) + ")"
+					} else {
+						name = shortID(id)
+					}
+				}
+				if name != "" {
+					open = append(open, name)
+				}
+			}
+			if len(windows) == 0 {
+				return "", fmt.Errorf("no connected window at all — the connector is not attached to any EasyEDA window " +
+					"(run `easycirq daemon health`; if that looks healthy, re-import the connector in EasyEDA)")
+			}
+			return "", fmt.Errorf("no window has project %q open — currently open: %s. "+
+				"Open that project in EasyEDA, or route explicitly with --window <id> "+
+				"(this is not a daemon problem, so `daemon health` will look fine)",
+				project, strings.Join(open, ", "))
 		default:
 			// Extension reloads can leave several registrations for the exact same
 			// project/document tab. They are transport duplicates; route to the

@@ -1757,3 +1757,50 @@ sch reconcile --project 板2 --doc P1
 
 **注：连接器队列仍 wedge（7 个 abandonedIds），板2 的 `missing 7` 有一部分可能是
 队列造成的落块不全。重启 EDA 后应重跑一次对账再下结论。**
+
+
+---
+
+## 2026-11-05 第二十九次上机：修一条**诊断方向错**的文案（1.4.19）
+
+### 纪律第一次产出成果
+
+上一轮立下的规矩是"**先读实现，再下判断**"。这一轮照做：
+
+1. 现象：板1b 没在编辑器打开时，`reconcile` 报 `no connected window for project "…" (run daemon health)`
+2. **先读实现**：`dispatch.go:808` 的 `selectWindow` 拿得到**完整窗口列表**
+3. 发现：它完全能分辨「一个窗口都没有」和「有窗口但没开这个工程」，**只是没用这个信息**
+4. 于是修文案，而不是加新功能
+
+### 修法
+
+| 情况 | 新措辞 |
+|---|---|
+| 一个窗口都没有 | `no connected window at all — the connector is not attached to any EasyEDA window (run daemon health; if that looks healthy, re-import the connector)` |
+| 有窗口但没开这个工程 | `no window has project "…" open — **currently open: 板2-24V隔离控制板(23ce6e4e)**. Open that project in EasyEDA, or route explicitly with --window <id> **(this is not a daemon problem, so daemon health will look fine)**` |
+
+### 真机验证
+
+```
+$ sch reconcile --project 板1b --doc P1
+读不到页面分组表: schematic page: resolve target window:
+  no window has project "c5443fe…" open — currently open: 板2-24V隔离控制板(23ce6e4e).
+  Open that project in EasyEDA, or route explicitly with --window <id>
+  (this is not a daemon problem, so `daemon health` will look fine)
+```
+
+**列出现在开着哪个、给出两条动作、并堵掉"去查 daemon"这条死路。**
+
+### 测试
+
+`TestSelectWindowMessageDistinguishesNoProjectFromNoWindow` —— 两种情况措辞必须不同；
+"一个都没有"时仍提 daemon，"有窗口但没开这个工程"时**不许**提。
+
+### 这条的分量
+
+它不是功能缺失，是**错误信息的方向错**。而方向错的代价是：
+**用户按提示走完了唯一给出的下一步，而那个下一步与他遇到的问题无关。**
+
+和 #14（`cmdKey`）、#35（"旧副本"的误诊）同一类：**产品知道得比它说出来的多。**
+
+**判词：还不能下单。** 板2 仍等 EDA 重启。
