@@ -820,3 +820,33 @@ verdict      fail
 **悬空脚从 8 降到 0**（这是真的进展），但门从 PASS 掉回 FAIL —— 因为挪动引入了新的几何问题。
 
 **判词：还不能下单。** 而且这一轮的教训比结果更值钱（#32）。
+
+
+---
+
+## #33 `block-apply` 报 `applied` 的块，自身标号布局**过不了 `clusters` 门**
+
+| | |
+|---|---|
+| **分类** | 产品不一致（**落块成功的标准 < 门通过的标准**） |
+| **发现方式** | 板2 连落 4 个块，全部 `applied`；`layout-lint` 全 PASS；但 `clusters` 报 **7 处重叠** |
+| **重叠对** | `C5↔C6` `F1↔J1` `D1↔D2` `R2↔R3` `C3↔C4` `D5↔J2` `R9↔U3` —— **全部在块内部**，不是块与块之间 |
+| **`block-apply` 自己的硬门** | 文档写明："bbox overlaps, and pins from different parts sharing one point are hard errors BEFORE wiring" —— 它**只保证本体不重叠、引脚不共点**，**不保证标号不重叠** |
+| **`sch gate` 的 `clusters`** | 按"器件 + 它自己的 marker/桩线"算组，标号重叠就是 ERROR |
+| **后果** | **块报成功 + 布局检查 PASS + 门 FAIL**。用户会以为是块与块摆得太近，其实是块自己是紧的 |
+| **`destagger` 能修，但很慢** | 板2 实测：1 轮搬 1 个 marker（7→7），4 轮搬 4 个（7→6）。它每次只动一个 marker，而块的模板布局本身就把标号挤在一起 |
+| **产品应当改** | ① **`block-apply` 布线前那道硬门应当把 marker-overlap 也算进去** —— 它自己就会算组框（`clusters` 用的同一套），加这一条的成本很低；② 或者块库的 `schematic_layout` 模板在产出时就用 `destagger` 跑一遍 |
+| **为什么这条路值得记** | 这是"**块级路线的最后一道坎**"：#22 说要用块，#32 说顺序要对，但**块的产物本身还没达到门的水准**。不修这条，块级搭板永远要在最后补一轮 destagger |
+
+### 板2 第一次上机的结果
+
+```
+39 器件 / 84 已连引脚（共 103）/ 22 网络 / 84 wire tree
+layout-lint  PASS（0 重叠、0 出图纸、0 off-grid）
+check        PASS（0 error/fatal）
+bridge-check PASS（0 短路、0 孤立）
+drc          PASS（0 fatal）
+clusters     FAIL（6 处重叠 —— 全是块内部标号）
+```
+
+**五门里四门 PASS，唯一没过的那门，问题不在我摆得不整齐。**
