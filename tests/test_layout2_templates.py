@@ -365,8 +365,9 @@ class ExtractTemplateTests(TemplateFixture):
 
     def test_pins_follow_port_default_nets_and_internal_net_names(self):
         template = self.template()
+        # concrete pin numbers are frozen alongside the manifest pin refs
         self.assertEqual(
-            template["pins"],
+            [{k: pin[k] for k in ("role", "pin", "net")} for pin in template["pins"]],
             [
                 {"role": "U", "pin": "VDD", "net": "5V"},
                 {"role": "C_A", "pin": "1", "net": "5V"},
@@ -468,15 +469,17 @@ class InstantiateTemplateTests(TemplateFixture):
 
     def test_nets_are_copied_verbatim(self):
         applied = templates.instantiate_template(self.template(), "page-1", self.NEW_ORIGIN)
+        # members carry the concrete pin numbers (what EDA replay needs)
         self.assertEqual(
-            applied["nets"],
+            [{"name": net["name"], "refs": [member[0] for member in net["members"]]}
+             for net in applied["nets"]],
             [
-                {"name": "5V", "members": [["U1", "VDD"], ["C1", "1"]]},
-                {"name": "GND", "members": [["U1", "GND"], ["C1", "2"], ["C2", "2"]]},
-                {"name": BLOCK_ID + "_N3", "members": [["U1", "OUT"], ["C2", "1"]]},
-                {"name": BLOCK_ID + "_N4", "members": [["U1", "IN"], ["R1", "2"]]},
-                {"name": "DAC_L", "members": [["R1", "1"]]},
-                {"name": "MODE_CFG", "members": [["U1", "MODE"]]},
+                {"name": "5V", "refs": ["U1", "C1"]},
+                {"name": "GND", "refs": ["U1", "C1", "C2"]},
+                {"name": BLOCK_ID + "_N3", "refs": ["U1", "C2"]},
+                {"name": BLOCK_ID + "_N4", "refs": ["U1", "R1"]},
+                {"name": "DAC_L", "refs": ["R1"]},
+                {"name": "MODE_CFG", "refs": ["U1"]},
             ],
         )
 

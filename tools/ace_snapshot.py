@@ -99,6 +99,19 @@ def infer_net_voltage(name):
     return None
 
 
+_PLACEHOLDER_RE = re.compile(r"^=\{[^}]*\}$")
+
+
+def _real_or_none(value):
+    """EasyEDA stores unresolved parameters as '={Value}' placeholders."""
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text or _PLACEHOLDER_RE.match(text):
+        return None
+    return text
+
+
 def _component(raw, conn_pins, pin_net):
     """Normalize one component; optional fields are only added when present."""
     props = _properties(raw)
@@ -120,8 +133,10 @@ def _component(raw, conn_pins, pin_net):
         pins.append(entry)
     comp = {
         "ref": ref,
-        "mpn": (raw.get("component") or {}).get("name") or _prop(props, _PROP_KEYS["mpn"]),
-        "value": (raw.get("device") or {}).get("name") or _prop(props, _PROP_KEYS["value"]),
+        "mpn": _real_or_none((raw.get("component") or {}).get("name"))
+        or _real_or_none(_prop(props, _PROP_KEYS["mpn"])),
+        "value": _real_or_none((raw.get("device") or {}).get("name"))
+        or _real_or_none(_prop(props, _PROP_KEYS["value"])),
         "bbox": {k: bbox.get(k) for k in ("minX", "minY", "maxX", "maxY")} if bbox else None,
         "pins": pins,
     }
@@ -142,6 +157,28 @@ def _component(raw, conn_pins, pin_net):
     if params:
         comp["params"] = params
     return comp
+
+
+_FLOATING_RE = re.compile(r"floating-pin\s+(\S+)\s+\d+\s.*?\[([^\]]+)\]")
+
+
+def _floating_pins():
+    """Pins that sch check reports as genuinely floating (not NC-marked)."""
+    code, text = _cli_raw("sch", "check")
+    out = set()
+    for line in text.splitlines():
+        m = _FLOATING_RE.search(line)
+        if m:
+            ref = m.group(1)
+            for pin in m.group(2).split(","):
+                out.add((ref, pin.strip()))
+    return out
+
+
+def _cli_raw(*args):
+    r = subprocess.run([BIN, *args], capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", timeout=180)
+    return r.returncode, (r.stdout or "") + (r.stderr or "")
 
 
 def build(page_uuid: str):
@@ -165,6 +202,11 @@ def build(page_uuid: str):
         conn_pins[c.get("ref")] = c.get("pins") or []
 
     components = [_component(raw, conn_pins, pin_net) for raw in comps_raw]
+    floating = _floating_pins()
+    for comp in components:
+        for pin in comp.get("pins") or []:
+            if pin.get("net") is None and "nc" not in pin:
+                pin["nc"] = (comp["ref"], str(pin.get("number"))) not in floating
     net_names = sorted({v["name"] for v in nets.values() if v.get("name")})
     net_voltage = {name: infer_net_voltage(name) for name in net_names}
     net_voltage = {k: v for k, v in net_voltage.items() if v is not None}

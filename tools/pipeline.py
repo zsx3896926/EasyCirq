@@ -64,7 +64,7 @@ TOOLS_DIR = ROOT / "tools"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from tools.layout2 import layout_engine  # noqa: E402
+from tools.layout2 import freeform, layout_engine, templates  # noqa: E402
 
 PIPELINE_SCHEMA = "easycirq-pipeline/v1"
 PLAN_SCHEMA = "easycirq-sch-layout-v2/v1"
@@ -172,6 +172,18 @@ def validate_spec(data):
                                   or not title.strip()):
             raise ValueError("module %r title must be a non-empty string"
                              % module_id)
+    engine = data.get("engine")
+    if engine is not None and engine not in ENGINE_CHOICES:
+        raise ValueError("spec.engine must be one of %s" % ", ".join(ENGINE_CHOICES))
+    templates_map = data.get("templates")
+    if templates_map is not None:
+        if not isinstance(templates_map, dict):
+            raise ValueError("spec.templates must be an object of module->template path")
+        for module_id, template_path in templates_map.items():
+            if not isinstance(module_id, str) or not isinstance(template_path, str) \
+                    or not template_path.strip():
+                raise ValueError("spec.templates[%r] must be a template path string"
+                                 % module_id)
     template = data.get("page_template")
     if template is not None and not isinstance(template, dict):
         raise ValueError("spec.page_template must be an object")
@@ -197,11 +209,148 @@ def validate_spec(data):
 
 # ── stage 1: layout plan ─────────────────────────────────────────────────────
 
-def run_plan(name, spec):
-    """Plan the project offline with the v2 engine (never raises for bad input)."""
-    project = {"name": name, "modules": spec["modules"]}
+ENGINE_CHOICES = ("layout", "freeform", "templates")
+GRID = 5.0  # schematic grid unit; template parts must land on it for EDA stubs
+
+
+def _adapt_freeform(plan):
+    """Normalize an easycirq-sch-layout-freeform/v1 plan to the pipeline shape."""
+    blocks = []
+    frames = []
+    for index, block in enumerate(plan.get("blocks") or []):
+        zone = block.get("zone")
+        rects = [[float(v) for v in rect] for rect in zone] if isinstance(zone, list) else []
+        rect = rects[0] if rects else [float(v) for v in block["bbox"]]
+        blocks.append({"id": block["id"], "title": block.get("title", block["id"]),
+                       "bbox": [float(v) for v in block["bbox"]],
+                       "zone": rect, "zone_rects": rects or [rect],
+                       "footprint": block.get("footprint"),
+                       "zone_kind": block.get("zone_kind", "rect"),
+                       "region": block.get("region")})
+        frames.append({"id": block["id"], "title": block.get("title", block["id"]),
+                       "order": index + 1, "zone": rect,
+                       "zone_rects": rects or [rect]})
+    metrics = dict(plan.get("metrics") or {})
+    metrics.setdefault("page_count", 1 if blocks else 0)
+    return {"schema": plan.get("schema", "easycirq-sch-layout-freeform/v1"),
+            "project": plan.get("project"), "engine": "freeform",
+            "verdict": plan.get("verdict", "blocked"),
+            "findings": plan.get("findings") or [],
+            "pages": [{"page": 1, "regions": plan.get("regions") or [],
+                       "frames": frames, "blocks": blocks, "labels": []}]
+            if blocks else [],
+            "metrics": metrics}
+
+
+def _expand_templates(plan, spec, spec_dir):
+    """Attach absolute part placements from block templates (deterministic)."""
+    mapping = spec.get("templates") or {}
+    if not mapping:
+        return plan
+    for page in plan.get("pages") or []:
+        for block in page.get("blocks") or []:
+            rel = mapping.get(block["id"])
+            if rel is None:
+                continue
+            template_path = Path(rel)
+            if not template_path.is_absolute():
+                template_path = spec_dir / template_path
+            data = json.loads(template_path.read_text(encoding="utf-8"))
+            rel_min_x, rel_min_y, _, _ = _bbox_minmax(data.get("bbox"))
+            # align the template's bounding-box min corner to the block bbox min
+            # so an instance never emits negative coordinates.
+            origin_xy = [block["bbox"][0] - rel_min_x,
+                         block["bbox"][1] - rel_min_y]
+            placed = templates.instantiate_template(
+                data, page.get("page"), origin_xy, grid=GRID)
+            block["parts"] = placed.get("parts") or []
+            block["nets"] = placed.get("nets") or []
+            block["template"] = data.get("block")
+    plan["engine"] = "templates"
+    return plan
+
+
+def _bbox_minmax(bbox):
+    if isinstance(bbox, dict):
+        return (float(bbox.get("minX", 0)), float(bbox.get("minY", 0)),
+                float(bbox.get("maxX", 0)), float(bbox.get("maxY", 0)))
+    if isinstance(bbox, (list, tuple)) and len(bbox) == 4:
+        return (float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3]))
+    return (0.0, 0.0, 0.0, 0.0)
+
+
+def _template_span(path, spec_dir):
+    p = Path(path)
+    if not p.is_absolute():
+        p = spec_dir / p
+    data = json.loads(p.read_text(encoding="utf-8"))
+    min_x, min_y, max_x, max_y = _bbox_minmax(data.get("bbox"))
+    return (max_x - min_x, max_y - min_y)
+
+
+def _apply_measured_halos(modules):
+    """Fill label-aware halos for modules that name a known block.
+
+    Pre-layout must reserve the space that wires + net-label text will consume,
+    so a module carrying ``block: <id>`` inherits the measured per-side halo
+    from ``easycirq/assets/block-envelopes.json`` unless it already declares a
+    halo at least that large.
+    """
     try:
-        return layout_engine.plan_project(project, spec.get("page_template"))
+        import block_spec
+        envelopes = block_spec.load_envelopes()
+    except Exception:  # noqa: BLE001 - missing asset keeps the old defaults
+        return modules
+    out = []
+    for module in modules:
+        module = dict(module)
+        block = module.get("block")
+        if block:
+            try:
+                measured = block_spec.halo_of(block, envelopes)
+            except Exception:  # noqa: BLE001
+                measured = None
+            if measured:
+                current = module.get("halo")
+                if isinstance(current, dict):
+                    merged = {side: max(float(current.get(side, 0) or 0), measured[side])
+                              for side in ("left", "right", "top", "bottom")}
+                    module["halo"] = merged
+                else:
+                    module["halo"] = measured
+        out.append(module)
+    return out
+
+
+def run_plan(name, spec, engine="layout", spec_dir=None):
+    """Plan the project offline with the selected engine (never raises)."""
+    project = {"name": name, "modules": _apply_measured_halos(spec["modules"])}
+    try:
+        if engine == "freeform":
+            plan = freeform.plan_project_freeform(project)
+            return _adapt_freeform(plan)
+        if engine == "templates":
+            mapping = spec.get("templates") or {}
+            modules = []
+            for module in spec["modules"]:
+                span = None
+                rel = mapping.get(module["id"])
+                if rel:
+                    try:
+                        span = _template_span(rel, spec_dir or Path("."))
+                    except (OSError, ValueError):
+                        span = None
+                if span:
+                    copy = dict(module)
+                    copy["w"], copy["h"] = span
+                    modules.append(copy)
+                else:
+                    modules.append(dict(module))
+            project = {"name": name, "modules": modules}
+        plan = layout_engine.plan_project(project, spec.get("page_template"))
+        if engine == "templates":
+            plan = _expand_templates(plan, spec, spec_dir or Path("."))
+        return plan
     except Exception as exc:  # noqa: BLE001 - keep the pipeline fail-closed
         return {"schema": PLAN_SCHEMA, "project": name, "verdict": "blocked",
                 "template": None, "pages": [], "metrics": _zero_metrics(),
@@ -375,6 +524,10 @@ def build_apply_document(name, plan, spec):
                 "w": round(bbox[2] - bbox[0], 3),
                 "h": round(bbox[3] - bbox[1], 3),
             })
+            if block.get("parts"):
+                placements[-1]["parts"] = block["parts"]
+            if block.get("nets"):
+                placements[-1]["nets"] = block["nets"]
             placements_total += 1
         labels = []
         for label in page.get("labels") or []:
@@ -391,10 +544,16 @@ def build_apply_document(name, plan, spec):
                       "placements": placements, "labels": labels})
     document = {
         "schema": APPLY_SCHEMA,
+        "post_apply": {
+            "save": "easycirq doc reload",
+            "reason": "EasyEDA keeps mutations in memory; doc reload = save + reopen",
+            "required": True,
+        },
         "project": name,
         "project_uuid": spec.get("project_uuid"),
         "page": spec.get("page"),
         "plan": name + ".plan.json",
+        "engine": plan.get("engine") or "layout",
         "pages": pages,
     }
     return document, placements_total
@@ -611,9 +770,25 @@ def _parser():
                     "apply-ready bundle, no LLM/EDA).")
     parser.add_argument("--spec", required=True, help="pipeline spec JSON")
     parser.add_argument("--out-dir", required=True, help="artifact directory")
+    parser.add_argument("--engine", choices=ENGINE_CHOICES,
+                        help="planning engine (default: spec.engine or layout)")
     parser.add_argument("--dry-run", action="store_true",
                         help="plan + review only; print one line, write no "
                              "apply bundle")
+    parser.add_argument("--fix-plan", action="store_true",
+                        help="emit <name>.fix-plan.json from the ACE findings")
+    parser.add_argument("--autofix", action="store_true",
+                        help="emit <name>.autofix.json playbook when available")
+    parser.add_argument("--accept", action="store_true",
+                        help="emit <name>.accept.json plan when available")
+    parser.add_argument("--replay", metavar="PAGE_TEMPLATE",
+                        help="emit a deterministic page-replay plan from an "
+                             "easycirq-page-template/v1 file")
+    parser.add_argument("--device-map", metavar="JSON",
+                        help="reference->device map for --replay")
+    parser.add_argument("--net-audit", action="store_true",
+                        help="run the deterministic net-integrity audit and gate "
+                             "on dead (single-pin) nets")
     return parser
 
 
@@ -623,6 +798,9 @@ def main(argv=None):
     try:
         spec = _read_json(spec_path)
         name = validate_spec(spec)
+        engine = args.engine or spec.get("engine") or "layout"
+        if engine not in ENGINE_CHOICES:
+            raise ValueError("engine must be one of %s" % ", ".join(ENGINE_CHOICES))
     except (OSError, ValueError) as exc:
         print("pipeline: invalid spec: %s" % exc, file=sys.stderr)
         return 2
@@ -635,7 +813,7 @@ def main(argv=None):
 
     mode = "dry-run" if args.dry_run else "write"
     warnings = []
-    plan = run_plan(name, spec)
+    plan = run_plan(name, spec, engine, spec_path.parent)
     if plan.get("verdict") != "pass" and _plan_invalid(plan):
         messages = "; ".join(finding.get("message", finding.get("code", "?"))
                              for finding in plan.get("findings") or [])
@@ -643,8 +821,30 @@ def main(argv=None):
               file=sys.stderr)
         return 2
 
+    snapshot_data = None
+    if spec.get("snapshot"):
+        snap_path = _resolve_against(spec_path, spec.get("snapshot"))
+        if snap_path.is_file():
+            try:
+                snapshot_data = _read_json(snap_path)
+            except (OSError, ValueError):
+                snapshot_data = None
+
     review = run_review(spec, spec_path, warnings)
+    net_audit = None
+    if args.net_audit and snapshot_data is not None:
+        try:
+            import net_integrity
+            net_audit = net_integrity.audit(snapshot_data)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("net audit unavailable (%s)" % type(exc).__name__)
     gate = gate_decision(plan, review)
+    if net_audit is not None and net_audit.get("counts", {}).get("errors"):
+        gate = {"decision": "block",
+                "reason": "net audit: %d dead net(s)"
+                          % net_audit["counts"]["errors"],
+                "review_errors": review.get("errors", 0),
+                "review_warnings": review.get("warnings", 0)}
     score, components = compute_score(plan, review, gate)
     apply_document = None
     placements_total = 0
@@ -654,7 +854,62 @@ def main(argv=None):
     artifacts = {"plan": name + ".plan.json",
                  "decision_record": name + ".decision-record.md",
                  "apply": (name + ".apply.json") if apply_document else None,
+                 "fix_plan": None, "autofix": None, "accept": None,
+                 "replay": None,
                  "dashboard": "dashboard.md"}
+
+    if args.fix_plan or review.get("status") == "blocked":
+        if snapshot_data is not None:
+            try:
+                import ace_fix_plan  # noqa: F401
+                fix_plan = ace_fix_plan.build(snapshot_data)
+                artifacts["fix_plan"] = name + ".fix-plan.json"
+                _write_json(out_dir / artifacts["fix_plan"], fix_plan)
+                if args.autofix:
+                    try:
+                        import ace_autofix  # noqa: F401
+                        autofix = ace_autofix.build(
+                            fix_plan, parts_path=spec.get("parts_path"),
+                            snapshot=snapshot_data)
+                        artifacts["autofix"] = name + ".autofix.json"
+                        _write_json(out_dir / artifacts["autofix"], autofix)
+                    except Exception as exc:  # noqa: BLE001
+                        warnings.append("autofix unavailable (%s)" % type(exc).__name__)
+            except Exception as exc:  # noqa: BLE001
+                warnings.append("fix-plan unavailable (%s)" % type(exc).__name__)
+
+    if args.accept and apply_document is not None:
+        try:
+            import accept  # noqa: F401
+            accept_plan = accept.build(
+                apply_document, project_uuid=spec.get("project_uuid"),
+                page=spec.get("page"), parts_path=spec.get("parts_path"))
+            artifacts["accept"] = name + ".accept.json"
+            _write_json(out_dir / artifacts["accept"], accept_plan)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("accept unavailable (%s)" % type(exc).__name__)
+
+    if args.replay:
+        try:
+            import replay_page  # noqa: F401
+            template_path = _resolve_against(spec_path, args.replay)
+            template_data = _read_json(template_path)
+            devices = {}
+            if args.device_map:
+                devices = _read_json(_resolve_against(spec_path, args.device_map))
+            replay_plan = replay_page.build(
+                template_data, devices,
+                project=spec.get("project_uuid") or "<PROJECT_UUID>",
+                page=spec.get("page") or "<PAGE_UUID>")
+            artifacts["replay"] = name + ".replay-plan.json"
+            _write_json(out_dir / artifacts["replay"], replay_plan)
+        except Exception as exc:  # noqa: BLE001
+            warnings.append("replay plan unavailable (%s: %s)"
+                            % (type(exc).__name__, exc))
+
+    if net_audit is not None:
+        artifacts["net_audit"] = name + ".net-audit.json"
+        _write_json(out_dir / artifacts["net_audit"], net_audit)
     _write_json(out_dir / artifacts["plan"], plan)
     if apply_document is not None:
         _write_json(out_dir / artifacts["apply"], apply_document)

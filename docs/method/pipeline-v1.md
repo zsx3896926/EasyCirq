@@ -196,3 +196,74 @@ warnings 放行、blocked layout、apply_offsets 锚点、确定性、invalid sp
 | 评审 error（R02/R03/R04/R06 等） | 电路未收敛 | 按 checklist 修快照对应网表，再跑 |
 | 评审 warn（R01/R05/R07/R08/R09/R10） | 评审提示 | 允许出 apply；在决策记录中留痕 |
 | spec invalid | 输入错误 | 按 stderr 修 spec，退出码 2 不写任何 artifact |
+
+
+## post_apply: save-after-apply invariant
+
+The apply bundle (``easycirq-sch-apply/v1``) now carries an explicit
+``post_apply`` block:
+
+```json
+{"save": "easycirq doc reload", "required": true,
+ "reason": "EasyEDA keeps mutations in memory; doc reload = save + reopen"}
+```
+
+Reason: EasyEDA keeps schematic mutations in editor memory only; without a
+save step a restart silently loses the applied layout (observed twice during
+the A/B/C acceptance runs). Any EDA executor consuming the bundle MUST run the
+save step (``doc reload`` = save + close + reopen) before reporting success;
+offline dry-runs are unaffected.
+
+
+
+## Planning engines (`--engine` / `spec.engine`)
+
+| engine | planner | output |
+|---|---|---|
+| `layout` (default) | `tools/layout2/layout_engine.py` (rect regions, hard rules) | `easycirq-sch-layout-v2/v1` |
+| `freeform` | `tools/layout2/freeform.py` (L-shaped printable region, rect-union zones) | `easycirq-sch-layout-freeform/v1`, adapted to the pipeline page shape |
+| `templates` | `layout` plan + `tools/layout2/templates.py` instantiation of `easycirq-block-template/v1` assets | adds absolute per-part placements to the apply bundle |
+
+`templates` maps `spec.templates = {module_id: path}` (paths relative to the spec
+file).  Each template is extracted once from a real, well-placed instance
+(`tools/layout2/role_resolver.py` + `templates.extract_template`) and then
+rigidly translated to the planned bbox origin — this removes the block-apply
+placement drift that used to require manual corrections.
+
+Shipped templates in `easycirq/assets/block-templates/`:
+
+- `aw8737_classd_spk.template.json` — 12 parts, origin U2 (extracted from the A-audio page; explicit role map from net topology).
+- `mems_mic_analog.template.json` — 5 parts, origin MK1.
+
+Live demo: `pipeline-demo/A-templates.spec.json` → `engine=templates`,
+12+5 absolute part placements, review gate pass, score 73.2.
+
+
+## Fix / apply / accept stages (offline)
+
+After the review gate, the pipeline can emit three downstream artifacts without
+touching EDA:
+
+- `--fix-plan` — `easycirq-ace-fix-plan/v1` from `tools/ace_fix_plan.py` (also
+  auto-emitted when the gate blocks and a snapshot is supplied).
+- `--autofix` — `easycirq-autofix/v1` from `tools/ace_autofix.py`: ordered
+  `easycirq` CLI commands for `add_component` / `add_testpoint` /
+  `move_component` / `rename_net`; unsupported actions are kept in `pending`.
+- `--accept` — `easycirq-accept/v1` from `tools/accept.py`: ordered run
+  (clear → frames → place parts/block → `doc reload` save → snapshot + review →
+  export PNG) with geometry checks (inside page, title-block overlap).
+
+These are deterministic plans, not executors: an operator (or the EDA runner)
+replays the commands and reads the checks back, which keeps the save-after-apply
+invariant explicit.
+
+
+## Page replay stage (`--replay`)
+
+`pipeline.py --replay <page-template.json> --device-map <map.json>` compiles an
+``easycirq-page-template/v1`` freeze into an ``easycirq-replay-plan/v1``: clear
+page -> place every part (grid-aligned) -> wire every net member with the right
+flag kind -> NC explicit-NC pins -> `doc reload` -> snapshot + review +
+net-integrity checks. The plan is deterministic and replayable on a fresh
+project; proven live at 48/48 parts, 136/136 nets and a replay page that
+reviews pass with 0 errors / 0 warnings / 0 dead nets.

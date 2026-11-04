@@ -284,6 +284,30 @@ def mutations(snap):
         return None
     out.append(("add-floating-pin", "R01-floating-pin", add_floating_pin))
 
+    def add_cs_without_pullup(s=snap):
+        ref = free_ref(s, "U9")
+        net = "SPI_CS_EXT"
+        s["components"].append({
+            "ref": ref, "mpn": "IC-SPI", "value": "IC-SPI",
+            "bbox": {"minX": 70, "minY": 70, "maxX": 90, "maxY": 90},
+            "pins": [{"number": "1", "name": "CS#", "net": net}],
+        })
+        return ref + ":1"
+    out.append(("add-cs-without-pullup", "R23-spi-cs-pullup", add_cs_without_pullup))
+
+    def add_connector_without_tvs(s=snap):
+        ref = free_ref(s, "J")
+        net = "EXT_TVS_" + ref
+        s["components"].append({
+            "ref": ref, "mpn": "HDR-1X2", "value": "HDR",
+            "bbox": {"minX": 80, "minY": 80, "maxX": 90, "maxY": 90},
+            "pins": [{"number": "1", "name": "1", "net": net},
+                     {"number": "2", "name": "2", "net": "GND"}],
+        })
+        return ref + ":1"
+    out.append(("add-connector-without-tvs", "R27-connector-tvs",
+                add_connector_without_tvs))
+
     return out
 
 

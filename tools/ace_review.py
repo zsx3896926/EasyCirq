@@ -45,7 +45,7 @@ POWER_PIN_NAMES = ("VDD", "VDDIO", "VCC", "AVDD", "DVDD", "PVDD",
 RESET_BOOT_RE = re.compile(
     r"(?i)^(?:N?RESET|NRST|RST|RESET#|BOOT0|BOOT_[0-9A-Z]+|STRAP[0-9]*|IO0|GPIO0)$")
 UNUSED_PIN_RE = re.compile(r"(?i)^(?:NC|DNU|DNI|RESERVED|RSVD)(?:[0-9_#/() -].*)?$")
-CS_PIN_RE = re.compile(r"(?i)^(?:CS|CS#|NCS|SS|SS#|NSS|SSN|CE|CE#|CHIP_?SELECT)$")
+CS_PIN_RE = re.compile(r"(?i)^(?:CS|CS#|NCS|SS|SS#|NSS|SSN|CHIP_?SELECT)$")
 ADDR_PIN_RE = re.compile(r"(?i)^(?:ADDR|ADDRESS|A[0-2]|SEL|SA[0-1]|I2C_ADDR|ADDR[0-9])$")
 INPUT_RAIL_RE = re.compile(
     r"(?i)^(?:VBUS|VIN|VIN_[A-Z0-9_]+|DC_?IN|PWR_?IN|BAT\+?|VBAT|VBAT_[A-Z0-9_]+|"
@@ -397,6 +397,28 @@ def rule_ground_tie(snapshot, findings):
     """AGND/DGND/PGND must be tied to GND exactly once (0R / net-tie)."""
     if not any(True for _ in _pins_iter(snapshot)):
         return  # no connectivity data: cannot judge, do not invent an error
+    # A single-ground design (only GND / VSS) needs no tie; the rule only
+    # applies when at least one non-plain ground domain (AGND/DGND/PGND/...)
+    # exists and must be stitched to the plain ground exactly once.
+    ground_names = set()
+    for comp, pin in _pins_iter(snapshot):
+        net = _net_str(pin.get("net"))
+        if net and _is_ground(net):
+            ground_names.add(net.upper())
+    declared = list(snapshot.get("nets") or [])
+    for page_nets in (snapshot.get("nets_by_page") or {}).values():
+        declared.extend(page_nets or [])
+    for net in declared:
+        name = net.get("name") if isinstance(net, dict) else net
+        if isinstance(name, str) and _is_ground(name):
+            ground_names.add(name.upper())
+    plain = {"GND", "VSS", "0V", "GNDA", "GNDD"}
+    non_plain = {n for n in ground_names if n not in plain and not n.startswith("GND")}
+    if not non_plain:
+        return
+    if len(ground_names) <= 1:
+        # a single ground domain (even if it is named AGND/DGND) needs no tie
+        return
     tie_refs = []
     for comp in _components(snapshot):
         if designator_kind(_ref(comp)) not in ("resistor", "ferrite"):
@@ -865,6 +887,8 @@ def rule_spi_cs_pullup(snapshot, findings):
                  "chip-select pin %s:%s (%s) is floating"
                  % (_ref(comp), pin.get("number"), pname), [_ref(comp)])
             continue
+        if _is_ground(net) or _is_power(net):
+            continue  # hard-strapped select is a deliberate configuration
         has_pull = False
         for ref, _ in _members(snapshot, net):
             part = _comp(snapshot, ref)

@@ -1,0 +1,174 @@
+{
+ "schema": "easycirq-block-template/v1",
+ "block": "block.mems_mic_analog",
+ "origin": {
+  "role": "U",
+  "ref": "MK1",
+  "x": 725,
+  "y": 330
+ },
+ "parts": [
+  {
+   "role": "U",
+   "designator": "MK1",
+   "dx": 0,
+   "dy": 0,
+   "rotation": 0,
+   "bbox": {
+    "minX": -25.5,
+    "minY": -15.5,
+    "maxX": 25.5,
+    "maxY": 15.5
+   }
+  },
+  {
+   "role": "R_OUT",
+   "designator": "R6",
+   "dx": 240,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 229.5,
+    "minY": -124.5,
+    "maxX": 250.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "R_REF",
+   "designator": "R7",
+   "dx": 360,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 349.5,
+    "minY": -124.5,
+    "maxX": 370.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "R_FILT",
+   "designator": "R5",
+   "dx": 120,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": 109.5,
+    "minY": -124.5,
+    "maxX": 130.5,
+    "maxY": -115.5
+   }
+  },
+  {
+   "role": "C_VDD",
+   "designator": "C17",
+   "dx": 0,
+   "dy": -120,
+   "rotation": 0,
+   "bbox": {
+    "minX": -10.5,
+    "minY": -128.5,
+    "maxX": 10.5,
+    "maxY": -111.5
+   }
+  }
+ ],
+ "pins": [
+  {
+   "role": "U",
+   "pin": "OUT",
+   "net": "block.mems_mic_analog_N1",
+   "numbers": [
+    "4"
+   ]
+  },
+  {
+   "role": "R_OUT",
+   "pin": "1",
+   "net": "block.mems_mic_analog_N1",
+   "numbers": [
+    "1"
+   ]
+  },
+  {
+   "role": "R_OUT",
+   "pin": "2",
+   "net": "MIC1_P",
+   "numbers": [
+    "2"
+   ]
+  },
+  {
+   "role": "U",
+   "pin": "VDD",
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "1"
+   ]
+  },
+  {
+   "role": "C_VDD",
+   "pin": "1",
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "1"
+   ]
+  },
+  {
+   "role": "R_FILT",
+   "pin": "2",
+   "net": "block.mems_mic_analog_N3",
+   "numbers": [
+    "2"
+   ]
+  },
+  {
+   "role": "R_FILT",
+   "pin": "1",
+   "net": "3V3_L3B_AU",
+   "numbers": [
+    "1"
+   ]
+  },
+  {
+   "role": "U",
+   "pin": "GND*",
+   "net": "AGND",
+   "numbers": [
+    "2",
+    "3"
+   ]
+  },
+  {
+   "role": "R_REF",
+   "pin": "1",
+   "net": "AGND",
+   "numbers": [
+    "1"
+   ]
+  },
+  {
+   "role": "C_VDD",
+   "pin": "2",
+   "net": "AGND",
+   "numbers": [
+    "2"
+   ]
+  },
+  {
+   "role": "R_REF",
+   "pin": "2",
+   "net": "MIC1_N",
+   "numbers": [
+    "2"
+   ]
+  }
+ ],
+ "bbox": {
+  "minX": -25.5,
+  "minY": -128.5,
+  "maxX": 370.5,
+  "maxY": 15.5
+ }
+}

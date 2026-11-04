@@ -292,11 +292,13 @@ def _extract_template_impl(
         if role not in resolved:
             _fail("net member role %r is not part of the role map" % role)
         member = _rr._PinRef("%s.%s" % (role, raw_pin), role, _star_stripped(raw_pin), raw_pin, False)
-        if _rr._match_pin(resolved[role], member) is None:
+        matched = _rr._match_pin(resolved[role], member)
+        if matched is None:
             _fail(
                 "pin ref %r: component %r has no matching pin"
                 % (member.token, designators[role])
             )
+        numbers = sorted({str(pin.number) for pin in matched if pin.number})
         key = (role, raw_pin)
         previous = net_of_pin.get(key)
         if previous is not None and previous != net_name:
@@ -307,7 +309,10 @@ def _extract_template_impl(
         if previous is not None:
             return
         net_of_pin[key] = net_name
-        pin_entries.append({"role": role, "pin": raw_pin, "net": net_name})
+        entry = {"role": role, "pin": raw_pin, "net": net_name}
+        if numbers:
+            entry["numbers"] = numbers
+        pin_entries.append(entry)
 
     for index, net in enumerate(nets, start=1):
         port_name = next((member.token[len("PORT:"):] for member in net if member.is_port), None)
@@ -417,7 +422,7 @@ def _validate_template(template: Any) -> Mapping:
     for index, raw_pin in enumerate(pins):
         field = "template.pins[%d]" % index
         pin = _rr._mapping(raw_pin, field)
-        pin_unknown = sorted(set(pin.keys()) - {"role", "pin", "net"})
+        pin_unknown = sorted(set(pin.keys()) - {"role", "pin", "net", "numbers"})
         if pin_unknown:
             _fail("%s: unknown field(s) %s" % (field, ", ".join(repr(key) for key in pin_unknown)))
         role = _rr._string(pin.get("role"), "%s.role" % field)
@@ -425,11 +430,18 @@ def _validate_template(template: Any) -> Mapping:
             _fail("%s: role %r is not in template.parts" % (field, role))
         _rr._string(pin.get("pin"), "%s.pin" % field)
         _rr._string(pin.get("net"), "%s.net" % field)
+        numbers = pin.get("numbers")
+        if numbers is not None:
+            if not isinstance(numbers, list) or not numbers:
+                _fail("%s.numbers: expected a non-empty list" % field)
+            for number in numbers:
+                _rr._string(number, "%s.numbers[]" % field)
     _parse_bbox(data.get("bbox"), "template.bbox")
     return data
 
 
-def instantiate_template(template: Any, page: Any, origin_xy: Any) -> Dict[str, Any]:
+def instantiate_template(template: Any, page: Any, origin_xy: Any,
+                         grid: float = 0) -> Dict[str, Any]:
     """Translate a template to ``origin_xy`` and return absolute geometry + nets.
 
     ``page`` is carried through to the result as ``"page"`` (page id / plan
@@ -438,14 +450,24 @@ def instantiate_template(template: Any, page: Any, origin_xy: Any) -> Dict[str, 
     :class:`BlockTemplateError` for a malformed template or origin.
     """
     try:
-        return _instantiate_template_impl(template, page, origin_xy)
+        return _instantiate_template_impl(template, page, origin_xy, grid=grid)
     except _rr.RoleResolutionError as exc:
         raise BlockTemplateError(str(exc)) from exc
 
 
-def _instantiate_template_impl(template: Any, page: Any, origin_xy: Any) -> Dict[str, Any]:
+def _snap(value: float, grid: float) -> float:
+    if not grid or grid <= 0:
+        return value
+    return round(value / grid) * grid
+
+
+def _instantiate_template_impl(template: Any, page: Any, origin_xy: Any,
+                               grid: float = 0) -> Dict[str, Any]:
     data = _validate_template(template)
     origin_x, origin_y = _origin_xy(origin_xy, "origin_xy")
+    if grid and grid > 0:
+        origin_x = _snap(origin_x, grid)
+        origin_y = _snap(origin_y, grid)
 
     absolute_parts: List[Dict[str, Any]] = []
     designator_by_role: Dict[str, str] = {}
@@ -459,14 +481,20 @@ def _instantiate_template_impl(template: Any, page: Any, origin_xy: Any) -> Dict
         rotation = 0 if rotation is None else _rr._number(rotation, "template part %r.rotation" % role)
         relative_bbox = _parse_bbox(raw_part.get("bbox"), "template part %r.bbox" % role)
         absolute_bbox = _translate_bbox(relative_bbox, origin_x, origin_y)
+        part_x = _snap(origin_x + dx, grid)
+        part_y = _snap(origin_y + dy, grid)
+        if grid and grid > 0:
+            shift_x = part_x - (origin_x + dx)
+            shift_y = part_y - (origin_y + dy)
+            absolute_bbox = _translate_bbox(absolute_bbox, shift_x, shift_y)
         part_bboxes.append(absolute_bbox)
         designator_by_role[role] = designator
         absolute_parts.append(
             {
                 "ref": designator,
                 "role": role,
-                "x": _rr._clean_number(origin_x + dx),
-                "y": _rr._clean_number(origin_y + dy),
+                "x": _rr._clean_number(part_x),
+                "y": _rr._clean_number(part_y),
                 "rotation": _rr._clean_number(rotation),
                 "bbox": absolute_bbox.to_dict(),
             }
@@ -484,7 +512,8 @@ def _instantiate_template_impl(template: Any, page: Any, origin_xy: Any) -> Dict
         if net not in net_members:
             net_members[net] = []
             nets.append({"name": net, "members": net_members[net]})
-        net_members[net].append([designator, pin])
+        for number in raw_pin.get("numbers") or [pin]:
+            net_members[net].append([designator, str(number)])
 
     return {
         "page": page,
