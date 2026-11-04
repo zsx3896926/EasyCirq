@@ -285,6 +285,62 @@ unreproducible "2.04x" now actually lands.
 * no attempt at a C heap vs `heapq` comparison, and no work on the remaining 34 % of route time
   (`path_conflicts` was 12.5 s of cProfile tottime).
 
+
+## 4g. Where the route time actually goes, and one 42% cut (2026-11-04, §195)
+
+### The attribution, because "superlinear in nets" was wrong
+
+Stage 1 of the scale work reported that four times the nets cost twenty-three times the
+time. That was measured by tiling, which grows the board area as well as the net count, so
+the two effects were confounded. Separating them on the same data:
+
+```
+x1 -> x4: total x25.8  =  4.0 (nets)  x  1.62 (retries)  x  3.9 (board got bigger)
+```
+
+Normalising the per-call cost to node count settles the question:
+
+| scale | per-call mean | nodes | ms per M nodes |
+|---|---|---|---|
+| x1 | 14.1 ms | 0.81 M | 17.4 |
+| x2 | 27.1 ms | 1.71 M | **15.9** |
+| x4 | 55.1 ms | 3.68 M | **15.0** |
+
+A* gets *cheaper per node* as the board grows. There is no scale pathology in the kernel.
+What is genuinely pathological about net count is 1.62x of retries, concentrated on GND -
+at x4 the three tiled GND nets account for roughly 240 of 913 calls. Failures are zero
+throughout, so this is repeated re-search, not thrashing on unroutable legs.
+
+### The 42% that came out
+
+The bitmap helper added with the C kernel was scanning all 50k cells of via_block on
+every astar call, and testing each cell with `any(o != net for o in owners)` - a generator
+per cell, five and a half million of them per route. The predicate is exactly equivalent
+to `not owners <= {net}`, so it became a set-containment test.
+
+| | before | after |
+|---|---|---|
+| `equivalence.py --iters 3` | 24.2 s | **13.9 s** |
+| vs recorded 53.5 s baseline | 2.21x | **3.85x** |
+| plan SHA | 27a311f6f7f3332e | identical |
+| KPI fingerprint | - | identical |
+
+Both gates pass. Worth noting the number depends on the iteration count: at `--iters 1`
+this change is only 12 % (4.12 -> 3.61 s), because via_block grows with each pass and the
+share being optimised grows with it. Quote timings with the iteration count or the number
+is meaningless.
+
+### Measured and NOT kept
+
+| idea | measurement | verdict |
+|---|---|---|
+| cache `board.center` projections in path_conflicts | 2.84 M calls, **0.34 s of 13.01 s = 3 %** | not worth it; declined with the number |
+| spatial index for path_conflicts | not implemented; it is 41 % of route | **NOT DONE** - algorithm change with its own correctness risk, needs its own gate first |
+
+The second row also corrects a misread of my own: cProfile listed 21 M calls that looked
+like `board.center`, but `sorted_stats` had truncated the function name. Wrapping the real
+function showed 2.84 M. Read the full name before optimising against a profile.
+
 ### NOT RUN (stated, not implied)
 
 * incremental quality at the delivery grade (25/70 passes) - only 3-pass runs were compared (§190);

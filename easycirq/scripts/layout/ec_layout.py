@@ -750,17 +750,35 @@ def _bitmap(cells, W, H):
 def _dirty_bitmap(via_block, net, W, H):
     """via_block: {(x,y): owners} → 该 net 眼中的"脏"位图。
 
-    与原实现的判定一致：owners 里存在 o != net 才算脏。
+    判定与原实现等价：`any(o != net for o in owners)` 为真，当且仅当
+    owners 里存在不等于 net 的元素，等价于 `not owners <= {net}`。
+
+    写成集合包含判断而不是生成器表达式，是因为这块是热点：一次 route 里
+    via_block 有 5 万格、要扫 140 多次，`any(生成器)` 每格都要建一个生成器，
+    实测占整个 route 的 30%。集合判断是同一语义，快一个数量级。
     """
     if not via_block:
         return None
     bm = bytearray(W * H)
     hit = False
     for (x, y), owners in via_block.items():
-        if 0 <= x < W and 0 <= y < H and any(o != net for o in owners):
+        if 0 <= x < W and 0 <= y < H and owners and not owners <= _NET_ONLY_cache(net):
             bm[y * W + x] = 1
             hit = True
     return bytes(bm) if hit else None
+
+
+_NET_ONLY = {}
+
+
+def _NET_ONLY_cache(net):
+    """单元素 frozenset 的小缓存。net 数量很少，避免每格都构造。"""
+    fs = _NET_ONLY.get(net)
+    if fs is None:
+        fs = frozenset((net,))
+        if len(_NET_ONLY) < 4096:
+            _NET_ONLY[net] = fs
+    return fs
 
 
 ASTAR_MOVES = ((1, 0, 1.0), (-1, 0, 1.0), (0, 1, 1.0), (0, -1, 1.0),
