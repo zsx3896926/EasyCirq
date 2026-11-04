@@ -819,6 +819,18 @@ func runBlockApply(cfg *appConfig, window, blockID string, in bapInput, partsPat
 	// stderr 的话,`--json` 的消费者读到的仍然是一份全绿的计划。
 	var pageReadNotes []string
 	if !dryRun || window != "" || cfg.project != "" {
+		// 卡点 #24（板1b 实测）：`--doc` 只钉**写**操作，读页与读障碍物用的都是
+		// **活动页**。于是 `--doc <新页>` 落块时，障碍物来自另一页 —— 在刚建的
+		// 空页上照样被告知「这张页上已有的器件把空位占满了」，大块永远落不进
+		// 独占页。读之前先把活动页切到 `--doc` 指定的那一页。
+		if d := strings.TrimSpace(cfg.doc); d != "" {
+			if scope, serr := switchToPage(cfg, window, d); serr == nil {
+				window = scope.window
+			} else {
+				pageReadNotes = append(pageReadNotes, fmt.Sprintf(
+					"could not switch to --doc %s (%v) — obstacles were read from the ACTIVE page instead", d, serr))
+			}
+		}
 		if in.Existing, pageUUID, ident, err = existingDesignators(cfg, window); err != nil {
 			if !dryRun {
 				return err
