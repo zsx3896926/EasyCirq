@@ -1,16 +1,25 @@
 {
   "schema": "easycirq-power-net-check/v1",
-  "status": "pass",
-  "verdict": "pass",
+  "status": "fail",
+  "verdict": "review",
   "metrics": {
-    "power_net_conflicts": 0
+    "power_net_conflicts": 1
   },
   "source": "pin-name",
   "powerPins": [
-    "U1.8(VBUS)->VSYS"
+    "U1.3(VIN)->+5V",
+    "U3.8(VBUS)->VSYS"
   ],
   "nets": [
+    "+5V",
     "VSYS"
   ],
-  "findings": []
+  "findings": [
+    {
+      "code": "POWER_SPLIT",
+      "severity": "blocking",
+      "message": "电源引脚被分到了 2 个不同网络：+5V(U1.3)、VSYS(U3.8)",
+      "where": "pins[].net"
+    }
+  ]
 }

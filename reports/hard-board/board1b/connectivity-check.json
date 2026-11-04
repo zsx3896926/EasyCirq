@@ -4,7 +4,7 @@
   "verdict": "fail",
   "metrics": {
     "floating_pins": 8,
-    "single_node_nets": 4,
+    "single_node_nets": 0,
     "bus_members_missing": 0,
     "diff_pair_mismatch": 0,
     "nc_pins": 0,
@@ -16,12 +16,17 @@
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "C1 pin 2 (2) 未连接"
+      "message": "C1 pin 1 (1) 未连接"
     },
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "R1 pin 1 (1) 未连接"
+      "message": "C6 pin 1 (1) 未连接"
+    },
+    {
+      "severity": "error",
+      "code": "floating_pin",
+      "message": "C8 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
@@ -31,22 +36,7 @@
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "R2 pin 1 (1) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "R2 pin 2 (2) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "R3 pin 1 (1) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "R3 pin 2 (2) 未连接"
+      "message": "R4 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
@@ -55,33 +45,19 @@
     },
     {
       "severity": "error",
-      "code": "single_node_net",
-      "net": "INA_ALERT",
-      "message": "网络 INA_ALERT 只有 1 个端点"
+      "code": "floating_pin",
+      "message": "R6 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
-      "code": "single_node_net",
-      "net": "LED_CTRL",
-      "message": "网络 LED_CTRL 只有 1 个端点"
-    },
-    {
-      "severity": "error",
-      "code": "single_node_net",
-      "net": "SCL",
-      "message": "网络 SCL 只有 1 个端点"
-    },
-    {
-      "severity": "error",
-      "code": "single_node_net",
-      "net": "SDA",
-      "message": "网络 SDA 只有 1 个端点"
+      "code": "floating_pin",
+      "message": "R8 pin 1 (1) 未连接"
     }
   ],
   "summary": {
-    "components": 14,
-    "pins": 38,
-    "connections": 30,
+    "components": 19,
+    "pins": 50,
+    "connections": 42,
     "nets": 13,
     "nc_excluded": 0,
     "nc_source": "absent",

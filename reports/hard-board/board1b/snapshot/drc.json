@@ -1,5 +1,5 @@
 {
-  "id": "req_333",
+  "id": "req_796",
   "ok": true,
   "result": {
     "passed": true,
@@ -9,10 +9,10 @@
     "summary": {
       "fatal": 0,
       "error": 0,
-      "warn": 11,
+      "warn": 7,
       "info": 0,
       "unknown": 0,
-      "total": 11
+      "total": 7
     },
     "violations": [
       {
@@ -22,40 +22,8 @@
         "raw": {
           "primitives": [
             {
-              "name": "$1N84",
-              "primitiveId": "a1c93a5bbde69286",
-              "sheet": "c4958b937ebb4a9a"
-            }
-          ],
-          "rule": "SHOWDANDLING",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "SHOWDANDLING",
-        "raw": {
-          "primitives": [
-            {
-              "name": "$1N69",
-              "primitiveId": "3d17f51601e44545",
-              "sheet": "c4958b937ebb4a9a"
-            }
-          ],
-          "rule": "SHOWDANDLING",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "SHOWDANDLING",
-        "raw": {
-          "primitives": [
-            {
-              "name": "$1N86",
-              "primitiveId": "e728d1f02db1b6b9",
+              "name": "$1N107",
+              "primitiveId": "2756dd194ad50ea0",
               "sheet": "c4958b937ebb4a9a"
             }
           ],
@@ -98,45 +66,13 @@
       {
         "level": "warn",
         "type": "warn",
-        "rule": "SHOWDANDLING",
-        "raw": {
-          "primitives": [
-            {
-              "name": "$1N68",
-              "primitiveId": "14741a7b362c6c49",
-              "sheet": "c4958b937ebb4a9a"
-            }
-          ],
-          "rule": "SHOWDANDLING",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "SHOWDANDLING",
-        "raw": {
-          "primitives": [
-            {
-              "name": "$1N67",
-              "primitiveId": "129115c575902ba8",
-              "sheet": "c4958b937ebb4a9a"
-            }
-          ],
-          "rule": "SHOWDANDLING",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
         "rule": "ONENETNAME",
         "raw": {
-          "net": "C2_N2、C2_N2",
+          "net": "C7_N2、C7_N2",
           "primitives": [
             {
-              "name": "$1N77",
-              "primitiveId": "f59becaaeb168485",
+              "name": "$1N99",
+              "primitiveId": "c174d692052ee8a4",
               "sheet": "c4958b937ebb4a9a"
             }
           ],
@@ -168,51 +104,51 @@
         "raw": {
           "primitives": [
             {
+              "designator": "C6",
+              "name": "1",
+              "primitiveId": "6527eba669478254-e4",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
               "designator": "C1",
-              "name": "2",
-              "primitiveId": "5346ea32846c8ea6-e4",
+              "name": "1",
+              "primitiveId": "34698a2b69af1e1d-e10",
               "sheet": "c4958b937ebb4a9a"
             },
             {
               "designator": "R1",
               "name": "2",
-              "primitiveId": "ad4a8d394c708e31-e3",
+              "primitiveId": "845d14cdfa2bbb6f-e3",
               "sheet": "c4958b937ebb4a9a"
             },
             {
-              "designator": "R1",
-              "name": "1",
-              "primitiveId": "ad4a8d394c708e31-e7",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R2",
+              "designator": "C8",
               "name": "2",
-              "primitiveId": "954da9f0dda140e0-e3",
+              "primitiveId": "744da72c7018244e-e4",
               "sheet": "c4958b937ebb4a9a"
             },
             {
-              "designator": "R2",
-              "name": "1",
-              "primitiveId": "954da9f0dda140e0-e7",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R3",
+              "designator": "R4",
               "name": "2",
-              "primitiveId": "f860a9701dea8402-e3",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R3",
-              "name": "1",
-              "primitiveId": "f860a9701dea8402-e7",
+              "primitiveId": "81ab2f5cc2ee8526-e3",
               "sheet": "c4958b937ebb4a9a"
             },
             {
               "designator": "R5",
               "name": "2",
-              "primitiveId": "6542d0afe13ad4f4-e3",
+              "primitiveId": "d326e090763e2dce-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R6",
+              "name": "2",
+              "primitiveId": "021682a84d572950-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R8",
+              "name": "1",
+              "primitiveId": "55de400229d2752d-e7",
               "sheet": "c4958b937ebb4a9a"
             },
             {

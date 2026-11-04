@@ -1,9 +1,9 @@
 {
   "schema": "easycirq-sch-kpi-report/v1",
-  "generatedAt": "2026-11-04T21:33:20Z",
+  "generatedAt": "2026-11-04T21:40:35Z",
   "project": "板1b-块级电源板",
   "page": "P1",
-  "round": 1,
+  "round": 3,
   "profile": "default",
   "limits": {
     "wire_length": 120,
@@ -17,13 +17,13 @@
       "id": "unconnected",
       "title": "未连接/悬空",
       "kind": "hard",
-      "value": 12.0,
+      "value": 8.0,
       "limit": 0,
       "direction": "max",
       "unit": "count",
       "status": "fail",
       "advisory": false,
-      "detail": "connectivity.floating_pins=8; connectivity.single_node_nets=4",
+      "detail": "connectivity.floating_pins=8; connectivity.single_node_nets=0",
       "evidence": [
         "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\connectivity-check.json"
       ]
@@ -113,13 +113,13 @@
       "id": "readability",
       "title": "可跟读率",
       "kind": "soft",
-      "value": 0.6154,
+      "value": 0.5385,
       "limit": 0.6,
       "direction": "min",
       "unit": "ratio",
-      "status": "pass",
+      "status": "fail",
       "advisory": true,
-      "detail": "readability.direct_ratio=0.6154",
+      "detail": "readability.direct_ratio=0.5385",
       "evidence": [
         "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\readability-check.json"
       ]
@@ -175,13 +175,13 @@
       "id": "decoupling",
       "title": "去耦覆盖",
       "kind": "hard",
-      "value": 1.0,
+      "value": 0.0,
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "fail",
+      "status": "pass",
       "advisory": false,
-      "detail": "power.decap_missing=1",
+      "detail": "power.decap_missing=0",
       "evidence": [
         "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\power-check.json"
       ]
@@ -249,13 +249,13 @@
       "id": "power_net",
       "title": "电源网络",
       "kind": "hard",
-      "value": 0.0,
+      "value": 1.0,
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "pass",
+      "status": "fail",
       "advisory": false,
-      "detail": "power_net.power_net_conflicts=0",
+      "detail": "power_net.power_net_conflicts=1",
       "evidence": [
         "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\power-net-check.json"
       ]
@@ -308,15 +308,11 @@
   "blockers": [
     {
       "kpi": "unconnected",
-      "reason": "未连接/悬空 实测 12 count > 门限 0（INA_ALERT、LED_CTRL、SCL、SDA）"
+      "reason": "未连接/悬空 实测 8 count > 门限 0"
     },
     {
       "kpi": "pin_mux",
       "reason": "证据缺失或不可用: pinplan: 未提供"
-    },
-    {
-      "kpi": "decoupling",
-      "reason": "去耦覆盖 实测 1 count > 门限 0"
     },
     {
       "kpi": "bom_map",
@@ -331,6 +327,10 @@
       "reason": "证据缺失或不可用: readback: 未提供"
     },
     {
+      "kpi": "power_net",
+      "reason": "电源网络 实测 1 count > 门限 0"
+    },
+    {
       "kpi": "pcb_match",
       "reason": "证据缺失或不可用: pcb_match: 未提供"
     },
@@ -339,13 +339,19 @@
       "reason": "证据缺失或不可用: bom_match: 未提供"
     }
   ],
-  "advisory": [],
+  "advisory": [
+    {
+      "kpi": "readability",
+      "status": "fail",
+      "detail": "readability.direct_ratio=0.5385"
+    }
+  ],
   "stability": {
     "rounds_pass": 0,
     "required_rounds": 2,
     "regression": false,
     "new_failures": [],
-    "history_compared": false,
+    "history_compared": true,
     "apply_allowed": false,
     "note": "未过门禁，禁止上机"
   },
@@ -353,7 +359,7 @@
   "gate": {
     "schema": "easycirq-gate/v1",
     "written": false,
-    "revoked": true,
+    "revoked": false,
     "path": ".easycirq\\gate.json"
   }
 }

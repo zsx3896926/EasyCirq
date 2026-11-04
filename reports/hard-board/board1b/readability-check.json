@@ -3,9 +3,9 @@
   "tool": "sch_readability_metrics.py",
   "verdict": "pass",
   "metrics": {
-    "direct_ratio": 0.6154,
+    "direct_ratio": 0.5385,
     "nets": 13,
-    "labelled_nets": 5
+    "labelled_nets": 6
   },
   "findings": [
     {
@@ -17,6 +17,11 @@
       "severity": "info",
       "code": "labelled_net",
       "message": "网络 +3V3_SW 通过标签/端口连接"
+    },
+    {
+      "severity": "info",
+      "code": "labelled_net",
+      "message": "网络 +5V 通过标签/端口连接"
     },
     {
       "severity": "info",
@@ -35,7 +40,7 @@
     }
   ],
   "summary": {
-    "flagged": 5,
+    "flagged": 6,
     "anchored": 0,
     "stale_labelled": 0
   },

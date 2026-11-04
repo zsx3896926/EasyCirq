@@ -989,3 +989,66 @@ python easycirq/scripts/sch_offline_pipeline.py --snapshot-dir … --out-dir …
 2. **电源脚没去耦电容** —— 需要在电源脚就近补电容
 
 **判词：还不能下单。** 但这是第一次有完整判词链路：快照 → 离线全检 → KPI → 交付卡。
+
+
+---
+
+## 2026-11-05 第十九次上机：修掉一条真缺陷，换来一条更根本的
+
+### 做了什么
+
+1. **带 `--bind` 重落 P1 的四个块** —— 把块的边界端口钉到明确的全局网名
+   （`VIN_5V=+5V`、`3V3=+3V3`、`I2C_SDA=SDA`、`ALERT_N=INA_ALERT` …）
+2. **补 VSYS 去耦**：放 `CDEC1`（100nF），两端分别接到 VSYS / GND
+3. 想顺手把 `LED_CTRL` / `PWR_EN` 钉到 +3V3
+
+### 成果
+
+| 指标 | 之前 | 现在 |
+|---|---|---|
+| P1 器件 | 14 | **19** |
+| 已连引脚 | 30 / 38 | **42 / 50** |
+| 网络 | 13 | 13（`+3V3_SW` 仍是单脚） |
+| `sch gate` | PASS | **PASS**（39 wire tree） |
+| **去耦缺陷** | 必修 | **已从必修清单消失** ✅ |
+| 未接网络 | 4 个具名（INA_ALERT / LED_CTRL / SCL / SDA） | 8 个悬空引脚，但**引擎已不再具名** |
+
+**`SDA` / `SCL` / `INA_ALERT` 已经接上了** —— 因为 INA226 块自带的上拉电阻让它们变成了两脚网。
+
+### 但换来一条更根本的问题
+
+```
+power-net: review
+  blocking POWER_SPLIT
+  电源引脚被分到了 2 个不同网络：+5V(U1.3)、VSYS(U3.8)
+```
+
+**这是真的设计问题**：LDO 的 `+5V` 输入**没有来源**。我的块组合里缺一个
+**电源入口块**（USB-C 供电），所以电源链是断的：
+`? → +5V → LDO → +3V3 → PMOS → +3V3_SW`，最左边那个问号没有东西。
+
+### 另一个事实
+
+`block.esp32s3_wroom1_module` 只暴露 **3V3 / GND / EN / IO0 / U0TXD / U0RXD** 六个端口，
+**没有 I2C/GPIO**。所以 `LED_CTRL`、`PWR_EN` 这两个 GPIO 驱动的网
+**接不到 MCU** —— 不是接线没做，是这块 MCU 块根本不提供那些脚。
+
+两处尝试都失败，错误信息清楚：
+
+```
+pin already connected to net "LED_CTRL", not "+3V3"; pass --replace to delete the old flag+wire
+--replace 之后：no safe candidate: stub touches an existing (foreign-net) wire (hard reject)
+```
+
+### 当前交付卡
+
+```
+❌ 还不能打样
+必须修的问题：
+  · 有引脚或网络没有接上（→ 连接，或显式标 NC）
+  · power_net（→ 按检查结果修正）
+还没检查的项目：引脚复用 / 封装型号 / 改动前后 / 重开前后 / pcb_match / bom_match
+```
+
+**判词：还不能下单。** 但比上一轮更接近了：去耦那条已经消掉。
+剩下的核心是**电源链缺入口**，那是设计层面的决定，不是接线动作。
