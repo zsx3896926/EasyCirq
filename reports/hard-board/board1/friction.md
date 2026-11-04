@@ -359,3 +359,48 @@ verdict      fail
 
 **共性：批量接口失败时不报错，只是"少给"或"给错"。** 所以每一处批量调用都应当
 **核对覆盖度**，而不是相信返回的条数。
+
+
+---
+
+## #17 `lib by-lcsc` 返回的身份**缺封装**，用它 place 出来的器件造不出来
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（严重：命令自称"可直接 place 的身份"，但那个身份不完整） |
+| **发现方式** | 板1 重建后 `drc` 从 0 变成 **27 fatal，全是 MISSFOOTPRINT** |
+| **对照证据** | 同一个 C 号，两个命令给的字段不同：<br>`search C31847` → `footprintName="C1206"`, `symbolName="1206B226K160NT"`<br>`by-lcsc C31847` → **`footprintName=None`, `symbolName=""`**<br>三个器件（C31847 / C25804 / C2911487）全部如此 |
+| **后果** | 用 `by-lcsc` 身份 place 出来的器件**没有封装绑定** → 板子造不出来 → 直到 DRC 才报 MISSFOOTPRINT，**离成因很远** |
+| **决定性验证** | 同一个 C1：用 `by-lcsc` 身份放 → 无封装；删掉后用 `search` 身份放 → **`footprintName=C1206`，有封装 uuid** |
+| **修法（做了两层）** | ① **CLI 补齐**（`lib_by_lcsc_fallback.go`）：缺 `footprintName` 的，用 `search` 按同一 C 号查一次填上；查不到就标 `footprintNameMissing`，不假装齐备<br>② **连接器**同样处理（已构建，需重新导入生效） |
+| **验证** | 修后 `by-lcsc` 返回 `R0603` / `C1206`；板1 的 26 个裸器件删后按 `search` 身份重放 → **51/51 全部有封装** |
+| **板级效果** | `drc`：**27 fatal → 0 fatal，PASS** |
+| **提交** | ✅ 1.4.9 |
+
+### 顺带验证了产品的一个好设计
+
+`sch rebind-footprint` 对这 27 个器件**正确地拒绝了**：
+
+```
+PRECONDITION_REFUSED: Component "…" has no complete original footprint identity.
+Rebind was refused before mutation because the device association could not be rolled back exactly.
+```
+
+**在变更之前就拒绝，并说清为什么** —— 这正是"失败可解释"该有的样子。可惜 #14 的错误信息完全不是这样。
+
+---
+
+## 本轮结束时板1 的状态
+
+```
+器件 51（全部有封装）   引脚 169
+layout-lint  fail  6 overlap, 2 pin-coincidence, 1 tight, 1 out-of-sheet
+clusters     fail  6 重叠 / 1 出图纸
+check        fail  4 error/fatal (zero-length-wire×3, out-of-sheet×1)
+bridge-check fail  1 bridge(short)
+drc          PASS  0 fatal, 0 error, 10 warn
+verdict      fail
+```
+
+**drc 从 27 fatal 清到 PASS** —— 这是本轮最实的进步。
+剩下：6 处重叠、1 处出图纸、3 条零长度导线、1 处短路。

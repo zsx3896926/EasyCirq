@@ -95,6 +95,52 @@ func resolveByLcscWithFallback(cfg *appConfig, window string, ids []string,
 	out.Components = deduped
 	out.Count = len(out.Components)
 
+	// ── 补齐 footprintName / symbolName（卡点 #17）────────────────────
+	//
+	// `by-lcsc` 返回的身份**缺封装**：实测同一个 C 号，`lib search` 给出
+	// footprintName="C1206"，而 `by-lcsc` 给 None。原样拿去 place，建出来的
+	// 器件**没有封装** —— 板子造不出来，而直到 DRC 才报 MISSFOOTPRINT，
+	// 离成因很远（板1 一次重放出了 27 个这样的器件）。
+	//
+	// 所以这里补一步：缺封装的，用 `lib search` 按同一个 C 号查一次，
+	// 把 footprintName / symbolName 填上。查不到就如实标记，不假装齐备。
+	for _, c := range out.Components {
+		if v, _ := c["footprintName"].(string); v != "" {
+			continue
+		}
+		id, _ := c["lcsc"].(string)
+		if id == "" {
+			continue
+		}
+		one, err := requestActionTimed(cfg, "schematic.library.search", window,
+			map[string]any{"query": id, "limit": 3}, 30*time.Second)
+		if err != nil {
+			continue
+		}
+		var sr struct {
+			Components []map[string]any `json:"components"`
+		}
+		raw, mErr := json.Marshal(one.Result)
+		if mErr != nil || json.Unmarshal(raw, &sr) != nil {
+			continue
+		}
+		for _, cand := range sr.Components {
+			if got, _ := cand["lcsc"].(string); got != id {
+				continue
+			}
+			if fp, _ := cand["footprintName"].(string); fp != "" {
+				c["footprintName"] = fp
+			}
+			if sym, _ := cand["symbolName"].(string); sym != "" {
+				c["symbolName"] = sym
+			}
+			break
+		}
+		if _, ok := c["footprintName"].(string); !ok {
+			c["footprintNameMissing"] = true
+		}
+	}
+
 	notFound := make([]string, 0, len(ids))
 	for _, id := range ids {
 		if !seen[id] {

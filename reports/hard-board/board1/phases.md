@@ -482,3 +482,50 @@ sch gate: FAIL
 3. 这条判断应当变成**产品能力**（删除前校验可恢复性 / 提供快照回滚）
 
 **判词：还不能下单。**
+
+
+---
+
+## 2026-11-05 第十次上机：DRC 27 fatal → 0
+
+### 根因
+
+上一轮重建后 `drc` 报 **27 条 MISSFOOTPRINT**。查下去发现：
+
+| 命令 | 同一个 C 号返回的封装 |
+|---|---|
+| `lib search --query C31847` | `footprintName = "C1206"` ✅ |
+| `lib by-lcsc --lcsc C31847` | `footprintName = None` ❌ |
+
+**`by-lcsc` 自称返回"可直接 place 的身份"，但那个身份缺封装绑定。**
+用它 place 出来的器件没有封装 → 造不出来 → 直到 DRC 才暴露（#17）。
+
+### 修法与验证
+
+1. CLI 侧补齐 `footprintName`（缺的用 `search` 按同一 C 号查一次）
+2. 决定性验证：同一个 C1，`by-lcsc` 身份放 → 无封装；`search` 身份放 → **有封装**
+3. 26 个裸器件删掉、按 `search` 身份重放 → **51/51 全部有封装**
+
+### 结果
+
+```
+sch gate: FAIL
+  FAIL  layout-lint   6 overlap, 2 pin-coincidence, 1 tight, 1 out-of-sheet
+  FAIL  clusters      6 重叠 / 1 出图纸
+  FAIL  check         4 error/fatal (zero-length-wire×3, out-of-sheet×1)
+  FAIL  bridge-check  1 bridge(short)
+  PASS  drc           0 fatal, 0 error, 10 warn   ← 27 fatal 清到 0
+```
+
+### 顺带：产品的一个好设计
+
+`rebind-footprint` 对这 27 个器件**在变更之前就拒绝了**，并说清原因：
+
+```
+Rebind was refused before mutation because the device association
+could not be rolled back exactly.
+```
+
+对比 #14 的 `Cannot destructure property 'cmdKey'` —— **同一个产品里，一个错误信息好到可以当范本，另一个坏到毫无用处。**
+
+**判词：还不能下单。** 剩 6 处重叠、1 处出图纸、3 条零长导线、1 处短路。
