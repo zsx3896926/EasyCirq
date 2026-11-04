@@ -52,8 +52,11 @@ ALLOWED = {
            "sch autoplace-free", "lib search", "project info"],
     "S4": ["sch pages", "sch read", "sch list", "sch wire", "sch connect",
            "sch autoconnect", "sch netflag", "sch no-connect", "project info"],
+    # S5 是"证明这块板没问题"的相位，所以验证类动作都在这里。
+    # `sch kpi` 尤其重要：交付卡读它产出的 kpi-report.json，没有它
+    # DELIVER 永远过不去（真板子干跑时就是这么卡住的）。
     "S5": ["sch pages", "sch read", "sch list", "sch check", "sch bridge-check",
-           "sch drc", "sch gate", "project info"],
+           "sch drc", "sch gate", "sch kpi", "project info"],
     "S6": ["sch pages", "sch read", "sch save", "project info"],
     "S0": ["project info", "sch pages"],
 }
@@ -140,9 +143,18 @@ class Harness:
     def tool_phase_advance(self, to=None):
         d, fp, _ = self.state()
         ok, msg, bad = ph.advance(self.project, d, fp, to)
-        self.say("  [advance] %s" % ("OK " + msg if ok else "REFUSED " + msg))
+        if ok:
+            self.say("  [advance] OK %s" % msg)
+        else:
+            # 只说 "refused" 等于没说：必须说清缺哪条证据、怎么补。
+            why = "、".join("%s=%s" % (p, s) for p, s in bad) or "（无具体阻塞项）"
+            self.say("  [advance] REFUSED %s —— 阻塞：%s" % (msg, why))
         return {"ok": ok, "message": msg,
-                "blockers": [{"phase": p, "state": s} for p, s in bad]}
+                "blockers": [{"phase": p, "state": s} for p, s in bad],
+                "howToFix": [("easycirq phase run %s --project %s" % (p, self.project))
+                             if p in ph.GATES else
+                             ("DELIVER 前置 %s：见 references/phase-gate.md" % p)
+                             for p, _s in bad]}
 
     # 工具：通用 CLI（受相位白名单约束）
     def tool_cli(self, argv):

@@ -170,6 +170,9 @@ func newSchCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	// and WebSocket response handling stay identical across domains.
 	sch.AddCommand(newApplyCmd(cfg, stdout, stderr))
 
+	// 离线 KPI 管线：交付卡的证据来源（见 cmd_sch_kpi.go）
+	sch.AddCommand(newSchKpiCmd(cfg, stdout, stderr))
+
 	// ── pages ────────────────────────────────────────────────────────────
 	// schematic.pages.list
 	sch.AddCommand(&cobra.Command{
