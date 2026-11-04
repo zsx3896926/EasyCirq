@@ -219,7 +219,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 初次使用、判断任务范围和评审节奏 | [首次协作](references/interaction.md) |
 | 组合新模块、避免漏掉外围 | [模块设计卡](references/module-cards.md) |
 | 用户要求选型、换料或BOM | [选型与装配变体](references/part-selection.md) |
-| 客户有内部规范、自己的料、实测参数、标准电路，或要沉淀人审意见（「按我们规范检查」「这颗料我们实测过」「上次评审说的别再犯」） | [企业知识库](references/enterprise-knowledge.md) |
+| 企业客户：按内部规范查网表、沉淀人审经验、从历史 DRC 挖候选；或问「装哪个版本 / 要不要服务端」 | [本地交付说明](references/enterprise-local.md)（**现行方式：纯本地**，不部署服务端、不需要预装 Python）、[企业知识库](references/enterprise-knowledge.md)、[从历史工程长出规则](references/enterprise-harvest.md) |
 | 立创商城选料、查货、估价、BOM配单、缺料替代 | [立创商城选型与配单](references/lcsc-sourcing.md) |
 | 嘉立创打板/贴片、选择工艺、设置厂规或工厂驳回 | [生产规则接入](references/jlc-production.md)，Agent维护实际订单工艺与证据，不要求新手填表 |
 | PCB层叠/铜厚/线孔/阻焊/成型与特殊工艺 | [嘉立创PCB生产规则](references/jlc-pcb-rules.md)，数值为需重查的条件快照 |
@@ -232,7 +232,6 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 模拟采集、音视频、射频或高速链路 | [模拟与高速](references/analog-rf-highspeed.md) |
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
-| 客户有历史工程要从里面挖规范，或要离线布通一块已捕获的板 | [从历史工程长出规则](references/enterprise-harvest.md)（`easycirq enterprise harvest --drc <报告>`，出**候选**，必须人审 disposition 才能 promote）、[离线布局与布线](references/offline-layout.md)（`easycirq layout`；**先算边界再搜索 R1**） |
 | 已有原理图重排/自动布局；用 8 类典型任务校准排版检查 | [原理图排版引擎](references/schematic-layout-engine.md)、[排版基准集](references/schematic-benchmarks.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 复核；基准是离线示意，不是真机验收 |
 | 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
