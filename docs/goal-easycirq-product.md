@@ -253,11 +253,32 @@
 **仍然输出完整 JSON**。第一版把非零退出当失败丢弃 stdout，面板**永远显示不出
 "还没检查过"**——而那正是这层界面最该说清的状态。
 
-### 还没做的（P1–P5）
+### P1 面板 MVP —— **已完成**（2026-11-05，`1.4.1`）
+
+| 交付项 | 状态 | 证据 |
+|---|---|---|
+| 相位条五态与证据一一对应 | ✅ | `test_state_mapping_covers_every_evidence_state` |
+| `pending` 不为绿 | ✅ | `test_non_pass_states_never_borrow_the_pass_class`（4 条） |
+| 改板后 `stale` 且不放行 | ✅ | `test_stale_when_the_board_fingerprint_changes`、`test_stale_is_not_release` |
+| **证据详情**：点一格看"缺什么、怎么补" | ✅ | `test_every_phase_gets_a_hint` + 抽屉 |
+| "怎么补"由 CLI 给，面板不判断 | ✅ | `test_drawer_renders_hints_from_the_api_not_its_own_logic` |
+| 不弹模态框，用侧滑抽屉 | ✅ | `test_page_has_a_drawer_not_a_modal` |
+| 一键复制修复命令 | ✅ | 抽屉里的"复制命令" |
+| 干净安装后 hints 可用 | ✅ | 1.4.1 装完 `phase show --json` 有 8 条 hints |
+
+**P1 路上修掉的真 bug**：
+
+1. **hints 里的 Markdown 星号**——面板用 `textContent` 渲染，`**x**` 会原样显示成星号
+2. **`phase.py` 改了但 CLI 读的是技能目录**——老坑，四个目录都得同步
+3. **交付包守卫一直指着 1.3.86**——每次发版都忘了改，于是它在检查一个过期包，
+   而"测试是绿的"让人以为包是对的。现在自动取最新版本。
+
+**未验**：`stale` 的**真机**那一半（需要改板子并重读指纹）；抽屉的视觉走查。
+
+### 还没做的（P2–P5）
 
 | 项 | 期 |
 |---|---|
-| 证据详情抽屉（点一格看 `howToFix`）、工程选择 | P1 |
 | Agent 工作面（对话流、拒绝高亮、停止/续跑） | P2 |
 | 跑门 / 推进按钮 | P3 |
 | 首次运行引导、`Ctrl+K`、无障碍走查、历史与产物 | P4 |
