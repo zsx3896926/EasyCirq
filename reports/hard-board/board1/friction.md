@@ -1095,3 +1095,40 @@ clusters     FAIL（6 处重叠 —— 全是块内部标号）
 下结论前读了 `selectWindow` 的**实现**（`dispatch.go:808-830`），确认它确实持有
 完整 `windows` 列表，只是没用它区分两种情况。**这是"先读实现再下判断"第一次
 产出一条新的、已验证的修复。**
+
+
+---
+
+## #38 兼容矩阵数据存在，但 `doctor` **从来没显示过**（1.4.23 已修）
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**接线遗漏**：能力齐备，少一次调用） |
+| **发现方式** | 查 P5 的"兼容矩阵"这一项，看 `doctor` 输出里有没有 compatibility |
+| **实现里的事实** | `host_compatibility.go` 完整实现了矩阵：基线 `4.0.0`、推荐 `4.1.60`，对 `<4`（block）/ `>4`（warn）/ `<4.1.60`（warn）/ 其余（ok）四种情况分别给结论与修法 |
+| **遗漏点** | `daemon health`（`cmd_daemon.go:182`）会调 `hostCompatibilityFromHealth`，而 **`doctor` 的 `collectDoctorReport` 从不调用** → `connectorIdentity` 里 `HostCompatibility` 恒为 nil → **导出里根本没有 compatibility 字段** |
+| **实测** | 修前：`doctor` 的 `host` 段只有 `easyedaVersion: 4.1.78`，**没有 compatibility** |
+| **修后（真机）** | `"compatibility": "ok"`、`"compatibilityNotes": "✓ EasyEDA 宿主：V4 主线（推荐基线 4.1.60）"` |
+| **为什么要抽函数** | 抽出 `doctorApplyHostCompatibility(&result)` 才能**单测这条接线** —— 只测 `evaluateHostVersion` 测不出"doctor 忘了调用它"。这正是漏掉的那一步 |
+| **测试** | `TestDoctorAppliesHostCompatibility`：给一份真实形状的 health 响应（4.1.78），断言矩阵必须被挂上、基线带出来、判定为 ok；`TestDoctorHostCompatibilityNoWindows`：没有窗口时不 panic，也不凭空造 ok |
+| **提交** | ✅ 1.4.23 |
+
+### 这一类缺陷的共同点
+
+**功能实现了、测试也有了，但没有接到用户看得见的地方。**
+
+前面已经有两条同族：
+- #33：`marker-overlap` 一直在报，只是级别与另一处不一致
+- #37：窗口列表一直拿得到，只是没用来分辨两种情况
+
+**三次都是"数据/能力在手，但没送到该看的人眼前"。**
+
+### P5 的真实状态（本轮的查证结果）
+
+| C 判据 | 状态 |
+|---|---|
+| C17 签名安装包 | ❌ **没有**：`distribution/*.py` 里没有任何签名逻辑（无 Authenticode / sigstore），只有 SHA256 校验 |
+| C18 离线安装包 | ⚠️ **部分**：`install --bundle <zip>` 本身就是本地 zip，不走网络；但没有把依赖封进去的"气隙包" |
+| C19 诊断包已脱敏 | ✅ P0 已完成（9 条测试）|
+| C20 `inspect-bundle` verdict ok | ✅ 实测 1.4.22：`ok / corrupt [] / dirty False` |
+| 兼容矩阵 | ✅ **本轮修好并能显示** |

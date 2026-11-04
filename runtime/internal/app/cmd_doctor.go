@@ -207,6 +207,7 @@ func collectDoctorReport(cfg *appConfig) doctorReport {
 		result := scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
 		cancel()
 		rep.Daemon = daemonIdentity(result, cfg.host)
+		doctorApplyHostCompatibility(&result)
 		rep.Connector, rep.Host = connectorIdentity(result)
 		rep.Checks = append(rep.Checks, healthChecks(result)...)
 	} else {
@@ -590,4 +591,20 @@ func joinSorted(set map[string]bool) string {
 	}
 	sort.Strings(items)
 	return strings.Join(items, ", ")
+}
+
+// doctorApplyHostCompatibility 把宿主兼容矩阵接进 doctor 的 health 结果（P5）。
+//
+// `daemon health` 一直会自己算这一步，而 `doctor` 从来没有 —— 于是
+// `connectorIdentity` 里的 `HostCompatibility` 恒为 nil，**矩阵数据存在却永远
+// 不显示**（实测：4.1.78 的宿主导出里根本没有 compatibility 字段）。
+//
+// 抽成函数是为了能单测这条**接线**：只测 evaluateHostVersion 测不出
+// "doctor 忘了调用它"这种遗漏。
+func doctorApplyHostCompatibility(result *healthResult) {
+	if result == nil || result.Found == nil {
+		return
+	}
+	rep := hostCompatibilityFromHealth(result.Found.Raw)
+	result.HostCompatibility = &rep
 }
