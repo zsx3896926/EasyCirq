@@ -396,6 +396,7 @@ func runAutoconnect(cfg *appConfig, window string, conns []acConnSpec, rules aut
 // runAutoconnectOpts 是真正的运行核心,返回整份报告(Succeeded/Failed 清单),
 // 让调用方(如 group-move 的失败恢复段)拿到结构化的成败,而不是解析错误文案。
 func runAutoconnectOpts(cfg *appConfig, window string, conns []acConnSpec, rules autoconnectRules, opts acRunOpts, stdout, stderr io.Writer) (acReport, error) {
+	throttle := newAcThrottle()
 	allPages, dryRun, replace, asJSON := opts.AllPages, opts.DryRun, opts.Replace, opts.JSON
 	// Validate the entire batch before creating any stubs, even in --dry-run.
 	// Pin the same window for the capability check and all following actions.
@@ -599,6 +600,9 @@ func runAutoconnectOpts(cfg *appConfig, window string, conns []acConnSpec, rules
 			}
 			cres, cerr, retried := acConnectPinWithRetry(cfg, window, payload)
 			cr.Retried = retried
+			// 卡点 #9：连接器在高负载下降级时继续一口气打只会更糟。
+			// 看到降级告警就放慢后续写入（见 ac_throttle.go）。
+			throttle.observe(cres, time.Sleep)
 			if cerr != nil {
 				cr.Error = cerr.Error()
 				report.OK = false
@@ -951,6 +955,14 @@ unless you pass --replace, which deletes the old flag+wire and reconnects.`,
   easycirq sch autoconnect --pin U1:3V3 --kind power --net +3V3 --dry-run
   easycirq sch autoconnect --spec p1-connect.json --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// 卡点 #10：--replace 是「删旧标号 + 重连」。连接器降级时删除可能落上
+			// 而重连没落上，反复跑会来回震荡、越修越乱（板1 实测 76<->100 来回）。
+			// 所以降级状态下直接拒绝，而不是带着不确定性删改。
+			if replace {
+				if connectorLooksDegraded(cfg, *window) {
+					return fmt.Errorf("%s", newAcThrottle().refuseReason(true, true))
+				}
+			}
 			rules := defaultAutoconnectRules()
 			if cmd.Flags().Changed("avoid-titleblock") {
 				rules.AvoidTitleBlock = avoidTitleBlock

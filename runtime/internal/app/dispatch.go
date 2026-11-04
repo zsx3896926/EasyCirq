@@ -470,6 +470,11 @@ type actionResult struct {
 	Result    map[string]any `json:"result"`
 	Artifacts []artifactRef  `json:"artifacts"`
 	Context   *actionContext `json:"context"`
+	// Warnings 是 daemon/连接器随响应带回来的告警（例如"连接器在高负载下降级，
+	// 这次写入可能已经落上了"）。**以前这里没解析，于是调用方读不到降级信号** ——
+	// 只有人看原始输出才知道，代码没法据此节流或拒绝，这正是板1 批量连线把
+	// 连接器压垮、以及 `--replace` 反复震荡的根因（friction #9 / #10）。
+	Warnings []string `json:"warnings,omitempty"`
 	// Seq is the connector's FIFO ordering evidence carried on this response
 	// (connector ≥ 1.0.3). Known=false means the connector is older and sent no
 	// such fields — callers MUST then fall back to a weaker judgement rather
@@ -576,6 +581,7 @@ func requestActionOnce(cfg *appConfig, action, window string, payload any, timeo
 		Result    map[string]any `json:"result"`
 		Artifacts []artifactRef  `json:"artifacts"`
 		Context   *actionContext `json:"context"`
+		Warnings  []string       `json:"warnings"`
 		Error     *struct {
 			Code    string `json:"code"`
 			Message string `json:"message"`
@@ -585,7 +591,7 @@ func requestActionOnce(cfg *appConfig, action, window string, payload any, timeo
 	if err := json.Unmarshal(respBody, &parsed); err != nil {
 		return nil, libraryWriteFailureError(action, respBody, fmt.Errorf("decode %s response: %w", action, err))
 	}
-	res := &actionResult{ID: parsed.ID, WindowID: parsed.WindowID, CreatedAt: parsed.CreatedAt, Type: parsed.Type, Version: parsed.Version, OK: parsed.OK, Result: parsed.Result, Artifacts: parsed.Artifacts, Context: parsed.Context, Seq: parseSeqCounters(respBody)}
+	res := &actionResult{ID: parsed.ID, WindowID: parsed.WindowID, CreatedAt: parsed.CreatedAt, Type: parsed.Type, Version: parsed.Version, OK: parsed.OK, Result: parsed.Result, Artifacts: parsed.Artifacts, Context: parsed.Context, Warnings: parsed.Warnings, Seq: parseSeqCounters(respBody)}
 	if !parsed.OK {
 		msg := "ok=false"
 		code := ""
