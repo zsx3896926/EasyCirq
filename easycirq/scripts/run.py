@@ -90,8 +90,10 @@ def run_cli(argv, timeout=1800):
 
 
 class Harness:
-    def __init__(self, project, max_rounds=12, verbose=True):
+    def __init__(self, project, max_rounds=12, verbose=True, goal=""):
         self.project = project
+        # goal 要进对话。只打印不传，等于模型不知道要干什么。
+        self.goal = goal
         self.max_rounds = max_rounds
         self.verbose = verbose
         self.log = []
@@ -267,7 +269,9 @@ def loop(harness, model_call, max_rounds, verbose=True):
     """model_call(messages) -> {"tool_calls": [{"name","args"}], "text": str}"""
     messages = [{"role": "system", "content": SYSTEM}]
     messages.append({"role": "user", "content":
-                     "开始。工程 %s。先看状态。" % harness.project})
+                     "目标：%s\n\n工程：%s\n\n先调 phase_status 看当前相位与证据状态，"
+                     "再逐步推进。做完调 finish。"
+                     % (harness.goal or "（未给目标）", harness.project)})
     finished = False
     for r in range(max_rounds):
         harness.rounds = r + 1
@@ -316,7 +320,8 @@ def main():
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    h = Harness(a.project, max_rounds=a.max_rounds, verbose=not a.json)
+    h = Harness(a.project, max_rounds=a.max_rounds, verbose=not a.json,
+                goal=a.goal)
 
     if a.fake:
         script = json.loads(pathlib.Path(a.fake).read_text(encoding="utf-8"))

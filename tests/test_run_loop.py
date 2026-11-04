@@ -133,3 +133,21 @@ def test_fake_model_exhaustion_finishes_instead_of_hanging(runmod):
     res = runmod.loop(h, lambda _m: {"tool_calls": fake.next_calls(), "text": ""},
                       8, verbose=False)
     assert res["rounds"] <= 2, "剧本用完后应该立刻 finish，不该空转"
+
+def test_goal_reaches_the_model(runmod):
+    """目标必须进对话。
+
+    曾经只 `say` 了一声就丢了，初始消息里没有目标——模型只能瞎猜要做什么。
+    这种 bug 不会报错，只会让模型表现得很笨。
+    """
+    seen = {}
+    h = runmod.Harness("demo", max_rounds=2, verbose=False,
+                       goal="加一个 3.3V LDO")
+
+    def fake_call(messages):
+        seen["messages"] = list(messages)
+        return {"tool_calls": [{"name": "finish", "args": {"summary": "x"}}]}
+
+    runmod.loop(h, fake_call, 2, verbose=False)
+    joined = " ".join(str(m.get("content") or "") for m in seen["messages"])
+    assert "加一个 3.3V LDO" in joined, "目标没进对话：" + joined[:400]
