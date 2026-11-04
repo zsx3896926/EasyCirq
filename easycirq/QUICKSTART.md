@@ -1,7 +1,7 @@
 # 快速上手 · 智构 · EasyCirq
 
 > **10 分钟，从「装好了」到「AI 按工程纪律开始画板」。**
-> 本页只讲 Skill 怎么用起来；执行层（`easycirq` CLI）的安装、升级、卸载见仓库 [README](../README.md) 与 [安装说明](../distribution/INSTALL.md)。（`../` 是仓库内路径；Skill 装进客户端后这些链接指不到，回仓库看。）
+> 本页只讲 Skill 怎么用起来；执行层（`easycirq` CLI）的安装、升级、卸载见仓库根的 `README.md` 与 `distribution/INSTALL.md`（这两个文件不在 Skill 目录内，装进客户端后回仓库看）。
 >
 > 本文的命令与输出在 **Windows + easycirq 1.3.83 + EasyEDA Pro 4.1.78** 上实跑（2026-11-04）。标「实测」的是照抄的真实输出；没标的表示本次未跑，别当成已验证。
 

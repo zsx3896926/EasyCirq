@@ -42,7 +42,7 @@ description: 智构 · EasyCirq —— 配合AI Agent把自然语言idea推进�
 用户要求安装、检查更新、升级、修复或回退时，读取 [安装与更新](references/installation-updates.md)。
 WorkBuddy/Claude Code/Codex 只是宿主：安装只决定能否加载本Skill，不代表EDA已接通。
 新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。
-本Skill只更新自身；`easycirq` 运行时由本仓库 `distribution/` 的发布包安装/升级，本Skill不从外部release页下载CLI、daemon或连接器。
+本Skill只更新自身；`easycirq` 运行时由本仓库 `distribution/` 的发布包安装/升级，本Skill不从外部release页下载CLI、daemon或连接器。**第一次使用**先读 [快速上手](QUICKSTART.md)（10 分钟：三步装好 → 第一句话怎么说 → 最小闭环 → 五个常见坑）；用户问"怎么开始/怎么用"时指向它，不把本文全文倒给用户。
 先确认实际客户端和安装路径，重复安装不得静默覆盖；网络失败不阻塞原工程任务。只在用户要求升级且没有进行中的工程操作时更新，不在画板中途替换技能，不运行无人确认自动安装；升级后重载或新建会话并核对 `.version` 与 `easycirq doctor`。保留客户项目和本地修改，仅本Skill更新成功不代表执行层已更新，不宣称跨组件原子回退。
 
 ## EasyEDA 生态工具接入
