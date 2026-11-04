@@ -341,6 +341,43 @@ The second row also corrects a misread of my own: cProfile listed 21 M calls tha
 like `board.center`, but `sorted_stats` had truncated the function name. Wrapping the real
 function showed 2.84 M. Read the full name before optimising against a profile.
 
+
+## 4h. The memory wall is not where we thought (2026-11-04, §196)
+
+The plan was to stop allocating the A* buffers densely at L*W*H and switch to a sparse or
+chunked strategy above a threshold. Measuring the composition of peak memory first killed
+that plan:
+
+| scale | peak | C buffers | Python side |
+|---|---|---|---|
+| x1 | 186 MB | 21 % | 79 % |
+| x4 | 1,880 MB | 35 % | 65 % |
+| x8 | 7,027 MB | **38 %** | **62 %** |
+
+At the largest board measured the C arrays are 38 % of the footprint. Narrowing them -
+`came` and the generation stamps to int32, `best` stays a double - gives 7,027 -> 6,364 MB,
+**9 %**, which buys no headroom worth an overflow risk and a full regression. A sparse
+buffer has nothing to exploit either: an A* closed set can cover most of the grid, so
+chunking either does nothing or replaces a dense array with a hash table that is both
+slower and larger. The 62 % python side is the real wall, and rewriting the board model is
+its own project, not a buffer swap.
+
+So the item is declined with numbers rather than done. What was built instead is a
+pre-flight refusal: `route()` checks W*H*layers against `EASYCIRQ_MAX_NODES` (default 120 M,
+about 15 GB at the measured 127 bytes/node) before touching anything, and the error names
+the node count, the estimated memory, how to raise the limit, and that **nothing was routed
+and no plan was written**. Running out of memory mid-route is the failure mode that is
+hardest to explain to a customer; a refusal that names the board which is too large is not.
+
+Counterfactual, so the guard is not decoration: with `EASYCIRQ_MAX_NODES=1000` the x2 board
+fails at **41 MB peak**, before any allocation.
+
+x16 stays NOT RUN. Linear extrapolation puts it at about 28 GB against 16.9 GB available;
+running it would page the machine and measure my disk rather than the algorithm.
+
+The customer-facing sentence: about **120 M nodes** on a 16 GB machine, which at a 5 mil
+grid and 16 layers is roughly a 400 x 500 mm board.
+
 ### NOT RUN (stated, not implied)
 
 * incremental quality at the delivery grade (25/70 passes) - only 3-pass runs were compared (§190);

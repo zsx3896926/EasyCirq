@@ -717,6 +717,51 @@ def _pad_layers(pad, layer_ok):
     return {lay} if lay in layer_ok else None
 
 
+# ── 规模上限：明确拒绝，而不是 OOM ──────────────────────────────────────
+#
+# 实测（docs/scale-wall.md）：峰值内存约 **127 字节/节点**，
+# 其中 C 缓冲 38%、Python 侧 62%。
+#
+#   x8  = 55.3M 节点 → 7,027 MB（跑得完）
+#   x16 = 221M 节点  → 外推 ~28 GB（本机 16.9 GB，未跑）
+#
+# 上限默认取 1.2 亿节点（按 127 B/节点约 15 GB）。超了就**在 route 入口直接拒绝**，
+# 报错里给节点数、估算内存、以及怎么调。原因：跑到一半被系统 OOM 杀掉，
+# 客户看到的是"莫名其妙崩了"，比"明确说这块板太大"难解释得多。
+#
+# 调大：EASYCIRQ_MAX_NODES=200000000（自担内存风险）
+DEFAULT_MAX_NODES = 120_000_000
+BYTES_PER_NODE = 127          # 实测均值，用于报错文案里的估算
+
+
+def max_nodes():
+    raw = os.environ.get("EASYCIRQ_MAX_NODES", "").strip()
+    if raw:
+        try:
+            v = int(raw)
+            if v > 0:
+                return v
+        except ValueError:
+            pass
+    return DEFAULT_MAX_NODES
+
+
+def check_scale(board, layers):
+    """route 入口的规模预检。超限就抛，**不静默降级、不偷偷降精度**。"""
+    nodes = int(board.w) * int(board.h) * max(1, int(layers))
+    cap = max_nodes()
+    if nodes <= cap:
+        return nodes
+    raise MemoryError(
+        "board too large for this build: %d x %d cells x %d layers = %d nodes, "
+        "limit %d (about %.1f GB at the measured %.0f bytes/node). "
+        "Nothing was routed and no plan was written. "
+        "Raise the limit with EASYCIRQ_MAX_NODES=<nodes> if this machine has the RAM, "
+        "or split the board."
+        % (board.w, board.h, layers, nodes, cap,
+           nodes * BYTES_PER_NODE / 1e9, BYTES_PER_NODE))
+
+
 # ── 可选的 C 搜索核 ────────────────────────────────────────────────────
 #
 # `_astar_c` 是 A* 内循环的 Cython 实现（同目录）。它只做搜索，语义逐条照抄
@@ -1437,6 +1482,8 @@ def route(board, iters=10, layers=2, spacing_hard=False, hard_nets=None, segment
     # extremes were measured: overlap only (1.0) leaves spacing to the KPI, full
     # clearance (6.0) made the board unroutable (legs 7 -> 33).  A middle value was
     # never tried, so it is a parameter now (HANDOFF §49).
+    # 规模预检：太大就在动手之前拒绝（见 check_scale 的说明）。
+    check_scale(board, layers)
     vmargin = VIA_BLOCK_MARGIN if via_margin is None else float(via_margin)
     row_pen = float(row_penalty or 0.0)
     # The pad obstacle is pad + CLEARANCE, but a track centre must additionally clear half
