@@ -128,6 +128,9 @@ type doctorConnector struct {
 	ExpectedVer    string         `json:"expectedVersion"`
 	VersionMatches []string       `json:"versionMismatch,omitempty"`
 	Windows        []doctorWindow `json:"windows,omitempty"`
+	// Queue 是动作队列的健康状况（卡点 #36）。安静地 wedge 十几轮才被发现过一次，
+	// 所以它常驻在这里，而不是等某次 place 超时才带出来。
+	Queue doctorConnQueue `json:"queue"`
 }
 
 type doctorProtocol struct {
@@ -325,6 +328,13 @@ func connectorIdentity(result healthResult) (doctorConnector, doctorHost) {
 		h.Compatibility = result.HostCompatibility.Verdict
 		h.CompatibilityN = hostCompatibilitySummary(*result.HostCompatibility)
 	}
+	// 动作队列健康（卡点 #36）。
+	//
+	// **必须现场探一次**：顺序计数器(seq/seqAbandoned)存在**进程内**的内存桶里
+	// （见 conn_seq.go），而 `doctor` 每次都是新进程 —— 直接读快照永远是 unknown。
+	// 所以这里发一个只读动作，从它自己的响应里取计数器。
+	// 探不到就如实报 unknown：把"没数据"读成"没问题"等于凭空造证据。
+	c.Queue = doctorConnQueueProbe()
 	return c, h
 }
 

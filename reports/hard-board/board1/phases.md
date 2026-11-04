@@ -1558,3 +1558,63 @@ sy8089_buck_3v3 / sy7088_boost_5v：failed-partial（队列 wedge，不是块的
 `abandonedIds` 一出现就该在 `doctor` / `daemon health` 里**常驻醒目提示**，
 而不是等到某次 place 超时才带出来。实测从首次出现到真正阻塞隔了十几轮 ——
 期间所有操作都在"回读不可信"的画布上做。
+
+
+---
+
+## 2026-11-05 第二十六次上机：把"队列 wedge"变成一等状态（1.4.18）
+
+### 为什么这一轮不改板
+
+连接器队列仍 wedge（7 个 `abandonedIds`）。按上一轮自己的结论：
+**在 EDA 重启之前，任何落块失败都不能当作产品问题来修。**
+
+所以这一轮做的是那条产品改进 —— 让这个状态**不再安静**。
+
+### `doctor` 新增 `connector.queue`
+
+```json
+"queue": {
+  "known": true,
+  "abandoned": 7,
+  "ids": ["req_683", "req_687", ...],
+  "verdict": "wedged",
+  "advice": "连接器放弃了 7 个动作：…唯一有效处置：完全退出 EasyEDA 并重新打开（不是刷新页面）。在此之前别把落块/place 失败当产品缺陷修。"
+}
+```
+
+三种结论：`clean` / `wedged` / `unknown`。**`unknown` 不等于 `clean`** ——
+连接器没带计数器时不许凭空造"没问题"的结论。
+
+### 走了两版弯路
+
+| 版本 | 做法 | 结果 |
+|---|---|---|
+| 1 | `doctor` 读内存快照 | **永远 unknown**（新进程没有桶）|
+| 2 | 现场发只读动作取计数器 | 仍 unknown；而且**探测本身往已 wedge 的队列里又塞一条动作**，方向错了 |
+| 3 | 观测时**落盘**、报告时**读盘** | ✅ 跨进程成立，且不往坏队列里加动作 |
+
+### 实测
+
+```
+sch list（真实动作）→ 落盘 ~/.easycirq/conn-seq.json
+doctor → "abandoned": 7, "verdict": "wedged"
+```
+
+### 测试
+
+| 测试 | 钉住什么 |
+|---|---|
+| `TestDoctorConnQueueWedged` | 必须给出"完全退出"这句**唯一有效**的处置 |
+| `TestDoctorConnQueueClean` | 干净时不说废话（否则狼来了） |
+| `TestDoctorConnQueueUnknownIsNotClean` | **没数据 ≠ 没问题** |
+
+### 现状
+
+```
+39 器件 / 84 引脚 / 22 网络（欠两块电源）
+四门 PASS · clusters 6 处
+判词：还不能下单
+```
+
+**⚠️ 仍需你执行：完全退出并重启 EasyEDA。** 之后我才能继续把板2 推上去。

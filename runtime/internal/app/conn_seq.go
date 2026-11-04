@@ -98,6 +98,10 @@ func connSeqObserve(window, project string, body []byte) {
 	connSeqMu.Lock()
 	connSeqLast[key] = c
 	connSeqMu.Unlock()
+	// 同时落盘（卡点 #36）：`doctor` 每次都是新进程，只存内存就永远读不到。
+	// 落盘的是"最近一次观测到的"，不是"此刻的状态" —— 所以读的一方必须把它
+	// 当**带时间戳的观测**用，不能当成实时结论。
+	persistConnSeq(key, c)
 }
 
 // connSeqSnapshot 取出该窗口最近一次观测到的计数器。Known=false = 本进程还没
