@@ -46,25 +46,33 @@ daemon 级要给 **184 个动作**逐个分类，分错会卡住正常工作流�
 白名单刻意从窄开始，每条都是"这个阶段不做就进行不下去"的最小集合。
 匹配**按词边界**（`sch placeX` 不会被当成 `sch place`）。
 
-### ③ 打包：1.3.85
+### ③ 打包：1.3.86（= 最终 HEAD）
 
 ```
-version: 1.3.85
+version: 1.3.86
 verdict: ok
 corrupt: []
 files: 970
-sourceCommit: d62b9246…   dirty: False
+sourceCommit: 5d38c7a5…   dirty: False     ← 与 HEAD 一致
 包内连接器 sha256: 9d091629d7c1  = 本地最新那份（含无工程报错修复）
 ```
 
-（1.3.84 先把连接器修对了；1.3.85 又把「`--goal` 没传给模型」这个 bug 修进去。）
+版本演进：
+- 1.3.84 把连接器修对了
+- 1.3.85 把「`--goal` 没传给模型」修进去
+- **1.3.86 把「`sch kpi` 没暴露、交付卡永远没证据」修进去**
+
+> **这一步是校验器抓出来的**：我先只重建了本地二进制、没重新打包，
+> 于是发给客户的包仍停在 d62b9246，**不含 `sch kpi` 与 S5 白名单**——
+> 客户拿到的包照样卡在 DELIVER。现在有测试钉住：
+> `tests/test_bundle_freshness.py` 要求 `sourceCommit == HEAD` 且载荷里有 `run.py`。
 
 **这修掉了一个真问题**：上一版 1.3.81 包里的连接器是旧的，和磁盘上的最新构建对不上。
 
 ### ④ 干净安装验收
 
 ```
-装到全新目录：exit=0，版本 1.3.85，自带 Python ✅
+装到全新目录：exit=0，版本 1.3.86，自带 Python ✅，`sch kpi` 命令存在 ✅
 PATH 上剔除所有 python/python3/py
   → easycirq phase show        正常
   → easycirq run --fake …      [cli] REFUSED …（相位 S0 不许）
@@ -90,6 +98,25 @@ PATH 上剔除所有 python/python3/py
 流程保证的是**它走不动的时候会被拦住**。
 
 ---
+
+## 三之二、真板子干跑发现的卡点（本轮最重要的产出）
+
+前面几节的验证都停在一两步。把相位机**在真板子上从头推到交付判定**，才发现：
+
+```
+  [advance] OK advanced S5 → S6
+  [gate S5] → pass
+  [advance] REFUSED … —— 阻塞：CARD=pending
+```
+
+`card` 读 `.easycirq/kpi-report.json`，而产出它的 `sch_offline_pipeline.py`
+**没有暴露成 easycirq 子命令**。于是模型在 harness 里**无论如何都满足不了 CARD**：
+板子推到 S6、门也过了，交付卡却永远是 `not_measured`，而且**没有任何白名单项能补证据**。
+
+修法：接成 `easycirq sch kpi`，并加进 S5 白名单（早于 S5 不放行）。
+
+**这说明白名单的价值不是"少给模型几个动作"，而是逼出这类断链**——
+设计时看不见，跑一遍就露出来。
 
 ## 四、路上抓到的 bug
 
@@ -124,12 +151,12 @@ PATH 上剔除所有 python/python3/py
 ## 七、基线
 
 ```
-pytest        5191 passed / 4 skipped / 0 failed（+ goal 修复后重跑）
+pytest        5200 passed / 4 skipped / 0 failed
 go test       17 包 OK
 connector     1241/1241
 布局单测      124 passed
 layout verify 14 项全 PASS
-发布          1.3.85  verdict ok  corrupt []  sourceDirty False（sourceCommit = HEAD）
+发布          1.3.86  verdict ok  corrupt []  sourceDirty False（sourceCommit = HEAD 5d38c7a5）
 ```
 
 ## 八、可交付的判定
