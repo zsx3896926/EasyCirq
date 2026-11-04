@@ -1145,3 +1145,72 @@ sch gate: FAIL      判词：还不能下单
 | `modify` 挪 R7（两次） | 本体分开了，标号留下（#31） |
 
 **移动类操作是当前最薄弱的一环。** 这一条比"清掉最后一个重叠"更值得修。
+
+
+---
+
+## 2026-11-05 第二十二次上机：**`sch gc` 落地，门全绿**
+
+### 加了一条命令（1.4.12）
+
+`easycirq sch gc` —— 清理"器件移动后留下的孤立标号/导线"。
+
+- **判定不另起一套**：直接复用 `sch bridge-check` 的分类
+  - `ORPHAN_FLAG`：标号挂在没有任何导线的点上
+  - `ORPHAN_TREE`：整棵树碰不到任何引脚（最典型的"移动残留"）
+- **不碰** `BRIDGE`（真短路）和 `ORPHAN`（碰到引脚的悬空桩）——都不是该被扫帚扫掉的东西
+- **默认 dry-run**，加 `--apply` 才删
+- 返回码恒 0：gc 不是门，清干净也不代表能下单
+
+**代码注释里早就写明了这个场景**（`cmd_sch_bridge_check.go` 的 `bridgeRuleType`）：
+> `ORPHAN_TREE`: A wire tree that touches NO pin at all: flag+stub left behind by a component move
+
+检测有了，缺的是那把扫帚。
+
+### 实测
+
+```
+sch gc --project 板1b --doc P1
+  → 5 处可清理的残留（dry-run）
+    orphan-tree 线 1 条 / 标号 1 个 net=VBAT
+    orphan-tree 线 1 条 / 标号 1 个 net=VSYS
+    orphan-tree 线 1 条 / 标号 1 个 net=GND
+    orphan-tree 线 1 条 / 标号 1 个 net=+3V3
+    orphan-flag 线 0 条 / 标号 1 个 net=+3V3
+
+sch gc --apply
+  → 已删：导线 4 条 / 标号 5 个
+```
+
+### 结果：**门全绿**
+
+```
+sch gate: PASS
+  PASS  layout-lint   0 overlap, 0 pin-coincidence, 0 out-of-sheet
+  PASS  clusters      19 个虚拟组: 0 重叠 / 0 出图纸
+  PASS  check         16 finding(s): 0 error/fatal
+  PASS  bridge-check  0 短路 / 0 孤立桩 / 0 孤立标号 / 0 孤立树（39 wire tree）
+  PASS  drc           0 fatal, 0 error; native verdict PASS
+```
+
+**上一轮那 1 处"清不掉"的组间重叠，就是 gc 清掉的那 5 处残留造成的。**
+
+### 测试
+
+| 测试 | 钉住什么 |
+|---|---|
+| `TestGCCandidateKinds` | `ORPHAN_FLAG`/`ORPHAN_TREE` 必须清；`BRIDGE`/`ORPHAN` **必须不清** |
+| `TestGCDefaultIsDryRun` | 不传 `--apply` 必须是 dry-run（gc 会删图元，默认就不该删）|
+
+### 交付卡
+
+```
+❌ 还不能打样
+必须修：有引脚或网络没有接上（8 个悬空脚）
+还没检查：引脚复用 / 封装型号 / 改动前后 / 重开前后 / pcb_match / bom_match
+```
+
+**剩下这 8 个悬空脚里，有一个是我造成的**：`R7` 是 INA226 的 10mΩ 采样电阻，
+本该串在 VBAT/VSYS 之间。我把它挪了两次，它的线留在了原处 —— 现在它自己悬空。
+
+**判词：还不能下单。** 但这是第一次"门全绿 + 交付卡 + 悬空原因查清"同时成立。

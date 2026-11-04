@@ -1,18 +1,12 @@
 {
   "schema": "easycirq-sch-power-check/v1",
   "tool": "sch_decoupling_metrics.py",
-  "verdict": "fail",
+  "verdict": "pass",
   "metrics": {
-    "decap_missing": 1,
+    "decap_missing": 0,
     "power_pins_checked": 2,
-    "power_pins_covered": 1
+    "power_pins_covered": 2
   },
-  "findings": [
-    {
-      "severity": "error",
-      "code": "decap_missing",
-      "message": "U3 pin 8 (VBUS) 未连接，无去耦"
-    }
-  ],
+  "findings": [],
   "note": "启发式：IC 电源脚所在网至少有一个 C* 元件；不做 AC/布局验证"
 }

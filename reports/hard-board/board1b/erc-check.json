@@ -6,29 +6,9 @@
     "erc_violations": 0,
     "erc_fatal": 0,
     "erc_error": 0,
-    "erc_warn": 12
+    "erc_warn": 8
   },
   "findings": [
-    {
-      "severity": "warning",
-      "code": "drc_warning",
-      "message": "DRC warn: SHOWFLOATING"
-    },
-    {
-      "severity": "warning",
-      "code": "drc_warning",
-      "message": "DRC warn: SHOWFLOATING"
-    },
-    {
-      "severity": "warning",
-      "code": "drc_warning",
-      "message": "DRC warn: SHOWFLOATING"
-    },
-    {
-      "severity": "warning",
-      "code": "drc_warning",
-      "message": "DRC warn: SHOWFLOATING"
-    },
     {
       "severity": "warning",
       "code": "drc_warning",

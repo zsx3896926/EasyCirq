@@ -3,9 +3,9 @@
   "tool": "sch_readability_metrics.py",
   "verdict": "pass",
   "metrics": {
-    "direct_ratio": 0.4444,
-    "nets": 9,
-    "labelled_nets": 5
+    "direct_ratio": 0.5385,
+    "nets": 13,
+    "labelled_nets": 6
   },
   "findings": [
     {
@@ -31,18 +31,18 @@
     {
       "severity": "info",
       "code": "labelled_net",
-      "message": "网络 VSYS 通过标签/端口连接"
+      "message": "网络 VBAT 通过标签/端口连接"
     },
     {
-      "severity": "warning",
-      "code": "stale_label_net",
-      "message": "标签网 VBAT 不在本次 IR 中（两份读取不同步？）"
+      "severity": "info",
+      "code": "labelled_net",
+      "message": "网络 VSYS 通过标签/端口连接"
     }
   ],
   "summary": {
     "flagged": 6,
     "anchored": 0,
-    "stale_labelled": 1
+    "stale_labelled": 0
   },
   "note": "页级比例；IR 不含模块归属，'拓扑电路 100% 直连' 仍需人工/导图复核，不在此处报通过"
 }

@@ -1872,6 +1872,44 @@ to a page for authoritative results.`,
 		sch.AddCommand(c)
 	}
 
+	// ── gc ────────────────────────────────────────────────────────────────
+	// 清理"器件移动后留下的孤立标号/导线"（卡点 #31）。
+	//
+	// bridge-check 已经把它们分成 ORPHAN_FLAG / ORPHAN_TREE 并说清了成因
+	// （"flag+stub left behind by a component move"），但**只能看见，不能收拾**。
+	// 实测：`sch modify --x` 挪走器件后，它的标号留在原地，仍算在该器件的组里，
+	// 于是 `sch clusters` 报"该器件与邻居重叠"——而器件早已不在那儿。
+	// gc 就是那把扫帚：默认 dry-run 列清单，加 --apply 才删。
+	{
+		var apply, asJSON bool
+		c := &cobra.Command{
+			Use:   "gc",
+			Short: "Clean up orphan flags/wires left behind by component moves (dry-run by default)",
+			Long: `清理孤立标号与孤立导线树 —— 挪动器件后留在原地的残留。
+
+判定不另起一套：直接复用 'sch bridge-check' 的分类。
+  • ORPHAN_FLAG  flag 挂在没有任何导线的点上
+  • ORPHAN_TREE  一整棵树碰不到任何引脚（最典型的"器件移动留下的残留"）
+
+**不清理** BRIDGE（真短路）和 ORPHAN（悬空桩但碰到了引脚）：前者是电路错误，
+后者可能是有意留的 stub —— 都不该被一把扫帚扫掉。
+
+默认 **dry-run**：只列清单，不动画布。确认后加 --apply。
+
+Examples:
+  easycirq sch gc --project <名>              # 先看要清什么
+  easycirq sch gc --project <名> --apply      # 真删
+
+返回码恒为 0：gc 不是门，清干净也不代表能下单 —— 判定留给 sch gate / card。`,
+			RunE: func(cmd *cobra.Command, args []string) error {
+				return runSchGC(cfg, window, apply, asJSON, stdout, stderr)
+			},
+		}
+		c.Flags().BoolVar(&apply, "apply", false, "actually delete the orphans (default: dry-run, list only)")
+		c.Flags().BoolVar(&asJSON, "json", false, "emit the report in the {id,type,version,ok,result} envelope")
+		sch.AddCommand(c)
+	}
+
 	// ── read ──────────────────────────────────────────────────────────────
 	// schematic.read — one-call semantic snapshot (components + pin nets + nets +
 	// check), so the agent reads the whole circuit at once.

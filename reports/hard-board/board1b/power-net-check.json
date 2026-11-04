@@ -1,24 +1,17 @@
 {
   "schema": "easycirq-power-net-check/v1",
-  "status": "fail",
-  "verdict": "review",
+  "status": "pass",
+  "verdict": "pass",
   "metrics": {
-    "power_net_conflicts": 1
+    "power_net_conflicts": 0
   },
   "source": "pin-name",
   "powerPins": [
     "U1.3(VIN)->+5V",
-    "U3.8(VBUS)->(floating)"
+    "U3.8(VBUS)->+5V"
   ],
   "nets": [
     "+5V"
   ],
-  "findings": [
-    {
-      "code": "POWER_PIN_FLOATING",
-      "severity": "blocking",
-      "message": "U3.8(VBUS) 没有接到任何网络",
-      "where": "U3.8"
-    }
-  ]
+  "findings": []
 }

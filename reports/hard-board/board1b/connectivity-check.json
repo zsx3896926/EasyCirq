@@ -3,12 +3,12 @@
   "tool": "sch_connectivity_metrics.py",
   "verdict": "fail",
   "metrics": {
-    "floating_pins": 19,
-    "single_node_nets": 1,
+    "floating_pins": 8,
+    "single_node_nets": 0,
     "bus_members_missing": 0,
     "diff_pair_mismatch": 0,
     "nc_pins": 0,
-    "global_single_nets": 1,
+    "global_single_nets": 2,
     "duplicate_net_names": 0,
     "auto_net_residue": 0
   },
@@ -26,17 +26,12 @@
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "C8 pin 1 (1) 未连接"
+      "message": "C8 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "R4 pin 1 (1) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "R5 pin 1 (1) 未连接"
+      "message": "R4 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
@@ -46,7 +41,7 @@
     {
       "severity": "error",
       "code": "floating_pin",
-      "message": "R6 pin 1 (1) 未连接"
+      "message": "R6 pin 2 (2) 未连接"
     },
     {
       "severity": "error",
@@ -57,73 +52,18 @@
       "severity": "error",
       "code": "floating_pin",
       "message": "R7 pin 2 (2) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 1 (A1) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 10 (VIN+) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 2 (A0) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 3 (Alert) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 4 (SDA) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 5 (SCL) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 6 (VS+) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 7 (GND) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 8 (VBUS) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "floating_pin",
-      "message": "U3 pin 9 (VIN-) 未连接"
-    },
-    {
-      "severity": "error",
-      "code": "single_node_net",
-      "net": "VSYS",
-      "message": "网络 VSYS 只有 1 个端点"
     }
   ],
   "summary": {
     "components": 19,
     "pins": 50,
-    "connections": 31,
-    "nets": 9,
+    "connections": 42,
+    "nets": 13,
     "nc_excluded": 0,
     "nc_source": "absent",
     "global_single_nets": [
-      "+3V3_SW"
+      "+3V3_SW",
+      "VBAT"
     ]
   },
   "note": "未提供 sch list 读取时无法区分显式 NC 与悬空，floating_pins 可能偏高"

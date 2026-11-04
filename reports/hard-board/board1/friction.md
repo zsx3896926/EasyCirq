@@ -768,3 +768,17 @@ verdict      fail
 | `modify` 把 R7 挪到 (560,320) 再挪到 (300,760) | R7 本体不重叠了，但**它的旧标号留在 610,320**，与 U3 重叠至今 |
 
 **结论：移动类操作是这个产品当前最薄弱的一环。** 三次移动，三次都要额外补救。
+
+
+---
+
+## #31 已修：`sch gc`（1.4.12）
+
+| | |
+|---|---|
+| **修法** | 新增 `easycirq sch gc`：复用 `bridge-check` 的 `ORPHAN_FLAG` / `ORPHAN_TREE` 分类，默认 dry-run 列清单，`--apply` 才删 |
+| **为什么复用** | 这两类**正是**"器件移动后留下的残留"，`cmd_sch_bridge_check.go` 的注释里开头就写着。检测早就有了，缺的是清理 |
+| **为什么不碰 BRIDGE / ORPHAN** | `BRIDGE` 是真短路（电路错，该改电路不该扫地）；`ORPHAN` 是碰到引脚的悬空桩（可能有意留）。一把扫帚扫掉等于替用户做决定 |
+| **实测** | 板1b 查出 5 处（4 orphan-tree + 1 orphan-flag），删掉 4 条线 / 5 个标号 → **`sch clusters` 那 1 处重叠消失，`sch gate` 全绿** |
+| **测试** | `TestGCCandidateKinds`（该清/不该清）、`TestGCDefaultIsDryRun`（默认不删） |
+| **仍然待修** | `sch modify` 本身还是不留标号 —— gc 是**事后扫帚**，不是根治。根治要 `--move-attachments`。但有了 gc，用户至少能自己收拾。 |

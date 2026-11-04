@@ -187,25 +187,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 430,
-          "y": 320
+          "x": 660,
+          "y": 200
         },
         {
           "number": "2",
           "name": "2",
-          "x": 470,
-          "y": 320
+          "connectionState": "unconnected",
+          "x": 700,
+          "y": 200
         }
       ],
       "placement": {
-        "x": 450,
-        "y": 320,
+        "x": 680,
+        "y": 200,
         "bbox": {
-          "minX": 439.5,
-          "minY": 311.5,
-          "maxX": 460.5,
-          "maxY": 328.5
+          "minX": 669.5,
+          "minY": 191.5,
+          "maxX": 690.5,
+          "maxY": 208.5
         }
       }
     },
@@ -521,25 +521,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 550,
-          "y": 320
+          "x": 780,
+          "y": 200
         },
         {
           "number": "2",
           "name": "2",
-          "x": 590,
-          "y": 320
+          "connectionState": "unconnected",
+          "x": 820,
+          "y": 200
         }
       ],
       "placement": {
-        "x": 570,
-        "y": 320,
+        "x": 800,
+        "y": 200,
         "bbox": {
-          "minX": 559.5,
-          "minY": 315.5,
-          "maxX": 580.5,
-          "maxY": 324.5
+          "minX": 789.5,
+          "minY": 195.5,
+          "maxX": 810.5,
+          "maxY": 204.5
         }
       }
     },
@@ -562,26 +562,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 320
+          "x": 900,
+          "y": 200
         },
         {
           "number": "2",
           "name": "2",
           "connectionState": "unconnected",
-          "x": 710,
-          "y": 320
+          "x": 940,
+          "y": 200
         }
       ],
       "placement": {
-        "x": 690,
-        "y": 320,
+        "x": 920,
+        "y": 200,
         "bbox": {
-          "minX": 679.5,
-          "minY": 315.5,
-          "maxX": 700.5,
-          "maxY": 324.5
+          "minX": 909.5,
+          "minY": 195.5,
+          "maxX": 930.5,
+          "maxY": 204.5
         }
       }
     },
@@ -604,25 +603,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 790,
-          "y": 320
+          "x": 1020,
+          "y": 200
         },
         {
           "number": "2",
           "name": "2",
-          "x": 830,
-          "y": 320
+          "connectionState": "unconnected",
+          "x": 1060,
+          "y": 200
         }
       ],
       "placement": {
-        "x": 810,
-        "y": 320,
+        "x": 1040,
+        "y": 200,
         "bbox": {
-          "minX": 799.5,
-          "minY": 315.5,
-          "maxX": 820.5,
-          "maxY": 324.5
+          "minX": 1029.5,
+          "minY": 195.5,
+          "maxX": 1050.5,
+          "maxY": 204.5
         }
       }
     },
@@ -646,25 +645,25 @@
           "number": "1",
           "name": "1",
           "connectionState": "unconnected",
-          "x": 430,
-          "y": 440
+          "x": 280,
+          "y": 760
         },
         {
           "number": "2",
           "name": "2",
           "connectionState": "unconnected",
-          "x": 470,
-          "y": 440
+          "x": 320,
+          "y": 760
         }
       ],
       "placement": {
-        "x": 450,
-        "y": 440,
+        "x": 300,
+        "y": 760,
         "bbox": {
-          "minX": 439.5,
-          "minY": 434.5,
-          "maxX": 460.5,
-          "maxY": 445.5
+          "minX": 289.5,
+          "minY": 754.5,
+          "maxX": 310.5,
+          "maxY": 765.5
         }
       }
     },
@@ -779,82 +778,72 @@
         {
           "number": "1",
           "name": "A1",
-          "connectionState": "unconnected",
-          "x": 570,
-          "y": 460
+          "x": 800,
+          "y": 340
         },
         {
           "number": "10",
           "name": "VIN+",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 460
+          "x": 900,
+          "y": 340
         },
         {
           "number": "2",
           "name": "A0",
-          "connectionState": "unconnected",
-          "x": 570,
-          "y": 450
+          "x": 800,
+          "y": 330
         },
         {
           "number": "3",
           "name": "Alert",
-          "connectionState": "unconnected",
-          "x": 570,
-          "y": 440
+          "x": 800,
+          "y": 320
         },
         {
           "number": "4",
           "name": "SDA",
-          "connectionState": "unconnected",
-          "x": 570,
-          "y": 430
+          "x": 800,
+          "y": 310
         },
         {
           "number": "5",
           "name": "SCL",
-          "connectionState": "unconnected",
-          "x": 570,
-          "y": 420
+          "x": 800,
+          "y": 300
         },
         {
           "number": "6",
           "name": "VS+",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 420
+          "x": 900,
+          "y": 300
         },
         {
           "number": "7",
           "name": "GND",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 430
+          "x": 900,
+          "y": 310
         },
         {
           "number": "8",
           "name": "VBUS",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 440
+          "x": 900,
+          "y": 320
         },
         {
           "number": "9",
           "name": "VIN-",
-          "connectionState": "unconnected",
-          "x": 670,
-          "y": 450
+          "x": 900,
+          "y": 330
         }
       ],
       "placement": {
-        "x": 620,
-        "y": 440,
+        "x": 850,
+        "y": 320,
         "bbox": {
-          "minX": 589.5,
-          "minY": 409.5,
-          "maxX": 650.5,
-          "maxY": 470.5
+          "minX": 819.5,
+          "minY": 289.5,
+          "maxX": 880.5,
+          "maxY": 350.5
         }
       }
     }
@@ -867,14 +856,38 @@
       "role": "power"
     },
     {
+      "id": "net-107b70c43a6acff186d1ce5fa0ab9352cf018ecad64f4ca3bfa40bc8da4b6dd0",
+      "name": "VBAT",
+      "scope": "global",
+      "role": "power"
+    },
+    {
       "id": "net-114f767b71ead940feae8dd82c865fa54b8b6a3764dc56aae00bf728c2966257",
       "name": "VSYS",
       "scope": "local",
       "role": "signal"
     },
     {
+      "id": "net-1d3f2c7480e87be0fcee499ff7be2dab2f280cc72066821025f79055e446cec6",
+      "name": "INA_ALERT",
+      "scope": "local",
+      "role": "signal"
+    },
+    {
       "id": "net-338413f3e8111943399f4a3c77f0381dce6d5f510d64fbaf7995a95cbff41502",
       "name": "C7_N4",
+      "scope": "local",
+      "role": "signal"
+    },
+    {
+      "id": "net-38c87b7a457572bc335caaebdde7d5b6ad4d62aea177b5f14e8b41e3ad133a89",
+      "name": "SDA",
+      "scope": "local",
+      "role": "signal"
+    },
+    {
+      "id": "net-38e71bf104e572d0df60ec23048d36854275a3706ba3f8abe88b266518a08dad",
+      "name": "SCL",
       "scope": "local",
       "role": "signal"
     },
@@ -954,8 +967,8 @@
     },
     {
       "componentId": "cmp-C8",
-      "pinNumber": "2",
-      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "pinNumber": "1",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
       "kind": "netlist"
     },
     {
@@ -1056,14 +1069,20 @@
     },
     {
       "componentId": "cmp-R4",
-      "pinNumber": "2",
-      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "pinNumber": "1",
+      "netId": "net-1d3f2c7480e87be0fcee499ff7be2dab2f280cc72066821025f79055e446cec6",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-R5",
+      "pinNumber": "1",
+      "netId": "net-38e71bf104e572d0df60ec23048d36854275a3706ba3f8abe88b266518a08dad",
       "kind": "netlist"
     },
     {
       "componentId": "cmp-R6",
-      "pinNumber": "2",
-      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "pinNumber": "1",
+      "netId": "net-38c87b7a457572bc335caaebdde7d5b6ad4d62aea177b5f14e8b41e3ad133a89",
       "kind": "netlist"
     },
     {
@@ -1101,6 +1120,66 @@
       "pinNumber": "4",
       "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
       "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "1",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "10",
+      "netId": "net-107b70c43a6acff186d1ce5fa0ab9352cf018ecad64f4ca3bfa40bc8da4b6dd0",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "2",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "3",
+      "netId": "net-1d3f2c7480e87be0fcee499ff7be2dab2f280cc72066821025f79055e446cec6",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "4",
+      "netId": "net-38c87b7a457572bc335caaebdde7d5b6ad4d62aea177b5f14e8b41e3ad133a89",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "5",
+      "netId": "net-38e71bf104e572d0df60ec23048d36854275a3706ba3f8abe88b266518a08dad",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "6",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "7",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "8",
+      "netId": "net-436512e5babfbe83cb49b2bec450620750c3f161cceb6d26d9b9cc806a4f19c1",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-U3",
+      "pinNumber": "9",
+      "netId": "net-114f767b71ead940feae8dd82c865fa54b8b6a3764dc56aae00bf728c2966257",
+      "kind": "netlist"
     }
   ],
   "issues": [
@@ -1122,22 +1201,15 @@
       "code": "unconnected-pin",
       "severity": "warning",
       "componentId": "cmp-C8",
-      "pinNumber": "1",
-      "message": "C8 pin 1 has no net and no NC marker"
+      "pinNumber": "2",
+      "message": "C8 pin 2 has no net and no NC marker"
     },
     {
       "code": "unconnected-pin",
       "severity": "warning",
       "componentId": "cmp-R4",
-      "pinNumber": "1",
-      "message": "R4 pin 1 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R5",
-      "pinNumber": "1",
-      "message": "R5 pin 1 has no net and no NC marker"
+      "pinNumber": "2",
+      "message": "R4 pin 2 has no net and no NC marker"
     },
     {
       "code": "unconnected-pin",
@@ -1150,8 +1222,8 @@
       "code": "unconnected-pin",
       "severity": "warning",
       "componentId": "cmp-R6",
-      "pinNumber": "1",
-      "message": "R6 pin 1 has no net and no NC marker"
+      "pinNumber": "2",
+      "message": "R6 pin 2 has no net and no NC marker"
     },
     {
       "code": "unconnected-pin",
@@ -1166,76 +1238,6 @@
       "componentId": "cmp-R7",
       "pinNumber": "2",
       "message": "R7 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "1",
-      "message": "U3 pin 1 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "10",
-      "message": "U3 pin 10 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "2",
-      "message": "U3 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "3",
-      "message": "U3 pin 3 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "4",
-      "message": "U3 pin 4 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "5",
-      "message": "U3 pin 5 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "6",
-      "message": "U3 pin 6 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "7",
-      "message": "U3 pin 7 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "8",
-      "message": "U3 pin 8 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-U3",
-      "pinNumber": "9",
-      "message": "U3 pin 9 has no net and no NC marker"
     }
   ]
 }
