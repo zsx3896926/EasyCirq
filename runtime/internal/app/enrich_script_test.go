@@ -47,6 +47,13 @@ func isolate(t *testing.T) (home string) {
 	// the probe finds the developer's real ~/.claude/skills and the test measures
 	// the host instead of the fixture.
 	t.Setenv("USERPROFILE", home)
+	// CLAUDE_CONFIG_DIR / CODEX_HOME override the client home outright
+	// (see selfupdate.skillDir). Leaving them set is what made this test
+	// *skip on developer machines and fail on CI*: here the probe found a real
+	// install elsewhere and skipped; there the assertions actually ran. A test
+	// whose verdict depends on the host is not a test.
+	t.Setenv("CLAUDE_CONFIG_DIR", "")
+	t.Setenv("CODEX_HOME", "")
 	t.Setenv("EASYCIRQ_SKILLS_DIR", "")
 	t.Setenv("PATH", "")
 	t.Chdir(t.TempDir())
@@ -60,7 +67,12 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 
 	skillsRoot := t.TempDir()
 	envScript := mkScript(t, filepath.Join(skillsRoot, "easycirq-agent", "scripts", "bom-enrich.py"))
-	installed := mkScript(t, filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"))
+	// 必须种在**当前技能名**下面：rung 3 用的是 selfupdate.SkillName（"easycirq"），
+	// 它把 rel 的第一段剥掉再拼到 …/skills/easycirq 上。原来这里种的是旧名
+	// design-hardware，rung 3 永远找不到 —— 于是 case 3 在 CI 上一直是红的，
+	// 而在开发者机器上被 realInstallWins 跳过掩盖（walkUp 从临时构建目录往上爬，
+	// 第 6 层正好是真实用户目录）。旧名的覆盖在 TestResolveEnrichScriptPreMergeSkillName。
+	installed := mkScript(t, filepath.Join(home, ".claude", "skills", "easycirq", "scripts", "bom-enrich.py"))
 
 	// cwd rung: a repo-shaped tree, with cwd a few levels down.
 	repo := t.TempDir()
@@ -111,11 +123,18 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	})
 
 	t.Run("5 cwd walk-up when no skill is installed", func(t *testing.T) {
-		if realInstallWins(repo, home) {
-			t.Skip("a real skill install wins before the cwd rung on this host")
-		}
+		// 跳过判定必须在**同一个状态**下做：上面 case 3 往 home/.claude 里种了
+		// 一个安装，所以此刻 realInstallWins 看到的是 case 3 的产物，不是这条
+		// 要测的"没有安装"。先删掉，再判断——顺序错了这条就会误判。
 		if err := os.RemoveAll(filepath.Join(home, ".claude")); err != nil {
 			t.Fatal(err)
+		}
+		if realInstallWins(repo, home) {
+			// 走到这里说明"从测试二进制往上爬"找到了夹具之外的安装。
+			// 那是测试进程的构建目录决定的（Windows 上 go-build 目录在
+			// %TEMP% 下，往上第 6 层常常就是真实用户目录），测试改不了。
+			// CI 上爬不到东西，这条会真的断言。
+			t.Skip("a real skill install wins before the cwd rung on this host")
 		}
 		t.Chdir(deep)
 		got, err := resolveEnrichScript("")

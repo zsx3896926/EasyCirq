@@ -15,8 +15,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      # tests/ 里有 43 个 pytest 风格的用例（`import pytest` 在模块级）。
+      # 原来这里只跑 `unittest discover`：它仍会 import 每个 test_*.py，
+      # 没有 pytest 就 ImportError —— 于是整个 job 红在一个与代码无关的原因上。
+      # 装 pytest 并直接用它跑，两种风格（unittest.TestCase 与函数式）都能收。
+      - name: Install test dependencies
+        run: python3 -m pip install --quiet --disable-pip-version-check pytest
       - name: Validate structure and calculations
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m pytest tests -q
   benchmark:
     runs-on: ubuntu-latest
     steps:

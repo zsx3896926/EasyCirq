@@ -190,6 +190,40 @@ def board_part_count(project):
                if str(c.get("componentType") or "").lower() != "sheet")
 
 
+def card_state(project):
+    """跑交付卡，返回 (state, detail)。state ∈ pass / fail / pending / unknown。
+
+    `card` 的退出码语义是它自己定的：0 ready / 1 not ready / 2 not measured。
+    **not_measured 必须映射成 pending（= NOT RUN = 阻塞）**，不能因为"没报错"
+    就当通过——那正是本目标要消灭的东西。
+    """
+    try:
+        p = subprocess.run(["easycirq", "card", "--project", project, "--json"],
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=600)
+    except FileNotFoundError:
+        return UNKNOWN, "easycirq not found on PATH"
+    except subprocess.TimeoutExpired:
+        return UNKNOWN, "card timed out"
+    txt = (p.stdout or "") + (p.stderr or "")
+    state = None
+    head = ""
+    try:
+        i = txt.find("{")
+        d, _ = json.JSONDecoder().raw_decode(txt[i:])
+        state = d.get("state")
+        head = str(d.get("headline") or "")
+    except Exception:                                   # noqa: BLE001
+        pass
+    if p.returncode == 0 and state == "ready":
+        return PASS, head or "card: ready"
+    if state == "not_ready" or p.returncode == 1:
+        return FAIL, head or "card: not ready"
+    if state == "not_measured" or p.returncode == 2:
+        return PENDING, head or "card: not measured"
+    return UNKNOWN, head or ("card exit=%s state=%r" % (p.returncode, state))
+
+
 # ── 证据状态判定（这一层是"强制"的核心）──────────────────────────────
 PASS, FAIL, BLOCKED, PENDING, UNKNOWN, STALE, UNENFORCED = (
     "pass", "fail", "blocked", "pending", "unknown", "stale", "unenforced")
@@ -268,6 +302,18 @@ def advance(project, d, fingerprint, to=None):
         if floating is None:
             return False, ("refused: could not count floating pins — cannot judge "
                            "whether the board is electrically connected"), [("PINS", "unknown")]
+        # 交付卡：not_measured（= NOT RUN）与 not_ready 一律不出交付卡。
+        cs, cdetail = card_state(project)
+        d.setdefault("evidence", {})["CARD"] = {
+            "verdict": cs, "detail": cdetail, "fingerprint": fingerprint,
+            "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        }
+        save(project, d)
+        if cs != PASS:
+            return False, ("refused: the delivery card is %s (%s) — a board that has "
+                           "not been measured cannot be delivered" % (cs, cdetail)), \
+                [("CARD", cs)]
+
         if floating > 0:
             return False, ("refused: %d floating pin(s) — the default schematic gate only "
                            "warns about these, so passing S5 does not mean the board is "
@@ -332,6 +378,13 @@ def cmd_show(project, d, fp, as_json):
     print("板子指纹：%s" % (fp or "取不到 —— 证据有效性无法判定"))
     print()
     print("  %-8s %-10s %s" % ("相位", "状态", "说明"))
+    ev = d.get("evidence") or {}
+    pre = []
+    for key in ("CARD",):
+        if key in ev:
+            pre.append("%s=%s" % (key, ev[key].get("verdict")))
+    if pre:
+        print("  DELIVER 前置证据：%s" % "、".join(pre))
     enforced = [ph for ph in PHASES if ph in GATES]
     print("  已接门：%s；未接门：%s"
           % ("、".join(enforced) or "无",

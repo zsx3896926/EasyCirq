@@ -184,3 +184,78 @@ trivially, so it cannot be delivered
 改完 `easycirq/scripts/phase.py` 后**忘了同步到技能目录**
 （`~/.agents/skills/easycirq/scripts/`），于是 `easycirq phase` 跑的还是旧拷贝，
 新加的检查"没生效"。**改完脚本必须同步，否则你会以为是逻辑没写对。**
+
+
+---
+
+## 十一、`card` 已接进 DELIVER
+
+`card` 是"这块板能不能下单"的交付卡。它的退出码语义是它自己定的：
+
+```
+Exit codes: 0 ready, 1 not ready, 2 not measured or invalid
+```
+
+接法：DELIVER 额外要求 `card` 是 `ready`。
+
+| card 判词 | 映射 | 放行？ |
+|---|---|---|
+| `ready`（exit 0） | `pass` | ✅ |
+| `not_ready`（exit 1） | `fail` | ❌ 板子有问题 |
+| `not_measured`（exit 2） | **`pending`（= NOT RUN）** | ❌ **没测量不等于通过** |
+
+实测：
+
+```
+$ easycirq phase advance DELIVER --project <未跑 KPI 的工程>
+refused: the delivery card is pending (⏳ 这块板还没检查过) — a board that has
+not been measured cannot be delivered
+  阻塞：DELIVER 前置 CARD = pending
+```
+
+**`not_measured` 映射成 `pending` 是这条的关键。** 它没有报错、退出码也不是 1，
+但它**什么也没证明**——正好是本目标要消灭的那种"看起来没事"。
+
+代价：所有还没跑离线 KPI 的工程，现在都到不了 DELIVER。**这不是副作用，这是正确行为。**
+
+### DELIVER 现在的四道前置
+
+| 前置 | 判据 |
+|---|---|
+| `S5` | 原理图校验门 pass |
+| `PARTS` | 板上至少一个真实器件（sheet 图框不算） |
+| `PINS` | `floatingPinCount == 0` |
+| `CARD` | 交付卡 `ready`（不是 not_measured） |
+
+## 十二、证据默认落在哪（实测）
+
+不设 `EASYCIRQ_PHASE_DIR` 时：
+
+```
+$ easycirq phase run S5 --project a0b27326…
+S5: pass
+
+$ ls ~/.easycirq/phase/
+a0b27326352d4d45a2b1c85eaf384e1e.json     1343 字节
+```
+
+- **不在工程目录里**（`~/.easycirq/phase`，不在仓库内）
+- `.gitignore` 第 25 行已有 `.easycirq/`，git 看不见它
+- 内容是 `{schema, project, phase, evidence{S5:{verdict, detail, fingerprint, at}}}`
+
+**为什么放本机而不是工程里**：相位是"我们对这块板的判断进度"，不是板子的一部分；
+换机器应该能重建。但**不能因为换机器就假装跑过了**——所以每条证据带文档指纹，
+板子变了证据自动作废（`stale`）。
+
+### 还有三个技能目录要一起同步
+
+`doctor` 会看到三份技能目录：
+
+```
+~/.agents/skills/easycirq
+~/.claude/skills/easycirq
+~/.codex/skills/easycirq
+```
+
+改完 `scripts/*.py` 后**只同步 `~/.agents` 是不够的**——CLI 可能解析到 `.claude`/`.codex`
+那一份旧拷贝，于是你改的逻辑"不生效"，症状和逻辑写错一模一样。三份都要同步。

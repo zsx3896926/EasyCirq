@@ -32,13 +32,20 @@ def _at_s6_with_s5_pass(m, tmp_path):
     return m.load("x")
 
 
-def _stub_facts(m, monkeypatch, parts, floating):
+def _stub_facts(m, monkeypatch, parts, floating, card=None):
+    """stub 掉板子事实与交付卡。
+
+    DELIVER 现在要求四道前置（S5 / PARTS / PINS / CARD），所以只 stub 器件数
+    不够——card 会真的去 shell out，返回 pending 把测试拦在 PINS 之前。
+    """
     monkeypatch.setattr(m, "board_facts", lambda project: (parts, floating))
+    monkeypatch.setattr(m, "card_state",
+                        lambda project: (card if card is not None else m.PASS, "stub"))
 
 
 def test_empty_board_cannot_be_delivered(mod, tmp_path, monkeypatch):
     d = _at_s6_with_s5_pass(mod, tmp_path)
-    _stub_facts(mod, monkeypatch, 0, 0)
+    _stub_facts(mod, monkeypatch, 0, 0, card=mod.PASS)
     ok, msg, bad = mod.advance("x", d, "fp", "DELIVER")
     assert not ok
     assert "no parts" in msg
@@ -48,7 +55,7 @@ def test_empty_board_cannot_be_delivered(mod, tmp_path, monkeypatch):
 def test_floating_pins_block_delivery(mod, tmp_path, monkeypatch):
     """默认 sch gate 只把悬空引脚当 warn，所以 S5 会 pass —— 必须在这里拦住。"""
     d = _at_s6_with_s5_pass(mod, tmp_path)
-    _stub_facts(mod, monkeypatch, 1, 2)
+    _stub_facts(mod, monkeypatch, 1, 2, card=mod.PASS)
     ok, msg, bad = mod.advance("x", d, "fp", "DELIVER")
     assert not ok, "2 个悬空引脚竟然通过了 DELIVER"
     assert "floating pin" in msg
@@ -75,7 +82,7 @@ def test_unknown_floating_count_blocks_delivery(mod, tmp_path, monkeypatch):
 def test_clean_board_reaches_deliver(mod, tmp_path, monkeypatch):
     """真有器件、没有悬空引脚、S5 pass → 放行。"""
     d = _at_s6_with_s5_pass(mod, tmp_path)
-    _stub_facts(mod, monkeypatch, 3, 0)
+    _stub_facts(mod, monkeypatch, 3, 0, card=mod.PASS)
     ok, msg, bad = mod.advance("x", d, "fp", "DELIVER")
     assert ok, msg
     assert d["phase"] == "DELIVER"
