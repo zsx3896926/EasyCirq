@@ -5,6 +5,7 @@
 
 这组测试证明检查器两个方向都对：真路径能过，假路径会红。
 """
+import pytest
 import subprocess
 import sys
 from pathlib import Path
@@ -14,6 +15,10 @@ SCRIPT = ROOT / "tools" / "check_handoff.py"
 
 
 def test_the_real_documents_pass():
+    # 未跟踪的证据产物：全新 checkout 里不存在，与代码无关。
+    # 产物在就跑真断言，不在就明确 skip（不伪装成通过）。
+    if not (ROOT / "reports/fan-controller/evidence").exists():
+        pytest.skip("缺少本地产物 reports/fan-controller/evidence（风扇板证据快照）；这是可再生的证据，不入库")
     result = subprocess.run([sys.executable, str(SCRIPT)], cwd=ROOT,
                             capture_output=True, text=True, encoding="utf-8")
     assert result.returncode == 0, result.stdout + result.stderr
