@@ -919,3 +919,33 @@ clusters     FAIL（6 处重叠 —— 全是块内部标号）
 | C. 把 check 升 error | **不做** —— 已证明没有解决任何问题，只是加严 |
 
 **倾向 B**（立刻可做）**+ 记录 A 作为后续**。
+
+
+---
+
+## #35 零件表缺 `deviceUuid` → 两个块**永远落不下去**；错误信息把原因指错了地方
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**数据缺字段** + **诊断指错方向** + **推荐的修法本身是坏的**） |
+| **发现方式** | 板2 上 `block.sy8089_buck_3v3` 和 `block.sy7088_boost_5v` 连续多次落不下去 |
+| **原始报错** | `role L: part "ind.2u2_swpa4020" has no deviceUuid in the parts file`<br>`read: …\.claude\skills\easycirq\references\standard-parts.json`<br>`other copies on disk (the resolver returns the FIRST hit, so a stale copy here is why a part can be missing while the file has it)`<br>`fix: easycirq skill sync` |
+| **错误信息的判断** | 指向"**旧副本**"——暗示别的副本里是好的，被旧的挡住了 |
+| **实际查证** | **四份文件内容一致，全都缺这一格**：<br>`repo / claude / agents` 三份里 `ind.2u2_swpa4020` 都是 `"deviceUuid": ""`，器件总数都是 171 |
+| **推荐的修法也是坏的** | `easycirq skill sync` → `GET …/v1.0.2/skills.tar.gz: 404 Not Found`，三个目录全部失败 |
+| **后果** | 用户按错误信息走：跑 `skill sync`（404）→ 想复制文件（内容一样，无效）→ **卡死**。而且两个块看起来"就是落不下去"，没有任何可执行的下一步 |
+| **修法（做了）** | 用 `lib by-lcsc --lcsc C83423` 解析出真实身份（`uuid=8a48ccad…`、`footprint=IND-SMD_L4.0-W4.0`），把 `deviceUuid` / `deviceLibraryUuid` / `footprint` / `manufacturer` 补进**四份副本** |
+| **验证** | 补完后同一块：`device preflight: 7/7 device(s) resolved`，开始落器件（C16/C17/C18…）—— 之前是 1/7 就失败 |
+| **顺带清了全表** | 复查整份 `standard-parts.json`：**仍缺 deviceUuid 的条目 = 0** |
+
+### 三条产品改进（待做）
+
+1. **错误信息该先看自己**：器件在**当前读到的这份**文件里就是空 `deviceUuid` 时，正确的下一步是"补这一格"，不是"换一份副本"。诊断顺序应当先排除"数据本身缺"，再怀疑"读到旧文件"
+2. **`skill sync` 的下载 404**：它请求 `v1.0.2/skills.tar.gz`，但那个 release 里没有这个资产。它是错误信息里唯一给出的修法，坏掉等于没有修法
+3. **`deviceUuid` 为空应当在 CI 里被拦住**：块库声称 `ready`/`verified`，但它依赖的器件身份是空的 —— 这是"标称可用、实际不可用"，最伤信任的一种
+
+### 这一条的分量
+
+板2 前面几轮，我一直以为那两个块"放不下"或"位置不对"。**真实原因是它们缺一个 UUID。**
+
+**没有这一次查证，我可能会继续给它们换坐标换到天亮。**

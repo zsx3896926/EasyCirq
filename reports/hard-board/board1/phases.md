@@ -1442,3 +1442,58 @@ sch clusters → 同一批重叠，级别 ERROR → 门 FAIL
 | C. check 升 error | **不做**（已证明无益） |
 
 **判词：还不能下单。** 板2 停在 39 器件 / 22 网络 / clusters 6 处组框相交。
+
+
+---
+
+## 2026-11-05 板2 第四轮：两个块落不下去的**真实**原因
+
+### 一直以为是布局问题
+
+`block.sy8089_buck_3v3` / `block.sy7088_boost_5v` 反复落不下去。我以为是位置、包络、坐标。
+
+### 真实原因是缺一个字段
+
+```
+role L: part "ind.2u2_swpa4020" has no deviceUuid in the parts file
+```
+
+**零件表里那个电感没有 `deviceUuid`。**
+
+而错误信息把原因归到"**旧副本**"，建议 `easycirq skill sync`。
+
+### 两条都查了，都不是
+
+| 查什么 | 结果 |
+|---|---|
+| 四份文件是否不一致 | **一致**：repo / claude / agents 三份都缺这一格，器件数都是 171 |
+| `skill sync` 能不能修 | **不能**：`GET …/v1.0.2/skills.tar.gz: 404`，三个目录全失败 |
+
+### 于是手工补
+
+`lib by-lcsc --lcsc C83423` 解析出真实身份，补进**四份副本**：
+
+```
+uuid               8a48ccad1d114242ad9628a162165531
+footprint          IND-SMD_L4.0-W4.0
+manufacturer       Sunlord(顺络)
+```
+
+### 验证
+
+补完后同一块：
+
+```
+补前：role L … has no deviceUuid  → 落不下去
+补后：device preflight: 7/7 device(s) resolved → 开始落器件（C16/C17/C18…）
+```
+
+全表复查：**仍缺 deviceUuid 的条目 = 0**。
+
+### 这一条的分量
+
+前面几轮我一直以为那两个块是"放不下"或"位置不对"。**真实原因是缺一个 UUID。**
+
+**没有这次查证，我可能会继续给它们换坐标换到天亮。**
+
+**判词：还不能下单。** 但板2 现在能落那两块了 —— 电源树可以补齐。

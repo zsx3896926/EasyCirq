@@ -609,11 +609,14 @@
       "value": "2.2µH",
       "mpn": "SWPA4020S2R2MT",
       "lcsc": "C83423",
-      "deviceUuid": "",
+      "deviceUuid": "8a48ccad1d114242ad9628a162165531",
       "package": "4020",
       "class": "ind",
       "basic": false,
-      "desc": "2.2µH SWPA4020S2R2MT(4020)；PocketCam X1 实测实装件；Isat/Irms 待按手册终核。"
+      "desc": "2.2µH SWPA4020S2R2MT(4020)；PocketCam X1 实测实装件；Isat/Irms 待按手册终核。",
+      "deviceLibraryUuid": "4cc10ee860994f7ca741edc6064b8307",
+      "footprint": "IND-SMD_L4.0-W4.0",
+      "manufacturer": "Sunlord(顺络)"
     },
     "res.453k_0402__2": {
       "value": "45.3k",
