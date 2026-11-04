@@ -1,5 +1,5 @@
 {
-  "id": "req_796",
+  "id": "req_975",
   "ok": true,
   "result": {
     "passed": true,
@@ -9,12 +9,96 @@
     "summary": {
       "fatal": 0,
       "error": 0,
-      "warn": 7,
+      "warn": 12,
       "info": 0,
       "unknown": 0,
-      "total": 7
+      "total": 12
     },
     "violations": [
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWFLOATING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N119",
+              "primitiveId": "590f2ca0ff3ad43f",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N120",
+              "primitiveId": "b582d4070e2a3036",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWFLOATING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWFLOATING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N117",
+              "primitiveId": "1f06c06295d8dfad",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N118",
+              "primitiveId": "e4a0f9d5db13112e",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWFLOATING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWFLOATING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N115",
+              "primitiveId": "b367beb600dae54a",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N116",
+              "primitiveId": "c8d8a54548ebed94",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWFLOATING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWFLOATING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N108",
+              "primitiveId": "fbde4ae534365307",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N109",
+              "primitiveId": "46b03cb78fcf2fb6",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWFLOATING",
+          "type": "warn"
+        }
+      },
       {
         "level": "warn",
         "type": "warn",
@@ -57,6 +141,32 @@
               "name": "$2N69",
               "primitiveId": "7b666a473726f954",
               "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N110",
+              "primitiveId": "a88a7f74cd565b51",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N112",
+              "primitiveId": "04e6834a48e2a6e0",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "name": "$1N127",
+              "primitiveId": "4c169b5b01da7d6a",
+              "sheet": "c4958b937ebb4a9a"
             }
           ],
           "rule": "SHOWDANDLING",
@@ -116,21 +226,15 @@
               "sheet": "c4958b937ebb4a9a"
             },
             {
-              "designator": "R1",
-              "name": "2",
-              "primitiveId": "845d14cdfa2bbb6f-e3",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
               "designator": "C8",
-              "name": "2",
-              "primitiveId": "744da72c7018244e-e4",
+              "name": "1",
+              "primitiveId": "744da72c7018244e-e10",
               "sheet": "c4958b937ebb4a9a"
             },
             {
               "designator": "R4",
-              "name": "2",
-              "primitiveId": "81ab2f5cc2ee8526-e3",
+              "name": "1",
+              "primitiveId": "81ab2f5cc2ee8526-e7",
               "sheet": "c4958b937ebb4a9a"
             },
             {
@@ -140,15 +244,87 @@
               "sheet": "c4958b937ebb4a9a"
             },
             {
-              "designator": "R6",
-              "name": "2",
-              "primitiveId": "021682a84d572950-e3",
+              "designator": "R5",
+              "name": "1",
+              "primitiveId": "d326e090763e2dce-e7",
               "sheet": "c4958b937ebb4a9a"
             },
             {
-              "designator": "R8",
+              "designator": "R6",
               "name": "1",
-              "primitiveId": "55de400229d2752d-e7",
+              "primitiveId": "021682a84d572950-e7",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R7",
+              "name": "2",
+              "primitiveId": "9ba2869a7c0dd473-e4",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R7",
+              "name": "1",
+              "primitiveId": "9ba2869a7c0dd473-e8",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "1",
+              "primitiveId": "6a370a8518234b8e-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "2",
+              "primitiveId": "6a370a8518234b8e-e7",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "3",
+              "primitiveId": "6a370a8518234b8e-e11",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "4",
+              "primitiveId": "6a370a8518234b8e-e15",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "5",
+              "primitiveId": "6a370a8518234b8e-e19",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "6",
+              "primitiveId": "6a370a8518234b8e-e23",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "7",
+              "primitiveId": "6a370a8518234b8e-e27",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "8",
+              "primitiveId": "6a370a8518234b8e-e31",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "9",
+              "primitiveId": "6a370a8518234b8e-e35",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U3",
+              "name": "10",
+              "primitiveId": "6a370a8518234b8e-e39",
               "sheet": "c4958b937ebb4a9a"
             },
             {
@@ -216,7 +392,18 @@
               "name": "29",
               "primitiveId": "71837c46d7493e6e-e73",
               "sheet": "6430d668a985dae9"
-            },
+            }
+          ],
+          "rule": "CHECKFLOATPIN",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "raw": {
+          "primitives": [
             {
               "designator": "U2",
               "name": "28",
@@ -282,18 +469,7 @@
               "name": "20",
               "primitiveId": "71837c46d7493e6e-e117",
               "sheet": "6430d668a985dae9"
-            }
-          ],
-          "rule": "CHECKFLOATPIN",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "CHECKFLOATPIN",
-        "raw": {
-          "primitives": [
+            },
             {
               "designator": "U2",
               "name": "19",

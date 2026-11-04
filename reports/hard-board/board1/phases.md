@@ -1052,3 +1052,54 @@ pin already connected to net "LED_CTRL", not "+3V3"; pass --replace to delete th
 
 **判词：还不能下单。** 但比上一轮更接近了：去耦那条已经消掉。
 剩下的核心是**电源链缺入口**，那是设计层面的决定，不是接线动作。
+
+
+---
+
+## 2026-11-05 第二十次上机：电源链接上了；然后被 `group-move --ids` 剪断又接回
+
+### 电源链（POWER_SPLIT）修好了
+
+`U3:8` 从 `VSYS` 改挂 `+5V` —— 用**先断后连**的顺序（`--replace` 在密布线下会死锁，见 #29）：
+
+```
+ok: true   direction=right  offset=86  score=88.6
+power-net: review(blocking POWER_SPLIT)  →  pass
+```
+
+**交付卡的必修项从 2 条减到 1 条。**
+
+### 然后我想挪块给标号腾位置，踩了 #30
+
+用 `group-move --ids` 把 INA226 块左移 230 / 下移 120。返回 `ok:false`（假失败），
+但关键在这三个字段：
+
+```
+"movedFlags": [], "movedLabels": [], "movedWires": []
+```
+
+**器件走了，线没走。**
+
+| 指标 | 移动前 | 移动后 | 移回后 |
+|---|---|---|---|
+| 连接数 | 42 | **31** | **44** |
+| 悬空脚 | 8 | **19** | 6 |
+| 网络 | 13 | 9 | 13 |
+
+原路移回把电路接回来了，而且比移动前还好一点。
+
+### 顺带看到防御链有效
+
+移回时它自己报 `SCHEMATIC_GEOMETRY_INVALID · wire-through-body (U3)`；
+`sch gate` 的 `check` **独立也抓到同一条**。删掉那条穿体导线后 `check` 转 PASS。
+
+### 现状
+
+```
+19 器件 / 44 连接 / 13 网络
+layout-lint PASS · check PASS · bridge-check PASS · drc PASS
+clusters FAIL（1 处重叠：R7 ↔ U3）
+判词：还不能下单
+```
+
+**判词：还不能下单。** 但电源链这条真缺陷已经修掉，剩下的是 1 处组间重叠。

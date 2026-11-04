@@ -713,3 +713,31 @@ verdict      fail
 | **评价** | **这条检查很有价值**：它不看"每个网有没有脚"，而是看"电源链两端是不是同一个网"。一条只连了一半的电源链，单脚网检查可能过得去，这条会拦住。 |
 | **修法（板级）** | 加一个电源入口块。库里 `block.ch340c_usb_serial` 带 USB-C，但那是串口块；需要一个纯供电入口块。 |
 | **修法（产品侧）** | `blocks ls` 里没有"**电源输入/供电入口**"这个分类，选型时容易漏。建议按"电源树完整性"给出组合建议：给定已选的块，指出还缺哪一环。 |
+
+
+---
+
+## #29 `autoconnect --replace` 在密布线上**死锁**：它先找新位置，再删旧线
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（操作顺序错了） |
+| **现象** | 想把 `U3:8` 从 `VSYS` 改到 `+5V`：`--replace` 报 `no safe candidate: every direction/offset is unsafe (stub touches an existing (foreign-net) wire (hard reject))` |
+| **为什么** | 改网必须**先删旧线再找新位**。现在的实现看起来是**先给新桩找位置**，而旧线还占着所有方向 → 永远找不到 → 死锁 |
+| **正确顺序（有现成命令）** | `sch disconnect --pin …` 然后再 `sch autoconnect --pin … --net …` |
+| **实测** | 用"先断后连"的顺序，**`U3:8 → +5V` 一次成功**（方向 right，偏移 86，评分 88.6），`power-net` 从 `review(blocking POWER_SPLIT)` 变 **`pass`** |
+| **建议** | `--replace` 应当内部按"先断后连"实现，或者在错误信息里直接给出这两条命令 |
+
+## #30 `group-move --ids` **只移器件、不移桩线**，会静默把电路剪断
+
+| | |
+|---|---|
+| **分类** | **严重产品缺陷**（静默破坏电气连接，而图面看起来正常） |
+| **现象** | 用 `--ids` 把 INA226 块（6 个器件）整体左移 230 / 下移 120 |
+| **返回** | `ok: false`（假失败），但 `result.actionResult` 里写得很清楚：<br>**`"movedFlags": [], "movedLabels": [], "movedWires": []`** |
+| **后果** | 器件走了，**连线和标号全部留在原地** → 连接数 **42 → 31**，悬空脚 **8 → 19**，网络 **13 → 9** |
+| **而图面检查会说没事** | 位移后 `layout-lint` 仍然 PASS（几何没重叠），只有 connectivity 会露馅 |
+| **帮助文本的歧义** | 开头写的是「Move a component **and its surrounding stub wires/flags together** as a single unit」，读起来两种方式都带附件；但 `--group` 那条明确说 "attachments ride along automatically"，而 `--ids` 只写 "STATELESS"。**实测证明 `--ids` 不带附件。** |
+| **应当改** | ① `--ids` 要么也带附件，要么**明确拒绝**并提示改用 `--group`；② 至少要在 `--ids` 的结果里把 `movedWires: []` **升级成警告**，而不是埋在一个大 JSON 里 |
+| **我的补救** | 原路移回（dx=+230, dy=-120）→ 连接数回到 **44**、网络 **13**，比位移前还好一点 |
+| **顺带验证了防御链** | 移回时它自己报了 `SCHEMATIC_GEOMETRY_INVALID · wire-through-body (U3)`，而 `sch gate` 的 `check` **独立也抓到了同一条**。删掉那条穿体导线后 `check` 转 PASS。 |

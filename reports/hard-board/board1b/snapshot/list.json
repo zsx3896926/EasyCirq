@@ -1,9 +1,9 @@
 {
-  "id": "req_794",
+  "id": "req_973",
   "type": "response",
   "version": "v1",
   "windowId": "ce3c1f60-2498-4ee2-9b8c-73e7098a4e97",
-  "createdAt": "2026-11-04T21:40:34.3323666Z",
+  "createdAt": "2026-11-04T21:46:00.3030012Z",
   "ok": true,
   "result": {
     "components": [
@@ -42,7 +42,7 @@
           "@Project Name": "板1b-块级电源板",
           "@Schematic Name": "Schematic1",
           "@Update Date": "2026-11-05",
-          "@Update Time": "05:40:12",
+          "@Update Time": "05:45:31",
           "Blade Width": "10",
           "Border": "1",
           "Color": "",
@@ -1153,7 +1153,7 @@
         },
         "pins": [
           {
-            "net": "",
+            "net": "GND",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "2",
@@ -1636,10 +1636,10 @@
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 690.5,
-          "maxY": 208.5,
-          "minX": 669.5,
-          "minY": 191.5
+          "maxX": 460.5,
+          "maxY": 328.5,
+          "minX": 439.5,
+          "minY": 311.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1678,26 +1678,26 @@
         },
         "pins": [
           {
-            "net": "",
+            "net": "GND",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "2",
             "pinNumber": "2",
             "primitiveId": "744da72c7018244e-e4",
             "rotation": 0,
-            "x": 700,
-            "y": 200
+            "x": 470,
+            "y": 320
           },
           {
-            "net": "+3V3",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
             "pinNumber": "1",
             "primitiveId": "744da72c7018244e-e10",
             "rotation": 180,
-            "x": 660,
-            "y": 200
+            "x": 430,
+            "y": 320
           }
         ],
         "pinsAvailable": true,
@@ -1712,17 +1712,17 @@
           "uuid": "c1d40e5f512dd4e3"
         },
         "uniqueId": "gge31",
-        "x": 680,
-        "y": 200
+        "x": 450,
+        "y": 320
       },
       {
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 810.5,
-          "maxY": 204.5,
-          "minX": 789.5,
-          "minY": 195.5
+          "maxX": 580.5,
+          "maxY": 324.5,
+          "minX": 559.5,
+          "minY": 315.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1764,26 +1764,26 @@
         },
         "pins": [
           {
-            "net": "",
+            "net": "+3V3",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "2",
             "pinNumber": "2",
             "primitiveId": "81ab2f5cc2ee8526-e3",
             "rotation": 0,
-            "x": 820,
-            "y": 200
+            "x": 590,
+            "y": 320
           },
           {
-            "net": "INA_ALERT",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
             "pinNumber": "1",
             "primitiveId": "81ab2f5cc2ee8526-e7",
             "rotation": 180,
-            "x": 780,
-            "y": 200
+            "x": 550,
+            "y": 320
           }
         ],
         "pinsAvailable": true,
@@ -1798,17 +1798,17 @@
           "uuid": "4c0497ec331b45f5"
         },
         "uniqueId": "gge32",
-        "x": 800,
-        "y": 200
+        "x": 570,
+        "y": 320
       },
       {
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 930.5,
-          "maxY": 204.5,
-          "minX": 909.5,
-          "minY": 195.5
+          "maxX": 700.5,
+          "maxY": 324.5,
+          "minX": 679.5,
+          "minY": 315.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1857,19 +1857,19 @@
             "pinNumber": "2",
             "primitiveId": "d326e090763e2dce-e3",
             "rotation": 0,
-            "x": 940,
-            "y": 200
+            "x": 710,
+            "y": 320
           },
           {
-            "net": "SCL",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
             "pinNumber": "1",
             "primitiveId": "d326e090763e2dce-e7",
             "rotation": 180,
-            "x": 900,
-            "y": 200
+            "x": 670,
+            "y": 320
           }
         ],
         "pinsAvailable": true,
@@ -1884,17 +1884,17 @@
           "uuid": "05ce4b34ae22ca30"
         },
         "uniqueId": "gge33",
-        "x": 920,
-        "y": 200
+        "x": 690,
+        "y": 320
       },
       {
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 1050.5,
-          "maxY": 204.5,
-          "minX": 1029.5,
-          "minY": 195.5
+          "maxX": 820.5,
+          "maxY": 324.5,
+          "minX": 799.5,
+          "minY": 315.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1936,26 +1936,26 @@
         },
         "pins": [
           {
-            "net": "",
+            "net": "+3V3",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "2",
             "pinNumber": "2",
             "primitiveId": "021682a84d572950-e3",
             "rotation": 0,
-            "x": 1060,
-            "y": 200
+            "x": 830,
+            "y": 320
           },
           {
-            "net": "SDA",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
             "pinNumber": "1",
             "primitiveId": "021682a84d572950-e7",
             "rotation": 180,
-            "x": 1020,
-            "y": 200
+            "x": 790,
+            "y": 320
           }
         ],
         "pinsAvailable": true,
@@ -1970,17 +1970,17 @@
           "uuid": "05ce4b34ae22ca30"
         },
         "uniqueId": "gge34",
-        "x": 1040,
-        "y": 200
+        "x": 810,
+        "y": 320
       },
       {
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 690.5,
-          "maxY": 325.5,
-          "minX": 669.5,
-          "minY": 314.5
+          "maxX": 460.5,
+          "maxY": 445.5,
+          "minX": 439.5,
+          "minY": 434.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -2021,26 +2021,26 @@
         },
         "pins": [
           {
-            "net": "VSYS",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "2",
             "pinNumber": "2",
             "primitiveId": "9ba2869a7c0dd473-e4",
             "rotation": 0,
-            "x": 700,
-            "y": 320
+            "x": 470,
+            "y": 440
           },
           {
-            "net": "VBAT",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
             "pinNumber": "1",
             "primitiveId": "9ba2869a7c0dd473-e8",
             "rotation": 180,
-            "x": 660,
-            "y": 320
+            "x": 430,
+            "y": 440
           }
         ],
         "pinsAvailable": true,
@@ -2055,17 +2055,17 @@
           "uuid": "1c39b9923403412e"
         },
         "uniqueId": "gge35",
-        "x": 680,
-        "y": 320
+        "x": 450,
+        "y": 440
       },
       {
         "addIntoBom": true,
         "addIntoPcb": true,
         "bbox": {
-          "maxX": 880.5,
-          "maxY": 350.5,
-          "minX": 819.5,
-          "minY": 289.5
+          "maxX": 650.5,
+          "maxY": 470.5,
+          "minX": 589.5,
+          "minY": 409.5
         },
         "component": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -2118,114 +2118,114 @@
         },
         "pins": [
           {
-            "net": "GND",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "A1",
             "pinNumber": "1",
             "primitiveId": "6a370a8518234b8e-e3",
             "rotation": 180,
-            "x": 800,
-            "y": 340
+            "x": 570,
+            "y": 460
           },
           {
-            "net": "GND",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "A0",
             "pinNumber": "2",
             "primitiveId": "6a370a8518234b8e-e7",
             "rotation": 180,
-            "x": 800,
-            "y": 330
+            "x": 570,
+            "y": 450
           },
           {
-            "net": "INA_ALERT",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "Alert",
             "pinNumber": "3",
             "primitiveId": "6a370a8518234b8e-e11",
             "rotation": 180,
-            "x": 800,
-            "y": 320
+            "x": 570,
+            "y": 440
           },
           {
-            "net": "SDA",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "SDA",
             "pinNumber": "4",
             "primitiveId": "6a370a8518234b8e-e15",
             "rotation": 180,
-            "x": 800,
-            "y": 310
+            "x": 570,
+            "y": 430
           },
           {
-            "net": "SCL",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "SCL",
             "pinNumber": "5",
             "primitiveId": "6a370a8518234b8e-e19",
             "rotation": 180,
-            "x": 800,
-            "y": 300
+            "x": 570,
+            "y": 420
           },
           {
-            "net": "+3V3",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "VS+",
             "pinNumber": "6",
             "primitiveId": "6a370a8518234b8e-e23",
             "rotation": 0,
-            "x": 900,
-            "y": 300
+            "x": 670,
+            "y": 420
           },
           {
-            "net": "GND",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "GND",
             "pinNumber": "7",
             "primitiveId": "6a370a8518234b8e-e27",
             "rotation": 0,
-            "x": 900,
-            "y": 310
+            "x": 670,
+            "y": 430
           },
           {
-            "net": "VSYS",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "VBUS",
             "pinNumber": "8",
             "primitiveId": "6a370a8518234b8e-e31",
             "rotation": 0,
-            "x": 900,
-            "y": 320
+            "x": 670,
+            "y": 440
           },
           {
-            "net": "VSYS",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "VIN-",
             "pinNumber": "9",
             "primitiveId": "6a370a8518234b8e-e35",
             "rotation": 0,
-            "x": 900,
-            "y": 330
+            "x": 670,
+            "y": 450
           },
           {
-            "net": "VBAT",
+            "net": "",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "VIN+",
             "pinNumber": "10",
             "primitiveId": "6a370a8518234b8e-e39",
             "rotation": 0,
-            "x": 900,
-            "y": 340
+            "x": 670,
+            "y": 460
           }
         ],
         "pinsAvailable": true,
@@ -2240,8 +2240,8 @@
           "uuid": "229e13ae4b1e4ffa"
         },
         "uniqueId": "gge36",
-        "x": 850,
-        "y": 320
+        "x": 620,
+        "y": 440
       },
       {
         "addIntoBom": true,
@@ -2404,60 +2404,6 @@
         },
         "x": 955,
         "y": 330
-      },
-      {
-        "addIntoBom": true,
-        "addIntoPcb": true,
-        "bbox": {
-          "maxX": 1000.5,
-          "maxY": 325.4999999999999,
-          "minX": 994.5,
-          "minY": 314.4999999999999
-        },
-        "component": {
-          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-          "name": "Power-5V",
-          "uuid": "fbd2225fcbaa9417"
-        },
-        "componentType": "netflag",
-        "device": {
-          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-          "name": "VSYS",
-          "uuid": "fbd2225fcbaa9417"
-        },
-        "mirror": false,
-        "name": "VSYS",
-        "net": "VSYS",
-        "netlistAvailable": true,
-        "otherProperty": {
-          "Description": "Power-5V",
-          "Global Net Name": "VSYS",
-          "Relevance": "[]"
-        },
-        "pins": [
-          {
-            "net": null,
-            "noConnected": false,
-            "otherProperty": {},
-            "pinName": "Pin1",
-            "pinNumber": "1",
-            "primitiveId": "0d4a6a18a452a0e7-e11",
-            "rotation": 180,
-            "x": 990,
-            "y": 319.9999999999999
-          }
-        ],
-        "pinsAvailable": true,
-        "primitiveId": "0d4a6a18a452a0e7",
-        "rotation": 270,
-        "subPartName": "pid8a0e77bacb214e",
-        "symbol": {
-          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-          "name": "Power-5V",
-          "uuid": "1c84ea9153a4a092"
-        },
-        "x": 990,
-        "y": 320
       },
       {
         "addIntoBom": true,
@@ -2936,7 +2882,7 @@
             "y": 620
           },
           {
-            "net": "",
+            "net": "+3V3",
             "noConnected": false,
             "otherProperty": {},
             "pinName": "1",
@@ -3202,18 +3148,342 @@
         },
         "x": 910,
         "y": 500
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 995.5,
+          "maxY": 325.4999999999999,
+          "minX": 989.5,
+          "minY": 314.4999999999999
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+5V",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "mirror": false,
+        "name": "+5V",
+        "net": "+5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "7f3e4ef32f8349e7-e11",
+            "rotation": 180,
+            "x": 985,
+            "y": 319.9999999999999
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "7f3e4ef32f8349e7",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "1c84ea9153a4a092"
+        },
+        "x": 985,
+        "y": 320
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 619.5,
+          "maxY": 470.5,
+          "minX": 609.5,
+          "minY": 449.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "842d096c84232e9b"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "842d096c84232e9b"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "ae0352bbbf80e64b-e15",
+            "rotation": 180,
+            "x": 600,
+            "y": 460
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "ae0352bbbf80e64b",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "a0e545ce51ceaf1a"
+        },
+        "x": 600,
+        "y": 460
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 635.5,
+          "maxY": 625.5,
+          "minX": 629.5,
+          "minY": 614.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+3V3",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "mirror": false,
+        "name": "+3V3",
+        "net": "+3V3",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+3V3",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "04a1556954ebcb16-e11",
+            "rotation": 0,
+            "x": 640,
+            "y": 620
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "04a1556954ebcb16",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "1c84ea9153a4a092"
+        },
+        "x": 640,
+        "y": 620
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 509.50000000000006,
+          "maxY": 330.5,
+          "minX": 499.50000000000006,
+          "minY": 309.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "842d096c84232e9b"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "842d096c84232e9b"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "dd30068473a1fa36-e15",
+            "rotation": 180,
+            "x": 490.00000000000006,
+            "y": 320
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "dd30068473a1fa36",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "a0e545ce51ceaf1a"
+        },
+        "x": 490,
+        "y": 320
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 620.5,
+          "maxY": 325.5,
+          "minX": 614.5,
+          "minY": 314.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+3V3",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "mirror": false,
+        "name": "+3V3",
+        "net": "+3V3",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+3V3",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "66e5d1df05a7460a-e11",
+            "rotation": 180,
+            "x": 610,
+            "y": 320
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "66e5d1df05a7460a",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "1c84ea9153a4a092"
+        },
+        "x": 610,
+        "y": 320
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 860.5,
+          "maxY": 325.4999999999999,
+          "minX": 854.5,
+          "minY": 314.4999999999999
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+3V3",
+          "uuid": "fbd2225fcbaa9417"
+        },
+        "mirror": false,
+        "name": "+3V3",
+        "net": "+3V3",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+3V3",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "906a56ee7dd3ed8a-e11",
+            "rotation": 180,
+            "x": 850,
+            "y": 319.9999999999999
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "906a56ee7dd3ed8a",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "1c84ea9153a4a092"
+        },
+        "x": 850,
+        "y": 320
       }
     ],
     "connectivitySummary": {
       "buses": 0,
-      "netflags": 25,
+      "netflags": 30,
       "netlabels": 0,
       "netports": 0,
       "scope": "activePage",
       "shortSymbols": 0,
-      "wires": 39
+      "wires": 44
     },
-    "count": 45,
+    "count": 50,
     "pinNetsAvailable": true,
     "wires": [
       {
@@ -3626,22 +3896,6 @@
       },
       {
         "net": "",
-        "primitiveId": "c1d5c4af94d68726",
-        "rawEncoding": "flat-segments",
-        "rawLine": [
-          990,
-          320,
-          900,
-          320
-        ],
-        "segmentIndex": 0,
-        "x0": 990,
-        "x1": 900,
-        "y0": 320,
-        "y1": 320
-      },
-      {
-        "net": "",
         "primitiveId": "04e6834a48e2a6e0",
         "rawEncoding": "flat-segments",
         "rawLine": [
@@ -3895,6 +4149,102 @@
         "x1": 930,
         "y0": 500,
         "y1": 500
+      },
+      {
+        "net": "",
+        "primitiveId": "fae7c4f3772e5820",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          985,
+          320,
+          900,
+          320
+        ],
+        "segmentIndex": 0,
+        "x0": 985,
+        "x1": 900,
+        "y0": 320,
+        "y1": 320
+      },
+      {
+        "net": "",
+        "primitiveId": "f76d29dd00eb405e",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          600,
+          460,
+          580,
+          460
+        ],
+        "segmentIndex": 0,
+        "x0": 600,
+        "x1": 580,
+        "y0": 460,
+        "y1": 460
+      },
+      {
+        "net": "",
+        "primitiveId": "709b867c32130aa8",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          640,
+          620,
+          660,
+          620
+        ],
+        "segmentIndex": 0,
+        "x0": 640,
+        "x1": 660,
+        "y0": 620,
+        "y1": 620
+      },
+      {
+        "net": "",
+        "primitiveId": "f4558ca93c4669f1",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          490,
+          320,
+          470,
+          320
+        ],
+        "segmentIndex": 0,
+        "x0": 490,
+        "x1": 470,
+        "y0": 320,
+        "y1": 320
+      },
+      {
+        "net": "",
+        "primitiveId": "3e9eeaa419b07198",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          610,
+          320,
+          590,
+          320
+        ],
+        "segmentIndex": 0,
+        "x0": 610,
+        "x1": 590,
+        "y0": 320,
+        "y1": 320
+      },
+      {
+        "net": "",
+        "primitiveId": "0386197a97772516",
+        "rawEncoding": "flat-segments",
+        "rawLine": [
+          850,
+          320,
+          830,
+          320
+        ],
+        "segmentIndex": 0,
+        "x0": 850,
+        "x1": 830,
+        "y0": 320,
+        "y1": 320
       }
     ],
     "wiresAvailable": true
@@ -3916,7 +4266,7 @@
     "pageVisibility": "hidden"
   },
   "mutationContextAvailable": true,
-  "seq": 3545,
+  "seq": 3692,
   "seqAbandoned": 4,
   "abandonedIds": [
     "req_683",

@@ -8,18 +8,17 @@
   "source": "pin-name",
   "powerPins": [
     "U1.3(VIN)->+5V",
-    "U3.8(VBUS)->VSYS"
+    "U3.8(VBUS)->(floating)"
   ],
   "nets": [
-    "+5V",
-    "VSYS"
+    "+5V"
   ],
   "findings": [
     {
-      "code": "POWER_SPLIT",
+      "code": "POWER_PIN_FLOATING",
       "severity": "blocking",
-      "message": "电源引脚被分到了 2 个不同网络：+5V(U1.3)、VSYS(U3.8)",
-      "where": "pins[].net"
+      "message": "U3.8(VBUS) 没有接到任何网络",
+      "where": "U3.8"
     }
   ]
 }
