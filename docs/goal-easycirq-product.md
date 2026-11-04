@@ -230,6 +230,43 @@
 
 ---
 
+## 八之二、进度（每期做完就更新这一节）
+
+### P0 地基 —— **已完成**（2026-11-05，`1.4.0`）
+
+| 交付项 | 状态 | 证据 |
+|---|---|---|
+| 面板骨架，embed 进二进制 | ✅ | `test_page_is_embedded_never_read_from_disk` |
+| 只监听 `127.0.0.1` | ✅ | `test_panel_listens_on_loopback_only`、`test_panel_is_not_reachable_on_a_non_loopback_address` |
+| 起得来、打印确切 URL | ✅ | `test_panel_serves_the_page` 实测 `http://127.0.0.1:23112/` |
+| `card` exit=2 显示"还没检查过" | ✅ | `test_snapshot_carries_not_measured_instead_of_an_error` |
+| 五态不为绿 | ✅ | `test_non_pass_states_never_borrow_the_pass_class`（4 个状态各一条） |
+| 状态三件套（色/文/图） | ✅ | `test_every_state_shows_text_and_icon_not_only_colour` |
+| 杀面板 CLI 照常 | ✅ | `test_cli_still_works_after_the_panel_dies` |
+| 诊断包 + 脱敏 | ✅ | `tests/test_diag_bundle.py` 9 条（含"放密钥再断言没带出去"） |
+| 无遥测 | ✅ | `test_panel_and_diag_never_call_out`（静态） |
+| 打包 | ✅ | `1.4.0` verdict ok / corrupt [] / sourceCommit = HEAD |
+| 干净安装可用 | ✅ | 装完 `panel`/`diag` 都在，页面 200、API 200 |
+
+**P0 路上修掉的真 bug**：`card`/`status` 用退出码表达语义（0/1/**2**），exit 2 时
+**仍然输出完整 JSON**。第一版把非零退出当失败丢弃 stdout，面板**永远显示不出
+"还没检查过"**——而那正是这层界面最该说清的状态。
+
+### 还没做的（P1–P5）
+
+| 项 | 期 |
+|---|---|
+| 证据详情抽屉（点一格看 `howToFix`）、工程选择 | P1 |
+| Agent 工作面（对话流、拒绝高亮、停止/续跑） | P2 |
+| 跑门 / 推进按钮 | P3 |
+| 首次运行引导、`Ctrl+K`、无障碍走查、历史与产物 | P4 |
+| 签名包、离线包、自更新面板、兼容矩阵 | P5 |
+
+**未验**：真人 30 分钟首次价值（**NOT RUN**，需要真人，不接受自评）；
+视觉走查（深色模式已实现但**未经人眼检查**）。
+
+---
+
 ## 九、明确不做
 
 | 不做 | 为什么 |
