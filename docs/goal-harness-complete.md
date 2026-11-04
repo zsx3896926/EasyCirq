@@ -46,23 +46,25 @@ daemon 级要给 **184 个动作**逐个分类，分错会卡住正常工作流�
 白名单刻意从窄开始，每条都是"这个阶段不做就进行不下去"的最小集合。
 匹配**按词边界**（`sch placeX` 不会被当成 `sch place`）。
 
-### ③ 打包：1.3.84
+### ③ 打包：1.3.85
 
 ```
-version: 1.3.84
+version: 1.3.85
 verdict: ok
 corrupt: []
 files: 970
-sourceCommit: 585e7fc6…   dirty: False
+sourceCommit: d62b9246…   dirty: False
 包内连接器 sha256: 9d091629d7c1  = 本地最新那份（含无工程报错修复）
 ```
+
+（1.3.84 先把连接器修对了；1.3.85 又把「`--goal` 没传给模型」这个 bug 修进去。）
 
 **这修掉了一个真问题**：上一版 1.3.81 包里的连接器是旧的，和磁盘上的最新构建对不上。
 
 ### ④ 干净安装验收
 
 ```
-装到全新目录：exit=0，自带 Python ✅
+装到全新目录：exit=0，版本 1.3.85，自带 Python ✅
 PATH 上剔除所有 python/python3/py
   → easycirq phase show        正常
   → easycirq run --fake …      [cli] REFUSED …（相位 S0 不许）
@@ -122,12 +124,12 @@ PATH 上剔除所有 python/python3/py
 ## 七、基线
 
 ```
-pytest        5191 passed / 4 skipped / 0 failed
+pytest        5191 passed / 4 skipped / 0 failed（+ goal 修复后重跑）
 go test       17 包 OK
 connector     1241/1241
 布局单测      124 passed
 layout verify 14 项全 PASS
-发布          1.3.84  verdict ok  corrupt []  sourceDirty False
+发布          1.3.85  verdict ok  corrupt []  sourceDirty False（sourceCommit = HEAD）
 ```
 
 ## 八、可交付的判定
