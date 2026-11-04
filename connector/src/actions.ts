@@ -5551,7 +5551,44 @@ const schematicLibraryGetByLcscIds: Handler = async (payload) => {
 		return { result: { count: 0, requested: lcscIds, components: [], notFound: lcscIds } };
 	}
 
-	const components = (raw as Array<Record<string, unknown>>).map((r) => {
+	// ── 不信任批量 API 的覆盖度（板1 实测）──────────────────────────────
+	//
+	// EasyEDA 4.1.78 的 `getByLcscIds` 在**数组**入参上会把结果折叠成最后一个
+	// 元素：传 5 个不同的 C 号，回 5 份最后一个器件。原样透传的后果是「按 C 号
+	// 恢复整板」时只认出一个料，其余全部落空（板1 因此只剩 6 个器件）。
+	//
+	// 所以批量结果只当**候选**：核对这些候选覆盖了哪些请求号，缺的逐个补查。
+	// 单条调用在同一个版本上是正确的。
+	const covered = new Set<string>();
+	for (const item of raw as Array<Record<string, unknown>>) {
+		const op = (item.otherProperty as Record<string, unknown> | undefined) ?? {};
+		const id = item.supplierId ?? op['Supplier Part'];
+		if (typeof id === 'string' && id) covered.add(id);
+	}
+	const missingIds = lcscIds.filter(id => !covered.has(id));
+	if (missingIds.length > 0 && missingIds.length < lcscIds.length) {
+		// 只有当批量**部分**覆盖时才补查：全覆盖说明 API 正常，全不覆盖说明
+		// 这些号本来就不在库里（补查只会白等）。
+		for (const id of missingIds) {
+			try {
+				const one = await eda.lib_Device.getByLcscIds([id], undefined, true);
+				if (Array.isArray(one)) raw.push(...(one as Array<unknown>));
+			}
+			catch {
+				// 单条失败不算整体失败：它会被 notFound 如实列出来
+			}
+		}
+	}
+
+	const seenLcsc = new Set<string>();
+	const components = (raw as Array<Record<string, unknown>>).filter((r) => {
+		// 补查会把同一个器件再加一遍；按 lcsc 去重，避免回读出现重复条目。
+		const op = (r.otherProperty as Record<string, unknown> | undefined) ?? {};
+		const id = String(r.supplierId ?? op['Supplier Part'] ?? '');
+		if (id && seenLcsc.has(id)) return false;
+		if (id) seenLcsc.add(id);
+		return true;
+	}).map((r) => {
 		const otherProperty = (r.otherProperty as Record<string, unknown> | undefined) ?? {};
 		// supplierId / manufacturer(Id) are deprecated top-level fields, moved into
 		// otherProperty (canonical EasyEDA property names). Read top-level first —

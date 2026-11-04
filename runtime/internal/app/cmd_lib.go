@@ -179,8 +179,7 @@ the command never substitutes LCSC search or an old bundled catalogue.`,
 				if len(lcsc) == 0 {
 					return fmt.Errorf("--lcsc is required (one or more LCSC C-numbers)")
 				}
-				return dispatch(cfg, "schematic.library.get_by_lcsc", window,
-					map[string]any{"lcscIds": lcsc}, stdout, stderr)
+				return resolveByLcscWithFallback(cfg, window, lcsc, stdout, stderr)
 			},
 		}
 		c.Flags().StringSliceVar(&lcsc, "lcsc", nil, "LCSC C-number(s); repeat the flag or comma-separate (required)")
