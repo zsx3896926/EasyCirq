@@ -437,3 +437,48 @@ verdict      fail
 ```
 
 **判词：还不能下单。** 而且在 #14 修好之前，**这条线推不动**。
+
+
+---
+
+## 2026-11-05 第九次上机：绕道失败，整板被删后重建
+
+### 起因
+
+#14（`sch modify` 对所有器件报 `Cannot destructure property 'cmdKey'`）挡住了重排。
+想用"删掉重放"绕开——`place` 是好的。
+
+### 发生了什么
+
+| 步骤 | 结果 |
+|---|---|
+| 删除全部 51 个器件 | ok |
+| `lib by-lcsc` 批量解析身份 | **只解析出 5/15**（批量路径静默少返回）|
+| 首次重放 | **只放回 6 个** ← 板子一度只剩 6 个 |
+| 改用 `pin-inventory.json` 逐个解析 + place | 42/45 |
+| 补 3 个（C2 重试、L1/L2 换候选电感） | 51 个位号齐全 |
+| 删掉多出来的 C10 | ok |
+
+### 重建后的判定（比重建前更差）
+
+```
+sch gate: FAIL
+  FAIL  layout-lint   6 overlap, 2 pin-coincidence, 1 out-of-sheet
+  FAIL  clusters      6 重叠 / 1 出图纸
+  FAIL  check         4 error/fatal (zero-length-wire×3, out-of-sheet×1)
+  FAIL  bridge-check  1 bridge(short)
+  FAIL  drc           27 fatal  ← 重建前是 0
+  verdict             fail
+```
+
+**重建让局面变差了**：重叠 3→6、check error 1→4、**drc 0→27 fatal**。
+原因：重新放置的器件挤在网格上，旧的引线与标号没有对应清理。
+
+### 我记下来的教训
+
+1. **不要为了绕过一个阻断缺陷做整板破坏性操作** —— 代价比等待更大
+2. **破坏性操作前先验证可恢复性**：先跑一遍"每个位号能否 `by-lcsc` 解析"，
+   就会立刻发现只有 5/15 能，从而放弃这条路
+3. 这条判断应当变成**产品能力**（删除前校验可恢复性 / 提供快照回滚）
+
+**判词：还不能下单。**
