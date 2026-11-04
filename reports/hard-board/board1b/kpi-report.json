@@ -1,9 +1,9 @@
 {
   "schema": "easycirq-sch-kpi-report/v1",
-  "generatedAt": "2026-11-04T21:56:42Z",
+  "generatedAt": "2026-11-04T22:04:18Z",
   "project": "板1b-块级电源板",
   "page": "P1",
-  "round": 6,
+  "round": 8,
   "profile": "default",
   "limits": {
     "wire_length": 120,
@@ -17,13 +17,13 @@
       "id": "unconnected",
       "title": "未连接/悬空",
       "kind": "hard",
-      "value": 8.0,
+      "value": 2.0,
       "limit": 0,
       "direction": "max",
       "unit": "count",
       "status": "fail",
       "advisory": false,
-      "detail": "connectivity.floating_pins=8; connectivity.single_node_nets=0",
+      "detail": "connectivity.floating_pins=1; connectivity.single_node_nets=1",
       "evidence": [
         "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\connectivity-check.json"
       ]
@@ -308,7 +308,7 @@
   "blockers": [
     {
       "kpi": "unconnected",
-      "reason": "未连接/悬空 实测 8 count > 门限 0"
+      "reason": "未连接/悬空 实测 2 count > 门限 0（INA_ALERT）"
     },
     {
       "kpi": "pin_mux",

@@ -2,7 +2,7 @@
   "schema": "easycirq-sch-kpi-input/v1",
   "project": "板1b-块级电源板",
   "page": "P1",
-  "round": 6,
+  "round": 8,
   "profile": "default",
   "history": "kpi-history.jsonl",
   "checks": [],

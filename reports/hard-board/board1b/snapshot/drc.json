@@ -1,5 +1,5 @@
 {
-  "id": "req_86",
+  "id": "req_489",
   "ok": true,
   "result": {
     "passed": true,
@@ -38,6 +38,22 @@
         "raw": {
           "primitives": [
             {
+              "name": "$1N119",
+              "primitiveId": "590f2ca0ff3ad43f",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
               "name": "$2N68",
               "primitiveId": "c8f03bad13ec49c7",
               "sheet": "6430d668a985dae9"
@@ -57,22 +73,6 @@
               "name": "$2N69",
               "primitiveId": "7b666a473726f954",
               "sheet": "6430d668a985dae9"
-            }
-          ],
-          "rule": "SHOWDANDLING",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "SHOWDANDLING",
-        "raw": {
-          "primitives": [
-            {
-              "name": "$1N108",
-              "primitiveId": "fbde4ae534365307",
-              "sheet": "c4958b937ebb4a9a"
             }
           ],
           "rule": "SHOWDANDLING",
@@ -120,51 +120,9 @@
         "raw": {
           "primitives": [
             {
-              "designator": "C6",
+              "designator": "R8",
               "name": "1",
-              "primitiveId": "6527eba669478254-e4",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "C1",
-              "name": "1",
-              "primitiveId": "34698a2b69af1e1d-e10",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "C8",
-              "name": "2",
-              "primitiveId": "744da72c7018244e-e4",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R4",
-              "name": "2",
-              "primitiveId": "81ab2f5cc2ee8526-e3",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R5",
-              "name": "2",
-              "primitiveId": "d326e090763e2dce-e3",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R6",
-              "name": "2",
-              "primitiveId": "021682a84d572950-e3",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R7",
-              "name": "2",
-              "primitiveId": "9ba2869a7c0dd473-e4",
-              "sheet": "c4958b937ebb4a9a"
-            },
-            {
-              "designator": "R7",
-              "name": "1",
-              "primitiveId": "9ba2869a7c0dd473-e8",
+              "primitiveId": "55de400229d2752d-e7",
               "sheet": "c4958b937ebb4a9a"
             },
             {
@@ -298,18 +256,7 @@
               "name": "20",
               "primitiveId": "71837c46d7493e6e-e117",
               "sheet": "6430d668a985dae9"
-            }
-          ],
-          "rule": "CHECKFLOATPIN",
-          "type": "warn"
-        }
-      },
-      {
-        "level": "warn",
-        "type": "warn",
-        "rule": "CHECKFLOATPIN",
-        "raw": {
-          "primitives": [
+            },
             {
               "designator": "U2",
               "name": "19",
@@ -351,7 +298,18 @@
               "name": "5",
               "primitiveId": "71837c46d7493e6e-e145",
               "sheet": "6430d668a985dae9"
-            },
+            }
+          ],
+          "rule": "CHECKFLOATPIN",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "raw": {
+          "primitives": [
             {
               "designator": "U2",
               "name": "4",

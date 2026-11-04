@@ -1,12 +1,12 @@
 # 原理图 KPI 门禁 · 板1b-块级电源板 / P1
 
-- 轮次: 6  profile: default
+- 轮次: 8  profile: default
 - 裁决: **BLOCKED**  上机许可: 禁止
 - 稳定轮次: 0/2  回归: False
 
 | # | KPI | 类别 | 实测 | 门限 | 状态 | 证据 |
 |---|---|---|---|---|---|---|
-| 1 | 未连接/悬空 | hard | 8 count | 0 | FAIL | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\connectivity-check.json |
+| 1 | 未连接/悬空 | hard | 2 count | 0 | FAIL | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\connectivity-check.json |
 | 2 | 跨区穿越 | hard | - | 0 | 不适用 | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\wire-check.json |
 | 3 | 图面重叠 | hard | 0 count | 0 | PASS | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\layout-check.json |
 | 4 | 连接转换 | hard | 0 count | 0 | PASS | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\layout-check.json |
@@ -27,7 +27,7 @@
 | 19 | 设计有效性 | hard | - | 0 | 不适用 | C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board1b\design-validity-check.json |
 
 ## 阻断项
-- `unconnected`: 未连接/悬空 实测 8 count > 门限 0
+- `unconnected`: 未连接/悬空 实测 2 count > 门限 0（INA_ALERT）
 - `pin_mux`: 证据缺失或不可用: pinplan: 未提供
 - `bom_map`: 证据缺失或不可用: identity: 未提供
 - `netlist_diff`: 证据缺失或不可用: netlist: 未提供

@@ -22,26 +22,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 265,
-          "y": 190
+          "x": 400,
+          "y": 640
         },
         {
           "number": "2",
           "name": "2",
-          "x": 265,
-          "y": 150
+          "x": 400,
+          "y": 600
         }
       ],
       "placement": {
-        "x": 265,
-        "y": 170,
+        "x": 400,
+        "y": 620,
         "rotation": 270,
         "bbox": {
-          "minX": 256.5,
-          "minY": 159.5,
-          "maxX": 273.5,
-          "maxY": 180.5
+          "minX": 391.5,
+          "minY": 609.5,
+          "maxX": 408.5,
+          "maxY": 630.5
         }
       }
     },
@@ -105,26 +104,25 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
-          "x": 265,
-          "y": 210
+          "x": 520,
+          "y": 600
         },
         {
           "number": "2",
           "name": "2",
-          "x": 265,
-          "y": 250
+          "x": 520,
+          "y": 640
         }
       ],
       "placement": {
-        "x": 265,
-        "y": 230,
+        "x": 520,
+        "y": 620,
         "rotation": 90,
         "bbox": {
-          "minX": 256.5,
-          "minY": 219.5,
-          "maxX": 273.5,
-          "maxY": 240.5
+          "minX": 511.5,
+          "minY": 609.5,
+          "maxX": 528.5,
+          "maxY": 630.5
         }
       }
     },
@@ -187,25 +185,24 @@
         {
           "number": "1",
           "name": "1",
-          "x": 660,
-          "y": 200
+          "x": 280,
+          "y": 700
         },
         {
           "number": "2",
           "name": "2",
-          "connectionState": "unconnected",
-          "x": 700,
-          "y": 200
+          "x": 320,
+          "y": 700
         }
       ],
       "placement": {
-        "x": 680,
-        "y": 200,
+        "x": 300,
+        "y": 700,
         "bbox": {
-          "minX": 669.5,
-          "minY": 191.5,
-          "maxX": 690.5,
-          "maxY": 208.5
+          "minX": 289.5,
+          "minY": 691.5,
+          "maxX": 310.5,
+          "maxY": 708.5
         }
       }
     },
@@ -521,25 +518,25 @@
         {
           "number": "1",
           "name": "1",
-          "x": 780,
-          "y": 200
+          "noConnected": true,
+          "x": 500,
+          "y": 480
         },
         {
           "number": "2",
           "name": "2",
-          "connectionState": "unconnected",
-          "x": 820,
-          "y": 200
+          "x": 540,
+          "y": 480
         }
       ],
       "placement": {
-        "x": 800,
-        "y": 200,
+        "x": 520,
+        "y": 480,
         "bbox": {
-          "minX": 789.5,
-          "minY": 195.5,
-          "maxX": 810.5,
-          "maxY": 204.5
+          "minX": 509.5,
+          "minY": 475.5,
+          "maxX": 530.5,
+          "maxY": 484.5
         }
       }
     },
@@ -562,25 +559,24 @@
         {
           "number": "1",
           "name": "1",
-          "x": 900,
-          "y": 200
+          "x": 620,
+          "y": 480
         },
         {
           "number": "2",
           "name": "2",
-          "connectionState": "unconnected",
-          "x": 940,
-          "y": 200
+          "x": 660,
+          "y": 480
         }
       ],
       "placement": {
-        "x": 920,
-        "y": 200,
+        "x": 640,
+        "y": 480,
         "bbox": {
-          "minX": 909.5,
-          "minY": 195.5,
-          "maxX": 930.5,
-          "maxY": 204.5
+          "minX": 629.5,
+          "minY": 475.5,
+          "maxX": 650.5,
+          "maxY": 484.5
         }
       }
     },
@@ -603,25 +599,24 @@
         {
           "number": "1",
           "name": "1",
-          "x": 1020,
-          "y": 200
+          "x": 740,
+          "y": 480
         },
         {
           "number": "2",
           "name": "2",
-          "connectionState": "unconnected",
-          "x": 1060,
-          "y": 200
+          "x": 780,
+          "y": 480
         }
       ],
       "placement": {
-        "x": 1040,
-        "y": 200,
+        "x": 760,
+        "y": 480,
         "bbox": {
-          "minX": 1029.5,
-          "minY": 195.5,
-          "maxX": 1050.5,
-          "maxY": 204.5
+          "minX": 749.5,
+          "minY": 475.5,
+          "maxX": 770.5,
+          "maxY": 484.5
         }
       }
     },
@@ -644,14 +639,12 @@
         {
           "number": "1",
           "name": "1",
-          "connectionState": "unconnected",
           "x": 280,
           "y": 760
         },
         {
           "number": "2",
           "name": "2",
-          "connectionState": "unconnected",
           "x": 320,
           "y": 760
         }
@@ -686,6 +679,7 @@
         {
           "number": "1",
           "name": "1",
+          "connectionState": "unconnected",
           "x": 660,
           "y": 620
         },
@@ -931,6 +925,12 @@
   "connections": [
     {
       "componentId": "cmp-C1",
+      "pinNumber": "1",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-C1",
       "pinNumber": "2",
       "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
       "kind": "netlist"
@@ -945,6 +945,12 @@
       "componentId": "cmp-C2",
       "pinNumber": "2",
       "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-C6",
+      "pinNumber": "1",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
       "kind": "netlist"
     },
     {
@@ -968,6 +974,12 @@
     {
       "componentId": "cmp-C8",
       "pinNumber": "1",
+      "netId": "net-ccdd8d41edbac58e6d53310d1fccffd0f92fee7ae510446f885743c5226f1b30",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-C8",
+      "pinNumber": "2",
       "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
       "kind": "netlist"
     },
@@ -1069,8 +1081,8 @@
     },
     {
       "componentId": "cmp-R4",
-      "pinNumber": "1",
-      "netId": "net-1d3f2c7480e87be0fcee499ff7be2dab2f280cc72066821025f79055e446cec6",
+      "pinNumber": "2",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
       "kind": "netlist"
     },
     {
@@ -1080,15 +1092,33 @@
       "kind": "netlist"
     },
     {
+      "componentId": "cmp-R5",
+      "pinNumber": "2",
+      "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "kind": "netlist"
+    },
+    {
       "componentId": "cmp-R6",
       "pinNumber": "1",
       "netId": "net-38c87b7a457572bc335caaebdde7d5b6ad4d62aea177b5f14e8b41e3ad133a89",
       "kind": "netlist"
     },
     {
-      "componentId": "cmp-R8",
-      "pinNumber": "1",
+      "componentId": "cmp-R6",
+      "pinNumber": "2",
       "netId": "net-7e78ea734d524af3e40d173d91899c6bc066d240275c2c81ce50192b2de6f0b0",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-R7",
+      "pinNumber": "1",
+      "netId": "net-107b70c43a6acff186d1ce5fa0ab9352cf018ecad64f4ca3bfa40bc8da4b6dd0",
+      "kind": "netlist"
+    },
+    {
+      "componentId": "cmp-R7",
+      "pinNumber": "2",
+      "netId": "net-114f767b71ead940feae8dd82c865fa54b8b6a3764dc56aae00bf728c2966257",
       "kind": "netlist"
     },
     {
@@ -1186,58 +1216,9 @@
     {
       "code": "unconnected-pin",
       "severity": "warning",
-      "componentId": "cmp-C1",
+      "componentId": "cmp-R8",
       "pinNumber": "1",
-      "message": "C1 pin 1 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-C6",
-      "pinNumber": "1",
-      "message": "C6 pin 1 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-C8",
-      "pinNumber": "2",
-      "message": "C8 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R4",
-      "pinNumber": "2",
-      "message": "R4 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R5",
-      "pinNumber": "2",
-      "message": "R5 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R6",
-      "pinNumber": "2",
-      "message": "R6 pin 2 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R7",
-      "pinNumber": "1",
-      "message": "R7 pin 1 has no net and no NC marker"
-    },
-    {
-      "code": "unconnected-pin",
-      "severity": "warning",
-      "componentId": "cmp-R7",
-      "pinNumber": "2",
-      "message": "R7 pin 2 has no net and no NC marker"
+      "message": "R8 pin 1 has no net and no NC marker"
     }
   ]
 }

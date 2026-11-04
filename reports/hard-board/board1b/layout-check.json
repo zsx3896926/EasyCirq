@@ -27,7 +27,7 @@
     },
     "attachment_points": {
       "status": "complete",
-      "observed": 75,
+      "observed": 82,
       "measured_pins": 50,
       "total_pins": 50
     },
@@ -43,9 +43,9 @@
   },
   "optional_counts": {
     "module_frames": 0,
-    "attachment_points": 75,
+    "attachment_points": 82,
     "label_anchors": 0,
-    "net_flags": 25,
+    "net_flags": 32,
     "title_block_owned": 0
   },
   "net_flag_census": {
@@ -61,16 +61,22 @@
       "90": [
         "a04b155dfeb437a4",
         "98c27c2f6d58eef5",
-        "ff59a238b75679d8",
-        "5e72303586a0c599",
-        "04a1556954ebcb16"
+        "ff59a238b75679d8"
       ],
       "270": [
         "fd3b9eaeb8a7478c",
-        "cc5de365938c42b6"
+        "cc5de365938c42b6",
+        "9d871189cebff733",
+        "1432e02572daebbe",
+        "20e5ac89b571f51c",
+        "5e1495f47d88363c"
       ],
       "180": [
-        "d1d46d1849ee523b"
+        "d1d46d1849ee523b",
+        "0ef3069d2d6990dd"
+      ],
+      "0": [
+        "518589cf308d1812"
       ]
     },
     "GND": {
@@ -78,20 +84,21 @@
         "a391483cbfc68457",
         "042f8770769d92b5",
         "091bb5ef98cfb803",
-        "be03fbed88fbaebe"
+        "be03fbed88fbaebe",
+        "22377e07ca6463c9"
       ],
       "0": [
         "6150ff70dffe3508",
-        "269aee2ad177fe26",
-        "b56ddc32864f4c65"
-      ],
-      "180": [
-        "c4c155fbca52bd64"
+        "b56ddc32864f4c65",
+        "7f785ae90a563c60"
       ],
       "90": [
         "3d22ba86fb308642",
         "8e26037c3b087730",
         "ae0352bbbf80e64b"
+      ],
+      "180": [
+        "5059842c1b78a4b6"
       ]
     },
     "+3V3_SW": {
@@ -102,12 +109,16 @@
     "VBAT": {
       "270": [
         "01b2db9b25943f9a"
+      ],
+      "90": [
+        "2bf24a020e6f7d74"
       ]
     },
     "VSYS": {
       "270": [
         "10a680f8ccc532d7",
-        "b8dfc64960980904"
+        "b8dfc64960980904",
+        "ad3094b08281528d"
       ]
     }
   },
