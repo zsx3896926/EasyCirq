@@ -271,7 +271,7 @@
 |---|---|---|
 | 相位五态 | `easycirq phase show --json` | ✅ 实测 1528 字符 |
 | 交付卡判词 | `easycirq card --json`（0/1/2）| ✅ 实测 302 字符 |
-| 工程/页面状态 | `schematiq status --json`、daemon `/health` | ✅ 已有 |
+| 工程/页面状态 | `easycirq status --json`、daemon `/health` | ✅ 已有 |
 | Agent 对话与拒绝 | `easycirq run` 落盘日志 | ✅ 已有（`--fake` 可复现）|
 | 动作面 | 184 个类型化动作 | ✅ 已有 |
 | 自更新 | `easycirq update`（sha256 + 原子替换）| ✅ 已有 |
