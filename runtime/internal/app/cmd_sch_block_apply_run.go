@@ -868,7 +868,12 @@ func runBlockApply(cfg *appConfig, window, blockID string, in bapInput, partsPat
 	//      证据,不需要第二次;这就是「落块前用实测 bbox 判断」在"没落地就没实测"
 	//      这个死结下唯一诚实的解法 —— 用上一轮的实测。
 	//   ② 同一个失败签名连续 maxAttempts 次 → 停,并复述那句可执行的下一步。
-	ckey := schConvergeKey{Op: "block-apply", Page: pageUUID, Target: b.ID}
+	// 页面指纹：页面内容一变，上一轮那条「放不下」的测量就作废（卡点 #25）。
+	// 只数图元数量就够分辨「页面被清空」这类变化；同数量不同内容极罕见，
+	// 真遇上最多多试一次，不会误放行。
+	pageState := fmt.Sprintf("%d", len(in.Obstacles))
+	ckey := schConvergeKey{Op: "block-apply", Page: pageUUID, Target: b.ID,
+		PageState: pageState}
 	// 台账文件键用 ident.Project(--project 优先,否则信封里的工程名),不能是裸
 	// cfg.project:`--window` 路由时后者是空串,workflow.SanitizeKey("") 落到
 	// `_active.json`,所有匿名工程的失败签名混在一个桶里 —— 甲工程连撞三次会去拦

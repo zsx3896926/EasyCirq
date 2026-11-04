@@ -72,14 +72,29 @@ type schConvergeKey struct {
 	Page string
 	// Target 是被折腾的对象:块 id / 组 id / 区名。空字符串合法(整页级操作)。
 	Target string
+	// PageState 是**页面内容的指纹**(图元数量 + 排序后的 id 摘要)。
+	//
+	// 卡点 #25（板1b 实测）：台账把"这块在**这页**放不下，实测 545×716"记下来，
+	// 之后每次 block-apply 都直接停手 —— 注释里说"测量是证据，不需要第二次"。
+	// 但**证据会过期**：我把这一页清空之后，它仍然拿那条旧测量拦我，
+	// 而同一时刻 `--dry-run`（不走台账）却能当场规划成功。
+	//
+	// 所以把页面指纹并进 key：页面内容一变，就是**新问题**，旧测量自然作废。
+	// 这比"按时间过期"更准 —— 它认的是"状态变了"，不是"过了多久"。
+	PageState string
 }
 
 func (k schConvergeKey) id() string {
-	return strings.Join([]string{
+	parts := []string{
 		strings.TrimSpace(k.Op),
 		strings.TrimSpace(k.Page),
 		strings.TrimSpace(k.Target),
-	}, "|")
+	}
+	// 只在有指纹时才拼上去：老台账没有这一维，空串保持向后兼容。
+	if st := strings.TrimSpace(k.PageState); st != "" {
+		parts = append(parts, st)
+	}
+	return strings.Join(parts, "|")
 }
 
 // String 给报错用的人类可读形式。
