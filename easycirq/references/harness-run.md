@@ -126,7 +126,7 @@ daemon 级强制留到有真实任务数据之后再谈。
 
 | 没做 | 为什么 |
 |---|---|
-| **真实模型端到端跑** | 本机没有 API key。**NOT RUN**——编排用假模型验过，真实模型未验 |
+| **真实模型端到端跑** | 本机没有 API key。**NOT RUN**——见第十节，协议层已验，模型行为未验 |
 | 上下文压缩 / 子代理 | 先量出真实任务的上下文峰值再谈 |
 | daemon 级白名单 | 见第六节 |
 | 多轮并发 / 断点续跑 | 一轮都没在真实任务上跑通，谈不上 |
@@ -139,3 +139,34 @@ daemon 级强制留到有真实任务数据之后再谈。
 
 **不能**：模型会不会把板子画对。那是能力问题，不是流程问题——
 流程保证的是**没画对的时候不会声称画对了**。
+
+
+---
+
+## 十、验证到了哪一步（分三层说清）
+
+| 层 | 怎么验的 | 结果 |
+|---|---|---|
+| **编排逻辑**（白名单/门/推进） | `--fake` 剧本 | ✅ 11 条测试 |
+| **协议层**（HTTP + tools + 结果回灌） | 本地起一个 OpenAI 兼容服务端 | ✅ 见下 |
+| **真实模型行为** | 需要真 key | **NOT RUN** |
+
+协议层实测（真监听端口、真收 POST）：
+
+```
+PORT=52075
+  [cli] REFUSED 'sch place --x 1'（相位 S0 不许）
+  [advance] OK advanced S0 → S1
+
+服务端收到的请求：
+  {"path": "/v1/chat/completions", "model": "mock-model", "tools": 5, "messages": 2,  "auth": "Bearer sk-te…"}
+  {"path": "/v1/chat/completions", "model": "mock-model", "tools": 5, "messages": 4,  "auth": "Bearer sk-te…"}
+  {"path": "/v1/chat/completions", "model": "mock-model", "tools": 5, "messages": 6,  "auth": "Bearer sk-te…"}
+  {"path": "/v1/chat/completions", "model": "mock-model", "tools": 5, "messages": 8,  "auth": "Bearer sk-te…"}
+```
+
+`messages` 从 2 递增到 8，说明**工具结果真的回灌进了对话**——
+这是"模型看得到自己刚才做了什么"的证据。
+
+**所以未验的只剩一件事**：真模型会不会按提示走。那不是流程问题，
+是模型能力问题；流程保证的是**它走不动的时候会被拦住**。
