@@ -1,0 +1,206 @@
+[
+  {
+    "designator": "C1",
+    "lcsc": "C31847"
+  },
+  {
+    "designator": "C2",
+    "lcsc": "C31847"
+  },
+  {
+    "designator": "C3",
+    "lcsc": "C31847"
+  },
+  {
+    "designator": "C4",
+    "lcsc": "C31847"
+  },
+  {
+    "designator": "C5",
+    "lcsc": "C31847"
+  },
+  {
+    "designator": "C6",
+    "lcsc": "C9900012828"
+  },
+  {
+    "designator": "C7",
+    "lcsc": "C9900012828"
+  },
+  {
+    "designator": "C8",
+    "lcsc": "C9900012828"
+  },
+  {
+    "designator": "C9",
+    "lcsc": "C9900012828"
+  },
+  {
+    "designator": "CAD1",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CAD2",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CB1",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CD1",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CD2",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CRST",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CSEQ1",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "CSEQ2",
+    "lcsc": "C9900013340"
+  },
+  {
+    "designator": "D1",
+    "lcsc": "C9900013124"
+  },
+  {
+    "designator": "D2",
+    "lcsc": "C9900013124"
+  },
+  {
+    "designator": "D3",
+    "lcsc": "C9900013124"
+  },
+  {
+    "designator": "D4",
+    "lcsc": "C9900013124"
+  },
+  {
+    "designator": "D_TVS1",
+    "lcsc": "C330065"
+  },
+  {
+    "designator": "F1",
+    "lcsc": "C9900021141"
+  },
+  {
+    "designator": "J1",
+    "lcsc": "C9900026759"
+  },
+  {
+    "designator": "L1",
+    "lcsc": "C9900025245"
+  },
+  {
+    "designator": "L2",
+    "lcsc": "C9900025245"
+  },
+  {
+    "designator": "Q_REV",
+    "lcsc": "C9900002167"
+  },
+  {
+    "designator": "RAD1",
+    "lcsc": "C380762"
+  },
+  {
+    "designator": "RAD2",
+    "lcsc": "C325643"
+  },
+  {
+    "designator": "RAD3",
+    "lcsc": "C380762"
+  },
+  {
+    "designator": "RAD4",
+    "lcsc": "C269710"
+  },
+  {
+    "designator": "RCC1",
+    "lcsc": "C269696"
+  },
+  {
+    "designator": "RCC2",
+    "lcsc": "C269696"
+  },
+  {
+    "designator": "RFB1",
+    "lcsc": "C380762"
+  },
+  {
+    "designator": "RFB2",
+    "lcsc": "C269710"
+  },
+  {
+    "designator": "RFB3",
+    "lcsc": "C380762"
+  },
+  {
+    "designator": "RFB4",
+    "lcsc": "C269697"
+  },
+  {
+    "designator": "RL1",
+    "lcsc": "C705897"
+  },
+  {
+    "designator": "RL2",
+    "lcsc": "C705897"
+  },
+  {
+    "designator": "RL3",
+    "lcsc": "C705897"
+  },
+  {
+    "designator": "RL4",
+    "lcsc": "C705897"
+  },
+  {
+    "designator": "RRST",
+    "lcsc": "C380762"
+  },
+  {
+    "designator": "RSEQ1",
+    "lcsc": "C2904537"
+  },
+  {
+    "designator": "RSEQ2",
+    "lcsc": "C2904537"
+  },
+  {
+    "designator": "RV1",
+    "lcsc": "C25804"
+  },
+  {
+    "designator": "R_IN1",
+    "lcsc": "C25804"
+  },
+  {
+    "designator": "U1",
+    "lcsc": "C52948524"
+  },
+  {
+    "designator": "U2",
+    "lcsc": "C52948524"
+  },
+  {
+    "designator": "U3",
+    "lcsc": "C5125087"
+  },
+  {
+    "designator": "U4",
+    "lcsc": "C7432020"
+  },
+  {
+    "designator": "U5",
+    "lcsc": "C23922"
+  }
+]
