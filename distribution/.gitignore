@@ -1,0 +1,3 @@
+# 构建缓存：23 MB 的嵌入式 Python，不入库
+# 需要时跑 python distribution/fetch_python.py
+.cache/

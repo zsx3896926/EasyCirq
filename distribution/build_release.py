@@ -375,9 +375,31 @@ def write_third_party_notices(out: Path, cfg, connector, runtime):
 # --------------------------------------------------------------------------- #
 # unified toolchain bundle
 # --------------------------------------------------------------------------- #
+
+def default_python_dir(cfg):
+    """Where an extracted embeddable Python is looked for when --python-dir is absent."""
+    cache = (cfg.get('python') or {}).get('cacheDir')
+    if not cache:
+        return None
+    d = ROOT / cache
+    return d if d.is_dir() else None
+
+
+def _python_version(exe):
+    """Run the interpreter; return its version string or '' if it does not work."""
+    try:
+        out = subprocess.run([str(exe), '-c',
+                              'import sys;print("%d.%d.%d" % sys.version_info[:3])'],
+                             capture_output=True, text=True, timeout=60)
+        return (out.stdout or '').strip() if out.returncode == 0 else ''
+    except Exception:                                   # noqa: BLE001
+        return ''
+
+
 def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtime_exe=None,
                     skip_runtime_build=False, connector_mode='auto', connector_eext=None,
-                    skill_dir=None, go_hint=None) -> dict:
+                    skill_dir=None, go_hint=None, python_dir=None,
+                    allow_missing_python=False) -> dict:
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if version is not None and str(version).lower() == 'auto':
@@ -436,6 +458,44 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             % (eext_name, connector['uuid'], connector['version']),
             encoding='utf-8', newline='\n')
 
+        # ── 自带 Python ────────────────────────────────────────────────
+        #
+        # 交付要求是「客户不用装 Python」。装完之后核心功能全废、而安装器还说
+        # 「装好了」，是这套东西里最难解释的失败——所以缺了就报错，不静默跳过。
+        py_cfg = (cfg.get('python') or {})
+        py_target = payload / 'python'
+        py_version = None
+        if python_dir is None:
+            python_dir = default_python_dir(cfg)
+        if python_dir and Path(python_dir).is_dir():
+            src = Path(python_dir)
+            shutil.copytree(src, py_target,
+                            ignore=shutil.ignore_patterns(
+                                '__pycache__', '*.pyc', '*.pyo', 'test', 'tests'))
+            exe = py_target / ('python.exe' if os.name == 'nt' else 'python3')
+            if not exe.is_file():
+                cand = list(py_target.glob('python*.exe')) or list(py_target.glob('python3*'))
+                if not cand:
+                    raise RuntimeError(
+                        '--python-dir %s does not look like an embeddable Python '
+                        '(no python.exe at its root)' % src)
+                exe = cand[0]
+            py_version = _python_version(exe)
+            if not py_version:
+                raise RuntimeError('bundled python at %s does not run; refusing to ship it' % exe)
+            n_files = sum(1 for _ in py_target.rglob('*') if _.is_file())
+            print('bundled python %s: %d files' % (py_version, n_files))
+        elif allow_missing_python:
+            print('warning: shipping WITHOUT a bundled Python (--allow-missing-python); '
+                  'customers will need Python 3.10+ on PATH', file=sys.stderr)
+        else:
+            raise RuntimeError(
+                'no embeddable Python to bundle. Pass --python-dir <dir> (an extracted '
+                'python-3.13.0-embed-amd64.zip), or drop it in %s, or pass '
+                '--allow-missing-python to ship without one (customers then need Python '
+                'on PATH)' % (Path(cfg['python']['cacheDir'])
+                              if cfg.get('python', {}).get('cacheDir') else 'a cache dir'))
+
         skill = collect_skill(cfg, skill_dir)
         skill_payload = payload / 'skill' / 'easycirq'
         shutil.copytree(Path(skill['dir']), skill_payload,
@@ -492,6 +552,12 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
                 },
                 'skill': {
                     'name': skill['name'], 'version': skill['version'],
+                    **({'version': py_version,
+                        'path': 'payload/python',
+                        'installPath': 'python',
+                        'note': 'bundled embeddable CPython; the runtime prefers it over '
+                                'anything on PATH so customers need not install Python'}
+                       if py_version else {'bundled': False}),
                     'path': 'payload/skill/easycirq',
                     'installPath': 'skill/easycirq',
                     'fileCount': len(skill['files']),
@@ -713,6 +779,10 @@ if __name__ == '__main__':
     p.add_argument('--go', help='Explicit go executable')
     p.add_argument('--connector-build', choices=['auto', 'always', 'never'], default='auto')
     p.add_argument('--connector-eext', type=Path, help='Reuse this .eext instead of building')
+    p.add_argument('--python-dir', type=Path,
+                   help='Extracted embeddable Python (payload/python). Defaults to the configured cacheDir.')
+    p.add_argument('--allow-missing-python', action='store_true',
+                   help='Ship without a bundled Python (customers then need Python 3.10+ on PATH)')
     p.add_argument('--skill-dir', type=Path)
     a = p.parse_args()
     kwargs = {}
@@ -726,6 +796,8 @@ if __name__ == '__main__':
                                skip_runtime_build=a.skip_runtime_build,
                                connector_mode=a.connector_build,
                                connector_eext=a.connector_eext,
+                               python_dir=a.python_dir,
+                               allow_missing_python=a.allow_missing_python,
                                skill_dir=a.skill_dir, **kwargs),
                          ensure_ascii=False, indent=2))
     except (RuntimeError, OSError, ValueError) as exc:

@@ -13,8 +13,21 @@ package app
 //
 // on every Windows machine, with the BOM silently left without C-numbers.
 //
-// So the interpreter is resolved once, here: $EASYCIRQ_PYTHON, then
-// python3 → python → py -3. On Windows every candidate is probed by actually
+// So the interpreter is resolved once, here, in this order:
+//
+//	0. $EASYCIRQ_PYTHON        — explicit override, hard error if unusable
+//	1. the BUNDLED interpreter — <install>/python/python.exe, shipped with the toolchain
+//	2. python3 → python → py -3 on PATH
+//
+// The bundled one is first because the delivery requirement is that a customer does
+// not have to install Python at all: a managed corporate desktop usually does not
+// have it, and installing it is an IT ticket per machine. It is also the only way
+// the interpreter version is the one we tested. $EASYCIRQ_PYTHON still wins over it,
+// and $EASYCIRQ_NO_BUNDLED_PYTHON=1 forces the PATH ladder, which is what the tests
+// use to keep the pre-bundling behaviour covered.
+//
+// When no interpreter is found the message now names the bundled location too, so a
+// broken install says "the bundled python is missing" instead of "install Python". On Windows every candidate is probed by actually
 // running it, so the Store stub fails and the ladder falls through. On
 // macOS/Linux a python3 found on PATH is used as before with no probe —
 // behaviour there is unchanged — and only the new fallbacks are probed,
@@ -25,6 +38,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 )
@@ -34,6 +48,11 @@ import (
 // FREEROUTING_CMD elsewhere in this package: set-but-unusable is a hard error,
 // never a silent fall-through to some other interpreter.
 const envPython = "EASYCIRQ_PYTHON"
+
+// envNoBundled forces the PATH ladder even when a bundled interpreter exists.
+// Tests use it to keep the pre-bundling behaviour covered; it is also the escape
+// hatch if a customer's own Python must be used without setting envPython.
+const envNoBundled = "EASYCIRQ_NO_BUNDLED_PYTHON"
 
 // pythonCandidate is one interpreter to try: an executable name resolved
 // through PATH plus any leading args (the `py` launcher needs -3).
@@ -59,6 +78,11 @@ type pythonResolver struct {
 	getenv   func(key string) string
 	lookPath func(file string) (string, error)
 	probe    func(path string, args ...string) error
+	// exePath and exists locate the bundled interpreter next to this binary.
+	// Both are injectable so the bundled branch is testable on a machine that
+	// has no install layout.
+	exePath func() (string, error)
+	exists  func(path string) bool
 }
 
 func defaultPythonResolver() pythonResolver {
@@ -69,7 +93,59 @@ func defaultPythonResolver() pythonResolver {
 		probe: func(path string, args ...string) error {
 			return exec.Command(path, append(append([]string{}, args...), "-c", pythonProbeArg)...).Run()
 		},
+		exePath: os.Executable,
+		exists: func(path string) bool {
+			st, err := os.Stat(path)
+			return err == nil && !st.IsDir()
+		},
 	}
+}
+
+// bundledPythonCandidates lists where a shipped interpreter may live, most
+// specific first. The install layout is <dir>/bin/easycirq.exe beside
+// <dir>/python/, but a flat layout (python next to the exe) is also accepted.
+func bundledPythonCandidates(goos, exe string) []string {
+	dir := filepath.Dir(exe)
+	if goos == "windows" {
+		return []string{
+			filepath.Join(dir, "..", "python", "python.exe"),
+			filepath.Join(dir, "python", "python.exe"),
+		}
+	}
+	return []string{
+		filepath.Join(dir, "..", "python", "bin", "python3"),
+		filepath.Join(dir, "python", "bin", "python3"),
+		filepath.Join(dir, "..", "python", "bin", "python3.13"),
+	}
+}
+
+// resolveBundled returns the bundled interpreter if one exists and runs.
+func (r pythonResolver) resolveBundled() (string, bool) {
+	if r.getenv != nil {
+		v := strings.TrimSpace(r.getenv(envNoBundled))
+		if v != "" && v != "0" && !strings.EqualFold(v, "false") {
+			return "", false
+		}
+	}
+	if r.exePath == nil || r.exists == nil {
+		return "", false
+	}
+	exe, err := r.exePath()
+	if err != nil || exe == "" {
+		return "", false
+	}
+	for _, cand := range bundledPythonCandidates(r.goos, exe) {
+		if !r.exists(cand) {
+			continue
+		}
+		if r.probe != nil {
+			if err := r.probe(cand); err != nil {
+				continue
+			}
+		}
+		return cand, true
+	}
+	return "", false
 }
 
 // needsProbe reports whether a candidate found on PATH must also be executed
@@ -92,6 +168,10 @@ func (r pythonResolver) resolve() (string, []string, error) {
 		}
 	}
 
+	if path, ok := r.resolveBundled(); ok {
+		return path, nil, nil
+	}
+
 	tried := make([]string, 0, len(pythonCandidates))
 	for _, c := range pythonCandidates {
 		tried = append(tried, strings.Join(append([]string{c.name}, c.args...), " "))
@@ -106,7 +186,9 @@ func (r pythonResolver) resolve() (string, []string, error) {
 		}
 		return path, c.args, nil
 	}
-	msg := fmt.Sprintf("python 3 interpreter not found (tried: %s); install Python 3 and put it on PATH, or set %s",
+	msg := fmt.Sprintf("no Python 3 interpreter found (tried the bundled python, then: %s); "+
+		"the toolchain ships one under <install>/python — if that directory is missing the install is "+
+		"incomplete, otherwise install Python 3 and put it on PATH, or set %s",
 		strings.Join(tried, ", "), envPython)
 	if r.goos == "windows" {
 		msg += " — the Microsoft Store python3.exe stub does not count"

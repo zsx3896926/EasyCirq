@@ -69,7 +69,7 @@ func TestResolvePython(t *testing.T) {
 			goos:       "linux",
 			onPath:     map[string]string{"python": "/usr/bin/python"},
 			working:    map[string]bool{},
-			wantErr:    "tried: python3, python, py -3",
+			wantErr:    "then: python3, python, py -3",
 			wantProbed: []string{"/usr/bin/python"},
 		},
 		{
