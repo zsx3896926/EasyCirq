@@ -10,6 +10,8 @@ import pathlib
 import subprocess
 import sys
 
+import pytest
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 LAYOUT = ROOT / "easycirq" / "scripts" / "layout"
 PYX = LAYOUT / "_astar_c.pyx"
