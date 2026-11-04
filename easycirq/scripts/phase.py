@@ -365,12 +365,69 @@ def run_gate(project, phase, fingerprint):
 
 
 # ── CLI ─────────────────────────────────────────────────────────────────
+def build_hints(d, fp, states):
+    """每个相位一句话：现在什么状态、缺什么、怎么补。
+
+    只描述已知的事实（有没有门、跑没跑、指纹一致不一致），
+    不预测"补完就能过" —— 那要跑了才知道。
+    """
+    ev = d.get("evidence") or {}
+    out = {}
+    for ph in PHASES:
+        st = states.get(ph)
+        hint = {"state": st}
+        gate = GATES.get(ph)
+        if gate:
+            hint["gate"] = gate["cmd"]
+            hint["what"] = gate["why"]
+        if st == "pass":
+            hint["next"] = "已通过，可以推进到下一相位。"
+        elif st == "fail":
+            hint["next"] = "跑了但没通过。看 detail 里失败的 stage，改完再跑一次。"
+            hint["howToFix"] = "easycirq phase run %s" % ph
+        elif st == "blocked":
+            hint["next"] = ("检查器没跑成（通常是 EDA 没连上或页面没打开）。"
+                            "这不等于通过。 先修好环境再重跑。")
+            hint["howToFix"] = ("easycirq doctor  # 先确认连接器与 daemon\n"
+                                "easycirq phase run %s" % ph)
+        elif st == "pending":
+            hint["next"] = ("这个相位有门，但还没跑过。"
+                            "NOT RUN 不算通过，所以现在推进不去。")
+            hint["howToFix"] = "easycirq phase run %s" % ph
+        elif st == "stale":
+            hint["next"] = "板子改过了，之前的证据已失效。重新跑一次门。"
+            hint["howToFix"] = "easycirq phase run %s" % ph
+        elif st == "unenforced" and ph == "DELIVER":
+            # DELIVER 没有"门"，但它有前置条件。说成"没有门"会误导。
+            hint["next"] = ("交付不是一道门，是四条前置同时成立："
+                            "S5 通过、板上有真实器件、没有悬空引脚、"
+                            "交付卡不是未测。任何一条不满足都会被拦下。")
+            hint["howToFix"] = ("easycirq phase run S5\n"
+                                "easycirq card          # 看交付卡还差什么")
+        elif st == "unenforced":
+            hint["next"] = ("这个相位还没有门：不阻塞推进，但也不等于通过。"
+                            "它的质量目前靠下一道门兜。")
+        else:
+            hint["next"] = "状态未知。"
+        # 上次跑的结论片段：让人不用再跑一次命令就能看到原因
+        stored = ev.get(ph) or {}
+        if isinstance(stored, dict):
+            if stored.get("verdict"):
+                hint["lastVerdict"] = stored["verdict"]
+            detail = stored.get("detail")
+            if detail:
+                hint["lastDetail"] = str(detail)[:400]
+        out[ph] = hint
+    return out
+
+
 def cmd_show(project, d, fp, as_json):
     states = {ph: evidence_state(d, ph, fp) for ph in PHASES}
     if as_json:
         print(json.dumps({"schema": SCHEMA, "project": project,
                           "phase": d.get("phase"), "fingerprint": fp,
                           "evidence": states,
+                          "hints": build_hints(d, fp, states),
                           "stored": d.get("evidence") or {}},
                          ensure_ascii=False, indent=2))
         return 0
