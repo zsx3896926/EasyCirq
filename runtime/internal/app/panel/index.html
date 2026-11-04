@@ -115,9 +115,23 @@ h1{font-size:20px;font-weight:600;margin:0}
   border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;margin-top:6px}
 .copy:hover{border-color:var(--primary);color:var(--primary)}
 footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;flex-wrap:wrap}
+  /* 跳转链接：键盘用户第一个 Tab 就能跳过头部直达内容 */
+  .skip{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:50}
+  .skip:focus{left:8px}
+  .offline{border-color:var(--bad)}
+  /* 命令面板（Ctrl+K） */
+  .palette{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:40}
+  .palette[hidden]{display:none}
+  .palette .box{background:var(--bg);border:1px solid var(--line);border-radius:10px;width:min(560px,92vw);padding:12px}
+  .palette input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+  .palette ul{list-style:none;margin:10px 0 0;padding:0;max-height:46vh;overflow:auto}
+  .palette li{padding:9px 12px;border-radius:8px;cursor:pointer}
+  .palette li[aria-selected="true"]{background:var(--idle);outline:2px solid var(--fg)}
+  .palette .hint{margin-top:8px;opacity:.7;font-size:12px}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">跳到主要内容</a>
 <div class="wrap">
 
   <header>
@@ -150,10 +164,11 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
     </div>
   </div>
 
+  <main id="main">
   <!-- ① 概览：三秒可判 -->
   <div class="card">
     <h2>这块板能不能下单</h2>
-    <div id="verdict" class="verdict none">正在读取…</div>
+    <div id="verdict" class="verdict none" role="status" aria-live="polite">正在读取…</div>
     <p class="next" id="next"></p>
     <div class="metrics" id="metrics"></div>
   </div>
@@ -169,6 +184,25 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
       <span><i class="dot" style="background:var(--idle)"></i>门还没跑</span>
       <span><i class="dot" style="background:var(--stale)"></i>板子改过，证据失效</span>
       <span><i class="dot" style="background:var(--none)"></i>该相位还没接门</span>
+    </div>
+  </div>
+
+  </main>
+
+  <!-- 离线状态：接口读不到时不留白屏，说清发生了什么 / 为什么 / 下一步 -->
+  <div id="offline" class="card offline" hidden role="alert">
+    <h2>连不上本地面板服务</h2>
+    <p class="next">页面还在，但它取不到数据了 —— 通常是因为启动面板的那个终端被关掉或按了 Ctrl+C。</p>
+    <p class="next">下一步：回到终端重新跑 <code>easycirq panel</code>，或用下面的按钮再试一次。</p>
+    <button class="act" id="retryOffline">再试一次</button>
+  </div>
+
+  <!-- Ctrl+K 命令面板：键盘可完整操作（↑↓ 选择 / Enter 执行 / Esc 关闭） -->
+  <div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="命令面板">
+    <div class="box">
+      <input id="paletteInput" type="text" placeholder="输入命令，或用 ↑↓ 选择后回车" aria-label="搜索命令" autocomplete="off">
+      <ul id="paletteList" role="listbox" aria-label="命令列表"></ul>
+      <div class="hint">↑↓ 选择 · Enter 执行 · Esc 关闭</div>
     </div>
   </div>
 
@@ -382,8 +416,12 @@ function render(snap){
 async function tick(){
   try{
     const r = await fetch("/api/snapshot", {cache:"no-store"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
     render(await r.json());
+    setOffline(false);
   }catch(e){
+    // 取不到数据 = 面板服务没了。设计过的离线态 + 下一步，而不是白屏或一行红字。
+    setOffline(true);
     renderErrors({snapshot: String(e)});
   }
 }
@@ -434,6 +472,103 @@ document.getElementById("copyAct").addEventListener("click", async () => {
   }catch(e){
     btn.textContent = "剪贴板不可用，请手抄";
   }
+});
+
+// ── 离线状态（P4）：接口读不到时不留白屏 ─────────────────────────────────
+let OFFLINE = false;
+function setOffline(on){
+  if (OFFLINE === on) return;
+  OFFLINE = on;
+  document.getElementById("offline").hidden = !on;
+  // 离线时把主区域藏起来，避免旧数据继续冒充"当前状态"
+  document.getElementById("main").style.display = on ? "none" : "";
+}
+document.getElementById("retryOffline").addEventListener("click", () => { tick(); });
+
+// ── Ctrl+K 命令面板（P4）：键盘可完整操作，不依赖鼠标 ─────────────────────
+const PALETTE_ITEMS = [
+  {id:"gate",           label:"跑门（layout-lint → check → bridge-check → drc）", run:() => runCommand("gate")},
+  {id:"phase-advance",  label:"推进相位",                                        run:() => runCommand("phase-advance")},
+  {id:"phase-run-s5",   label:"记录 S5 结果",                                    run:() => runCommand("phase-run-s5")},
+  {id:"card",           label:"看交付卡",                                        run:() => runCommand("card")},
+  {id:"refresh",        label:"刷新页面数据",                                     run:() => tick()},
+];
+let paletteOpen = false, paletteIdx = 0, paletteFiltered = PALETTE_ITEMS.slice();
+
+function renderPalette(){
+  const ul = document.getElementById("paletteList");
+  ul.textContent = "";
+  if (paletteFiltered.length === 0){
+    const li = el("li", null, "没有匹配的命令");
+    li.setAttribute("aria-disabled", "true");
+    ul.appendChild(li);
+    return;
+  }
+  paletteFiltered.forEach((it, i) => {
+    const li = el("li", null, it.label);
+    li.setAttribute("role", "option");
+    li.setAttribute("aria-selected", i === paletteIdx ? "true" : "false");
+    li.addEventListener("click", () => { choosePalette(i); });
+    ul.appendChild(li);
+  });
+}
+
+function filterPalette(q){
+  const needle = (q || "").trim().toLowerCase();
+  paletteFiltered = needle
+    ? PALETTE_ITEMS.filter(it => it.label.toLowerCase().includes(needle) || it.id.includes(needle))
+    : PALETTE_ITEMS.slice();
+  paletteIdx = 0;
+  renderPalette();
+}
+
+function openPalette(){
+  paletteOpen = true;
+  const box = document.getElementById("palette");
+  box.hidden = false;
+  const input = document.getElementById("paletteInput");
+  input.value = "";
+  filterPalette("");
+  input.focus();
+}
+
+function closePalette(){
+  paletteOpen = false;
+  document.getElementById("palette").hidden = true;
+}
+
+function choosePalette(i){
+  const it = paletteFiltered[i];
+  if (!it) return;
+  closePalette();
+  it.run();
+}
+
+document.getElementById("paletteInput").addEventListener("input", e => filterPalette(e.target.value));
+document.getElementById("palette").addEventListener("click", e => {
+  if (e.target.id === "palette") closePalette();
+});
+
+document.addEventListener("keydown", e => {
+  // Ctrl+K / Cmd+K 打开（浏览器默认的搜索栏在 localhost 页面上用不到）
+  if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")){
+    e.preventDefault();
+    paletteOpen ? closePalette() : openPalette();
+    return;
+  }
+  if (!paletteOpen) return;
+  if (e.key === "Escape"){ e.preventDefault(); closePalette(); return; }
+  if (e.key === "ArrowDown"){
+    e.preventDefault();
+    if (paletteFiltered.length){ paletteIdx = (paletteIdx + 1) % paletteFiltered.length; renderPalette(); }
+    return;
+  }
+  if (e.key === "ArrowUp"){
+    e.preventDefault();
+    if (paletteFiltered.length){ paletteIdx = (paletteIdx - 1 + paletteFiltered.length) % paletteFiltered.length; renderPalette(); }
+    return;
+  }
+  if (e.key === "Enter"){ e.preventDefault(); choosePalette(paletteIdx); }
 });
 
 tick();

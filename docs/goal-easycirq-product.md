@@ -292,12 +292,27 @@
 
 **故意不放进白名单**：任何删除/清空类命令。面板是给人看进度的，不该成为一把能毁掉画布的按钮。
 
-### 还没做的（P2、P4、P5）
+### P4 产品化 —— **部分完成**（2026-11-05，`1.4.21`）
+
+| 交付项 | 状态 | 证据 |
+|---|---|---|
+| `Ctrl+K` 命令面板，**键盘可走完** | ✅ | `test_ctrl_k_palette_is_keyboard_operable`：Ctrl/Cmd+K 打开、`↑↓` 选择、`Enter` 执行、`Esc` 关闭，四件事都处理；`aria-modal` + `listbox`/`option` 语义齐全 |
+| 离线状态**有设计**（不留白屏）| ✅ | `test_offline_state_is_designed_not_a_blank_page`：`role="alert"`，并答齐**发生了什么 / 为什么 / 下一步**（含"再试一次"按钮）；`tick` 失败真的进离线态 |
+| 键盘可达 + 结论可播报 | ✅ | `test_keyboard_can_reach_content_and_verdict_is_announced`：跳转链接 `#main`、判词区 `aria-live="polite"` |
+| 零外部资源（干净安装无构建步骤、零外连）| ✅ | `test_no_external_resources_at_all`：页面里**没有任何** `http(s)://` 的 src/href，也没有 CDN |
+| 首次运行引导 | ❌ 未做 | |
+| 历史与产物 | ❌ 未做 | |
+| 深/浅色 | ⚠️ 已实现，**未经人眼走查** | |
+| axe **0 critical** | **NOT RUN** | 需要 axe-core，本地面板不引外部依赖，CI 里也没有 |
+
+**P4 只做完了能机械化验证的那几项。** 引导与历史仍然缺。
+
+### 还没做的（P2、P4 剩余、P5）
 
 | 项 | 期 |
 |---|---|
 | Agent 工作面（对话流、拒绝高亮、停止/续跑） | P2 |
-| 首次运行引导、`Ctrl+K`、无障碍走查、历史与产物 | P4 |
+| 首次运行引导、历史与产物 | P4 剩余 |
 | 签名包、离线包、自更新面板、兼容矩阵 | P5 |
 
 **未验**：真人 30 分钟首次价值（**NOT RUN**，需要真人，不接受自评）；
