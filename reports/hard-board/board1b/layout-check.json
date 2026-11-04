@@ -1,0 +1,152 @@
+{
+  "status": "incomplete",
+  "informational_findings": [],
+  "blocking_findings": [],
+  "counts": {
+    "components": 14,
+    "texts": 0,
+    "wires": 0
+  },
+  "declared_inventory_matches": true,
+  "coverage_status": "incomplete",
+  "coverage": {
+    "components": {
+      "status": "complete",
+      "observed": 14
+    },
+    "texts": {
+      "status": "partial",
+      "observed": 0,
+      "estimated": 0,
+      "rendered": 0
+    },
+    "wires": {
+      "status": "absent",
+      "observed": 0,
+      "unparsed": 0
+    },
+    "attachment_points": {
+      "status": "complete",
+      "observed": 54,
+      "measured_pins": 38,
+      "total_pins": 38
+    },
+    "label_anchors": {
+      "status": "complete",
+      "observed": 0
+    },
+    "module_frames": {
+      "status": "absent",
+      "observed": 0,
+      "rectangles": 0
+    }
+  },
+  "optional_counts": {
+    "module_frames": 0,
+    "attachment_points": 54,
+    "label_anchors": 0,
+    "net_flags": 16,
+    "title_block_owned": 0
+  },
+  "net_flag_census": {
+    "VBAT": {
+      "270": [
+        "68afa0eb54cbaffe"
+      ],
+      "90": [
+        "9227901393e2dc5c"
+      ]
+    },
+    "VSYS": {
+      "270": [
+        "55bfdc12fd2c7c71",
+        "f1c924c54a45bb26",
+        "65fe16a71760d37a"
+      ]
+    },
+    "+3V3": {
+      "270": [
+        "816b6ac36ccfed0c"
+      ],
+      "90": [
+        "c3c1c1ff74a7d688",
+        "4e201830c4be4fd9",
+        "717db0003ea40281"
+      ],
+      "180": [
+        "2dc40bd84033b0e6"
+      ]
+    },
+    "GND": {
+      "90": [
+        "f833107a7a124a75",
+        "3b247d55e2c4bc70"
+      ],
+      "270": [
+        "32188855b280171b",
+        "6cbe87f0de4f7484"
+      ],
+      "0": [
+        "d358aa3e8d25f2b5"
+      ]
+    },
+    "+3V3_SW": {
+      "0": [
+        "69d91897c6931e94"
+      ]
+    }
+  },
+  "reading_order": null,
+  "text_classes": {},
+  "self_text_contact_tolerance": 1.0,
+  "label_own_wire_edge_tolerance": 1.0,
+  "junction_evidence": null,
+  "no_junction_crossings": 0,
+  "strict_mode": true,
+  "strict_missing": [
+    "title_block",
+    "coverage.texts",
+    "coverage.wires",
+    "coverage.module_frames",
+    "unique complete module membership: 5346ea32846c8ea6",
+    "unique complete module membership: ad4a8d394c708e31",
+    "unique complete module membership: 954da9f0dda140e0",
+    "unique complete module membership: f860a9701dea8402",
+    "unique complete module membership: ee23eee9301280ee",
+    "unique complete module membership: 467d78bac7e0aab2",
+    "unique complete module membership: 81eefe95601e80c3",
+    "unique complete module membership: db203eb1ffcc4835",
+    "unique complete module membership: a3fcd5871fece529",
+    "unique complete module membership: 6542d0afe13ad4f4",
+    "unique complete module membership: dd715bada7c3f355",
+    "unique complete module membership: eb3dd98d2aa0326f",
+    "unique complete module membership: 439386b7d7da67a1",
+    "unique complete module membership: 9394f0edd7183202",
+    "functional module frame(s)"
+  ],
+  "checks_run": [
+    "net_text_identity"
+  ],
+  "checks_skipped": [
+    "title_block: title_block not supplied",
+    "module_frames: module_frames not supplied",
+    "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check",
+    "label_anchors: label_anchors not supplied"
+  ],
+  "findings": [],
+  "electrical_verified": false,
+  "visual_verified": false,
+  "geometry_scope": "Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points. A text owner matching a symbol only reclassifies small edge contact as info; it does not prove the text is legible. title_block_owned only exempts a text from title-block overlap, not from other collision checks.",
+  "not_checked": [
+    "actual EDA connectivity, pins, NC and junctions",
+    "shape-accurate outlines and intentional overlaps",
+    "missing/stale snapshot objects",
+    "module/title margins beyond supplied frames/orders",
+    "decoupling or PCB electrical distance",
+    "same-net collinear semantics and endpoint junction topology",
+    "frame intent/membership beyond supplied contains",
+    "attachment completeness beyond supplied points",
+    "pin-electrical-type conflicts and netlister rules",
+    "text glyph rendering; measured bboxes are evidence, not a visual PASS"
+  ]
+}

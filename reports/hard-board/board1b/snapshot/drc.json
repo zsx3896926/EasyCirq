@@ -1,0 +1,438 @@
+{
+  "id": "req_333",
+  "ok": true,
+  "result": {
+    "passed": true,
+    "nativePassed": true,
+    "strict": false,
+    "fatal": 0,
+    "summary": {
+      "fatal": 0,
+      "error": 0,
+      "warn": 11,
+      "info": 0,
+      "unknown": 0,
+      "total": 11
+    },
+    "violations": [
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N84",
+              "primitiveId": "a1c93a5bbde69286",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N69",
+              "primitiveId": "3d17f51601e44545",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N86",
+              "primitiveId": "e728d1f02db1b6b9",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$2N68",
+              "primitiveId": "c8f03bad13ec49c7",
+              "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$2N69",
+              "primitiveId": "7b666a473726f954",
+              "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N68",
+              "primitiveId": "14741a7b362c6c49",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "SHOWDANDLING",
+        "raw": {
+          "primitives": [
+            {
+              "name": "$1N67",
+              "primitiveId": "129115c575902ba8",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "SHOWDANDLING",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "raw": {
+          "net": "C2_N2、C2_N2",
+          "primitives": [
+            {
+              "name": "$1N77",
+              "primitiveId": "f59becaaeb168485",
+              "sheet": "c4958b937ebb4a9a"
+            }
+          ],
+          "rule": "ONENETNAME",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "raw": {
+          "net": "3V3、3V3",
+          "primitives": [
+            {
+              "name": "$2N57",
+              "primitiveId": "dc81d66744ff0435",
+              "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "ONENETNAME",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "raw": {
+          "primitives": [
+            {
+              "designator": "C1",
+              "name": "2",
+              "primitiveId": "5346ea32846c8ea6-e4",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R1",
+              "name": "2",
+              "primitiveId": "ad4a8d394c708e31-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R1",
+              "name": "1",
+              "primitiveId": "ad4a8d394c708e31-e7",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R2",
+              "name": "2",
+              "primitiveId": "954da9f0dda140e0-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R2",
+              "name": "1",
+              "primitiveId": "954da9f0dda140e0-e7",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R3",
+              "name": "2",
+              "primitiveId": "f860a9701dea8402-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R3",
+              "name": "1",
+              "primitiveId": "f860a9701dea8402-e7",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "R5",
+              "name": "2",
+              "primitiveId": "6542d0afe13ad4f4-e3",
+              "sheet": "c4958b937ebb4a9a"
+            },
+            {
+              "designator": "U2",
+              "name": "25",
+              "primitiveId": "71837c46d7493e6e-e33",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "24",
+              "primitiveId": "71837c46d7493e6e-e37",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "16",
+              "primitiveId": "71837c46d7493e6e-e41",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "26",
+              "primitiveId": "71837c46d7493e6e-e45",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "35",
+              "primitiveId": "71837c46d7493e6e-e49",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "34",
+              "primitiveId": "71837c46d7493e6e-e53",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "33",
+              "primitiveId": "71837c46d7493e6e-e57",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "32",
+              "primitiveId": "71837c46d7493e6e-e61",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "31",
+              "primitiveId": "71837c46d7493e6e-e65",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "30",
+              "primitiveId": "71837c46d7493e6e-e69",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "29",
+              "primitiveId": "71837c46d7493e6e-e73",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "28",
+              "primitiveId": "71837c46d7493e6e-e77",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "23",
+              "primitiveId": "71837c46d7493e6e-e81",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "14",
+              "primitiveId": "71837c46d7493e6e-e85",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "13",
+              "primitiveId": "71837c46d7493e6e-e89",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "11",
+              "primitiveId": "71837c46d7493e6e-e93",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "10",
+              "primitiveId": "71837c46d7493e6e-e97",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "9",
+              "primitiveId": "71837c46d7493e6e-e101",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "8",
+              "primitiveId": "71837c46d7493e6e-e105",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "22",
+              "primitiveId": "71837c46d7493e6e-e109",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "21",
+              "primitiveId": "71837c46d7493e6e-e113",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "20",
+              "primitiveId": "71837c46d7493e6e-e117",
+              "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "CHECKFLOATPIN",
+          "type": "warn"
+        }
+      },
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "raw": {
+          "primitives": [
+            {
+              "designator": "U2",
+              "name": "19",
+              "primitiveId": "71837c46d7493e6e-e121",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "18",
+              "primitiveId": "71837c46d7493e6e-e125",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "17",
+              "primitiveId": "71837c46d7493e6e-e129",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "12",
+              "primitiveId": "71837c46d7493e6e-e133",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "7",
+              "primitiveId": "71837c46d7493e6e-e137",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "6",
+              "primitiveId": "71837c46d7493e6e-e141",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "5",
+              "primitiveId": "71837c46d7493e6e-e145",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "4",
+              "primitiveId": "71837c46d7493e6e-e149",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "15",
+              "primitiveId": "71837c46d7493e6e-e153",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "38",
+              "primitiveId": "71837c46d7493e6e-e157",
+              "sheet": "6430d668a985dae9"
+            },
+            {
+              "designator": "U2",
+              "name": "39",
+              "primitiveId": "71837c46d7493e6e-e161",
+              "sheet": "6430d668a985dae9"
+            }
+          ],
+          "rule": "CHECKFLOATPIN",
+          "type": "warn"
+        }
+      }
+    ],
+    "countsAvailable": true,
+    "detailsAvailable": true
+  },
+  "type": "response",
+  "version": "v1"
+}

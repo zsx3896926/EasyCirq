@@ -1,0 +1,69 @@
+{
+  "schema": "easycirq-sch-drc-check/v1",
+  "tool": "sch_drc_metrics.py",
+  "verdict": "pass",
+  "metrics": {
+    "erc_violations": 0,
+    "erc_fatal": 0,
+    "erc_error": 0,
+    "erc_warn": 11
+  },
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: SHOWDANDLING"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: ONENETNAME"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: ONENETNAME"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: CHECKFLOATPIN"
+    },
+    {
+      "severity": "warning",
+      "code": "drc_warning",
+      "message": "DRC warn: CHECKFLOATPIN"
+    }
+  ],
+  "note": "erc_violations = fatal + error；warn 记录但不计入硬指标"
+}

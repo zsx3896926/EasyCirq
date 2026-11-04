@@ -1,0 +1,16 @@
+{
+  "schema": "easycirq-power-net-check/v1",
+  "status": "pass",
+  "verdict": "pass",
+  "metrics": {
+    "power_net_conflicts": 0
+  },
+  "source": "pin-name",
+  "powerPins": [
+    "U1.8(VBUS)->VSYS"
+  ],
+  "nets": [
+    "VSYS"
+  ],
+  "findings": []
+}

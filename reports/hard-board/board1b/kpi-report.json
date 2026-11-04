@@ -1,0 +1,359 @@
+{
+  "schema": "easycirq-sch-kpi-report/v1",
+  "generatedAt": "2026-11-04T21:33:20Z",
+  "project": "板1b-块级电源板",
+  "page": "P1",
+  "round": 1,
+  "profile": "default",
+  "limits": {
+    "wire_length": 120,
+    "readability": 0.6,
+    "zone_balance": 0.3
+  },
+  "verdict": "BLOCKED",
+  "kpis": [
+    {
+      "no": 1,
+      "id": "unconnected",
+      "title": "未连接/悬空",
+      "kind": "hard",
+      "value": 12.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "fail",
+      "advisory": false,
+      "detail": "connectivity.floating_pins=8; connectivity.single_node_nets=4",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\connectivity-check.json"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "cross_zone",
+      "title": "跨区穿越",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "na",
+      "advisory": false,
+      "detail": "wire: 不适用",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\wire-check.json"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "overlaps",
+      "title": "图面重叠",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "layout.overlaps=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\layout-check.json"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "net_text",
+      "title": "连接转换",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "layout.unowned_visible_text=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\layout-check.json"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "bus",
+      "title": "总线完整性",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "connectivity.bus_members_missing=0; connectivity.diff_pair_mismatch=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\connectivity-check.json"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "wire_length",
+      "title": "线长",
+      "kind": "soft",
+      "value": null,
+      "limit": 120,
+      "direction": "max",
+      "unit": "mm",
+      "status": "na",
+      "advisory": false,
+      "detail": "wire: 不适用; wire: 不适用",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\wire-check.json"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "readability",
+      "title": "可跟读率",
+      "kind": "soft",
+      "value": 0.6154,
+      "limit": 0.6,
+      "direction": "min",
+      "unit": "ratio",
+      "status": "pass",
+      "advisory": true,
+      "detail": "readability.direct_ratio=0.6154",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\readability-check.json"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "zone_balance",
+      "title": "分区均衡",
+      "kind": "soft",
+      "value": null,
+      "limit": 0.3,
+      "direction": "max",
+      "unit": "ratio",
+      "status": "na",
+      "advisory": false,
+      "detail": "wire: 不适用",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\wire-check.json"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "erc",
+      "title": "ERC",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "erc.erc_violations=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\erc-check.json"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "pin_mux",
+      "title": "引脚复用",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "pinplan: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 11,
+      "id": "decoupling",
+      "title": "去耦覆盖",
+      "kind": "hard",
+      "value": 1.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "fail",
+      "advisory": false,
+      "detail": "power.decap_missing=1",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\power-check.json"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "naming",
+      "title": "命名规范",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "connectivity.duplicate_net_names=0; connectivity.auto_net_residue=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\connectivity-check.json"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "bom_map",
+      "title": "料号映射",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "identity: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 14,
+      "id": "netlist_diff",
+      "title": "网表 diff",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "netlist: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 15,
+      "id": "readback",
+      "title": "回读一致",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "readback: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 16,
+      "id": "power_net",
+      "title": "电源网络",
+      "kind": "hard",
+      "value": 0.0,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "pass",
+      "advisory": false,
+      "detail": "power_net.power_net_conflicts=0",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\power-net-check.json"
+      ]
+    },
+    {
+      "no": 17,
+      "id": "pcb_match",
+      "title": "图板一致",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "pcb_match: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 18,
+      "id": "bom_match",
+      "title": "BOM 一致",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "missing",
+      "advisory": false,
+      "detail": "bom_match: 未提供",
+      "evidence": []
+    },
+    {
+      "no": 19,
+      "id": "design_validity",
+      "title": "设计有效性",
+      "kind": "hard",
+      "value": null,
+      "limit": 0,
+      "direction": "max",
+      "unit": "count",
+      "status": "na",
+      "advisory": false,
+      "detail": "design_validity: 不适用",
+      "evidence": [
+        "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board1b\\design-validity-check.json"
+      ]
+    }
+  ],
+  "blockers": [
+    {
+      "kpi": "unconnected",
+      "reason": "未连接/悬空 实测 12 count > 门限 0（INA_ALERT、LED_CTRL、SCL、SDA）"
+    },
+    {
+      "kpi": "pin_mux",
+      "reason": "证据缺失或不可用: pinplan: 未提供"
+    },
+    {
+      "kpi": "decoupling",
+      "reason": "去耦覆盖 实测 1 count > 门限 0"
+    },
+    {
+      "kpi": "bom_map",
+      "reason": "证据缺失或不可用: identity: 未提供"
+    },
+    {
+      "kpi": "netlist_diff",
+      "reason": "证据缺失或不可用: netlist: 未提供"
+    },
+    {
+      "kpi": "readback",
+      "reason": "证据缺失或不可用: readback: 未提供"
+    },
+    {
+      "kpi": "pcb_match",
+      "reason": "证据缺失或不可用: pcb_match: 未提供"
+    },
+    {
+      "kpi": "bom_match",
+      "reason": "证据缺失或不可用: bom_match: 未提供"
+    }
+  ],
+  "advisory": [],
+  "stability": {
+    "rounds_pass": 0,
+    "required_rounds": 2,
+    "regression": false,
+    "new_failures": [],
+    "history_compared": false,
+    "apply_allowed": false,
+    "note": "未过门禁，禁止上机"
+  },
+  "next_command": "修复 blockers 后重跑: python scripts/sch_kpi.py --input <input.json> --history <history.jsonl>",
+  "gate": {
+    "schema": "easycirq-gate/v1",
+    "written": false,
+    "revoked": true,
+    "path": ".easycirq\\gate.json"
+  }
+}
