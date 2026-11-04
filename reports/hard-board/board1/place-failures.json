@@ -1,0 +1,191 @@
+[
+  {
+    "block": "输入",
+    "designator": "RCC1",
+    "query": "5.1k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_203\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:24:58.7935543Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "输入",
+    "designator": "RCC2",
+    "query": "5.1k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_205\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:00.0457505Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "输入",
+    "designator": "Q_REV",
+    "query": "MOSFET P沟道",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_211\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:09.6430655Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck5V",
+    "designator": "C2",
+    "query": "22uF 1206",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_218\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:20.1360048Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck5V",
+    "designator": "C3",
+    "query": "22uF 1206",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_219\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:21.9599866Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck5V",
+    "designator": "RFB1",
+    "query": "10k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_221\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:23.8113395Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck5V",
+    "designator": "RFB2",
+    "query": "3.3k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_223\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:26.8304365Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck5V",
+    "designator": "CB1",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_226\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:29.9828358Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "C5",
+    "query": "22uF 1206",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_230\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:36.4156677Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "RFB3",
+    "query": "10k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_231\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:37.4696505Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "RFB4",
+    "query": "6.8k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_233\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:40.6671753Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "LDO4V0",
+    "designator": "U4",
+    "query": "AMS1117 3.3",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_240\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:51.8474338Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "时序",
+    "designator": "CSEQ1",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_246\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:25:59.4556529Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "时序",
+    "designator": "RSEQ2",
+    "query": "100k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_247\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:01.4438219Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "时序",
+    "designator": "CSEQ2",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_248\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:02.4115527Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "采样",
+    "designator": "RAD1",
+    "query": "10k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_249\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:03.4890065Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "采样",
+    "designator": "RAD2",
+    "query": "2.2k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_252\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:06.8188447Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "采样",
+    "designator": "RAD4",
+    "query": "3.3k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_254\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:09.8845863Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "采样",
+    "designator": "CAD1",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_255\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:10.9554409Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "采样",
+    "designator": "CAD2",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_257\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:13.1329437Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "MCU",
+    "designator": "CD2",
+    "query": "100nF 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_261\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:18.2016479Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "MCU",
+    "designator": "RRST",
+    "query": "10k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_262\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:20.4042162Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "指示",
+    "designator": "D2",
+    "query": "LED 0603 red",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_266\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:26.8557047Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "指示",
+    "designator": "D3",
+    "query": "LED 0603 red",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_267\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:27.838943Z\",\n  \"ok\": false,\n  \"result\": {\n    \"acti"
+  },
+  {
+    "block": "指示",
+    "designator": "D4",
+    "query": "LED 0603 red",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_269\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:29.1031153Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "指示",
+    "designator": "RL2",
+    "query": "1k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_272\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:34.3831498Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  },
+  {
+    "block": "指示",
+    "designator": "RL3",
+    "query": "1k 0603",
+    "reason": "放置失败",
+    "raw": "{\n  \"id\": \"req_273\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"2dc0d2f2-a1d3-4fea-9434-04a05a9293d9\",\n  \"createdAt\": \"2026-11-04T17:26:35.4026476Z\",\n  \"ok\": false,\n  \"result\": {\n    \"act"
+  }
+]

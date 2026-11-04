@@ -33,6 +33,10 @@ reports/*
 # 没有它们，check_against_official 与 customer-findings 的用例在全新 checkout
 # 里永远跑不了 —— 而它们本来就该在 CI 里跑。
 !reports/eda-api-classes.txt
+# 硬板驱动的记录（friction / phases / decisions / ladder）**必须入库**：
+# 它们是"用真板子压产品"的产出，方法的核心交付物。漏了这条，整套记录就
+# 只活在本地、一换机器就没了 —— 本轮实测就踩了这个坑。
+!reports/hard-board/
 !reports/customer-docs/
 !reports/README.md
 !reports/s5-verify/

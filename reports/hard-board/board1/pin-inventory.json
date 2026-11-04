@@ -1,0 +1,1535 @@
+{
+  "C1": {
+    "name": "={Value}",
+    "lcsc": "C31847",
+    "description": "容值:22uF;精度:±10%;额定电压:16V;材质(温度系数):X7R;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C2": {
+    "name": "={Value}",
+    "lcsc": "C31847",
+    "description": "容值:22uF;精度:±10%;额定电压:16V;材质(温度系数):X7R;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C3": {
+    "name": "={Value}",
+    "lcsc": "C31847",
+    "description": "容值:22uF;精度:±10%;额定电压:16V;材质(温度系数):X7R;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C4": {
+    "name": "={Value}",
+    "lcsc": "C31847",
+    "description": "容值:22uF;精度:±10%;额定电压:16V;材质(温度系数):X7R;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C5": {
+    "name": "={Value}",
+    "lcsc": "C31847",
+    "description": "容值:22uF;精度:±10%;额定电压:16V;材质(温度系数):X7R;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C6": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900012828",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C7": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900012828",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C8": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900012828",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "C9": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900012828",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CAD1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CAD2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CB1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CD1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CD2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CRST": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CSEQ1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "CSEQ2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013340",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "D1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013124",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "C",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "A",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "D2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013124",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "C",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "A",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "D3": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013124",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "C",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "A",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "D4": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900013124",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "C",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "A",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "D_TVS1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C2669679",
+    "description": "接口类型:I2C；SMBus;I/O 数量:8;时钟频率(fc):400kHz;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "A0",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "A1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "3",
+        "name": "A2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "4",
+        "name": "P0",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "5",
+        "name": "P1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "6",
+        "name": "P2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "7",
+        "name": "P3",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "8",
+        "name": "GND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "9",
+        "name": "P4",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "10",
+        "name": "P5",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "11",
+        "name": "P6",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "12",
+        "name": "P7",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "13",
+        "name": "INT#",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "14",
+        "name": "SCL",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "15",
+        "name": "SDA",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "16",
+        "name": "VCC",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "F1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900021141",
+    "description": "",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "J1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900026759",
+    "description": "",
+    "pins": [
+      {
+        "n": "0",
+        "name": "EP",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B1A12",
+        "name": "GND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B4A9",
+        "name": "VBUS",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B5",
+        "name": "CC2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A8",
+        "name": "SBU1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B6",
+        "name": "DP2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A7",
+        "name": "DN1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A6",
+        "name": "DP1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B7",
+        "name": "DN2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A5",
+        "name": "CC1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B8",
+        "name": "SBU2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A4B9",
+        "name": "VBUS",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A1B12",
+        "name": "GND",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "L1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900015114",
+    "description": "",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "L2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900015114",
+    "description": "",
+    "pins": [
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "Q_REV": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900002167",
+    "description": "",
+    "pins": [
+      {
+        "n": "3",
+        "name": "D",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "G",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "S",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RAD1": {
+    "name": "={Value}",
+    "lcsc": "C380762",
+    "description": "阻值:10kΩ;精度:±5%;功率:62.5mW;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RAD2": {
+    "name": "={Value}",
+    "lcsc": "C325643",
+    "description": "电阻类型:厚膜电阻;阻值:2.2kΩ;精度:±5%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RAD3": {
+    "name": "={Value}",
+    "lcsc": "C380762",
+    "description": "阻值:10kΩ;精度:±5%;功率:62.5mW;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RAD4": {
+    "name": "={Value}",
+    "lcsc": "C269710",
+    "description": "电阻类型:厚膜电阻;阻值:3.3kΩ;精度:±1%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RCC1": {
+    "name": "={Value}",
+    "lcsc": "C269696",
+    "description": "电阻类型:厚膜电阻;阻值:5.1kΩ;精度:±5%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RCC2": {
+    "name": "={Value}",
+    "lcsc": "C269696",
+    "description": "电阻类型:厚膜电阻;阻值:5.1kΩ;精度:±5%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RFB1": {
+    "name": "={Value}",
+    "lcsc": "C380762",
+    "description": "阻值:10kΩ;精度:±5%;功率:62.5mW;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RFB2": {
+    "name": "={Value}",
+    "lcsc": "C269710",
+    "description": "电阻类型:厚膜电阻;阻值:3.3kΩ;精度:±1%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RFB3": {
+    "name": "={Value}",
+    "lcsc": "C380762",
+    "description": "阻值:10kΩ;精度:±5%;功率:62.5mW;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RFB4": {
+    "name": "={Value}",
+    "lcsc": "C269697",
+    "description": "电阻类型:厚膜电阻;阻值:6.8kΩ;精度:±5%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RL1": {
+    "name": "={Value}",
+    "lcsc": "C705897",
+    "description": "电阻类型:薄膜电阻;阻值:1kΩ;精度:±0.25%;功率:100mW;工作电压:75V;温度系数:±25ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RL2": {
+    "name": "={Value}",
+    "lcsc": "C705897",
+    "description": "电阻类型:薄膜电阻;阻值:1kΩ;精度:±0.25%;功率:100mW;工作电压:75V;温度系数:±25ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RL3": {
+    "name": "={Value}",
+    "lcsc": "C705897",
+    "description": "电阻类型:薄膜电阻;阻值:1kΩ;精度:±0.25%;功率:100mW;工作电压:75V;温度系数:±25ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RL4": {
+    "name": "={Value}",
+    "lcsc": "C705897",
+    "description": "电阻类型:薄膜电阻;阻值:1kΩ;精度:±0.25%;功率:100mW;工作电压:75V;温度系数:±25ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RRST": {
+    "name": "={Value}",
+    "lcsc": "C380762",
+    "description": "阻值:10kΩ;精度:±5%;功率:62.5mW;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RSEQ1": {
+    "name": "={Value}",
+    "lcsc": "C2904537",
+    "description": "电阻类型:厚膜电阻;阻值:100kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RSEQ2": {
+    "name": "={Value}",
+    "lcsc": "C2904537",
+    "description": "电阻类型:厚膜电阻;阻值:100kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "RV1": {
+    "name": "={Value}",
+    "lcsc": "C25804",
+    "description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "R_IN1": {
+    "name": "={Value}",
+    "lcsc": "C25804",
+    "description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;",
+    "pins": [
+      {
+        "n": "2",
+        "name": "2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "1",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "U1": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C52948524",
+    "description": "功能类型:降压型;工作电压:4.5V~40V;输出电压:-;输出电流:3A;输出类型:可调;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "VIN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "3",
+        "name": "EN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "4",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "5",
+        "name": "FB",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "6",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "7",
+        "name": "GND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "8",
+        "name": "SW",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "U2": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C52948524",
+    "description": "功能类型:降压型;工作电压:4.5V~40V;输出电压:-;输出电流:3A;输出类型:可调;",
+    "pins": [
+      {
+        "n": "1",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "VIN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "3",
+        "name": "EN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "4",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "5",
+        "name": "FB",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "6",
+        "name": "NC",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "7",
+        "name": "GND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "8",
+        "name": "SW",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "U3": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C9900096617",
+    "description": "",
+    "pins": [
+      {
+        "n": "A1",
+        "name": "EN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A2",
+        "name": "VIN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A3",
+        "name": "VIN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "A4",
+        "name": "VIN",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B1",
+        "name": "SCL",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B2",
+        "name": "VOUT",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B3",
+        "name": "VOUT",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "B4",
+        "name": "VOUT",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "C1",
+        "name": "SDA",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "C2",
+        "name": "SW",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "C3",
+        "name": "SW",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "C4",
+        "name": "SW",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "D1",
+        "name": "ADDR",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "D2",
+        "name": "AGND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "D3",
+        "name": "PGND",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "D4",
+        "name": "PGND",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "U4": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C29780697",
+    "description": "数量:1个N沟道;漏源电压(Vdss):150V;连续漏极电流(Id):14A;导通电阻(RDS(on)):65mΩ@1",
+    "pins": [
+      {
+        "n": "5",
+        "name": "D",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "4",
+        "name": "G",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "1",
+        "name": "S",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "S",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "3",
+        "name": "S",
+        "net": "",
+        "nc": false
+      }
+    ]
+  },
+  "U5": {
+    "name": "={Manufacturer Part}",
+    "lcsc": "C23922",
+    "description": "CPU内核:ARM Cortex-M0;CPU最大主频:48MHz;CPU位数:32 Bit;",
+    "pins": [
+      {
+        "n": "10",
+        "name": "PA0",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "11",
+        "name": "PA1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "12",
+        "name": "PA2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "13",
+        "name": "PA3",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "14",
+        "name": "PA4",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "15",
+        "name": "PA5",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "16",
+        "name": "PA6",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "17",
+        "name": "PA7",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "29",
+        "name": "PA8",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "30",
+        "name": "PA9",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "31",
+        "name": "PA10",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "32",
+        "name": "PA11",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "33",
+        "name": "PA12",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "34",
+        "name": "PA13(SWDIO)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "37",
+        "name": "PA14(SWCLK)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "38",
+        "name": "PA15",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "18",
+        "name": "PB0",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "19",
+        "name": "PB1",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "20",
+        "name": "PB2",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "39",
+        "name": "PB3",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "40",
+        "name": "PB4",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "41",
+        "name": "PB5",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "42",
+        "name": "PB6",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "43",
+        "name": "PB7",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "45",
+        "name": "PB8",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "46",
+        "name": "PB9",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "21",
+        "name": "PB10",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "22",
+        "name": "PB11",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "25",
+        "name": "PB12",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "26",
+        "name": "PB13",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "27",
+        "name": "PB14",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "28",
+        "name": "PB15",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "2",
+        "name": "PC13",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "3",
+        "name": "PC14-OSC32_IN(PC14)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "4",
+        "name": "PC15-OSC32_OUT(PC15)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "44",
+        "name": "BOOT0",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "7",
+        "name": "NRST",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "5",
+        "name": "PF0-OSC_IN(PF0)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "6",
+        "name": "PF1-OSC_OUT(PF1)",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "35",
+        "name": "PF6",
+        "net": "",
+        "nc": false
+      },
+      {
+        "n": "36",
+        "name": "PF7",
+        "net": "",
+        "nc": false
+      }
+    ]
+  }
+}

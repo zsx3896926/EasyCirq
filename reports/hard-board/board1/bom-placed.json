@@ -1,0 +1,178 @@
+[
+  {
+    "block": "输入",
+    "designator": "J1",
+    "lcsc": "C9900026759",
+    "name": "CQ-USB- TYPE-C 16P母座四脚插板有柱",
+    "x": 100.0,
+    "y": 100.0
+  },
+  {
+    "block": "输入",
+    "designator": "D_TVS1",
+    "lcsc": "C2669679",
+    "name": "PCA9554DGVR",
+    "x": 220.0,
+    "y": 100.0
+  },
+  {
+    "block": "输入",
+    "designator": "F1",
+    "lcsc": "C9900021141",
+    "name": "120610A保险丝",
+    "x": 260.0,
+    "y": 100.0
+  },
+  {
+    "block": "Buck5V",
+    "designator": "U1",
+    "lcsc": "C52948524",
+    "name": "TPS54331DR-JSM",
+    "x": 340.0,
+    "y": 100.0
+  },
+  {
+    "block": "Buck5V",
+    "designator": "L1",
+    "lcsc": "C9900015114",
+    "name": "功率电感(贴片),CKST0502-10uH/M,10uH,±20%,3A,封装5.7mm*5.1mm*2.0mm,岑科,RoHS",
+    "x": 380.0,
+    "y": 100.0
+  },
+  {
+    "block": "Buck5V",
+    "designator": "C1",
+    "lcsc": "C31847",
+    "name": "1206B226K160NT",
+    "x": 100.0,
+    "y": 160.0
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "U2",
+    "lcsc": "C52948524",
+    "name": "TPS54331DR-JSM",
+    "x": 340.0,
+    "y": 160.0
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "L2",
+    "lcsc": "C9900015114",
+    "name": "功率电感(贴片),CKST0502-10uH/M,10uH,±20%,3A,封装5.7mm*5.1mm*2.0mm,岑科,RoHS",
+    "x": 380.0,
+    "y": 160.0
+  },
+  {
+    "block": "Buck3V3",
+    "designator": "C4",
+    "lcsc": "C31847",
+    "name": "1206B226K160NT",
+    "x": 100.0,
+    "y": 220.0
+  },
+  {
+    "block": "LDO1V8",
+    "designator": "U3",
+    "lcsc": "C9900096617",
+    "name": "SGM66075",
+    "x": 260.0,
+    "y": 220.0
+  },
+  {
+    "block": "LDO1V8",
+    "designator": "C6",
+    "lcsc": "C9900012828",
+    "name": "CAPCER10UF25VX5R0805",
+    "x": 300.0,
+    "y": 220.0
+  },
+  {
+    "block": "LDO1V8",
+    "designator": "C7",
+    "lcsc": "C9900012828",
+    "name": "CAPCER10UF25VX5R0805",
+    "x": 340.0,
+    "y": 220.0
+  },
+  {
+    "block": "LDO4V0",
+    "designator": "C8",
+    "lcsc": "C9900012828",
+    "name": "CAPCER10UF25VX5R0805",
+    "x": 100.0,
+    "y": 280.0
+  },
+  {
+    "block": "LDO4V0",
+    "designator": "C9",
+    "lcsc": "C9900012828",
+    "name": "CAPCER10UF25VX5R0805",
+    "x": 140.0,
+    "y": 280.0
+  },
+  {
+    "block": "时序",
+    "designator": "RSEQ1",
+    "lcsc": "C2904537",
+    "name": "HoLTT0603-1/10W-100KR-1%",
+    "x": 180.0,
+    "y": 280.0
+  },
+  {
+    "block": "采样",
+    "designator": "RAD3",
+    "lcsc": "C380762",
+    "name": "SY0603JN10KP",
+    "x": 100.0,
+    "y": 340.0
+  },
+  {
+    "block": "MCU",
+    "designator": "U5",
+    "lcsc": "C23922",
+    "name": "STM32F030C8T6",
+    "x": 260.0,
+    "y": 340.0
+  },
+  {
+    "block": "MCU",
+    "designator": "CD1",
+    "lcsc": "C9900013340",
+    "name": "100nF/0603/50V",
+    "x": 300.0,
+    "y": 340.0
+  },
+  {
+    "block": "MCU",
+    "designator": "CRST",
+    "lcsc": "C9900013340",
+    "name": "100nF/0603/50V",
+    "x": 100.0,
+    "y": 400.0
+  },
+  {
+    "block": "指示",
+    "designator": "D1",
+    "lcsc": "C9900013124",
+    "name": "SLED-0603-H0_8MM_C9900013124",
+    "x": 140.0,
+    "y": 400.0
+  },
+  {
+    "block": "指示",
+    "designator": "RL1",
+    "lcsc": "C705897",
+    "name": "RT0603CRD071KL",
+    "x": 300.0,
+    "y": 400.0
+  },
+  {
+    "block": "指示",
+    "designator": "RL4",
+    "lcsc": "C705897",
+    "name": "RT0603CRD071KL",
+    "x": 100.0,
+    "y": 460.0
+  }
+]
