@@ -654,3 +654,73 @@ drc           PASS（0 fatal）
 **只差 1 处重叠。** 而上一轮连完线是 6 处短路 + 37 处重叠。
 
 **判词：还不能下单。** 差 1 处重叠 + 143 个悬空引脚。
+
+
+---
+
+## 2026-11-05 第十三次上机：门 PASS 且带线；连线卡在"引脚朝向"
+
+### 做到的事
+
+把与 U5 重叠的 RFB4 挪到远端 (1007,710) 后：
+
+```
+sch gate: PASS
+  PASS  layout-lint   0 overlap, 0 pin-coincidence, 0 out-of-sheet
+  PASS  clusters      0 重叠 / 0 出图纸
+  PASS  check         0 error/fatal
+  PASS  bridge-check  0 bridge(short), 59 wire tree(s)   ← 带线
+  PASS  drc           0 fatal, 0 error
+```
+
+**这是第一次"门 PASS 且板上已经有线"**（26 引脚 / 16 网络 / 59 wire tree）。
+
+### 然后连线就走不动了
+
+补连 4 轮，88 条里只有 3 条能连上：
+
+```
+第 1 轮：成功 3 / 失败 84
+第 2–4 轮：成功 0 / 失败 85
+```
+
+### 为什么 —— 产品在这里是对的
+
+失败原因不是"工具坏了"，是**几何硬拒绝**：
+
+```
+schematic geometry guard failed (preflight) — Rejected before write:
+  fix source pin exit/wire geometry and replan.
+  pin-exit-direction (J1:B4A9): pin B4A9 outward rotation 180° requires …
+
+no safe candidate: every direction/offset is unsafe
+  （引出方向不沿引脚朝外方向（hard reject））
+  — resolve the layout (move the part, clear the wire, or free the title-block corner) and retry
+```
+
+**`autoconnect` 不肯画一根从引脚"朝里"出来的线。** 这是对的 —— 那种线在原理图上
+既难看又容易误读。
+
+### 但这就把板1 顶到了 #14 上
+
+要让引脚朝外，得**改器件的旋转角**。改旋转 = `sch modify --rotation` = **#14（挂了六轮）**。
+
+所以现在的链条是：
+
+```
+想连线 → 引脚朝向不对 → 需要改旋转 → 需要 sch modify → #14 全挂 → 卡住
+```
+
+**#14 不再只是"不方便"，它是板1 连线的唯一硬阻断。**
+
+### 现状
+
+```
+51 器件（全部有封装）   26 / 167 引脚已连   16 网络   59 wire tree
+sch gate: PASS（五门全绿）
+相位: S6
+交付: 被 CARD=pending 挡住
+判词: 还不能下单
+```
+
+**难度门槛**：器件 51 ✅ / 电源轨 6 个电源网 ✅ / 保护已连 ✅ / **网络 16（门槛 80）❌**
