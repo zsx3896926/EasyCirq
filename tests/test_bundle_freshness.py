@@ -10,6 +10,7 @@ import hashlib
 import io
 import json
 import pathlib
+import re
 import subprocess
 import sys
 import zipfile
@@ -17,7 +18,23 @@ import zipfile
 import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-BUNDLE = ROOT / "dist-release" / "easycirq-toolchain-1.3.86.zip"
+def _newest_toolchain() -> pathlib.Path:
+    """取 dist-release 里版本号最大的 toolchain 包。
+
+    原来这里写死 1.3.86，于是每发一版就要改一次测试；忘了改，这条守卫就
+    一直在检查一个早就过期的包 —— 而"测试是绿的"会让人以为包是对的。
+    """
+    cands = []
+    for p in (ROOT / "dist-release").glob("easycirq-toolchain-*.zip"):
+        if "installer" in p.name:
+            continue
+        nums = re.findall(r"\d+", p.name)
+        if nums:
+            cands.append((tuple(int(n) for n in nums), p))
+    return max(cands)[1] if cands else pathlib.Path("__none__")
+
+
+BUNDLE = _newest_toolchain()
 
 # 发给客户的包里必须与仓库一致的文件
 KEY_FILES = [
@@ -51,7 +68,7 @@ def _norm(b: bytes) -> bytes:
     """行尾归一：CRLF / CR → LF。只影响行尾，不动内容。"""
     return b.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
 
-@pytest.mark.skipif(not BUNDLE.is_file(), reason="没有 1.3.86 包")
+@pytest.mark.skipif(not BUNDLE.is_file(), reason="dist-release 里没有工具链包")
 def test_payload_matches_the_repository_byte_for_byte():
     payload = _payload()
     prefix = "payload/skill/easycirq/"
@@ -76,7 +93,7 @@ def test_payload_matches_the_repository_byte_for_byte():
                            + "\n".join("  %s  包=%s 仓库=%s" % d for d in differing))
 
 
-@pytest.mark.skipif(not BUNDLE.is_file(), reason="没有 1.3.86 包")
+@pytest.mark.skipif(not BUNDLE.is_file(), reason="dist-release 里没有工具链包")
 def test_bundle_verifies():
     out = subprocess.run([sys.executable, "distribution/easycirq_install.py",
                           "inspect-bundle", "--bundle", str(BUNDLE)],
@@ -91,7 +108,7 @@ def test_bundle_verifies():
     assert d["provenance"]["sourceDirty"] is False
 
 
-@pytest.mark.skipif(not BUNDLE.is_file(), reason="没有 1.3.86 包")
+@pytest.mark.skipif(not BUNDLE.is_file(), reason="dist-release 里没有工具链包")
 def test_bundle_ships_the_harness_entry_points():
     """`run` 与 `phase` 是这一版的关键，两个都得在载荷里。"""
     names = "|".join(_payload())
