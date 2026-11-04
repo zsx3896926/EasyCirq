@@ -39,7 +39,10 @@ type panelRunResult struct {
 	Stdout   string   `json:"stdout"`
 	Stderr   string   `json:"stderr"`
 	Duration string   `json:"duration"`
-	Error    string   `json:"error,omitempty"`
+	// Cancelled 让前端区分"跑完了"和"被停了"。被停的那半截输出**不能**
+	// 冒充一次完整结论 —— 所以这个字段必须单独存在，而不是靠退出码去猜。
+	Cancelled bool   `json:"cancelled,omitempty"`
+	Error     string `json:"error,omitempty"`
 }
 
 // panelRunCommands 是允许面板触发的操作白名单。
@@ -76,6 +79,16 @@ func runPanelCommand(self, key, project string, timeout time.Duration) panelRunR
 	res := panelRunResult{Cmd: key, Args: args}
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
+
+	// 同一时刻只跑一个：两个 gate 并行只会互相抢连接器，而且按钮看起来"没反应"。
+	slot, busy := panelAcquireRun(key, args, cancel)
+	if slot == nil {
+		res.Error = fmt.Sprintf("已经有操作在跑（%s）—— 先等它结束，或点「停止」", busy.Cmd)
+		res.Stderr = res.Error
+		return res
+	}
+	defer panelFinishRun(slot)
+
 	start := time.Now()
 	cmd := exec.CommandContext(ctx, self, args...)
 	var out, errb stringsBuilder
@@ -88,10 +101,20 @@ func runPanelCommand(self, key, project string, timeout time.Duration) panelRunR
 	if cmd.ProcessState != nil {
 		res.ExitCode = cmd.ProcessState.ExitCode()
 	}
+	if ctx.Err() == context.Canceled {
+		res.Cancelled = true
+	}
+	if cmd.ProcessState != nil && cmd.ProcessState.ExitCode() < 0 {
+		// 被信号杀掉（包括我们 cancel 的）
+		res.Cancelled = true
+	}
 	// **非零退出不是"面板出错"**：card exit 2 = 还没检查过，gate exit 1 = 门没过，
 	// 都是**正常结论**。所以这里只在命令真的没跑起来时填 Error。
 	if err != nil && cmd.ProcessState == nil {
 		res.Error = err.Error()
+	}
+	if res.Cancelled {
+		res.Error = "已被停止 —— 下面的输出不完整，不能当结论"
 	}
 	return res
 }

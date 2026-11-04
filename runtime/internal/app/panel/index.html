@@ -124,6 +124,7 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
   .steps li{border-top:1px solid var(--line);padding:10px 0}
   .steps li:first-child{border-top:0}
   .steps pre{margin:6px 0;white-space:pre-wrap;word-break:break-all}
+  .act.warn{border-color:var(--bad);color:var(--bad)}
   /* 产物清单 */
   .art{list-style:none;padding:0;margin:8px 0 0}
   .art li{border-top:1px solid var(--line);padding:7px 0;display:flex;gap:10px;align-items:baseline}
@@ -165,6 +166,15 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
       <button class="act" data-cmd="card">看交付卡</button>
     </div>
     <p class="sub" id="actHint">面板不判断任何事：按一下就相当于在命令行敲同一句话，下面是它的原样输出。</p>
+    <div class="row actions">
+      <button class="act warn" id="actStop">停止正在跑的操作</button>
+      <button class="act" id="actRawToggle" aria-pressed="false">看原始 JSON</button>
+    </div>
+    <div class="row" id="rawRow" hidden>
+      <div class="lbl">原始 JSON（面板不加工，原样贴出）</div>
+      <pre id="rawOut"></pre>
+      <button class="copy" id="copyRaw">复制原始 JSON</button>
+    </div>
     <div class="row" id="actResultRow" hidden>
       <div class="lbl">
         <span id="actCmd" class="mono"></span>
@@ -519,7 +529,10 @@ async function runCommand(key){
     document.getElementById("actExit").textContent = "退出码 " + res.exitCode;
     document.getElementById("actDur").textContent = res.duration || "";
     document.getElementById("actOut").textContent =
-      [res.stdout || "", res.stderr || "", res.error || ""].filter(Boolean).join("\n");
+      [res.cancelled ? "⚠ 这次操作被停止了 —— 下面的输出不完整，不能当结论" : "",
+       res.stdout || "", res.stderr || "", res.error || ""].filter(Boolean).join("\n");
+    document.getElementById("actExit").textContent =
+      (res.exitCode === undefined ? "" : "退出码 " + res.exitCode) + (res.cancelled ? " · 已停止" : "");
     row.hidden = false;
     hint.textContent = "上面就是这条命令的原样输出。刷新页面会重新读一次状态。";
     // 跑完立刻刷新一次快照，让概览与相位条跟上
@@ -528,6 +541,44 @@ async function runCommand(key){
     hint.textContent = "没能跑起来：" + String(e);
   }
 }
+
+// ── 停止正在跑的操作（P2）────────────────────────────────────────────────
+document.getElementById("actStop").addEventListener("click", async () => {
+  const hint = document.getElementById("actHint");
+  try{
+    const r = await fetch("/api/cancel", {method: "POST"});
+    const res = await r.json();
+    hint.textContent = res.cancelled
+      ? ("已停止 " + (res.cmd || "") + "。" + (res.note || ""))
+      : (res.note || "现在没有操作在跑");
+  }catch(e){
+    hint.textContent = "停止请求没发出去：" + String(e);
+  }
+});
+
+// ── 原始 JSON 展开（P2）──────────────────────────────────────────────────
+// 面板不判断，但也**不该把数据藏起来**：任何一次渲染都能一键看到它依据的原始 JSON。
+document.getElementById("actRawToggle").addEventListener("click", () => {
+  const btn = document.getElementById("actRawToggle");
+  const row = document.getElementById("rawRow");
+  const on = row.hidden;
+  row.hidden = !on;
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  btn.textContent = on ? "收起原始 JSON" : "看原始 JSON";
+  if (on){
+    document.getElementById("rawOut").textContent =
+      JSON.stringify(LAST || {}, null, 2);
+  }
+});
+
+document.getElementById("copyRaw").addEventListener("click", async () => {
+  const btn = document.getElementById("copyRaw");
+  try{
+    await navigator.clipboard.writeText(document.getElementById("rawOut").textContent || "");
+    btn.textContent = "已复制";
+    setTimeout(() => btn.textContent = "复制原始 JSON", 1200);
+  }catch(e){ btn.textContent = "剪贴板不可用，请手抄"; }
+});
 
 document.querySelectorAll("button[data-copy]").forEach(b => {
   b.addEventListener("click", async () => {

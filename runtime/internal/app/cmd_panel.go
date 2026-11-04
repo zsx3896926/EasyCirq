@@ -133,6 +133,22 @@ func runPanel(cfg *appConfig, portRaw, project string, noBrowser bool,
 		enc.Encode(res)
 	})
 
+	// ── /api/cancel：停止正在跑的操作（P2）──────────────────────────────
+	// 只接受 POST，理由同 /api/run：GET 会被链接/预取顺带触发 ——
+	// 一个"点一下链接就把正在跑的门停掉"的端点不能存在。
+	mux.HandleFunc("/api/cancel", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			w.Header().Set("Allow", http.MethodPost)
+			http.Error(w, "此端点只接受 POST", http.StatusMethodNotAllowed)
+			return
+		}
+		res := panelCancelCurrent()
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		enc := json.NewEncoder(w)
+		enc.SetIndent("", "  ")
+		enc.Encode(res)
+	})
+
 	mux.HandleFunc("/api/snapshot", func(w http.ResponseWriter, r *http.Request) {
 		q := r.URL.Query().Get("project")
 		if q == "" {
