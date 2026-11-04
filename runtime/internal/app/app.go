@@ -132,6 +132,8 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 		newGatewayCmd(stdout, stderr),
 		newLoginCmd(stdout, stderr),
 		newLayoutCmd(stdout, stderr),
+		newDiagCmd(cfg, stdout, stderr),
+		newPanelCmd(cfg, stdout, stderr),
 		newPhaseCmd(cfg, stdout, stderr),
 		newRunCmd(cfg, stdout, stderr),
 		newLLMProxyCmd(stdout, stderr),

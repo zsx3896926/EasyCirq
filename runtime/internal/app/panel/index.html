@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyCirq 面板</title>
+<style>
+/* ── 设计规则（见 docs/goal-easycirq-product.md §3.1）─────────────────
+   字号只有 12/14/16/20/28；行高 1.6；主色一个；语义色四种；
+   状态永远"颜色+文字+图标"三者同时给；数字等宽右对齐。
+   没有任何外部资源：CSP 只允许 self。                              */
+:root{
+  --bg:#F7F8FA; --surface:#FFFFFF; --line:#E3E6EB;
+  --text:#1F2733; --muted:#6B7684; --faint:#9AA4B2;
+  --primary:#1F5FBF;
+  --ok:#0E8A5F; --ok-bg:#E8F5EF;
+  --bad:#C0392B; --bad-bg:#FCECEA;
+  --warn:#B7791F; --warn-bg:#FDF3E2;
+  --stale:#6B46C1; --stale-bg:#F0EBFC;
+  --idle:#7A8593; --idle-bg:#EEF1F5;
+  --none:#64748B; --none-bg:#F2F4F7;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14181D; --surface:#1B2026; --line:#2A313A;
+    --text:#E6EAF0; --muted:#98A2AF; --faint:#6C7683;
+    --primary:#5B9BFF;
+    --ok:#3DD68C; --ok-bg:#12301F; --bad:#FF6B5E; --bad-bg:#331614;
+    --warn:#E0A33E; --warn-bg:#33280F; --stale:#A98BFF; --stale-bg:#241B3D;
+    --idle:#8B96A4; --idle-bg:#232A32; --none:#7D8B9C; --none-bg:#1F252C;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+  font-size:14px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"JetBrains Mono","Cascadia Mono",Consolas,"SF Mono",monospace;
+      font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto;padding:24px}
+header{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+h1{font-size:20px;font-weight:600;margin:0}
+.sub{font-size:12px;color:var(--muted)}
+.spacer{flex:1}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;
+      padding:20px;margin-bottom:16px}
+.card h2{font-size:14px;font-weight:600;color:var(--muted);margin:0 0 14px}
+
+/* 概览：三态判词 */
+.verdict{font-size:28px;font-weight:600;line-height:1.6;margin:0 0 6px}
+.verdict.ok{color:var(--ok)} .verdict.bad{color:var(--bad)}
+.verdict.idle{color:var(--idle)} .verdict.none{color:var(--faint);font-size:20px}
+.next{font-size:14px;color:var(--muted);margin:0 0 14px}
+.metrics{display:flex;gap:28px;flex-wrap:wrap;padding-top:14px;
+         border-top:1px solid var(--line)}
+.metric{display:flex;flex-direction:column;gap:2px}
+.metric .k{font-size:12px;color:var(--faint)}
+.metric .v{font-size:20px;font-weight:600}
+
+/* 相位条 */
+.phases{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+@media (max-width:820px){.phases{grid-template-columns:repeat(4,1fr)}}
+.ph{border:1px solid var(--line);border-radius:6px;padding:10px;background:var(--none-bg);
+    border-left-width:3px;border-left-color:var(--none)}
+.ph .id{font-size:12px;color:var(--faint)}
+.ph .nm{font-size:14px;font-weight:600;margin:2px 0 6px}
+.ph .st{font-size:12px;display:flex;align-items:center;gap:4px}
+.ph .ic{font-weight:700}
+.ph.pass{background:var(--ok-bg);border-left-color:var(--ok)}
+.ph.pass .st{color:var(--ok)}
+.ph.fail{background:var(--bad-bg);border-left-color:var(--bad)}
+.ph.fail .st{color:var(--bad)}
+.ph.blocked{background:var(--warn-bg);border-left-color:var(--warn)}
+.ph.blocked .st{color:var(--warn)}
+.ph.pending{background:var(--idle-bg);border-left-color:var(--idle)}
+.ph.pending .st{color:var(--idle)}
+.ph.stale{background:var(--stale-bg);border-left-color:var(--stale)}
+.ph.stale .st{color:var(--stale)}
+.ph.unenforced{background:var(--none-bg);border-left-color:var(--none);
+               border-left-style:dashed}
+.ph.unenforced .st{color:var(--none)}
+.ph.current{outline:2px solid var(--primary);outline-offset:1px}
+
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+/* 空 / 错状态：必须写"下一步做什么" */
+.empty{border:1px dashed var(--line);border-radius:6px;padding:22px;text-align:center;
+       color:var(--muted);font-size:14px}
+.empty .act{display:block;margin-top:8px;font-size:12px;color:var(--faint)}
+.err{background:var(--bad-bg);border:1px solid var(--bad);border-radius:6px;
+     padding:12px 14px;margin-bottom:12px;font-size:12px;color:var(--bad)}
+.err b{display:block;margin-bottom:4px}
+.err .mono{color:var(--text);word-break:break-all}
+footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>EasyCirq</h1>
+    <span class="sub" id="proj">正在读取工程…</span>
+    <span class="spacer"></span>
+    <span class="sub mono" id="stamp">—</span>
+  </header>
+
+  <div id="errors"></div>
+
+  <!-- ① 概览：三秒可判 -->
+  <div class="card">
+    <h2>这块板能不能下单</h2>
+    <div id="verdict" class="verdict none">正在读取…</div>
+    <p class="next" id="next"></p>
+    <div class="metrics" id="metrics"></div>
+  </div>
+
+  <!-- ② 相位条 -->
+  <div class="card">
+    <h2>相位与证据</h2>
+    <div class="phases" id="phases"></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--ok)"></i>通过（有证据）</span>
+      <span><i class="dot" style="background:var(--bad)"></i>未通过</span>
+      <span><i class="dot" style="background:var(--warn)"></i>检查没跑成</span>
+      <span><i class="dot" style="background:var(--idle)"></i>门还没跑</span>
+      <span><i class="dot" style="background:var(--stale)"></i>板子改过，证据失效</span>
+      <span><i class="dot" style="background:var(--none)"></i>该相位还没接门</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>数据来自 <span class="mono">easycirq phase show --json</span> 与 <span class="mono">easycirq card --json</span></span>
+    <span>面板不判断任何事，只显示命令的结果</span>
+  </footer>
+</div>
+
+<script>
+// 相位名（与 phase.py 的 PHASES 一致）。只用于显示，不参与判断。
+const PHASE_NAMES = {
+  S0:"需求", S1:"图纸", S2:"编组", S3:"摆放",
+  S4:"布线", S5:"校验", S6:"存盘", DELIVER:"交付"
+};
+// 五态 + 两种"不是通过"的状态。文字与图标必须与颜色同时出现（色盲友好）。
+const STATE_VIEW = {
+  pass:      {cls:"pass",      ic:"✓", txt:"通过"},
+  fail:      {cls:"fail",      ic:"✕", txt:"未通过"},
+  blocked:   {cls:"blocked",   ic:"!", txt:"没跑成"},
+  pending:   {cls:"pending",   ic:"○", txt:"还没跑"},
+  stale:     {cls:"stale",     ic:"⟳", txt:"已失效"},
+  unenforced:{cls:"unenforced",ic:"–", txt:"未接门"}
+};
+const CARD_CLASS = {ready:"ok", blocked:"bad", not_ready:"bad",
+                    not_measured:"idle", unknown:"idle"};
+
+function el(tag, cls, txt){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+
+function renderErrors(errs){
+  const box = document.getElementById("errors");
+  box.textContent = "";
+  if (!errs) return;
+  for (const [k, v] of Object.entries(errs)){
+    const d = el("div", "err");
+    const b = el("b", null, "这个数据没取到：" + k);
+    d.appendChild(b);
+    d.appendChild(el("div", "mono", String(v)));
+    box.appendChild(d);
+  }
+}
+
+function renderOverview(card){
+  const v = document.getElementById("verdict");
+  const n = document.getElementById("next");
+  const m = document.getElementById("metrics");
+  m.textContent = "";
+
+  if (!card){
+    v.className = "verdict none";
+    v.textContent = "还没有交付卡";
+    n.textContent = "先跑一次检查：easycirq card --json";
+    return;
+  }
+  const st = card.state || "unknown";
+  v.className = "verdict " + (CARD_CLASS[st] || "idle");
+  v.textContent = card.headline || st;
+  n.textContent = card.next || "";
+
+  const c = card.counts || {};
+  const rows = [
+    ["必查通过", c.pass], ["未通过", c.fail],
+    ["缺证据", c.missing], ["提醒", c.advisory]
+  ];
+  for (const [k, val] of rows){
+    const d = el("div", "metric");
+    d.appendChild(el("span", "k", k));
+    d.appendChild(el("span", "v mono", (val === undefined ? "—" : String(val))));
+    m.appendChild(d);
+  }
+}
+
+function renderPhases(phase){
+  const box = document.getElementById("phases");
+  box.textContent = "";
+  const order = ["S0","S1","S2","S3","S4","S5","S6","DELIVER"];
+
+  if (!phase || !phase.evidence){
+    box.appendChild(el("div", "empty", "还没有相位数据。先跑 easycirq phase show"));
+    return;
+  }
+  const cur = phase.phase;
+  for (const id of order){
+    const raw = phase.evidence[id] || "unenforced";
+    const view = STATE_VIEW[raw] || STATE_VIEW.unenforced;
+    const cell = el("div", "ph " + view.cls + (id === cur ? " current" : ""));
+    cell.appendChild(el("div", "id", id === "DELIVER" ? "交付" : id));
+    cell.appendChild(el("div", "nm", PHASE_NAMES[id] || id));
+    const st = el("div", "st");
+    st.appendChild(el("span", "ic", view.ic));
+    st.appendChild(el("span", null, view.txt));
+    cell.appendChild(st);
+    if (ID_TITLE[raw]) cell.title = ID_TITLE[raw];
+    box.appendChild(cell);
+  }
+}
+
+// 悬停说明：让"没跑成"和"还没跑"的区别不用查文档。
+const ID_TITLE = {
+  pass: "有证据，且通过",
+  fail: "跑了，但没通过",
+  blocked: "检查器没跑成（比如 EDA 没连上）。这不等于通过。",
+  pending: "这个相位有门，但还没跑。也不等于通过。",
+  stale: "板子改过了，之前的证据已经失效。",
+  unenforced: "这个相位目前还没有接门，所以既不阻塞、也不算通过。"
+};
+
+function render(snap){
+  const proj = document.getElementById("proj");
+  proj.textContent = snap.project ? ("工程 " + snap.project) : "未指定工程";
+  document.getElementById("stamp").textContent = snap.fetchedAt || "";
+  renderErrors(snap.errors);
+  renderOverview(snap.card);
+  renderPhases(snap.phase);
+}
+
+async function tick(){
+  try{
+    const r = await fetch("/api/snapshot", {cache:"no-store"});
+    render(await r.json());
+  }catch(e){
+    renderErrors({snapshot: String(e)});
+  }
+}
+tick();
+setInterval(tick, 2000);
+</script>
+</body>
+</html>
