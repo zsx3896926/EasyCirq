@@ -667,6 +667,12 @@ not permission to substitute a similar symbol.`,
 		c.Flags().BoolVar(&includePagePrimitives, "include-page-primitives", false, "include complete active-page primitive IDs and native drawing state for guarded replacement")
 		c.Flags().BoolVar(&includeDeviceIdentity, "include-device-identity", false, "resolve exact 32-character device-library identity for replay and composition guards (60s request budget)")
 		c.Flags().BoolVar(&includeBBox, "include-bbox", false, "attach each component's rendered extent {minX,minY,maxX,maxY}")
+		// `--json` 是**接受但无副作用**的兼容开关：这条命令的输出本来就是 JSON，
+		// 但 phase/card/status 都支持 --json，于是按惯例加它的调用方会拿到
+		// "unknown flag" 而失败。惯例应当可依赖。
+		var discardJSON bool
+		c.Flags().BoolVar(&discardJSON, "json", false, "已废弃：这条命令本来就输出 JSON，此开关仅为兼容保留")
+		_ = discardJSON
 		c.Flags().BoolVar(&includePins, "include-pins", false, "attach each pin's {pinName,pinNumber,x,y,noConnected,net} — the data plane for routing/connectivity checks (net is the pin's current authoritative net, null when the netlist is unavailable; a part or reuse-block instance absent from the netlist gets netSource=wire-geometry: net from the wire touching the pin, else net=null with netUnresolved naming why; output grows, esp. with --all-pages)")
 		sch.AddCommand(c)
 	}
