@@ -236,7 +236,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 已有原理图重排/自动布局；用 8 类典型任务校准排版检查 | [原理图排版引擎](references/schematic-layout-engine.md)、[排版基准集](references/schematic-benchmarks.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 复核；基准是离线示意，不是真机验收 |
 | 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
-| 真实读写嘉立创EDA工程、恢复超时/重复执行、保存重开 | [EDA执行](references/eda-execution.md)；先 `easycirq doctor`+`capabilities` 预检，再用 `easycirq sch/pcb/project/doc` typed 命令先读后写；写入必须在已授权副本上，保存后 `doc reload` + 回读验证持久化；`netlist_diff.py` 做纯排版网表门禁 |
+| 装完后 enterprise / 离线判据命令跑不了，或客户机器没有 Python | [自带 Python](references/bundled-python.md)：发行包内含嵌入式解释器，装完即用；`EASYCIRQ_NO_BUNDLED_PYTHON=1` 可关；另见 [EDA执行](references/eda-execution.md)（先 `easycirq doctor`+`capabilities` 预检） |
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary` 与 `easycirq doctor`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |

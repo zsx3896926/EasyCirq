@@ -484,7 +484,9 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             if not py_version:
                 raise RuntimeError('bundled python at %s does not run; refusing to ship it' % exe)
             n_files = sum(1 for _ in py_target.rglob('*') if _.is_file())
-            print('bundled python %s: %d files' % (py_version, n_files))
+            # stderr, not stdout: stdout is the machine-readable build result
+            print('bundled python %s: %d files' % (py_version, n_files),
+                  file=sys.stderr)
         elif allow_missing_python:
             print('warning: shipping WITHOUT a bundled Python (--allow-missing-python); '
                   'customers will need Python 3.10+ on PATH', file=sys.stderr)
