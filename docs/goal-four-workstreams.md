@@ -92,6 +92,31 @@ A+B 是"能不能用"，D 是"能不能装"，E 是"客户凭什么付钱"。
 2. **没有 Python 时明确告知**，不是静默降级成"命令不存在"。
 3. 现有 5093 条 pytest 一条不降。
 
+### ✅ 结果（2026-11-04，本轮完成）
+
+**做法**：发行包内置嵌入式 CPython 3.13.0（37 个文件 / 24.5 MB），
+装完在 `<install>/python/`；runtime 找解释器的顺序变成
+`$EASYCIRQ_PYTHON` → **自带** → `python3`/`python`/`py -3`。
+
+**端到端验收（真装的）**：
+
+```
+装到干净目录：963 个文件，python\python.exe 存在，bin\easycirq.exe 存在
+把 PATH 上所有 python/python3/py 全部隐藏
+  → easycirq enterprise check：exit=1，命中 3 条规则（正常出结论）
+反证 EASYCIRQ_NO_BUNDLED_PYTHON=1
+  → exit=1，报错指名 <install>/python 缺失
+```
+
+**反证是关键**：它证明的是自带解释器在起作用，不是机器上碰巧还有别的 Python。
+
+**三道防线**：打包时没解释器就报错；安装时声称自带却不在清单里就拒绝；
+运行时缺失则明确说「安装不完整」，不静默降级。
+
+**踩到的两个坑**（都写进 `easycirq/references/bundled-python.md`）：
+- python 曾被塞进 `skill` 组件，导致 `skill.version` 变成 `3.13.0` —— 已改为独立组件并加测试钉住
+- 构建脚本的诊断 `print` 污染了 stdout（那边是给机器读的 JSON），已改到 stderr
+
 ### 两条路，选一条并在文档里说清为什么
 
 | 方案 | 代价 | 评价 |
