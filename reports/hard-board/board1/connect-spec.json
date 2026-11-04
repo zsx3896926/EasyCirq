@@ -1,0 +1,594 @@
+{
+  "connections": [
+    {
+      "pin": "J1:B4A9",
+      "kind": "power",
+      "net": "VBUS"
+    },
+    {
+      "pin": "J1:A4B9",
+      "kind": "power",
+      "net": "VBUS"
+    },
+    {
+      "pin": "F1:1",
+      "kind": "power",
+      "net": "VBUS"
+    },
+    {
+      "pin": "F1:2",
+      "kind": "power",
+      "net": "VIN"
+    },
+    {
+      "pin": "D_TVS1:K",
+      "kind": "power",
+      "net": "VIN"
+    },
+    {
+      "pin": "Q_REV:S",
+      "kind": "power",
+      "net": "VIN"
+    },
+    {
+      "pin": "Q_REV:D",
+      "kind": "power",
+      "net": "VIN_12V"
+    },
+    {
+      "pin": "U1:2",
+      "kind": "power",
+      "net": "VIN_12V"
+    },
+    {
+      "pin": "C1:1",
+      "kind": "power",
+      "net": "VIN_12V"
+    },
+    {
+      "pin": "C2:1",
+      "kind": "power",
+      "net": "VIN_12V"
+    },
+    {
+      "pin": "L1:2",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "C3:1",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "C4:1",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "U2:2",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "RFB1:1",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "U4:3",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "RAD1:1",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "RAD3:1",
+      "kind": "power",
+      "net": "+5V"
+    },
+    {
+      "pin": "L2:2",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "C5:1",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "U3:3",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "RFB3:1",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "RAD2:1",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "RAD4:1",
+      "kind": "power",
+      "net": "+3V3"
+    },
+    {
+      "pin": "U3:2",
+      "kind": "power",
+      "net": "+1V8"
+    },
+    {
+      "pin": "C6:1",
+      "kind": "power",
+      "net": "+1V8"
+    },
+    {
+      "pin": "C7:1",
+      "kind": "power",
+      "net": "+1V8"
+    },
+    {
+      "pin": "U4:2",
+      "kind": "power",
+      "net": "+4V0"
+    },
+    {
+      "pin": "C8:1",
+      "kind": "power",
+      "net": "+4V0"
+    },
+    {
+      "pin": "C9:1",
+      "kind": "power",
+      "net": "+4V0"
+    },
+    {
+      "pin": "J1:0",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "J1:B1A12",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "J1:A1B12",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "D_TVS1:A",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "Q_REV:G",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RCC1:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RCC2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "R_IN1:1",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "U1:7",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C1:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C3:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "U2:7",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C4:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C5:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "U3:1",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C6:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C7:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "U4:1",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C8:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "C9:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CB1:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CD1:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CD2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CRST:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RAD2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RAD4:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RFB2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "RFB4:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CAD1:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "CAD2:2",
+      "kind": "gnd",
+      "net": "GND"
+    },
+    {
+      "pin": "U1:8",
+      "kind": "power",
+      "net": "SW1"
+    },
+    {
+      "pin": "L1:1",
+      "kind": "power",
+      "net": "SW1"
+    },
+    {
+      "pin": "CB1:1",
+      "kind": "power",
+      "net": "SW1"
+    },
+    {
+      "pin": "U2:8",
+      "kind": "power",
+      "net": "SW2"
+    },
+    {
+      "pin": "L2:1",
+      "kind": "power",
+      "net": "SW2"
+    },
+    {
+      "pin": "U1:5",
+      "kind": "power",
+      "net": "FB1"
+    },
+    {
+      "pin": "RFB1:2",
+      "kind": "power",
+      "net": "FB1"
+    },
+    {
+      "pin": "RFB2:1",
+      "kind": "power",
+      "net": "FB1"
+    },
+    {
+      "pin": "U2:5",
+      "kind": "power",
+      "net": "FB2"
+    },
+    {
+      "pin": "RFB3:2",
+      "kind": "power",
+      "net": "FB2"
+    },
+    {
+      "pin": "RFB4:1",
+      "kind": "power",
+      "net": "FB2"
+    },
+    {
+      "pin": "U1:3",
+      "kind": "power",
+      "net": "EN1"
+    },
+    {
+      "pin": "RSEQ1:1",
+      "kind": "power",
+      "net": "EN1"
+    },
+    {
+      "pin": "U2:3",
+      "kind": "power",
+      "net": "EN2"
+    },
+    {
+      "pin": "RSEQ2:1",
+      "kind": "power",
+      "net": "EN2"
+    },
+    {
+      "pin": "CSEQ1:1",
+      "kind": "power",
+      "net": "EN2"
+    },
+    {
+      "pin": "RSEQ1:2",
+      "kind": "power",
+      "net": "SEQ1"
+    },
+    {
+      "pin": "CSEQ1:2",
+      "kind": "power",
+      "net": "SEQ1"
+    },
+    {
+      "pin": "CSEQ2:1",
+      "kind": "power",
+      "net": "SEQ2"
+    },
+    {
+      "pin": "RSEQ2:2",
+      "kind": "power",
+      "net": "SEQ2"
+    },
+    {
+      "pin": "J1:A5",
+      "kind": "power",
+      "net": "CC1"
+    },
+    {
+      "pin": "RCC1:1",
+      "kind": "power",
+      "net": "CC1"
+    },
+    {
+      "pin": "J1:B5",
+      "kind": "power",
+      "net": "CC2"
+    },
+    {
+      "pin": "RCC2:1",
+      "kind": "power",
+      "net": "CC2"
+    },
+    {
+      "pin": "RAD1:2",
+      "kind": "power",
+      "net": "SENSE_5V"
+    },
+    {
+      "pin": "RAD2:1",
+      "kind": "power",
+      "net": "SENSE_5V"
+    },
+    {
+      "pin": "CAD1:1",
+      "kind": "power",
+      "net": "SENSE_5V"
+    },
+    {
+      "pin": "RAD3:2",
+      "kind": "power",
+      "net": "SENSE_3V3"
+    },
+    {
+      "pin": "RAD4:1",
+      "kind": "power",
+      "net": "SENSE_3V3"
+    },
+    {
+      "pin": "CAD2:1",
+      "kind": "power",
+      "net": "SENSE_3V3"
+    },
+    {
+      "pin": "D1:A",
+      "kind": "power",
+      "net": "LED1_A"
+    },
+    {
+      "pin": "RL1:2",
+      "kind": "power",
+      "net": "LED1_A"
+    },
+    {
+      "pin": "D2:A",
+      "kind": "power",
+      "net": "LED2_A"
+    },
+    {
+      "pin": "RL2:2",
+      "kind": "power",
+      "net": "LED2_A"
+    },
+    {
+      "pin": "D3:A",
+      "kind": "power",
+      "net": "LED3_A"
+    },
+    {
+      "pin": "RL3:2",
+      "kind": "power",
+      "net": "LED3_A"
+    },
+    {
+      "pin": "D4:A",
+      "kind": "power",
+      "net": "LED4_A"
+    },
+    {
+      "pin": "RL4:2",
+      "kind": "power",
+      "net": "LED4_A"
+    },
+    {
+      "pin": "D1:C",
+      "kind": "power",
+      "net": "LED1_K"
+    },
+    {
+      "pin": "D2:C",
+      "kind": "power",
+      "net": "LED2_K"
+    },
+    {
+      "pin": "D3:C",
+      "kind": "power",
+      "net": "LED3_K"
+    },
+    {
+      "pin": "D4:C",
+      "kind": "power",
+      "net": "LED4_K"
+    },
+    {
+      "pin": "RL1:1",
+      "kind": "power",
+      "net": "RLED1"
+    },
+    {
+      "pin": "RL2:1",
+      "kind": "power",
+      "net": "RLED2"
+    },
+    {
+      "pin": "RL3:1",
+      "kind": "power",
+      "net": "RLED3"
+    },
+    {
+      "pin": "RL4:1",
+      "kind": "power",
+      "net": "RLED4"
+    },
+    {
+      "pin": "U5:7",
+      "kind": "power",
+      "net": "MCU_NRST"
+    },
+    {
+      "pin": "RRST:1",
+      "kind": "power",
+      "net": "MCU_NRST"
+    },
+    {
+      "pin": "CRST:1",
+      "kind": "power",
+      "net": "MCU_NRST"
+    },
+    {
+      "pin": "U5:44",
+      "kind": "power",
+      "net": "MCU_BOOT0"
+    },
+    {
+      "pin": "R_IN1:2",
+      "kind": "power",
+      "net": "MCU_BOOT0"
+    },
+    {
+      "pin": "U5:10",
+      "kind": "power",
+      "net": "MCU_ADC0"
+    },
+    {
+      "pin": "U5:11",
+      "kind": "power",
+      "net": "MCU_ADC1"
+    },
+    {
+      "pin": "U5:34",
+      "kind": "power",
+      "net": "MCU_SWDIO"
+    },
+    {
+      "pin": "U5:37",
+      "kind": "power",
+      "net": "MCU_SWCLK"
+    },
+    {
+      "pin": "U5:30",
+      "kind": "power",
+      "net": "MCU_TX"
+    },
+    {
+      "pin": "U5:31",
+      "kind": "power",
+      "net": "MCU_RX"
+    }
+  ]
+}
