@@ -114,7 +114,7 @@ into documents, and calibrates a cheap screen against the delivery grade before 
 |---|---|---|
 | early stop when the score plateaus | 1.6% faster, identical plan | mechanism kept, **off by default** (§183) |
 | **A\* cost/g tables: dict → preallocated list** | **32.1 s → 34.0 s (slower)**, then **32.4 s** with a cached buffer + touched-reset — i.e. a wash at best | **reverted** (§193) |
-| **compiled inner loop (Cython / Rust)** | — | **NOT RUN**: no C compiler, no Cython, no numba, no cargo on this machine. `cffi` is present but cannot build without a compiler (§193) |
+| **compiled inner loop (Cython)** | **24.5 s vs 32.1 s (1.32x)**, plan byte-identical, KPI identical; `frontier-i-fast` 8.4 → **3.3 s (2.5x)**, `second-2layer` 2.1 → **0.7 s (3.0x)** | **KEPT**, opt-out via `EASYCIRQ_ASTAR_C=0`; falls back to pure Python when the extension is absent (§194) |
 | two-phase on a **coarse 10 mil** grid | ranking disagreed with the delivery run (wrong winner promoted) | **coarse grid not calibrated - opt-in with a warning** (§185) |
 | inlining `_seg_seg` | ~0.7%, inside the noise | kept for clarity, not counted as a speed-up (§186.1) |
 
@@ -209,11 +209,86 @@ share than the profile suggests. That is why replacing them did not move the nee
 **Conclusion: `astar` keeps its dictionaries.** The gate stays — it is cheap, it runs in ~35 s,
 and it is the thing that would have caught this class of change going wrong.
 
+
+## 4f. Compiled A* inner loop — done, gated, and 2.18x on the recorded baseline (2026-11-04, §194)
+
+### First the bound, because a 27 s profile number is not a bound
+
+`cProfile` reported 194,375,071 `dict.get` calls and 24.5 s of tottime. That is tottime **under
+profiling**, which inflates per-call overhead most in exactly this shape, so it does not answer
+"how much is there to win". The question was answered directly instead, by timing every `astar`
+call in a one-pass route:
+
+```
+route total        10.35 s
+astar calls        143
+astar total         6.82 s   (65.9 % of route)
+  median           16.3 ms
+  worst           371 ms
+```
+
+So A\* is two thirds of the route and a faster kernel is worth building. That measurement is what
+justified the work; the profile number alone would not have.
+
+### The toolchain: zig cc, because the obvious routes were closed
+
+No `cl`, `gcc`, `clang`, `cargo` or `rustc` on this machine, and no `Cython`, `numba` or
+`setuptools`. `pip` reaches the index but not `files.pythonhosted.org`; the Tsinghua mirror works.
+So: `pip install cython setuptools ziglang` and use **`zig cc`** (clang 21.1) as the C compiler,
+driving it directly instead of through setuptools — setuptools spawns `gcc.exe` by name and Windows
+`CreateProcess` cannot execute a `.bat` shim.
+
+`build_astar_c.py` in this directory rebuilds `_astar_c.pyd` in two steps (`cython` → `.c`,
+`zig cc -shared` → `.pyd`). The extension is **optional**: `ec_layout.astar` tries to import it and
+falls back to pure Python when it is absent, which is the normal case on a machine without the
+compiler.
+
+### Three attempts, only the third kept
+
+| attempt | result |
+|---|---|
+| dict → preallocated list (pure Python) | 34.0 s, **slower**; reverted (§193) |
+| Cython kernel, buffers allocated per call | **8x slower** than Python — the call median is 16 ms and initialising ~608k doubles plus 608k longs for every call dwarfed the search |
+| Cython kernel, buffers reused with a generation stamp | **kept** |
+
+Two correctness bugs were caught by the equivalence gate rather than by review:
+
+1. `pref` must be recomputed before entering the kernel — `pref` outside `layer_ok` becomes the
+   minimum, and `start_layer` overrides it when `layer_penalty <= 0`. Passing the raw `pref` put the
+   start on the wrong layer, so the path differed from the first point.
+2. `cost` is **not** always empty: one net carried 635 cells. The kernel was being handed `None`,
+   and the route diverged on call 2 (tracks 555 → 187). Cost is now passed as sparse
+   `(linear index, value)` pairs into a persistent array that is zeroed on exit.
+
+### Result, on both gates
+
+```
+equivalence.py --compare   plan identical   27a311f6f7f3332e…   (all spots)
+bench.py --compare         identical KPI fingerprint
+```
+
+| spot | before | after | factor |
+|---|---|---|---|
+| retrocam/frontier-i | 32.1 s | **24.5 s** | 1.32x |
+| retrocam/frontier-i-fast | 8.4 s | **3.3 s** | 2.5x |
+| second-2layer | 2.1 s | **0.7 s** | 3.0x |
+
+Against the **recorded** baseline of 53.5 s this is **2.18x**, which is where the previously
+unreproducible "2.04x" now actually lands.
+
+### What is NOT claimed
+
+* the 24.5 s figure is this machine, this Python (3.13), this build; the .pyd is Python-version and
+  platform specific and must be rebuilt elsewhere;
+* `verify` and the 124 layout unit tests pass both with the extension present **and** absent —
+  that is the fallback guarantee, not a claim that both are equally fast;
+* no attempt at a C heap vs `heapq` comparison, and no work on the remaining 34 % of route time
+  (`path_conflicts` was 12.5 s of cProfile tottime).
+
 ### NOT RUN (stated, not implied)
 
 * incremental quality at the delivery grade (25/70 passes) - only 3-pass runs were compared (§190);
 * an automatic "dirty ratio > X ⇒ full re-route" policy;
-* **compiled inner loop** (Cython/Rust).
 
 ## 5. Reproduce the state in three commands
 

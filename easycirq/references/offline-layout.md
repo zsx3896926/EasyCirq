@@ -92,6 +92,10 @@ easycirq layout verify                      # 14 项健康检查（约 6 s）
 easycirq layout feasibility                 # 先算边界（R1）
 easycirq layout pipeline --candidate frontier-i --out-dir out/fi
 easycirq layout gaps_check --candidate all
+> 可选：A* 搜索核有 C 编译版（_astar_c.pyd），本机快 1.3–2.5×，
+> 与纯 Python 产物**逐字节相同**。没有编译产物就自动回退，效果一样只是慢些。
+> 关掉：EASYCIRQ_ASTAR_C=0。重新编译：python easycirq/scripts/layout/build_astar_c.py
+
 easycirq layout equivalence --iters 3 --write     # 改内循环前：记录产物指纹
 easycirq layout equivalence --iters 3 --compare   # 改完后：plan 必须逐字节相同
 easycirq layout bench --iters 3 --compare         # 再确认 KPI 指纹一致并看时间

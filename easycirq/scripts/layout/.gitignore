@@ -1,0 +1,9 @@
+# C 扩展的编译产物：与 Python 版本和平台绑定，不入库
+_astar_c.c
+_astar_c.lib
+_astar_c.pdb
+_astar_c.pyd
+
+# 运行期缓存
+__pycache__/
+.bench/results.sqlite

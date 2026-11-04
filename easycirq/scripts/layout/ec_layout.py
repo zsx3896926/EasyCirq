@@ -18,6 +18,7 @@ gated.
 import argparse
 import json
 import math
+import os
 import random
 import sys
 import zlib
@@ -716,6 +717,52 @@ def _pad_layers(pad, layer_ok):
     return {lay} if lay in layer_ok else None
 
 
+# ── 可选的 C 搜索核 ────────────────────────────────────────────────────
+#
+# `_astar_c` 是 A* 内循环的 Cython 实现（同目录）。它只做搜索，语义逐条照抄
+# 下面的 astar()。加载不到就什么都不做，全部走原路径 —— 编译产物与本机
+# Python 版本绑定，不能假设它存在。
+#
+# 关掉：EASYCIRQ_ASTAR_C=0
+try:
+    import _astar_c as _FAST_ASTAR
+except Exception:                                    # noqa: BLE001
+    _FAST_ASTAR = None
+
+
+def _fast_astar_enabled():
+    if _FAST_ASTAR is None:
+        return False
+    return os.environ.get("EASYCIRQ_ASTAR_C", "1").strip() not in ("0", "false", "False", "")
+
+
+def _bitmap(cells, W, H):
+    """(x, y) 集合 → W*H 字节位图。空集合返回 None（C 侧当"无约束"）。"""
+    if not cells:
+        return None
+    bm = bytearray(W * H)
+    for (x, y) in cells:
+        if 0 <= x < W and 0 <= y < H:
+            bm[y * W + x] = 1
+    return bytes(bm)
+
+
+def _dirty_bitmap(via_block, net, W, H):
+    """via_block: {(x,y): owners} → 该 net 眼中的"脏"位图。
+
+    与原实现的判定一致：owners 里存在 o != net 才算脏。
+    """
+    if not via_block:
+        return None
+    bm = bytearray(W * H)
+    hit = False
+    for (x, y), owners in via_block.items():
+        if 0 <= x < W and 0 <= y < H and any(o != net for o in owners):
+            bm[y * W + x] = 1
+            hit = True
+    return bytes(bm) if hit else None
+
+
 ASTAR_MOVES = ((1, 0, 1.0), (-1, 0, 1.0), (0, 1, 1.0), (0, -1, 1.0),
                (1, 1, 1.414), (1, -1, 1.414), (-1, 1, 1.414), (-1, -1, 1.414))
 
@@ -731,6 +778,47 @@ def astar(board, start, goal, forbidden, cost, pref, allowed, layers=2, layer_ok
     (HANDOFF §180/§181/§186).  Every step is verified against stored plan digests - behaviour must not
     move, only speed.
     """
+    # ── 快路径：C 搜索核 ────────────────────────────────────────────────
+    #
+    # 只接管普通堆搜索。`pref` 必须先按下面原实现的规则算好再传过去，
+    # 否则起点层不同、路径必然不同（第一次对接就踩了这个坑）。
+    if (frontier == "heap" and layer_ok is not None
+            and _fast_astar_enabled()):
+        _W, _H, _L = board.w, board.h, layers
+        _lok = set(layer_ok)
+        _pref = pref if pref in _lok else min(_lok)
+        if start_layer in _lok and layer_penalty <= 0.0:
+            _pref = start_layer
+        _vc = (VIA_COST if via_cost is None else via_cost) * (10.0 / GRID)
+        _gl = -1
+        if goal_layers is not None and len(goal_layers) == 1:
+            _gl = int(next(iter(goal_layers)))
+        elif goal_layers is not None and len(goal_layers) > 1:
+            _gl = -2                      # 多层目标：交回原实现
+        if _gl != -2:
+            # cost 是稀疏的 {(x,y,layer): v}；翻成 (线性下标, 值) 列表交给 C，
+            # 与 Python 版 cost_map 的下标算法一致。
+            _cost_pairs = None
+            if cost:
+                _sl = _W * _H
+                _cost_pairs = [
+                    ((cl - 1) * _sl + cy * _W + cx, v)
+                    for (cx, cy, cl), v in cost.items() if v
+                ]
+            _path = _FAST_ASTAR.astar_c(
+                _W, _H, _L,
+                start[0], start[1], _pref,
+                goal[0], goal[1],
+                _bitmap(forbidden, _W, _H),
+                _bitmap(allowed, _W, _H),
+                _dirty_bitmap(via_block, net, _W, _H),
+                sorted(_lok), _gl,
+                _vc, layer_penalty,
+                _cost_pairs,
+                None,                               # via_pressure（本流程为空）
+            )
+            return _path
+
     W, H, L = board.w, board.h, layers
     stride_y = W
     stride_l = W * H
