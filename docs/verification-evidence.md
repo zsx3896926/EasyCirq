@@ -211,3 +211,109 @@ layout verify 14 项全 PASS
 
 **已知滞后**：1.3.80 的包构建自 commit `8c606a5b`，**早于本轮 A①/B③/E③ 的改动**。
 发版前需要重新构建一次包。**这是 NOT DONE，不是已完成。**
+
+
+---
+
+# 补录：校验器指出的缺口，逐条重跑（2026-11-04 第二次）
+
+## A① 分块现在是**默认生效**，不是环境变量后面的摆设
+
+先前把默认阈值设成"实际不可达"，等于交付的仍是无条件稠密分配——
+正是铁律「存了≠生效了」禁止的。**已改为默认阈值 8,000,000 节点**：
+超过就走分块，代价照实记。
+
+```
+$ EASYCIRQ_ASTAR_C=1 python easycirq/scripts/layout/equivalence.py --iters 3 --compare
+  retrocam/frontier-i      plan identical (27a311f6f7f3332e…)
+  selftest                 plan identical (d0c7ef5bdac4863c…)
+等价性门禁：全部 spot 产物逐字节相同
+```
+
+行数对照：x1 = 810,432（< 8M，走稠密）；x4 = 13,695,616（> 8M，**走分块**）。
+
+## A③ 客户可懂的失效点（文档原文，非转述）
+
+`docs/scale-wall.md` 第四节：
+
+> **在 16 GB 内存的机器上，这套离线布线能跑约 1.2 亿节点以内**
+> （换算：5 mil 栅格、16 层的话约等于 400×500 mm 的板），
+> **超过就会在开始布线之前明确报错**，告诉你节点数、估算内存和怎么调，
+> **不会跑到一半莫名崩掉。**
+>
+> 换算依据：实测约 **127 字节/节点**。`EASYCIRQ_MAX_NODES` 可调（自担内存风险）。
+
+## B① 超线性归因（重跑输出）
+
+```
+$ python tools/attribute_time.py --factors 1,2
+| x1 | 55 | 141 | 2.56 | 0 | 4.95s | 37.1% | 12.03ms | 19.88ms | 13.04ms |
+| x2 | 110 | 395 | 3.59 | 0 | 26.12s | 36.3% | 24.27ms | 30.07ms | 24.0ms |
+
+x1：调用最多的网 [('BATT_M', 8), ('VBUS', 8), ('BB_VIN', 7), ('USB_DP', 6), ('VDD_DW', 5)]
+x2：调用最多的网 [('GND_c1', 79), ('+3V3_c1', 30), ('VBUS_c1', 13), ('BB_VIN_c1', 9), ('BATT_M', 8)]
+x1：失败最多的网 []     x2：失败最多的网 []
+
+=== 拆解：x1 → x2 ===
+  总耗时 x5.28；网络 x2.00；每网调用 x1.40；单次成功均耗时 x1.84
+  三项相乘 = x5.16（与总耗时 x5.28 的差来自固定开销）
+```
+
+**占比**：网络线性部分 2.00 / 总计 5.28 → 重试贡献 1.40 倍、单次变慢贡献 1.84 倍。
+**失败是 0**，所以不是布不通在重试；重试集中在 GND（79 次 / 110 网共 395 次 ≈ 20%）。
+
+## B② path_conflicts 结论（重跑输出）
+
+```
+  route 总时间     : 15.10s
+  path_conflicts   : 642 次, 5.98s = 40%
+  其余             : 9.11s = 60%
+```
+
+**结论：不优化，已量上限并记录。**
+其中唯一显眼的浪费（重算 `board.center`）实测只有 **2.84 M 次 / 0.34 s of 13.01 s = 3%**；
+真正的杠杆是空间索引，属算法改动、需自己的等价性验证，**NOT DONE 并写明理由**。
+
+## B③ 交付档位
+
+小板 `bench.py --iters 25`：frontier-i **123.7s**、frontier-i-fast **24.2s**。
+放大板 `scale_bench --mode nets --factors 2 --iters 25`：**912.98s（15.2 分钟）**。
+放大板 **70 轮**（真的跑完了）：
+
+`
+$ python easycirq/scripts/layout/scale_bench.py --mode nets --factors 2 --iters 70 --timeout 5400
+[nets x2] W×H×L=1129x378x4 nodes=1,707,048 nets=110 2808.52s peak=434.6MB
+| nets x2 | OK | 1129x378x4 | 1707048 | 110 | 1714 | 0 | 960 | 2808.52s | 434.6 MB |
+`
+
+**110 网络 / 1.71M 节点：25 轮 912.98 s，70 轮 2808.52 s（46.8 分钟）。**
+70 轮比 25 轮的线性外推（2556 s）慢 10%，说明迭代不是完全线性——
+**这正是当初不许外推、必须真跑的理由。**
+
+## D 基线复验
+
+```
+$ EASYCIRQ_ASTAR_C=1 python -m pytest easycirq/scripts/layout/tests -q
+  124 passed, 2 skipped
+$ EASYCIRQ_ASTAR_C=0 python -m pytest easycirq/scripts/layout/tests -q
+  124 passed, 2 skipped
+$ python easycirq/scripts/layout/verify.py
+  verify: all stages passed (14 checks)
+$ cd connector && npm test
+  ℹ tests 1240  ℹ pass 1240  ℹ fail 0
+```
+
+## 发布：用本轮改动重新构建
+
+```
+$ python distribution/easycirq_install.py inspect-bundle --bundle dist-release/easycirq-toolchain-1.3.81.zip
+  version: 1.3.81
+  verdict: ok
+  corrupt: []
+  files: 964
+  provenance.sourceCommit: 120e3115b89b97c6f477337c6af8a798a970b2b8
+  provenance.sourceDirty: False
+  components.python.fileCount: 37
+```
+
+`sourceCommit` 与本轮 HEAD 一致，`sourceDirty=False` —— 包就是当前源码构建的。

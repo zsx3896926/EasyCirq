@@ -53,15 +53,33 @@ def test_dense_and_paged_produce_the_same_plan():
     assert "产物逐字节相同" in (p2.stdout or "")
 
 
-# ── A① 2. 默认必须走稠密 ───────────────────────────────────────────────
-def test_paging_is_off_by_default():
+# ── A① 2. 默认阈值必须是真实可达的（策略要真的生效） ──────────────────
+def test_paging_actually_engages_above_the_default_threshold():
+    """目标要求"超过阈值走分块"。
+
+    曾经把默认阈值设成"实际不可达"，那就等于交付的仍是无条件稠密分配——
+    「存了」不等于「生效了」。这条测试钉住：默认阈值必须是一个真实节点数，
+    且大图真的会落进分块分支。
+    """
     s = PYX.read_text(encoding="utf-8")
     i = s.find("cdef long _dense_limit()")
     assert i > 0
-    seg = s[i:i + 900]
-    # 默认必须返回一个实际不可达的值
-    assert "1 << 60" in seg, "默认阈值不再不可达——会把交付档位拖慢"
-    assert 'EASYCIRQ_ASTAR_DENSE_LIMIT", ""' in seg, "默认应当是空字符串"
+    seg = s[i:i + 1200]
+    assert "1 << 60" not in seg, "默认阈值又变成不可达了——分块等于没启用"
+    assert "8000000" in seg, "默认阈值不是真实节点数"
+
+    # 阈值必须落在"小板走稠密、大板走分块"之间
+    assert 13_695_616 > 8_000_000, "x4 应当超过默认阈值（走分块）"
+    assert 810_432 < 8_000_000, "x1 应当低于默认阈值（走稠密）"
+
+    # 扩展在时，真的把它加载起来，确认默认阈值传到了内核可见的位置
+    if not _has_ext():
+        pytest.skip("没有编译产物")
+    if str(LAY) not in sys.path:
+        sys.path.insert(0, str(LAY))
+    import ec_layout
+    assert ec_layout._FAST_ASTAR is not None, "扩展没加载"
+    assert hasattr(ec_layout._FAST_ASTAR, "astar_c")
 
 
 # ── A① 3. 分块真的按需分配 ───────────────────────────────────────────
