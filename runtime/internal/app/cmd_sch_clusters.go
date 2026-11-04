@@ -536,6 +536,13 @@ func runSchClusters(cfg *appConfig, window string, minGap float64, asJSON, stric
 	} else {
 		fmt.Fprintf(stdout, "clusters — %d 个虚拟组(器件 + 它自己的 marker/桩线;跨器件的连线不计入体积)\n",
 			len(clusters))
+		// 判据说清楚（卡点 #34）：`clusters` 的"重叠"是**组框相交**，
+		// `sch check` 的"marker-overlap"是**标号文字框碰撞**（还带灰度容差）。
+		// 两者名字一样、尺子不同，实测在同一块板上可以零交集 —— 板2：
+		// check 报的是 VBAT_RAW↔GND（5 条），clusters 报的是 C5↔C6 等（6 处）。
+		// 不写清的话，人会以为其中一个漏报了。
+		fmt.Fprintf(stdout, "  判据：组框(本体 ∪ 本组 marker 可达范围)相交即 ERROR；"+
+			"这不等于标号文字碰撞 —— 后者的判据在 `sch check` 的 marker-overlap，两者可能不重合\n")
 		for _, c := range clusters {
 			fmt.Fprintf(stdout, "  %-6s 体积 x=[%.0f,%.0f] y=[%.0f,%.0f]  %.0f×%.0f   本体 %.0f×%.0f   marker %d / 桩线 %d\n",
 				c.Designator, c.Box.MinX, c.Box.MaxX, c.Box.MinY, c.Box.MaxY,
