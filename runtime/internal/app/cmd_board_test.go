@@ -33,6 +33,9 @@ func newCapturingDaemon(t *testing.T) (*appConfig, *capturedRequest, func()) {
 			cap.action = body.Action
 			cap.timeoutMs = body.TimeoutMs
 			cap.payload = body.Payload
+			cap.calls = append(cap.calls, capturedCall{
+				action: body.Action, timeoutMs: body.TimeoutMs, payload: body.Payload,
+			})
 			cap.mu.Unlock()
 			_, _ = w.Write([]byte(`{"ok":true,"result":{}}`))
 		default:
@@ -52,6 +55,18 @@ func newCapturingDaemon(t *testing.T) (*appConfig, *capturedRequest, func()) {
 
 type capturedRequest struct {
 	mu        sync.Mutex
+	action    string
+	timeoutMs int
+	payload   map[string]any
+	// calls 记录**每一次**动作，按发生顺序。
+	//
+	// 为什么需要：一条命令可能发出不止一个动作（`project create --open` 之后
+	// 还会 pages.list + page.open 去激活第一页）。只看"最后一次"会让
+	// "project create 的字段有没有传对"这种断言失效。
+	calls []capturedCall
+}
+
+type capturedCall struct {
 	action    string
 	timeoutMs int
 	payload   map[string]any

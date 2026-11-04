@@ -38,15 +38,21 @@ func TestProjectCreateWiresExplicitFields(t *testing.T) {
 		})
 	captured.mu.Lock()
 	defer captured.mu.Unlock()
-	if captured.action != "project.create" {
-		t.Fatalf("action=%q, want project.create", captured.action)
+	// `--open` 之后还会 pages.list + page.open 去激活第一页，所以不能只看
+	// 最后一次调用；第一个动作才是 project.create。
+	if len(captured.calls) == 0 {
+		t.Fatal("no action was dispatched")
+	}
+	first := captured.calls[0]
+	if first.action != "project.create" {
+		t.Fatalf("first action=%q, want project.create", first.action)
 	}
 	want := map[string]any{
 		"friendlyName": "AT32F415 demo", "projectName": "at32-demo", "teamUuid": "team-1",
 		"folderUuid": "folder-1", "description": "exam", "open": true,
 	}
-	if !reflect.DeepEqual(captured.payload, want) {
-		t.Fatalf("payload=%#v, want %#v", captured.payload, want)
+	if !reflect.DeepEqual(first.payload, want) {
+		t.Fatalf("payload=%#v, want %#v", first.payload, want)
 	}
 }
 

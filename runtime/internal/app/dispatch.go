@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -401,6 +402,12 @@ type actionContext struct {
 	DocumentUUID string `json:"documentUuid,omitempty"`
 	DocumentType string `json:"documentType,omitempty"`
 	TabID        string `json:"tabId,omitempty"`
+	// PageVisibility is the connector's own verdict on whether the page is
+	// actually in the editor (visible) or merely created (hidden). A newly
+	// created project reports hidden until `schematic.page.open` runs, and
+	// every read/write fails while it stays hidden — so callers that create
+	// projects need to see it (see activateFirstPage in cmd_project.go).
+	PageVisibility string `json:"pageVisibility,omitempty"`
 }
 
 // artifactRef is the subset of a response artifact a CLI caller needs to locate
@@ -469,6 +476,9 @@ type actionResult struct {
 	// than assume anything. See conn_seq.go / sch_place_adopt.go.
 	Seq      schSeqCounters
 	errorMsg string
+	// errorDetail 是 daemon 的 error.detail 原文。STALE_WINDOW 时它带着
+	// "Connected now: <uuid> [project=…], …"，是重新绑定窗口的唯一线索。
+	errorDetail string
 	// errorCode is the daemon/connector error.code that came with ok=false
 	// ("STALE_READ", …). Callers that must branch on WHY a
 	// call failed read this instead of matching on the message text.
@@ -501,7 +511,48 @@ func requestActionTimed(cfg *appConfig, action, window string, payload any, time
 		res, e = requestActionOnce(cfg, action, window, payload, timeout)
 		return e
 	}, queueBlockRetryPolicy{Stderr: queueWaitProgress})
+
+	// 窗口 ID 在连接器重连后会变（STALE_WINDOW）。只有一个窗口连着时，
+	// "要发给谁"没有歧义，直接重试一次，而不是让用户去 `easycirq doctor`
+	// 里翻新 id 再来一遍 —— 那是纯手工负担，且客户大概率不知道要这么做。
+	//
+	// 有多个窗口时**不重试**：猜错会把命令发到另一块板上，比失败更糟。
+	if res != nil && !res.OK && res.errorCode == "STALE_WINDOW" {
+		if alt, ok := soleLiveWindow(res.errorDetail); ok && alt != window {
+			if queueWaitProgress != nil {
+				fmt.Fprintf(queueWaitProgress,
+					"note: window %q is stale (the connector reconnected); "+
+						"retrying on the only connected window %q\n", window, alt)
+			}
+			res2, err2 := requestActionOnce(cfg, action, alt, payload, timeout)
+			if err2 == nil || (res2 != nil && res2.OK) {
+				return res2, err2
+			}
+			return res2, err2
+		}
+	}
 	return res, err
+}
+
+// soleLiveWindow 从 STALE_WINDOW 的 detail 里取"当前连着的窗口"，
+// 且仅当**恰好一个**时返回。多个或取不到都对调用方说"我不知道"。
+//
+// detail 形如：
+//
+//	window IDs change on reconnect. Connected now: <uuid> [project=(no project) doc=? host=electron].
+//	window IDs change on reconnect. Connected now: <uuid> [...], <uuid2> [...].
+func soleLiveWindow(detail string) (string, bool) {
+	const marker = "Connected now:"
+	i := strings.Index(detail, marker)
+	if i < 0 {
+		return "", false
+	}
+	rest := detail[i+len(marker):]
+	ids := uuidRe.FindAllString(rest, -1)
+	if len(ids) != 1 {
+		return "", false
+	}
+	return ids[0], true
 }
 
 // queueWaitProgress 是「正在等队列排空」的进度出口。默认 stderr:静默地等
@@ -553,6 +604,9 @@ func requestActionOnce(cfg *appConfig, action, window string, payload any, timeo
 		}
 		res.errorMsg = msg
 		res.errorCode = code
+		if parsed.Error != nil {
+			res.errorDetail = parsed.Error.Detail
+		}
 		// 结构化错误(actionError):文本与旧版逐字一致,额外带上 error.code,
 		// 于是调用方能把「机械门拦下的」(STALE_READ)和「真的读失败了」分开处理
 		// —— 两者的下一步完全不同。见 stale_read_optin.go。
@@ -1499,11 +1553,14 @@ func resolveActionEndpoint(cfg *appConfig, scan healthResult) (actionEndpoint, e
 	}
 	if scan.Found == nil {
 		return actionEndpoint{}, fmt.Errorf(
-			"没有找到本机 daemon，也没有登录公司服务器。\n"+
-				"  本机用法：easycirq daemon start\n"+
+			"没有找到本机 daemon，也没有登录公司服务器。\n" +
+				"  本机用法：easycirq daemon start\n" +
 				"  企业用法：easycirq login --server https://<公司服务器> --token <token>")
 	}
 	return actionEndpoint{
 		url: fmt.Sprintf("http://%s:%d/action", cfg.host, scan.Found.Port),
 	}, nil
 }
+
+// uuidRe 匹配连接器窗口 ID 的规范形式（8-4-4-4-12）。
+var uuidRe = regexp.MustCompile(`[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}`)
