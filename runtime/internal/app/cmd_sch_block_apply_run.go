@@ -786,6 +786,11 @@ func runBlockApply(cfg *appConfig, window, blockID string, in bapInput, partsPat
 	if err != nil {
 		return err
 	}
+	// 自动解析时把真实路径回填给下游诊断——原来留空，报错就只剩一个
+	// "standard-parts.json"，看不出读的是硬盘上三份里的哪一份。
+	partsPath = path
+	in.PartsPath = path
+	in.PartsShadowed = shadowedStandardParts(path)
 	if in.Devices, err = loadStandardParts(path); err != nil {
 		return err
 	}

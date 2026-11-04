@@ -1,0 +1,27 @@
+name: Validate Go runtime
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  go:
+    # the runtime has Windows-specific behaviour (path handling, temp installs,
+    # gate tests, directory renames), so pin the runner to the platform the
+    # product ships on
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: runtime/go.mod
+          cache: true
+      - name: Build every package
+        run: go build ./...
+      - name: Vet
+        run: go vet ./...
+      - name: Unit tests
+        run: go test ./... -count=1 -vet=off

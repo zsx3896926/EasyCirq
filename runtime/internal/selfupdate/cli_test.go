@@ -118,7 +118,9 @@ func TestUpdateCLIReplacesBinaryAndVerifiesChecksum(t *testing.T) {
 	}
 	if fi, err := os.Stat(path); err != nil {
 		t.Fatal(err)
-	} else if fi.Mode().Perm()&0o111 == 0 {
+	} else if runtime.GOOS != "windows" && fi.Mode().Perm()&0o111 == 0 {
+		// Windows has no executable bit: a .exe is runnable regardless of mode,
+		// so the POSIX permission check only applies elsewhere.
 		t.Errorf("replacement is not executable (mode %v)", fi.Mode())
 	}
 	// The temp download must not survive the swap.

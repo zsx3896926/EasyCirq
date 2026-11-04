@@ -1,0 +1,151 @@
+# 温度报警器 — 交付包
+
+> ✅ **2026-10-31 修复后重新走完流程**：电源网络改到 PWR5V、蜂鸣器加了三极管驱动。
+> 之前那一版有两个致命缺陷而门禁仍判 11/11，经过见
+> [功能缺陷记录](../../docs/alarm-functional-defect.md)。
+
+> 不需要懂 EDA。**每个决策点只看一份文件，下面这张表就是导航。**
+
+## 什么时候看哪一份
+
+| 你要决定的事 | 只看这一份 |
+|---|---|
+| 现在能不能打样 | `card.txt` |
+| 板子有什么电路、为什么这么选 | `schematic.svg` |
+| 买什么料、C 号对不对 | `bom.csv` |
+| 电气上还差什么才能上电 | `electrical-checklist.md` |
+| 打样回来怎么验 | `acceptance-guide.md` |
+| 多少钱、多久 | `cost-and-leadtime.md` |
+| 怎么下单 | `HOW-TO-ORDER.md` |
+
+其余文件是给复核用的证据，客户不需要主动打开。
+
+
+
+其余文件是**证据与数据**，不是要你读的说明：
+`schematic.svg`（图）、`bom.csv`（料）、`board-gerber.zip`（给板厂）、
+`design/`（可复现输入）、`acceptance.example.json`（填表格式）、`SHA256SUMS`（校验）。
+
+## 文件清单
+
+
+## 电路是什么
+
+```
+电源 ── R1 ── 温度分压点 ── NTC（温度电阻） ── 地      温度 → 电压
+电源 ── R2 ── 阈值点 ───── R3 ────────────── 地      设定"多少度响"
+比较器：温度分压点 接 正输入，阈值点 接 负输入
+        输出 ── 蜂鸣器 ── 地
+100nF 小电容跨在电源与地之间，稳住比较器
+```
+
+温度超过设定值时，温度分压点电压低于阈值点，比较器输出翻转，蜂鸣器响。
+
+## 物料清单
+
+
+（清单里还有一颗 LED 与一颗电阻，因为**这块板合并了之前做的 LED 演示电路**。
+若只要纯净的报警器板，需把 LED 那页删掉再做一次。）
+
+## 卡片
+
+\✅ 可以下单（原理图与板子都通过）
+
+板子检查：通过（0 项）
+检查结果：必查 14/14 通过 · 缺证据 0 · 不适用 3 · 提醒 1
+下一步：导出制造文件；打样回来后做验收
+\
+19 项检查中 14 项是「必查」。其中三项是 2026-10-31 之后新增的，都由这块板暴露：
+**第 16 项 电源网络**、**第 17 项 图板一致**、**第 18 项 BOM 一致**。
+2026-11-01 又补了**第 19 项 设计有效性**——它同样是这块板逼出来的：
+板子的阈值算成 25°C、三极管永远不导通、比较器没有回差，
+而前 18 项全是绿的。
+
+原理图另有 6 项 warn（5 个网络标签落在图框外 + 1 个孤立网络名），
+不阻断、不影响连通性，但出图可能裁到标签。
+
+## 多少钱、多久
+
+- 单板元器件约 **¥8–15**
+- 5 片打样 + 贴片约 **¥50–80**
+- **3–5 天**出板
+
+## 必须知道的边界
+
+1. **板上有两个独立电路**（LED 指示 + 温度报警），是演示用途，不是产品形态。
+2. **没有实物验证过**：阈值准不准、蜂鸣器够不够响、热敏电阻批次差异，都要等板子回来才知道。
+3. 这份包能让你**下单**，不能证明**能用**。
+
+---
+
+## 附：技术细节（给工程师 / 留档）
+
+### 检查结果
+
+
+### 文件内容核验
+
+
+导出后专门查过内容不是空白——否则交付包里那张"原理图"就是一张白纸。
+（未做位图渲染：本机没有确定性的 SVG→PNG 工具链，所以"看起来对不对"没有验证。）
+
+### 生产文件清单（11 层）
+
+```
+Gerber_TopLayer.GTL             顶层铜
+Gerber_BottomLayer.GBL          底层铜
+Gerber_TopSilkscreenLayer.GTO   顶层丝印
+Gerber_BottomSilkscreenLayer.GBO 底层丝印
+Gerber_TopSolderMaskLayer.GTS   顶层阻焊
+Gerber_BottomSolderMaskLayer.GBS 底层阻焊
+Gerber_TopPasteMaskLayer.GTP    顶层钢网
+Gerber_BoardOutlineLayer.GKO    板框
+Gerber_DocumentLayer.GDL        文档层
+Drill_PTH_Through.DRL           通孔钻孔
+PCB下单必读.txt                  下单说明
+```
+
+### 令牌说明
+
+导出生产文件时若报 `GATE_REQUIRED`，是检查结论已过期（默认 30 分钟）——
+重跑一次检查即可，不是故障。
+
+## 核对文件完整性
+
+拿到包之后可以核一下有没有传输损坏：
+
+`ash
+sha256sum -c SHA256SUMS        # Linux / macOS
+Get-FileHash * -Algorithm SHA256   # Windows PowerShell
+`
+
+每个文件都应该显示 OK。不一致说明下载或拷贝过程中坏了，重新拿一份。
+
+## 文件清单
+
+| 文件 | 是什么 |
+|---|---|
+| `HOW-TO-ORDER.md` | **从这里开始**：四步走完从下单到验收，含关键选项怎么选、没响时按什么顺序查 |
+| `acceptance-guide.md` | 打样回来后怎么验收 |
+| `acceptance.example.json` | 验收记录的格式示例（里面是假数据） |
+| `board-gerber.zip` | 给板厂的生产文件（12 层，含两套钻孔） |
+| `bom.csv` | 物料清单（9 个位号，每个都有立创编号，可直接配单） |
+| `card.txt` | 上机前的卡（能不能打样 / 还差什么） |
+| `cost-and-leadtime.md` | **开工前的回答**：能不能做（能）+ 价格驱动因素（面积/层数/贴片点/料种），报价与交期标为未核实 |
+| `design/README.md` | （见目录说明） |
+| `design/bom.tsv` | （见目录说明） |
+| `design/intent.json` | （见目录说明） |
+| `design/kpi-report.json` | （见目录说明） |
+| `design/pinplan.json` | （见目录说明） |
+| `design/snapshot/bom.tsv` | （见目录说明） |
+| `design/snapshot/connectivity-before.json` | （见目录说明） |
+| `design/snapshot/connectivity-reopen.json` | （见目录说明） |
+| `design/snapshot/connectivity.json` | （见目录说明） |
+| `design/snapshot/drc.json` | （见目录说明） |
+| `design/snapshot/list.json` | （见目录说明） |
+| `design/snapshot/pcb-dump.json` | （见目录说明） |
+| `design/snapshot/pinplan.json` | （见目录说明） |
+| `design/snapshot/sheet.json` | （见目录说明） |
+| `electrical-checklist.md` | **打样后按这张表测**：每个节点该有的电压、六个必测数、最可能接反的那一项 |
+| `schematic.svg` | 原理图（可放大看细节） |
+| `SHA256SUMS` | 全部文件的 SHA256 |

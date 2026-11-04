@@ -993,6 +993,21 @@ func fetchBoardSnapshot(cfg *appConfig, window string, opts boardSnapshotOpts) (
 				snap.Availability["copper"] = "unknown"
 			}
 		}
+	} else {
+		// 不加 --include-copper 时，走线/过孔/铺铜**根本不在快照里**——
+		// 而"没有这个字段"和"板子没布线"在调用方看来一模一样。
+		//
+		// 2026-11-02 实测：这样读了两次，两次都得出"板子一条线都没布"，
+		// 还据此重跑了 auto-place 和 autoroute。真实情况是 109 段铜线、
+		// 8 个网络全布完了。默认输出里**一个提示都没有**，所以这个误判
+		// 看起来像"读到的事实"而不是"读错了"。
+		//
+		// 用 capture provenance: 前缀是刻意的：这类说明属于"这次抓到了什么"，
+		// 不是板子的语义，boardSnapshotSemanticSHA256 会把它排除在哈希外，
+		// 既有冻结基准不受影响。
+		snap.note("capture provenance: copper NOT captured (no --include-copper) — " +
+			"routed traces, vias and pours are ABSENT from this snapshot; an absent " +
+			"list here is not an empty board. Re-run with --include-copper to read routing")
 	}
 	if capture.mismatch != nil {
 		return snap, capture.mismatch

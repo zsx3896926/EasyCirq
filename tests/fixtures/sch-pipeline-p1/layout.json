@@ -1,0 +1,1399 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easycirq reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  1170.0,
+  825.0
+ ],
+ "components": [
+  {
+   "id": "d0270a804cf0eb83",
+   "bbox": [
+    64.5,
+    634.5,
+    175.5,
+    765.5
+   ]
+  },
+  {
+   "id": "46e5d5ca1c85c346",
+   "bbox": [
+    319.5,
+    691.5,
+    340.5,
+    708.5
+   ]
+  },
+  {
+   "id": "e2ab89fabe6c8cc0",
+   "bbox": [
+    951.5,
+    691.5,
+    965.5,
+    707.5
+   ]
+  },
+  {
+   "id": "f4d93e0e5018c989",
+   "bbox": [
+    109.5,
+    465.5,
+    130.5,
+    474.5
+   ]
+  },
+  {
+   "id": "8c1fcd6ff188b032",
+   "bbox": [
+    319.5,
+    465.5,
+    340.5,
+    474.5
+   ]
+  },
+  {
+   "id": "c1375d675aa94c16",
+   "bbox": [
+    529.5,
+    465.5,
+    550.5,
+    474.5
+   ]
+  },
+  {
+   "id": "eab1e34d1d74d944",
+   "bbox": [
+    739.5,
+    464.5,
+    760.5,
+    475.5
+   ]
+  },
+  {
+   "id": "d3bad5d160c45297",
+   "bbox": [
+    921.5,
+    459.5,
+    938.5,
+    480.5
+   ]
+  },
+  {
+   "id": "9666c637f6a916b0",
+   "bbox": [
+    109.5,
+    224.5,
+    130.5,
+    255.5
+   ]
+  },
+  {
+   "id": "5af07d392c884bf2",
+   "bbox": [
+    299.5,
+    214.5,
+    360.5,
+    245.5
+   ]
+  },
+  {
+   "id": "539fa105b4096d09",
+   "bbox": [
+    514.5,
+    219.5,
+    565.5,
+    260.5
+   ]
+  },
+  {
+   "id": "3689a032d52c2ceb",
+   "bbox": [
+    789.5,
+    209.5,
+    830.5,
+    260.5
+   ]
+  },
+  {
+   "id": "a63e3f2a60199c9a",
+   "bbox": [
+    351.5,
+    371.5,
+    365.5,
+    387.5
+   ]
+  },
+  {
+   "id": "deca5432895f1966",
+   "bbox": [
+    519.5,
+    529.5,
+    600.5,
+    590.5
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "id": "b09897b257499920",
+   "bbox": [
+    -391.0,
+    805.0,
+    30.0,
+    826.0
+   ],
+   "kind": "free_text",
+   "content": "P1 电源输入与充电（USB-C / TP4056 / 保护）",
+   "measurement": "estimated"
+  }
+ ],
+ "wires": [
+  {
+   "id": "001785f3aea1d529#0",
+   "primitive_id": "001785f3aea1d529",
+   "points": [
+    [
+     400,
+     380
+    ],
+    [
+     380,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "085d9f7d0d479ec9#0",
+   "primitive_id": "085d9f7d0d479ec9",
+   "points": [
+    [
+     35,
+     755
+    ],
+    [
+     55,
+     755
+    ]
+   ]
+  },
+  {
+   "id": "0de5db3a3c4dc507#0",
+   "primitive_id": "0de5db3a3c4dc507",
+   "points": [
+    [
+     695,
+     580
+    ],
+    [
+     610,
+     580
+    ]
+   ]
+  },
+  {
+   "id": "16370aa063ba5bfb#0",
+   "primitive_id": "16370aa063ba5bfb",
+   "points": [
+    [
+     465,
+     230
+    ],
+    [
+     505,
+     230
+    ]
+   ],
+   "net": "OC"
+  },
+  {
+   "id": "18b95af9d40c2bbc#0",
+   "primitive_id": "18b95af9d40c2bbc",
+   "points": [
+    [
+     225,
+     695
+    ],
+    [
+     185,
+     695
+    ]
+   ],
+   "net": "USB_DM"
+  },
+  {
+   "id": "1df204cbc64059e8#0",
+   "primitive_id": "1df204cbc64059e8",
+   "points": [
+    [
+     880,
+     250
+    ],
+    [
+     840,
+     250
+    ]
+   ],
+   "net": "D12"
+  },
+  {
+   "id": "2673b150c4517b82#0",
+   "primitive_id": "2673b150c4517b82",
+   "points": [
+    [
+     740,
+     220
+    ],
+    [
+     780,
+     220
+    ]
+   ],
+   "net": "OD"
+  },
+  {
+   "id": "27605e5ab0b47f86#0",
+   "primitive_id": "27605e5ab0b47f86",
+   "points": [
+    [
+     605,
+     250
+    ],
+    [
+     575,
+     250
+    ]
+   ]
+  },
+  {
+   "id": "32a9a5d41bcc885a#0",
+   "primitive_id": "32a9a5d41bcc885a",
+   "points": [
+    [
+     15,
+     705
+    ],
+    [
+     55,
+     705
+    ]
+   ],
+   "net": "USB_DM"
+  },
+  {
+   "id": "3447fd2f37788d4f#0",
+   "primitive_id": "3447fd2f37788d4f",
+   "points": [
+    [
+     455,
+     240
+    ],
+    [
+     505,
+     240
+    ]
+   ]
+  },
+  {
+   "id": "357f758662f04c67#0",
+   "primitive_id": "357f758662f04c67",
+   "points": [
+    [
+     270,
+     470
+    ],
+    [
+     310,
+     470
+    ]
+   ],
+   "net": "CC1"
+  },
+  {
+   "id": "39fd1853fc4ff16b#0",
+   "primitive_id": "39fd1853fc4ff16b",
+   "points": [
+    [
+     930,
+     240
+    ],
+    [
+     840,
+     240
+    ]
+   ]
+  },
+  {
+   "id": "3a5af47d395323fb#0",
+   "primitive_id": "3a5af47d395323fb",
+   "points": [
+    [
+     340,
+     295
+    ],
+    [
+     340,
+     265
+    ]
+   ]
+  },
+  {
+   "id": "3f7162ef4c5ceb2c#0",
+   "primitive_id": "3f7162ef4c5ceb2c",
+   "points": [
+    [
+     35,
+     645
+    ],
+    [
+     55,
+     645
+    ]
+   ]
+  },
+  {
+   "id": "4099944e599950f2#0",
+   "primitive_id": "4099944e599950f2",
+   "points": [
+    [
+     455,
+     540
+    ],
+    [
+     510,
+     540
+    ]
+   ]
+  },
+  {
+   "id": "496ededbd52f0e01#0",
+   "primitive_id": "496ededbd52f0e01",
+   "points": [
+    [
+     880,
+     220
+    ],
+    [
+     840,
+     220
+    ]
+   ],
+   "net": "OC"
+  },
+  {
+   "id": "4fbc88cd11ce3ba1#0",
+   "primitive_id": "4fbc88cd11ce3ba1",
+   "points": [
+    [
+     380,
+     570
+    ],
+    [
+     510,
+     570
+    ]
+   ]
+  },
+  {
+   "id": "4fdb97d0ab6ae695#0",
+   "primitive_id": "4fdb97d0ab6ae695",
+   "points": [
+    [
+     315,
+     380
+    ],
+    [
+     340,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "5da0d9dd8861e5d4#0",
+   "primitive_id": "5da0d9dd8861e5d4",
+   "points": [
+    [
+     605,
+     240
+    ],
+    [
+     575,
+     240
+    ]
+   ]
+  },
+  {
+   "id": "5ef80346818fa117#0",
+   "primitive_id": "5ef80346818fa117",
+   "points": [
+    [
+     480,
+     470
+    ],
+    [
+     520,
+     470
+    ]
+   ],
+   "net": "CC2"
+  },
+  {
+   "id": "5fbf385499cbda7b#0",
+   "primitive_id": "5fbf385499cbda7b",
+   "points": [
+    [
+     800,
+     470
+    ],
+    [
+     770,
+     470
+    ]
+   ]
+  },
+  {
+   "id": "6311f3e8aa5f492c#0",
+   "primitive_id": "6311f3e8aa5f492c",
+   "points": [
+    [
+     30,
+     235
+    ],
+    [
+     100,
+     235
+    ]
+   ]
+  },
+  {
+   "id": "64431f42a31fe1a2#0",
+   "primitive_id": "64431f42a31fe1a2",
+   "points": [
+    [
+     425,
+     550
+    ],
+    [
+     510,
+     550
+    ]
+   ]
+  },
+  {
+   "id": "65416bc898be88e2#0",
+   "primitive_id": "65416bc898be88e2",
+   "points": [
+    [
+     60,
+     470
+    ],
+    [
+     100,
+     470
+    ]
+   ],
+   "net": "PROG"
+  },
+  {
+   "id": "65aebe1dd2e92a6d#0",
+   "primitive_id": "65aebe1dd2e92a6d",
+   "points": [
+    [
+     310,
+     315
+    ],
+    [
+     310,
+     265
+    ]
+   ]
+  },
+  {
+   "id": "7185c4828939e3a9#0",
+   "primitive_id": "7185c4828939e3a9",
+   "points": [
+    [
+     15,
+     685
+    ],
+    [
+     55,
+     685
+    ]
+   ],
+   "net": "CC1"
+  },
+  {
+   "id": "7ac2d0ca4228b9c7#0",
+   "primitive_id": "7ac2d0ca4228b9c7",
+   "points": [
+    [
+     465,
+     250
+    ],
+    [
+     505,
+     250
+    ]
+   ],
+   "net": "OD"
+  },
+  {
+   "id": "7b77e04b668a6a62#0",
+   "primitive_id": "7b77e04b668a6a62",
+   "points": [
+    [
+     930,
+     430
+    ],
+    [
+     930,
+     450
+    ]
+   ]
+  },
+  {
+   "id": "7ef5a8012d83be9c#0",
+   "primitive_id": "7ef5a8012d83be9c",
+   "points": [
+    [
+     290,
+     700
+    ],
+    [
+     310,
+     700
+    ]
+   ]
+  },
+  {
+   "id": "83f949152b15f298#0",
+   "primitive_id": "83f949152b15f298",
+   "points": [
+    [
+     1005,
+     700
+    ],
+    [
+     980,
+     700
+    ]
+   ]
+  },
+  {
+   "id": "872828ae116e47fe#0",
+   "primitive_id": "872828ae116e47fe",
+   "points": [
+    [
+     900,
+     700
+    ],
+    [
+     940,
+     700
+    ]
+   ],
+   "net": "VDD_DW"
+  },
+  {
+   "id": "884563b3afa23193#0",
+   "primitive_id": "884563b3afa23193",
+   "points": [
+    [
+     750,
+     230
+    ],
+    [
+     780,
+     230
+    ]
+   ]
+  },
+  {
+   "id": "95476fb102a0be83#0",
+   "primitive_id": "95476fb102a0be83",
+   "points": [
+    [
+     125,
+     585
+    ],
+    [
+     125,
+     615
+    ]
+   ]
+  },
+  {
+   "id": "97049e606f14a944#0",
+   "primitive_id": "97049e606f14a944",
+   "points": [
+    [
+     890,
+     230
+    ],
+    [
+     840,
+     230
+    ]
+   ]
+  },
+  {
+   "id": "9b342c4ee07fb31f#0",
+   "primitive_id": "9b342c4ee07fb31f",
+   "points": [
+    [
+     240,
+     675
+    ],
+    [
+     185,
+     675
+    ]
+   ]
+  },
+  {
+   "id": "9c041af4a8aa221e#0",
+   "primitive_id": "9c041af4a8aa221e",
+   "points": [
+    [
+     680,
+     540
+    ],
+    [
+     610,
+     540
+    ]
+   ]
+  },
+  {
+   "id": "9cd5128c24c71cf9#0",
+   "primitive_id": "9cd5128c24c71cf9",
+   "points": [
+    [
+     115,
+     540
+    ],
+    [
+     115,
+     615
+    ]
+   ]
+  },
+  {
+   "id": "9e6e82587f7d019d#0",
+   "primitive_id": "9e6e82587f7d019d",
+   "points": [
+    [
+     160,
+     470
+    ],
+    [
+     140,
+     470
+    ]
+   ]
+  },
+  {
+   "id": "a76a83ddd54a0da2#0",
+   "primitive_id": "a76a83ddd54a0da2",
+   "points": [
+    [
+     225,
+     715
+    ],
+    [
+     185,
+     715
+    ]
+   ],
+   "net": "CC2"
+  },
+  {
+   "id": "a807e27c9a6a1f6b#0",
+   "primitive_id": "a807e27c9a6a1f6b",
+   "points": [
+    [
+     35,
+     675
+    ],
+    [
+     55,
+     675
+    ]
+   ]
+  },
+  {
+   "id": "aa9388f626faf0e2#0",
+   "primitive_id": "aa9388f626faf0e2",
+   "points": [
+    [
+     35,
+     725
+    ],
+    [
+     55,
+     725
+    ]
+   ]
+  },
+  {
+   "id": "ad8197f6ff12f798#0",
+   "primitive_id": "ad8197f6ff12f798",
+   "points": [
+    [
+     225,
+     705
+    ],
+    [
+     185,
+     705
+    ]
+   ],
+   "net": "USB_DP"
+  },
+  {
+   "id": "b0a247f8a6e3c1db#0",
+   "primitive_id": "b0a247f8a6e3c1db",
+   "points": [
+    [
+     930,
+     510
+    ],
+    [
+     930,
+     490
+    ]
+   ]
+  },
+  {
+   "id": "b66b02265cbcbf15#0",
+   "primitive_id": "b66b02265cbcbf15",
+   "points": [
+    [
+     700,
+     470
+    ],
+    [
+     730,
+     470
+    ]
+   ]
+  },
+  {
+   "id": "b81912dd90222d6e#0",
+   "primitive_id": "b81912dd90222d6e",
+   "points": [
+    [
+     70,
+     245
+    ],
+    [
+     100,
+     245
+    ]
+   ]
+  },
+  {
+   "id": "bbb10c7f436b0d51#0",
+   "primitive_id": "bbb10c7f436b0d51",
+   "points": [
+    [
+     470,
+     560
+    ],
+    [
+     510,
+     560
+    ]
+   ],
+   "net": "PROG"
+  },
+  {
+   "id": "be46a4fde2dde572#0",
+   "primitive_id": "be46a4fde2dde572",
+   "points": [
+    [
+     665,
+     570
+    ],
+    [
+     610,
+     570
+    ]
+   ]
+  },
+  {
+   "id": "cf461f32395c9151#0",
+   "primitive_id": "cf461f32395c9151",
+   "points": [
+    [
+     15,
+     695
+    ],
+    [
+     55,
+     695
+    ]
+   ],
+   "net": "USB_DP"
+  },
+  {
+   "id": "cf9a159f372076e1#0",
+   "primitive_id": "cf9a159f372076e1",
+   "points": [
+    [
+     205,
+     755
+    ],
+    [
+     185,
+     755
+    ]
+   ]
+  },
+  {
+   "id": "dfac2ca5d2eaa8ba#0",
+   "primitive_id": "dfac2ca5d2eaa8ba",
+   "points": [
+    [
+     205,
+     725
+    ],
+    [
+     185,
+     725
+    ]
+   ]
+  },
+  {
+   "id": "e15ee0bf892afdcc#0",
+   "primitive_id": "e15ee0bf892afdcc",
+   "points": [
+    [
+     370,
+     700
+    ],
+    [
+     350,
+     700
+    ]
+   ]
+  },
+  {
+   "id": "e29fa12d3f0c67ff#0",
+   "primitive_id": "e29fa12d3f0c67ff",
+   "points": [
+    [
+     740,
+     250
+    ],
+    [
+     780,
+     250
+    ]
+   ],
+   "net": "D12"
+  },
+  {
+   "id": "f21dea7ec42df3c1#0",
+   "primitive_id": "f21dea7ec42df3c1",
+   "points": [
+    [
+     205,
+     645
+    ],
+    [
+     185,
+     645
+    ]
+   ]
+  },
+  {
+   "id": "fcb08f9718d3385e#0",
+   "primitive_id": "fcb08f9718d3385e",
+   "points": [
+    [
+     750,
+     240
+    ],
+    [
+     780,
+     240
+    ]
+   ]
+  }
+ ],
+ "attachment_points": [
+  {
+   "id": "d0270a804cf0eb83-e5",
+   "x": 55,
+   "y": 755,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e9",
+   "x": 55,
+   "y": 725,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e13",
+   "x": 55,
+   "y": 715,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e17",
+   "x": 55,
+   "y": 705,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e21",
+   "x": 55,
+   "y": 695,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e25",
+   "x": 55,
+   "y": 685,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e29",
+   "x": 55,
+   "y": 675,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e33",
+   "x": 55,
+   "y": 645,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e37",
+   "x": 185,
+   "y": 645,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e41",
+   "x": 185,
+   "y": 675,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e45",
+   "x": 185,
+   "y": 685,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e49",
+   "x": 185,
+   "y": 695,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e53",
+   "x": 185,
+   "y": 705,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e57",
+   "x": 185,
+   "y": 715,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e61",
+   "x": 185,
+   "y": 725,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e65",
+   "x": 185,
+   "y": 755,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e69",
+   "x": 115,
+   "y": 785,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e73",
+   "x": 125,
+   "y": 785,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e77",
+   "x": 115,
+   "y": 615,
+   "kind": "pin"
+  },
+  {
+   "id": "d0270a804cf0eb83-e81",
+   "x": 125,
+   "y": 615,
+   "kind": "pin"
+  },
+  {
+   "id": "46e5d5ca1c85c346-e4",
+   "x": 310,
+   "y": 700,
+   "kind": "pin"
+  },
+  {
+   "id": "46e5d5ca1c85c346-e10",
+   "x": 350,
+   "y": 700,
+   "kind": "pin"
+  },
+  {
+   "id": "e2ab89fabe6c8cc0-e5",
+   "x": 940,
+   "y": 700,
+   "kind": "pin"
+  },
+  {
+   "id": "e2ab89fabe6c8cc0-e9",
+   "x": 980,
+   "y": 700,
+   "kind": "pin"
+  },
+  {
+   "id": "f4d93e0e5018c989-e4",
+   "x": 140,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "f4d93e0e5018c989-e8",
+   "x": 100,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "8c1fcd6ff188b032-e4",
+   "x": 350,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "8c1fcd6ff188b032-e8",
+   "x": 310,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "c1375d675aa94c16-e4",
+   "x": 560,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "c1375d675aa94c16-e8",
+   "x": 520,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "eab1e34d1d74d944-e4",
+   "x": 770,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "eab1e34d1d74d944-e8",
+   "x": 730,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "d3bad5d160c45297-e4",
+   "x": 930,
+   "y": 490,
+   "kind": "pin"
+  },
+  {
+   "id": "d3bad5d160c45297-e10",
+   "x": 930,
+   "y": 450,
+   "kind": "pin"
+  },
+  {
+   "id": "9666c637f6a916b0-e5",
+   "x": 100,
+   "y": 245,
+   "kind": "pin"
+  },
+  {
+   "id": "9666c637f6a916b0-e9",
+   "x": 100,
+   "y": 235,
+   "kind": "pin"
+  },
+  {
+   "id": "5af07d392c884bf2-e4",
+   "x": 310,
+   "y": 265,
+   "kind": "pin"
+  },
+  {
+   "id": "5af07d392c884bf2-e8",
+   "x": 340,
+   "y": 265,
+   "kind": "pin"
+  },
+  {
+   "id": "5af07d392c884bf2-e12",
+   "x": 350,
+   "y": 265,
+   "kind": "pin"
+  },
+  {
+   "id": "5af07d392c884bf2-e16",
+   "x": 280,
+   "y": 235,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e5",
+   "x": 505,
+   "y": 250,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e9",
+   "x": 505,
+   "y": 240,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e13",
+   "x": 505,
+   "y": 230,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e17",
+   "x": 575,
+   "y": 230,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e21",
+   "x": 575,
+   "y": 240,
+   "kind": "pin"
+  },
+  {
+   "id": "539fa105b4096d09-e25",
+   "x": 575,
+   "y": 250,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e2",
+   "x": 780,
+   "y": 250,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e6",
+   "x": 780,
+   "y": 240,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e10",
+   "x": 780,
+   "y": 230,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e14",
+   "x": 780,
+   "y": 220,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e18",
+   "x": 840,
+   "y": 220,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e22",
+   "x": 840,
+   "y": 230,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e26",
+   "x": 840,
+   "y": 240,
+   "kind": "pin"
+  },
+  {
+   "id": "3689a032d52c2ceb-e30",
+   "x": 840,
+   "y": 250,
+   "kind": "pin"
+  },
+  {
+   "id": "a63e3f2a60199c9a-e5",
+   "x": 340,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "a63e3f2a60199c9a-e9",
+   "x": 380,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e3",
+   "x": 610,
+   "y": 580,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e7",
+   "x": 610,
+   "y": 570,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e11",
+   "x": 610,
+   "y": 560,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e15",
+   "x": 610,
+   "y": 550,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e19",
+   "x": 610,
+   "y": 540,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e23",
+   "x": 510,
+   "y": 540,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e27",
+   "x": 510,
+   "y": 550,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e31",
+   "x": 510,
+   "y": 560,
+   "kind": "pin"
+  },
+  {
+   "id": "deca5432895f1966-e35",
+   "x": 510,
+   "y": 570,
+   "kind": "pin"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [],
+ "module_frames": [
+  {
+   "id": "11934d2f2209cd45",
+   "bbox": [
+    20.0,
+    174.5,
+    1015.0,
+    813.0
+   ],
+   "contains": [
+    "d0270a804cf0eb83",
+    "46e5d5ca1c85c346",
+    "e2ab89fabe6c8cc0",
+    "f4d93e0e5018c989",
+    "8c1fcd6ff188b032",
+    "c1375d675aa94c16",
+    "eab1e34d1d74d944",
+    "d3bad5d160c45297",
+    "9666c637f6a916b0",
+    "5af07d392c884bf2",
+    "539fa105b4096d09",
+    "3689a032d52c2ceb",
+    "a63e3f2a60199c9a",
+    "deca5432895f1966"
+   ]
+  }
+ ],
+ "title_block_owned": [],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": true,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false,
+  "title_block_repeat_allow": [
+   "A4",
+   "RetroCam-02",
+   "Schematic1",
+   "V1.0",
+   "嘉立创EDA"
+  ]
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 14
+  },
+  "texts": {
+   "status": "partial",
+   "observed": 1,
+   "estimated": 1,
+   "rendered": 0
+  },
+  "wires": {
+   "status": "complete",
+   "observed": 54,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 65,
+   "measured_pins": 65,
+   "total_pins": 65
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "complete",
+   "observed": 1,
+   "rectangles": 1
+  }
+ },
+ "snapshot_sha256": "4319b22ebcb1f7d295066d5b1d60362e6297c79255589e022c1bdb277f4089bd",
+ "expected_counts": {
+  "components": 14,
+  "texts": 1,
+  "wires": 54
+ }
+}

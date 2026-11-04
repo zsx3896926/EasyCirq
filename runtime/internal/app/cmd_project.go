@@ -76,7 +76,24 @@ func newProjectCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 					if description != "" {
 						payload["description"] = description
 					}
-					return dispatch(cfg, "project.create", window, payload, stdout, stderr)
+					// 用 capture 而不是 dispatch：`--open` 之后还要把第一页激活，
+					// 只建工程容器是不够的（页面默认 hidden，后续读写全部失败）。
+					res, err := requestActionTimed(cfg, "project.create", window,
+						payload, defaultActionTimeout)
+					if err != nil || res == nil || !res.OK {
+						if res == nil {
+							return err
+						}
+						return encodeResultEnvelope(res, res.Result, stdout)
+					}
+					report := map[string]any{}
+					for k, v := range res.Result {
+						report[k] = v
+					}
+					if open {
+						report["pageActivated"] = activateFirstPage(cfg, window)
+					}
+					return encodeResultEnvelope(res, report, stdout)
 				},
 			}
 			c.Flags().StringVar(&friendlyName, "name", "", "project display name (required)")
@@ -152,4 +169,83 @@ func newProjectCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	proj.AddCommand(newProjectExportCmd(cfg, &window, stdout))
 	proj.AddCommand(newProjectImportCmd(cfg, &window, stdout))
 	return proj
+}
+
+// activateFirstPage 建完工程后把第一张原理图页激活。
+//
+// 为什么必须做：`project.create` 只创建工程容器，页面建出来是 **hidden** 的
+// （pageVisibility=hidden），此时 `sch read` / `sch list` 一律失败，报
+// 「获取所有器件失败」。用户看到的是"连不上"，实际只差这一步。
+//
+// 全链路实测（2026-11-04）：
+//
+//	project create --open        → ok:true, pageVisibility=hidden
+//	sch read                     → ok:false 「获取所有器件失败」
+//	sch open --page <uuid>       → ok:true,  pageVisibility=visible
+//	sch read                     → ok:true,  netlistAvailable=true
+//
+// 失败不当作建工程失败：工程已经建好了，这里只报告"页面没能激活"及原因，
+// 让调用方自己决定要不要再跑 `sch open --page`。
+func activateFirstPage(cfg *appConfig, window string) map[string]any {
+	out := map[string]any{"activated": false}
+
+	// 页面是异步建出来的：工程刚创建时 pages.list 会返回空，一两秒后才有。
+	// 所以有界重试，而不是查一次就判"没有页面"——那会让 `--open` 看起来
+	// 不生效，用户又得手动 `sch open --page` 一遍。
+	var raw []any
+	var lastErr string
+	for attempt := 0; attempt < 8; attempt++ {
+		if attempt > 0 {
+			time.Sleep(250 * time.Millisecond)
+		}
+		pagesRes, err := requestActionTimed(cfg, "schematic.pages.list", window,
+			nil, 30*time.Second)
+		if err != nil || pagesRes == nil || !pagesRes.OK {
+			lastErr = "schematic.pages.list failed"
+			continue
+		}
+		got, _ := pagesRes.Result["pages"].([]any)
+		if len(got) > 0 {
+			raw = got
+			out["waitedMs"] = attempt * 250
+			break
+		}
+	}
+	if len(raw) == 0 {
+		if lastErr != "" {
+			out["reason"] = lastErr +
+				"; run `easycirq sch open --page <uuid>` yourself"
+		} else {
+			out["reason"] = "the new project has no schematic page after ~2s; " +
+				"run `easycirq sch open --page <uuid>` yourself"
+		}
+		return out
+	}
+	first, ok := raw[0].(map[string]any)
+	if !ok {
+		out["reason"] = "unexpected pages payload"
+		return out
+	}
+	pageUUID, _ := first["uuid"].(string)
+	if pageUUID == "" {
+		out["reason"] = "first page has no uuid"
+		return out
+	}
+	out["pageUuid"] = pageUUID
+	if name, _ := first["name"].(string); name != "" {
+		out["pageName"] = name
+	}
+
+	openRes, err := requestActionTimed(cfg, "schematic.page.open", window,
+		map[string]any{"schematicPageUuid": pageUUID}, 60*time.Second)
+	if err != nil || openRes == nil || !openRes.OK {
+		out["reason"] = "schematic.page.open failed; run `easycirq sch open --page " +
+			pageUUID + "` yourself"
+		return out
+	}
+	out["activated"] = true
+	if ctx := openRes.Context; ctx != nil && ctx.PageVisibility != "" {
+		out["pageVisibility"] = ctx.PageVisibility
+	}
+	return out
 }

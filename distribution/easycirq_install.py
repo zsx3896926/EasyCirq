@@ -238,6 +238,22 @@ def validate_bundle(m) -> None:
     skill = components['skill']
     if not isinstance(skill, dict) or not isinstance(skill.get('version'), str):
         raise InstallError('components.skill must record name and version')
+
+    # 自带 Python：声明了就必须真的在清单里。
+    #
+    # 这是「装完却用不了」的直接防线——包声称自带解释器、实际没带，装完
+    # enterprise 命令全废，而安装过程一切正常。宁可在安装时报错。
+    py = components.get('python')
+    if isinstance(py, dict) and py.get('version'):
+        exe_rel = 'payload/python/python.exe'
+        if exe_rel not in files:
+            raise InstallError(
+                'Bundle declares bundled Python %s but %s is not in the file inventory'
+                % (py.get('version'), exe_rel))
+        if not isinstance(py.get('fileCount'), int) or py['fileCount'] < 10:
+            raise InstallError(
+                'components.python.fileCount looks wrong (%r); the bundle is likely truncated'
+                % (py.get('fileCount'),))
     if components['runtime'].get('version') != m['version']:
         raise InstallError('Runtime version %r does not match bundle version %r'
                            % (components['runtime'].get('version'), m['version']))

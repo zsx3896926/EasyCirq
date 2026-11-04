@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -81,7 +82,53 @@ func connectorSearchPaths() []string {
 	return out
 }
 
+// connectorEextVersion 从文件名里抠版本号（easycirq-connector_v1.0.21.eext）。
+// 抠不到就返回空串——调用方会把它当作"最旧"，不参与择优。
+func connectorEextVersion(path string) string {
+	base := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+	if i := strings.LastIndex(base, "_v"); i >= 0 {
+		return base[i+2:]
+	}
+	return ""
+}
+
+// versionLess 比较点分版本号；无法解析的一律算"更旧"。
+func versionLess(a, b string) bool {
+	pa, pb := strings.Split(a, "."), strings.Split(b, ".")
+	for i := 0; i < len(pa) || i < len(pb); i++ {
+		var na, nb int
+		if i < len(pa) {
+			na, _ = strconv.Atoi(pa[i])
+		}
+		if i < len(pb) {
+			nb, _ = strconv.Atoi(pb[i])
+		}
+		if na != nb {
+			return na < nb
+		}
+	}
+	return false
+}
+
+// findConnectorEext 返回可用的 .eext，**按版本号取最高的**。
+//
+// 原来是"取第一个含有 .eext 的目录"，而 connectorSearchPaths 把安装目录
+// （<install>/connector）排在仓库构建目录（connector/build/dist）之前。
+// 2026-11-02 实测后果：`easycirq connector path` 打印的是安装目录里 10-28 的
+// v0.1.4（259KB），而仓库里 11-01 构建的 v1.0.20（2.2MB，含修复）排在后面被忽略。
+// 用户按这个路径去导入，导进的是更旧的包 —— 命令把人指向了错误的东西。
+//
+// 现在把所有候选收齐，按版本号择优；版本相同再比修改时间。同为最高版本时
+// 保持搜索顺序（安装目录优先），所以没冲突时行为不变。
 func findConnectorEext() (string, string) {
+	type candidate struct {
+		path  string
+		dir   string
+		ver   string
+		mtime int64
+	}
+	var all []candidate
+
 	for _, dir := range connectorSearchPaths() {
 		st, err := os.Stat(dir)
 		if err != nil {
@@ -89,17 +136,33 @@ func findConnectorEext() (string, string) {
 		}
 		if !st.IsDir() {
 			if strings.HasSuffix(strings.ToLower(dir), ".eext") {
+				info, _ := st.ModTime().Unix(), 0
+				_ = info
 				return dir, "env"
 			}
 			continue
 		}
 		matches, _ := filepath.Glob(filepath.Join(dir, "*.eext"))
-		if len(matches) > 0 {
-			sort.Strings(matches)
-			return matches[len(matches)-1], dir
+		for _, m := range matches {
+			var mtime int64
+			if fi, err := os.Stat(m); err == nil {
+				mtime = fi.ModTime().Unix()
+			}
+			all = append(all, candidate{path: m, dir: dir,
+				ver: connectorEextVersion(m), mtime: mtime})
 		}
 	}
-	return "", ""
+	if len(all) == 0 {
+		return "", ""
+	}
+	sort.SliceStable(all, func(i, j int) bool {
+		if all[i].ver != all[j].ver {
+			return versionLess(all[i].ver, all[j].ver)
+		}
+		return all[i].mtime < all[j].mtime
+	})
+	best := all[len(all)-1]
+	return best.path, best.dir
 }
 
 func readConnectorManifest(path string) (*connectorManifest, error) {
@@ -180,7 +243,9 @@ func newConnectorVerifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comm
 				"runtimeVersion":  version.Version,
 			}
 			verdict := "ok"
-			path, _ := findConnectorEext()
+			// 原来这里把 findConnectorEext 的第二个返回值丢掉，于是明明找到了
+			// 文件，报告里仍写着 source: "not-found" —— 显示的结论和事实相反。
+			path, source := findConnectorEext()
 			art := connectorArtifact{Source: "not-found"}
 			if path == "" {
 				report["eext"] = art
@@ -192,7 +257,7 @@ func newConnectorVerifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comm
 				fmt.Fprintln(stderr, "easycirq connector verify — blocked: .eext not found")
 				return errActionFailed
 			}
-			art.Path = path
+			art.Path, art.Source = path, source
 			if st, err := os.Stat(path); err == nil {
 				art.Exists, art.Size = true, st.Size()
 			}

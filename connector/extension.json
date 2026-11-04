@@ -1,203 +1,203 @@
 {
-	"name": "easycirq-connector",
-	"uuid": "e5f3a3c5193c4b4b8c319188737c0e4f",
-	"displayName": "智构 · EasyCirq 连接器",
-	"description": "智构 · EasyCirq 连接器：把本机 EasyCirq 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
-	"version": "1.0.20",
-	"publisher": "zsx3896926",
-	"engines": {
-		"eda": ">=3.2.0"
-	},
-	"license": "Apache-2.0",
-	"repository": {
-		"type": "github",
-		"url": "https://github.com/zsx3896926/EasyCirq"
-	},
-	"homepage": "https://github.com/zsx3896926/EasyCirq",
-	"categories": "Other",
-	"keywords": [
-		"agent",
-		"automation",
-		"websocket",
-		"schematic",
-		"AI"
-	],
-	"images": {
-		"logo": "./images/logo.png"
-	},
-	"activationEvents": {
-		"onStartupFinished": true
-	},
-	"entry": "./dist/index",
-	"dependentExtensions": {},
-	"headerMenus": {
-		"home": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		],
-		"blank": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		],
-		"sch": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		],
-		"symbol": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		],
-		"pcb": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		],
-		"footprint": [
-			{
-				"id": "EasyCirq",
-				"title": "智构 · EasyCirq",
-				"menuItems": [
-					{
-						"id": "Reconnect",
-						"title": "Reconnect",
-						"registerFn": "reconnect"
-					},
-					{
-						"id": "StopConnection",
-						"title": "Stop",
-						"registerFn": "stopConnection"
-					},
-					{
-						"id": "ToggleAutoConnect",
-						"title": "Toggle Auto-Connect",
-						"registerFn": "toggleAutoConnect"
-					},
-					{
-						"id": "About",
-						"title": "About EasyCirq...",
-						"registerFn": "about"
-					}
-				]
-			}
-		]
-	}
+  "name": "easycirq-connector",
+  "uuid": "e5f3a3c5193c4b4b8c319188737c0e4f",
+  "displayName": "智构 · EasyCirq 连接器",
+  "description": "智构 · EasyCirq 连接器：把本机 EasyCirq 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
+  "version": "1.0.22",
+  "publisher": "zsx3896926",
+  "engines": {
+    "eda": ">=3.2.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/zsx3896926/EasyCirq"
+  },
+  "homepage": "https://github.com/zsx3896926/EasyCirq",
+  "categories": "Other",
+  "keywords": [
+    "agent",
+    "automation",
+    "websocket",
+    "schematic",
+    "AI"
+  ],
+  "images": {
+    "logo": "./images/logo.png"
+  },
+  "activationEvents": {
+    "onStartupFinished": true
+  },
+  "entry": "./dist/index",
+  "dependentExtensions": {},
+  "headerMenus": {
+    "home": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ],
+    "blank": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ],
+    "sch": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ],
+    "symbol": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ],
+    "pcb": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ],
+    "footprint": [
+      {
+        "id": "EasyCirq",
+        "title": "智构 · EasyCirq",
+        "menuItems": [
+          {
+            "id": "Reconnect",
+            "title": "Reconnect",
+            "registerFn": "reconnect"
+          },
+          {
+            "id": "StopConnection",
+            "title": "Stop",
+            "registerFn": "stopConnection"
+          },
+          {
+            "id": "ToggleAutoConnect",
+            "title": "Toggle Auto-Connect",
+            "registerFn": "toggleAutoConnect"
+          },
+          {
+            "id": "About",
+            "title": "About EasyCirq...",
+            "registerFn": "about"
+          }
+        ]
+      }
+    ]
+  }
 }

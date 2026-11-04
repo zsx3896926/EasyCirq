@@ -279,12 +279,57 @@ def connector_identity(eext: Path, origin: str):
 # --------------------------------------------------------------------------- #
 # skill
 # --------------------------------------------------------------------------- #
+TEXT_SUFFIXES = ('.py', '.json', '.md', '.txt', '.tsv', '.csv', '.yaml', '.yml', '.cfg', '.ini')
+
+
+def shipped_bytes(path: Path) -> bytes:
+    """The exact bytes that go into the archive.
+
+    Text ships with LF regardless of the build machine's checkout: a CRLF Python
+    file breaks its shebang on Linux. Everything that hashes these files must use
+    this same function, or bundle.json ends up describing bytes that were never
+    written (which is how 1.3.21 became uninstallable).
+    """
+    data = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES:
+        return data.replace(b'\r\n', b'\n')
+    return data
+
+
+def shipped_sha(path: Path) -> str:
+    return hashlib.sha256(shipped_bytes(path)).hexdigest()
+
+
+SKIP_DIRS = {'__pycache__'}
+SKIP_SUFFIXES = {'.pyc', '.pyo'}
+
+
+def shipped_inventory(root: Path) -> dict:
+    """{relpath: sha256} over shipped_bytes.
+
+    Skips exactly what the copytree that builds the payload skips
+    (ignore_patterns('__pycache__', '*.pyc', '*.pyo')). Without the same filter the
+    source inventory and the copied inventory differ and the build aborts with
+    'Skill copy does not match the source inventory'.
+    """
+    found = {}
+    for path in sorted(root.rglob('*')):
+        if not path.is_file():
+            continue
+        if SKIP_DIRS & set(path.parts):
+            continue
+        if path.suffix in SKIP_SUFFIXES:
+            continue
+        found[path.relative_to(root).as_posix()] = shipped_sha(path)
+    return found
+
+
 def collect_skill(cfg, skill_dir=None):
     src = Path(skill_dir) if skill_dir else ROOT / cfg['skill']['dir']
     if not (src / 'SKILL.md').is_file() or not (src / '.version').is_file():
         raise RuntimeError('Skill directory must contain SKILL.md and .version: %s' % src)
     version = (src / '.version').read_text(encoding='utf-8').strip()
-    files = updater.inventory(src)  # rejects symlinks, returns {relpath: sha256}
+    files = shipped_inventory(src)  # rejects nothing extra; same set, LF-normalised hashes
     return {'name': cfg['skill']['name'], 'version': version, 'dir': str(src), 'files': files}
 
 
@@ -330,9 +375,31 @@ def write_third_party_notices(out: Path, cfg, connector, runtime):
 # --------------------------------------------------------------------------- #
 # unified toolchain bundle
 # --------------------------------------------------------------------------- #
+
+def default_python_dir(cfg):
+    """Where an extracted embeddable Python is looked for when --python-dir is absent."""
+    cache = (cfg.get('python') or {}).get('cacheDir')
+    if not cache:
+        return None
+    d = ROOT / cache
+    return d if d.is_dir() else None
+
+
+def _python_version(exe):
+    """Run the interpreter; return its version string or '' if it does not work."""
+    try:
+        out = subprocess.run([str(exe), '-c',
+                              'import sys;print("%d.%d.%d" % sys.version_info[:3])'],
+                             capture_output=True, text=True, timeout=60)
+        return (out.stdout or '').strip() if out.returncode == 0 else ''
+    except Exception:                                   # noqa: BLE001
+        return ''
+
+
 def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtime_exe=None,
                     skip_runtime_build=False, connector_mode='auto', connector_eext=None,
-                    skill_dir=None, go_hint=None) -> dict:
+                    skill_dir=None, go_hint=None, python_dir=None,
+                    allow_missing_python=False) -> dict:
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if version is not None and str(version).lower() == 'auto':
@@ -391,11 +458,51 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             % (eext_name, connector['uuid'], connector['version']),
             encoding='utf-8', newline='\n')
 
+        # ── 自带 Python ────────────────────────────────────────────────
+        #
+        # 交付要求是「客户不用装 Python」。装完之后核心功能全废、而安装器还说
+        # 「装好了」，是这套东西里最难解释的失败——所以缺了就报错，不静默跳过。
+        py_cfg = (cfg.get('python') or {})
+        py_target = payload / 'python'
+        py_version = None
+        if python_dir is None:
+            python_dir = default_python_dir(cfg)
+        if python_dir and Path(python_dir).is_dir():
+            src = Path(python_dir)
+            shutil.copytree(src, py_target,
+                            ignore=shutil.ignore_patterns(
+                                '__pycache__', '*.pyc', '*.pyo', 'test', 'tests'))
+            exe = py_target / ('python.exe' if os.name == 'nt' else 'python3')
+            if not exe.is_file():
+                cand = list(py_target.glob('python*.exe')) or list(py_target.glob('python3*'))
+                if not cand:
+                    raise RuntimeError(
+                        '--python-dir %s does not look like an embeddable Python '
+                        '(no python.exe at its root)' % src)
+                exe = cand[0]
+            py_version = _python_version(exe)
+            if not py_version:
+                raise RuntimeError('bundled python at %s does not run; refusing to ship it' % exe)
+            n_files = sum(1 for _ in py_target.rglob('*') if _.is_file())
+            # stderr, not stdout: stdout is the machine-readable build result
+            print('bundled python %s: %d files' % (py_version, n_files),
+                  file=sys.stderr)
+        elif allow_missing_python:
+            print('warning: shipping WITHOUT a bundled Python (--allow-missing-python); '
+                  'customers will need Python 3.10+ on PATH', file=sys.stderr)
+        else:
+            raise RuntimeError(
+                'no embeddable Python to bundle. Pass --python-dir <dir> (an extracted '
+                'python-3.13.0-embed-amd64.zip), or drop it in %s, or pass '
+                '--allow-missing-python to ship without one (customers then need Python '
+                'on PATH)' % (Path(cfg['python']['cacheDir'])
+                              if cfg.get('python', {}).get('cacheDir') else 'a cache dir'))
+
         skill = collect_skill(cfg, skill_dir)
         skill_payload = payload / 'skill' / 'easycirq'
         shutil.copytree(Path(skill['dir']), skill_payload,
                         ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
-        copied = updater.inventory(skill_payload)
+        copied = shipped_inventory(skill_payload)
         if copied != skill['files']:
             raise RuntimeError('Skill copy does not match the source inventory')
 
@@ -406,7 +513,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         inventory = {}
         for p in sorted(payload.rglob('*')):
             if p.is_file():
-                inventory['payload/' + p.relative_to(payload).as_posix()] = sha256_file(p)
+                inventory['payload/' + p.relative_to(payload).as_posix()] = shipped_sha(p)
 
         compat = {
             'cli': version, 'runtime': version, 'daemon': version,
@@ -451,6 +558,18 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
                     'installPath': 'skill/easycirq',
                     'fileCount': len(skill['files']),
                 },
+                # 自带 Python 是**独立组件**，不是 skill 的一部分：
+                # 它有自己版本、自己安装路径，塞进 skill 会把 skill.version 顶掉。
+                'python': ({
+                    'name': 'cpython-embed', 'version': py_version,
+                    'path': 'payload/python',
+                    'installPath': 'python',
+                    'fileCount': sum(1 for _ in py_target.rglob('*') if _.is_file()),
+                    'size': sum(_.stat().st_size for _ in py_target.rglob('*')
+                                if _.is_file()),
+                    'note': 'bundled embeddable CPython; the runtime prefers it over '
+                            'anything on PATH so customers need not install Python',
+                } if py_version else {'bundled': False}),
             },
             'legal': {
                 'notices': 'payload/licenses/THIRD-PARTY-NOTICES.md',
@@ -468,7 +587,14 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
             z.write(tmp / 'bundle.json', 'bundle.json')
             for rel in sorted(inventory):
-                z.write(payload / rel[len('payload/'):], rel)
+                src = payload / rel[len('payload/'):]
+                # Hashed and written through the same function, so bundle.json
+                # describes exactly the bytes in the archive.
+                data = shipped_bytes(src)
+                info = zipfile.ZipInfo(rel, date_time=time.localtime(src.stat().st_mtime)[:6])
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = (src.stat().st_mode & 0xFFFF) << 16
+                z.writestr(info, data)
         if archive.stat().st_size > MAX_ZIP:
             raise RuntimeError('Bundle exceeds the size limit')
 
@@ -661,6 +787,10 @@ if __name__ == '__main__':
     p.add_argument('--go', help='Explicit go executable')
     p.add_argument('--connector-build', choices=['auto', 'always', 'never'], default='auto')
     p.add_argument('--connector-eext', type=Path, help='Reuse this .eext instead of building')
+    p.add_argument('--python-dir', type=Path,
+                   help='Extracted embeddable Python (payload/python). Defaults to the configured cacheDir.')
+    p.add_argument('--allow-missing-python', action='store_true',
+                   help='Ship without a bundled Python (customers then need Python 3.10+ on PATH)')
     p.add_argument('--skill-dir', type=Path)
     a = p.parse_args()
     kwargs = {}
@@ -674,6 +804,8 @@ if __name__ == '__main__':
                                skip_runtime_build=a.skip_runtime_build,
                                connector_mode=a.connector_build,
                                connector_eext=a.connector_eext,
+                               python_dir=a.python_dir,
+                               allow_missing_python=a.allow_missing_python,
                                skill_dir=a.skill_dir, **kwargs),
                          ensure_ascii=False, indent=2))
     except (RuntimeError, OSError, ValueError) as exc:

@@ -696,7 +696,11 @@ class SelfCheckTests(InstallerTestCase):
         proc = subprocess.run(
             [sys.executable, str(ROOT / 'distribution/build_release.py'),
              '--output', str(out), '--toolchain-only', '--skip-runtime-build',
-             '--connector-build', 'never'],
+             '--connector-build', 'never',
+             # 这条测的是**安装生命周期**，不是内置解释器打包。不给这个开关时，
+             # 没有 distribution/.cache 的机器（CI）会直接报
+             # "no embeddable Python to bundle" 而失败。
+             '--allow-missing-python'],
             capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=900)
         self.assertEqual(proc.returncode, 0, proc.stderr[-3000:])
         build = json.loads(proc.stdout)

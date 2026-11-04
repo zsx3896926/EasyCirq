@@ -40,6 +40,7 @@ func newAuditCmd(stdout, stderr io.Writer) *cobra.Command {
 	audit.AddCommand(newAuditTailCmd(stdout, stderr))
 	audit.AddCommand(newAuditExportCmd(stdout, stderr))
 	audit.AddCommand(newAuditCostCmd(stdout, stderr))
+	audit.AddCommand(newAuditPruneCmd(stdout, stderr))
 	return audit
 }
 
@@ -88,7 +89,13 @@ func readLastLines(dir string, n int) ([]string, error) {
 	}
 	files := make([]string, 0, len(entries))
 	for _, e := range entries {
-		if e.IsDir() || !strings.HasSuffix(e.Name(), ".jsonl") {
+		// .jsonl.gz counts too: `audit prune` compresses old days, and tail
+		// skipping them would make a pruned history look empty.
+		if e.IsDir() {
+			continue
+		}
+		name := e.Name()
+		if !strings.HasSuffix(name, ".jsonl") && !strings.HasSuffix(name, ".jsonl.gz") {
 			continue
 		}
 		files = append(files, e.Name())
@@ -116,7 +123,7 @@ func readLastLines(dir string, n int) ([]string, error) {
 }
 
 func readFileLines(path string) ([]string, error) {
-	f, err := os.Open(path)
+	f, err := openAuditLog(path)
 	if err != nil {
 		return nil, err
 	}

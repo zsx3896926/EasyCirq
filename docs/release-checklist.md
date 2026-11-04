@@ -1,0 +1,177 @@
+# 发版检查单
+
+> 发版不是「跑一遍 build_release 就完了」。这份单子记录**必须逐条核对**的动作，
+> 以及每条为什么存在——每一条背后都有一次真实事故。
+
+
+## 零、一条命令跑完所有检查（推荐）
+
+```powershell
+pwsh -File tools/run_all_checks.ps1
+```
+
+串行跑 pytest / go vet / go test / 四个仓库自检 / 技能自检，**每条都存日志**到
+`reports/checks-<时间戳>/`，失败时列出检查名与日志路径。
+
+**为什么必须用脚本而不是手工跑**：2026-11-01 同一个错误犯了三次——
+手工跑时用管道截断输出（`| Select-Object -Last 3`），把失败断言扔掉，
+于是只能记成"偶发"而无法修。
+
+> 先落盘，再判断。失败日志留得住，下一轮才有东西可查。
+
+单独跑某一类：`-SkipPython` / `-SkipGo` / `-SkipAudits`。
+
+## 一、必跑的三条命令
+
+```bash
+# 1. 打包
+python distribution/build_release.py --toolchain-only \
+  --toolchain-version <V> \
+  --connector-build never \
+  --runtime-exe <安装目录>/easycirq.exe \
+  --require-clean --output dist-release
+
+# 2. 隔离安装并自检
+python distribution/easycirq_install.py install \
+  --bundle dist-release/easycirq-toolchain-<V>.zip \
+  --install-dir <tmp>/app --state-dir <tmp>/state --home <tmp>/home \
+  --skill-client none --no-self-check
+python distribution/easycirq_install.py verify --install-dir <tmp>/app
+
+# 3. 内容一致性（不是版本号一致性）
+python tools/check_release_consistency.py
+```
+
+## 一之二、两个基准自测（也必跑）
+
+这两个脚本本身没有单测——它们的输出就是验证：
+
+\\ash
+python easycirq/scripts/schematic_benchmark.py          # 期望 status=ok, 8/8
+python easycirq/scripts/pcb_placement_benchmark.py --all # 期望每个案例 OK
+\
+它们检查的是**布局判断能力**（去耦回路过长、功率回路、模拟区分离等），
+不是代码正确性。改过布局相关代码后必须重跑：这两个过了，说明判断规则没被改坏。
+
+## 二、为什么还要第 3 条（内容一致性）
+
+第 3 条是**四向**的，四个数字/结论都要看：
+
+- `repo vs bundle payload`：仓库的每个文件都进包了吗
+- `files in bundle payload that the repo does not have`：包里有没有仓库造不出来的文件
+- `repo vs installed`：技能副本同步到位了吗
+- `files in installed that the repo does not have`：副本有没有多余文件
+  （最容易犯：顺手把 `docs/` 的文档复制进 `references/`）
+
+第 3 条的输出必须是：
+
+```
+== repo  vs  bundle payload ==                              all 327 key files equal
+== files in bundle payload that the repo does not have ==   none
+== repo  vs  installed ==                                   all 327 key files equal
+== files in installed that the repo does not have ==        none
+CONSISTENT
+```
+
+## 二、为什么要第 3 条
+
+**事故**：1.3.2 的 bundle 版本号是对的，但 payload 里的
+`scripts/easycirq_mcp/runners.py`、`tools.py`、`sch_delivery_card.py`
+都是**提交之前**的版本——三个文件都缺 `pcb_drc` 支持。
+
+装 1.3.2 的人会拿到「✅ 原理图可以打样（PCB 未检查）」，而这正是那一版声称已修好的误导。
+
+**结论**：版本号一致 ≠ 内容一致。必须比内容哈希。
+
+## 三、这条检查自己也踩过坑
+
+第一次运行时报了 12 个 MISSING，原因是它挑了
+`easycirq-toolchain-installer-<V>.zip`（安装器包装），payload 嵌套结构不同。
+
+已修：排除名字含 `installer` 的包。
+
+**教训**：检查工具本身也要先验证一次——一个永远报错的检查器，和没有检查器一样糟。
+
+## 三点五、确认成果不只在本地
+
+```bash
+python tools/check_published.py     # 期望 every local branch tip is reachable from the remote
+```
+
+**为什么单列一步**：2026-11-01 发现 `feat/agent-ace-rules` 的 222 个提交、
+以及另外 122 个分支的 tip、以及本地 main 的 3 个提交，远端都没有。
+在那之前，"可复现"只是"同一台机器重跑一致"。
+
+第一次检查时我问的是「我的分支发布了没有」，修完就收工；
+真正该问的是「有没有任何本地成果没发布」。
+
+## 三点六、交付包自检
+
+\\ash
+python tools/check_deliverable.py    # 期望「交付包自检通过」
+\
+查四件事：README 列出的文件都存在且都列了、相对链接能解开、SHA256SUMS 与磁盘一致、
+卡片上的「必查 N/N」与 KPI 定义不矛盾。
+
+2026-11-01 第一次跑就抓到交付包里一个**断链**（\../docs/\ 应为 \../../docs/\）——
+客户点那个链接会打不开。
+
+## 四、同步技能副本：必须全量，不能只同步改过的文件
+
+```powershell
+Copy-Item easycirq/* ~/.agents/skills/easycirq -Recurse -Force
+```
+
+**不要顺手把 docs/ 的文档复制进 references/**。仓库 asycirq/ 里没有的文件
+出现在技能副本里，会得到 EXTRA 报错——2026-11-01 我这样犯了三次
+（release-checklist、temp-alarm-*、traceability-alarm、known-failures）。
+docs/ 是开发记录，技能副本只放 asycirq/ 的内容。
+
+**为什么必须全量**：2026-11-01 把一致性检查从 12 个文件扩到 327 个时发现，
+技能副本里有 **256 个文件内容过时**——因为过去每次只复制「当轮改过的文件」。
+用户实际在 agents 客户端用的是那些旧副本。
+
+检查命令（必须全绿）：
+
+```bash
+python tools/check_release_consistency.py   # 期望 all 327 key files equal
+```
+
+## 五、同步技能副本的正确姿势
+
+```powershell
+# 用字节复制，不要用 Get-Content/Set-Content（会改换行）
+Copy-Item easycirq/SKILL.md ~/.agents/skills/easycirq/SKILL.md -Force
+
+# 改过哪些文件就复制哪些 —— 但别只复制"这一轮改的"
+# sch_wire_metrics.py 就这样漏了好几轮，直到一致性检查才抓到
+```
+
+同步后跑两份 `skill_selftest.py`，都必须 6 PASS。
+
+**不要只同步「本轮改过的文件」**——之前改过但忘了同步的，会因为没人看而一直漂移。
+
+## 五、装机与打包的顺序
+
+1. 先构建 runtime 到安装目录（用正确版本号）
+2. 重启 daemon 并确认 connector 已连接
+3. 跑一遍客户四命令（setup / status / card / acceptance）
+4. **再**打包（bundle 用的是安装目录里的 exe）
+
+顺序反了会打出旧二进制。
+
+## 六、发版后
+
+| 检查 | 命令 | 期望 |
+|---|---|---|
+| 装机版本 | `easycirq version` | 新版本号 |
+| 健康 | `easycirq doctor` | `verdict: ok` |
+| 客户命令 | `easycirq setup` | 四行全 ✓ |
+| 一致性 | `tools/check_release_consistency.py` | `CONSISTENT` |
+
+## 七、明确不做
+
+- 不发没跑过 `verify` 的包。
+- 不在工作树脏的时候打包（`--require-clean` 会拒绝，别绕过）。
+- 不用版本号替代内容检查。
+- 不因为检查器报错就删检查器——先确认检查器本身是对的。

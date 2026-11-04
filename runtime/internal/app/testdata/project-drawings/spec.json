@@ -48,7 +48,7 @@
     {
       "role": "pcb-actual-top-svg",
       "path": "actual-top.svg",
-      "sha256": "c688bc0a17659d1187276071063555e7e3a9088801fdac16db4e516d0b484f8d"
+      "sha256": "e20fd23a0a6551053ca20120f791d7ba87319d7f3313b86fdf1f1fc6628e8d31"
     },
     {
       "role": "pcb-official-bottom-png",
@@ -66,7 +66,7 @@
     {
       "role": "pcb-actual-bottom-svg",
       "path": "actual-bottom.svg",
-      "sha256": "8c6580a1b3c1898fe0ac749b537162e429dfe9526f2f37f4bddf3090b5c1200e"
+      "sha256": "804c1795a9c9da8557c08eed94125dc2f127774efd3483710564300197061f43"
     }
   ],
   "status": {

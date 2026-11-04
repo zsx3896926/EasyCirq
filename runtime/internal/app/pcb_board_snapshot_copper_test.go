@@ -3,6 +3,7 @@ package app
 import (
 	"bytes"
 	"encoding/json"
+	"strings"
 	"testing"
 )
 
@@ -115,5 +116,50 @@ func TestBoardSnapshotSemanticHashIgnoresFloatJitter(t *testing.T) {
 	b.Components[0].X += 0.01
 	if hc, _ := boardSnapshotSemanticSHA256(b); hc == hb {
 		t.Fatal("a real 0.01 mil move must change the semantic hash")
+	}
+}
+
+// 不加 --include-copper 时，快照里**根本没有走线**；这一条必须在 Partial 里说出来。
+//
+// 2026-11-02 实测：pcb dump 默认输出只有 components，没有任何走线字段，
+// 而"没有这个字段"和"板子没布线"在读的人看来一模一样。我据此两次判定
+// "板子一条线都没布"，还重跑了 auto-place/autortoute —— 实际板上 109 段铜线、
+// 8 个网络全布完了。默认输出里一个提示都没有，所以这个误判看起来像事实。
+func TestBoardSnapshotNotesWhenCopperWasNotCaptured(t *testing.T) {
+	// 复刻 withCopper=false 的那条 else 分支所做的事，验证说明本身：
+	// 必须点明"没抓"、必须点明"没有 ≠ 空"、必须给出补救命令。
+	s := &boardSnapshot{}
+	s.note("capture provenance: copper NOT captured (no --include-copper) — " +
+		"routed traces, vias and pours are ABSENT from this snapshot; an absent " +
+		"list here is not an empty board. Re-run with --include-copper to read routing")
+
+	if len(s.Partial) != 1 {
+		t.Fatalf("want exactly one note, got %d: %v", len(s.Partial), s.Partial)
+	}
+	note := s.Partial[0]
+	for _, want := range []string{"NOT captured", "--include-copper", "not an empty board"} {
+		if !strings.Contains(note, want) {
+			t.Errorf("note must contain %q, got: %s", want, note)
+		}
+	}
+}
+
+// 这条说明属于"抓到了什么"，不是板子语义 —— 必须被排除在 semanticSha256 之外，
+// 否则既有的冻结基准会因为加了一句提示而全部失效。
+func TestBoardSnapshotCopperOmittedNoteDoesNotChangeSemanticHash(t *testing.T) {
+	base := lpSnapshot(lpComp("u1", "U1", 100, 100, 0, lpBBox(90, 90, 110, 110)))
+	before, err := boardSnapshotSemanticSHA256(base)
+	if err != nil {
+		t.Fatal(err)
+	}
+	base.note("capture provenance: copper NOT captured (no --include-copper) — " +
+		"routed traces, vias and pours are ABSENT from this snapshot")
+	after, err := boardSnapshotSemanticSHA256(base)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if before != after {
+		t.Fatalf("provenance note must not perturb the semantic hash: %s != %s",
+			before, after)
 	}
 }

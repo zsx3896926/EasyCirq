@@ -33,7 +33,10 @@ from mp_place.datascale import (
     run_downstream,
     run_scaling,
     summarize,
-    test_cache_path,
+    # This is the constructor for the *test split* cache path, not a test.
+    # pytest collects any module-level name starting with test_ and then
+    # fails with "fixture 'template' not found" - so alias it.
+    test_cache_path as _test_split_cache_path,
     train_cache_path,
     write_report,
 )
@@ -96,12 +99,12 @@ class DataScaleFixture(unittest.TestCase):
         for template in ("mcu-min", "buck"):
             for n in (240, 1000):
                 self.assertTrue(train_cache_path(template, n, cache_dir=self.cache).exists())
-            self.assertTrue(test_cache_path(template, test_size=400, cache_dir=self.cache).exists())
+            self.assertTrue(_test_split_cache_path(template, test_size=400, cache_dir=self.cache).exists())
         self.assertEqual(
             train_cache_path("buck", 240).name, "buck_v2_n240_s0.json.gz"
         )
         self.assertEqual(
-            test_cache_path("buck", test_size=400).name, "buck_v2_test_n400_s1.json.gz"
+            _test_split_cache_path("buck", test_size=400).name, "buck_v2_test_n400_s1.json.gz"
         )
 
     def test_learning_curve_rows_complete(self):

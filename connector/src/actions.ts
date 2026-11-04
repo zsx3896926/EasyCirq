@@ -709,6 +709,20 @@ const schematicPagesList: Handler = async () => {
 	catch (err) {
 		throw edaError(err, 'Failed to list schematics/pages.');
 	}
+	// 没有打开工程时，官方 API 返回 **undefined** 而不是 []。原来直接 .map，
+	// 抛的是 "Cannot read properties of undefined (reading 'map')" —— 那是 JS
+	// 运行时细节：客户读不懂，还会以为连接器坏了（实测 `doc ls` 就是这么报的）。
+	// 这里明说「没有打开工程」，并给出下一步。
+	if (!Array.isArray(schematics) || !Array.isArray(pages)) {
+		throw new ActionError(
+			ErrorCodes.INVALID_STATE,
+			'这个 EasyEDA 窗口里没有打开任何工程，所以读不到原理图/图纸列表。'
+				+ '请先打开或新建一个工程：`easycirq project create --name <名字> --open`，'
+				+ '或在 EasyEDA 里手动打开一个工程，然后重试。',
+			'no project is open in this window: the official API returned no schematic/page list '
+				+ '(got ' + typeof schematics + '/' + typeof pages + ' instead of arrays)',
+		);
+	}
 	return {
 		result: {
 			schematics: schematics.map(s => ({
@@ -16106,7 +16120,8 @@ const debugExecJs: Handler = async (payload) => {
 
 // ─── Registry & dispatch ─────────────────────────────────────────────
 
-const HANDLERS: Record<string, Handler> = {
+// 导出给测试用：这是模块的分发入口，「某个动作抛什么错」只能从这里验。
+export const HANDLERS: Record<string, Handler> = {
 	'system.page_reload': systemPageReload,
 	'project.current': projectCurrent,
 	'project.export_source': projectExportSource,

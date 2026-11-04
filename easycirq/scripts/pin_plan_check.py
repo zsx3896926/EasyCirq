@@ -306,6 +306,13 @@ def analyze(data):
     if not pins:
         add("NO_PINS", "warning", "pins 为空，没有可检查的引脚", "pins")
 
+    # bank / reset_state / boot_sample / strap describe configurable DIGITAL
+    # pins. A plan with no MCU logic resources (resources == [], e.g. an analog
+    # comparator) has no such pins, so demanding those fields would be asking
+    # the author to invent values. voltage_domain and physical_pin stay required
+    # because they are meaningful for any part.
+    has_mcu_resources = bool(resources)
+
     for index, pin in enumerate(pins):
         label = f"pins[{index}]"
         if not isinstance(pin, dict):
@@ -368,22 +375,25 @@ def analyze(data):
             voltage = text(voltage, f"{label}.voltage_domain")
         bank = pin.get("bank")
         if is_unknown(bank):
-            missing["bank"].append(logical)
+            if has_mcu_resources:
+                missing["bank"].append(logical)
         else:
             bank = text(bank, f"{label}.bank")
 
-        if is_unknown(pin.get("reset_state")):
+        if is_unknown(pin.get("reset_state")) and has_mcu_resources:
             missing["reset_state"].append(logical)
 
         boot_sample = pin.get("boot_sample")
         if is_unknown(boot_sample):
-            missing["boot_sample"].append(logical)
+            if has_mcu_resources:
+                missing["boot_sample"].append(logical)
         elif not isinstance(boot_sample, bool):
             raise ValueError(f"{label}.boot_sample: require boolean or 待查")
 
         strap = pin.get("strap")
         if is_unknown(strap):
-            missing["strap"].append(logical)
+            if has_mcu_resources:
+                missing["strap"].append(logical)
             strap_known = None
         elif not isinstance(strap, bool):
             raise ValueError(f"{label}.strap: require boolean or 待查")
@@ -485,7 +495,9 @@ def analyze(data):
             "mcu.package_pins 为空，无法核对物理脚是否存在或已引出",
             "mcu.package_pins",
         )
-    if not bank_voltages:
+    if not bank_voltages and has_mcu_resources:
+        # Same reasoning as the pin fields: a bank voltage table only means
+        # something when the plan actually declares MCU logic resources.
         add(
             "UNKNOWN_BANK_VOLTAGES",
             "unknown",
@@ -676,9 +688,24 @@ def analyze(data):
     return {
         "schema": RESULT_SCHEMA,
         "status": "needs_review" if findings else "passed",
+        # The KPI layer normalises checks by a "verdict" field; without it every
+        # plan reads as unknown no matter what the check found.
+        "verdict": "review" if findings else "pass",
         "board_verified": False,
         "execution": "OFFLINE_PLANNING",
         "hardware_execution": "NOT RUN",
+        # The KPI layer reads metrics.pin_mux_conflicts as a count; without this
+        # block the metric is absent and the KPI can only report "unknown".
+        "metrics": {
+            "pin_mux_conflicts": sum(
+                1 for finding in findings
+                if finding.get("code") in {
+                    "DUPLICATE_RESOURCE_PIN", "DUP_LOGICAL", "DUP_PHYSICAL_PIN",
+                    "DUP_RESOURCE", "pinmap_duplicate_pin", "pinmap_duplicate_row",
+                    "pinmap_net_nc_conflict",
+                }
+            )
+        },
         "summary": summary,
         "findings": findings,
         "not_checked": not_checked,

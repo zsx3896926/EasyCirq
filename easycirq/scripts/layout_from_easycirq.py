@@ -599,7 +599,7 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
         coverage['title_block'] = {'status': 'complete',
                                    'source': 'sheet-geometry'}
     output = {
-        'coordinate_units': 'schematic raw units (y-up), from easyeda-agent reads',
+        'coordinate_units': 'schematic raw units (y-up), from easycirq reads',
         'page_bbox': page,
         'components': [{'id': part['primitiveId'], 'bbox': box(part['bbox'])}
                        for part in parts if box(part.get('bbox'))],

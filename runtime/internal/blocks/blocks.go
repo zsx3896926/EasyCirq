@@ -10,6 +10,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -183,12 +185,155 @@ func (b Block) Status() string {
 
 // Load parses every embedded block, sorted by id. It never touches the disk, so
 // it works from a bare binary.
+// externalBlockDirs 是企业块库目录，从 EASYCIRQ_BLOCKS_DIR 读。
+//
+// Why: the block library is go:embed'd, so a customer cannot add a block without
+// rebuilding the binary. That is fine for the shipped library and wrong for a
+// company's own standard circuits. An external directory lets them add blocks
+// the same way they add rules and parts: drop a JSON file and it is picked up.
+//
+// Empty/unset => embedded library only, which is the previous behaviour exactly.
+func externalBlockDirs() []string {
+	raw := strings.TrimSpace(os.Getenv("EASYCIRQ_BLOCKS_DIR"))
+	if raw == "" {
+		return nil
+	}
+	var out []string
+	for _, part := range strings.Split(raw, string(os.PathListSeparator)) {
+		if p := strings.TrimSpace(part); p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
+}
+
+// validateBlock 按 _block.schema.json 的 required 与引用关系做最小校验。
+//
+// 为什么需要：`json.Unmarshal` 只保证 JSON 合法，不保证这个块能用。
+// 2026-11-03 实测：缺 ports、缺 parts、缺 internal_nets、甚至 port 指向不存在的
+// 器件，`blocks ls` 全都正常显示、退出码 0。客户看到自己的块出现在列表里就以为
+// 成了，真正用的时候才炸——「能加载」被当成了「能用」。
+//
+// 这里只查**能在块内部判定**的东西（字段齐不齐、引用对不对）。
+// 器件能不能在标准件库里解析，那要 netlist，不在这里管。
+func validateBlock(b Block) error {
+	// internal_nets 不在 Block 的投影里（只保留在 Raw），这里单独取。
+	var extra struct {
+		InternalNets [][]string `json:"internal_nets"`
+	}
+	if len(b.Raw) > 0 {
+		_ = json.Unmarshal(b.Raw, &extra)
+	}
+	nets := extra.InternalNets
+
+	var missing []string
+	if strings.TrimSpace(b.ID) == "" {
+		missing = append(missing, "id")
+	}
+	if strings.TrimSpace(b.Desc) == "" {
+		missing = append(missing, "desc")
+	}
+	if strings.TrimSpace(b.Category) == "" {
+		missing = append(missing, "category")
+	}
+	if strings.TrimSpace(b.Author) == "" {
+		missing = append(missing, "author")
+	}
+	if strings.TrimSpace(b.Source) == "" {
+		missing = append(missing, "source")
+	}
+	if len(b.Parts) == 0 {
+		missing = append(missing, "parts")
+	}
+	if len(b.Ports) == 0 {
+		missing = append(missing, "ports")
+	}
+	if len(nets) == 0 {
+		missing = append(missing, "internal_nets")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("缺少必填字段 %s（块格式见 _block.schema.json）",
+			strings.Join(missing, ", "))
+	}
+
+	// port 的 at 必须是 "<part>.<pin>"，且 <part> 必须在这个块里
+	for name, port := range b.Ports {
+		at := strings.TrimSpace(port.At)
+		if at == "" {
+			return fmt.Errorf("port %q 没有 at（应写成 <part>.<pin>）", name)
+		}
+		part, rest, ok := strings.Cut(at, ".")
+		if !ok || strings.TrimSpace(part) == "" || strings.TrimSpace(rest) == "" {
+			return fmt.Errorf("port %q 的 at=%q 格式不对（应写成 <part>.<pin>）",
+				name, at)
+		}
+		if _, exists := b.Parts[part]; !exists {
+			return fmt.Errorf("port %q 指向的器件 %q 不在本块的 parts 里"+
+				"（本块有：%s）", name, part, partNames(b.Parts))
+		}
+	}
+
+	// internal_nets 的每个元素要么是 PORT:<name>，要么是 <part>.<pin>
+	portNames := make([]string, 0, len(b.Ports))
+	for n := range b.Ports {
+		portNames = append(portNames, n)
+	}
+	for _, net := range nets {
+		for _, token := range net {
+			token = strings.TrimSpace(token)
+			if strings.HasPrefix(token, "PORT:") {
+				ref := strings.TrimPrefix(token, "PORT:")
+				if _, exists := b.Ports[ref]; !exists {
+					return fmt.Errorf("internal_nets 引用了不存在的 port %q"+
+						"（本块有：%s）", ref, strings.Join(portNames, ", "))
+				}
+				continue
+			}
+			part, _, ok := strings.Cut(token, ".")
+			if !ok {
+				return fmt.Errorf("internal_nets 的 %q 既不是 PORT:<name> "+
+					"也不是 <part>.<pin>", token)
+			}
+			if _, exists := b.Parts[part]; !exists {
+				return fmt.Errorf("internal_nets 引用的器件 %q 不在本块的 parts 里"+
+					"（本块有：%s）", part, partNames(b.Parts))
+			}
+		}
+	}
+	return nil
+}
+
+func partNames(parts map[string]Part) string {
+	names := make([]string, 0, len(parts))
+	for n := range parts {
+		names = append(names, n)
+	}
+	sort.Strings(names)
+	return strings.Join(names, ", ")
+}
+
+// loadOneBlock parses one block JSON. Kept separate so embedded and external
+// blocks go through exactly the same decode path.
+// blocks go through exactly the same decode path.
+func loadOneBlock(raw []byte, label string) (Block, error) {
+	var b Block
+	if err := json.Unmarshal(raw, &b); err != nil {
+		return Block{}, fmt.Errorf("block %s: %w", label, err)
+	}
+	b.Raw = raw
+	if err := validateBlock(b); err != nil {
+		return Block{}, fmt.Errorf("block %s: %w", label, err)
+	}
+	return b, nil
+}
+
 func Load() ([]Block, error) {
 	entries, err := fs.ReadDir(data, "data")
 	if err != nil {
 		return nil, err
 	}
 	var out []Block
+	index := map[string]int{} // id -> position in out, for external override
 	for _, e := range entries {
 		name := e.Name()
 		if e.IsDir() || !strings.HasSuffix(name, ".json") || strings.HasPrefix(name, "_") {
@@ -198,12 +343,41 @@ func Load() ([]Block, error) {
 		if err != nil {
 			return nil, err
 		}
-		var b Block
-		if err := json.Unmarshal(raw, &b); err != nil {
-			return nil, fmt.Errorf("block %s: %w", name, err)
+		b, err := loadOneBlock(raw, name)
+		if err != nil {
+			return nil, err
 		}
-		b.Raw = raw
+		index[b.ID] = len(out)
 		out = append(out, b)
+	}
+
+	// 企业块库：同 id 覆盖内置。
+	// **坏的块必须报错并点出文件名**，不许静默跳过——企业会以为块生效了。
+	for _, dir := range externalBlockDirs() {
+		files, err := filepath.Glob(filepath.Join(dir, "*.json"))
+		if err != nil {
+			return nil, fmt.Errorf("external blocks dir %s: %w", dir, err)
+		}
+		sort.Strings(files)
+		for _, path := range files {
+			if strings.HasPrefix(filepath.Base(path), "_") {
+				continue
+			}
+			raw, err := os.ReadFile(path)
+			if err != nil {
+				return nil, fmt.Errorf("external block %s: %w", path, err)
+			}
+			b, err := loadOneBlock(raw, path)
+			if err != nil {
+				return nil, err
+			}
+			if at, ok := index[b.ID]; ok {
+				out[at] = b // 同名覆盖，位置不变
+				continue
+			}
+			index[b.ID] = len(out)
+			out = append(out, b)
+		}
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
 	return out, nil

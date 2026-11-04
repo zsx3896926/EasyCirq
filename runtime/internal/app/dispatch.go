@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -401,6 +402,12 @@ type actionContext struct {
 	DocumentUUID string `json:"documentUuid,omitempty"`
 	DocumentType string `json:"documentType,omitempty"`
 	TabID        string `json:"tabId,omitempty"`
+	// PageVisibility is the connector's own verdict on whether the page is
+	// actually in the editor (visible) or merely created (hidden). A newly
+	// created project reports hidden until `schematic.page.open` runs, and
+	// every read/write fails while it stays hidden — so callers that create
+	// projects need to see it (see activateFirstPage in cmd_project.go).
+	PageVisibility string `json:"pageVisibility,omitempty"`
 }
 
 // artifactRef is the subset of a response artifact a CLI caller needs to locate
@@ -469,6 +476,9 @@ type actionResult struct {
 	// than assume anything. See conn_seq.go / sch_place_adopt.go.
 	Seq      schSeqCounters
 	errorMsg string
+	// errorDetail 是 daemon 的 error.detail 原文。STALE_WINDOW 时它带着
+	// "Connected now: <uuid> [project=…], …"，是重新绑定窗口的唯一线索。
+	errorDetail string
 	// errorCode is the daemon/connector error.code that came with ok=false
 	// ("STALE_READ", …). Callers that must branch on WHY a
 	// call failed read this instead of matching on the message text.
@@ -501,7 +511,48 @@ func requestActionTimed(cfg *appConfig, action, window string, payload any, time
 		res, e = requestActionOnce(cfg, action, window, payload, timeout)
 		return e
 	}, queueBlockRetryPolicy{Stderr: queueWaitProgress})
+
+	// 窗口 ID 在连接器重连后会变（STALE_WINDOW）。只有一个窗口连着时，
+	// "要发给谁"没有歧义，直接重试一次，而不是让用户去 `easycirq doctor`
+	// 里翻新 id 再来一遍 —— 那是纯手工负担，且客户大概率不知道要这么做。
+	//
+	// 有多个窗口时**不重试**：猜错会把命令发到另一块板上，比失败更糟。
+	if res != nil && !res.OK && res.errorCode == "STALE_WINDOW" {
+		if alt, ok := soleLiveWindow(res.errorDetail); ok && alt != window {
+			if queueWaitProgress != nil {
+				fmt.Fprintf(queueWaitProgress,
+					"note: window %q is stale (the connector reconnected); "+
+						"retrying on the only connected window %q\n", window, alt)
+			}
+			res2, err2 := requestActionOnce(cfg, action, alt, payload, timeout)
+			if err2 == nil || (res2 != nil && res2.OK) {
+				return res2, err2
+			}
+			return res2, err2
+		}
+	}
 	return res, err
+}
+
+// soleLiveWindow 从 STALE_WINDOW 的 detail 里取"当前连着的窗口"，
+// 且仅当**恰好一个**时返回。多个或取不到都对调用方说"我不知道"。
+//
+// detail 形如：
+//
+//	window IDs change on reconnect. Connected now: <uuid> [project=(no project) doc=? host=electron].
+//	window IDs change on reconnect. Connected now: <uuid> [...], <uuid2> [...].
+func soleLiveWindow(detail string) (string, bool) {
+	const marker = "Connected now:"
+	i := strings.Index(detail, marker)
+	if i < 0 {
+		return "", false
+	}
+	rest := detail[i+len(marker):]
+	ids := uuidRe.FindAllString(rest, -1)
+	if len(ids) != 1 {
+		return "", false
+	}
+	return ids[0], true
 }
 
 // queueWaitProgress 是「正在等队列排空」的进度出口。默认 stderr:静默地等
@@ -553,6 +604,9 @@ func requestActionOnce(cfg *appConfig, action, window string, payload any, timeo
 		}
 		res.errorMsg = msg
 		res.errorCode = code
+		if parsed.Error != nil {
+			res.errorDetail = parsed.Error.Detail
+		}
 		// 结构化错误(actionError):文本与旧版逐字一致,额外带上 error.code,
 		// 于是调用方能把「机械门拦下的」(STALE_READ)和「真的读失败了」分开处理
 		// —— 两者的下一步完全不同。见 stale_read_optin.go。
@@ -1176,7 +1230,10 @@ func stripArtifactNesting(p string) string {
 		if segs[i] == ".easycirq" && segs[i+1] == "artifacts" {
 			trimmed := strings.Join(segs[:i], sep)
 			if trimmed == "" {
-				if filepath.IsAbs(clean) {
+				// On Windows a rooted path without a volume ("\.easycirq\artifacts")
+				// is not absolute, but it is still rooted; returning "." would move
+				// the caller above the filesystem root it asked for.
+				if filepath.IsAbs(clean) || strings.HasPrefix(clean, sep) {
 					return sep
 				}
 				return "."
@@ -1232,10 +1289,20 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	scan := scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
-	if scan.Found == nil {
-		return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start`)", cfg.host, scan.Ports)
+	// 登录到公司服务器后不需要本机 daemon，所以扫描是**有条件的**。
+	// 先看凭据，再决定要不要找本机。
+	cred, remote, credErr := loadCredentials()
+	if credErr != nil {
+		return nil, credErr
 	}
+	var scan healthResult
+	if !remote {
+		scan = scanHealth(ctx, hostPortOptions{host: cfg.host, portStart: portStart, portEnd: portEnd})
+		if scan.Found == nil {
+			return nil, fmt.Errorf("no easycirq-agent daemon found on %s:%s (start it with `easycirq daemon start`)", cfg.host, scan.Ports)
+		}
+	}
+	_ = cred
 
 	body := map[string]any{"action": action}
 	// Identify this client process for audit attribution and the daemon's
@@ -1278,12 +1345,18 @@ func postAction(cfg *appConfig, action, window string, payload any, timeout time
 		return nil, fmt.Errorf("encode request: %w", err)
 	}
 
-	url := fmt.Sprintf("http://%s:%d/action", cfg.host, scan.Found.Port)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(buf))
+	endpoint, err := resolveActionEndpoint(cfg, scan)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint.url, bytes.NewReader(buf))
 	if err != nil {
 		return nil, fmt.Errorf("build request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+	if endpoint.token != "" {
+		req.Header.Set("Authorization", "Bearer "+endpoint.token)
+	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -1453,3 +1526,41 @@ func serviceName(body []byte) string {
 	}
 	return payload.Service
 }
+
+// actionEndpoint 是「这条命令往哪发」的结论。
+type actionEndpoint struct {
+	url   string
+	token string
+	// remote 为真表示发往公司服务器。诊断与报错文案要靠它区分两种模式。
+	remote bool
+}
+
+// resolveActionEndpoint 决定命令发往哪里。
+//
+// **这是唯一的判定点。** 有凭据 → 公司服务器；没有 → 本机 daemon。
+// 不要在别处再写一份同样的判断，否则两个地方早晚不一致。
+func resolveActionEndpoint(cfg *appConfig, scan healthResult) (actionEndpoint, error) {
+	cred, remote, err := loadCredentials()
+	if err != nil {
+		return actionEndpoint{}, err
+	}
+	if remote {
+		return actionEndpoint{
+			url:    cred.Server + "/action",
+			token:  cred.Token,
+			remote: true,
+		}, nil
+	}
+	if scan.Found == nil {
+		return actionEndpoint{}, fmt.Errorf(
+			"没有找到本机 daemon，也没有登录公司服务器。\n" +
+				"  本机用法：easycirq daemon start\n" +
+				"  企业用法：easycirq login --server https://<公司服务器> --token <token>")
+	}
+	return actionEndpoint{
+		url: fmt.Sprintf("http://%s:%d/action", cfg.host, scan.Found.Port),
+	}, nil
+}
+
+// uuidRe 匹配连接器窗口 ID 的规范形式（8-4-4-4-12）。
+var uuidRe = regexp.MustCompile(`[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}`)

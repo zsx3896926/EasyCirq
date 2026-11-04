@@ -47,3 +47,14 @@ benchmarks/task-launcher/** text eol=lf
 docs/parallel-task-launcher/** text eol=lf
 task_launcher/**/*.py text eol=lf
 tests/task_launcher_tests/**/*.py text eol=lf
+
+# Byte-exact test fixtures: spec.json records SHA-256 over these exact bytes,
+# so any end-of-line conversion breaks the evidence hash check.
+runtime/internal/app/testdata/project-drawings/*.json text eol=lf
+runtime/internal/app/testdata/project-drawings/*.svg text eol=lf
+runtime/internal/app/testdata/project-drawings/*.png -text
+
+
+# Every Python file is UTF-8 with LF, no exceptions. Hand-listed rules
+# meant each new script silently landed as CRLF on Windows.
+*.py text eol=lf

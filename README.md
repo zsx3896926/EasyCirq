@@ -14,6 +14,8 @@
 > **2026-10 重命名**：仓库、Skill、CLI 与协议统一更名为 **EasyCirq**（中文名「智构」）。旧安装目录请先迁移；步骤见 [迁移说明](docs/migration-easycirq.md)。
 
 > 首次使用请先读 [安装说明](distribution/INSTALL.md)；本文的"快速开始"是最短路径。
+>
+> 装完不知道怎么开口？看 [Skill 快速上手](easycirq/QUICKSTART.md)：10 分钟从「第一句话怎么说」到「一个最小闭环」，含五个常见坑。
 
 ## 快速开始（Windows，约 10 分钟）
 

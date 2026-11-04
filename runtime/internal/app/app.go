@@ -96,6 +96,10 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 
 	root.AddCommand(
 		newVersionCmd(stdout),
+		newStatusCmd(cfg, stdout, stderr),
+		newSetupCmd(cfg, stdout, stderr),
+		newCardCmd(cfg, stdout, stderr),
+		newAcceptanceCmd(cfg, stdout, stderr),
 		newActionsCmd(stdout, stderr),
 		newNotifyCmd(cfg, stdout, stderr),
 		newCallCmd(cfg, stdout, stderr),
@@ -124,6 +128,13 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 		newSkillCmd(stdout, stderr),
 		newUpdateCmd(cfg, stdout, stderr),
 		newTaskCmd(stdout, stderr),
+		newEnterpriseCmd(stdout, stderr),
+		newGatewayCmd(stdout, stderr),
+		newLoginCmd(stdout, stderr),
+		newLayoutCmd(stdout, stderr),
+		newPhaseCmd(cfg, stdout, stderr),
+		newRunCmd(cfg, stdout, stderr),
+		newLLMProxyCmd(stdout, stderr),
 	)
 	installMissingSubcommandErrors(root)
 
@@ -137,9 +148,26 @@ func installMissingSubcommandErrors(root *cobra.Command) {
 	var visit func(*cobra.Command)
 	visit = func(command *cobra.Command) {
 		if len(command.Commands()) > 0 && command.Run == nil && command.RunE == nil {
+			unknown := func(cmd *cobra.Command, token string) error {
+				// Cobra's own legacyArgs says `unknown command "x" for "y"` in English
+				// with no next step. Say which word was not understood and how to see
+				// the real commands.
+				return fmt.Errorf(
+					"没有这个命令：%q（属于 %q）\n下一步：运行 `%s --help` 看有哪些命令；"+
+						"不知道从哪开始就运行 `%s setup`",
+					token, cmd.CommandPath(), cmd.CommandPath(), cmd.Root().Name())
+			}
+			// Args runs before RunE and is what cobra uses for a misspelled
+			// subcommand, so setting only RunE leaves the English message in place.
+			command.Args = func(cmd *cobra.Command, args []string) error {
+				if len(args) > 0 {
+					return unknown(cmd, args[0])
+				}
+				return nil
+			}
 			command.RunE = func(cmd *cobra.Command, args []string) error {
 				if len(args) > 0 {
-					return fmt.Errorf("unknown command %q for %q", args[0], cmd.CommandPath())
+					return unknown(cmd, args[0])
 				}
 				return cmd.Help()
 			}
@@ -148,9 +176,9 @@ func installMissingSubcommandErrors(root *cobra.Command) {
 			visit(child)
 		}
 	}
-	for _, child := range root.Commands() {
-		visit(child)
-	}
+	// The root itself must be visited: a misspelled top-level command lands there,
+	// and leaving it unpatched kept cobra's English message in place.
+	visit(root)
 }
 
 // ── version ───────────────────────────────────────────────────────────────

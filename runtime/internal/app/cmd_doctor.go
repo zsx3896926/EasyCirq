@@ -483,19 +483,39 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 
 	if rep.Daemon.Status != "running" {
 		verdict = "blocked"
-		steps = append(steps, "启动自有 daemon：`easycirq daemon start`（端口 23111，状态目录 ~/.easycirq）")
+		// Customer-facing wording: "daemon" and a port number mean nothing to
+		// someone who has never used an EDA tool. Say what to run and why.
+		steps = append(steps, "启动后台服务：`easycirq daemon start`（EasyCirq 在后台常驻的那一部分）")
 	}
 	if rep.Connector.Count == 0 {
 		if verdict == "ok" {
 			verdict = "degraded"
 		}
-		steps = append(steps,
-			"在 EasyEDA Pro 导入自有连接器 "+expectedConnectorName+" v"+expectedConnectorVersion+
-				"（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载")
+		// 对客户说话时不用「插件」「daemon」这类内部词——2026-11-03 由
+		// tests/test_customer_journey.py 的 FORBIDDEN 表抓出来。
+		if path, _ := findConnectorEext(); path != "" {
+			steps = append(steps, fmt.Sprintf(
+				"在 EasyEDA Pro 里导入一次 EasyCirq 配套组件：`%s`"+
+					"；导入后在这个组件的设置里允许外部交互，然后完全退出 EasyEDA 再重新打开",
+				path))
+		} else {
+			steps = append(steps, "在 EasyEDA Pro 里导入一次 EasyCirq 配套组件"+
+				"（文件在 EasyCirq 安装包的配套目录里）；导入后在这个组件的设置里"+
+				"允许外部交互，然后完全退出 EasyEDA 再重新打开")
+		}
 	}
 	if len(rep.Connector.VersionMatches) > 0 && verdict == "ok" {
 		verdict = "degraded"
-		steps = append(steps, "连接器版本与运行时不一致：重新导入与本运行时配套的 .eext，再重启 EasyEDA")
+		// 原来让客户去运行 `easycirq connector path` —— 但那条命令的名字本身
+		// 就是内部术语（FORBIDDEN 里有 connector），而且让客户为了拿一个路径
+		// 再跑一条命令本就多余。这里直接把路径给出来。
+		if path, _ := findConnectorEext(); path != "" {
+			steps = append(steps, fmt.Sprintf(
+				"配套组件版本与工具不匹配：导入这个文件 `%s`，然后重启 EasyEDA", path))
+		} else {
+			steps = append(steps, "配套组件版本与工具不匹配："+
+				"从 EasyCirq 安装包里重新导入一次配套文件，然后重启 EasyEDA")
+		}
 	}
 	if rep.Skill.Status != "installed" && verdict == "ok" {
 		verdict = "degraded"
@@ -504,7 +524,7 @@ func doctorVerdict(rep doctorReport) (string, []string) {
 		if verdict == "ok" {
 			verdict = "degraded"
 		}
-		steps = append(steps, fmt.Sprintf("pid 文件（%d）与运行实例（%d）不一致：daemon 可能非正常退出过，可用 `easycirq daemon restart` 清理",
+		steps = append(steps, fmt.Sprintf("记录文件（%d）与正在运行的实例（%d）不一致：程序可能非正常退出过，运行 `easycirq daemon restart` 清理即可",
 			rep.Daemon.PIDFilePID, rep.Daemon.PID))
 	}
 	return verdict, steps

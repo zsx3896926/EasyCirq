@@ -1,0 +1,66 @@
+{
+  "schema": "easycirq-design-intent/v1",
+  "name": "12V 温控风扇",
+  "power_rail": "PWR5V",
+  "load_rail": "PWR12V",
+  "ground": "GND",
+  "rails": {
+    "PWR5V": 5.0,
+    "PWR12V": 12.0
+  },
+  "grounds": [
+    "GND"
+  ],
+  "threshold": {
+    "comparator": "U1",
+    "target_c": 45,
+    "tolerance_c": 3,
+    "vcc": 5.0,
+    "sensor": {
+      "kind": "ntc",
+      "r25": 10000,
+      "b": 3950
+    },
+    "hysteresis_c": 3,
+    "r_pull_ohms": 10000,
+    "tolerances": {
+      "resistor_pct": 1,
+      "ntc_r25_pct": 1,
+      "ntc_b_pct": 1
+    }
+  },
+  "switches": [
+    {
+      "part": "Q1",
+      "load": "FAN1",
+      "load_ma": 200,
+      "kind": "mosfet",
+      "vgs_th": 1.05,
+      "id_max_a": 4.0,
+      "load_kind": "inductive",
+      "load_rail": "PWR12V",
+      "vds_max": 30,
+      "vgs_max": 12
+    }
+  ],
+  "ratings": [
+    {
+      "part": "C1",
+      "between": [
+        "PWR5V",
+        "GND"
+      ],
+      "max_v": 50,
+      "note": "0603 X7R 50V"
+    },
+    {
+      "part": "D1",
+      "between": [
+        "FAN_M",
+        "PWR12V"
+      ],
+      "max_v": 100,
+      "note": "1N4148W 反向 100V"
+    }
+  ]
+}

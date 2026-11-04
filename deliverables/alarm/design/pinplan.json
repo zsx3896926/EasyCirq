@@ -1,0 +1,193 @@
+{
+  "_note": "LM393 SOP-8 的完整 pin-plan/v1。pins 是「逻辑资源」清单（工具要求），pinmap 是「脚位对照」。datasheet_pin 与 footprint_pad 按常见 SOP-8 定义，未逐项核对原厂 datasheet，verified=false。",
+  "schema": "pin-plan/v1",
+  "device": {
+    "ref": "U1",
+    "mpn": "LM393",
+    "package": "SOP-8",
+    "verified": false
+  },
+  "mcu": {
+    "ref": "U1",
+    "package_pins": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "bank_voltages": {}
+  },
+  "pins": [
+    {
+      "ref": "U1",
+      "logical": "OUT1",
+      "usage": "比较器 1 输出，驱动蜂鸣器",
+      "direction": "output",
+      "physical_pin": "1",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": false,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "IN1_N",
+      "usage": "阈值输入（R2/R3 分压）",
+      "direction": "input",
+      "physical_pin": "2",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": true,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "IN1_P",
+      "usage": "温度分压中点（R1 + NTC1）",
+      "direction": "input",
+      "physical_pin": "3",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": true,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "GND",
+      "usage": "地",
+      "direction": "power",
+      "physical_pin": "4",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": false,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "IN2_P",
+      "usage": "第二路比较器未使用",
+      "direction": "input",
+      "physical_pin": "5",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": true,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "IN2_N",
+      "usage": "第二路比较器未使用",
+      "direction": "input",
+      "physical_pin": "6",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": true,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "OUT2",
+      "usage": "第二路比较器未使用",
+      "direction": "output",
+      "physical_pin": "7",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": false,
+      "package_bonded": true
+    },
+    {
+      "ref": "U1",
+      "logical": "VCC",
+      "usage": "电源；C1 100nF 就近去耦",
+      "direction": "power",
+      "physical_pin": "8",
+      "voltage_domain": "3v3",
+      "debug": false,
+      "analog_used": false,
+      "package_bonded": true
+    }
+  ],
+  "resources": [],
+  "unresolved": [],
+  "pinmap": [
+    {
+      "ref": "U1",
+      "symbol_pin": "OUT1",
+      "datasheet_pin": "1",
+      "footprint_pad": "1",
+      "net": "ALARM",
+      "nc": false,
+      "notes": "驱动蜂鸣器"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "IN1_N",
+      "datasheet_pin": "2",
+      "footprint_pad": "2",
+      "net": "TH",
+      "nc": false,
+      "notes": "阈值"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "IN1_P",
+      "datasheet_pin": "3",
+      "footprint_pad": "3",
+      "net": "NTC_MID",
+      "nc": false,
+      "notes": "温度"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "GND",
+      "datasheet_pin": "4",
+      "footprint_pad": "4",
+      "net": "GND",
+      "nc": false,
+      "notes": "地"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "IN2_P",
+      "datasheet_pin": "5",
+      "footprint_pad": "5",
+      "net": "",
+      "nc": true,
+      "notes": "未使用"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "IN2_N",
+      "datasheet_pin": "6",
+      "footprint_pad": "6",
+      "net": "",
+      "nc": true,
+      "notes": "未使用"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "OUT2",
+      "datasheet_pin": "7",
+      "footprint_pad": "7",
+      "net": "",
+      "nc": true,
+      "notes": "未使用"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "VCC",
+      "datasheet_pin": "8",
+      "footprint_pad": "8",
+      "net": "VCC",
+      "nc": false,
+      "notes": "电源"
+    }
+  ],
+  "power_nets": [
+    "PWR5V"
+  ]
+}

@@ -3,18 +3,16 @@ name: easycirq
 description: 智构 · EasyCirq —— 配合AI Agent把自然语言idea推进为可验证使用的硬件产品，优先在嘉立创生态衔接方案、原理图/PCB、立创商城购料、制造装配、程序烧录与实际功能验证。也支持仅做原理图与PCB，支持没用过EDA的新手，也支持工程师的选型、改板、布局布线、检查和交付。用户说“做个温度报警器”“帮我设计电路板”“我不会用EDA，带我做”“根据这个模块画板”“修改/检查现有原理图或PCB”时使用。由Agent负责澄清目标、推荐方案、检查并连接已配置的EDA工具、组织设计与验证；本Skill提供协作方法与工程纪律，不是独立Agent或EDA执行器。按任务读取原厂资料，通过本仓库的 `easycirq` 执行层实际绘图并回读。覆盖MCU/SoC/FPGA、电源/电池、采集、通信、驱动、无线、音视频和高速数字等主流任务。结合立创商城的C号选型、BOM配单、批量用量与缺料替代，区分商城购料与嘉立创SMT渠道；用户说“优先商城现货”“预算多少”“帮我配齐元件”“缺料换型”“准备打样/贴片”时也使用。支持按嘉立创PCB/SMT实际渠道和订单工艺核对生产规则、映射EDA约束、准备制造资料；纯知识问答不必启动完整画板流程。
 ---
 
-## 输出优先契约 v4.0（最高优先级；与任何技能/流程/读取要求冲突时以本契约为准）
-
-**双模式**：先判定任务属于哪种模式，再决定遵守哪些条款。
+## 双模式判定（先选模式，再决定遵守哪些条款）
 
 | 模式 | 判定 | 适用条款 |
 |---|---|---|
 | **咨询模式** | 问答、选型、快速检查、只要结论/计划 | 下方 R0–R12（预算 ≤4 次工具、EDA 只读等） |
-| **施工模式** | 用户要求"做出来/改完/跑通/落地"，或需要真机写入、多轮迭代、交付图纸/PNG/BOM | R0/R4/R5/R8（诚实性、先加载技能）不变；预算条款改按 [施工模式契约](references/build-mode.md)（B0–B10） |
+| **施工模式** | 用户要求“做出来 / 改完 / 跑通 / 落地”，或需要真机写入、多轮迭代、交付图纸/PNG/BOM | R0/R4/R5/R8（诚实性、先加载技能）不变；预算改按 [施工模式契约](references/build-mode.md)（B0–B10），流程按下方 §4「原理图：离线先行」执行 |
 
-判定与开局（施工模式）：先声明**目标与验收物、当前阶段、本阶段预算**，再动手。
-施工模式必须遵守：单一设计模型（IR）、布局期可读性约束、标签通道与分页、EDA 写入纪律、
-验证闭环、交付物规范、事故档案——全部见 [施工模式契约](references/build-mode.md)。
+判定与开局（施工模式）：先声明**目标与验收物、当前阶段、本阶段预算**，再动手。施工模式必须遵守：单一设计模型（IR）、布局期可读性约束、标签通道与分页、EDA 写入纪律、验证闭环、交付物规范、事故档案——全部见 [施工模式契约](references/build-mode.md)。
+
+## 输出优先契约 v3.5（最高优先级；与任何技能/流程/读取要求冲突时以本契约为准）
 
 - **R0（先加载技能）**：判定为硬件工程任务时，**第一步调用 `Skill(easycirq)`**；只加载，不先读 references/scripts/cases，不先搜索文件系统。**明确属于本条**：原理图/PCB 检查与改板、选型、BOM、制造文件、从零设计、以及“这个网络连不上 / 网络未连接 / DRC 报未连接”这类原理图网络或板级通信调试。
 - **R1**：用户问句里的“这块板 / 这个网络 / 这个文件”若不在当前工作目录、也不在已绑定工程里，**立即停下问用户**；禁止遍历 Desktop/Downloads/Documents/Temp/用户主目录去找。
@@ -30,6 +28,7 @@ description: 智构 · EasyCirq —— 配合AI Agent把自然语言idea推进�
 - **R11（单命令 ≤60 s）**：任何一条命令都设 60 s 超时；超时/失败就记录现状并继续或转 `NOT RUN`，**不要重试**。
 - **R12（先版式后器件）**：画或改原理图时，先在 `style-plan.json` 定好图纸模板、分区框（位置/大小/标题/order/purpose/配色）与标题栏，并用 `scripts/sch_style_plan_check.py` 通过；**未通过不得开始写器件、连线或 EDA 写入**。风格规范见 `references/schematic-style.md`，参考样例 `assets/style-reference/esp32-schematic.png`。
 - **交互**：本客户端可能禁用 `AskUserQuestion` 等交互工具；需要提问时**直接用可见文字提问**。
+- **施工模式**：用户要求“做出来 / 改完 / 跑通 / 落地”或需要真机写入、多轮迭代、交付图纸时，按 [施工模式契约](references/build-mode.md) 执行；本仓库的「离线先行 → 19 项 KPI → 连续达标才上机」门禁见 [原理图离线先行](references/schematic-offline-first.md)，一键入口 `scripts/sch_offline_pipeline.py`。
 
 
 # 智构 · EasyCirq — AI 画板搭档：从想法到可用实物
@@ -43,7 +42,7 @@ description: 智构 · EasyCirq —— 配合AI Agent把自然语言idea推进�
 用户要求安装、检查更新、升级、修复或回退时，读取 [安装与更新](references/installation-updates.md)。
 WorkBuddy/Claude Code/Codex 只是宿主：安装只决定能否加载本Skill，不代表EDA已接通。
 新硬件任务开始前用 `scripts/skill_update.py check` 检查本Skill版本（24小时缓存），再运行 `easycirq doctor` 检查执行层，两者分开报告。
-本Skill只更新自身；`easycirq` 运行时由本仓库 `distribution/` 的发布包安装/升级，本Skill不从外部release页下载CLI、daemon或连接器。
+本Skill只更新自身；`easycirq` 运行时由本仓库 `distribution/` 的发布包安装/升级，本Skill不从外部release页下载CLI、daemon或连接器。**第一次使用**先读 [快速上手](QUICKSTART.md)（10 分钟：三步装好 → 第一句话怎么说 → 最小闭环 → 五个常见坑）；用户问"怎么开始/怎么用"时指向它，不把本文全文倒给用户。
 先确认实际客户端和安装路径，重复安装不得静默覆盖；网络失败不阻塞原工程任务。只在用户要求升级且没有进行中的工程操作时更新，不在画板中途替换技能，不运行无人确认自动安装；升级后重载或新建会话并核对 `.version` 与 `easycirq doctor`。保留客户项目和本地修改，仅本Skill更新成功不代表执行层已更新，不宣称跨组件原子回退。
 
 ## EasyEDA 生态工具接入
@@ -220,6 +219,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 初次使用、判断任务范围和评审节奏 | [首次协作](references/interaction.md) |
 | 组合新模块、避免漏掉外围 | [模块设计卡](references/module-cards.md) |
 | 用户要求选型、换料或BOM | [选型与装配变体](references/part-selection.md) |
+| 企业客户：按内部规范查网表、沉淀人审经验、从历史 DRC 挖候选；或问「装哪个版本 / 要不要服务端」 | [本地交付说明](references/enterprise-local.md)（**现行方式：纯本地**，不部署服务端、不需要预装 Python）、[企业知识库](references/enterprise-knowledge.md)、[从历史工程长出规则](references/enterprise-harvest.md) |
 | 立创商城选料、查货、估价、BOM配单、缺料替代 | [立创商城选型与配单](references/lcsc-sourcing.md) |
 | 嘉立创打板/贴片、选择工艺、设置厂规或工厂驳回 | [生产规则接入](references/jlc-production.md)，Agent维护实际订单工艺与证据，不要求新手填表 |
 | PCB层叠/铜厚/线孔/阻焊/成型与特殊工艺 | [嘉立创PCB生产规则](references/jlc-pcb-rules.md)，数值为需重查的条件快照 |
@@ -232,11 +232,11 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 模拟采集、音视频、射频或高速链路 | [模拟与高速](references/analog-rf-highspeed.md) |
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
-| 已有原理图重排、自动布局、提高整页可读性 | [原理图排版引擎](references/schematic-layout-engine.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 网表/导图复核；先读该文件的并发与工具限制 |
-| 用8类典型任务校准排版检查、准备前后对比 | [原理图排版基准集](references/schematic-benchmarks.md)，运行 `python scripts/schematic_benchmark.py`；基准是离线示意，不是真机验收 |
+| 已有原理图重排/自动布局；用 8 类典型任务校准排版检查 | [原理图排版引擎](references/schematic-layout-engine.md)、[排版基准集](references/schematic-benchmarks.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 复核；基准是离线示意，不是真机验收 |
+| 想知道进度并要它**拒绝跳步**；或想让它自动按顺序推进 | [相位与证据](references/phase-gate.md)、[harness 循环](references/harness-run.md)：`easycirq phase` / `easycirq run`；**只有 pass 放行**，NOT RUN/blocked/stale 一律阻塞，越界动作直接拒 |
 | 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
-| 真实读写嘉立创EDA工程、恢复超时/重复执行、保存重开 | [EDA执行](references/eda-execution.md)；先 `easycirq doctor`+`capabilities` 预检，再用 `easycirq sch/pcb/project/doc` typed 命令先读后写；写入必须在已授权副本上，保存后 `doc reload` + 回读验证持久化；`netlist_diff.py` 做纯排版网表门禁 |
+| 装完后 enterprise / 离线判据命令跑不了，或客户机器没有 Python | [自带 Python](references/bundled-python.md)：发行包内含嵌入式解释器，装完即用；`EASYCIRQ_NO_BUNDLED_PYTHON=1` 可关；另见 [EDA执行](references/eda-execution.md)（先 `easycirq doctor`+`capabilities` 预检） |
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary` 与 `easycirq doctor`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
@@ -275,6 +275,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 线束/连接器、产品变体与差异 BOM | [整机线束](references/decisions/f01-harness-and-board-external.md)、[产品变体](references/decisions/g01-product-variants.md) |
 | 校准/设备身份、工程变更、模块复用、资产有效性 | [校准与身份](references/decisions/h01-calibration-and-identity.md)、[变更影响](references/decisions/i01-change-impact.md)、[模块复用](references/decisions/j01-module-reuse.md)、[资产有效性](references/decisions/l01-asset-validity.md) |
 | 阶段门禁、设计状态、G0–G6 退出证据 | [阶段门禁](references/design-gates.md)、[状态示例](assets/design-state.example.json)，运行 `python scripts/gate_check.py` |
+| 离线先行原理图、19 项 KPI 量化、连续达标才上机 | [原理图离线先行](references/schematic-offline-first.md)，运行 `python scripts/sch_offline_pipeline.py`（一键）或 `python scripts/sch_kpi.py`（聚合），指标定义见仓库 `metrics/schematic-kpi.v1.json` |
 | 层数选择、电源/地策略、布线计划、连接器逃逸 | [PCB布线策略](references/pcb-routing-strategy.md)、[布线计划模板](assets/routing-plan.md) |
 | 工具报错、命令行为、前台/超时/部分写入 | [工具陷阱](references/tool-gotchas.md) |
 | 设计前核算：阈值/回差、NTC、LED/蜂鸣器、压降、载流 | [设计计算模板](assets/design-calc.md)，需要可执行核算时用 `scripts/calculate.py` |
@@ -300,12 +301,80 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 - **状态载体**：非平凡项目用 `design-state.json`（模板 [状态示例](assets/design-state.example.json)）记录需求、功能冻结、布局/层叠/布线/制造证据、假设与未决项；小修改可沿用 [工程记录](assets/engineering-notes.md)，不重复建同义文件。
 - **硬规则**：G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样/可量产。G3 与 G4 是布线的并列前置条件，不能先布完再补声明。G5 内部顺序：平面/铺铜 → 关键信号 → 普通信号 → 缝合线与电源补线（全部信号网 Connection 0 之后），见 [PCB布线策略](references/pcb-routing-strategy.md) §4.2。
 - **离线复核**：`python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file> [--waiver-file <json>]` 只读证据，不连 daemon、不写工程；输出 `PASS / PASS_WITH_WAIVER / BLOCKED / UNSUPPORTED` 与 `next_command`。缺证据判 `BLOCKED`，不默认通过。
+- **KPI 门禁（G2 内部细化）**：`python scripts/sch_kpi.py --input <kpi-input.json> [--check ID=report.json] [--history <jsonl>] --out <report.json> --md <report.md>` 把同一冻结快照上的 19 项指标聚合成 `PASS/REVIEW/BLOCKED`，硬约束恒为 0、缺证据判 `BLOCKED`，并在 `stability.apply_allowed` 给出上机许可（默认要求连续 2 轮 PASS 且无新增违规）。流程与阈值见 [原理图离线先行](references/schematic-offline-first.md) 与仓库 `metrics/schematic-kpi.v1.json`；它不替代 `gate_check` 的 G2 证据，两者都过才上机。
 - **豁免**：电气 DRC、网表审计、PCB DRC、关键网证明、保存重载、Gerber/BOM/恢复演练不可豁免；风格警告、安装孔、连接器逃逸、布局冻结、丝印、测试计划等可带理由豁免，必须落盘到 `--waiver-file`（`design-waivers/v1`）并写清范围、剩余风险与复验条件。`PASS_WITH_WAIVER` 不是 `PASS`。
 - **工具边界**：导出能力（Gerber/钻孔/CPL 等）以 `easycirq capabilities` 的逐项状态为准；`unsupported`/`unknown` 时由用户在 EDA GUI 导出并落证据，缺人工证据时 G6 仍 `BLOCKED`。门禁通过只说明列出的检查在给定对象/版本/范围内通过，不证明实物功能。
 
 ## 4. 用轻量工程状态驱动工作
 
 工程子任务沿用 S0读取 → S1需求/约束 → S2方案/核算 → S3原理图 → S4 PCB → S5检查/交付；完整产品再衔接适用的程序/交互开发、制造装配、烧录配置、样机联调与用途验收，能并行的准备同步推进，按用户范围跳过无关阶段。阶段完成由实际证据决定，不为推进而伪造证据。
+
+### 原理图：离线先行 + 19 项 KPI 门禁（默认路径）
+
+新画或实质修改原理图时，默认走「离线跑通 → KPI 达标 → 一次性上机」，不要边想边写画布：
+
+1. **冻结快照**（只读）：`sch connectivity --page <P>`、`sch list --page <P> --include-pins --include-bbox --include-wires --include-page-primitives`、`sch export-image --scope page --page <P> --format svg` + `svg_text_bbox.py`、`sch drc --json`、`bom export --type csv`。
+2. **离线裁决**：`python scripts/sch_offline_pipeline.py --snapshot-dir <dir> --project <P> --page <P> --out-dir <reports>`，退出码 0=PASS / 1=REVIEW / 2=BLOCKED。
+3. **上机条件**：`verdict=PASS` 且 `stability.apply_allowed=true` 才允许写入 EDA；否则只交离线候选 + KPI 表，按 `blockers` 逐条修复。
+4. **多页汇总**：`python scripts/sch_kpi_scoreboard.py --reports <reports> --expect-page ...`，缺页不放行。
+
+铁律：缺证据判 `BLOCKED`，不把离线 PASS 说成真机通过；保存成功 ≠ 写入成功 ≠ 重开仍在 ≠ 质量通过。细则与 19 项定义见 [原理图离线先行](references/schematic-offline-first.md) 与 `metrics/schematic-kpi.v1.json`。
+
+### PCB：顺序错了会白跑（2026-10-31 实测）
+
+原理图 PASS 之后才进这一段。六条都是实测踩出来的，按顺序做：
+
+1. **同步**：`pcb import-changes`。同一 schematic 文档下的**多页会合并到同一块 PCB**——
+   想隔离电路就得用独立工程，靠新建页没用。
+2. **摆开**：`pcb auto-place`。不摆开就跑短跳线，焊盘会叠在一起（Clearance Error）。
+3. **板框**：`pcb outline-fit [--margin 60]`。**没有板框时 `autoroute` 会报
+   `successNetsCount: 0`，所有网络都 failed** —— 这是最容易误判成"路由器坏了"的一步。
+4. **布线**：`pcb autoroute`（官方路由器）。`pcb route-short` 只连短跳线，连不全。
+5. **权威重读**：`pcb save` → `easycirq doc reload <PCB>` → 再 `pcb drc --json`。
+   出现 `staleRisk` 提示时，读到的是过期引擎状态，不能当结论。
+   **注意文档类型**：`pcb drc` / `pcb dump` 要求前台是 PCB，`sch drc` 要求前台是
+   原理图。当前台是另一种时命令直接失败并提示加 `--doc <name>`——**跨类型取数时一律
+   显式带上 `--doc`**，不要依赖"刚才切换过"。
+6. **导出**：DRC `passed: true` 且 `total: 0` 才 `call pcb.manufacture.gerber`。
+
+实测参考（9 器件模拟板）：auto-place 后 DRC 24 项 → 加板框 + autoroute 后 3 项 →
+加大 margin 重布后 **0 项**。
+
+**Gerber 层数不是固定的**，跟着实际制造内容走：
+
+| 板子情况 | 层数 |
+|---|---|
+| 全贴片、手工布线 | 11 层（含 `Drill_PTH_Through.DRL`，有直插件才有钻孔层） |
+| autoroute 打过孔 | **12 层**，多一个 `Drill_PTH_Through_Via.DRL` |
+
+所以"11 层"不是验收标准；**核对的是层清单里该有的都在**（各铜层、丝印、阻焊、钢网、
+板框、钻孔）。
+
+### 写入许可：两轮 + uuid
+
+- 管线必须同时传 `--project` 与 `--project-uuid`。许可绑定**工程名和 uuid**；
+  只给名字时，工程名任何差异都会 `GATE_PROJECT_MISMATCH`。
+- **连续两轮 PASS** 才签发（`apply_allowed` 第一轮 false、第二轮 true），TTL 30 分钟；
+  过期后 `GATE_REQUIRED` 是正常现象，重跑两轮即可。
+- 建板写入（放置、连线、布线）**不需要**许可；只有交付类动作（Gerber/CPL/网表）要。
+
+### 引脚计划：纯模拟器件这样填
+
+`pin_mux` 需要快照里放 `pinplan.json`（`pin-plan/v1`）：
+
+- `resources` 是 **MCU 逻辑资源**（gpio/adc/timer），纯模拟电路传 `[]`；
+  写 `"net"` 会被判 `invalid_input`。
+- `resources` 为空时 **不要求** `bank` / `reset_state` / `boot_sample` / `strap`
+  （这些只对可配置数字引脚有意义）。
+- `pinmap[].symbol_pin` 必须与 `pins[].logical` **完全一致**（`IN1-` ≠ `IN1_N`）；
+  `pinmap` 行不接受未知字段。
+
+### 新建页而不清空
+
+`sch page-new --schematic <schematicUuid>`（uuid 从 `board list` 取）。
+不要用 `sch clear` —— 它会清掉已有证据（Gerber、已验收的图纸）。
+
+**客户看到什么**：`easycirq setup`（装好没有）→ `easycirq status` / `card`（能不能写、能不能打样）→ `easycirq acceptance`（打样后验收）。四幕的完整对话、真实输出与通过条件见 [客户旅程](references/customer-journey.md)。对客户只展示这四张卡，不解释 daemon/connector/KPI/通行证。
 
 为非平凡工程维护精简记录，可从 [记录模板](assets/engineering-notes.md) 复制到工程工作区；沿用已有记录而不另建同义文件。小修改在会话和变更报告中记清即可。
 
@@ -324,7 +393,40 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 上下文压缩、配额中断或新会话恢复时，先读 `design-state.json` 的 `project.stage` 与 `recovery`（`open_nets`/`last_journal`/`last_backup`/`rejected_options`/`next_action`）再继续；状态缺失或与现场不一致时按 `BLOCKED` 处理，不凭对话摘要推断。
 
-## 5. 设计和执行的底线
+## 5. 能力边界（先判断能不能做，再动手）
+
+这套流程**已经走通过**的是：器件少（<15）、单页原理图、无高速/射频/固件的小板
+（纯模拟，或简单指示电路）。
+
+**做不到**的三件事，必须在开工前说清：
+
+1. **证明电路功能正确**——17 项检查全是连接/结构/供电/一致性，没有一项验证电气行为。
+   温度报警器那块板的两个致命缺陷（电源全接 GND、蜂鸣器接反）都是**人读电路**发现的。
+2. **保证布局/排版无瑕疵**——DRC 可以 0 违规，但图元在框外这类 warn 仍会出现。
+3. **承诺量产可用**——没有热、EMC、寿命、批次一致性的任何验证。
+
+含 MCU、开关电源、高速/射频的需求，先补齐对应条件（或说明本流程只做前半段），
+不要直接开画。完整分类见 [能力边界](references/scope-limits.md)。
+
+**一句话**：门禁绿 ≠ 板子对。门禁只保证「这一步没漏」。
+
+## 5.5 企业知识库（客户自己的规范/实测值/标准电路）
+
+用户说「我们公司规定」「按我们规范检查」「这颗料我们实测过」「用我们自己的标准电路」
+「上次评审说的别再犯」时：**给人看读 [演示](references/enterprise-demo.md)，上手读 [一页纸](references/enterprise-quickstart.md)，
+深入读 [企业知识库](references/enterprise-knowledge.md)**；脚本在 `scripts/`：
+`enterprise_rules.py` / `knowledge_search.py` / `enterprise_parts.py` /
+`review_ledger.py` / `enterprise_review.py`（**给人看的审阅结论**）/ `enterprise_selfcheck.py`。企业库在 `$EASYCIRQ_KNOWLEDGE_DIR`
+（默认 `~/.easycirq/knowledge/`）与项目 `.easycirq/knowledge/`，块库用
+`EASYCIRQ_BLOCKS_DIR`。**不改源码、不重装。**
+
+三条不可违反：①**经验必须分两类**——能写成「对网表一次确定性判定」的是规则（可阻断），
+依赖上下文的是知识（只提示）。判错两边都致命，**必须问用户，不许猜**。
+②**「能加载」不等于「会生效」**，唯一验证办法是故意造一块违规的板看它报不报。
+③**不许承诺没做的**：规则没接进 19 项 KPI 门禁；AI 不能自动提取规则；
+块里的 `pcb_layout` 没有任何代码读。
+
+## 6. 设计和执行的底线
 
 1. 精确到完整型号/后缀/封装，使用原厂资料与勘误；以适用的推荐工作条件设计，单独检查绝对最大额定值。
 2. 区分原理图逻辑引脚、物理脚号、GPIO名称和封装焊盘号；回读实际pin-net与pin-pad，NC与连接互斥。
@@ -345,7 +447,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 15. 不用电气手段消几何告警：禁止用浮空/支撑假脚、改网络、删器件、伪造 NC 或降低约束来让 overlap/间距/连通/文字告警消失。任何电气变化必须有依据、影响分析和变更记录；检查器误判时修检查器或记录为误报，不改电气事实。见 [审查与验证](references/review.md)。
 
-## 6. 后台计算与自动化
+## 7. 后台计算与自动化
 
 需要时运行 `python scripts/calculate.py <mode> '<JSON>'`。支持 `led`、`divider`、`i2c`、`ldo`、`buck`、`boost`、`adc_settle`、`current_sense`、`wire`，全部采用SI单位，具体字段见脚本 `--help`。脚本只复核所声明的简化模型和输入，不能证明选型、稳定性、EMC或制造合格。无Python时手算并独立复核，不把脚本列为绘图的强制前置。
 
@@ -371,7 +473,7 @@ Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相
 
 需要把一次画板/改板/检查做成可恢复闭环时，先读 [反馈闭环](references/feedback-loop.md)：`observe` 采集带窗口/工程/文档 UUID 的观察，`plan` 生成 `hds-modification/v1` 契约（可写对象/区域/网络、锁定、不变量、验收、恢复点），`preview` 只读不写，`apply` 默认 dry-run、写入前重核基线，`readback`+`verify` 分开记录调用/写入/保存/重开/质量，`recover` 用 journal 和幂等键续做，`case-search` 先核对适用性再复用。调用成功、写入成功、保存成功、重新打开后仍存在、质量通过是五件事，缺一项就是 `NOT RUN`/`unknown`，不能合并成“完成”。
 
-## 7. 让用户看懂进度和结果
+## 8. 让用户看懂进度和结果
 
 对新手先按 [新手交付卡](assets/beginner-summary.md) 展示：做了什么、在哪看、检查发现什么、下一步怎么用；原理图解释为“电路连接图”，PCB解释为“实际电路板的布局和走线”，首次出现时解释一次即可。专业计算、脚号、网表与日志留在可展开说明/工程记录，关键失败不能藏起来。
 

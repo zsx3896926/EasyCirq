@@ -50,6 +50,22 @@ func resolveSchPin(cfg *appConfig, window, ref string) (acPin, error) {
 	return resolvePinCoord(buildScene(res.Result), ref)
 }
 
+// resolveSchPinWithNet resolves a pin AND reads its current net. The plain
+// resolver asks for includePinNets=false to keep the payload small, which leaves
+// acPin.Net empty - so anything that needs to verify where a write actually
+// landed must use this one. Verifying against an empty net would silently pass,
+// which is the exact failure this exists to catch.
+func resolveSchPinWithNet(cfg *appConfig, window, ref string) (acPin, error) {
+	res, err := requestAction(cfg, "schematic.components.list", window, map[string]any{
+		"includeBBox": true,
+		"includePins": true, "includePinNets": true,
+	})
+	if err != nil {
+		return acPin{}, err
+	}
+	return resolvePinCoord(buildScene(res.Result), ref)
+}
+
 // connectStubDirection picks the stub direction for `sch connect`: an explicit
 // --direction wins; otherwise a resolved --pin leaves along its measured
 // outward side (the same fact the geometry guard enforces), so the default can

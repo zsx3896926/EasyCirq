@@ -97,6 +97,11 @@ REQUIRED_FILES = [
     "references/engineering-deepdives/exercises-pcb/exercises.md",
     "references/engineering-deepdives/exercises-pcb/answers.md",
     "scripts/bom_cnumber_check.py",
+    # KPI 16 / 17 implementations: if these vanish from a bundle the two
+    # checks that catch a board with no supply, and a stale board, vanish
+    # with them.
+    "scripts/sch_power_net_check.py",
+    "scripts/sch_pcb_net_match.py",
     "cases/temp-alarm-2026-10-24/README.md",
     "cases/temp-alarm-2026-10-24/expected.json",
 ]

@@ -15,8 +15,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      # 用 pytest 而不是 unittest discover。
+      #
+      # 两个原因：
+      # 1. tests/ 下有 43 个文件在模块级 import pytest，unittest 会 import 每个
+      #    test_*.py，不装就 ImportError。
+      # 2. 更重要的是 **unittest 只跑 TestCase 类**：约 392 条普通函数式用例
+      #    （`def test_...`）从来没在 CI 里执行过。pytest 两种都收。
+      #
+      # 依赖"可再生证据产物"的几条用例已加 skip 守卫：产物在跑真断言，
+      # 不在就明确 skip。全新 checkout 因此不会出现与代码无关的红。
+      - name: Install test dependencies
+        run: python3 -m pip install --quiet --disable-pip-version-check pytest
       - name: Validate structure and calculations
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m pytest tests -q
   benchmark:
     runs-on: ubuntu-latest
     steps:

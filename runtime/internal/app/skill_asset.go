@@ -162,3 +162,91 @@ var standardPartsAsset = skillAsset{
 func resolveStandardParts(explicit string) (string, error) {
 	return standardPartsAsset.resolve(explicit)
 }
+
+// shadowedStandardParts lists the OTHER copies of standard-parts.json that exist on
+// disk, nearest-first, excluding the one that was actually used.
+//
+// Why this exists (2026-11-02): the resolver walks a ladder and returns the FIRST
+// hit, silently. On this machine three installed skill dirs each held a copy —
+// .claude and .codex at 160 parts, .agents at 171. The block reported
+//
+//	role D: part "diode.1n4148w_sod123" not found in standard-parts.json
+//
+// for a key that was sitting on disk, because the resolver had hit a stale copy and
+// the message never said which file it read. Naming the resolved path fixes half of
+// that; naming the shadowed copies fixes the other half, because "there are three
+// of these and you are reading the wrong one" is the actual situation.
+func shadowedStandardParts(resolved string) []string {
+	var out []string
+	seen := map[string]bool{}
+	cleanResolved := filepath.Clean(resolved)
+	add := func(candidate string) {
+		candidate = filepath.Clean(candidate)
+		if seen[candidate] || candidate == cleanResolved {
+			return
+		}
+		seen[candidate] = true
+		st, err := os.Stat(candidate)
+		if err != nil || st.IsDir() {
+			return
+		}
+		out = append(out, candidate)
+	}
+	if root := strings.TrimSpace(os.Getenv("EASYCIRQ_SKILLS_DIR")); root != "" {
+		for _, rel := range standardPartsAsset.rels {
+			add(filepath.Join(root, filepath.FromSlash(rel)))
+		}
+	}
+	for _, t := range selfupdate.Targets(false) {
+		for _, rel := range standardPartsAsset.rels {
+			sub := rel
+			if i := strings.IndexByte(sub, '/'); i >= 0 {
+				sub = sub[i+1:]
+			}
+			add(filepath.Join(t.Dir, filepath.FromSlash(sub)))
+		}
+	}
+	walkUp := func(dir string) {
+		for i := 0; i < 8; i++ {
+			for _, rel := range standardPartsAsset.rels {
+				add(filepath.Join(dir, ".agents", "skills", filepath.FromSlash(rel)))
+			}
+			parent := filepath.Dir(dir)
+			if parent == dir {
+				return
+			}
+			dir = parent
+		}
+	}
+	if exe, err := os.Executable(); err == nil {
+		if real, rerr := filepath.EvalSymlinks(exe); rerr == nil {
+			exe = real
+		}
+		walkUp(filepath.Dir(exe))
+	}
+	if cwd, err := os.Getwd(); err == nil {
+		walkUp(cwd)
+	}
+	return out
+}
+
+// standardPartsDiagnostic renders the "which file did I read, and what else is on
+// disk" note appended to a parts-not-found refusal. Empty when there is nothing
+// useful to say (a single copy, or an explicit --parts the user already knows).
+func standardPartsDiagnostic(resolved string, shadowed []string) string {
+	if strings.TrimSpace(resolved) == "" {
+		return ""
+	}
+	var b strings.Builder
+	fmt.Fprintf(&b, "\n  read: %s", resolved)
+	if len(shadowed) > 0 {
+		b.WriteString("\n  other copies on disk (the resolver returns the FIRST hit, so a stale")
+		b.WriteString("\n  copy here is why a part can be missing while the file has it):")
+		for _, copy := range shadowed {
+			fmt.Fprintf(&b, "\n    %s", copy)
+		}
+		b.WriteString("\n  fix: `easycirq skill sync` (or copy the current file over them),")
+		b.WriteString("\n       or pin the right one with --parts <path>")
+	}
+	return b.String()
+}

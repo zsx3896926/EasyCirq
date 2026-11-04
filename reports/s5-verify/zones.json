@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "documentId": "554eba398dadfacf",
+  "frames": [
+    {
+      "id": "zone-a",
+      "title": "A",
+      "rect": {
+        "minX": 250,
+        "minY": 250,
+        "maxX": 420,
+        "maxY": 450
+      },
+      "titleX": 255,
+      "titleY": 440,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    },
+    {
+      "id": "zone-b",
+      "title": "B",
+      "rect": {
+        "minX": 450,
+        "minY": 250,
+        "maxX": 780,
+        "maxY": 450
+      },
+      "titleX": 455,
+      "titleY": 440,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    }
+  ]
+}

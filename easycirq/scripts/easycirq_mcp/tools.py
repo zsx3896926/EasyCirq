@@ -7,9 +7,14 @@ from . import CAPABILITIES_SCHEMA, SERVER_NAME, TOOL_VERSION
 from .errors import InvalidParams, ToolError
 from .runners import (
     NOT_PROOF,
+    run_acceptance,
+    run_card,
     run_delivery_audit,
     run_delivery_inspect,
     run_file_audit,
+    run_apply,
+    run_setup,
+    run_status,
 )
 
 _DETAIL = {
@@ -181,6 +186,146 @@ _TOOL_SPECS = {
         "annotations": {"readOnlyHint": True, "destructiveHint": False,
                         "idempotentHint": True, "openWorldHint": False},
         "handler": lambda arguments: _capabilities(),
+    },
+    "easycirq_status": {
+        "description": (
+            "Where this board stands and what the next step is, in plain language. "
+            "Reads the last offline KPI report and the write permission; never "
+            "talks to EDA and never re-measures. States: not_measured / blocked "
+            "/ incomplete / review / ready_to_write / gate_stale. 'Not measured "
+            "yet' is reported apart from 'measured and failing'."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "kpi_report": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "kpi-report.json written by the offline pipeline. "
+                                   + _PATHS_NOTE,
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional gate token path; when omitted the state "
+                                   "reports whether a token was demanded.",
+                },
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_status,
+    },
+    "easycirq_card": {
+        "description": (
+            "The customer delivery card: can this board be ordered, and what is "
+            "left. Reads a KPI report (and optionally a gate token). A 'ready' "
+            "answer requires a live permission when one is supplied; missing "
+            "evidence is listed apart from real defects and carries no fix advice."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["kpi_report"],
+            "properties": {
+                "kpi_report": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "kpi-report.json written by the offline pipeline. "
+                                   + _PATHS_NOTE,
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional gate token path; when supplied, a "
+                                   "PASS without a live token is not 'ready'.",
+                },
+                "pcb_drc": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional 'easycirq pcb drc --json' output. Without it "
+                                   "the card can only speak for the schematic; with it and "
+                                   "a clean result the card answers the whole-board "
+                                   "question. " + _PATHS_NOTE,
+                },
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_card,
+    },
+    "easycirq_setup": {
+        "description": (
+            "First-run check of the local installation: runtime, daemon, EasyEDA "
+            "connector and skill, plus the shortest path to a working install. "
+            "Runs the local `easycirq setup --json` CLI. It never installs, never "
+            "imports the connector and never edits a project."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {"timeout_s": _TIMEOUT},
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_setup,
+    },
+    "easycirq_acceptance": {
+        "description": (
+            "The post-prototype acceptance card: solder / power / function, judged "
+            "from the record you filled in after the board came back. A 'pass' with "
+            "no measured evidence is reported as unknown, never as a pass - physical "
+            "acceptance is the third evidence level and must not borrow the "
+            "schematic's or the EDA session's verdict."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Acceptance record JSON (easycirq-acceptance/v1). "
+                                   "Omit to read .easycirq/acceptance.json. " + _PATHS_NOTE,
+                },
+                "timeout_s": _TIMEOUT,
+            },
+        },
+        "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                        "idempotentHint": True, "openWorldHint": False},
+        "handler": run_acceptance,
+    },
+    "easycirq_apply": {
+        "description": (
+            "Replay a schematic playbook. Dry-run by default (confirm=false) so "
+            "the caller can inspect the plan; confirm=true executes it and "
+            "requires a live offline gate token. Only a playbook file is "
+            "accepted, never an arbitrary command. The daemon re-checks the "
+            "same token before any write, and a successful save is still not a "
+            "verified schematic: read back afterwards."),
+        "inputSchema": {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["playbook"],
+            "properties": {
+                "playbook": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Playbook JSON (easycirq apply format). " + _PATHS_NOTE,
+                },
+                "confirm": {
+                    "type": "boolean",
+                    "default": False,
+                    "description": "false = dry-run only; true = execute (needs a live gate).",
+                },
+                "gate": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Gate token path; required for confirm=true.",
+                },
+                "timeout_s": _TIMEOUT,
+            },
+        },
+        "annotations": {"readOnlyHint": False, "destructiveHint": True,
+                        "idempotentHint": False, "openWorldHint": False},
+        "handler": run_apply,
     },
 }
 

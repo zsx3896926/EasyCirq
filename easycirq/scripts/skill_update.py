@@ -228,6 +228,39 @@ def unpack(archive, stage, expected=None):
     verify(stage, m)
     return m
 
+# Windows refuses a directory rename while any handle is still open on it - an
+# indexer, antivirus, or a process that closed it a moment ago. The Go side learned
+# this the hard way (runtime/internal/app/cmd_pcb_layout_plan.go, renameWithRetry);
+# the same transient failure showed up here as
+#   PermissionError: [WinError 5] ... .easycirq-stage-xxxx -> ...\skills\easycirq
+# so the two sides now behave the same way.
+_RENAME_ATTEMPTS = 10
+_RENAME_BASE_DELAY = 0.02
+
+
+def _is_transient_rename_error(exc: BaseException) -> bool:
+    if isinstance(exc, PermissionError):
+        return True
+    if isinstance(exc, OSError):
+        # WinError 32 = sharing violation, 5 = access denied.
+        return getattr(exc, "winerror", None) in (5, 32)
+    return False
+
+
+def replace_with_retry(src, dst):
+    """os.replace that tolerates a transient Windows lock on the destination."""
+    last = None
+    for attempt in range(_RENAME_ATTEMPTS):
+        try:
+            return os.replace(src, dst)
+        except OSError as exc:
+            if not _is_transient_rename_error(exc):
+                raise
+            last = exc
+            time.sleep(_RENAME_BASE_DELAY * (attempt + 1))
+    raise last  # type: ignore[misc]
+
+
 def install(target, archive, expected=None, adopt=False, repair=False):
     target = checked_target(target)
     with locked(target):
@@ -264,15 +297,15 @@ def install(target, archive, expected=None, adopt=False, repair=False):
             write_json(stage / META, m)
             write_json(journal, {'target': str(target), 'stage': str(stage), 'backup': str(backup) if backup else None, 'operation': 'repair' if repair else 'install'})
             if backup:
-                os.replace(target, backup)
+                replace_with_retry(target, backup)
             try:
-                os.replace(stage, target)
+                replace_with_retry(stage, target)
                 verify(target, m)
             except BaseException:
                 if target.exists():
-                    os.replace(target, stage)
+                    replace_with_retry(target, stage)
                 if backup and backup.exists():
-                    os.replace(backup, target)
+                    replace_with_retry(backup, target)
                 raise
             journal.unlink()
             return {'status': 'installed', 'version': m['version'], 'target': str(target),

@@ -29,8 +29,14 @@ func TestRunUnknownCommand(t *testing.T) {
 	if code != 1 {
 		t.Fatalf("expected exit 1, got %d", code)
 	}
-	if !strings.Contains(stderr.String(), "unknown command") {
-		t.Fatalf("stderr missing unknown command message: %q", stderr.String())
+	// 2026-11-01: the English "unknown command" said nothing the caller could act
+	// on. The contract is now: name the word that was not understood, and say how
+	// to see the real commands.
+	if !strings.Contains(stderr.String(), "wat") {
+		t.Fatalf("stderr should name the unknown word: %q", stderr.String())
+	}
+	if !strings.Contains(stderr.String(), "下一步") {
+		t.Fatalf("stderr should give a next step: %q", stderr.String())
 	}
 }
 
@@ -47,8 +53,11 @@ func TestRunUnknownSubcommand(t *testing.T) {
 			if code := Run(args, &stdout, &stderr); code != 1 {
 				t.Fatalf("expected exit 1, got %d; stdout=%q stderr=%q", code, stdout.String(), stderr.String())
 			}
-			if !strings.Contains(stderr.String(), "unknown command") {
-				t.Fatalf("stderr missing unknown command message: %q", stderr.String())
+			if !strings.Contains(stderr.String(), "not-a-command") {
+				t.Fatalf("stderr should name the unknown word: %q", stderr.String())
+			}
+			if !strings.Contains(stderr.String(), "下一步") {
+				t.Fatalf("stderr should give a next step: %q", stderr.String())
 			}
 		})
 	}

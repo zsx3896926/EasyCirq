@@ -93,6 +93,92 @@ export const RESERVED_PORT_END = 0x5a50; // 23120
 // at the START of every attempt, so it takes effect on the next retry — no
 // re-import, no EasyEDA restart. Unset/garbage → the pinned default.
 const STORAGE_KEY_DAEMON_PORTS = 'easycirqDaemonPorts';
+
+// ── 远程目标（企业部署）──
+//
+// 默认连 127.0.0.1:23111（本机 daemon）。企业在服务器上跑网关时，
+// 工程师的客户端要连公司服务器而不是本机。两个配置键：
+//
+//   easycirqDaemonUrl   完整 ws:// 或 wss:// URL，例如
+//                       wss://easycirq.company.com/eda
+//   easycirqAuthToken   随连接带上的一次性 token
+//
+// 设了 url 就**不再扫端口**——远程目标是一个确定地址，扫描毫无意义。
+//
+// token 放 query 参数而不是请求头：eda.sys_WebSocket.register 只接受一个 URL
+// 字符串，没有设置请求头的地方。**代价**：query 会被写进代理和访问日志，
+// 所以 token 必须是短期的、可吊销的，不能是长期密钥。这一点在
+// docs/enterprise-deployment.md 里写明。
+const STORAGE_KEY_DAEMON_URL = 'easycirqDaemonUrl';
+const STORAGE_KEY_AUTH_TOKEN = 'easycirqAuthToken';
+
+/**
+ * Build the WebSocket URL for one connect attempt.
+ *
+ * Split out and exported so the remote path is testable without an EDA runtime:
+ * everything here is pure string work, and getting it wrong means an engineer's
+ * client silently keeps talking to its own machine.
+ *
+ * @param override - `easycirqDaemonUrl` value (undefined/empty = localhost)
+ * @param token - `easycirqAuthToken` value
+ * @param port - port to use when there is no override
+ * @returns the URL to register, plus a label for diagnostics/toasts
+ */
+export function buildTarget(
+	override: unknown,
+	token: unknown,
+	port: number,
+): { url: string; label: string; remote: boolean } {
+	const raw = typeof override === 'string' ? override.trim() : '';
+	if (!raw) {
+		return { url: `ws://127.0.0.1:${port}/eda`, label: `port ${port}`, remote: false };
+	}
+
+	// Only ws:// and wss:// are meaningful here. A stray http(s):// value is a
+	// realistic paste mistake, and silently coercing it would produce a
+	// connection that fails with an unrelated-looking error.
+	if (!/^wss?:\/\//i.test(raw)) {
+		return {
+			url: `ws://127.0.0.1:${port}/eda`,
+			label: `port ${port} (ignored: easycirqDaemonUrl must start with ws:// or wss://)`,
+			remote: false,
+		};
+	}
+
+	let url = raw;
+	const tok = typeof token === 'string' ? token.trim() : '';
+	if (tok) {
+		const sep = url.includes('?') ? '&' : '?';
+		url = `${url}${sep}token=${encodeURIComponent(tok)}`;
+	}
+	// Keep the label free of the token: it goes to toasts and the diagnostics ring.
+	let label = raw;
+	try {
+		const u = new URL(raw);
+		label = `${u.protocol}//${u.host}${u.pathname}`;
+	}
+	catch {
+		// leave the raw string; a malformed URL will fail at register time
+	}
+	return { url, label, remote: true };
+}
+
+/**
+ * Read the remote override + token from user config. Failures fall back to
+ * localhost rather than throwing: a broken config must not stop the connector
+ * from working against a local daemon.
+ */
+function remoteConfig(): { override: unknown; token: unknown } {
+	try {
+		return {
+			override: eda.sys_Storage.getExtensionUserConfig(STORAGE_KEY_DAEMON_URL),
+			token: eda.sys_Storage.getExtensionUserConfig(STORAGE_KEY_AUTH_TOKEN),
+		};
+	}
+	catch {
+		return { override: undefined, token: undefined };
+	}
+}
 // Hard cap on an override list: a typo like "1-65535" must not turn reconnect
 // into an unbounded sweep that never comes back. 12 × ~1.7s stays inside the
 // STUCK_CONNECTING_TICKS watchdog bound (~24s), so even a maxed-out override
@@ -707,6 +793,9 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 		// Wait a beat after close() so EasyEDA fully releases the id first.
 		closeWebSocket();
 
+		const rc = remoteConfig();
+		const target = buildTarget(rc.override, rc.token, port);
+
 		const doRegister = (): void => {
 			if (!isConnectionSessionActive(sessionId)) {
 				settle(false);
@@ -715,12 +804,12 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 			handshakeExpiresAt = Date.now() + CONNECTION_TIMEOUT_MS;
 			timer = armDeadline(CONNECTION_TIMEOUT_MS, () => settle(false));
 			handshakeVerified = false;
-			diag(`register port=${port} session=${sessionId}`);
+			diag(`register target=${target.label} session=${sessionId}`);
 
 			try {
 				eda.sys_WebSocket.register(
 					wsId,
-					`ws://127.0.0.1:${port}/eda`,
+					target.url,
 					async (event: MessageEvent) => {
 						let msg: InboundFrame;
 						try {
@@ -756,7 +845,7 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 								if (!connectionAnnounced) {
 									connectionAnnounced = true;
 									eda.sys_Message.showToastMessage(
-										`${eda.sys_I18n.text('Connected to easycirq-agent')} (port ${port})`,
+										`${eda.sys_I18n.text('Connected to easycirq-agent')} (${target.label})`,
 									);
 								}
 								settle(true);

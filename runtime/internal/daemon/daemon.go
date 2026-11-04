@@ -232,18 +232,47 @@ func (s *Server) listen() (net.Listener, int, error) {
 }
 
 // Run binds a port, serves until ctx is cancelled, then shuts down gracefully.
+// Prepare does everything Run does before it binds a port: it sets the log sink
+// and the connection context the handlers rely on.
+//
+// Why this is exported: the enterprise gateway runs one daemon per tenant
+// in-process and multiplexes them by token at its own listener, so a tenant's
+// daemon must not own a port. Splitting Prepare out is what lets the gateway
+// reuse this package — including the mutation gate, the audit log and artifact
+// persistence — instead of reimplementing them, which would create a second,
+// weaker set of rules.
+//
+// The returned shutdown cancels in-flight connector read loops; call it before
+// letting the process exit.
+func (s *Server) Prepare(log io.Writer) (shutdown func()) {
+	s.log = log
+	s.connCtx, s.connCancel = context.WithCancel(context.Background())
+	return func() {
+		if s.connCancel != nil {
+			s.connCancel()
+		}
+	}
+}
+
+// Handler returns the daemon's HTTP surface without binding a port. Prepare must
+// have been called first. port is only used for the value reported by /health —
+// a gateway tenant passes the port it will be reached on, so the health output
+// still names something a person can act on.
+func (s *Server) Handler(port int) http.Handler {
+	return s.routes(port)
+}
+
 func (s *Server) Run(ctx context.Context, log io.Writer) error {
 	listener, port, err := s.listen()
 	if err != nil {
 		return err
 	}
 
-	s.log = log
-	s.connCtx, s.connCancel = context.WithCancel(context.Background())
-	defer s.connCancel()
+	shutdown := s.Prepare(log)
+	defer shutdown()
 
 	httpServer := &http.Server{
-		Handler:           s.routes(port),
+		Handler:           s.Handler(port),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 

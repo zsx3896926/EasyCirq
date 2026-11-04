@@ -1,0 +1,447 @@
+{
+  "schema": "easycirq-schematic-kpi/v1",
+  "version": "1.3.0",
+  "title": "EasyCirq 原理图离线先行 KPI 定义",
+  "description": "15 项量化 KPI 的权威定义与默认阈值。sch_kpi.py 内置一份一致的默认值；tests/test_sch_kpi.py 校验两者相同。profile 可按工程覆盖软指标阈值，硬约束恒为 0。",
+  "sources": {
+    "connectivity": {
+      "tool": "scripts/netlist_check.py",
+      "role": "连接表/网表一致性、悬空与单端网络"
+    },
+    "layout": {
+      "tool": "scripts/sch_layout_check.py",
+      "role": "几何重叠、跨区穿越、线长、直连率"
+    },
+    "wire": {
+      "tool": "scripts/sch_wire_metrics.py",
+      "role": "线长、短引线率、分区均衡（实测几何）"
+    },
+    "text": {
+      "tool": "scripts/sch_text_audit.py",
+      "role": "可见文字关系、重复网名、端口配对"
+    },
+    "quality": {
+      "tool": "scripts/sch_layout_quality.py",
+      "role": "分区均衡与整页可读性"
+    },
+    "erc": {
+      "tool": "scripts/netlist_check.py",
+      "role": "电气规则：输出冲突/多驱动/无驱动；以及电源网与地网被重复声明（输入分类冲突，不等于铜短路）"
+    },
+    "pinplan": {
+      "tool": "scripts/pin_plan_check.py",
+      "role": "引脚复用与手册一致性"
+    },
+    "power": {
+      "tool": "scripts/power_budget.py",
+      "role": "去耦覆盖与电源树"
+    },
+    "identity": {
+      "tool": "scripts/component_identity_check.py",
+      "role": "器件身份/封装/BOM 映射"
+    },
+    "netlist": {
+      "tool": "scripts/netlist_diff.py",
+      "role": "排版或改板前后网表 diff"
+    },
+    "readback": {
+      "tool": "easycirq sch read",
+      "role": "保存重开后回读一致性（离线用快照 hash diff 表达）"
+    },
+    "design_validity": {
+      "tool": "scripts/sch_design_validity.py"
+    }
+  },
+  "kpis": [
+    {
+      "no": 1,
+      "id": "unconnected",
+      "title": "未连接/悬空",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "connectivity",
+          "metric": "floating_pins"
+        },
+        {
+          "check": "connectivity",
+          "metric": "single_node_nets"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "NC 必须显式声明，不得用悬空冒充"
+    },
+    {
+      "no": 2,
+      "id": "cross_zone",
+      "title": "跨区穿越",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "wire",
+          "metric": "cross_zone_crossings"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "跨功能块/跨页必须用语义标签，不允许裸线穿越"
+    },
+    {
+      "no": 3,
+      "id": "overlaps",
+      "title": "图面重叠",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "layout",
+          "metric": "overlaps",
+          "codes": [
+            "bbox_overlap",
+            "outside_page",
+            "frame_border_crosses_object",
+            "wire_enters_bbox",
+            "symbol_text_edge_contact",
+            "text_overlap"
+          ]
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "器件本体/文字压字/越界，以 --strict 为准"
+    },
+    {
+      "no": 4,
+      "id": "net_text",
+      "title": "连接转换",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "layout",
+          "metric": "unowned_visible_text",
+          "codes": [
+            "unowned_visible_text",
+            "orphan_text"
+          ]
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "当前只覆盖无主可见文字；端口配对与每网标签扇出需专用审计器，未实现前不冒充通过"
+    },
+    {
+      "no": 5,
+      "id": "bus",
+      "title": "总线完整性",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "connectivity",
+          "metric": "bus_members_missing"
+        },
+        {
+          "check": "connectivity",
+          "metric": "diff_pair_mismatch"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count"
+    },
+    {
+      "no": 6,
+      "id": "wire_length",
+      "title": "线长",
+      "kind": "soft",
+      "reads": [
+        {
+          "check": "wire",
+          "metric": "longest_wire_mm"
+        },
+        {
+          "check": "wire",
+          "metric": "avg_wire_mm"
+        }
+      ],
+      "aggregate": "max",
+      "direction": "max",
+      "limit": 120,
+      "unit": "mm",
+      "note": "默认值；按模块 profile 覆盖"
+    },
+    {
+      "no": 7,
+      "id": "readability",
+      "title": "可跟读率",
+      "kind": "soft",
+      "reads": [
+        {
+          "check": "readability",
+          "metric": "direct_ratio"
+        }
+      ],
+      "aggregate": "min",
+      "direction": "min",
+      "limit": 0.6,
+      "unit": "ratio",
+      "note": "页级代理指标（标签网占比的补数）；IR 无模块归属，'拓扑电路 100% 直连' 仍需人工/导图复核。advisory：有读数但未达不阻断门禁",
+      "advisory": true
+    },
+    {
+      "no": 8,
+      "id": "zone_balance",
+      "title": "分区均衡",
+      "kind": "soft",
+      "reads": [
+        {
+          "check": "wire",
+          "metric": "zone_balance_deviation"
+        }
+      ],
+      "aggregate": "max",
+      "direction": "max",
+      "limit": 0.3,
+      "unit": "ratio",
+      "note": "各页/分区对象数相对偏差 <=30%"
+    },
+    {
+      "no": 9,
+      "id": "erc",
+      "title": "ERC",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "erc",
+          "metric": "erc_violations"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "erc_violations = DRC fatal + error；warn 记录不计入"
+    },
+    {
+      "no": 10,
+      "id": "pin_mux",
+      "title": "引脚复用",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "pinplan",
+          "metric": "pin_mux_conflicts",
+          "codes": [
+            "DUPLICATE_RESOURCE_PIN",
+            "DUP_LOGICAL",
+            "DUP_PHYSICAL_PIN",
+            "DUP_RESOURCE",
+            "pinmap_duplicate_pin",
+            "pinmap_duplicate_row",
+            "pinmap_net_nc_conflict"
+          ]
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "需要 pin-plan/v1 输入（snapshot/pinplan.json）；只计已确认的重复/冲突项，warning 不算"
+    },
+    {
+      "no": 11,
+      "id": "decoupling",
+      "title": "去耦覆盖",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "power",
+          "metric": "decap_missing"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "每个电源引脚都必须有去耦，缺一颗即违规"
+    },
+    {
+      "no": 12,
+      "id": "naming",
+      "title": "命名规范",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "connectivity",
+          "metric": "duplicate_net_names"
+        },
+        {
+          "check": "connectivity",
+          "metric": "auto_net_residue"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "同名不同网、工具默认名残留（来自 connectivity IR）"
+    },
+    {
+      "no": 13,
+      "id": "bom_map",
+      "title": "料号映射",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "identity",
+          "metric": "bom_mapping_missing"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "BOM 每行需有封装/型号/C 号（sch_bom_metrics.py）"
+    },
+    {
+      "no": 14,
+      "id": "netlist_diff",
+      "title": "网表 diff",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "netlist",
+          "metric": "netlist_diff"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "前后两份 connectivity IR 的 (ref,pin,net) 绑定差（sch_connectivity_diff.py）"
+    },
+    {
+      "no": 15,
+      "id": "readback",
+      "title": "回读一致",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "readback",
+          "metric": "readback_diff"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "保存 -> 重开 -> 回读的对象/连接差异必须为 0"
+    },
+    {
+      "no": 16,
+      "id": "power_net",
+      "title": "电源网络",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "power_net",
+          "metric": "power_net_conflicts"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"
+    },
+    {
+      "no": 17,
+      "id": "pcb_match",
+      "title": "图板一致",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "pcb_match",
+          "metric": "schematic_pcb_diff"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上的铜还是旧的。缺 PCB 读数时判 missing，不默认通过。"
+    },
+    {
+      "no": 18,
+      "id": "bom_match",
+      "title": "BOM 一致",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "bom_match",
+          "metric": "bom_diff"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "原理图里的每个位号都必须出现在 BOM 里，BOM 也不许有不存在的位号。2026-11-01 发现交付包的 BOM 是修复前的旧版：缺 Q1、R4，多 D1、R11——按它配单会少一颗三极管和一颗基极电阻，板子永远不响。缺 BOM 读数时判 missing，不默认通过。"
+    },
+    {
+      "no": 19,
+      "id": "design_validity",
+      "title": "设计有效性",
+      "kind": "hard",
+      "reads": [
+        {
+          "check": "design_validity",
+          "metric": "design_violations"
+        }
+      ],
+      "aggregate": "sum",
+      "direction": "max",
+      "limit": 0,
+      "unit": "count",
+      "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、开关管的控制脚有没有直流通路和足够的驱动电流、要求回差时有没有正反馈。18 项门禁查的是连接与结构，这一项查的是'连上之后会不会工作'——报警板上三个纯算术就能发现的缺陷（25°C 就响、基极无通路永不导通、无回差）全靠人读电路才漏出来，就是缺了这项。"
+    }
+  ],
+  "profiles": {
+    "default": {
+      "wire_length": 120,
+      "readability": 0.6,
+      "zone_balance": 0.3
+    },
+    "dense-digital": {
+      "wire_length": 80,
+      "readability": 0.55,
+      "zone_balance": 0.35
+    },
+    "power": {
+      "wire_length": 150,
+      "readability": 0.7,
+      "zone_balance": 0.3
+    }
+  },
+  "stability": {
+    "no_new_findings_rounds": 2,
+    "history_key": [
+      "project",
+      "page"
+    ],
+    "note": "连续 N 轮 PASS 且无新增违规才置 apply_allowed=true；history 缺失时视为未证明稳定"
+  },
+  "verdict_exit": {
+    "PASS": 0,
+    "REVIEW": 1,
+    "BLOCKED": 2
+  }
+}

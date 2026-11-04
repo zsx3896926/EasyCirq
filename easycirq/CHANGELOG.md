@@ -1,5 +1,97 @@
 # 变更记录
 
+## 1.1.1 — 2026-11-04
+
+### 新增：第一页上门（`QUICKSTART.md`）
+
+之前装完 Skill 的人不知道从哪句话开始。现在有了 10 分钟入门页：
+
+- `QUICKSTART.md`：三步装好 → 第一句话怎么说（新手/工程师/改板三种开场）→ 不接 EDA 也能跑的 LDO 算例 → 接 EDA 的 7 步最小闭环 → 只认 `pass` 的相位门 → 五个常见坑。
+- `README.md` 与 `SKILL.md` 各加一个入口指针；`SKILL.md` 仍守 **< 500 行**（入口只放指针，不搬正文）。
+
+### 同时纳入本线的 `easycirq phase`
+
+相位证据门（S5 → S6 只认 `pass`，`blocked`/`pending`/`stale` 一律阻塞）随本版本一起发布，详见 [references/phase-gate.md](references/phase-gate.md)。
+
+### 兼容性
+
+本版只动文档与入口，**不改执行层**；已装 Skill 用 `easycirq skill sync` 或重装更新。
+
+## 连接器 1.0.22 — 2026-11-03
+
+### 新增：客户端可以连公司服务器
+
+企业部署时，工程师的客户端不必连自己机器上的 daemon。两个插件用户配置：
+
+| 键 | 值 |
+|---|---|
+| \asycirqDaemonUrl\ | \wss://easycirq.company.com/eda\（必须 ws:// 或 wss://） |
+| \asycirqAuthToken\ | 一次性 token，作为 \?token=\ 附上 |
+
+**不设这两项 = 行为完全等于以前**，有测试钉住。
+
+**token 走 query 的代价**：\da.sys_WebSocket.register\ 没有设置请求头的地方，
+所以 token 会出现在代理日志里。因此必须是短期、可吊销的。
+
+**服务端那一侧还没有**——连接器能连远程地址，但公司服务器上还没有接受它、
+并把命令路由到对应工程师窗口的进程。
+
+## 1.3.57 — 2026-11-03
+
+### 企业知识系统（新）
+
+企业可以把**自己的**规范、实测参数、标准电路和人审经验接进 EasyCirq，**不改源码、不重装**。
+入口是四个脚本 + 两个环境变量：
+
+| 要加什么 | 放哪里 | 工具 |
+|---|---|---|
+| 可执行规则 | 知识目录的 *.json | nterprise_rules.py |
+| 可检索知识 | 同上 | knowledge_search.py |
+| 器件实测参数 | 同上 | nterprise_parts.py |
+| 标准电路块 | EASYCIRQ_BLOCKS_DIR | asycirq blocks ls |
+
+知识目录默认 ~/.easycirq/knowledge/，可用 EASYCIRQ_KNOWLEDGE_DIR 指定；
+项目级放 <项目>/.easycirq/knowledge/，覆盖企业级。
+
+### 两条设计铁律
+
+**经验必须分两类。** 能写成「对网表一次确定性判定」的是**规则**，可以阻断交付；
+依赖上下文的是**知识**，只做审阅参考、**永不阻断**。
+
+- 知识当规则 → 天天误报 → 被人关掉 → 等于没写
+- 规则当知识 → 能查的不查 → 下次没人看 → 等于没执行
+
+**「能加载」不等于「会生效」。** 所以规则可以要求 erified_on（人写清它曾抓到过什么），
+nterprise_selfcheck.py 会把「不会生效」的条目全部列出来：没有 erified_on 的规则、
+谓词执行不了的规则、永远检索不到的知识。
+
+### 配套
+
+- SKILL.md 新增「企业知识库」小节与按需读取条目，Agent 知道什么时候该用
+- 
+eferences/enterprise-knowledge.md：Agent 向的完整说明（含**不能承诺什么**）
+- nterprise_selfcheck.py：面向客户自己库的自检，空库不算错、有问题返回非零
+
+### 未做（别当成能用）
+
+- 企业规则**没有**接入 19 项 KPI 门禁，要单独跑
+- AI **不能**自动从对话里提取规则，必须人写进 ledger 并显式选边
+- 块里的 pcb_layout 约束**没有任何代码读**，写了等于装饰
+
+## 1.3.56 — 2026-11-02
+
+- 连接器升到 **1.0.21**：describeThrown 的修复此前打进了包但版本号没升，
+  两个内容不同的包同名 v1.0.20，导致「已加载 v1.0.20」无法判断修复在不在
+- asycirq connector path 改为**按版本择优**，不再取「第一个含 .eext 的目录」——
+  原来安装目录排在仓库构建目录之前，会打印比手上更旧的包，把人指向错误文件
+- connector verify 修掉「报了路径却写着 source: not-found」
+
+## 1.3.55 — 2026-11-02
+
+- 连接器：宿主抛出的 Error 若 message 字面就是 [object Object]，现在会渲染成
+  	he message is the placeholder ... the real cause was not put into it，
+  不再把占位符当整条详情吐出
+
 ## v4.0.0 — 2026-10-30 双模式契约（咨询 / 施工）
 
 - 新增**施工模式契约** `references/build-mode.md`（B0–B10）：长跑任务的目标声明、阶段汇报、
