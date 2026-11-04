@@ -330,7 +330,7 @@
 | 项 | 期 |
 |---|---|
 | 深/浅色人眼走查、axe 0 critical | P4 剩余（都需要人 / 外部依赖）|
-| 签名包、自更新面板 | P5 剩余 |
+| 签名包 | P5 剩余 |
 | 离线包 / 兼容矩阵 | ✅ 见下 |
 
 ### P5 交付 —— **部分完成**（2026-11-05，`1.4.27`）
@@ -342,7 +342,7 @@
 | C19 诊断包可导出且已脱敏 | ✅ | P0：`tests/test_diag_bundle.py` 9 条 |
 | **C20 `inspect-bundle` ok 且包内含面板** | ✅ **已验证** | `inspect-bundle` → `ok / corrupt [] / dirty False`；离线装出来的二进制里 **`panel` 命令存在**（面板是 `go:embed`，包里不出现 `panel/index.html` 独立文件）|
 | 兼容矩阵 | ✅ | `1.4.23`：修好 `doctor` 从不计算 `HostCompatibility` 的接线遗漏，实测输出 `compatibility: ok` |
-| 自更新面板 | ❌ 未做 | |
+| **自更新面板** | ✅ `1.4.28`：面板上「检查更新」按钮 → `POST /api/update-check` → `easycirq update --check --json` 原样显示。**只检查不安装**（安装要替换运行中的二进制/可能要 sudo/要重启 daemon，那是终端里的事）。`test_snapshot_never_probes_the_network` 钉住 A15：快照里**不许**出现 update；`test_update_check_endpoint_rejects_get` 钉住它只能 POST；`test_panel_never_installs_anything` 钉住面板不碰安装参数 | |
 
 **离线这一条不是"看起来离线"，是把 `socket` 封掉再装一遍。**
 `test_installer_source_has_no_network_calls` 同时钉住静态前提：

@@ -133,6 +133,25 @@ func runPanel(cfg *appConfig, portRaw, project string, noBrowser bool,
 		enc.Encode(res)
 	})
 
+	// ── /api/update-check：检查更新（P5）────────────────────────────────
+	//
+	// **只在用户点击时发生**：这一步会联网，而面板的硬约束是「默认抓包零外连」。
+	// 所以它绝不进 /api/snapshot 的自动轮询。
+	// 只接受 POST（同 /api/run：别让链接/预取顺带触发外连）。
+	// **只检查、不安装** —— 安装要替换正在运行的二进制，那是终端里的动作。
+	mux.HandleFunc("/api/update-check", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			w.Header().Set("Allow", http.MethodPost)
+			http.Error(w, "此端点只接受 POST（它会联网，不能被链接/预取顺带触发）", http.StatusMethodNotAllowed)
+			return
+		}
+		res := runPanelUpdateCheck(self)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		enc := json.NewEncoder(w)
+		enc.SetIndent("", "  ")
+		enc.Encode(res)
+	})
+
 	// ── /api/cancel：停止正在跑的操作（P2）──────────────────────────────
 	// 只接受 POST，理由同 /api/run：GET 会被链接/预取顺带触发 ——
 	// 一个"点一下链接就把正在跑的门停掉"的端点不能存在。

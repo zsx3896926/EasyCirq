@@ -166,9 +166,16 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
       <button class="act" data-cmd="card">看交付卡</button>
     </div>
     <p class="sub" id="actHint">面板不判断任何事：按一下就相当于在命令行敲同一句话，下面是它的原样输出。</p>
+    <p class="sub">「检查更新」是这里唯一会联网的按钮 —— 它不会自动跑，也不会自动安装任何东西。</p>
     <div class="row actions">
       <button class="act warn" id="actStop">停止正在跑的操作</button>
       <button class="act" id="actRawToggle" aria-pressed="false">看原始 JSON</button>
+      <button class="act" id="actUpdateCheck">检查更新</button>
+    </div>
+    <div class="row" id="updateRow" hidden>
+      <div class="lbl">更新（只检查，不自动安装）</div>
+      <pre id="updateOut"></pre>
+      <p class="sub" id="updateNote"></p>
     </div>
     <div class="row" id="rawRow" hidden>
       <div class="lbl">原始 JSON（面板不加工，原样贴出）</div>
@@ -553,6 +560,30 @@ document.getElementById("actStop").addEventListener("click", async () => {
       : (res.note || "现在没有操作在跑");
   }catch(e){
     hint.textContent = "停止请求没发出去：" + String(e);
+  }
+});
+
+// ── 检查更新（P5）────────────────────────────────────────────────────────
+// 这是面板上**唯一**会联网的按钮，所以它必须由人点击触发，且永不自动运行。
+// 面板也不安装任何东西：安装要替换正在跑的二进制，那是终端里该干的事。
+document.getElementById("actUpdateCheck").addEventListener("click", async () => {
+  const row = document.getElementById("updateRow");
+  const out = document.getElementById("updateOut");
+  const note = document.getElementById("updateNote");
+  row.hidden = false;
+  out.textContent = "正在检查（这一步会连 GitHub）…";
+  note.textContent = "";
+  try{
+    const r = await fetch("/api/update-check", {method: "POST"});
+    const res = await r.json();
+    out.textContent = [res.stdout || "", res.stderr || "", res.error || ""]
+      .filter(Boolean).join("\n") || "(没有输出)";
+    note.textContent = res.error
+      ? res.error
+      : "这只是检查结果。要真的升级，在终端里跑：easycirq update";
+  }catch(e){
+    out.textContent = "";
+    note.textContent = "检查更新没发出去：" + String(e) + "（这不影响交付判定）";
   }
 });
 
