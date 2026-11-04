@@ -119,6 +119,11 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
   .skip{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:50}
   .skip:focus{left:8px}
   .offline{border-color:var(--bad)}
+  /* 首次运行引导 */
+  .steps{list-style:none;padding:0;margin:10px 0 0}
+  .steps li{border-top:1px solid var(--line);padding:10px 0}
+  .steps li:first-child{border-top:0}
+  .steps pre{margin:6px 0;white-space:pre-wrap;word-break:break-all}
   /* 命令面板（Ctrl+K） */
   .palette{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:40}
   .palette[hidden]{display:none}
@@ -188,6 +193,29 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
   </div>
 
   </main>
+
+  <!-- 首次运行引导：没有工程时不留白屏，给出可以照着敲的三步 -->
+  <div id="firstrun" class="card" hidden>
+    <h2>还没选工程</h2>
+    <p class="next">这个页面显示的是**一块具体板子**的进度。它现在还不知道你说的是哪一块。</p>
+    <ol class="steps">
+      <li>
+        <div class="lbl">① 看 EasyEDA 现在打开的是哪个工程</div>
+        <pre id="frCmd1">easycirq project info</pre>
+        <button class="copy" data-copy="frCmd1">复制</button>
+      </li>
+      <li>
+        <div class="lbl">② 用那个工程的 uuid 重新启动面板</div>
+        <pre id="frCmd2">easycirq panel --project &lt;上一步里的 projectUuid&gt;</pre>
+        <button class="copy" data-copy="frCmd2">复制</button>
+      </li>
+      <li>
+        <div class="lbl">③ 回到 EasyEDA 把工程标签留在前台</div>
+        <p class="next">面板读的是**当前活动页**。工程没打开时，它读不到任何东西。</p>
+      </li>
+    </ol>
+    <p class="next">已经知道 uuid？直接开：<code>easycirq panel --project &lt;uuid&gt;</code></p>
+  </div>
 
   <!-- 离线状态：接口读不到时不留白屏，说清发生了什么 / 为什么 / 下一步 -->
   <div id="offline" class="card offline" hidden role="alert">
@@ -407,6 +435,10 @@ function render(snap){
   LAST = snap;
   const proj = document.getElementById("proj");
   proj.textContent = snap.project ? ("工程 " + snap.project) : "未指定工程";
+
+  // 首次运行引导（P4）：没有工程 ≠ 出错。此时该给的是"下一步怎么做"，
+  // 而不是把三块读不到数据的区域并排摆着让人猜。
+  applyVisibility();
   document.getElementById("stamp").textContent = snap.fetchedAt || "";
   renderErrors(snap.errors);
   renderOverview(snap.card);
@@ -457,6 +489,18 @@ async function runCommand(key){
   }
 }
 
+document.querySelectorAll("button[data-copy]").forEach(b => {
+  b.addEventListener("click", async () => {
+    const src = document.getElementById(b.dataset.copy);
+    if (!src) return;
+    try{
+      await navigator.clipboard.writeText(src.textContent || "");
+      const t = b.textContent; b.textContent = "已复制";
+      setTimeout(() => b.textContent = t, 1200);
+    }catch(e){ b.textContent = "剪贴板不可用，请手抄"; }
+  });
+});
+
 document.querySelectorAll("button.act").forEach(b => {
   b.addEventListener("click", () => runCommand(b.dataset.cmd));
 });
@@ -480,8 +524,15 @@ function setOffline(on){
   if (OFFLINE === on) return;
   OFFLINE = on;
   document.getElementById("offline").hidden = !on;
-  // 离线时把主区域藏起来，避免旧数据继续冒充"当前状态"
-  document.getElementById("main").style.display = on ? "none" : "";
+  applyVisibility();
+}
+
+// 可见性只在一个地方决定：离线 > 没工程 > 正常。
+// 分散到两处写 style.display 会互相覆盖（恢复在线时把无工程的主区域又显示出来）。
+function applyVisibility(){
+  const noProject = !(LAST && LAST.project);
+  document.getElementById("main").style.display = (OFFLINE || noProject) ? "none" : "";
+  document.getElementById("firstrun").hidden = OFFLINE || !noProject;
 }
 document.getElementById("retryOffline").addEventListener("click", () => { tick(); });
 

@@ -300,7 +300,8 @@
 | 离线状态**有设计**（不留白屏）| ✅ | `test_offline_state_is_designed_not_a_blank_page`：`role="alert"`，并答齐**发生了什么 / 为什么 / 下一步**（含"再试一次"按钮）；`tick` 失败真的进离线态 |
 | 键盘可达 + 结论可播报 | ✅ | `test_keyboard_can_reach_content_and_verdict_is_announced`：跳转链接 `#main`、判词区 `aria-live="polite"` |
 | 零外部资源（干净安装无构建步骤、零外连）| ✅ | `test_no_external_resources_at_all`：页面里**没有任何** `http(s)://` 的 src/href，也没有 CDN |
-| 首次运行引导 | ❌ 未做 | |
+| 首次运行引导（空状态） | ✅ `1.4.22`：`test_first_run_guide_gives_copyable_steps`、`test_first_run_explains_why_it_needs_the_project_open`、`test_visibility_has_one_owner` |
+| 空/错/离线三态可见性**只有一个决定者** | ✅ 离线 > 没工程 > 正常，统一在 `applyVisibility()` | |
 | 历史与产物 | ❌ 未做 | |
 | 深/浅色 | ⚠️ 已实现，**未经人眼走查** | |
 | axe **0 critical** | **NOT RUN** | 需要 axe-core，本地面板不引外部依赖，CI 里也没有 |
