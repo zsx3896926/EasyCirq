@@ -1688,3 +1688,72 @@ doctor → "abandoned": 7, "verdict": "wedged"
 ```
 
 **⚠️ 仍需你执行：完全退出并重启 EasyEDA。**
+
+
+---
+
+## 2026-11-05 第二十八次上机：**设计意图门跑通了** —— 机械判据，不是人眼对 spec
+
+### 这条门是什么
+
+`easycirq sch reconcile` 的说明写得很清楚：
+
+> 凡是 `sch block-apply` 落地的模块，块库里写着它的 `internal_nets`，虚拟组记着
+> 这一实例的 `role→位号` —— 于是任何时候都能**从块库重新推导本该怎么连**，
+> 和活体网表比对。**这就是 design-flow S5「设计意图门」的机械化**：此前那一步
+> 只有一句「逐项对照 spec」，是整条流程里唯一没有机械判据的门。
+
+判据是**连通性不是网名** —— 块内网的实例名会变，但"这几个引脚必须在同一张网上"不会变。
+
+三类差异：
+- `split` 本该同网的引脚分散在多张活体网上 —— **真正的电气缺陷**
+- `missing` 成员在活体网表里找不到 —— 没连
+- `unresolved` 引脚引用解析不出真实引脚 —— 块数据与实际器件对不上
+
+### 板2 实测结果
+
+```
+sch reconcile --project 板2 --doc P1
+  ok: false
+  g1 vehicle_input_tps54360_5v(C1)   网络 15  差异 3  {missing: 3}
+  g2 xl1509_buck_12v_5v(C10)         网络  6  差异 3  {missing: 3}
+  g3 tps63802_buckboost_3v8(C13)     网络  7  差异 1  {missing: 1}
+  合计：split 0 · missing 7 · unresolved 0
+```
+
+**这是一份可以直接交给客户/主管的证据**：
+
+- **`split = 0`** —— 没有任何"本该同网却被拆到多张网"的**真电气缺陷**
+- **`missing = 7`** —— 7 个成员根本没连（可修，且知道是哪些引脚）
+- **`unresolved = 0`** —— 块数据与实际器件完全对得上
+
+### 为什么这条比 gate 更进一步
+
+`sch gate` 判的是**图面质量**（排版/短路/DRC）；
+`sch reconcile` 判的是**"这块板有没有按它的设计意图接"** ——
+两者都不是"人眼看一遍觉得对"。
+
+**这就是"把『我觉得画完了』变成『有证据证明可以下单』"里，最难机械化的那一环。**
+
+### 顺手发现的一个可用性问题
+
+板1b 的工程没在编辑器里打开时，`reconcile` 报：
+
+```
+读不到页面分组表: resolve target window: no connected window for project "…"（run `easycirq daemon health`）
+```
+
+**但 daemon 是健康的，连接器也连着** —— 真正的原因是"那个工程没打开"。
+提示里的 `daemon health` 会把人带偏。（记为一条待改进的文案，未改代码。）
+
+### 现状
+
+```
+板2：39 器件 / 84 引脚 / 22 网络
+     gate 四门 PASS + clusters 6 处
+     reconcile: split 0 · missing 7 · unresolved 0
+判词：还不能下单
+```
+
+**注：连接器队列仍 wedge（7 个 abandonedIds），板2 的 `missing 7` 有一部分可能是
+队列造成的落块不全。重启 EDA 后应重跑一次对账再下结论。**
