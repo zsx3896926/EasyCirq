@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -124,16 +125,33 @@ the command never substitutes LCSC search or an old bundled catalogue.`,
 				if libraryUUID != "" {
 					payload["libraryUuid"] = libraryUUID
 				}
-				if cmd.Flags().Changed("limit") {
-					payload["limit"] = limit
+				// 过滤是在**连接器返回的候选**上做的，所以要多取一些再筛：
+				// 只看前 N 条时，真正匹配的器件可能排在第 N+1 位（实测 STM32F030
+				// 就被这样误筛成"没有匹配"）。多取 -> 筛 -> 再截断到用户要的条数。
+				fetchLimit := limit
+				if fetchLimit < 20 {
+					fetchLimit = 20
+				}
+				if cmd.Flags().Changed("limit") || fetchLimit != limit {
+					payload["limit"] = fetchLimit
 				}
 				// --allow-fuzzy forces the ranked free-text path even for a bare C-number.
 				// A bare C-number query is exact by default (the connector auto-detects
 				// ^C\d+$); --exact is accepted for explicitness but changes nothing on its own.
 				if allowFuzzy {
 					payload["allowFuzzy"] = true
+					return dispatch(cfg, "schematic.library.search", window, payload,
+						stdout, stderr)
 				}
-				return dispatch(cfg, "schematic.library.search", window, payload, stdout, stderr)
+				// 默认加一道闸：查询词一个都没出现的候选不返回。
+				// 见 lib_search_match.go —— 模糊匹配会把"TVS"变成 I2C 扩展器，
+				// 而选错器件比查不到危险得多。
+				res, err := requestActionTimed(cfg, "schematic.library.search", window,
+					payload, 60*time.Second)
+				if err != nil {
+					return placeDispatchError(err)
+				}
+				return emitFilteredLibResults(res, query, limit, stdout, stderr)
 			},
 		}
 		c.Flags().StringVar(&query, "query", "", "search query: MPN, value+package, or component name (alternative to the positional QUERY)")
