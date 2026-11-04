@@ -47,6 +47,7 @@ var layoutScripts = []layoutScript{
 	{"pipeline", "pipeline.py", "全链路：改板 → 修复 → 配方案 → 布线 → lint → 验收"},
 	{"gaps_check", "gaps_check.py", "一条命令看缺口：验收矩阵 + 板级发现 + 待决项"},
 	{"bench", "bench.py", "基准：时间与 KPI 指纹（--compare 与基线比，指纹必须一致）"},
+	{"equivalence", "equivalence.py", "等价性门禁：plan 归一化 SHA256 必须逐字节不变（改内循环前后各跑一次）"},
 	{"sweep", "sweep.py", "并行 + 缓存 + 校准的批量评估（--calibrate 才允许用来排序）"},
 	{"regress", "regress.py", "回归：重测候选并与记录值逐项比对，撤回项拒跑"},
 	{"whatif", "whatif.py", "假设分析：改一个参数看 KPI 怎么动"},

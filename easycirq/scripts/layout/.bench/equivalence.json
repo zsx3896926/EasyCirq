@@ -1,0 +1,24 @@
+{
+ "iters": 3,
+ "spots": {
+  "retrocam/frontier-i": {
+   "plan_sha256": "27a311f6f7f3332eeacc7f15569686c327d11e0d6a7d50d48d81ccc9f5963ee9",
+   "tracks": 555,
+   "vias": 138,
+   "clearance_violations": 150,
+   "nets_unconnected": 3,
+   "cam_skew": 654.2,
+   "seconds": 32.23
+  },
+  "selftest": {
+   "plan_sha256": "d0c7ef5bdac4863c8e05f88d58c635b498ea5d713e4351665960f1a494994732",
+   "tracks": 8,
+   "vias": 0,
+   "clearance_violations": 0,
+   "nets_unconnected": 0,
+   "cam_skew": 0.0,
+   "seconds": 0.11
+  }
+ },
+ "note": "plan_sha256 = sha256(json.dumps(normalise(plan), sort_keys=True)) — the same identity emit_apply refuses on"
+}

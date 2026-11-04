@@ -113,6 +113,8 @@ into documents, and calibrates a cheap screen against the delivery grade before 
 | Idea | Measured | Decision |
 |---|---|---|
 | early stop when the score plateaus | 1.6% faster, identical plan | mechanism kept, **off by default** (§183) |
+| **A\* cost/g tables: dict → preallocated list** | **32.1 s → 34.0 s (slower)**, then **32.4 s** with a cached buffer + touched-reset — i.e. a wash at best | **reverted** (§193) |
+| **compiled inner loop (Cython / Rust)** | — | **NOT RUN**: no C compiler, no Cython, no numba, no cargo on this machine. `cffi` is present but cannot build without a compiler (§193) |
 | two-phase on a **coarse 10 mil** grid | ranking disagreed with the delivery run (wrong winner promoted) | **coarse grid not calibrated - opt-in with a warning** (§185) |
 | inlining `_seg_seg` | ~0.7%, inside the noise | kept for clarity, not counted as a speed-up (§186.1) |
 
@@ -147,6 +149,65 @@ The plans are **not identical** and the KPIs are **not equal** — kept copper c
 tool prints both rows, and the acceptance table records it as: **not equivalent, off by default, counted as
 a tool + upper bound, not as a like-for-like replacement**. The clearance was *better* incrementally on both
 moves; that is reported, not generalised (one board, three passes, two moves).
+
+
+## 4e. Equivalence gate + the A* data-structure attempt (2026-11-04, §193)
+
+### First: a gate that can fail
+
+`bench --compare` compares **KPI fingerprints**, and two different plans can produce the same
+KPI set. Before touching the inner loop, `equivalence.py` was added: it hashes the plan the same
+way `emit_apply` does —
+
+```python
+sha256(json.dumps(normalise(plan), sort_keys=True))
+```
+
+— which is the identity `emit_apply` already refuses to write on. The gate is only useful if it
+can fail, so it was checked both ways:
+
+| check | result |
+|---|---|
+| same code, same iters | `plan identical`, exit 0 |
+| same code, **iters 3 → 1** | **`PLAN CHANGED`**, exit 1, and it names what moved (tracks 555→552, vias 138→120, clearance 150→172) |
+
+Two gates now have to pass, and they measure different things:
+
+```
+equivalence.py --compare   the ARTEFACT must be byte-identical   (stronger)
+bench.py --compare         the METRICS must match, and reports time
+```
+
+### Then: the compile route, and why it did not happen
+
+The plan was Cython or Rust for the A\* hot loop. This machine has **no C compiler** (`cl`,
+`gcc`, `clang` all absent), no `cargo`/`rustc`, no `Cython`, no `numba`, and no `setuptools`.
+`cffi` 2.1.1 is installed but cannot build an extension without a compiler. So the route is
+**NOT RUN**, not "attempted and hard".
+
+The substitute was the same idea without a compiler: the profile shows **194,375,071 `dict.get`
+calls**, so replace the two hot dictionaries with dense preallocated lists (node indices are
+dense by construction, `0 ≤ n_idx < L*W*H`, so a list subscript needs no guard).
+
+Measured, three ways:
+
+| variant | retrocam/frontier-i @ 3 iters | plan | verdict |
+|---|---|---|---|
+| dict (current) | **32.1–32.6 s** | identical | — |
+| list, allocated per call | **34.0 s** (slower) | identical | reverted |
+| list, cached + reset only touched | **32.4 s** (a wash) | identical | reverted |
+
+The first version lost because a search touches ~540k nodes and this board runs **654 searches**:
+initialising the buffer cost more than the hash lookups saved. Caching the buffer removed that
+but bought nothing, because on CPython 3.13 `dict.get(int)` is already about as fast as a list
+subscript, and the touched-list `append` on every improvement paid back the remainder.
+
+**A caveat about the 27 s figure:** it came from `cProfile`, which inflates per-call overhead, and
+194M calls is exactly the shape it inflates most. In wall time the lookups are a much smaller
+share than the profile suggests. That is why replacing them did not move the needle.
+
+**Conclusion: `astar` keeps its dictionaries.** The gate stays — it is cheap, it runs in ~35 s,
+and it is the thing that would have caught this class of change going wrong.
 
 ### NOT RUN (stated, not implied)
 
