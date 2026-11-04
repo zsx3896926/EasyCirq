@@ -1804,3 +1804,54 @@ $ sch reconcile --project 板1b --doc P1
 和 #14（`cmdKey`）、#35（"旧副本"的误诊）同一类：**产品知道得比它说出来的多。**
 
 **判词：还不能下单。** 板2 仍等 EDA 重启。
+
+
+---
+
+## 2026-11-05 第三十次上机：全量回归 + 出包验证
+
+### 连接器队列
+
+仍 wedge（7 个 `abandonedIds`）。**EDA 未重启，板级工作继续冻结。**
+
+### 这一轮做的是验证
+
+连续几轮改了面板（P3 操作、P4 切片、首次运行引导），只跑过面板子集。
+这一轮跑**全量**：
+
+```
+python -m pytest tests -q
+→ 5257 passed, 4 skipped, 4 warnings, 1570 subtests passed in 582.01s
+```
+
+| 指标 | 之前基线 | 现在 |
+|---|---|---|
+| passed | 5247 | **5257** |
+| skipped | 4 | 4 |
+| 回归 | — | **0** |
+
+**新增的 10 条正好对得上**：P3 操作 3 条 + P4 切片 4 条 + 首次运行引导 3 条。
+
+### 出包
+
+```
+python distribution/build_release.py --toolchain-only --toolchain-version 1.4.22 … --require-clean
+inspect-bundle → verdict ok / corrupt [] / sourceCommit f83f493a / dirty False
+```
+
+**面板不在文件清单里是对的** —— 它是 `go:embed` 进二进制的（A10「干净安装后打开面板
+无任何构建步骤」正是靠这个成立的）。
+
+### 产品进度
+
+| 期 | 状态 |
+|---|---|
+| P0 地基 | ✅ 1.4.0 |
+| P1 面板 MVP | ✅ 1.4.1 |
+| P3 操作 | ✅ 1.4.20 |
+| P4 产品化 | ⚠️ 大部分（1.4.22）；剩「历史与产物」、axe 走查、人眼视觉走查 |
+| P2 Agent 工作面 | 待做 |
+| P5 交付 | 待做 |
+| P6 硬板验收 | 板1 走完（判词：还不能打样）· 板2 卡在队列 |
+
+**判词：还不能下单。**
