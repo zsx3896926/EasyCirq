@@ -1,3 +1,4 @@
+import os
 # cython: language_level=3, boundscheck=False, wraparound=False, cdivision=True, infer_types=True
 """A* 搜索核的 C 实现（等价候选，代际戳版）。
 
@@ -10,7 +11,7 @@
 现在缓冲区跨调用复用，`gen` 判断"本轮是否访问过"，**零初始化**。
 """
 from cpython.bytes cimport PyBytes_AS_STRING, PyBytes_GET_SIZE
-from libc.stdlib cimport free, malloc, realloc
+from libc.stdlib cimport calloc, free, malloc, realloc
 
 DEF_INF = 1e18
 DEF_EPS = 1e-9
@@ -129,6 +130,28 @@ cdef class _Heap:
 
 
 # ── 跨调用复用（代际戳）──
+# ── 缓冲后端：稠密 / 分块 ──────────────────────────────────────────────
+#
+# 小图走稠密（与之前逐位相同）；大图走页表，只分配真正被触碰的页。
+# 搜索逻辑只通过下面的 inline 访问器读写，不感知模式。
+#
+# 页大小 2^_page_bits 个节点；页表项数 = ceil(nodes / 2^_page_bits)。
+# 读未分配页返回"没访问过"的哨兵（best→+inf，gen→-1），**读不分配**。
+#
+# **默认不启用分块**，因为实测它不划算（同机 iters=1）：
+#     x4   1,880 → 1,787 MB（省 5%）   42.9 → 46.6 s（慢 9%）
+#     x8   7,027 → 6,851 MB（省 2.5%） 143.5 → 174.4 s（慢 20%）
+# 原因：一次 route 的 143 次检索并集会碰到大部分页，没有稀疏性可利用，
+# 只多了一层间接寻址。用 EASYCIRQ_ASTAR_DENSE_LIMIT=<节点数> 可打开；
+# 两条路径的产物已验证逐字节相同（equivalence 在阈值 0 下也过）。
+cdef bint _paged = 0
+cdef long _page_bits = 12
+cdef double** _best_pages = NULL
+cdef long** _best_gen_pages = NULL
+cdef long** _came_pages = NULL
+cdef long** _came_gen_pages = NULL
+cdef long _npages = 0
+
 cdef double* _best = NULL
 cdef long* _best_gen = NULL
 cdef long* _came = NULL
@@ -181,8 +204,162 @@ cdef void _cost_add(long idx, double v) noexcept:
     _cost_n += 1
 
 
+
+cdef inline long _pagemask() noexcept:
+    return (<long>1 << _page_bits) - 1
+
+
+cdef int _pg_new_d(double*** tbl, long p) except -1:
+    cdef double* pg = <double*>calloc(<size_t>(<long>1 << _page_bits), sizeof(double))
+    if pg == NULL:
+        raise MemoryError("astar_c: page allocation failed")
+    tbl[0][p] = pg
+    return 1
+
+
+cdef int _pg_new_l(long*** tbl, long p) except -1:
+    cdef long* pg = <long*>calloc(<size_t>(<long>1 << _page_bits), sizeof(long))
+    if pg == NULL:
+        raise MemoryError("astar_c: page allocation failed")
+    tbl[0][p] = pg
+    return 1
+
+
+cdef inline double _bget(long i) noexcept:
+    cdef long p
+    if not _paged:
+        return _best[i]
+    p = i >> _page_bits
+    if _best_pages[p] == NULL:
+        return DEF_INF
+    return _best_pages[p][i & _pagemask()]
+
+
+cdef inline int _bset(long i, double v) except -1:
+    cdef long p
+    if not _paged:
+        _best[i] = v
+        return 1
+    p = i >> _page_bits
+    if _best_pages[p] == NULL:
+        _pg_new_d(&_best_pages, p)
+    _best_pages[p][i & _pagemask()] = v
+    return 1
+
+
+cdef inline long _bgen(long i) noexcept:
+    cdef long p
+    if not _paged:
+        return _best_gen[i]
+    p = i >> _page_bits
+    if _best_gen_pages[p] == NULL:
+        return -1
+    return _best_gen_pages[p][i & _pagemask()]
+
+
+cdef inline int _bsetgen(long i, long v) except -1:
+    cdef long p
+    if not _paged:
+        _best_gen[i] = v
+        return 1
+    p = i >> _page_bits
+    if _best_gen_pages[p] == NULL:
+        _pg_new_l(&_best_gen_pages, p)
+    _best_gen_pages[p][i & _pagemask()] = v
+    return 1
+
+
+cdef inline long _cget(long i) noexcept:
+    cdef long p
+    if not _paged:
+        return _came[i]
+    p = i >> _page_bits
+    if _came_pages[p] == NULL:
+        return -1
+    return _came_pages[p][i & _pagemask()]
+
+
+cdef inline int _cset(long i, long v) except -1:
+    cdef long p
+    if not _paged:
+        _came[i] = v
+        return 1
+    p = i >> _page_bits
+    if _came_pages[p] == NULL:
+        _pg_new_l(&_came_pages, p)
+    _came_pages[p][i & _pagemask()] = v
+    return 1
+
+
+cdef inline long _cgen(long i) noexcept:
+    cdef long p
+    if not _paged:
+        return _came_gen[i]
+    p = i >> _page_bits
+    if _came_gen_pages[p] == NULL:
+        return -1
+    return _came_gen_pages[p][i & _pagemask()]
+
+
+cdef inline int _csetgen(long i, long v) except -1:
+    cdef long p
+    if not _paged:
+        _came_gen[i] = v
+        return 1
+    p = i >> _page_bits
+    if _came_gen_pages[p] == NULL:
+        _pg_new_l(&_came_gen_pages, p)
+    _came_gen_pages[p][i & _pagemask()] = v
+    return 1
+
+
+cdef void _pages_free() noexcept:
+    global _best_pages, _best_gen_pages, _came_pages, _came_gen_pages, _npages
+    cdef long p
+    if _best_pages != NULL:
+        for p in range(_npages):
+            if _best_pages[p] != NULL:
+                free(_best_pages[p])
+        free(_best_pages)
+        _best_pages = NULL
+    if _best_gen_pages != NULL:
+        for p in range(_npages):
+            if _best_gen_pages[p] != NULL:
+                free(_best_gen_pages[p])
+        free(_best_gen_pages)
+        _best_gen_pages = NULL
+    if _came_pages != NULL:
+        for p in range(_npages):
+            if _came_pages[p] != NULL:
+                free(_came_pages[p])
+        free(_came_pages)
+        _came_pages = NULL
+    if _came_gen_pages != NULL:
+        for p in range(_npages):
+            if _came_gen_pages[p] != NULL:
+                free(_came_gen_pages[p])
+        free(_came_gen_pages)
+        _came_gen_pages = NULL
+    _npages = 0
+
+
+cdef long _dense_limit() noexcept:
+    """超过这个节点数就走分块。可用 EASYCIRQ_ASTAR_DENSE_LIMIT 覆盖（测试用）。"""
+    cdef bytes raw = os.environ.get("EASYCIRQ_ASTAR_DENSE_LIMIT", "").encode()
+    cdef long v
+    if raw == b"":
+        return 1 << 60          # 默认不可达：走稠密（分块实测亏，见上方说明）
+    try:
+        v = int(raw)
+    except Exception:
+        return 1 << 60
+    return v if v >= 0 else (1 << 60)
+
+
 cdef int _ensure(long n) except -1:
     global _best, _best_gen, _came, _came_gen, _buf_n, _gen
+    global _paged, _npages, _best_pages, _best_gen_pages
+    global _came_pages, _came_gen_pages
     if _best != NULL and n <= _buf_n:
         return 1
     if _best != NULL:
@@ -195,6 +372,27 @@ cdef int _ensure(long n) except -1:
         _came = NULL
         _came_gen = NULL
         _buf_n = 0
+    if _paged:
+        _pages_free()
+
+    # 阈值：小图逐位沿用稠密路径，大图改走页表按需分配。
+    _paged = 1 if n > _dense_limit() else 0
+
+    if _paged:
+        _npages = ((n - 1) >> _page_bits) + 1
+        _best_pages = <double**>calloc(<size_t>_npages, sizeof(void*))
+        _best_gen_pages = <long**>calloc(<size_t>_npages, sizeof(void*))
+        _came_pages = <long**>calloc(<size_t>_npages, sizeof(void*))
+        _came_gen_pages = <long**>calloc(<size_t>_npages, sizeof(void*))
+        if (_best_pages == NULL or _best_gen_pages == NULL
+                or _came_pages == NULL or _came_gen_pages == NULL):
+            _npages = 0
+            _buf_n = 0
+            raise MemoryError("astar_c: page table allocation failed")
+        _buf_n = n
+        _gen = 0
+        return 1
+
     _best = <double*>malloc(n * sizeof(double))
     _best_gen = <long*>malloc(n * sizeof(long))
     _came = <long*>malloc(n * sizeof(long))
@@ -251,8 +449,8 @@ def astar_c(long W, long H, long L,
     _gen += 1
     if _gen >= 0x3FFFFFFFFFFFFFF:
         for i in range(_buf_n):
-            _best_gen[i] = 0
-            _came_gen[i] = 0
+            _bsetgen(i, 0)
+            _csetgen(i, 0)
         _gen = 1
     gen = _gen
 
@@ -286,10 +484,10 @@ def astar_c(long W, long H, long L,
         _heap.reset()
 
     start_idx = (pref - 1) * stride_l + start_y * stride_y + start_x
-    _best[start_idx] = 0.0
-    _best_gen[start_idx] = gen
-    _came[start_idx] = -1
-    _came_gen[start_idx] = gen
+    _bset(start_idx, 0.0)
+    _bsetgen(start_idx, gen)
+    _cset(start_idx, -1)
+    _csetgen(start_idx, gen)
 
     start_f = <double>(abs(start_x - goal_x) + abs(start_y - goal_y))
     _heap.push(start_f, 0.0, start_idx)
@@ -304,7 +502,7 @@ def astar_c(long W, long H, long L,
         return out
 
     while _heap.pop(&fv, &gv, &cur) == 1:
-        if gv > _best[cur] + DEF_EPS:
+        if gv > _bget(cur) + DEF_EPS:
             continue
         l = <int>(cur // stride_l) + 1
         x = <int>((cur % stride_l) % stride_y)
@@ -320,9 +518,9 @@ def astar_c(long W, long H, long L,
                 pathbuf[pathn * 3 + 1] = <double>((cur % stride_l) // stride_y)
                 pathbuf[pathn * 3 + 2] = <double>(cur // stride_l + 1)
                 pathn += 1
-                if _came_gen[cur] != gen or _came[cur] < 0:
+                if _cgen(cur) != gen or _cget(cur) < 0:
                     break
-                cur = _came[cur]
+                cur = _cget(cur)
             out = []
             for k in range(pathn - 1, -1, -1):
                 out.append((<int>pathbuf[k * 3 + 0],
@@ -353,13 +551,13 @@ def astar_c(long W, long H, long L,
                 ng += _cost[n_idx]
             if l != pref:
                 ng += layer_penalty
-            if _best_gen[n_idx] != gen:
-                _best[n_idx] = DEF_INF
-                _best_gen[n_idx] = gen
-            if ng < _best[n_idx] - DEF_EPS:
-                _best[n_idx] = ng
-                _came[n_idx] = cur
-                _came_gen[n_idx] = gen
+            if _bgen(n_idx) != gen:
+                _bset(n_idx, DEF_INF)
+                _bsetgen(n_idx, gen)
+            if ng < _bget(n_idx) - DEF_EPS:
+                _bset(n_idx, ng)
+                _cset(n_idx, cur)
+                _csetgen(n_idx, gen)
                 nf = ng + <double>(abs(nx - goal_x) + abs(ny - goal_y))
                 _heap.push(nf, ng, n_idx)
 
@@ -384,13 +582,13 @@ def astar_c(long W, long H, long L,
             ng = gv + via_cost + dirty + crowded
             if have_cost:
                 ng += _cost[n_idx]
-            if _best_gen[n_idx] != gen:
-                _best[n_idx] = DEF_INF
-                _best_gen[n_idx] = gen
-            if ng < _best[n_idx] - DEF_EPS:
-                _best[n_idx] = ng
-                _came[n_idx] = cur
-                _came_gen[n_idx] = gen
+            if _bgen(n_idx) != gen:
+                _bset(n_idx, DEF_INF)
+                _bsetgen(n_idx, gen)
+            if ng < _bget(n_idx) - DEF_EPS:
+                _bset(n_idx, ng)
+                _cset(n_idx, cur)
+                _csetgen(n_idx, gen)
                 nf = ng + <double>(abs(x - goal_x) + abs(y - goal_y))
                 _heap.push(nf, ng, n_idx)
 

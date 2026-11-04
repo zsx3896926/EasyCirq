@@ -244,7 +244,10 @@ def propose_candidates(h, min_hits=MIN_HITS, min_share=MIN_SHARE):
                 "id": "banned-part-%s" % str(dev).lower().replace("/", "-"),
                 "kind": "advisory",
                 "title": "禁用器件 %s（历史 DRC 高频）" % dev,
-                "predicate": {"type": "part_forbidden", "patterns": [str(dev)]},
+                # 键必须是 "parts"：规则引擎读 pred["parts"]（见 enterprise_rules.py
+                # 的 part_forbidden 分支）。第一版写成 "patterns"，回放时两条候选
+                # 都不触发——规则看着存在，实际永远拦不住东西。
+                "predicate": {"type": "part_forbidden", "parts": [str(dev)]},
                 "evidence": "历史 DRC 聚类：%s 出现 %d 次；样例：%s"
                             % (d, n, (sample or "")[:120]),
                 "owner": "",
@@ -329,15 +332,32 @@ def main():
     ap = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--drc", required=True,
+    ap.add_argument("--drc", default=None,
                     help="DRC 报告文件，或包含它的目录")
     ap.add_argument("--dump", default=None,
                     help="板子 dump（补器件型号用；没有就只能报位号）")
     ap.add_argument("--out", default=None, help="把候选写进这个 JSON")
+    ap.add_argument("--replay", default=None,
+                    help="回放：拿这份候选文件，用产生它的 dump 证明每条规则真的会触发")
     ap.add_argument("--json", action="store_true", help="整份结果以 JSON 输出")
     ap.add_argument("--min-hits", type=int, default=MIN_HITS)
     ap.add_argument("--min-share", type=float, default=MIN_SHARE)
     a = ap.parse_args()
+
+    if a.replay:
+        # 回放模式：只吃候选文件 + dump，不重新聚类。
+        import enterprise_replay
+        cand_path = pathlib.Path(a.replay)
+        payload = json.loads(cand_path.read_text(encoding="utf-8"))
+        entries = payload.get("entries") or []
+        dump = a.dump or (payload.get("from") or {}).get("dump")
+        rows = enterprise_replay.replay(entries, dump)
+        if a.json:
+            print(json.dumps({"replay": rows}, ensure_ascii=False, indent=2))
+        else:
+            enterprise_replay.print_replay(rows)
+        # 有任何一条不是 hit，退出码非 0 —— 回放是门禁，不是报告
+        return 0 if all(r["verdict"] == "hit" for r in rows) else 1
 
     src = pathlib.Path(a.drc)
     paths = sorted(src.glob("*.json")) if src.is_dir() else [src]
