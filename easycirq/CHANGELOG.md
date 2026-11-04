@@ -1,5 +1,22 @@
 # 变更记录
 
+## 1.1.1 — 2026-11-04
+
+### 新增：第一页上门（`QUICKSTART.md`）
+
+之前装完 Skill 的人不知道从哪句话开始。现在有了 10 分钟入门页：
+
+- `QUICKSTART.md`：三步装好 → 第一句话怎么说（新手/工程师/改板三种开场）→ 不接 EDA 也能跑的 LDO 算例 → 接 EDA 的 7 步最小闭环 → 只认 `pass` 的相位门 → 五个常见坑。
+- `README.md` 与 `SKILL.md` 各加一个入口指针；`SKILL.md` 仍守 **< 500 行**（入口只放指针，不搬正文）。
+
+### 同时纳入本线的 `easycirq phase`
+
+相位证据门（S5 → S6 只认 `pass`，`blocked`/`pending`/`stale` 一律阻塞）随本版本一起发布，详见 [references/phase-gate.md](references/phase-gate.md)。
+
+### 兼容性
+
+本版只动文档与入口，**不改执行层**；已装 Skill 用 `easycirq skill sync` 或重装更新。
+
 ## 连接器 1.0.22 — 2026-11-03
 
 ### 新增：客户端可以连公司服务器
