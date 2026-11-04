@@ -782,3 +782,41 @@ verdict      fail
 | **实测** | 板1b 查出 5 处（4 orphan-tree + 1 orphan-flag），删掉 4 条线 / 5 个标号 → **`sch clusters` 那 1 处重叠消失，`sch gate` 全绿** |
 | **测试** | `TestGCCandidateKinds`（该清/不该清）、`TestGCDefaultIsDryRun`（默认不删） |
 | **仍然待修** | `sch modify` 本身还是不留标号 —— gc 是**事后扫帚**，不是根治。根治要 `--move-attachments`。但有了 gc，用户至少能自己收拾。 |
+
+
+---
+
+## #32 正确顺序是 **autolayout → 布线**；我一直在反向做
+
+| | |
+|---|---|
+| **分类** | **我的方法论错误**（与 #22 同族：又一个"产品早就有正确工具，我在手搓") |
+| **证据** | `sch autolayout --help` 原文：<br>`It only MOVES parts, so --apply REFUSES an active page that already has any wire, bus, netflag, netport, or netlabel. Run it before wiring` |
+| **它在做什么** | "module-aware placement planner" —— 按模块分区、核心 IC 放区中心、外设环绕、**保留每个核心引脚的分扇通道**、避开 A4 图签禁区、碰撞就换候选位；**纯函数、确定性、结果必然过 `layout-lint`** |
+| **我做了什么** | 先 `block-apply`（**落器件的同时就带了线**），然后想挪器件去解决几何 —— 于是每次都撞上 `--apply REFUSES ... before wiring` 那条约束，只能靠 `modify` 一个个挪 |
+| **代价** | 本轮 8 次移动尝试 → 修好 6 个悬空脚，但同时制造了 `pin-coincidence` / `wire-through-body` / 组间重叠 —— **挪一处坏一处** |
+| **正确流程** | ① `sch autolayout --spec` 先排干净（它保证 `layout-lint` 过）<br>② 再 `block-apply` / `autoconnect` 布线<br>③ `sch gc` 收尾<br>④ `sch gate` / `card` 判定 |
+| **为什么块级路线会撞上** | `block-apply` 是"落器件 + 立刻连内部网"一步到位 —— 它自己带几何硬门（bbox 重叠、引脚共点都在布线前拒绝），所以**单块**是安全的；但**多块之间的相对位置**没人管，而这时页面已经有线，`autolayout` 又拒绝介入 |
+
+### 这条对整个板级流程的意义
+
+> **单块安全 ≠ 整板安全。**
+> `block-apply` 保证了"这一块落下去是干净的"，但**块与块之间的布局**需要一个
+> 在有线之前就运行的规划步骤 —— 那就是 `autolayout`。
+> 落块顺序应当是：先算好每块的位置（autolayout），再一次落块。
+
+---
+
+## 本轮实测（8 次移动的账）
+
+| 目标 | 结果 |
+|---|---|
+| `R7:1 → VBAT`、`R7:2 → VSYS` | ✅ 成功（**我上一轮造成的采样电阻悬空，修好了**）|
+| `R4/R5/R6:2 → +3V3` | ✅ 成功（挪到图纸中部 y=480 后）|
+| `C1:1/2`、`C6:1/2` | ✅ 成功（挪到 y=620 后）|
+| `C8:1/2` | ⚠️ 接上了，但过程中我把 1 脚错接成 GND 又改回，最终 2 脚 +3V3 / 1 脚 GND |
+| 代价 | `pin-coincidence×1`、`wire-through-body×1`、组间重叠×1 |
+
+**悬空脚从 8 降到 0**（这是真的进展），但门从 PASS 掉回 FAIL —— 因为挪动引入了新的几何问题。
+
+**判词：还不能下单。** 而且这一轮的教训比结果更值钱（#32）。

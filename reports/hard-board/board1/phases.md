@@ -1214,3 +1214,47 @@ sch gate: PASS
 本该串在 VBAT/VSYS 之间。我把它挪了两次，它的线留在了原处 —— 现在它自己悬空。
 
 **判词：还不能下单。** 但这是第一次"门全绿 + 交付卡 + 悬空原因查清"同时成立。
+
+
+---
+
+## 2026-11-05 第二十三次上机：悬空脚清零；但"挪一处坏一处"
+
+### 修好的
+
+| 目标 | 手段 | 结果 |
+|---|---|---|
+| `R7:1 → VBAT`、`R7:2 → VSYS` | 直接连 | ✅（**采样电阻悬空是我上轮造成的，已修**）|
+| `R4/R5/R6:2 → +3V3` | 挪到图纸中部 y=480 再连 | ✅ 3/3 |
+| `C1`、`C6` 两个脚 | 挪到 y=620 再连 | ✅ 4/4 |
+| `C8` | 挪动失败，就地改接 | ⚠️ 最终 2 脚 +3V3 / 1 脚 GND（去耦电容，两端对即可）|
+
+**悬空脚：8 → 0。**
+
+### 但门掉回 FAIL
+
+```
+layout-lint  1 pin-coincidence
+clusters     1 处组间重叠
+check        pin-exit-direction×1, wire-through-body×1
+```
+
+**挪一处、坏一处。** 8 次移动修好了悬空脚，同时引入了新的几何问题。
+
+### 为什么 —— 找到了方法论错误（#32）
+
+看 `sch autolayout --help`：
+
+> It only MOVES parts, so `--apply` **REFUSES** an active page that already has any
+> wire, bus, netflag, netport, or netlabel. **Run it before wiring.**
+
+**正确顺序是「先布局，后布线」。**
+
+我一直在反向做：`block-apply` 落器件的同时就带了线，等发现几何不对时，
+页面已经有线 → `autolayout` 拒绝介入 → 只能靠 `modify` 一个个挪。
+
+> **单块安全 ≠ 整板安全。**
+> `block-apply` 保证"这一块落下去干净"，但**块与块之间的布局**没人管。
+
+**判词：还不能下单。** 但这一轮的教训（#32）比结果值钱：
+下一块板应当 **autolayout 定位置 → 再 block-apply/autoconnect**，而不是反过来。
