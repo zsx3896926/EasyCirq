@@ -144,6 +144,32 @@ def doc_fingerprint(project):
     return hashlib.sha256(key.encode("utf-8")).hexdigest()[:16] if key else None
 
 
+def board_facts(project):
+    """板上真实器件数 + 悬空引脚数。取不到返回 (None, None)。
+
+    一次 `sch read` 两个数都拿到，不重复调用。
+    """
+    try:
+        out = subprocess.run(["easycirq", "sch", "read", "--project", project],
+                             capture_output=True, text=True, encoding="utf-8",
+                             errors="replace", timeout=300)
+    except Exception:                                   # noqa: BLE001
+        return None, None
+    if out.returncode != 0:
+        return None, None
+    try:
+        i = out.stdout.find("{")
+        d, _ = json.JSONDecoder().raw_decode(out.stdout[i:])
+    except Exception:                                   # noqa: BLE001
+        return None, None
+    r = d.get("result") or {}
+    comps = r.get("components") or []
+    n = sum(1 for c in comps
+            if str(c.get("componentType") or "").lower() != "sheet")
+    fp = r.get("floatingPinCount")
+    return n, (int(fp) if isinstance(fp, (int, float)) else None)
+
+
 def board_part_count(project):
     """板子上有多少个真实器件（不含 sheet 图框）。取不到返回 None。"""
     try:
@@ -220,19 +246,33 @@ def advance(project, d, fingerprint, to=None):
         return False, "already at the last phase (%s)" % cur, []
     if target not in PHASES:
         return False, "unknown phase %r" % target, []
+    # 目标就是当前相位：不是"推进"，别报成成功（那会看起来像有进展）。
+    if target == cur:
+        return False, ("already at %s — nothing to advance (use `phase set` to move "
+                       "back, or run the gate with `phase run %s`)" % (cur, cur)), []
     bad = blockers(d, target, fingerprint)
     if bad:
         return False, "refused", bad
     # DELIVER 额外要求板子非空：空板子 S5 会 trivially pass，
     # 只看 S5 等于让空板"可交付"。
     if target == "DELIVER":
-        n = board_part_count(project)
+        n, floating = board_facts(project)
         if n is None:
-            return False, ("refused: could not count parts on the board "
+            return False, ("refused: could not read the board "
                            "(connector down or page not open)"), [("PARTS", "unknown")]
         if n == 0:
             return False, ("refused: the board has no parts yet — an empty schematic "
                            "passes the S5 gate trivially, so it cannot be delivered"), [("PARTS", "empty")]
+        # 悬空引脚：默认的 sch gate 只把它当 warn（非严格），所以门会 pass。
+        # 但一个引脚没接的板子不该"可交付"——那是电气错误，不是排版瑕疵。
+        if floating is None:
+            return False, ("refused: could not count floating pins — cannot judge "
+                           "whether the board is electrically connected"), [("PINS", "unknown")]
+        if floating > 0:
+            return False, ("refused: %d floating pin(s) — the default schematic gate only "
+                           "warns about these, so passing S5 does not mean the board is "
+                           "connected. Wire them or mark them no-connect." % floating), \
+                [("PINS", "%d floating" % floating)]
     d["phase"] = target
     d.setdefault("history", []).append(
         {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -359,11 +399,16 @@ def main():
         else:
             print(msg)
             for p, s in bad:
-                print("  阻塞：%s 的证据是 %s（需要 pass）" % (p, s))
-                if p in GATES:
-                    print("        补：easycirq phase run %s --project %s" % (p, a.project))
+                if p in PHASES:
+                    print("  阻塞：%s 的证据是 %s（需要 pass）" % (p, s))
+                    if p in GATES:
+                        print("        补：easycirq phase run %s --project %s" % (p, a.project))
+                    else:
+                        print("        该相位还没有门 —— 这是 NOT RUN，不是通过")
                 else:
-                    print("        该相位还没有门 —— 这是 NOT RUN，不是通过")
+                    # PARTS / PINS 是 DELIVER 的前置条件，不是相位；
+                    # 别让人以为要去接一个叫 PINS 的门。
+                    print("  阻塞：DELIVER 前置 %s = %s" % (p, s))
         return 0 if ok else 1
 
     if a.action == "set":
