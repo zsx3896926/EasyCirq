@@ -58,3 +58,9 @@ runtime/internal/app/testdata/project-drawings/*.png -text
 # Every Python file is UTF-8 with LF, no exceptions. Hand-listed rules
 # meant each new script silently landed as CRLF on Windows.
 *.py text eol=lf
+
+# 交付包里的文件由 tools/check_deliverable.py 用 **原始字节** 的 SHA256 校验
+# （见该脚本对 SHA256SUMS 的比对）。清单是按 LF 生成的，而 Windows 上
+# core.autocrlf=true 的新签出会写成 CRLF —— 于是三个 md 的校验和必然不符，
+# 与内容无关。把 deliverables/ 锁成 LF，校验才与平台无关。
+deliverables/** text eol=lf
