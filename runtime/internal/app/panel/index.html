@@ -124,6 +124,13 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
   .steps li{border-top:1px solid var(--line);padding:10px 0}
   .steps li:first-child{border-top:0}
   .steps pre{margin:6px 0;white-space:pre-wrap;word-break:break-all}
+  /* 产物清单 */
+  .art{list-style:none;padding:0;margin:8px 0 0}
+  .art li{border-top:1px solid var(--line);padding:7px 0;display:flex;gap:10px;align-items:baseline}
+  .art li:first-child{border-top:0}
+  .art .k{flex:0 0 auto}
+  .art .p{flex:1;opacity:.75;word-break:break-all}
+  .art .m{flex:0 0 auto;opacity:.6}
   /* 命令面板（Ctrl+K） */
   .palette{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:40}
   .palette[hidden]{display:none}
@@ -232,6 +239,13 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
       <ul id="paletteList" role="listbox" aria-label="命令列表"></ul>
       <div class="hint">↑↓ 选择 · Enter 执行 · Esc 关闭</div>
     </div>
+  </div>
+
+  <!-- 产物（P4「历史与产物」）：面板只渲染 CLI 给的清单，不判断什么算证据 -->
+  <div class="card" id="artifactsCard" hidden>
+    <h2>产物</h2>
+    <p class="sub" id="artNote"></p>
+    <ul class="art" id="artList"></ul>
   </div>
 
   <div id="scrim" class="scrim" hidden></div>
@@ -431,6 +445,31 @@ document.getElementById("copyFix").addEventListener("click", async () => {
   }
 });
 
+function renderArtifacts(art){
+  const card = document.getElementById("artifactsCard");
+  const list = document.getElementById("artList");
+  const note = document.getElementById("artNote");
+  if (!art || !art.artifacts || art.artifacts.length === 0){
+    card.hidden = true;
+    return;
+  }
+  list.textContent = "";
+  art.artifacts.forEach(a => {
+    const li = el("li");
+    li.appendChild(el("span", "k", a.kind || ""));
+    li.appendChild(el("span", "p", a.path || ""));
+    const when = String(a.modified || "").replace("T", " ").replace("Z", "").slice(0, 16);
+    li.appendChild(el("span", "m", when));
+    list.appendChild(li);
+  });
+  // 总数与"只显示前 N 条"必须说清 —— 清单不能看起来就是全部
+  const total = art.total || art.artifacts.length;
+  note.textContent = total > art.artifacts.length
+    ? ("只显示最近 " + art.artifacts.length + " 个（共 " + total + " 个）。完整清单：easycirq artifacts")
+    : ("共 " + total + " 个。这些就是交付时要交出去的文件。");
+  card.hidden = false;
+}
+
 function render(snap){
   LAST = snap;
   const proj = document.getElementById("proj");
@@ -439,6 +478,7 @@ function render(snap){
   // 首次运行引导（P4）：没有工程 ≠ 出错。此时该给的是"下一步怎么做"，
   // 而不是把三块读不到数据的区域并排摆着让人猜。
   applyVisibility();
+  renderArtifacts(snap.artifacts);
   document.getElementById("stamp").textContent = snap.fetchedAt || "";
   renderErrors(snap.errors);
   renderOverview(snap.card);

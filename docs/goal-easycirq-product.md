@@ -302,7 +302,7 @@
 | 零外部资源（干净安装无构建步骤、零外连）| ✅ | `test_no_external_resources_at_all`：页面里**没有任何** `http(s)://` 的 src/href，也没有 CDN |
 | 首次运行引导（空状态） | ✅ `1.4.22`：`test_first_run_guide_gives_copyable_steps`、`test_first_run_explains_why_it_needs_the_project_open`、`test_visibility_has_one_owner` |
 | 空/错/离线三态可见性**只有一个决定者** | ✅ 离线 > 没工程 > 正常，统一在 `applyVisibility()` | |
-| 历史与产物 | ❌ 未做 | |
+| 历史与产物 | ✅ `1.4.26`：新增 `easycirq artifacts`（只认已知文件名，不递归全盘）；面板「产物」卡只渲染 CLI 的清单，并**说清是否被截断**（`--limit` 默认 20，`total` 如实带出）。`test_artifacts_lists_known_evidence_files`、`test_artifacts_reports_total_when_truncated`、`test_artifacts_empty_state_says_what_to_do`、`test_panel_renders_artifacts_and_states_the_total` | |
 | 深/浅色 | ⚠️ 已实现，**未经人眼走查** | |
 | axe **0 critical** | **NOT RUN** | 需要 axe-core，本地面板不引外部依赖，CI 里也没有 |
 

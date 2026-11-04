@@ -39,10 +39,13 @@ import (
 // 注意每个字段都是 json.RawMessage —— 面板不做解析、不做汇总、不做判断，
 // 只是搬运。这样上游加字段，面板自动就多了字段。
 type panelSnapshot struct {
-	Project   string            `json:"project"`
-	Phase     json.RawMessage   `json:"phase"`
-	Card      json.RawMessage   `json:"card"`
-	Status    json.RawMessage   `json:"status"`
+	Project string          `json:"project"`
+	Phase   json.RawMessage `json:"phase"`
+	Card    json.RawMessage `json:"card"`
+	Status  json.RawMessage `json:"status"`
+	// Artifacts 是 `easycirq artifacts --json` 的原样转发（P4「历史与产物」）。
+	// 面板照旧只搬运不判断 —— 交付证据该列什么由 CLI 决定。
+	Artifacts json.RawMessage   `json:"artifacts"`
 	Errors    map[string]string `json:"errors,omitempty"`
 	FetchedAt string            `json:"fetchedAt"`
 }
@@ -272,6 +275,15 @@ func collectSnapshot(self, project string) panelSnapshot {
 		snap.Status = v
 	} else {
 		snap.Errors["status"] = e
+	}
+
+	// 产物清单（P4「历史与产物」）：面板只显示 CLI 说的那几样，不自己决定
+	// "什么算证据"。限 10 条 —— 一个人要交出去的文件不会比这更多，
+	// 而总数由 CLI 的 total 字段如实带出。
+	if v, e := fetch("artifacts", "--json", "--limit", "10"); v != nil {
+		snap.Artifacts = v
+	} else {
+		snap.Errors["artifacts"] = e
 	}
 
 	if len(snap.Errors) == 0 {
