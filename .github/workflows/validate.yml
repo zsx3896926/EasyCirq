@@ -15,18 +15,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      # tests/ 下有 43 个文件在**模块级** import pytest，而 unittest discover
-      # 会 import 每个 test_*.py —— 不装 pytest 就 ImportError，整个 job 红在
-      # 一个与代码无关的原因上。装上就解决（实测：4814 tests, OK）。
+      # 用 pytest 而不是 unittest discover。
       #
-      # 注意这里**不用** pytest 跑：pytest 还会执行普通函数式用例，而其中几条
-      # 依赖 `reports/` 下未被 git 跟踪的本地产物（eda-api-classes.txt、
-      # customer-docs），全新 checkout 里没有。换 runner 会把"3 条红"换成
-      # "另外几条红"。要不要让那批用例进 CI，是另一个决定。
+      # 两个原因：
+      # 1. tests/ 下有 43 个文件在模块级 import pytest，unittest 会 import 每个
+      #    test_*.py，不装就 ImportError。
+      # 2. 更重要的是 **unittest 只跑 TestCase 类**：约 392 条普通函数式用例
+      #    （`def test_...`）从来没在 CI 里执行过。pytest 两种都收。
+      #
+      # 依赖"可再生证据产物"的几条用例已加 skip 守卫：产物在跑真断言，
+      # 不在就明确 skip。全新 checkout 因此不会出现与代码无关的红。
       - name: Install test dependencies
         run: python3 -m pip install --quiet --disable-pip-version-check pytest
       - name: Validate structure and calculations
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m pytest tests -q
   benchmark:
     runs-on: ubuntu-latest
     steps:

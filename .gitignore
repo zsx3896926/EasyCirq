@@ -29,6 +29,11 @@ dist-v*/
 # KPI gate: reports/ holds regenerated evidence, not source. Keep only the
 # human-readable receipts; everything else is re-collected before each round.
 reports/*
+# 例外：这两样不是"可再生的证据"，是引用源（官方 API 清单 + 客户官方文档）。
+# 没有它们，check_against_official 与 customer-findings 的用例在全新 checkout
+# 里永远跑不了 —— 而它们本来就该在 CI 里跑。
+!reports/eda-api-classes.txt
+!reports/customer-docs/
 !reports/README.md
 !reports/s5-verify/
 reports/s5-verify/*
