@@ -391,3 +391,49 @@ verdict        fail
 
 **判词：还不能下单。** 差 3 处重叠、1 处出图纸、1 处短路 —— 都是**有具体对象的**问题，
 不是"整体感觉不行"。
+
+
+---
+
+## 2026-11-05 第八次上机：被 `sch modify` 的阻断性故障挡住
+
+### 本轮的正面收获：找到了正确的批量工具
+
+`easycirq apply`（playbook + journal + `--resume`）本来就是为这种场景设计的：
+
+```
+第 1 次 apply：playbook stopped at step move-01-C2 (1 ok, 0 skipped)
+第 2 次 --resume：(0 ok, 1 skipped)   ← 跳过已完成、重试失败项
+```
+
+提示还说：`⚠ 变更类步骤失败/超时:变更可能已生效——先读回校验,再决定恢复步骤`
+
+**所以 #13 要更正**：不是产品缺事务语义，是我手搓了无日志的循环。
+
+### 阻断：#14
+
+跑 playbook 时第 2 步失败，手动重试 5 个不同器件**全部失败**：
+
+```
+EDA_CALL_FAILED: Failed to modify component.
+detail: Cannot destructure property 'cmdKey' of 'i' as it is undefined.
+```
+
+对照：同一时刻 `sch list` 正常（读到 51 个器件），`sch gate` 正常给判定。
+**只有 `sch modify` 挂。**
+
+`web reload` 尝试恢复失败（30 秒内未等到新的连接器注册）。
+
+### 板1 现状（未再改动）
+
+```
+器件 51   已连引脚 85 / 167   网络 34
+layout-lint  fail  1 overlap, 1 out-of-sheet
+clusters     fail  3 重叠 / 1 出图纸
+check        fail  1 error/fatal
+bridge-check fail  1 bridge(short)
+drc          PASS
+verdict      fail
+```
+
+**判词：还不能下单。** 而且在 #14 修好之前，**这条线推不动**。

@@ -1,0 +1,622 @@
+{
+  "version": 1,
+  "meta": {
+    "name": "board1-relayout",
+    "project": "d3e50b4c213d409d8f641a6f484213e9",
+    "doc": "P1"
+  },
+  "steps": [
+    {
+      "id": "move-00-C1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "34d6abd3cb8b2432",
+        "--x",
+        "80.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-01-C2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "f514c8d4fd90a5aa",
+        "--x",
+        "225.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-02-C3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "4505bb8fa8d1ddf2",
+        "--x",
+        "370.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-03-C4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "cbc47fb7cd99dfb3",
+        "--x",
+        "515.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-04-C5",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "818e358432fbcd84",
+        "--x",
+        "660.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-05-C6",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "4b01facf110f072b",
+        "--x",
+        "805.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-06-C7",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "77b0257a078a564f",
+        "--x",
+        "950.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-07-C8",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "1039b7baff60e75b",
+        "--x",
+        "1095.0",
+        "--y",
+        "70.0"
+      ]
+    },
+    {
+      "id": "move-08-C9",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "7b1c8ea4f55900df",
+        "--x",
+        "80.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-09-CAD1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "a4979fb94b01ead4",
+        "--x",
+        "225.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-10-CAD2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "15fad98cd816e2a5",
+        "--x",
+        "370.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-11-CB1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "337f7384be0a25e1",
+        "--x",
+        "515.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-12-CD1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "658e061978641575",
+        "--x",
+        "660.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-13-CD2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "c94e44f2c2672401",
+        "--x",
+        "805.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-14-CRST",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "ffa6217c11d9b0e5",
+        "--x",
+        "950.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-15-CSEQ1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "126ad9d2984283ec",
+        "--x",
+        "1095.0",
+        "--y",
+        "155.0"
+      ]
+    },
+    {
+      "id": "move-16-CSEQ2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "337abe8edf3bf74e",
+        "--x",
+        "80.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-17-D1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "2df651cba7334900",
+        "--x",
+        "225.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-18-D2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "ce0d938963be4515",
+        "--x",
+        "370.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-19-D3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "011597d0098a7061",
+        "--x",
+        "515.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-20-D4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "852c8ddc3a4429b3",
+        "--x",
+        "660.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-21-D_TVS1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "40f220d5a044b71f",
+        "--x",
+        "805.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-22-F1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "c33447e5170bd431",
+        "--x",
+        "950.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-23-J1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "5d020c1d8a44b672",
+        "--x",
+        "1095.0",
+        "--y",
+        "240.0"
+      ]
+    },
+    {
+      "id": "move-24-L1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "fd01f8814cc133c9",
+        "--x",
+        "80.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-25-L2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "0262f61efd83f92b",
+        "--x",
+        "225.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-26-Q_REV",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "4ae17c364b4f32c5",
+        "--x",
+        "370.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-27-RAD1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "7428db30341bc4d3",
+        "--x",
+        "515.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-28-RAD2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "f0c7ee98ae8a502e",
+        "--x",
+        "660.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-29-RAD3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "bb159a2510987029",
+        "--x",
+        "805.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-30-RAD4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "1ce58b6fa303a91d",
+        "--x",
+        "950.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-31-RCC1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "8dc4b9234245b083",
+        "--x",
+        "1095.0",
+        "--y",
+        "325.0"
+      ]
+    },
+    {
+      "id": "move-32-RCC2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "ebac6da0da65da33",
+        "--x",
+        "80.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-33-RFB1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "42eb6497a6329ef0",
+        "--x",
+        "225.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-34-RFB2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "9353dc4627fd2215",
+        "--x",
+        "370.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-35-RFB3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "d182424dac8920dd",
+        "--x",
+        "515.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-36-RFB4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "d7591bd73f984632",
+        "--x",
+        "660.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-37-RL1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "4a9d20481d265c6d",
+        "--x",
+        "805.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-38-RL2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "10fbb329f957b5a7",
+        "--x",
+        "950.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-39-RL3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "56595fe916c121e6",
+        "--x",
+        "1095.0",
+        "--y",
+        "410.0"
+      ]
+    },
+    {
+      "id": "move-40-RL4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "d173904bc603cb0d",
+        "--x",
+        "80.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-41-RRST",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "d1097d0892b2519d",
+        "--x",
+        "225.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-42-RSEQ1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "5272c588b5a8051e",
+        "--x",
+        "370.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-43-RSEQ2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "50fdd4d75fb2456c",
+        "--x",
+        "515.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-44-RV1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "176a3ce15b3d18fe",
+        "--x",
+        "660.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-45-R_IN1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "cdb31ded65afa596",
+        "--x",
+        "805.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-46-U1",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "3c23f8424ff8af97",
+        "--x",
+        "950.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-47-U2",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "a1d48ad293597cef",
+        "--x",
+        "1095.0",
+        "--y",
+        "495.0"
+      ]
+    },
+    {
+      "id": "move-48-U3",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "a5da8aba455f5f89",
+        "--x",
+        "80.0",
+        "--y",
+        "580.0"
+      ]
+    },
+    {
+      "id": "move-49-U4",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "1efd3628c49a2c2b",
+        "--x",
+        "225.0",
+        "--y",
+        "580.0"
+      ]
+    },
+    {
+      "id": "move-50-U5",
+      "run": "sch modify",
+      "args": [
+        "--id",
+        "960b3b0e54c28fe6",
+        "--x",
+        "370.0",
+        "--y",
+        "580.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{"playbookSha256":"4c2c88426d66e91091e74dad9fb08db39b16e57fc6e21cfe4e93435b25a1fa2a","name":"board1-relayout","project":"d3e50b4c213d409d8f641a6f484213e9","startedAt":"2026-11-05T04:07:55+08:00"}
+{"idx":1,"id":"move-00-C1","status":"ok","ms":1136}
+{"idx":2,"id":"move-01-C2","status":"fail","ms":159,"error":"run \"sch modify\" exited 1: }"}
+{"playbookSha256":"4c2c88426d66e91091e74dad9fb08db39b16e57fc6e21cfe4e93435b25a1fa2a","name":"board1-relayout","project":"d3e50b4c213d409d8f641a6f484213e9","startedAt":"2026-11-05T04:08:03+08:00"}
+{"idx":2,"id":"move-01-C2","status":"fail","ms":509,"error":"run \"sch modify\" exited 1: }"}

@@ -259,3 +259,33 @@ verdict        fail
 
 对比历史：短路 6 → 2 → 1，重叠 37 → 27 → 3，`check` 的 error 从 27 清到 1。
 **方向一直是对的，只是每一步都被连接器降级打断。**
+
+
+---
+
+## #14 `sch modify` 对所有器件失败：`Cannot destructure property 'cmdKey'`
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**阻断性**：EDA 侧报 JS 错误，且错误信息对用户无意义） |
+| **发现方式** | 用 `easycirq apply` 跑重排 playbook，第 2 步就失败；手动重试同样失败 |
+| **原始输出** | `EDA_CALL_FAILED: Failed to modify component. detail: Cannot destructure property 'cmdKey' of 'i' as it is undefined.` |
+| **影响面** | **5/5 个不同器件全部失败**（R_IN1 / J1 / RCC1 / RCC2 / F1），不是单器件问题 |
+| **对照** | 同一时刻：`sch list` **正常**（exit 0，读回 51 个器件）；`sch gate` 正常给出判定。只有 `sch modify` 挂。 |
+| **恢复尝试** | `easycirq web reload --project … --doc …` → 页面重载已调度，但 30 秒内没等到新的连接器注册，`state is unknown`；重试 `sch modify` **仍然失败** |
+| **意义** | 这是**阻断性**的：不能改位置就不能重排，不能重排就清不掉那 3 处重叠。 |
+| **错误信息的问题** | `Cannot destructure property 'cmdKey'` 对用户毫无意义——它既没说"哪一步"，也没说"该怎么办"。这是"失败可解释"那条门槛的反例。 |
+| **修法（待做）** | ① 连接器侧定位 `cmdKey` 为什么是 undefined（很可能是某个动作的**前置状态**变了，比如页面切换或 EDA 版本/会话状态）；② 无论根因，**错误信息必须转成人话**：现在这条应当被翻译成"改元器件失败（EDA 内部错误），请重载页面或重启 EDA" |
+| **板1 影响** | 板1 停在 85/167 引脚、3 处重叠、1 处短路、1 处出图纸。**下一轮第一条命令就会撞上它。** |
+
+---
+
+## #13 更正：该用的是 `easycirq apply`，它本来就有 journal + `--resume`
+
+| | |
+|---|---|
+| **更正** | #13 我记成"批量写没有事务语义"。**这不准确**：`easycirq apply` 早就有 **journal + `--resume`**，中断后重跑会跳过已完成的步骤。 |
+| **实测证据** | 第 1 次 apply：`playbook stopped at step move-01-C2 (1 ok, 0 skipped)`<br>第 2 次带 `--resume`：**`(0 ok, 1 skipped)`** —— 跳过已完成、重试失败项 |
+| **而且它的提示是对的** | `⚠ 变更类步骤失败/超时:变更可能已生效——先读回校验,再决定恢复步骤` |
+| **真正的问题** | 不是产品缺能力，是**我手搓了无日志的循环**。`apply` 才是对的工具。 |
+| **留下的文档缺口** | 这个能力**没有出现在我读到的任何一页文档里**——`docs/design-apply-playbook.md` 根本不存在（`apply --help` 却引用它）。这本身是文档缺陷。 |
