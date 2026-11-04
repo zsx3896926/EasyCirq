@@ -815,3 +815,61 @@ sch gate: PASS（五门全绿）
 51 器件（全部有封装）  26 / 167 引脚  16 网络  59 wire tree
 sch gate: PASS   ·   判词：还不能下单
 ```
+
+
+---
+
+## 2026-11-05 第十六次上机：块级重建（板1b），一轮超过手搓十五轮
+
+### 新建工程
+
+| 项 | 值 |
+|---|---|
+| 工程名 | 板1b-块级电源板 |
+| projectUuid | `c5443fece5a548ba9e41b35951ee124c` |
+| 页面 | P1 `c4958b937ebb4a9a` |
+
+### 落的块（按顺序）
+
+| 块 | `--at` | 结果 |
+|---|---|---|
+| `block.led_indicator_gpio` | 200,200 | `applied` |
+| `block.ams1117_ldo_3v3` | 200,420 | `applied-mismatch` |
+| `block.pmos_highside_softstart` | 200,650 | `applied` |
+| `block.ina226_power_monitor` | 760,300 | `applied-mismatch` |
+| `block.esp32s3_pico_native_usb` | 660,620 | `applied-mismatch` |
+
+### 累计效果（5 个块，5 次调用）
+
+```
+器件 31（全部有封装 31/31）
+已连引脚 62 / 131
+网络 22
+off-grid 0
+```
+
+前 3 块时 `sch gate: PASS`（含 `bridge-check` 23 个 wire tree、`drc` PASS）。
+
+### 为什么掉成 FAIL
+
+第 4、5 块放得太靠右下，块的整体包络超出图纸可用区：
+
+```
+layout-lint  FAIL  5 out-of-sheet
+clusters     FAIL  3 重叠 / 5 出图纸
+check        FAIL  5 error/fatal
+```
+
+**`block-apply` 尊重显式 `--at`（对），但不预检"这块落下去会不会出图纸"（缺）。** 记为 #23。
+
+### 与手搓路线的对照
+
+| | 板1（手搓 15 轮） | 板1b（块级 1 轮） |
+|---|---|---|
+| 器件 | 51 | 31 |
+| 有封装 | 第 16 轮才到 51/51 | **开始就是 31/31** |
+| 已连引脚 | 26 / 167 | **62 / 131** |
+| 网络 | 16 | **22** |
+| off-grid | 38 警告 | **0** |
+
+**判词：还不能下单。** 差 5 处出图纸 + 3 处重叠（都是坐标选得不好，不是块的问题）。
