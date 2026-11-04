@@ -552,16 +552,22 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
                 },
                 'skill': {
                     'name': skill['name'], 'version': skill['version'],
-                    **({'version': py_version,
-                        'path': 'payload/python',
-                        'installPath': 'python',
-                        'note': 'bundled embeddable CPython; the runtime prefers it over '
-                                'anything on PATH so customers need not install Python'}
-                       if py_version else {'bundled': False}),
                     'path': 'payload/skill/easycirq',
                     'installPath': 'skill/easycirq',
                     'fileCount': len(skill['files']),
                 },
+                # 自带 Python 是**独立组件**，不是 skill 的一部分：
+                # 它有自己版本、自己安装路径，塞进 skill 会把 skill.version 顶掉。
+                'python': ({
+                    'name': 'cpython-embed', 'version': py_version,
+                    'path': 'payload/python',
+                    'installPath': 'python',
+                    'fileCount': sum(1 for _ in py_target.rglob('*') if _.is_file()),
+                    'size': sum(_.stat().st_size for _ in py_target.rglob('*')
+                                if _.is_file()),
+                    'note': 'bundled embeddable CPython; the runtime prefers it over '
+                            'anything on PATH so customers need not install Python',
+                } if py_version else {'bundled': False}),
             },
             'legal': {
                 'notices': 'payload/licenses/THIRD-PARTY-NOTICES.md',
