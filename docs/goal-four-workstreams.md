@@ -116,7 +116,11 @@ A+B 是"能不能用"，D 是"能不能装"，E 是"客户凭什么付钱"。
 ### 现状
 
 - **零**。企业知识库靠**人写 JSON**。
-- 已有素材：`retrocam-02/pcb/drc*.json` **25 份 DRC 报告，每份 294 条违规**，
+- 已有素材：`retrocam-02/pcb/drc*.json` **25 份 DRC 报告，共 3,500 条违规**（每份 101–294 条）
+
+  > **更正**：先前写「每份 294 条」是错的——294 只是最大那一份（drc17）。
+  > 而且严格 `json.loads` 会丢掉 25 份里的 10 份（尾部带 CLI 日志），
+  > 漏掉 **1,598 条（3,500 → 1,902）**。harvest 用宽松解析并把警告报出来。，
   字段 `rule` / `ruleName` / `objType` / `net` / `layer` / `message` / `x`,`y`。
   例：`Clearance Error 229`、`Connection Error 65`；`Track to Via`、`Hole to Track`、
   `SMD Pad to Via`。

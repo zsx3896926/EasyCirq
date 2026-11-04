@@ -121,6 +121,7 @@ func newEnterpriseCmd(stdout, stderr io.Writer) *cobra.Command {
 		newEnterprisePromoteCmd(stdout, stderr),
 		newEnterprisePartsCmd(stdout, stderr),
 		newEnterpriseSearchCmd(stdout, stderr),
+		newEnterpriseHarvestCmd(stdout, stderr),
 		newEnterpriseDoctorCmd(stdout, stderr),
 	)
 	return c
@@ -246,4 +247,35 @@ func newEnterpriseSearchCmd(stdout, stderr io.Writer) *cobra.Command {
 			"  easycirq enterprise search --netlist board.json --intent intent.json\n"+
 			"  easycirq enterprise search --audit",
 		scriptKnowSrch, stdout, stderr)
+}
+
+// newEnterpriseHarvestCmd: 从历史 DRC 报告里聚类出**候选**规则。
+//
+// 它不是"自动生成规则"：候选里故意不带 disposition，所以 promote 会拒绝。
+// "这算不算公司规范"必须由人写明——这正是人审不可绕过的那条纪律。
+func newEnterpriseHarvestCmd(stdout, stderr io.Writer) *cobra.Command {
+	c := &cobra.Command{
+		Use:   "harvest",
+		Short: "从历史工程的 DRC 报告里聚类出候选规则（必须人审）",
+		Long: "把一批 DRC 报告聚类，回答三个问题：\n\n" +
+			"  · 哪几类问题反复出现，各多少次\n" +
+			"  · **哪一类能变成可执行规则**，哪一类不能、为什么\n" +
+			"  · 能变的那些，产出 review-ledger 形状的**候选**\n\n" +
+			"  easycirq enterprise harvest --drc <报告或目录> [--dump dump.json]\n" +
+			"  easycirq enterprise harvest --drc ../retrocam-02/pcb --dump ../retrocam-02/pcb/dump2.json --out cand.json\n\n" +
+			"**候选不是规则**：输出里没有 disposition，`enterprise promote` 会当场拒绝。\n" +
+			"原因是判错两边都致命——判成规则会拿常识去拦板，判成知识则永远拦不住东西。\n\n" +
+			"**一条必须知道的事实**：DRC 的两类违规都不直接对应现有谓词。\n" +
+			"  Connection Error = 开路/未布通（这块板没做完，不是规范）\n" +
+			"  Clearance Error  = 几何间距（现有 4 个谓词全是网表级，没有几何谓词）\n" +
+			"所以真正能变成规则的只有一条间接路径：某器件在违规里反复出现 ⇒ 提 part_forbidden。\n" +
+			"那需要 --dump 才补得上型号；没有 dump 就只报位号、不出候选。",
+		DisableFlagParsing: true,
+		RunE: func(_ *cobra.Command, args []string) error {
+			return runEnterpriseScript(enterpriseScript{
+				name: "enterprise_harvest.py",
+			}, args, stdout, stderr)
+		},
+	}
+	return c
 }

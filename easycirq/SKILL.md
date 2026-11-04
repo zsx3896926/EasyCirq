@@ -232,7 +232,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 模拟采集、音视频、射频或高速链路 | [模拟与高速](references/analog-rf-highspeed.md) |
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
-| 离线布通已捕获的板、量化离交付还差多远 | [离线布局与布线](references/offline-layout.md)：`easycirq layout`；**先算边界再搜索（R1）** |
+| 客户有历史工程要从里面挖规范，或要离线布通一块已捕获的板 | [从历史工程长出规则](references/enterprise-harvest.md)（`easycirq enterprise harvest --drc <报告>`，出**候选**，必须人审 disposition 才能 promote）、[离线布局与布线](references/offline-layout.md)（`easycirq layout`；**先算边界再搜索 R1**） |
 | 已有原理图重排/自动布局；用 8 类典型任务校准排版检查 | [原理图排版引擎](references/schematic-layout-engine.md)、[排版基准集](references/schematic-benchmarks.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 复核；基准是离线示意，不是真机验收 |
 | 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |

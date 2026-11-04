@@ -58,4 +58,13 @@ def test_goal_records_the_e_evidence_base():
     """E 必须写明有真实素材可用，否则像是空想。"""
     s = DOC.read_text(encoding="utf-8")
     assert "25 份 DRC" in s
-    assert "294 条违规" in s
+    assert "3,500 条违规" in s
+
+def test_goal_doc_is_not_a_skill_reference():
+    """目标是项目规划文档，不是方法论。
+
+    放进 references/ 会带出断链（它引用 scale-curve.md / optimization-goal.md，
+    那两个在 docs/ 下），而技能参考目录里的链接必须都能解析。
+    """
+    stale = ROOT / "easycirq" / "references" / "goal-four-workstreams.md"
+    assert not stale.exists(), "目标文档又被放进技能参考目录了"
