@@ -82,6 +82,10 @@ def test_equivalence_passes_with_the_extension_present():
 
 def test_off_switch_disables_the_fast_path():
     """EASYCIRQ_ASTAR_C=0 必须真的关掉。"""
+    # 产物可能不存在于全新 checkout（构建产物或可再生证据）。
+    # 在就跑真断言，不在就明确 skip —— 不伪装成通过。
+    if not (ROOT / "easycirq/scripts/layout/_astar_c.pyd").exists():
+        pytest.skip("没有 C 扩展编译产物；这条验的是开关是否生效")
     code = (
         f"import sys; sys.path.insert(0, r'{LAYOUT}')\n"
         "import ec_layout\n"
