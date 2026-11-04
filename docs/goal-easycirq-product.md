@@ -330,7 +330,23 @@
 | 项 | 期 |
 |---|---|
 | 深/浅色人眼走查、axe 0 critical | P4 剩余（都需要人 / 外部依赖）|
-| 签名包、离线包、自更新面板 | P5（兼容矩阵已完成）|
+| 签名包、自更新面板 | P5 剩余 |
+| 离线包 / 兼容矩阵 | ✅ 见下 |
+
+### P5 交付 —— **部分完成**（2026-11-05，`1.4.27`）
+
+| C 判据 | 状态 | 证据 |
+|---|---|---|
+| C17 签名安装包可装 | ❌ **未做** | `distribution/` 下没有任何签名逻辑（无 Authenticode / sigstore），只有 SHA256 校验 |
+| **C18 离线安装包可用** | ✅ **已验证** | `test_install_from_bundle_with_sockets_blocked`：**封掉 `socket`** 后从本地 zip 装 → exit 0，装出 `bin/easycirq.exe`（版本 1.4.22），解出 80.9 MB |
+| C19 诊断包可导出且已脱敏 | ✅ | P0：`tests/test_diag_bundle.py` 9 条 |
+| **C20 `inspect-bundle` ok 且包内含面板** | ✅ **已验证** | `inspect-bundle` → `ok / corrupt [] / dirty False`；离线装出来的二进制里 **`panel` 命令存在**（面板是 `go:embed`，包里不出现 `panel/index.html` 独立文件）|
+| 兼容矩阵 | ✅ | `1.4.23`：修好 `doctor` 从不计算 `HostCompatibility` 的接线遗漏，实测输出 `compatibility: ok` |
+| 自更新面板 | ❌ 未做 | |
+
+**离线这一条不是"看起来离线"，是把 `socket` 封掉再装一遍。**
+`test_installer_source_has_no_network_calls` 同时钉住静态前提：
+安装脚本里任何一次遥测/校验请求都会让这条测试立刻变红。
 
 **未验**：真人 30 分钟首次价值（**NOT RUN**，需要真人，不接受自评）；
 视觉走查（深色模式已实现但**未经人眼检查**）。
