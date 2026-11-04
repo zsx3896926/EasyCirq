@@ -233,6 +233,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
 | 已有原理图重排/自动布局；用 8 类典型任务校准排版检查 | [原理图排版引擎](references/schematic-layout-engine.md)、[排版基准集](references/schematic-benchmarks.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 复核；基准是离线示意，不是真机验收 |
+| 想知道「这块板现在到哪一步、下一步能不能走」并要它**拒绝跳步** | [相位与证据](references/phase-gate.md)：`easycirq phase`；**只有 pass 放行**，NOT RUN/blocked/stale 一律阻塞 |
 | 判断一份候选PCB布局可否接受、离线训练预布局决策（去耦/回路/净空/连接器/逃线） | [PCB预布局基准集](references/pcb-placement-benchmarks.md)，运行 `python scripts/pcb_placement_benchmark.py --case <ID>`/`--all`；只判离线几何与网表代理，`drc:"NOT RUN"`，不是可布通/阻抗/热结论 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
 | 装完后 enterprise / 离线判据命令跑不了，或客户机器没有 Python | [自带 Python](references/bundled-python.md)：发行包内含嵌入式解释器，装完即用；`EASYCIRQ_NO_BUNDLED_PYTHON=1` 可关；另见 [EDA执行](references/eda-execution.md)（先 `easycirq doctor`+`capabilities` 预检） |
