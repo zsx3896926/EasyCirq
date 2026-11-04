@@ -124,12 +124,17 @@ type acReport struct {
 	// pin refs split into Succeeded/Failed so a retry re-does ONLY the failures
 	// instead of replaying the whole spec (which stacks duplicate markers — caught
 	// by `sch check`'s duplicate-net-marker rule).
-	Partial               bool           `json:"partial,omitempty"`
-	Succeeded             []string       `json:"succeeded,omitempty"`
-	Failed                []string       `json:"failed,omitempty"`
-	Connections           []acConnResult `json:"connections"`
-	TitleBlockProvisional bool           `json:"titleBlockProvisional,omitempty"`
-	Note                  string         `json:"note,omitempty"`
+	Partial     bool           `json:"partial,omitempty"`
+	Succeeded   []string       `json:"succeeded,omitempty"`
+	Failed      []string       `json:"failed,omitempty"`
+	Connections []acConnResult `json:"connections"`
+	// Aborted/AbortReason: 批量在**中途**被主动中止（连接器降级 + --replace）。
+	// 与 Partial 的区别：Partial 是「跑到一半有失败」，Aborted 是「我们主动不再跑」——
+	// 后者意味着有一部分旧标号已删但没重连，调用方必须用不带 --replace 的补连收拾。
+	Aborted               bool   `json:"aborted,omitempty"`
+	AbortReason           string `json:"abortReason,omitempty"`
+	TitleBlockProvisional bool   `json:"titleBlockProvisional,omitempty"`
+	Note                  string `json:"note,omitempty"`
 }
 
 // buildScene pulls real geometry from schematic.components.list and assembles the
@@ -603,6 +608,15 @@ func runAutoconnectOpts(cfg *appConfig, window string, conns []acConnSpec, rules
 			// 卡点 #9：连接器在高负载下降级时继续一口气打只会更糟。
 			// 看到降级告警就放慢后续写入（见 ac_throttle.go）。
 			throttle.observe(cres, time.Sleep)
+			// 卡点 #12：只放慢还不够。`--replace` 是「删旧 + 重连」，中途降级时
+			// 删除可能落上而重连没落上 —— 继续跑就是在拆自己的成果（板1 实测 99->76）。
+			// 此时主动中止整批，让调用方用不带 --replace 的补连收拾（那步可读回验证）。
+			if replace && acDegradedWarning(cres) {
+				report.OK = false
+				report.Aborted = true
+				report.AbortReason = newAcThrottle().refuseReason(true, true)
+				break
+			}
 			if cerr != nil {
 				cr.Error = cerr.Error()
 				report.OK = false

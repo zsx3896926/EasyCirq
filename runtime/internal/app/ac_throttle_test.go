@@ -86,3 +86,21 @@ func contains(s, sub string) bool {
 		return false
 	})()
 }
+
+// 卡点 #12：守卫只在开跑前探一次是不够的。批量跑到一半降级时，
+// `--replace` 必须**主动中止整批**，而不是放慢后继续删改。
+// 板1 实测：24 个冲突引脚在中途降级时删了旧标号却没重连上，已连从 99 掉到 76。
+func TestAbortedReportCarriesAReason(t *testing.T) {
+	rep := acReport{OK: false, Aborted: true,
+		AbortReason: newAcThrottle().refuseReason(true, true)}
+	if !rep.Aborted {
+		t.Fatal("中止标记没设上")
+	}
+	if rep.AbortReason == "" {
+		t.Fatal("中止必须带理由 —— 否则调用方不知道接下来该做什么")
+	}
+	// 理由要说清"接下来怎么办"：用不带 --replace 的补连
+	if !contains(rep.AbortReason, "震荡") && !contains(rep.AbortReason, "--replace") {
+		t.Fatalf("理由没说清补救方式：%s", rep.AbortReason)
+	}
+}
