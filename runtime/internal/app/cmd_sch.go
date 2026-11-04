@@ -708,7 +708,7 @@ not relax guarded page replacement or clear.`,
 	{
 		var lib, uuid, designator string
 		var x, y, rotation float64
-		var mirror bool
+		var mirror, verify bool
 		c := &cobra.Command{
 			Use:   "place",
 			Short: "Place a component from the device library at coordinates",
@@ -725,7 +725,13 @@ Pass --designator to atomically assign the final designator on the connector
 side right after create, so you skip the place→` + "`sch list`" + `→` + "`sch modify`" + ` round-trip
 and the coordinate-based primitiveId re-matching that batch placement otherwise
 needs. The response's ` + "`primitiveId`" + ` and ` + "`component.designator`" + ` reflect the
-final placed state.`,
+final placed state.
+
+Pass --verify when writing in a loop. Under load the connector degrades and a
+write can report ok:false **after it already landed** (the daemon calls this the
+假失败定律 and warns you to read back before resending). --verify does that read
+for you and answers definitively: landed true means do NOT retry, landed false
+means it is safe to.`,
 			Example: `  easycirq sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
   easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
   easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12`,
@@ -752,6 +758,23 @@ final placed state.`,
 					payload["designator"] = designator
 				}
 				err := dispatchTimed(cfg, "schematic.component.place", window, payload, placeTimeout, stdout, stderr)
+				if err == nil || !verify {
+					return placeDispatchError(err)
+				}
+				// --verify：这次写入报了失败，但它**可能已经落上了**。
+				// 连接器在负载下降级时，"假失败"是已知行为（warnings 里会明说）。
+				// 与其让每个调用方各自记得去读回，不如在这里做掉：
+				// 读一次原理图，看这个位号在不在，然后给出确定结论。
+				landed, detail := placeLanded(cfg, window, designator, x, y)
+				if landed {
+					fmt.Fprintf(stdout,
+						"{\n  \"ok\": true,\n  \"landed\": true,\n"+
+							"  \"note\": \"写入报了失败，但读回确认器件已在板上（假失败）；"+
+							"不要重试，否则会重复放置\"\n}\n")
+					return nil
+				}
+				fmt.Fprintf(stderr,
+					"读回核实：**没落上**（%s）。可以安全重试。\n", detail)
 				return placeDispatchError(err)
 			},
 		}
@@ -762,6 +785,9 @@ final placed state.`,
 		c.Flags().Float64Var(&rotation, "rotation", 0, "rotation in degrees (0/90/180/270)")
 		c.Flags().BoolVar(&mirror, "mirror", false, "mirror the component")
 		c.Flags().StringVar(&designator, "designator", "", "final designator to assign atomically after placement, e.g. R12 (avoids the place→list→modify round-trip; the response's component.designator reflects the assigned value)")
+		c.Flags().BoolVar(&verify, "verify", false,
+			"失败时读回核实：报 ok:false 不代表没落上（连接器降级时的假失败）；"+
+				"加这个开关会明确回答 landed true/false，避免盲目重试造成重复器件")
 		sch.AddCommand(c)
 	}
 
