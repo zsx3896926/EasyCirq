@@ -119,3 +119,11 @@ def test_cli_show_marks_unenforced_separately(tmp_path):
 def test_cli_run_on_unwired_phase_exits_nonzero(tmp_path):
     p = _cli(tmp_path, "run", "S1", "--project", "x")
     assert p.returncode != 0, "没接门的相位跑出 0，会被当成通过"
+
+def test_doc_records_the_two_gaps_found_by_running_it():
+    """空板子与悬空引脚这两个漏洞是跑出来的，不是设计时想到的——必须留痕。"""
+    p = ROOT / "easycirq" / "references" / "phase-gate.md"
+    s = p.read_text(encoding="utf-8")
+    assert "空板子让 S5 trivially pass" in s
+    assert "悬空引脚只是 warn" in s
+    assert "零误报" in s, "实测数据（3 次拒绝全是真的）要写进文档"
