@@ -138,12 +138,13 @@ cdef class _Heap:
 # 页大小 2^_page_bits 个节点；页表项数 = ceil(nodes / 2^_page_bits)。
 # 读未分配页返回"没访问过"的哨兵（best→+inf，gen→-1），**读不分配**。
 #
-# **默认不启用分块**，因为实测它不划算（同机 iters=1）：
+# **默认启用分块**（阈值 8,000,000 节点）。实测它的代价是慢（同机 iters=1）：
 #     x4   1,880 → 1,787 MB（省 5%）   42.9 → 46.6 s（慢 9%）
 #     x8   7,027 → 6,851 MB（省 2.5%） 143.5 → 174.4 s（慢 20%）
 # 原因：一次 route 的 143 次检索并集会碰到大部分页，没有稀疏性可利用，
-# 只多了一层间接寻址。用 EASYCIRQ_ASTAR_DENSE_LIMIT=<节点数> 可打开；
-# 两条路径的产物已验证逐字节相同（equivalence 在阈值 0 下也过）。
+# 只多了一层间接寻址。目标要求"超过阈值走分块"，所以它默认生效，
+# 代价照实记在这里。两条路径产物已验证逐字节相同。
+# 想要旧行为（全稠密、更快）：EASYCIRQ_ASTAR_DENSE_LIMIT=999999999999。
 cdef bint _paged = 0
 cdef long _page_bits = 12
 cdef double** _best_pages = NULL
@@ -345,15 +346,22 @@ cdef void _pages_free() noexcept:
 
 cdef long _dense_limit() noexcept:
     """超过这个节点数就走分块。可用 EASYCIRQ_ASTAR_DENSE_LIMIT 覆盖（测试用）。"""
+    # 默认 8,000,000 节点：**超过就真的走分块**。
+    #
+    # 实测分块是慢的（x8 慢 20%），但目标要求"超过阈值走稀疏/分块"，
+    # 所以它必须是默认行为，而不是藏在环境变量后面——否则交付的仍然
+    # 是无条件稠密分配，「存了」不等于「生效了」。
+    #
+    # 想要旧行为（全稠密、更快）：EASYCIRQ_ASTAR_DENSE_LIMIT=very-large
     cdef bytes raw = os.environ.get("EASYCIRQ_ASTAR_DENSE_LIMIT", "").encode()
     cdef long v
     if raw == b"":
-        return 1 << 60          # 默认不可达：走稠密（分块实测亏，见上方说明）
+        return 8000000
     try:
         v = int(raw)
     except Exception:
-        return 1 << 60
-    return v if v >= 0 else (1 << 60)
+        return 8000000
+    return v if v >= 0 else 8000000
 
 
 cdef int _ensure(long n) except -1:

@@ -111,6 +111,7 @@ def looks_like_drc(doc):
 # ── 聚类 ────────────────────────────────────────────────────────────────
 def harvest(paths, dump_path=None):
     files_ok, files_bad, all_warn, skipped = [], [], [], []
+    first_by_desig: dict = {}
     clusters = []          # list，不是 dict：元组键无法 JSON 序列化
     index = {}             # (rule, objType) -> 在 clusters 里的下标
     total = 0
@@ -147,6 +148,19 @@ def harvest(paths, dump_path=None):
                     c["nets"][n] = c["nets"].get(n, 0) + 1
             for d, _pin in DESIG_RE.findall(msg):
                 c["designators"][d] = c["designators"].get(d, 0) + 1
+                # 记下这个位号在**本文件里的第一条**具体 DRC 条目，
+                # 用于让候选能逐条回溯（文件 + globalIndex + 坐标 + 原文）。
+                first_by_desig.setdefault(d, {
+                    "file": p.name,
+                    "globalIndex": v.get("globalIndex"),
+                    "rule": rule,
+                    "objType": obj,
+                    "net": v.get("net"),
+                    "layer": v.get("layer"),
+                    "x": v.get("x"),
+                    "y": v.get("y"),
+                    "message": msg[:200],
+                })
             for rv in RULE_VAL_RE.findall(msg):
                 c["rule_values"][rv] = c["rule_values"].get(rv, 0) + 1
             if len(c["samples"]) < 3 and msg:
@@ -190,6 +204,7 @@ def harvest(paths, dump_path=None):
                    "without_designator": total - attributed},
         "clusters": clusters,
         "designators": desig_total,
+        "first_by_desig": first_by_desig,
         "devices": dev,
     }
 
@@ -229,12 +244,32 @@ def propose_candidates(h, min_hits=MIN_HITS, min_share=MIN_SHARE):
                             "没有 dump" if not info else "dump 里这个位号没有 device"))
             continue
         dev = info["device"]
-        # 同类里最典型的报文，作为证据
-        sample = None
+        # 这个位号分布在哪些对象类型 / 网络上（决定"建议的谓词形态"是否合理）
+        obj_types, nets = {}, {}
         for c in h["clusters"]:
-            if d in c["designators"] and c["samples"]:
-                sample = c["samples"][0]
-                break
+            if d in c["designators"]:
+                obj_types[c["objType"]] = obj_types.get(c["objType"], 0) + \
+                    c["designators"][d]
+        for c in h["clusters"]:
+            if d in c["designators"]:
+                for nk, nv in c["nets"].items():
+                    nets[nk] = nets.get(nk, 0) + nv
+        obj_types = dict(sorted(obj_types.items(), key=lambda kv: -kv[1])[:4])
+        nets = dict(sorted(nets.items(), key=lambda kv: -kv[1])[:6])
+        # 示例报文必须**真的含这个位号**——从聚类里随便取一条会取到别人的报文
+        # （第一版就是这样：U5 的样例显示成了 U1_4 的报文）。
+        fe = h["first_by_desig"].get(d) or {}
+        sample = fe.get("message")
+        if not sample:
+            sample = None
+            for c in h["clusters"]:
+                if d in c["designators"]:
+                    for m in c["samples"]:
+                        if d in m:
+                            sample = m
+                            break
+                if sample:
+                    break
         out.append({
             "id": "HARVEST-%s" % d,
             # 关键：**故意不写 disposition**。没有它，promote 会当场拒绝。
@@ -258,7 +293,11 @@ def propose_candidates(h, min_hits=MIN_HITS, min_share=MIN_SHARE):
                 "device": dev,
                 "hits": n,
                 "share": round(100 * share, 1),
+                "objTypes": obj_types,
+                "nets": nets,
                 "sample_message": sample,
+                # **可逐条回溯**：这条候选来自哪一条具体 DRC 条目
+                "first_entry": h["first_by_desig"].get(d),
             },
             "needs_human": [
                 "这算不算公司规范？（工具不替人判断）",
