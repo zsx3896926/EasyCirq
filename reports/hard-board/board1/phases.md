@@ -770,3 +770,48 @@ sch gate: PASS（五门全绿）
 ```
 
 **下一步不是"继续试连线"，是让排版给标号留位置。**
+
+
+---
+
+## 2026-11-05 第十五次上机：发现产品本来就有"块级复用"
+
+### 起因
+
+上一轮判断"排版没给标号留位置"（#21）。这一轮先算了一笔账：
+51 个器件要 200×120 的间距需要约 120 万平方单位，而 A4 只有约 96 万 —— **放不下**。
+所以加间距不是解。
+
+### 然后读 `sch wire` 的帮助，看到一句话
+
+> 常规布线请走：`easycirq sch autoconnect` — 电源/地/netport 短桩；**`easycirq sch block-apply` — 整块落地（自带 netlist 对账门）**
+
+于是去看了 block 库：
+
+```
+39 个电路块，多数 ready / verified
+块级 dry-run 实测（block.led_indicator_gpio）：
+  device preflight: 2/2 device(s) resolved
+  REF   ROLE  PART                AT        LAYOUT
+  LED1  LED   led.yellow_0805     820,300   template r180
+  R1    R     res.1k_0402         700,300   template
+  NET         KIND       MEMBERS
+  LED_CTRL    net_label  R1:1 (port CTRL)
+  LED1_N2     net_label  R1:2 LED1:+
+  GND         gnd        LED1:- (port GND)
+```
+
+**它自带布线计划，根本不会撞上 #21。**
+
+### 这对板1 意味着什么
+
+板1 用十几轮手搓了"块级工具本来能直接做"的东西。它不废——
+它证明了零件级链路能走通，也挖出了 #16 / #17 / #21 这些真缺陷。
+但要在合理轮次内走到 ≥80 网络，正确做法是**用块重建**。
+
+### 现状（未再改动板子）
+
+```
+51 器件（全部有封装）  26 / 167 引脚  16 网络  59 wire tree
+sch gate: PASS   ·   判词：还不能下单
+```
