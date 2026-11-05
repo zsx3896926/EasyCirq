@@ -2030,3 +2030,69 @@ verdict: blocked  score: 10
 所以要么：
 - 找到一条**从库符号量尺寸**的离线路径（若有，测出来接上）
 - 或者承认这一步必须上机（那 S5 就不是"一次性"，流程要重画）
+
+
+---
+
+## 2026-11-05 路径 A 查证结果：**库符号能离线读出引脚坐标**
+
+### 结论：能，S3 可以真离线
+
+| 尝试 | 结果 |
+|---|---|
+| `lib by-lcsc --lcsc C61063` | 只给 device/symbol 的 uuid 与名字，**无几何** |
+| `lib symbol get` | 只给 `name/uuid/classification/subPartNames`，**无引脚** |
+| `lib symbol export-source` | 导出 `.elibz2` —— **里面有几何** ✅ |
+
+### 藏在哪
+
+`.elibz2` 是个 zip，两个成员：
+
+| 成员 | 内容 |
+|---|---|
+| `symbol2.json` | **只有元数据**（title/creator/docType）—— 第一眼会以为这条路不通 |
+| `ProLib_pc_2026-11-05.elibu` | **真正的符号文档**：行内 JSON 记录流，`\|` 分隔 |
+
+`.elibu` 的记录结构（关键是几何行**没有 type 字段**，靠"上一条 type 记录"归属）：
+
+```
+{"type":"PIN","id":"e3"}                         ← 引脚记录
+{"x":-55,"y":-30,"length":20,"rotation":0}       ← 紧跟的几何（无 type）
+{"parentId":"e3","key":"Pin Name","value":"VIN"} ← 引脚的属性（名字）
+```
+
+### 实测：XL1509 的 8 个引脚全解出来了
+
+```
+id   name     x     y    rot  len   接触点
+e3   VIN      -55   -30  0    20    (-35,-30)
+e7   OUTPUT   -55   -10  0    20    (-35,-10)
+e11  FB       -55    10  0    20    (-35, 10)
+e15  ON/OFF   -55    30  0    20    (-35, 30)
+e19  GND       55    30  180  20    ( 35, 30)
+e23  GND       55    10  180  20    ( 35, 10)
+e27  GND       55   -10  180  20    ( 35,-10)
+e31  GND       55   -30  180  20    ( 35,-30)
+```
+
+**引脚名与块库注明的说明完全一致**（"脚:1=VIN,2=OUTPUT,3=FEEDBACK,4=ON/OFF,5-8=GND"）——
+所以网表（用引脚名）与几何（用坐标）**能 join 起来**。
+
+### 关键判断：这不破坏「未过 S2 不得进器件」
+
+`export-source` 是**只读**的：它读库符号的原始文件，**不落任何器件**。
+
+> **读库 ≠ 进器件。**
+
+所以 S3 可以在**不碰画布**的前提下拿到几何，S5 仍然可以是"一次性写入"。
+
+### 产物
+
+- `easycirq/scripts/sch_symbol_measure.py`：`.elibz2` → 引脚名/坐标/接触点
+- `tests/test_sch_symbol_measure.py` 三条，其中一条**校验块库用到的引脚名在符号里都能量到** —— 对不上就说明这条链其实没通
+
+### 还差的一步
+
+现在每件要单独 `export-source` 一次（含一次只读的 daemon 往返）。
+要把 56 个器件全量出来，需要一个批量封装：**网表 → 逐件 C 号 → export-source → measurements**。
+下一步做这个，之后就真能跑 `lib-layout`。
