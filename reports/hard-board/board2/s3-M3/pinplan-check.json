@@ -1,1 +1,1 @@
-{"schema": "easycirq-sch-pinplan-na/v1", "verdict": "n/a", "note": "页面无 IC（U*/IC*），引脚复用不适用"}
+{"schema": "easycirq-sch-pinplan-na/v1", "verdict": "n/a", "note": "页面没有 MCU/SoC（无复用资源），引脚复用不适用 —— 本判据测的是引脚复用与资源分配，电源 IC 的引脚是固定功能"}

@@ -44,6 +44,24 @@ if str(HERE) not in sys.path:
 SCHEMA_SUMMARY = "easycirq-sch-offline-pipeline/v1"
 
 
+# 引脚复用（KPI 10）只对**有复用资源**的器件成立：MCU / SoC / FPGA 之类。
+# 电源 IC（buck/boost/ldo）的引脚是固定功能，没有复用可言。
+MCU_HEADS = {"mcu", "soc", "fpga", "cpu", "dsp", "stm32", "esp", "rp2040",
+             "nrf", "atmega", "ch32", "gd32", "apm32", "mm32"}
+
+
+def _is_mcu_component(comp):
+    """这算不算一颗有复用资源的 MCU/SoC。
+
+    **判据要贴着被测量的东西。** `pin_plan_check.py` 判的是引脚复用与资源分配，
+    只有 MCU 类器件才有这些；用"有任何 IC"当代理会把纯电源板也拖进来，
+    而它对那块板根本无从测量（friction #54）。
+    """
+    name = str(((comp.get("device") or {}).get("name")) or "")
+    head = name.split(".", 1)[0].lower() if "." in name else ""
+    return head in MCU_HEADS
+
+
 def _is_ic_component(comp):
     """这算不算一颗 IC。
 
@@ -240,13 +258,16 @@ def main(argv=None):
             # no plan supplied: only N/A when the page has no IC at all;
             # otherwise the gap stays missing and blocks the gate
             ir_data = json.loads(Path(connectivity).read_text(encoding="utf-8"))
-            has_ic = any(_is_ic_component(c) for c in ir_data.get("components") or [])
-            if not has_ic:
+            has_mcu = any(_is_mcu_component(c)
+                          for c in ir_data.get("components") or [])
+            if not has_mcu:
                 pin_out = out / "pinplan-check.json"
                 pin_out.write_text(json.dumps({
                     "schema": "easycirq-sch-pinplan-na/v1",
                     "verdict": "n/a",
-                    "note": "页面无 IC（U*/IC*），引脚复用不适用",
+                    "note": "页面没有 MCU/SoC（无复用资源），引脚复用不适用 —— "
+                            "本判据测的是引脚复用与资源分配，"
+                            "电源 IC 的引脚是固定功能",
                 }, ensure_ascii=False) + "\n", encoding="utf-8")
                 checks.append(("pinplan", pin_out))
                 step("pinplan", True, "n/a (no IC)")

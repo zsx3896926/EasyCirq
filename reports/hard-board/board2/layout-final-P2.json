@@ -380,8 +380,8 @@
         "role": "C_IN",
         "device": {
           "name": "cap.10uf_0805",
-          "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
-          "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4"
+          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
+          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93"
         },
         "pins": [
           {
@@ -424,8 +424,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -1488,9 +1488,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 155.0,
+        "minX": 150.0,
         "minY": 90.0,
-        "maxX": 165.0,
+        "maxX": 170.0,
         "maxY": 100.0
       },
       "pins": [
@@ -1498,7 +1498,7 @@
           "number": "1",
           "name": "1",
           "net": "+3V8",
-          "x": 145.0,
+          "x": 140.0,
           "y": 95.0,
           "rotation": 180.0
         },
@@ -1506,7 +1506,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 175.0,
+          "x": 180.0,
           "y": 95.0,
           "rotation": 0.0
         }

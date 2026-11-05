@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-sch-kpi-report/v1",
-  "generatedAt": "2026-11-05T05:05:47Z",
+  "generatedAt": "2026-11-05T05:13:45Z",
   "project": "板2-24V隔离控制板",
   "page": "M1",
   "round": 2,
@@ -10,7 +10,7 @@
     "readability": 0.6,
     "zone_balance": 0.3
   },
-  "verdict": "BLOCKED",
+  "verdict": "PASS",
   "kpis": [
     {
       "no": 1,
@@ -163,10 +163,12 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "na",
       "advisory": false,
-      "detail": "pinplan: 未提供",
-      "evidence": []
+      "detail": "pinplan: 不适用",
+      "evidence": [
+        "reports\\hard-board\\board2\\s3-M1\\pinplan-check.json"
+      ]
     },
     {
       "no": 11,
@@ -303,27 +305,23 @@
       ]
     }
   ],
-  "blockers": [
-    {
-      "kpi": "pin_mux",
-      "reason": "证据缺失或不可用: pinplan: 未提供"
-    }
-  ],
+  "blockers": [],
   "advisory": [],
   "stability": {
-    "rounds_pass": 0,
+    "rounds_pass": 2,
     "required_rounds": 2,
     "regression": false,
     "new_failures": [],
     "history_compared": true,
-    "apply_allowed": false,
-    "note": "未过门禁，禁止上机"
+    "apply_allowed": true,
+    "note": "连续 N 轮 PASS 且无新增违规才允许上机"
   },
-  "next_command": "修复 blockers 后重跑: python scripts/sch_kpi.py --input <input.json> --history <history.jsonl>",
+  "next_command": "easycirq sch list --include-pins  # 冻结快照后再上机",
   "gate": {
     "schema": "easycirq-gate/v1",
-    "written": false,
+    "written": true,
     "revoked": false,
-    "path": ".easycirq\\gate.json"
+    "path": ".easycirq\\gate.json",
+    "expires_at": "2026-11-05T05:43:45Z"
   }
 }
