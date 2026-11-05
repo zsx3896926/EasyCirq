@@ -411,6 +411,20 @@ def build(netlist_path, measure_path, style_plans, out_path,
             continue
         need_pin_rebuild[c["id"]] = mp
 
+    # **只有 spec 显式声明的 NC 才算 NC。**
+    #
+    # 早先这里把"没匹配到连接"的引脚一律标成 noConnected —— 那是**推断**，
+    # 不是设计决定。后果很严重：真忘连的引脚会被"祝福"成 NC，
+    # 度量报 0 悬空，缺陷被藏起来（实测 M5 的 PG 就是这样被藏掉的）。
+    # NC 声明在**网表**里（`noConnectDeclarations`，由 sch_spec_netlist 生成），
+    # 不在本函数的参数里。
+    # NC 声明在**网表**里（`noConnectDeclarations`），并且带解析后的
+    # 「位号 + 引脚」——只靠端口名（IGN_12V）对不上符号引脚名（"2"）。
+    nc_by_ref = {}
+    for nc in net.get("noConnectDeclarations") or []:
+        if nc.get("ref") and nc.get("pin"):
+            nc_by_ref.setdefault(nc["ref"], set()).add(nc["pin"])
+
     old_conn = list(conn["connections"])
     conn["connections"] = []
     for c in conn["components"]:
@@ -436,8 +450,10 @@ def build(netlist_path, measure_path, style_plans, out_path,
                 conn["connections"].append({"componentId": c["id"],
                                             "pinNumber": pname,
                                             "netId": hit[0], "kind": hit[1]})
-            else:
+            elif pname in (nc_by_ref.get(c["ref"]) or set()):
+                # spec 显式 NC 的引脚 → 落成 noConnected（这是**设计决定**）
                 pin["noConnected"] = True
+            # 其余没连上的**不自动当 NC**：留给度量报出来。
             c["pins"].append(pin)
 
 

@@ -189,8 +189,8 @@
         "role": "J1",
         "device": {
           "name": "conn.screw_terminal_2p",
-          "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
-          "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116"
+          "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
+          "deviceUuid": "c6dd164532ad43d987993b5850265e6b"
         },
         "pins": [
           {
@@ -414,8 +414,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 841,
-    "maxY": 594
+    "maxX": 297,
+    "maxY": 210
   },
   "keepouts": [],
   "measurements": [

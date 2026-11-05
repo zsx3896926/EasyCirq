@@ -1,0 +1,17 @@
+{
+  "schema": "easycirq-sch-readability-check/v1",
+  "tool": "sch_readability_metrics.py",
+  "verdict": "pass",
+  "metrics": {
+    "direct_ratio": 1.0,
+    "nets": 6,
+    "labelled_nets": 0
+  },
+  "findings": [],
+  "summary": {
+    "flagged": 0,
+    "anchored": 0,
+    "stale_labelled": 0
+  },
+  "note": "页级比例；IR 不含模块归属，'拓扑电路 100% 直连' 仍需人工/导图复核，不在此处报通过"
+}

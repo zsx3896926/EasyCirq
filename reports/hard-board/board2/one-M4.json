@@ -494,8 +494,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 841,
-    "maxY": 594
+    "maxX": 420,
+    "maxY": 297
   },
   "keepouts": [],
   "measurements": [

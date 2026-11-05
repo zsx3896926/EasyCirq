@@ -1,0 +1,16 @@
+{
+  "schema": "easycirq-power-net-check/v1",
+  "status": "pass",
+  "verdict": "pass",
+  "metrics": {
+    "power_net_conflicts": 0
+  },
+  "source": "pin-name",
+  "powerPins": [
+    "X2.VIN(VIN)->VBAT_RAW"
+  ],
+  "nets": [
+    "VBAT_RAW"
+  ],
+  "findings": []
+}

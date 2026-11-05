@@ -1,0 +1,43 @@
+{
+  "schema": "easycirq-design-validity/v1",
+  "status": "na",
+  "verdict": "na",
+  "metrics": {
+    "design_violations": 0
+  },
+  "netlist": "reports\\hard-board\\board2\\snap-M5\\list.json",
+  "intent": null,
+  "checks": [
+    {
+      "id": "threshold_sanity",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    },
+    {
+      "id": "switch_drive",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    },
+    {
+      "id": "hysteresis",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    },
+    {
+      "id": "inductive_load",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    },
+    {
+      "id": "supply_domains",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    },
+    {
+      "id": "ratings",
+      "status": "na",
+      "reason": "没有提供 --intent：这块板没有声明设计意图，无法判断阈值该是多少、管子该带多大负载"
+    }
+  ],
+  "findings": []
+}

@@ -113,6 +113,28 @@ def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
                 "pageId": pages.get(m.get("page") or "", ""),
             })
 
+        # ── 块自带的未用引脚（`nc_pins`）→ 落成 noConnected ────────────
+        #
+        # 块库有些块漏声明未用引脚（如 TPS63802 的 PG），实例化后它会悬空。
+        # 这类是**块库缺陷**，但网表必须如实反映：显式不接，而不是"忘了连"。
+        for member in blk.get("nc_pins") or []:
+            if "." not in member:
+                continue
+            role, pin = member.split(".", 1)
+            ref = role_to_ref.get(role)
+            if not ref:
+                continue
+            comp = next((c for c in components if c["ref"] == ref), None)
+            if comp is None:
+                continue
+            if not any(p_["number"] == pin for p_ in comp["pins"]):
+                comp["pins"].append({"number": pin, "name": pin, "noConnected": True})
+            else:
+                comp["pins"] = [dict(p_, noConnected=True) if p_["number"] == pin
+                                else p_ for p_ in comp["pins"]]
+            nc_pins.append({"module": mid, "block": mid, "ref": ref, "pin": pin,
+                            "reason": "块库 nc_pins 声明不用"})
+
         # ── 内部网：`ROLE.PIN` 成员 + 可选的 `PORT:NAME` ──────────────
         port_bind = {p: (v or {}).get("bind_to")
                      for p, v in (m.get("ports") or {}).items()}
@@ -146,9 +168,20 @@ def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
                         comp["pins"] = [
                             dict(p_, noConnected=True)
                             if p_["number"] == pin else p_ for p_ in comp["pins"]]
-                    nc_pins.append({"module": mid, "port": pname,
-                                    "pin": plain[0] if plain else "",
-                                    "reason": spec_nc})
+                    # 记录**解析后**的位号+引脚：下游按它精确标记 noConnected。
+                    # 只给端口名（如 IGN_12V）不够 —— 符号上的引脚名可能是 "2"。
+                    for member in plain:
+                        if "." not in member:
+                            continue
+                        role, pin = member.split(".", 1)
+                        ref = role_to_ref.get(role)
+                        if ref:
+                            nc_pins.append({"module": mid, "port": pname,
+                                            "ref": ref, "pin": pin,
+                                            "reason": spec_nc})
+                    if not plain:
+                        nc_pins.append({"module": mid, "port": pname,
+                                        "reason": spec_nc})
                     continue
 
                 net_name = port_bind.get(pname) or spec_port.get("default_net")
@@ -244,8 +277,11 @@ def summarise(doc) -> list[str]:
     warns = [i for i in doc["issues"] if i["severity"] == "warn"]
     ncs = doc.get("noConnectDeclarations") or []
     if ncs:
+        # 块级 nc_pins 没有 port 字段，用 ref:pin 表达
         out.append("NC（显式不接）：" + ", ".join(
-            "%s:%s" % (x["module"], x["port"]) for x in ncs))
+            ("%s:%s" % (x["module"], x["port"]))
+            if x.get("port") else ("%s.%s" % (x.get("ref"), x.get("pin")))
+            for x in ncs))
     out.append("问题：error %d，warn %d" % (len(errs), len(warns)))
     return out
 

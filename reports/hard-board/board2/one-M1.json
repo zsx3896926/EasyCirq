@@ -342,8 +342,8 @@
         "role": "C_BOOT",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -482,8 +482,8 @@
         "role": "C_COMP",
         "device": {
           "name": "cap.47nf_0402",
-          "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
-          "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab"
+          "libraryUuid": "40bbe427feed4c04ab6a98a2cd719e49",
+          "deviceUuid": "f3448080c3754bc89d3b300792519918"
         },
         "pins": [
           {
@@ -504,8 +504,8 @@
         "role": "C_COMP_HF",
         "device": {
           "name": "cap.47pf_0402",
-          "libraryUuid": "8d2e5ae41c6b41509105dbe33088a401",
-          "deviceUuid": "61303f9a5f55456eabd74db23f690a45"
+          "libraryUuid": "72a164d3e0194e869076efb13d57f056",
+          "deviceUuid": "d9400867edbc40cc9c6c7f6aeb5043e4"
         },
         "pins": [
           {
@@ -570,8 +570,8 @@
         "role": "C_OUT_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -1596,9 +1596,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 50.0,
+        "minX": 45.0,
         "minY": 75.0,
-        "maxX": 60.0,
+        "maxX": 65.0,
         "maxY": 85.0
       },
       "pins": [
@@ -1606,7 +1606,7 @@
           "number": "1",
           "name": "1",
           "net": "X2_N9",
-          "x": 40.0,
+          "x": 35.0,
           "y": 80.0,
           "rotation": 180.0
         },
@@ -1614,7 +1614,7 @@
           "number": "2",
           "name": "2",
           "net": "C4_N10",
-          "x": 70.0,
+          "x": 75.0,
           "y": 80.0,
           "rotation": 0.0
         }
@@ -1932,9 +1932,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 90.0,
+        "minX": 85.0,
         "minY": 120.0,
-        "maxX": 100.0,
+        "maxX": 105.0,
         "maxY": 130.0
       },
       "pins": [
@@ -1942,7 +1942,7 @@
           "number": "1",
           "name": "1",
           "net": "+5V",
-          "x": 80.0,
+          "x": 75.0,
           "y": 125.0,
           "rotation": 180.0
         },
@@ -1950,7 +1950,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 110.0,
+          "x": 115.0,
           "y": 125.0,
           "rotation": 0.0
         }

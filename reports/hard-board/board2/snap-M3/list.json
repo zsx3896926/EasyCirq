@@ -1,0 +1,875 @@
+{
+  "ok": true,
+  "result": {
+    "pageId": "49c6dbb9567dd6af",
+    "sheet": {
+      "minX": 0,
+      "minY": 0,
+      "maxX": 841,
+      "maxY": 594
+    },
+    "components": [
+      {
+        "componentType": "part",
+        "primitiveId": "c33",
+        "designator": "X3",
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -25,
+          "minY": -20,
+          "maxX": 25,
+          "maxY": 20
+        },
+        "pins": [
+          {
+            "pinNumber": "EN",
+            "pinName": "EN",
+            "net": "+5V",
+            "x": -35,
+            "y": -10,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "FB",
+            "pinName": "FB",
+            "net": "X3_N5",
+            "x": 35,
+            "y": -10,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "GND",
+            "pinName": "GND",
+            "net": "GND",
+            "x": -35,
+            "y": 0,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "IN",
+            "pinName": "IN",
+            "net": "+5V",
+            "x": 35,
+            "y": 10,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "LX",
+            "pinName": "LX",
+            "net": "X3_N3",
+            "x": -35,
+            "y": 10,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c37",
+        "designator": "C13",
+        "x": 70,
+        "y": 10,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 60,
+          "minY": 5,
+          "maxX": 80,
+          "maxY": 15
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+5V",
+            "x": 50,
+            "y": 10,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 90,
+            "y": 10,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c34",
+        "designator": "L3",
+        "x": -25,
+        "y": 50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -40,
+          "minY": 45,
+          "maxX": -10,
+          "maxY": 55
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X3_N3",
+            "x": -45,
+            "y": 50,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "+3V3",
+            "x": -5,
+            "y": 50,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c38",
+        "designator": "C14",
+        "x": 35,
+        "y": 65,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 25,
+          "minY": 60,
+          "maxX": 45,
+          "maxY": 70
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+3V3",
+            "x": 15,
+            "y": 65,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 55,
+            "y": 65,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c39",
+        "designator": "C15",
+        "x": 25,
+        "y": 115,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 20,
+          "minY": 110,
+          "maxX": 30,
+          "maxY": 120
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+3V3",
+            "x": 10,
+            "y": 115,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 40,
+            "y": 115,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c35",
+        "designator": "R8",
+        "x": -25,
+        "y": 115,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -35,
+          "minY": 110,
+          "maxX": -15,
+          "maxY": 120
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+3V3",
+            "x": -45,
+            "y": 115,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "X3_N5",
+            "x": -5,
+            "y": 115,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c36",
+        "designator": "R9",
+        "x": 70,
+        "y": -40,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 60,
+          "minY": -45,
+          "maxX": 80,
+          "maxY": -35
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X3_N5",
+            "x": 50,
+            "y": -40,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 90,
+            "y": -40,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M3"
+      },
+      {
+        "componentType": "sheet",
+        "primitiveId": "sheet",
+        "bbox": {
+          "minX": 0,
+          "minY": 0,
+          "maxX": 841,
+          "maxY": 594
+        }
+      }
+    ],
+    "wires": [
+      {
+        "Line": [
+          [
+            95,
+            10
+          ],
+          [
+            90,
+            10
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            115
+          ],
+          [
+            60,
+            65
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            65
+          ],
+          [
+            55,
+            65
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            10,
+            65
+          ],
+          [
+            10,
+            50
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            10,
+            50
+          ],
+          [
+            -5,
+            50
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            5,
+            65
+          ],
+          [
+            10,
+            65
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            10,
+            65
+          ],
+          [
+            15,
+            65
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -45,
+            115
+          ],
+          [
+            -50,
+            115
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            115
+          ],
+          [
+            -50,
+            120
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            120
+          ],
+          [
+            5,
+            120
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            35,
+            -10
+          ],
+          [
+            45,
+            -10
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            -10
+          ],
+          [
+            100,
+            -10
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            100,
+            -10
+          ],
+          [
+            100,
+            60
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            100,
+            60
+          ],
+          [
+            0,
+            60
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            60
+          ],
+          [
+            0,
+            115
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            115
+          ],
+          [
+            -5,
+            115
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            10
+          ],
+          [
+            -35,
+            10
+          ]
+        ],
+        "Net": "X3_N3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            90,
+            -40
+          ],
+          [
+            95,
+            -40
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            95,
+            -40
+          ],
+          [
+            95,
+            10
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            40,
+            115
+          ],
+          [
+            45,
+            115
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            115
+          ],
+          [
+            60,
+            115
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            115
+          ],
+          [
+            45,
+            120
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -35,
+            -10
+          ],
+          [
+            -40,
+            -10
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -40,
+            -10
+          ],
+          [
+            -40,
+            -15
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            35,
+            10
+          ],
+          [
+            40,
+            10
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            40,
+            10
+          ],
+          [
+            50,
+            10
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            40,
+            10
+          ],
+          [
+            40,
+            15
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            5,
+            115
+          ],
+          [
+            10,
+            115
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            5,
+            65
+          ],
+          [
+            5,
+            115
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            5,
+            115
+          ],
+          [
+            5,
+            120
+          ]
+        ],
+        "Net": "+3V3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            -40
+          ],
+          [
+            50,
+            -40
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            -45
+          ],
+          [
+            45,
+            -40
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            45,
+            -40
+          ],
+          [
+            45,
+            -10
+          ]
+        ],
+        "Net": "X3_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            50
+          ],
+          [
+            -45,
+            50
+          ]
+        ],
+        "Net": "X3_N3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            10
+          ],
+          [
+            -50,
+            50
+          ]
+        ],
+        "Net": "X3_N3",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -50,
+            50
+          ],
+          [
+            -50,
+            55
+          ]
+        ],
+        "Net": "X3_N3",
+        "primitiveId": ""
+      }
+    ],
+    "pagePrimitives": {},
+    "netflags": [
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": -35,
+        "y": 0,
+        "direction": "left"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 95,
+        "y": -35,
+        "direction": "right"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 45,
+        "y": 120,
+        "direction": "up"
+      },
+      {
+        "net": "+5V",
+        "kind": "power",
+        "x": -40,
+        "y": -15,
+        "direction": "down"
+      },
+      {
+        "net": "+5V",
+        "kind": "power",
+        "x": 40,
+        "y": 15,
+        "direction": "up"
+      },
+      {
+        "net": "+3V3",
+        "kind": "power",
+        "x": 5,
+        "y": 120,
+        "direction": "up"
+      },
+      {
+        "net": "X3_N5",
+        "kind": "net_port_bi",
+        "x": 45,
+        "y": -45,
+        "direction": "down"
+      },
+      {
+        "net": "X3_N3",
+        "kind": "net_port_bi",
+        "x": -50,
+        "y": 55,
+        "direction": "left"
+      }
+    ]
+  },
+  "source": {
+    "kind": "composition",
+    "note": "由 lib-layout 排版稿合成；没有渲染图，故无 svg-text.json",
+    "inputs": [
+      "reports\\hard-board\\board2\\composition-M3.json"
+    ]
+  }
+}

@@ -1180,6 +1180,11 @@
       },
       "pins": [
         {
+          "number": "PG",
+          "name": "PG",
+          "noConnected": true
+        },
+        {
           "number": "VIN",
           "name": "VIN"
         },
@@ -2451,8 +2456,16 @@
     {
       "module": "M1",
       "port": "IGN_12V",
-      "pin": "J_VEH.2",
+      "ref": "J1",
+      "pin": "2",
       "reason": "本版不接点火检测（见 NC-1）"
+    },
+    {
+      "module": "M5",
+      "block": "M5",
+      "ref": "X4",
+      "pin": "PG",
+      "reason": "块库 nc_pins 声明不用"
     }
   ]
 }

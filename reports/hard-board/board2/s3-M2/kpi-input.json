@@ -1,0 +1,10 @@
+{
+  "schema": "easycirq-sch-kpi-input/v1",
+  "project": "板2-24V隔离控制板",
+  "page": "M2",
+  "round": 1,
+  "profile": "default",
+  "history": "kpi-history.jsonl",
+  "checks": [],
+  "note": "由 sch_offline_pipeline.py 生成；其余检查未采集，按缺失处理。"
+}

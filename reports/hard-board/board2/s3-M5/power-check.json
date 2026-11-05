@@ -1,0 +1,12 @@
+{
+  "schema": "easycirq-sch-power-check/v1",
+  "tool": "sch_decoupling_metrics.py",
+  "verdict": "pass",
+  "metrics": {
+    "decap_missing": 0,
+    "power_pins_checked": 0,
+    "power_pins_covered": 0
+  },
+  "findings": [],
+  "note": "启发式：IC 电源脚所在网至少有一个 C* 元件；不做 AC/布局验证"
+}

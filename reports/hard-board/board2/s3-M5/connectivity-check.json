@@ -1,0 +1,26 @@
+{
+  "schema": "easycirq-sch-connectivity-check/v1",
+  "tool": "sch_connectivity_metrics.py",
+  "verdict": "pass",
+  "metrics": {
+    "floating_pins": 0,
+    "single_node_nets": 0,
+    "bus_members_missing": 0,
+    "diff_pair_mismatch": 0,
+    "nc_pins": 1,
+    "global_single_nets": 0,
+    "duplicate_net_names": 0,
+    "auto_net_residue": 0
+  },
+  "findings": [],
+  "summary": {
+    "components": 7,
+    "pins": 22,
+    "connections": 21,
+    "nets": 6,
+    "nc_excluded": 1,
+    "nc_source": "passed",
+    "global_single_nets": []
+  },
+  "note": "已用 sch list 的 noConnected 排除显式 NC 引脚"
+}

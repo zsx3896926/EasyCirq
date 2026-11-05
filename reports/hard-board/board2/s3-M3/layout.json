@@ -1,0 +1,228 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easycirq reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  841.0,
+  594.0
+ ],
+ "components": [
+  {
+   "id": "c33",
+   "bbox": [
+    -25.0,
+    -20.0,
+    25.0,
+    20.0
+   ]
+  },
+  {
+   "id": "c37",
+   "bbox": [
+    60.0,
+    5.0,
+    80.0,
+    15.0
+   ]
+  },
+  {
+   "id": "c34",
+   "bbox": [
+    -40.0,
+    45.0,
+    -10.0,
+    55.0
+   ]
+  },
+  {
+   "id": "c38",
+   "bbox": [
+    25.0,
+    60.0,
+    45.0,
+    70.0
+   ]
+  },
+  {
+   "id": "c39",
+   "bbox": [
+    20.0,
+    110.0,
+    30.0,
+    120.0
+   ]
+  },
+  {
+   "id": "c35",
+   "bbox": [
+    -35.0,
+    110.0,
+    -15.0,
+    120.0
+   ]
+  },
+  {
+   "id": "c36",
+   "bbox": [
+    60.0,
+    -45.0,
+    80.0,
+    -35.0
+   ]
+  }
+ ],
+ "texts": [],
+ "wires": [],
+ "attachment_points": [
+  {
+   "id": "X3-EN",
+   "x": -35,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "X3-FB",
+   "x": 35,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "X3-GND",
+   "x": -35,
+   "y": 0,
+   "kind": "pin"
+  },
+  {
+   "id": "X3-IN",
+   "x": 35,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "X3-LX",
+   "x": -35,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "C13-1",
+   "x": 50,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "C13-2",
+   "x": 90,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "L3-1",
+   "x": -45,
+   "y": 50,
+   "kind": "pin"
+  },
+  {
+   "id": "L3-2",
+   "x": -5,
+   "y": 50,
+   "kind": "pin"
+  },
+  {
+   "id": "C14-1",
+   "x": 15,
+   "y": 65,
+   "kind": "pin"
+  },
+  {
+   "id": "C14-2",
+   "x": 55,
+   "y": 65,
+   "kind": "pin"
+  },
+  {
+   "id": "C15-1",
+   "x": 10,
+   "y": 115,
+   "kind": "pin"
+  },
+  {
+   "id": "C15-2",
+   "x": 40,
+   "y": 115,
+   "kind": "pin"
+  },
+  {
+   "id": "R8-1",
+   "x": -45,
+   "y": 115,
+   "kind": "pin"
+  },
+  {
+   "id": "R8-2",
+   "x": -5,
+   "y": 115,
+   "kind": "pin"
+  },
+  {
+   "id": "R9-1",
+   "x": 50,
+   "y": -40,
+   "kind": "pin"
+  },
+  {
+   "id": "R9-2",
+   "x": 90,
+   "y": -40,
+   "kind": "pin"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [],
+ "module_frames": [],
+ "title_block_owned": [],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": false,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 7
+  },
+  "texts": {
+   "status": "partial",
+   "observed": 0,
+   "estimated": 0,
+   "rendered": 0
+  },
+  "wires": {
+   "status": "absent",
+   "observed": 0,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 17,
+   "measured_pins": 17,
+   "total_pins": 17
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "absent",
+   "observed": 0,
+   "rectangles": 0
+  }
+ },
+ "snapshot_sha256": "91f3a18185bda5719a3ed0b86df59d7d3d5eb1d1cb545644195385c619de2a08",
+ "expected_counts": {
+  "components": 7,
+  "texts": 0,
+  "wires": 0
+ }
+}

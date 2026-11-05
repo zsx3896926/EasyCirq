@@ -143,5 +143,9 @@
       "severity": "must"
     }
   ],
-  "bom_note": "7 件: TPS63802 + 1µH(Isat≥4A) + FB 分压×2 + 电容×3。锂电池供电的 4G/大电流域标准轨;上游配 block.bq24074_powerpath_charger 的 VSYS。"
+  "bom_note": "7 件: TPS63802 + 1µH(Isat≥4A) + FB 分压×2 + 电容×3。锂电池供电的 4G/大电流域标准轨;上游配 block.bq24074_powerpath_charger 的 VSYS。",
+  "nc_pins": [
+    "U.PG"
+  ],
+  "nc_note": "TPS63802 的 Power Good 开漏输出。块内不使用，显式声明为不接，避免实例化后悬空（旧版本漏了这条）。"
 }

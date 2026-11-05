@@ -373,5 +373,13 @@
       "keeps": "块里『必须配 R_QG+D_QG 栅极网络』的注记仍然成立",
       "approvedBy": "用户选择方案 B（换一个能读的 PMOS）"
     }
+  ],
+  "blockDefects": [
+    {
+      "block": "block.tps63802_buckboost_3v8",
+      "pin": "U.PG",
+      "issue": "块库把它标为已给定（validated），但内部网里没有 PG，也没声明它不用 —— 实例化后该脚悬空",
+      "fix": "块数据增加 nc_pins（见下）；这是块库缺陷，不是本板的选型问题"
+    }
   ]
 }

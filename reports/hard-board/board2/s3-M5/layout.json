@@ -1,0 +1,258 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easycirq reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  841.0,
+  594.0
+ ],
+ "components": [
+  {
+   "id": "c50",
+   "bbox": [
+    -35.0,
+    -30.0,
+    35.0,
+    30.0
+   ]
+  },
+  {
+   "id": "c54",
+   "bbox": [
+    70.0,
+    -25.0,
+    90.0,
+    -15.0
+   ]
+  },
+  {
+   "id": "c55",
+   "bbox": [
+    70.0,
+    25.0,
+    90.0,
+    35.0
+   ]
+  },
+  {
+   "id": "c56",
+   "bbox": [
+    65.0,
+    75.0,
+    75.0,
+    85.0
+   ]
+  },
+  {
+   "id": "c51",
+   "bbox": [
+    135.0,
+    -15.0,
+    165.0,
+    -5.0
+   ]
+  },
+  {
+   "id": "c52",
+   "bbox": [
+    -105.0,
+    5.0,
+    -85.0,
+    15.0
+   ]
+  },
+  {
+   "id": "c53",
+   "bbox": [
+    -40.0,
+    55.0,
+    -20.0,
+    65.0
+   ]
+  }
+ ],
+ "texts": [],
+ "wires": [],
+ "attachment_points": [
+  {
+   "id": "X4-AGND",
+   "x": -45,
+   "y": 0,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-EN",
+   "x": -45,
+   "y": -20,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-FB",
+   "x": -45,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-GND",
+   "x": 45,
+   "y": 0,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-L1",
+   "x": 45,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-L2",
+   "x": 45,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-MODE",
+   "x": -45,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-PG",
+   "x": -45,
+   "y": 20,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-VIN",
+   "x": 45,
+   "y": -20,
+   "kind": "pin"
+  },
+  {
+   "id": "X4-VOUT",
+   "x": 45,
+   "y": 20,
+   "kind": "pin"
+  },
+  {
+   "id": "C21-1",
+   "x": 60,
+   "y": -20,
+   "kind": "pin"
+  },
+  {
+   "id": "C21-2",
+   "x": 100,
+   "y": -20,
+   "kind": "pin"
+  },
+  {
+   "id": "C22-1",
+   "x": 60,
+   "y": 30,
+   "kind": "pin"
+  },
+  {
+   "id": "C22-2",
+   "x": 100,
+   "y": 30,
+   "kind": "pin"
+  },
+  {
+   "id": "C23-1",
+   "x": 55,
+   "y": 80,
+   "kind": "pin"
+  },
+  {
+   "id": "C23-2",
+   "x": 85,
+   "y": 80,
+   "kind": "pin"
+  },
+  {
+   "id": "L5-1",
+   "x": 130,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "L5-2",
+   "x": 170,
+   "y": -10,
+   "kind": "pin"
+  },
+  {
+   "id": "R13-1",
+   "x": -115,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "R13-2",
+   "x": -75,
+   "y": 10,
+   "kind": "pin"
+  },
+  {
+   "id": "R14-1",
+   "x": -50,
+   "y": 60,
+   "kind": "pin"
+  },
+  {
+   "id": "R14-2",
+   "x": -10,
+   "y": 60,
+   "kind": "pin"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [],
+ "module_frames": [],
+ "title_block_owned": [],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": false,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 7
+  },
+  "texts": {
+   "status": "partial",
+   "observed": 0,
+   "estimated": 0,
+   "rendered": 0
+  },
+  "wires": {
+   "status": "absent",
+   "observed": 0,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 22,
+   "measured_pins": 22,
+   "total_pins": 22
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "absent",
+   "observed": 0,
+   "rectangles": 0
+  }
+ },
+ "snapshot_sha256": "4156287cfaf7b37db73a8a0f4a71f0583681c31d39044f7563b47ab39655b057",
+ "expected_counts": {
+  "components": 7,
+  "texts": 0,
+  "wires": 0
+ }
+}

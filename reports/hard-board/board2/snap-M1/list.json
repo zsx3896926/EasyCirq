@@ -1,0 +1,3208 @@
+{
+  "ok": true,
+  "result": {
+    "pageId": "49c6dbb9567dd6af",
+    "sheet": {
+      "minX": 0,
+      "minY": 0,
+      "maxX": 841,
+      "maxY": 594
+    },
+    "components": [
+      {
+        "componentType": "part",
+        "primitiveId": "c10",
+        "designator": "X2",
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -40,
+          "minY": -25,
+          "maxX": 40,
+          "maxY": 25
+        },
+        "pins": [
+          {
+            "pinNumber": "BOOT",
+            "pinName": "BOOT",
+            "net": "X2_N9",
+            "x": -50,
+            "y": -15,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "COMP",
+            "pinName": "COMP",
+            "net": "X2_N13",
+            "x": 50,
+            "y": 5,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "EN",
+            "pinName": "EN",
+            "net": "R2_N7",
+            "x": -50,
+            "y": 5,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "EP",
+            "pinName": "EP",
+            "net": "GND",
+            "x": 0,
+            "y": -35,
+            "rotation": 270,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "FB",
+            "pinName": "FB",
+            "net": "X2_N12",
+            "x": 50,
+            "y": 15,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "GND",
+            "pinName": "GND",
+            "net": "GND",
+            "x": 50,
+            "y": -5,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "RT/CLK",
+            "pinName": "RT/CLK",
+            "net": "X2_N8",
+            "x": -50,
+            "y": 15,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "SW",
+            "pinName": "SW",
+            "net": "C4_N10",
+            "x": 50,
+            "y": -15,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "VIN",
+            "pinName": "VIN",
+            "net": "VBAT_RAW",
+            "x": -50,
+            "y": -5,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c6",
+        "designator": "D1",
+        "x": -35,
+        "y": -50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -40,
+          "minY": -55,
+          "maxX": -30,
+          "maxY": -45
+        },
+        "pins": [
+          {
+            "pinNumber": "A",
+            "pinName": "A",
+            "net": "GND",
+            "x": -15,
+            "y": -50,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "C",
+            "pinName": "C",
+            "net": "VBAT_RAW",
+            "x": -55,
+            "y": -50,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c7",
+        "designator": "C1",
+        "x": -90,
+        "y": -50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -100,
+          "minY": -55,
+          "maxX": -80,
+          "maxY": -45
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "VBAT_RAW",
+            "x": -110,
+            "y": -50,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -70,
+            "y": -50,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c8",
+        "designator": "C2",
+        "x": -145,
+        "y": -50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -155,
+          "minY": -55,
+          "maxX": -135,
+          "maxY": -45
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "VBAT_RAW",
+            "x": -165,
+            "y": -50,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -125,
+            "y": -50,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c9",
+        "designator": "C3",
+        "x": -200,
+        "y": -50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -210,
+          "minY": -55,
+          "maxX": -190,
+          "maxY": -45
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "VBAT_RAW",
+            "x": -220,
+            "y": -50,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -180,
+            "y": -50,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c3",
+        "designator": "Q1",
+        "x": -140,
+        "y": 20,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -160,
+          "minY": -5,
+          "maxX": -120,
+          "maxY": 45
+        },
+        "pins": [
+          {
+            "pinNumber": "D",
+            "pinName": "D",
+            "net": "F1_N4",
+            "x": -110,
+            "y": 25,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "G",
+            "pinName": "G",
+            "net": "Q1_N5",
+            "x": -170,
+            "y": 35,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "S",
+            "pinName": "S",
+            "net": "VBAT_RAW",
+            "x": -170,
+            "y": 5,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "S#2",
+            "pinName": "S#2",
+            "net": "VBAT_RAW",
+            "x": -170,
+            "y": 15,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "S#3",
+            "pinName": "S#3",
+            "net": "VBAT_RAW",
+            "x": -170,
+            "y": 25,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c15",
+        "designator": "L1",
+        "x": 100,
+        "y": -5,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 85,
+          "minY": -15,
+          "maxX": 115,
+          "maxY": 5
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "C4_N10",
+            "x": 80,
+            "y": 5,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "C4_N10",
+            "x": 80,
+            "y": -15,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "3",
+            "pinName": "3",
+            "net": "+5V",
+            "x": 120,
+            "y": 5,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "4",
+            "pinName": "4",
+            "net": "+5V",
+            "x": 120,
+            "y": -15,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c22",
+        "designator": "C7",
+        "x": 160,
+        "y": 5,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 150,
+          "minY": 0,
+          "maxX": 170,
+          "maxY": 10
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+5V",
+            "x": 140,
+            "y": 5,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 180,
+            "y": 5,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c23",
+        "designator": "C8",
+        "x": 145,
+        "y": -45,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 135,
+          "minY": -50,
+          "maxX": 155,
+          "maxY": -40
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+5V",
+            "x": 125,
+            "y": -45,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 165,
+            "y": -45,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c24",
+        "designator": "C9",
+        "x": 155,
+        "y": 55,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 145,
+          "minY": 50,
+          "maxX": 165,
+          "maxY": 60
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+5V",
+            "x": 135,
+            "y": 55,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 175,
+            "y": 55,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c2",
+        "designator": "F1",
+        "x": -125,
+        "y": 90,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -140,
+          "minY": 85,
+          "maxX": -110,
+          "maxY": 95
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "J1_N1",
+            "x": -145,
+            "y": 90,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "F1_N4",
+            "x": -105,
+            "y": 90,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c1",
+        "designator": "J1",
+        "x": -130,
+        "y": 155,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -140,
+          "minY": 135,
+          "maxX": -100,
+          "maxY": 175
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "J1_N1",
+            "x": -150,
+            "y": 145,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "",
+            "x": -150,
+            "y": 155,
+            "rotation": 180,
+            "noConnected": true
+          },
+          {
+            "pinNumber": "3",
+            "pinName": "3",
+            "net": "GND",
+            "x": -150,
+            "y": 165,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c4",
+        "designator": "R1",
+        "x": -205,
+        "y": 35,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -215,
+          "minY": 30,
+          "maxX": -195,
+          "maxY": 40
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "Q1_N5",
+            "x": -225,
+            "y": 35,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -185,
+            "y": 35,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c5",
+        "designator": "X1",
+        "x": -255,
+        "y": 35,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -260,
+          "minY": 30,
+          "maxX": -250,
+          "maxY": 40
+        },
+        "pins": [
+          {
+            "pinNumber": "A",
+            "pinName": "A",
+            "net": "Q1_N5",
+            "x": -235,
+            "y": 35,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "C",
+            "pinName": "C",
+            "net": "VBAT_RAW",
+            "x": -275,
+            "y": 35,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c11",
+        "designator": "R2",
+        "x": -255,
+        "y": -50,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -265,
+          "minY": -55,
+          "maxX": -245,
+          "maxY": -45
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "VBAT_RAW",
+            "x": -275,
+            "y": -50,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "R2_N7",
+            "x": -235,
+            "y": -50,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c12",
+        "designator": "R3",
+        "x": -35,
+        "y": 55,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -45,
+          "minY": 50,
+          "maxX": -25,
+          "maxY": 60
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "R2_N7",
+            "x": -55,
+            "y": 55,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -15,
+            "y": 55,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c13",
+        "designator": "R4",
+        "x": -35,
+        "y": 105,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": -45,
+          "minY": 100,
+          "maxX": -25,
+          "maxY": 110
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X2_N8",
+            "x": -55,
+            "y": 105,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": -15,
+            "y": 105,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c14",
+        "designator": "C4",
+        "x": 35,
+        "y": -70,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 25,
+          "minY": -75,
+          "maxX": 45,
+          "maxY": -65
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X2_N9",
+            "x": 15,
+            "y": -70,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "C4_N10",
+            "x": 55,
+            "y": -70,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c16",
+        "designator": "D2",
+        "x": 85,
+        "y": -75,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 80,
+          "minY": -80,
+          "maxX": 90,
+          "maxY": -70
+        },
+        "pins": [
+          {
+            "pinNumber": "A",
+            "pinName": "A",
+            "net": "GND",
+            "x": 105,
+            "y": -75,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "K",
+            "pinName": "K",
+            "net": "C4_N10",
+            "x": 65,
+            "y": -75,
+            "rotation": 180,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c17",
+        "designator": "R5",
+        "x": 100,
+        "y": 55,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 90,
+          "minY": 50,
+          "maxX": 110,
+          "maxY": 60
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "+5V",
+            "x": 80,
+            "y": 55,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "X2_N12",
+            "x": 120,
+            "y": 55,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c18",
+        "designator": "R6",
+        "x": 145,
+        "y": 105,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 135,
+          "minY": 100,
+          "maxX": 155,
+          "maxY": 110
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X2_N12",
+            "x": 125,
+            "y": 105,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 165,
+            "y": 105,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c19",
+        "designator": "R7",
+        "x": 75,
+        "y": 105,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 65,
+          "minY": 100,
+          "maxX": 85,
+          "maxY": 110
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X2_N13",
+            "x": 55,
+            "y": 105,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "R7_N14",
+            "x": 95,
+            "y": 105,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c20",
+        "designator": "C5",
+        "x": 115,
+        "y": 140,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 110,
+          "minY": 135,
+          "maxX": 120,
+          "maxY": 145
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "R7_N14",
+            "x": 100,
+            "y": 140,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 130,
+            "y": 140,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c21",
+        "designator": "C6",
+        "x": 20,
+        "y": 105,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 15,
+          "minY": 100,
+          "maxX": 25,
+          "maxY": 110
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "X2_N13",
+            "x": 5,
+            "y": 105,
+            "rotation": 180,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 35,
+            "y": 105,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M1"
+      },
+      {
+        "componentType": "sheet",
+        "primitiveId": "sheet",
+        "bbox": {
+          "minX": 0,
+          "minY": 0,
+          "maxX": 841,
+          "maxY": 594
+        }
+      }
+    ],
+    "wires": [
+      {
+        "Line": [
+          [
+            -10,
+            55
+          ],
+          [
+            -15,
+            55
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            35,
+            105
+          ],
+          [
+            40,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            40,
+            105
+          ],
+          [
+            40,
+            110
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            40,
+            110
+          ],
+          [
+            -10,
+            110
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            -50
+          ],
+          [
+            -65,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -70,
+            -50
+          ],
+          [
+            -65,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -180,
+            -50
+          ],
+          [
+            -175,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            -50
+          ],
+          [
+            -175,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            -45
+          ],
+          [
+            -120,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -120,
+            -45
+          ],
+          [
+            -65,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            -45
+          ],
+          [
+            -10,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -120,
+            -50
+          ],
+          [
+            -120,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -125,
+            -50
+          ],
+          [
+            -120,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            180,
+            105
+          ],
+          [
+            180,
+            55
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            175,
+            55
+          ],
+          [
+            180,
+            55
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            180,
+            55
+          ],
+          [
+            185,
+            55
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            165,
+            -45
+          ],
+          [
+            185,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            185,
+            -45
+          ],
+          [
+            185,
+            5
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            185,
+            5
+          ],
+          [
+            185,
+            55
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            180,
+            5
+          ],
+          [
+            185,
+            5
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            170,
+            140
+          ],
+          [
+            170,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            165,
+            105
+          ],
+          [
+            170,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            170,
+            105
+          ],
+          [
+            180,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            -5
+          ],
+          [
+            60,
+            -5
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            -5
+          ],
+          [
+            60,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            -45
+          ],
+          [
+            0,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            -50
+          ],
+          [
+            0,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            -45
+          ],
+          [
+            0,
+            -35
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            25
+          ],
+          [
+            -175,
+            25
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            15
+          ],
+          [
+            -175,
+            15
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            -45
+          ],
+          [
+            120,
+            -45
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            -45
+          ],
+          [
+            120,
+            -30
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            -30
+          ],
+          [
+            125,
+            -30
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            -30
+          ],
+          [
+            125,
+            -15
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            -15
+          ],
+          [
+            125,
+            5
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            -15
+          ],
+          [
+            125,
+            -15
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            -5
+          ],
+          [
+            -50,
+            -5
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -115,
+            -55
+          ],
+          [
+            -115,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -115,
+            -50
+          ],
+          [
+            -110,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -225,
+            -55
+          ],
+          [
+            -170,
+            -55
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            -55
+          ],
+          [
+            -115,
+            -55
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -115,
+            -55
+          ],
+          [
+            -60,
+            -55
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            5
+          ],
+          [
+            125,
+            5
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            5
+          ],
+          [
+            130,
+            5
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            130,
+            5
+          ],
+          [
+            140,
+            5
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -275,
+            -50
+          ],
+          [
+            -280,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -280,
+            -50
+          ],
+          [
+            -280,
+            -45
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -280,
+            -45
+          ],
+          [
+            -225,
+            -45
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -225,
+            -55
+          ],
+          [
+            -225,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -225,
+            -50
+          ],
+          [
+            -225,
+            -45
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -225,
+            -50
+          ],
+          [
+            -220,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            60
+          ],
+          [
+            130,
+            60
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            130,
+            5
+          ],
+          [
+            130,
+            55
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            130,
+            55
+          ],
+          [
+            130,
+            60
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            130,
+            55
+          ],
+          [
+            135,
+            55
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            5
+          ],
+          [
+            -170,
+            5
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            -25
+          ],
+          [
+            -175,
+            5
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            5
+          ],
+          [
+            -175,
+            15
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            15
+          ],
+          [
+            -175,
+            25
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            -25
+          ],
+          [
+            -170,
+            -25
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            -55
+          ],
+          [
+            -170,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            -50
+          ],
+          [
+            -170,
+            -25
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -170,
+            -50
+          ],
+          [
+            -165,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            -15
+          ],
+          [
+            75,
+            5
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            5
+          ],
+          [
+            80,
+            5
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            -15
+          ],
+          [
+            65,
+            -15
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            65,
+            -15
+          ],
+          [
+            75,
+            -15
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            -15
+          ],
+          [
+            80,
+            -15
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            65,
+            -70
+          ],
+          [
+            65,
+            -15
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            65,
+            -75
+          ],
+          [
+            60,
+            -75
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -235,
+            35
+          ],
+          [
+            -230,
+            35
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -230,
+            35
+          ],
+          [
+            -225,
+            35
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            30
+          ],
+          [
+            -230,
+            30
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -230,
+            30
+          ],
+          [
+            -230,
+            35
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            95,
+            120
+          ],
+          [
+            100,
+            120
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            100,
+            120
+          ],
+          [
+            100,
+            105
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            100,
+            105
+          ],
+          [
+            95,
+            105
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            5,
+            105
+          ],
+          [
+            0,
+            105
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            105
+          ],
+          [
+            0,
+            100
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            5
+          ],
+          [
+            60,
+            5
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            5
+          ],
+          [
+            60,
+            100
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            0,
+            100
+          ],
+          [
+            50,
+            100
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            100
+          ],
+          [
+            60,
+            100
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -55,
+            55
+          ],
+          [
+            -60,
+            55
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            55
+          ],
+          [
+            -60,
+            5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -230,
+            -5
+          ],
+          [
+            -65,
+            -5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            -5
+          ],
+          [
+            -65,
+            5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            5
+          ],
+          [
+            -60,
+            5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            5
+          ],
+          [
+            -50,
+            5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            105
+          ],
+          [
+            120,
+            105
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            105
+          ],
+          [
+            120,
+            80
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            120,
+            80
+          ],
+          [
+            125,
+            80
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            55
+          ],
+          [
+            120,
+            55
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            15
+          ],
+          [
+            125,
+            55
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            125,
+            55
+          ],
+          [
+            125,
+            80
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -150,
+            145
+          ],
+          [
+            -155,
+            145
+          ]
+        ],
+        "Net": "J1_N1",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -100,
+            25
+          ],
+          [
+            -110,
+            25
+          ]
+        ],
+        "Net": "F1_N4",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            105
+          ],
+          [
+            -65,
+            15
+          ]
+        ],
+        "Net": "X2_N8",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            15
+          ],
+          [
+            -50,
+            15
+          ]
+        ],
+        "Net": "X2_N8",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            15,
+            -70
+          ],
+          [
+            -5,
+            -70
+          ]
+        ],
+        "Net": "X2_N9",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -5,
+            -70
+          ],
+          [
+            -5,
+            -25
+          ]
+        ],
+        "Net": "X2_N9",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -5,
+            -25
+          ],
+          [
+            -55,
+            -25
+          ]
+        ],
+        "Net": "X2_N9",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -15,
+            -50
+          ],
+          [
+            -10,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -10,
+            -50
+          ],
+          [
+            0,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -10,
+            -55
+          ],
+          [
+            -10,
+            -50
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -10,
+            -50
+          ],
+          [
+            -10,
+            -45
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            130,
+            140
+          ],
+          [
+            135,
+            140
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            135,
+            140
+          ],
+          [
+            170,
+            140
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            135,
+            140
+          ],
+          [
+            135,
+            145
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -185,
+            35
+          ],
+          [
+            -180,
+            35
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -180,
+            35
+          ],
+          [
+            -180,
+            40
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -15,
+            105
+          ],
+          [
+            -10,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -10,
+            55
+          ],
+          [
+            -10,
+            105
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -10,
+            105
+          ],
+          [
+            -10,
+            110
+          ]
+        ],
+        "Net": "GND",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            -50
+          ],
+          [
+            -55,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            -55
+          ],
+          [
+            -60,
+            -50
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            -50
+          ],
+          [
+            -60,
+            -5
+          ]
+        ],
+        "Net": "VBAT_RAW",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            55
+          ],
+          [
+            80,
+            55
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            55
+          ],
+          [
+            75,
+            60
+          ]
+        ],
+        "Net": "+5V",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -55,
+            -15
+          ],
+          [
+            -50,
+            -15
+          ]
+        ],
+        "Net": "X2_N9",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -55,
+            -25
+          ],
+          [
+            -55,
+            -15
+          ]
+        ],
+        "Net": "X2_N9",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            105
+          ],
+          [
+            55,
+            105
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            100
+          ],
+          [
+            50,
+            105
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            105
+          ],
+          [
+            50,
+            110
+          ]
+        ],
+        "Net": "X2_N13",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -235,
+            -50
+          ],
+          [
+            -230,
+            -50
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -230,
+            -55
+          ],
+          [
+            -230,
+            -50
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -230,
+            -50
+          ],
+          [
+            -230,
+            -5
+          ]
+        ],
+        "Net": "R2_N7",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            50,
+            15
+          ],
+          [
+            75,
+            15
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            15
+          ],
+          [
+            125,
+            15
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            75,
+            15
+          ],
+          [
+            75,
+            40
+          ]
+        ],
+        "Net": "X2_N12",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -65,
+            105
+          ],
+          [
+            -60,
+            105
+          ]
+        ],
+        "Net": "X2_N8",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            105
+          ],
+          [
+            -55,
+            105
+          ]
+        ],
+        "Net": "X2_N8",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -60,
+            105
+          ],
+          [
+            -60,
+            110
+          ]
+        ],
+        "Net": "X2_N8",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            55,
+            -70
+          ],
+          [
+            60,
+            -70
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            -70
+          ],
+          [
+            65,
+            -70
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            60,
+            -75
+          ],
+          [
+            60,
+            -70
+          ]
+        ],
+        "Net": "C4_N10",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -105,
+            90
+          ],
+          [
+            -100,
+            90
+          ]
+        ],
+        "Net": "F1_N4",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -100,
+            25
+          ],
+          [
+            -100,
+            90
+          ]
+        ],
+        "Net": "F1_N4",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -100,
+            90
+          ],
+          [
+            -100,
+            95
+          ]
+        ],
+        "Net": "F1_N4",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            35
+          ],
+          [
+            -170,
+            35
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            30
+          ],
+          [
+            -175,
+            35
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -175,
+            35
+          ],
+          [
+            -175,
+            55
+          ]
+        ],
+        "Net": "Q1_N5",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -155,
+            90
+          ],
+          [
+            -145,
+            90
+          ]
+        ],
+        "Net": "J1_N1",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            -155,
+            90
+          ],
+          [
+            -155,
+            145
+          ]
+        ],
+        "Net": "J1_N1",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            95,
+            140
+          ],
+          [
+            100,
+            140
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            95,
+            120
+          ],
+          [
+            95,
+            140
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      },
+      {
+        "Line": [
+          [
+            95,
+            140
+          ],
+          [
+            95,
+            145
+          ]
+        ],
+        "Net": "R7_N14",
+        "primitiveId": ""
+      }
+    ],
+    "pagePrimitives": {},
+    "netflags": [
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": -10,
+        "y": -55,
+        "direction": "down"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 135,
+        "y": 145,
+        "direction": "up"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": -150,
+        "y": 165,
+        "direction": "left"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": -180,
+        "y": 40,
+        "direction": "up"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": -10,
+        "y": 110,
+        "direction": "up"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 105,
+        "y": -75,
+        "direction": "right"
+      },
+      {
+        "net": "VBAT_RAW",
+        "kind": "power",
+        "x": -60,
+        "y": -55,
+        "direction": "down"
+      },
+      {
+        "net": "+5V",
+        "kind": "power",
+        "x": 75,
+        "y": 60,
+        "direction": "up"
+      },
+      {
+        "net": "VBAT_RAW",
+        "kind": "power",
+        "x": -275,
+        "y": 35,
+        "direction": "left"
+      },
+      {
+        "net": "X2_N9",
+        "kind": "net_port_bi",
+        "x": -55,
+        "y": -20,
+        "direction": "left"
+      },
+      {
+        "net": "X2_N13",
+        "kind": "net_port_bi",
+        "x": 50,
+        "y": 110,
+        "direction": "up"
+      },
+      {
+        "net": "R2_N7",
+        "kind": "net_port_bi",
+        "x": -230,
+        "y": -55,
+        "direction": "down"
+      },
+      {
+        "net": "X2_N12",
+        "kind": "net_port_bi",
+        "x": 75,
+        "y": 40,
+        "direction": "left"
+      },
+      {
+        "net": "X2_N8",
+        "kind": "net_port_bi",
+        "x": -60,
+        "y": 110,
+        "direction": "left"
+      },
+      {
+        "net": "C4_N10",
+        "kind": "net_port_bi",
+        "x": 60,
+        "y": -75,
+        "direction": "down"
+      },
+      {
+        "net": "F1_N4",
+        "kind": "net_port_bi",
+        "x": -100,
+        "y": 95,
+        "direction": "left"
+      },
+      {
+        "net": "Q1_N5",
+        "kind": "net_port_bi",
+        "x": -175,
+        "y": 55,
+        "direction": "left"
+      },
+      {
+        "net": "J1_N1",
+        "kind": "net_port_bi",
+        "x": -155,
+        "y": 115,
+        "direction": "left"
+      },
+      {
+        "net": "R7_N14",
+        "kind": "net_port_bi",
+        "x": 95,
+        "y": 145,
+        "direction": "up"
+      }
+    ]
+  },
+  "source": {
+    "kind": "composition",
+    "note": "由 lib-layout 排版稿合成；没有渲染图，故无 svg-text.json",
+    "inputs": [
+      "reports\\hard-board\\board2\\composition-M1.json"
+    ]
+  }
+}
