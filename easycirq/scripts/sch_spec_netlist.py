@@ -25,7 +25,9 @@ for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
         _s.reconfigure(encoding="utf-8", errors="replace")
 
-SCHEMA = "1.0"
+# connectivity.Document.Validate() 要求**精确等于** "1.4"。
+# 注意它的报错写的是 "schemaVersion is required"，字段明明在 —— 见 friction #43。
+SCHEMA = "1.4"
 
 # 器件 id 前缀 → 位号前缀。块库的 part 形如 `res.1k_0402`、`ic.xl1509_5v_buck`。
 PREFIX = {
@@ -54,6 +56,7 @@ def load_block(blocks_dir: pathlib.Path, block_id: str):
 def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
     modules = spec.get("modules") or []
+    pages = spec.get("pages") or {}
     if not modules:
         raise ValueError("spec 里没有 modules")
 
@@ -99,9 +102,15 @@ def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
                 "id": cid,
                 "ref": ref,
                 "role": role,
-                "device": {"uuid": "", "name": part_id},
+                # moduleId 让下游（S2 的区块、S3 的 layoutModules、S5 的落块）
+                # 不用靠"器件顺序"去猜归属 —— 猜错会让整条链对错块。
+                "moduleId": mid,
+                "device": {"deviceUuid": "", "name": part_id},
                 "pins": [],
                 "pageName": m.get("page") or "",
+                # lib-layout 在多页文档里要求每件有 pageId（"requires pageId in an
+                # all-pages document"）。pageName 是人看的，pageId 才是判据。
+                "pageId": pages.get(m.get("page") or "", ""),
             })
 
         # ── 内部网：`ROLE.PIN` 成员 + 可选的 `PORT:NAME` ──────────────

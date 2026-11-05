@@ -208,7 +208,12 @@ type Port struct {
 
 func (d *Document) Validate() error {
 	if d.SchemaVersion != "1.4" {
-		return fmt.Errorf("schemaVersion is required")
+		// **"required" 是错的措辞**：字段通常在场，错的是值。
+		// 说"required"会让调用方去补字段，而真正要做的是改值 —— 见 friction #43。
+		if d.SchemaVersion == "" {
+			return fmt.Errorf("schemaVersion is required (must be \"1.4\")")
+		}
+		return fmt.Errorf("schemaVersion must be \"1.4\", got %q", d.SchemaVersion)
 	}
 	if _, err := d.designatorRegexp(); err != nil {
 		return err

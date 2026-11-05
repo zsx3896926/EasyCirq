@@ -354,5 +354,11 @@
       }
     },
     "note": "按页各一份（schema 是单页语义：sheet + titleBlock.page 都是单数）"
-  }
+  },
+  "pages": {
+    "P1": "49c6dbb9567dd6af",
+    "P2": "a223803d1fb015ce",
+    "P3": "aebe039a74031d84"
+  },
+  "pages_note": "S2 分页结果；pageId 是 S5 落块时的目标页 uuid"
 }

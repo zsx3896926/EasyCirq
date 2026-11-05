@@ -1399,3 +1399,71 @@ GND#4   x=55  y=-30 rot=180  cp=(35,-30)
 - **同名引脚能分开**（4 个地脚接触点互不相同）
 - **失败留在 `problems` 里**，不静默跳过
 - 量出来的型号必须都在网表里（量了用不上的说明链子接错）
+
+
+---
+
+## #43 connectivity 的 schemaVersion 报错说的是"required"，而字段通常在场
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**错误信息把用户引向错的动作**） |
+| **发现方式** | 拼 `lib-layout` 输入，`connectivity.Document.Validate()` |
+| **实现事实** | `if d.SchemaVersion != "1.4" { return fmt.Errorf("schemaVersion is required") }` |
+| **问题** | 字段值写的是 `"1.0"` 时，报"**required**"会让人去"补字段"，而真正要改的是**值**（而且必须是精确的 `"1.4"`） |
+| **修法** | 空串才说 required；非空则说 `must be "1.4", got "1.0"` |
+| **教训** | "字段缺失"和"字段值不对"要分开报 —— 同一句话会把修复方向指反 |
+
+---
+
+## 2026-11-05 拼 `lib-layout` 输入的过程（五个字段陷阱，全部来自严格校验）
+
+`lib-layout` 对输入做**严格未知字段校验**，所以每一步都被它精确挡下：
+
+| 报错 | 真因 | 修法 |
+|---|---|---|
+| `unknown JSON field /connectivity/noConnectDeclarations` | 网表带了 Document 之外的字段 | 逐层**白名单清洗** |
+| `unknown JSON field /connectivity/components/0/moduleId` | 同上（组件级） | 同上 |
+| `unknown JSON field /connectivity/components/0/device/uuid` | Device 的 tag 是 **`deviceUuid`** 不是 `uuid` | 生成器与清洗都改 |
+| `schemaVersion is required` | 必须**精确等于 `"1.4"`** | 生成器改；报错信息也修（#43） |
+| `c1 requires libraryUuid and a 32-character deviceUuid` | 身份要从 measurements 注入 | 用 by-lcsc 解析结果补 |
+| `c1 requires pageId in an all-pages document` | 多页文档每件要 pageId | spec 登记 `pages` 映射 |
+
+**这些报错都精确**（除了 #43 那条），所以每次试错都只花一轮 ——
+这正是"错误信息可执行"的价值。
+
+---
+
+## ⛔ S3 现存阻塞：一个器件的库记录读不出来（#42 的后果）
+
+### 事实
+
+```
+lib device get --library f65f... --uuid 9349...   → ok: True,  symbolUuid: ced8a7d3...
+lib device get --library 3ccd... --uuid 282e...   → ok: False, detail: "the placeholder "[object Object]""
+```
+
+前一个是 MMBT3904，**能读**；后一个是 **AP40P05（`bjt.pmos40v_sot23`，位号 X1），读不出来**。
+
+### 影响
+
+- `measurements` 38/39 型号（缺这一个）
+- `layout-input` 55/56 件（缺 X1）
+- `lib-layout` 因此**拒绝整个输入**：`c3 requires libraryUuid and a 32-character deviceUuid`
+
+### 为什么不换个器件绕过去
+
+`bjt.pmos40v_sot23` 在这个块里是**高侧 PMOS 软启动**。
+块库里另外两个 `bjt.*` 是 **NPN**（MMBT3904 / S8050）—— 拓扑不对，换上去电路就是错的。
+
+> **为了让工具跑通而把 PMOS 换成 NPN，就是放宽守卫。**
+> 硬规则写着「不许为让流程走通而放宽任何守卫」，所以这里**停住并记录**。
+
+### 两条正当出路
+
+1. **修那条库记录**：AP40P05 在个人库里，可能是权限或记录损坏。
+   确认它的 `symbolUuid` 能否通过其它路径拿到（`lib search` 同名型号换一个 device 记录）。
+2. **换一个能读的 PMOS**：从立创商城选一个 P 沟道 MOS（SOT-23，Vds≥40V），
+   补进 `standard-parts.json`，并在 spec 里记录这次换料与理由。
+
+**两条都不需要放宽任何判据。**

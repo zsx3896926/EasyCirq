@@ -2096,3 +2096,42 @@ e31  GND       55   -30  180  20    ( 35,-30)
 现在每件要单独 `export-source` 一次（含一次只读的 daemon 往返）。
 要把 56 个器件全量出来，需要一个批量封装：**网表 → 逐件 C 号 → export-source → measurements**。
 下一步做这个，之后就真能跑 `lib-layout`。
+
+
+---
+
+## 2026-11-05 真跑 `lib-layout`：输入全通过，卡在一个器件
+
+### 拼出来的输入
+
+```
+measurements: 55 件
+layoutModules: 5 块
+  M1 core=c10 外设23 网络策略13
+  M2 core=c25 外设7  网络策略5
+  M3 core=c33 外设6  网络策略5
+  M4 core=c40 外设9  网络策略5
+  M5 core=c50 外设6  网络策略6
+```
+
+### 五次严格校验，五次精确挡下
+
+`noConnectDeclarations` → `moduleId` → `device/uuid`（应为 `deviceUuid`）
+→ `schemaVersion`（必须 `"1.4"`）→ `pageId`。每次报错都指明字段与位置，
+所以每轮只花一次试错。
+
+顺带修了 connectivity 的一条误导性报错（#43）：版本不对时说"required"。
+
+### 卡在哪
+
+`lib-layout` 拒绝整个输入，因为 **X1（AP40P05）的库记录读不出来**：
+
+```
+MMBT3904 的 device get → ok: True
+AP40P05  的 device get → ok: False，"the placeholder \"[object Object]\""
+```
+
+**没有换器件绕过去** —— 块库里另外两个是 NPN，换上去高侧 PMOS 软启动就错了。
+硬规则写着不许放宽守卫，所以这里停住。
+
+出路两条：修那条库记录，或换一个能读的 P 沟道 MOS（并在 spec 里记录换料理由）。
