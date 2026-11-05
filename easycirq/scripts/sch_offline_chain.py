@@ -255,6 +255,46 @@ def main() -> int:
     st.detail = ("%d 页两道预检通过" % len(inputs)) if st.ok else "；".join(bad[:2])
     st.next = "" if st.ok else "按预检逐条修，别直接跑求解器"
     stages.append(st)
+    if not st.ok:
+        return report(stages, args.json)
+
+    # ── S7 上机前审图（**强制**）────────────────────────────────────
+    #
+    # 19 项 KPI 全绿**不等于图能交付**：KPI 量的是器件重叠、网络文字重叠，
+    # 不管"导线穿过器件本体"和"版面利用率"。所以上机之前必须出图看一遍，
+    # 并且把这两条做成硬判据（friction #55）。
+    st = Stage("S7 上机前审图")
+    rev_dir = out / "review"
+    plan_doc = json.loads(plan.read_text(encoding="utf-8"))
+    name_of = {pg["module"]: (pg.get("pageName") or pg["module"])
+               for pg in plan_doc.get("pages") or []}
+    # 每个模块一份排版稿才有图可审；这里用 page-plan 里的模块顺序
+    comps, names = [], []
+    for mid in [pg["module"] for pg in plan_doc.get("pages") or []]:
+        cand = out / ("composition-%s.json" % mid)
+        if cand.is_file():
+            comps.append(str(cand))
+            names.append(name_of.get(mid) or mid)
+    if not comps:
+        st.ok = False
+        st.detail = "没有排版稿可审（先跑 sch lib-layout 逐块出稿）"
+        st.next = "sch lib-layout --from <one-模块>.json --out composition-<模块>.json"
+        stages.append(st)
+        return report(stages, args.json)
+
+    rargs = ["--out-dir", str(rev_dir), "--gate", "--json"]
+    for c in comps:
+        rargs += ["--composition", c]
+    for n in names:
+        rargs += ["--page-name", n]
+    code, txt = run("sch_layout_review.py", rargs, timeout=1800)
+    detail = "；".join(
+        ln.strip() for ln in txt.strip().splitlines() if ln.strip().startswith("  comp"))
+    st.ok = code == 0
+    st.detail = ("%d 块出图并审图通过（图在 %s）" % (len(comps), rev_dir)) if st.ok \
+        else "审图未通过（图已出，先看再改）"
+    st.next = "" if st.ok else "看 %s 里的图，修版式后再跑；或明确接受并手工处理" % rev_dir
+    stages.append(st)
     return report(stages, args.json)
 
 

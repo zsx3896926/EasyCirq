@@ -73,6 +73,7 @@ def module_envelopes(src):
             continue
         out.append({
             "module": mod.get("id"),
+            "title": mod.get("title") or mod.get("name") or "",
             "parts": len(members),
             "estWidth": round(sum(ws) * WIDTH_FACTOR, 1),
             "estHeight": round(max(hs) * HEIGHT_SLACK, 1),
@@ -92,9 +93,17 @@ def smallest_paper(w, h, floor="A4"):
 def build_plan(rows, floor="A4", page_prefix="P"):
     pages = []
     for i, r in enumerate(rows):
+        # **图纸名按模块命名**（用户要求）：`P1_车辆输入与主5V` 这种。
+        # 让图纸本身说清"这一页是干什么的"，而不是靠编号去对照。
+        title = (r.get("title") or r["module"] or "").strip()
+        safe = "".join(ch for ch in title if ch not in "\\/:*?\"<>|").strip()
+        page_name = "%s%d_%s" % (page_prefix, i + 1, safe) if safe else \
+            "%s%d_%s" % (page_prefix, i + 1, r["module"])
         pages.append({
             "page": "%s%d" % (page_prefix, i + 1),
+            "pageName": page_name,
             "module": r["module"],
+            "moduleTitle": title,
             "parts": r["parts"],
             "estWidth": r["estWidth"],
             "estHeight": r["estHeight"],
@@ -214,12 +223,12 @@ def main() -> int:
         print(json.dumps(doc, ensure_ascii=False, indent=2))
     else:
         print("页面规划（%d 页，一模块一页）" % len(pages))
-        print("  %-4s %-6s %4s %8s %8s  %-8s %s"
-              % ("页", "模块", "件数", "估计宽", "估计高", "建议纸", "确认纸"))
+        print("  %-4s %-22s %4s %8s  %-8s %s"
+              % ("页", "图纸名（按模块）", "件数", "估计宽", "建议纸", "确认纸"))
         for pg in pages:
-            print("  %-4s %-6s %4d %8.0f %8.0f  %-8s %s"
-                  % (pg["page"], pg["module"], pg["parts"], pg["estWidth"],
-                     pg["estHeight"], pg["suggestedPaper"] or "无",
+            print("  %-4s %-22s %4d %8.0f  %-8s %s"
+                  % (pg["page"], pg.get("pageName") or pg["module"], pg["parts"],
+                     pg["estWidth"], pg["suggestedPaper"] or "无",
                      pg["confirmedPaper"] or ("未确认" if not args.confirm else "**装不下**")))
         if args.confirm:
             bad = [p for p in pages if not p["confirmedPaper"]]

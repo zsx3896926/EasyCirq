@@ -8,9 +8,11 @@
   "pages": [
     {
       "page": "P1",
+      "pageName": "P1_车辆宽压输入 + 主 5V（TPS54360）",
       "module": "M1",
+      "moduleTitle": "车辆宽压输入 + 主 5V（TPS54360）",
       "parts": 24,
-      "estWidth": 632.5,
+      "estWidth": 609.5,
       "estHeight": 75.0,
       "suggestedPaper": "A1",
       "confirmedPaper": null,
@@ -18,7 +20,9 @@
     },
     {
       "page": "P2",
+      "pageName": "P2_第二路 buck：VBAT → 12V 中间轨（XL1509）",
       "module": "M2",
+      "moduleTitle": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
       "parts": 8,
       "estWidth": 195.5,
       "estHeight": 150.0,
@@ -28,9 +32,11 @@
     },
     {
       "page": "P3",
+      "pageName": "P3_5V → 3.3V 主逻辑轨（SY8089）",
       "module": "M3",
+      "moduleTitle": "5V → 3.3V 主逻辑轨（SY8089）",
       "parts": 7,
-      "estWidth": 207.0,
+      "estWidth": 195.5,
       "estHeight": 60.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,
@@ -38,7 +44,9 @@
     },
     {
       "page": "P4",
+      "pageName": "P4_5V → 升压轨（SY7088）",
       "module": "M4",
+      "moduleTitle": "5V → 升压轨（SY7088）",
       "parts": 10,
       "estWidth": 287.5,
       "estHeight": 120.0,
@@ -48,9 +56,11 @@
     },
     {
       "page": "P5",
+      "pageName": "P5_升降压：5V → 3.8V（TPS63802）",
       "module": "M5",
+      "moduleTitle": "升降压：5V → 3.8V（TPS63802）",
       "parts": 7,
-      "estWidth": 230.0,
+      "estWidth": 218.5,
       "estHeight": 90.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,

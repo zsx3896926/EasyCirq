@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "documentId": "49c6dbb9567dd6af",
+  "frames": [
+    {
+      "id": "M2",
+      "title": "P2_第二路 buck：VBAT → 12V 中间轨（XL1509） · 第二路 buck：VBAT → 12V 中间轨（XL1509）",
+      "rect": {
+        "minX": -188.0,
+        "minY": -138.0,
+        "maxX": 53.0,
+        "maxY": 68.0
+      },
+      "titleX": -184.0,
+      "titleY": 64.0,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    }
+  ]
+}
