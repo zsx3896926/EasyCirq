@@ -197,6 +197,7 @@ def main() -> int:
             paper_of[pg["module"]] = chosen
     SHEETS = {"A4": (297, 210), "A3": (420, 297), "A2": (594, 420), "A1": (841, 594)}
     applied = {}
+    final_inputs = {}
     for page, path in inputs.items():
         doc = json.loads(path.read_text(encoding="utf-8"))
         picks = []
@@ -205,14 +206,21 @@ def main() -> int:
             if name:
                 picks.append(name)
         if not picks:
+            final_inputs[page] = path
             continue
         # 一页多模块时取**最大**的那张纸
         pick = max(picks, key=lambda n: SHEETS[n][0])
         w, h = SHEETS[pick]
         doc["sheet"] = {"minX": 0, "minY": 0, "maxX": w, "maxY": h}
-        path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n",
+        # **写到新文件，不改自己的输入。**
+        # 就地改写会让上游产物失去证据意义：再跑 fit 预检时看到的纸型已经不是
+        # S5 生成的那份，"该装不下"的判据也就无从复现。
+        dest = out / ("layout-final-%s.json" % page)
+        dest.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n",
                         encoding="utf-8")
+        final_inputs[page] = dest
         applied[page] = pick
+    inputs = final_inputs
     st.ok = bool(applied)
     st.detail = "，".join("%s→%s" % (k, v) for k, v in sorted(applied.items())) or \
         "规划里没有可用的纸型"

@@ -237,8 +237,8 @@
         "role": "R_EN",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
-          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
         },
         "pins": [
           {
@@ -358,8 +358,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
-          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
         },
         "pins": [
           {
@@ -843,8 +843,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 420,
-    "maxY": 297
+    "maxX": 297,
+    "maxY": 210
   },
   "keepouts": [],
   "measurements": [

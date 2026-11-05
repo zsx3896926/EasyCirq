@@ -657,11 +657,11 @@
       "pinCount": 2
     },
     "cap.47pf_0402": {
-      "libraryUuid": "8d2e5ae41c6b41509105dbe33088a401",
-      "deviceUuid": "61303f9a5f55456eabd74db23f690a45",
-      "symbolUuid": "04898aaff79e412fbebd2dc058f52e6e",
+      "libraryUuid": "72a164d3e0194e869076efb13d57f056",
+      "deviceUuid": "d9400867edbc40cc9c6c7f6aeb5043e4",
+      "symbolUuid": "cadc6175ee7b46fb96b733c096ea049e",
       "lcsc": "C1567",
-      "archive": ".easycirq\\symbol-cache\\cap_47pf_0402_04898aaf.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_47pf_0402_cadc6175.elibz2",
       "pins": {
         "1": {
           "x": -15,
@@ -1049,11 +1049,11 @@
       "pinCount": 9
     },
     "ic.xl1509_5v_buck": {
-      "libraryUuid": "ae000c5248a548c2bcf421edda5596d8",
-      "deviceUuid": "8010833fbc56415d99e144b88c6be723",
-      "symbolUuid": "78b6343845a343e387cff9f246191b7c",
+      "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
+      "deviceUuid": "bb201d9430f147e28691f5c18dacc89f",
+      "symbolUuid": "06ce3738ef2745e7a22dcfef559c8f48",
       "lcsc": "C61063",
-      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_78b63438.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_06ce3738.elibz2",
       "pins": {
         "FB": {
           "x": -55,
@@ -1153,11 +1153,11 @@
       "pinCount": 8
     },
     "ind.15uh_12x12mm": {
-      "libraryUuid": "a62e072cc495443992e280a5f85ea1eb",
-      "deviceUuid": "421af6f80350495e9a8f06e0a7fd147f",
-      "symbolUuid": "08132f0033aa49fba06b524648b59d4b",
+      "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
+      "deviceUuid": "844d3737c395406cbda147b110b6c196",
+      "symbolUuid": "04f35e5c403f48f98661ab5e6f6293cd",
       "lcsc": "C22387937",
-      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_08132f00.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_04f35e5c.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1251,11 +1251,11 @@
       "pinCount": 2
     },
     "ind.2u2_swpa4020": {
-      "libraryUuid": "b2d87f64b53d4f12a6700cc8988eb7a2",
-      "deviceUuid": "5e7ac7b4008542d0853f1c725b8095c7",
-      "symbolUuid": "4ced1bc620334e54860b6c849baa5a7a",
+      "libraryUuid": "4cc10ee860994f7ca741edc6064b8307",
+      "deviceUuid": "8a48ccad1d114242ad9628a162165531",
+      "symbolUuid": "06a70e8868db41ed82e5c3ca88f8e718",
       "lcsc": "C83423",
-      "archive": ".easycirq\\symbol-cache\\ind_2u2_swpa4020_4ced1bc6.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_2u2_swpa4020_06a70e88.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1436,11 +1436,11 @@
       "pinCount": 5
     },
     "res.100k_0402": {
-      "libraryUuid": "63e636ce32764eec8e022debccf0730c",
-      "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6",
-      "symbolUuid": "b502112b23014a6fa7a1720f044007b2",
+      "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+      "deviceUuid": "ca74fa48280a42d5966001f9b9585429",
+      "symbolUuid": "a977d3a89a7440608600ceb9c373aef0",
       "lcsc": "C25741",
-      "archive": ".easycirq\\symbol-cache\\res_100k_0402_b502112b.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_100k_0402_a977d3a8.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1893,8 +1893,8 @@
     }
   },
   "stats": {
-    "cache": 38,
-    "fetched": 1,
+    "cache": 39,
+    "fetched": 0,
     "failed": 0
   },
   "problems": []
