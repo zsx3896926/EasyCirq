@@ -546,14 +546,17 @@
       "desc": "auto-added from box-v2 realization 2026-06-26"
     },
     "cap.1uf_0402": {
-      "value": "1µF",
-      "mpn": "CL05A105KA5NQNC",
-      "lcsc": "C52923",
-      "deviceUuid": "992c7b7e1330424dbc2a0bbf52aedab3",
+      "value": "1uF",
+      "mpn": "CL05A105KO5NNNC",
+      "lcsc": "C29266",
+      "deviceUuid": "c0fa9b747a644ed8a224afcb9acfc6ea",
       "package": "0402",
       "class": "cap",
       "basic": false,
-      "desc": "auto-added from box-v2 realization 2026-06-26"
+      "desc": "1uF 10pct 16V X5R 0402 MLCC。重新指向的可读记录：原记录（C52923 / CL05A105KA5NQNC）库文件读不出来（friction #45）。",
+      "manufacturer": "Samsung(三星)",
+      "libraryUuid": "127545ebfde442869533bbd6e835406d",
+      "footprint": "C0402"
     },
     "ind.1uh_1210": {
       "value": "1µH",

@@ -1544,3 +1544,92 @@ lib device get --library 3ccd... --uuid 282e...   → ok: False, detail: "the pl
 **结论：S3 仍未通过，但失败点从"输入不合格"推进到了"求解器表达不出原因"。**
 
 > 按硬规则，这仍是"还不能下单"——不能用"输入都对了"冒充通过。
+
+
+---
+
+## #45 「查得到」没有作为**选型前置指标** —— 机械上缺失（已修）
+
+| | |
+|---|---|
+| **分类** | **机制缺陷**（不是某个器件的错，是流程里没有这道门） |
+| **提出者** | **用户**：「是不是应该在选器件的时候，把能查到的作为一个指标前置」 |
+| **确认** | **是，而且是这轮所有返工的根因** |
+| **代价** | 板2 按电气参数选了 AP40P05 → 走到 S3 要引脚几何时才发现读不出来 → 测量少一件 → `lib-layout` 拒绝整个输入 → 前面几轮作废 |
+
+### 机制：`easycirq/scripts/sch_part_audit.py`
+
+判据是**全链只读验证**：
+
+```
+part id → standard-parts 的 C 号
+  → lib by-lcsc        拿 libraryUuid + deviceUuid
+  → lib device get     拿 symbolUuid        ← 这一步就是 #42 炸的地方
+  → lib symbol export-source  确认几何可取
+```
+
+三种结论：`ok` / `unreadable`（记录在但读不出）/ `missing`（根本解析不出身份）。
+
+### 实测全表：172 个标准件，**15 个不可用（8.7%）**
+
+```
+ok          157
+unreadable   11
+missing       4
+```
+
+不可用清单（前几条）：
+
+| part id | 状态 | 说明 |
+|---|---|---|
+| `bjt.pmos40v_sot23` | unreadable | 板2 的原始病例（#42）|
+| **`cap.1uf_0402`** | unreadable | **最常用的电容之一** |
+| `cap.2n2_0402` | unreadable | |
+| `led.yellow_0805` / `led.red_0805` | unreadable | 板1 的 LED 块用到了 |
+| `res.49r9_0402` | unreadable | |
+| `ic.lgs4056` / `esd.esd9b5v0_sod923` | unreadable | |
+| `conn.xh254_2p` / `conn.ufl_ipex` / `conn.sip2_254` / `conn.4gantenna_ipex` | unreadable | |
+| `ind.cmc_usb_sdmm0806` | unreadable | |
+| `ind.2u2_swpa4030_nt` | missing | C 号查不到 |
+| `diode.b340ass34_sma` | missing | C 号查不到 |
+| `ic.pc817_sop4` | missing | C 号写的是 `(onboard)`，**根本不是 C 号** |
+| `conn.activegnssantennaufl_ipex` | missing | |
+
+**8.7% 的选料是走不到 S3 的**，而在这之前没有任何东西会告诉你。
+
+### 门已接上
+
+```bash
+python easycirq/scripts/sch_part_audit.py --out reports/part-audit.json
+python easycirq/scripts/sch_spec_check.py spec.json --audit reports/part-audit.json
+```
+
+`sch_spec_check` 会取出 spec 里**所有模块用到的型号**，逐个查审计结论；
+只要有一个不是 `ok`，S1 **直接 fail**，并说清"走到 S3 要几何时会炸，现在换料比那时便宜"。
+
+### 它立刻抓出了第二个我没想到的问题
+
+换完 PMOS、S1 门一开，**立刻**报 `cap.1uf_0402` 不可用 —— 即使 PMOS 换了，
+S3 还会在电容上再炸一次。这就是前置的价值：**同一个坑不必踩第二遍**。
+
+### 顺带修掉自己机制的一个漏洞：**陈旧证据**
+
+审计报告是文件，标准件表改过之后报告就过期了。
+第一版门**照信旧报告**：换了电容、报告仍说 unreadable，门照拦。
+
+修法：报告里带 `standardPartsSha256` 与 `auditedAt`；门发现指纹不符就报
+**"审计报告已过期 —— 重跑再用"**，而不是拿旧结论当新证据。
+
+> 这和前面几次"台账过期""证据过期"是同一族：**证据必须能自证新鲜度。**
+
+### 换料规则（这次总结出来的）
+
+| 情形 | 做法 | 理由 |
+|---|---|---|
+| 换后 **id 描述的属性变了**（SOT-23 → PowerDI3333）| **新建 id** | 否则 id 变谎话 |
+| 换后 **id 仍然准确**（1uF 0402 → 1uF 0402）| **改指向** | 不必惊动所有引用它的块 |
+
+### 测试
+
+`tests/test_sch_part_audit.py` 五条：报告带指纹、坏器件被标出、
+spec 用坏器件时 S1 必须拦、陈旧报告必须拒、仓库里那份报告必须与当前表同指纹。

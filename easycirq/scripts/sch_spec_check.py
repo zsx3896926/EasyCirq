@@ -26,7 +26,7 @@ def load_block(blocks_dir: pathlib.Path, block_id: str):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def check(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
+def check(spec_path: pathlib.Path, blocks_dir: pathlib.Path, audit=None):
     problems = []
     notes = []
 
@@ -130,6 +130,49 @@ def check(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
             if mid not in ids:
                 problems.append("page_plan %s 引用了不存在的模块 %r" % (page, mid))
 
+    # ── 选型可用性（**前置指标**）────────────────────────────────────
+    #
+    # friction #42/#45：板2 按电气参数选了 AP40P05，它的库记录读不出来，
+    # 一路走到 S3 要引脚几何时才炸，前面几轮全部作废。
+    # **"查得到"是选型条件，不是 S3 的惊喜。**
+    if audit:
+        try:
+            ap = json.loads(pathlib.Path(audit).read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            problems.append("读不到选型审计报告 %s：%s" % (audit, exc))
+        else:
+            # 旧报告不能当新证据用：标准件表改过之后，报告里的 unreadable
+            # 可能早就不成立了。指纹对不上就如实说"报告过期"，而不是照信。
+            import hashlib
+            sp_path = pathlib.Path("easycirq/references/standard-parts.json")
+            stamped = ap.get("standardPartsSha256")
+            if sp_path.is_file() and stamped:
+                now = hashlib.sha256(sp_path.read_bytes()).hexdigest()
+                if now != stamped:
+                    problems.append(
+                        "选型审计报告已过期（标准件表在审计之后改过）—— "
+                        "重跑 sch_part_audit.py 再用")
+            elif not stamped:
+                notes.append("选型审计报告没有指纹，无法判断是否过期 —— 建议重跑")
+            status_of = {k: (v or {}).get("status")
+                         for k, v in (ap.get("parts") or {}).items()}
+            used = set()
+            for m in modules:
+                blk = load_block(blocks_dir, m.get("block") or "")
+                if blk:
+                    for pspec in (blk.get("parts") or {}).values():
+                        pid = (pspec or {}).get("part")
+                        if pid:
+                            used.add(pid)
+            bad = sorted((pid, status_of.get(pid))
+                         for pid in used if status_of.get(pid) != "ok")
+            for pid, st in bad:
+                problems.append(
+                    "选型不可用：%s 的库记录状态为 %r —— 走到 S3 要几何时会炸，"
+                    "现在换料比那时便宜" % (pid, st or "未审计"))
+            notes.append("选型审计：本 spec 用到 %d 个型号，其中 %d 个不可用"
+                         % (len(used), len(bad)))
+
     # ── 门槛自检（只提示，不阻断：门槛是目标，不是 S1 的产物）───────────
     req = spec.get("requirements") or {}
     total_parts = sum(len((load_block(blocks_dir, m.get("block") or "") or {}).get("parts") or [])
@@ -149,6 +192,9 @@ def main():
     ap.add_argument("--blocks-dir",
                     default="runtime/internal/blocks/data",
                     help="块库数据目录")
+    ap.add_argument("--audit",
+                    help="选型可用性审计报告（sch_part_audit.py 产物）；给了就要求"
+                         "本 spec 用到的每个器件都 ok")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
@@ -161,7 +207,7 @@ def main():
         print("找不到块库目录：%s" % blocks_dir, file=sys.stderr)
         return 1
 
-    problems, notes = check(spec_path, blocks_dir)
+    problems, notes = check(spec_path, blocks_dir, audit=args.audit)
     verdict = "pass" if not problems else "fail"
 
     if args.json:

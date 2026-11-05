@@ -73,3 +73,6 @@ dist-release/
 
 # 符号导出缓存（可重新生成，不入库）
 .easycirq/symbol-cache/
+
+# 选型审计缓存（可重新生成）
+.easycirq/part-audit-cache.json
