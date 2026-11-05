@@ -60,6 +60,13 @@ VERDICT_REVIEW = "REVIEW"
 VERDICT_BLOCKED = "BLOCKED"
 EXIT = {VERDICT_PASS: 0, VERDICT_REVIEW: 1, VERDICT_BLOCKED: 2}
 
+# 阶段：证据**最早能在哪个阶段生成**。
+#   schematic —— 用规划排版稿（composition）即可
+#   placed    —— 必须真落图（DRC 要画布、BOM 要导出、网表 diff 要前后两份、回读要保存重开）
+#   pcb       —— 要有 PCB
+STAGE_ORDER = {"schematic": 0, "placed": 1, "pcb": 2}
+STATUS_NOT_RUN = "not_run"
+
 # Pass / review / blocked / unknown normalisation for a checker verdict.
 _VERDICT_MAP = {
     "pass": "pass", "ok": "pass", "clean": "pass", "success": "pass",
@@ -107,92 +114,92 @@ DEFAULTS = {
         "bom_match": {"tool": "scripts/sch_bom_match.py"},
     },
     "kpis": [
-        {"no": 1, "id": "unconnected", "title": "未连接/悬空", "kind": "hard",
+        {"no": 1, "id": "unconnected", "title": "未连接/悬空", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "connectivity", "metric": "floating_pins"},
                    {"check": "connectivity", "metric": "single_node_nets"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "NC 必须显式声明，不得用悬空冒充"},
-        {"no": 2, "id": "cross_zone", "title": "跨区穿越", "kind": "hard",
+        {"no": 2, "id": "cross_zone", "title": "跨区穿越", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "wire", "metric": "cross_zone_crossings"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "跨功能块/跨页必须用语义标签，不允许裸线穿越"},
-        {"no": 3, "id": "overlaps", "title": "图面重叠", "kind": "hard",
+        {"no": 3, "id": "overlaps", "title": "图面重叠", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "layout", "metric": "overlaps",
                     "codes": ["bbox_overlap", "outside_page",
                               "frame_border_crosses_object", "wire_enters_bbox",
                               "symbol_text_edge_contact", "text_overlap"]}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "器件本体/文字压字/越界，以 --strict 为准"},
-        {"no": 4, "id": "net_text", "title": "连接转换", "kind": "hard",
+        {"no": 4, "id": "net_text", "title": "连接转换", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "layout", "metric": "unowned_visible_text",
                     "codes": ["unowned_visible_text", "orphan_text"]}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "每网端点必须有标签扇出，端口配对必须成对"},
-        {"no": 5, "id": "bus", "title": "总线完整性", "kind": "hard",
+        {"no": 5, "id": "bus", "title": "总线完整性", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "connectivity", "metric": "bus_members_missing"},
                    {"check": "connectivity", "metric": "diff_pair_mismatch"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count"},
-        {"no": 6, "id": "wire_length", "title": "线长", "kind": "soft",
+        {"no": 6, "id": "wire_length", "title": "线长", "kind": "soft", "stage": "schematic",
          "reads": [{"check": "wire", "metric": "longest_wire_mm"},
                    {"check": "wire", "metric": "avg_wire_mm"}],
          "aggregate": "max", "direction": "max", "limit": 120, "unit": "mm",
          "note": "默认值；按模块 profile 覆盖"},
-        {"no": 7, "id": "readability", "title": "可跟读率", "kind": "soft",
+        {"no": 7, "id": "readability", "title": "可跟读率", "kind": "soft", "stage": "schematic",
          "reads": [{"check": "readability", "metric": "direct_ratio"}],
          "advisory": True,
          "aggregate": "min", "direction": "min", "limit": 0.6, "unit": "ratio",
          "note": "页级代理指标；advisory：有读数但未达不阻断门禁"},
-        {"no": 8, "id": "zone_balance", "title": "分区均衡", "kind": "soft",
+        {"no": 8, "id": "zone_balance", "title": "分区均衡", "kind": "soft", "stage": "schematic",
          "reads": [{"check": "wire", "metric": "zone_balance_deviation"}],
          "aggregate": "max", "direction": "max", "limit": 0.3, "unit": "ratio",
          "note": "各页/分区对象数相对偏差 <=30%"},
-        {"no": 9, "id": "erc", "title": "ERC", "kind": "hard",
+        {"no": 9, "id": "erc", "title": "ERC", "kind": "hard", "stage": "placed",
          "reads": [{"check": "erc", "metric": "erc_violations"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "输出冲突/多驱动/无驱动/电源对地"},
-        {"no": 10, "id": "pin_mux", "title": "引脚复用", "kind": "hard",
+        {"no": 10, "id": "pin_mux", "title": "引脚复用", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "pinplan", "metric": "pin_mux_conflicts",
                     "codes": ["DUPLICATE_RESOURCE_PIN", "DUP_LOGICAL",
                               "DUP_PHYSICAL_PIN", "DUP_RESOURCE",
                               "pinmap_duplicate_pin", "pinmap_duplicate_row",
                               "pinmap_net_nc_conflict"]}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count"},
-        {"no": 11, "id": "decoupling", "title": "去耦覆盖", "kind": "hard",
+        {"no": 11, "id": "decoupling", "title": "去耦覆盖", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "power", "metric": "decap_missing"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "每个电源引脚都必须有去耦，缺一颗即违规"},
-        {"no": 12, "id": "naming", "title": "命名规范", "kind": "hard",
+        {"no": 12, "id": "naming", "title": "命名规范", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "connectivity", "metric": "duplicate_net_names"},
                    {"check": "connectivity", "metric": "auto_net_residue"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count"},
-        {"no": 13, "id": "bom_map", "title": "料号映射", "kind": "hard",
+        {"no": 13, "id": "bom_map", "title": "料号映射", "kind": "hard", "stage": "placed",
          "reads": [{"check": "identity", "metric": "bom_mapping_missing"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count"},
-        {"no": 14, "id": "netlist_diff", "title": "网表 diff", "kind": "hard",
+        {"no": 14, "id": "netlist_diff", "title": "网表 diff", "kind": "hard", "stage": "placed",
          "reads": [{"check": "netlist", "metric": "netlist_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "排版/改板前后连接差异必须为 0"},
-        {"no": 15, "id": "readback", "title": "回读一致", "kind": "hard",
+        {"no": 15, "id": "readback", "title": "回读一致", "kind": "hard", "stage": "placed",
          "reads": [{"check": "readback", "metric": "readback_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "保存 -> 重开 -> 回读的对象/连接差异必须为 0"},
         # Added after a board scored 11/11 while every supply pin sat on GND.
         # None of the other checks asks whether the board HAS power.
-        {"no": 16, "id": "power_net", "title": "电源网络", "kind": "hard",
+        {"no": 16, "id": "power_net", "title": "电源网络", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "power_net", "metric": "power_net_conflicts"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；"
                  "接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"},
-        {"no": 17, "id": "pcb_match", "title": "图板一致", "kind": "hard",
+        {"no": 17, "id": "pcb_match", "title": "图板一致", "kind": "hard", "stage": "pcb",
          "reads": [{"check": "pcb_match", "metric": "schematic_pcb_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上铜还是旧的"},
-        {"no": 18, "id": "bom_match", "title": "BOM 一致", "kind": "hard",
+        {"no": 18, "id": "bom_match", "title": "BOM 一致", "kind": "hard", "stage": "pcb",
          "reads": [{"check": "bom_match", "metric": "bom_diff"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "原理图的每个位号都要在 BOM 里，BOM 也不许有不存在的位号；"
                  "交付包的 BOM 曾停留在修复前（缺 Q1/R4、多 D1/R11），按它配单板子不响"},
-        {"no": 19, "id": "design_validity", "title": "设计有效性", "kind": "hard",
+        {"no": 19, "id": "design_validity", "title": "设计有效性", "kind": "hard", "stage": "schematic",
          "reads": [{"check": "design_validity", "metric": "design_violations"}],
          "aggregate": "sum", "direction": "max", "limit": 0, "unit": "count",
          "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、"
@@ -337,8 +344,19 @@ def _value_from(findings, metric, codes=None):
     return len(confirmed), len(hits) - len(confirmed)
 
 
-def _evaluate_kpi(kpi, checks):
-    """Return (value, status, detail, evidence)."""
+def _evaluate_kpi(kpi, checks, stage=None):
+    """Return (value, status, detail, evidence).
+
+    `not_run` 表示**该证据在当前阶段还不可能存在**（例如落图前谈不上 ERC）。
+    它与 `missing`（该测但缺证据）严格区分：前者不阻断、也不算通过；
+    后者仍然阻断。判据门限一条都不放宽。
+    """
+    stage = stage or "schematic"
+    need = kpi.get("stage") or "schematic"
+    if STAGE_ORDER.get(need, 0) > STAGE_ORDER.get(stage, 0):
+        return (None, STATUS_NOT_RUN,
+                f"该指标要到 {need} 阶段才可能产出，当前阶段 {stage}", [])
+
     values, missing, blocked = [], [], False
     not_applicable = False
     detail = []
@@ -497,11 +515,14 @@ def evaluate(payload, defn=None):
         checks[check["id"]] = check
 
     profile = payload.get("profile") or DEFAULT_PROFILE
+    stage = payload.get("stage") or "schematic"
+    if stage not in STAGE_ORDER:
+        raise ValueError(f"input.stage must be one of {sorted(STAGE_ORDER)}")
     kpis, limits = _apply_profile(defn, profile, payload.get("overrides") or {})
 
     rows, blockers, hard_fail, soft_fail, advisory_issues = [], [], [], [], []
     for kpi in kpis:
-        value, status, detail, evidence = _evaluate_kpi(kpi, checks)
+        value, status, detail, evidence = _evaluate_kpi(kpi, checks, stage)
         advisory = bool(kpi.get("advisory"))
         if advisory and status in ("missing", "unknown", "fail"):
             # an advisory KPI records its state but never blocks the gate: it
@@ -512,8 +533,11 @@ def evaluate(payload, defn=None):
             (hard_fail if kpi["kind"] == "hard" else soft_fail).append(kpi["id"])
         if advisory:
             pass  # never a blocker
-        elif status == "na":
-            pass  # declared not applicable: neither pass nor missing evidence
+        elif status in ("na", STATUS_NOT_RUN):
+            # na           ：检查器声明本条不适用于本页
+            # not_run      ：本条要到更晚的阶段才可能产出
+            # 两者都**不阻断、也不算通过**
+            pass
         elif status in ("missing", "unknown"):
             blockers.append({"kpi": kpi["id"], "reason": f"证据缺失或不可用: {detail}"})
         elif status == "fail":
@@ -651,8 +675,11 @@ def render_markdown(report):
     ]
     for row in report["kpis"]:
         value = "-" if row["value"] is None else f"{row['value']:g} {row['unit']}"
+        # not_run 必须在这里有一项：漏了会 KeyError 崩掉整条管线，
+        # 而管线的 rc 容忍 (0,1,2) 会把它当成 REVIEW 吞掉 —— 报 PASS 却是崩的。
         mark = {"pass": "PASS", "fail": "FAIL", "missing": "缺证据",
-                "unknown": "不可用", "na": "不适用"}[row["status"]]
+                "unknown": "不可用", "na": "不适用",
+                "not_run": "未运行（本阶段不适用）"}[row["status"]]
         lines.append(
             f"| {row['no']} | {row['title']} | {row['kind']} | {value} | "
             f"{row['limit']:g} | {mark} | {', '.join(row['evidence']) or '-'} |")

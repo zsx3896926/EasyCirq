@@ -1,9 +1,9 @@
 {
   "schema": "easycirq-sch-kpi-report/v1",
-  "generatedAt": "2026-11-05T04:11:02Z",
+  "generatedAt": "2026-11-05T04:58:14Z",
   "project": "板2-24V隔离控制板",
   "page": "M2",
-  "round": 1,
+  "round": 2,
   "profile": "default",
   "limits": {
     "wire_length": 120,
@@ -149,9 +149,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "erc: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -209,9 +209,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "identity: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -223,9 +223,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "netlist: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -237,9 +237,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "readback: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -267,9 +267,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "pcb_match: 未提供",
+      "detail": "该指标要到 pcb 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -281,9 +281,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "bom_match: 未提供",
+      "detail": "该指标要到 pcb 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -305,32 +305,8 @@
   ],
   "blockers": [
     {
-      "kpi": "erc",
-      "reason": "证据缺失或不可用: erc: 未提供"
-    },
-    {
       "kpi": "pin_mux",
       "reason": "证据缺失或不可用: pinplan: 未提供"
-    },
-    {
-      "kpi": "bom_map",
-      "reason": "证据缺失或不可用: identity: 未提供"
-    },
-    {
-      "kpi": "netlist_diff",
-      "reason": "证据缺失或不可用: netlist: 未提供"
-    },
-    {
-      "kpi": "readback",
-      "reason": "证据缺失或不可用: readback: 未提供"
-    },
-    {
-      "kpi": "pcb_match",
-      "reason": "证据缺失或不可用: pcb_match: 未提供"
-    },
-    {
-      "kpi": "bom_match",
-      "reason": "证据缺失或不可用: bom_match: 未提供"
     }
   ],
   "advisory": [],

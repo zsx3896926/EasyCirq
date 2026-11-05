@@ -71,6 +71,10 @@ def main(argv=None):
     ap.add_argument("--page", required=True)
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--profile", default="default")
+    ap.add_argument("--stage", default="schematic",
+                    choices=["schematic", "placed", "pcb"],
+                    help="当前阶段。证据要到更晚阶段才可能产出的 KPI 记 "
+                         "not_run（不阻断、也不算通过）；该测却缺证据仍记 missing（阻断）")
     ap.add_argument("--round", type=int, default=1)
     ap.add_argument("--design-intent",
                     help="设计意图 JSON（阈值目标、开关管负载）；不给则设计有效性报不适用")
@@ -300,6 +304,8 @@ def main(argv=None):
         "page": args.page,
         "round": args.round,
         "profile": args.profile,
+        # 当前阶段：更晚阶段才可能产出的 KPI 记 not_run（不阻断、不算通过）
+        "stage": args.stage,
         "history": history.name,
         "checks": [],
         "note": "由 sch_offline_pipeline.py 生成；其余检查未采集，按缺失处理。",

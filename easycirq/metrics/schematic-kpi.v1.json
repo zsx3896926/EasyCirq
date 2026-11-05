@@ -72,7 +72,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "NC 必须显式声明，不得用悬空冒充"
+      "note": "NC 必须显式声明，不得用悬空冒充",
+      "stage": "schematic"
     },
     {
       "no": 2,
@@ -89,7 +90,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "跨功能块/跨页必须用语义标签，不允许裸线穿越"
+      "note": "跨功能块/跨页必须用语义标签，不允许裸线穿越",
+      "stage": "schematic"
     },
     {
       "no": 3,
@@ -114,7 +116,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "器件本体/文字压字/越界，以 --strict 为准"
+      "note": "器件本体/文字压字/越界，以 --strict 为准",
+      "stage": "schematic"
     },
     {
       "no": 4,
@@ -135,7 +138,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "当前只覆盖无主可见文字；端口配对与每网标签扇出需专用审计器，未实现前不冒充通过"
+      "note": "当前只覆盖无主可见文字；端口配对与每网标签扇出需专用审计器，未实现前不冒充通过",
+      "stage": "schematic"
     },
     {
       "no": 5,
@@ -155,7 +159,8 @@
       "aggregate": "sum",
       "direction": "max",
       "limit": 0,
-      "unit": "count"
+      "unit": "count",
+      "stage": "schematic"
     },
     {
       "no": 6,
@@ -176,7 +181,8 @@
       "direction": "max",
       "limit": 120,
       "unit": "mm",
-      "note": "默认值；按模块 profile 覆盖"
+      "note": "默认值；按模块 profile 覆盖",
+      "stage": "schematic"
     },
     {
       "no": 7,
@@ -194,7 +200,8 @@
       "limit": 0.6,
       "unit": "ratio",
       "note": "页级代理指标（标签网占比的补数）；IR 无模块归属，'拓扑电路 100% 直连' 仍需人工/导图复核。advisory：有读数但未达不阻断门禁",
-      "advisory": true
+      "advisory": true,
+      "stage": "schematic"
     },
     {
       "no": 8,
@@ -211,7 +218,8 @@
       "direction": "max",
       "limit": 0.3,
       "unit": "ratio",
-      "note": "各页/分区对象数相对偏差 <=30%"
+      "note": "各页/分区对象数相对偏差 <=30%",
+      "stage": "schematic"
     },
     {
       "no": 9,
@@ -228,7 +236,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "erc_violations = DRC fatal + error；warn 记录不计入"
+      "note": "erc_violations = DRC fatal + error；warn 记录不计入",
+      "stage": "placed"
     },
     {
       "no": 10,
@@ -254,7 +263,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "需要 pin-plan/v1 输入（snapshot/pinplan.json）；只计已确认的重复/冲突项，warning 不算"
+      "note": "需要 pin-plan/v1 输入（snapshot/pinplan.json）；只计已确认的重复/冲突项，warning 不算",
+      "stage": "schematic"
     },
     {
       "no": 11,
@@ -271,7 +281,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "每个电源引脚都必须有去耦，缺一颗即违规"
+      "note": "每个电源引脚都必须有去耦，缺一颗即违规",
+      "stage": "schematic"
     },
     {
       "no": 12,
@@ -292,7 +303,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "同名不同网、工具默认名残留（来自 connectivity IR）"
+      "note": "同名不同网、工具默认名残留（来自 connectivity IR）",
+      "stage": "schematic"
     },
     {
       "no": 13,
@@ -309,7 +321,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "BOM 每行需有封装/型号/C 号（sch_bom_metrics.py）"
+      "note": "BOM 每行需有封装/型号/C 号（sch_bom_metrics.py）",
+      "stage": "placed"
     },
     {
       "no": 14,
@@ -326,7 +339,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "前后两份 connectivity IR 的 (ref,pin,net) 绑定差（sch_connectivity_diff.py）"
+      "note": "前后两份 connectivity IR 的 (ref,pin,net) 绑定差（sch_connectivity_diff.py）",
+      "stage": "placed"
     },
     {
       "no": 15,
@@ -343,7 +357,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "保存 -> 重开 -> 回读的对象/连接差异必须为 0"
+      "note": "保存 -> 重开 -> 回读的对象/连接差异必须为 0",
+      "stage": "placed"
     },
     {
       "no": 16,
@@ -360,7 +375,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。"
+      "note": "电源类引脚（VCC/VDD/V+…）必须落在同一个非地网络上；接到 GND 或悬空 = 这块板没有电源。无电源引脚时判 n/a。",
+      "stage": "schematic"
     },
     {
       "no": 17,
@@ -377,7 +393,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上的铜还是旧的。缺 PCB 读数时判 missing，不默认通过。"
+      "note": "原理图与 PCB 的逐引脚网络必须一致；改图未重导网表 = 板上的铜还是旧的。缺 PCB 读数时判 missing，不默认通过。",
+      "stage": "pcb"
     },
     {
       "no": 18,
@@ -394,7 +411,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "原理图里的每个位号都必须出现在 BOM 里，BOM 也不许有不存在的位号。2026-11-01 发现交付包的 BOM 是修复前的旧版：缺 Q1、R4，多 D1、R11——按它配单会少一颗三极管和一颗基极电阻，板子永远不响。缺 BOM 读数时判 missing，不默认通过。"
+      "note": "原理图里的每个位号都必须出现在 BOM 里，BOM 也不许有不存在的位号。2026-11-01 发现交付包的 BOM 是修复前的旧版：缺 Q1、R4，多 D1、R11——按它配单会少一颗三极管和一颗基极电阻，板子永远不响。缺 BOM 读数时判 missing，不默认通过。",
+      "stage": "pcb"
     },
     {
       "no": 19,
@@ -411,7 +429,8 @@
       "direction": "max",
       "limit": 0,
       "unit": "count",
-      "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、开关管的控制脚有没有直流通路和足够的驱动电流、要求回差时有没有正反馈。18 项门禁查的是连接与结构，这一项查的是'连上之后会不会工作'——报警板上三个纯算术就能发现的缺陷（25°C 就响、基极无通路永不导通、无回差）全靠人读电路才漏出来，就是缺了这项。"
+      "note": "按设计意图算一遍这块电路会不会工作：分压阈值算出的动作点对不对、开关管的控制脚有没有直流通路和足够的驱动电流、要求回差时有没有正反馈。18 项门禁查的是连接与结构，这一项查的是'连上之后会不会工作'——报警板上三个纯算术就能发现的缺陷（25°C 就响、基极无通路永不导通、无回差）全靠人读电路才漏出来，就是缺了这项。",
+      "stage": "schematic"
     }
   ],
   "profiles": {
@@ -443,5 +462,11 @@
     "PASS": 0,
     "REVIEW": 1,
     "BLOCKED": 2
-  }
+  },
+  "stageOrder": {
+    "schematic": 0,
+    "placed": 1,
+    "pcb": 2
+  },
+  "stageNote": "stage 表示**该证据最早能在哪个阶段生成**：schematic 用规划排版稿即可，placed 必须真落图（DRC/BOM 导出/网表 diff/保存重开），pcb 要有 PCB。门禁按当前阶段把**尚不适用**的记为 not_run（不阻断、也不算通过），与 missing（该测但缺证据，阻断）严格区分 —— 判据一条都不放宽。"
 }

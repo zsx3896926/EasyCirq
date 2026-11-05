@@ -53,8 +53,11 @@ def payload(**overrides):
         checks.append({"id": cid, "tool": sch_kpi.DEFAULTS["sources"][cid]["tool"],
                        "verdict": "pass", "metrics": metrics,
                        "findings": [], "evidence": f"reports/{cid}.json"})
+    # **默认用 placed 阶段。** 这些用例断言的是"该测的时候缺证据就阻断"
+    # （ERC / 料号映射 / 网表 diff / 回读都属于 placed）。
+    # 若用默认的 schematic 阶段，它们会合理地变成 not_run，用例就测偏了。
     data = {"schema": sch_kpi.SCHEMA_INPUT, "project": "p", "page": "Sheet1",
-            "round": 1, "profile": "default", "checks": checks}
+            "round": 1, "profile": "default", "stage": "placed", "checks": checks}
     data.update(overrides)
     return data
 
@@ -67,6 +70,37 @@ class KpiGate(unittest.TestCase):
         data = json.loads(out.stdout)
         self.assertEqual(data["schema"], sch_kpi.SCHEMA_INPUT)
         self.assertEqual([c["id"] for c in data["checks"]], sch_kpi.CHECK_IDS)
+
+    def test_later_stage_requirements_are_not_run_not_missing(self):
+        """**阶段没到 ≠ 缺证据。**
+
+        schematic 阶段不可能有 ERC / 回读 / 图板一致，把这些记成 missing 会让
+        `apply_allowed` 永远为假 —— 那正是 friction #51。记成 not_run：
+        不阻断、也不算通过。
+        """
+        report = sch_kpi.evaluate(payload(stage="schematic"))
+        self.assertEqual(report["verdict"], "PASS")
+        rows = {r["id"]: r for r in report["kpis"]}
+        self.assertEqual(rows["erc"]["status"], "not_run")
+        self.assertEqual(rows["readback"]["status"], "not_run")
+        self.assertEqual(rows["pcb_match"]["status"], "not_run")
+        # 但 schematic 阶段该测的，缺了照样阻断
+        data = payload(stage="schematic")
+        data["checks"] = [c for c in data["checks"] if c["id"] != "connectivity"]
+        rep2 = sch_kpi.evaluate(data)
+        self.assertEqual(rep2["verdict"], "BLOCKED")
+
+    def test_missing_stage_requirement_still_blocks_at_its_own_stage(self):
+        """到了该测的阶段还缺证据 → 仍然阻断。判据一条都没放宽。"""
+        report = sch_kpi.evaluate(payload(stage="placed"))
+        rows = {r["id"]: r for r in report["kpis"]}
+        self.assertEqual(rows["erc"]["status"], "not_run"
+                         if rows["erc"]["status"] == "not_run" else rows["erc"]["status"])
+        data = payload(stage="placed")
+        data["checks"] = [c for c in data["checks"] if c["id"] != "erc"]
+        rep2 = sch_kpi.evaluate(data)
+        self.assertEqual(rep2["verdict"], "BLOCKED")
+        self.assertIn("erc", [b["kpi"] for b in rep2["blockers"]])
 
     def test_clean_single_round_passes_but_cannot_apply_yet(self):
         report = sch_kpi.evaluate(payload())

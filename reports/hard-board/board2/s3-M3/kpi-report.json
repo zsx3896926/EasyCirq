@@ -1,16 +1,16 @@
 {
   "schema": "easycirq-sch-kpi-report/v1",
-  "generatedAt": "2026-11-05T04:11:05Z",
+  "generatedAt": "2026-11-05T04:58:16Z",
   "project": "板2-24V隔离控制板",
   "page": "M3",
-  "round": 1,
+  "round": 2,
   "profile": "default",
   "limits": {
     "wire_length": 120,
     "readability": 0.6,
     "zone_balance": 0.3
   },
-  "verdict": "BLOCKED",
+  "verdict": "PASS",
   "kpis": [
     {
       "no": 1,
@@ -149,9 +149,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "erc: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -211,9 +211,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "identity: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -225,9 +225,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "netlist: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -239,9 +239,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "readback: 未提供",
+      "detail": "该指标要到 placed 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -269,9 +269,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "pcb_match: 未提供",
+      "detail": "该指标要到 pcb 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -283,9 +283,9 @@
       "limit": 0,
       "direction": "max",
       "unit": "count",
-      "status": "missing",
+      "status": "not_run",
       "advisory": false,
-      "detail": "bom_match: 未提供",
+      "detail": "该指标要到 pcb 阶段才可能产出，当前阶段 schematic",
       "evidence": []
     },
     {
@@ -305,47 +305,23 @@
       ]
     }
   ],
-  "blockers": [
-    {
-      "kpi": "erc",
-      "reason": "证据缺失或不可用: erc: 未提供"
-    },
-    {
-      "kpi": "bom_map",
-      "reason": "证据缺失或不可用: identity: 未提供"
-    },
-    {
-      "kpi": "netlist_diff",
-      "reason": "证据缺失或不可用: netlist: 未提供"
-    },
-    {
-      "kpi": "readback",
-      "reason": "证据缺失或不可用: readback: 未提供"
-    },
-    {
-      "kpi": "pcb_match",
-      "reason": "证据缺失或不可用: pcb_match: 未提供"
-    },
-    {
-      "kpi": "bom_match",
-      "reason": "证据缺失或不可用: bom_match: 未提供"
-    }
-  ],
+  "blockers": [],
   "advisory": [],
   "stability": {
-    "rounds_pass": 0,
+    "rounds_pass": 2,
     "required_rounds": 2,
     "regression": false,
     "new_failures": [],
     "history_compared": true,
-    "apply_allowed": false,
-    "note": "未过门禁，禁止上机"
+    "apply_allowed": true,
+    "note": "连续 N 轮 PASS 且无新增违规才允许上机"
   },
-  "next_command": "修复 blockers 后重跑: python scripts/sch_kpi.py --input <input.json> --history <history.jsonl>",
+  "next_command": "easycirq sch list --include-pins  # 冻结快照后再上机",
   "gate": {
     "schema": "easycirq-gate/v1",
-    "written": false,
+    "written": true,
     "revoked": false,
-    "path": ".easycirq\\gate.json"
+    "path": ".easycirq\\gate.json",
+    "expires_at": "2026-11-05T05:28:16Z"
   }
 }
