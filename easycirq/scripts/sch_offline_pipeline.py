@@ -39,7 +39,28 @@ for _stream in (sys.stdout, sys.stderr):
         _stream.reconfigure(encoding="utf-8", errors="replace")
 
 HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
 SCHEMA_SUMMARY = "easycirq-sch-offline-pipeline/v1"
+
+
+def _is_ic_component(comp):
+    """这算不算一颗 IC。
+
+    **先看器件身份**（型号前缀），位号只作兜底 —— 位号是派生的，
+    拿它当判据时只要生成规则变了就会静默误判（friction #53：
+    `buck.*` 落成 `X2`，于是"这页没有 IC"）。
+    """
+    name = str(((comp.get("device") or {}).get("name")) or "")
+    head = name.split(".", 1)[0].lower() if "." in name else ""
+    try:
+        from sch_spec_netlist import PREFIX
+        if PREFIX.get(head) == "U":
+            return True
+    except Exception:                                        # noqa: BLE001
+        pass
+    # 兜底：位号前缀（老口径）
+    return str(comp.get("ref", "")).upper().startswith(("U", "IC"))
 
 
 def _run(args, *, label, allow=(0,)):
@@ -219,8 +240,7 @@ def main(argv=None):
             # no plan supplied: only N/A when the page has no IC at all;
             # otherwise the gap stays missing and blocks the gate
             ir_data = json.loads(Path(connectivity).read_text(encoding="utf-8"))
-            has_ic = any(str(c.get("ref", "")).upper().startswith(("U", "IC"))
-                         for c in ir_data.get("components") or [])
+            has_ic = any(_is_ic_component(c) for c in ir_data.get("components") or [])
             if not has_ic:
                 pin_out = out / "pinplan-check.json"
                 pin_out.write_text(json.dumps({

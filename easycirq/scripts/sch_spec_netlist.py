@@ -57,9 +57,25 @@ def block_name(block_id: str) -> str:
     return block_id[len("block."):] if block_id.startswith("block.") else block_id
 
 
+class UnknownPartPrefix(ValueError):
+    """型号前缀没有位号映射。
+
+    **不许静默回落成 `X`。** `X` 在行业惯例里是"不装/机械件/其他"，
+    一个 buck 芯片被标成 `X2` 会被 BOM、丝印、装配表一路继承，
+    还会让按 `U*` 判 IC 的下游误以为"这页没有 IC"（friction #53）。
+    未知输入必须响亮失败，并在 PREFIX 里补上映射。
+    """
+
+
 def ref_prefix(part_id: str) -> str:
     head = (part_id or "").split(".", 1)[0].lower()
-    return PREFIX.get(head, "X")
+    got = PREFIX.get(head)
+    if got is None:
+        raise UnknownPartPrefix(
+            "型号 %r 的前缀 %r 没有位号映射 —— 请在 PREFIX 里补上"
+            "（IC 类一律 'U'），不要让它回落成 X"
+            % (part_id, head))
+    return got
 
 
 def load_block(blocks_dir: pathlib.Path, block_id: str):
@@ -210,8 +226,18 @@ def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
             else:
                 # 块内部网：用第一个成员所在器件命名，保证实例之间不撞
                 first = plain[0] if plain else ""
-                owner_role = first.split(".", 1)[0] if "." in first else "X"
-                net_name = "%s_N%d" % (role_to_ref.get(owner_role, "X"), k + 1)
+                owner_role = first.split(".", 1)[0] if "." in first else ""
+                owner_ref = role_to_ref.get(owner_role)
+                if not owner_ref:
+                    # **不拼 X_N3 这种无意义网名。** 记 error 并跳过这条网，
+                    # 让它在 issues 里现形，而不是变成一个看起来正常的内网。
+                    issues.append({
+                        "severity": "error",
+                        "message": "%s: 内部网成员 %r 的角色无法解析到器件，"
+                                   "不能为它生成网名" % (mid, first or "(空)"),
+                    })
+                    continue
+                net_name = "%s_N%d" % (owner_ref, k + 1)
                 scope = "local"
 
             n = ensure_net(net_name, scope, "power" if net_name.upper() in
