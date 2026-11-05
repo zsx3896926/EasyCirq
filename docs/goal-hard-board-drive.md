@@ -101,6 +101,21 @@ Rail4  5V  → 4.0V  @ 500mA LDO
 
 ### 硬规则：**选型前先 `easycirq blocks ls`**
 
+**每块板都必须走「离线先行」六阶段**（`easycirq/references/schematic-offline-first.md`）：
+
+| 阶段 | 做什么 | 碰 EDA？ |
+|---|---|---|
+| S1 离线规格化 | 功能模块清单、电源树、引脚/复用表、BOM↔封装↔C 号、NC 声明 → `spec.json` | 否 |
+| **S2 离线布局与连接优化** | 版式规划 → 模块候选 → 标签/端口规划 → 打分选优 → `style-plan.json`；**先跑 `scripts/sch_style_plan_check.py`，未过不得进器件** | 否 |
+| S3 离线质量度量 | 各 checker 出原始报告 | 否 |
+| S4 KPI 门禁 | 15 项 KPI 聚合；`apply_allowed=true` 且**连续 2 轮 PASS** 才允许上机 | 否 |
+| **S5 一次性上机** | dry-run 对账 → **单次批量写入** → save → reload → 回读 → 导图复核 | **是** |
+| S6 沉淀落库 | KPI 回执、门禁证据、失败模式 | 否 |
+
+> **跳过 S1–S4 直接落图，症状是「块落下了但一部分引脚没连」「标号撞图签」「组框重叠」**
+> —— 全部是布局没规划的表现，不是电路设计问题。
+> 板1/板2 前面几十轮就是这么撞过来的（见 `reports/hard-board/board1/friction.md` 的 #32/#33/#39）。
+
 产品内置 **39 个已验证电路块**（AMS1117 LDO、BQ24074 power-path、CC1101 射频前端、
 CH334F USB hub、ESP32-S3 最小系统、INA226 监测、PMOS 高侧软启动、光耦隔离……）。
 `block-apply` 会自动**放器件 + 连内部网络 + 绑端口**，而且布线前有几何硬门
