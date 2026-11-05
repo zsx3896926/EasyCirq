@@ -7,12 +7,12 @@
     "components": [
       {
         "id": "c33",
-        "ref": "X3",
+        "ref": "U3",
         "role": "U",
         "device": {
           "name": "buck.sy8089_tsot23",
-          "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
-          "deviceUuid": "9db86f545bc44f07a72b7a3eba3417fc"
+          "libraryUuid": "5e7382a69781406ba214cc82244d6207",
+          "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927"
         },
         "pins": [
           {
@@ -45,8 +45,8 @@
         "role": "L",
         "device": {
           "name": "ind.2u2_swpa4020",
-          "libraryUuid": "4cc10ee860994f7ca741edc6064b8307",
-          "deviceUuid": "8a48ccad1d114242ad9628a162165531"
+          "libraryUuid": "b2d87f64b53d4f12a6700cc8988eb7a2",
+          "deviceUuid": "5e7ac7b4008542d0853f1c725b8095c7"
         },
         "pins": [
           {
@@ -187,7 +187,7 @@
       },
       {
         "id": "n17",
-        "name": "X3_N3",
+        "name": "U3_N3",
         "scope": "local"
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "id": "n19",
-        "name": "X3_N5",
+        "name": "U3_N5",
         "scope": "local"
       }
     ],
@@ -349,14 +349,14 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 594,
+    "maxY": 420
   },
   "keepouts": [],
   "measurements": [
     {
       "primitiveId": "c33",
-      "designator": "X3",
+      "designator": "U3",
       "x": 160.0,
       "y": 85.0,
       "rotation": 0,
@@ -379,7 +379,7 @@
         {
           "number": "FB",
           "name": "FB",
-          "net": "X3_N5",
+          "net": "U3_N5",
           "x": 195.0,
           "y": 75.0,
           "rotation": 0.0
@@ -403,7 +403,7 @@
         {
           "number": "LX",
           "name": "LX",
-          "net": "X3_N3",
+          "net": "U3_N3",
           "x": 125.0,
           "y": 95.0,
           "rotation": 180.0
@@ -427,7 +427,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X3_N3",
+          "net": "U3_N3",
           "x": 180.0,
           "y": 85.0,
           "rotation": 180.0
@@ -467,7 +467,7 @@
         {
           "number": "2",
           "name": "2",
-          "net": "X3_N5",
+          "net": "U3_N5",
           "x": 180.0,
           "y": 100.0,
           "rotation": 0.0
@@ -491,7 +491,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X3_N5",
+          "net": "U3_N5",
           "x": 180.0,
           "y": 100.0,
           "rotation": 180.0

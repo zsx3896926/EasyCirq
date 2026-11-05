@@ -7,7 +7,7 @@
   },
   "source": "pin-name",
   "powerPins": [
-    "X4.VIN(VIN)->+5V"
+    "U5.VIN(VIN)->+5V"
   ],
   "nets": [
     "+5V"

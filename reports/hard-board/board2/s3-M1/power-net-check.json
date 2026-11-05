@@ -7,7 +7,7 @@
   },
   "source": "pin-name",
   "powerPins": [
-    "X2.VIN(VIN)->VBAT_RAW"
+    "U1.VIN(VIN)->VBAT_RAW"
   ],
   "nets": [
     "VBAT_RAW"

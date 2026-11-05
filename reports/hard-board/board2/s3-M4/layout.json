@@ -102,55 +102,55 @@
  "wires": [],
  "attachment_points": [
   {
-   "id": "U2-EN",
+   "id": "U4-EN",
    "x": 40,
    "y": 20,
    "kind": "pin"
   },
   {
-   "id": "U2-FB",
+   "id": "U4-FB",
    "x": 40,
    "y": 0,
    "kind": "pin"
   },
   {
-   "id": "U2-IN",
+   "id": "U4-IN",
    "x": -40,
    "y": 0,
    "kind": "pin"
   },
   {
-   "id": "U2-LX",
+   "id": "U4-LX",
    "x": -40,
    "y": -30,
    "kind": "pin"
   },
   {
-   "id": "U2-LX#2",
+   "id": "U4-LX#2",
    "x": -40,
    "y": -20,
    "kind": "pin"
   },
   {
-   "id": "U2-OUT",
+   "id": "U4-OUT",
    "x": 40,
    "y": -20,
    "kind": "pin"
   },
   {
-   "id": "U2-OUT#2",
+   "id": "U4-OUT#2",
    "x": 40,
    "y": -30,
    "kind": "pin"
   },
   {
-   "id": "U2-PGND",
+   "id": "U4-PGND",
    "x": -40,
    "y": 30,
    "kind": "pin"
   },
   {
-   "id": "U2-SGND",
+   "id": "U4-SGND",
    "x": -40,
    "y": 20,
    "kind": "pin"
@@ -306,7 +306,7 @@
    "rectangles": 0
   }
  },
- "snapshot_sha256": "3839931a26447e8d766b83bb27a65c4c0914be018daefbc460b0176d2bd35c4e",
+ "snapshot_sha256": "90dd76ba8f8a878ce7e5ea02d18341c4a66b51b426fb1723e3f50ce8d295eee0",
  "expected_counts": {
   "components": 10,
   "texts": 0,

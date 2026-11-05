@@ -3,8 +3,8 @@
  "page_bbox": [
   0.0,
   0.0,
-  841.0,
-  594.0
+  594.0,
+  420.0
  ],
  "components": [
   {
@@ -48,7 +48,7 @@
    "bbox": [
     20.0,
     110.0,
-    30.0,
+    40.0,
     120.0
    ]
   },
@@ -75,31 +75,31 @@
  "wires": [],
  "attachment_points": [
   {
-   "id": "X3-EN",
+   "id": "U3-EN",
    "x": -35,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "X3-FB",
+   "id": "U3-FB",
    "x": 35,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "X3-GND",
+   "id": "U3-GND",
    "x": -35,
    "y": 0,
    "kind": "pin"
   },
   {
-   "id": "X3-IN",
+   "id": "U3-IN",
    "x": 35,
    "y": 10,
    "kind": "pin"
   },
   {
-   "id": "X3-LX",
+   "id": "U3-LX",
    "x": -35,
    "y": 10,
    "kind": "pin"
@@ -148,7 +148,7 @@
   },
   {
    "id": "C15-2",
-   "x": 40,
+   "x": 50,
    "y": 115,
    "kind": "pin"
   },
@@ -219,7 +219,7 @@
    "rectangles": 0
   }
  },
- "snapshot_sha256": "91f3a18185bda5719a3ed0b86df59d7d3d5eb1d1cb545644195385c619de2a08",
+ "snapshot_sha256": "bdd40e4fe53fde8e5181491de684997cf37f7008281b43388c449355903808e7",
  "expected_counts": {
   "components": 7,
   "texts": 0,

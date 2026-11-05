@@ -7,10 +7,10 @@
   },
   "source": "pin-name",
   "powerPins": [
-    "U1.VIN(VIN)->D4_N2"
+    "U2.VIN(VIN)->D5_N2"
   ],
   "nets": [
-    "D4_N2"
+    "D5_N2"
   ],
   "findings": []
 }

@@ -7,7 +7,7 @@
     "components": [
       {
         "id": "c40",
-        "ref": "U2",
+        "ref": "U4",
         "role": "U",
         "device": {
           "name": "ic.sy7088",
@@ -275,12 +275,12 @@
       },
       {
         "id": "n20",
-        "name": "U2_N1",
+        "name": "U4_N1",
         "scope": "local"
       },
       {
         "id": "n21",
-        "name": "U2_N4",
+        "name": "U4_N4",
         "scope": "local"
       }
     ],
@@ -494,14 +494,14 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 420,
-    "maxY": 297
+    "maxX": 841,
+    "maxY": 594
   },
   "keepouts": [],
   "measurements": [
     {
       "primitiveId": "c40",
-      "designator": "U2",
+      "designator": "U4",
       "x": 15.0,
       "y": 20.0,
       "rotation": 0,
@@ -524,7 +524,7 @@
         {
           "number": "FB",
           "name": "FB",
-          "net": "U2_N4",
+          "net": "U4_N4",
           "x": 55.0,
           "y": 20.0,
           "rotation": 0.0
@@ -540,7 +540,7 @@
         {
           "number": "LX",
           "name": "LX",
-          "net": "U2_N1",
+          "net": "U4_N1",
           "x": -25.0,
           "y": -10.0,
           "rotation": 180.0
@@ -548,7 +548,7 @@
         {
           "number": "LX#2",
           "name": "LX#2",
-          "net": "U2_N1",
+          "net": "U4_N1",
           "x": -25.0,
           "y": 0.0,
           "rotation": 180.0
@@ -604,7 +604,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "U2_N1",
+          "net": "U4_N1",
           "x": 35.0,
           "y": 20.0,
           "rotation": 180.0
@@ -804,7 +804,7 @@
         {
           "number": "2",
           "name": "2",
-          "net": "U2_N4",
+          "net": "U4_N4",
           "x": 75.0,
           "y": 70.0,
           "rotation": 0.0
@@ -828,7 +828,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "U2_N4",
+          "net": "U4_N4",
           "x": 75.0,
           "y": 70.0,
           "rotation": 180.0

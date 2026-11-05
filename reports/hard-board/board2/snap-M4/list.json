@@ -12,7 +12,7 @@
       {
         "componentType": "part",
         "primitiveId": "c40",
-        "designator": "U2",
+        "designator": "U4",
         "x": 0,
         "y": 0,
         "rotation": 0,
@@ -36,7 +36,7 @@
           {
             "pinNumber": "FB",
             "pinName": "FB",
-            "net": "U2_N4",
+            "net": "U4_N4",
             "x": 40,
             "y": 0,
             "rotation": 0,
@@ -54,7 +54,7 @@
           {
             "pinNumber": "LX",
             "pinName": "LX",
-            "net": "U2_N1",
+            "net": "U4_N1",
             "x": -40,
             "y": -30,
             "rotation": 180,
@@ -63,7 +63,7 @@
           {
             "pinNumber": "LX#2",
             "pinName": "LX#2",
-            "net": "U2_N1",
+            "net": "U4_N1",
             "x": -40,
             "y": -20,
             "rotation": 180,
@@ -342,7 +342,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "U2_N1",
+            "net": "U4_N1",
             "x": -15,
             "y": 120,
             "rotation": 180,
@@ -387,7 +387,7 @@
           {
             "pinNumber": "2",
             "pinName": "2",
-            "net": "U2_N4",
+            "net": "U4_N4",
             "x": 85,
             "y": -130,
             "rotation": 0,
@@ -414,7 +414,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "U2_N4",
+            "net": "U4_N4",
             "x": 115,
             "y": -130,
             "rotation": 180,
@@ -455,7 +455,7 @@
             -30
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -469,7 +469,7 @@
             -30
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -483,7 +483,7 @@
             120
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -497,7 +497,7 @@
             -20
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -511,7 +511,7 @@
             -20
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -525,7 +525,7 @@
             -20
           ]
         ],
-        "Net": "U2_N1",
+        "Net": "U4_N1",
         "primitiveId": ""
       },
       {
@@ -539,7 +539,7 @@
             -130
           ]
         ],
-        "Net": "U2_N4",
+        "Net": "U4_N4",
         "primitiveId": ""
       },
       {
@@ -553,7 +553,7 @@
             -130
           ]
         ],
-        "Net": "U2_N4",
+        "Net": "U4_N4",
         "primitiveId": ""
       },
       {
@@ -567,7 +567,7 @@
             0
           ]
         ],
-        "Net": "U2_N4",
+        "Net": "U4_N4",
         "primitiveId": ""
       },
       {
@@ -581,7 +581,7 @@
             -130
           ]
         ],
-        "Net": "U2_N4",
+        "Net": "U4_N4",
         "primitiveId": ""
       },
       {
@@ -1176,14 +1176,14 @@
         "direction": "left"
       },
       {
-        "net": "U2_N4",
+        "net": "U4_N4",
         "kind": "net_port_bi",
         "x": 105,
         "y": -65,
         "direction": "right"
       },
       {
-        "net": "U2_N1",
+        "net": "U4_N1",
         "kind": "net_port_bi",
         "x": -50,
         "y": 50,

@@ -61,42 +61,42 @@
     {
       "code": "outside_page",
       "objects": [
-        "U1-FB"
+        "U2-FB"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-GND#3"
+        "U2-GND#3"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-GND#4"
+        "U2-GND#4"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-ON/OFF"
+        "U2-ON/OFF"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-OUTPUT"
+        "U2-OUTPUT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-VIN"
+        "U2-VIN"
       ],
       "status": "review_candidate"
     },
@@ -117,20 +117,6 @@
     {
       "code": "outside_page",
       "objects": [
-        "D3-A"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "outside_page",
-      "objects": [
-        "D3-K"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "outside_page",
-      "objects": [
         "D4-A"
       ],
       "status": "review_candidate"
@@ -139,6 +125,20 @@
       "code": "outside_page",
       "objects": [
         "D4-K"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "outside_page",
+      "objects": [
+        "D5-A"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "outside_page",
+      "objects": [
+        "D5-K"
       ],
       "status": "review_candidate"
     },
@@ -337,42 +337,42 @@
     {
       "code": "outside_page",
       "objects": [
-        "U1-FB"
+        "U2-FB"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-GND#3"
+        "U2-GND#3"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-GND#4"
+        "U2-GND#4"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-ON/OFF"
+        "U2-ON/OFF"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-OUTPUT"
+        "U2-OUTPUT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U1-VIN"
+        "U2-VIN"
       ],
       "status": "review_candidate"
     },
@@ -393,20 +393,6 @@
     {
       "code": "outside_page",
       "objects": [
-        "D3-A"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "outside_page",
-      "objects": [
-        "D3-K"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "outside_page",
-      "objects": [
         "D4-A"
       ],
       "status": "review_candidate"
@@ -415,6 +401,20 @@
       "code": "outside_page",
       "objects": [
         "D4-K"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "outside_page",
+      "objects": [
+        "D5-A"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "outside_page",
+      "objects": [
+        "D5-K"
       ],
       "status": "review_candidate"
     },

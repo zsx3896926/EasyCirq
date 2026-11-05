@@ -112,7 +112,7 @@
       },
       {
         "id": "c5",
-        "ref": "X1",
+        "ref": "D1",
         "role": "D_QG",
         "device": {
           "name": "zener.bzt52c12_sod123",
@@ -134,7 +134,7 @@
       },
       {
         "id": "c6",
-        "ref": "D1",
+        "ref": "D2",
         "role": "D_TVS",
         "device": {
           "name": "diode.smbj33a_smb",
@@ -204,8 +204,8 @@
         "role": "C_IN_HF",
         "device": {
           "name": "cap.100nf_0603",
-          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-          "deviceUuid": "6817eaee8d224720b6c722f3a69fc5c6"
+          "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+          "deviceUuid": "b5784e6c8475475893cee8110c44816d"
         },
         "pins": [
           {
@@ -222,7 +222,7 @@
       },
       {
         "id": "c10",
-        "ref": "X2",
+        "ref": "U1",
         "role": "U",
         "device": {
           "name": "buck.tps54360_so8",
@@ -390,7 +390,7 @@
       },
       {
         "id": "c16",
-        "ref": "D2",
+        "ref": "D3",
         "role": "D_CATCH",
         "device": {
           "name": "diode.b360a_sma",
@@ -460,8 +460,8 @@
         "role": "R_COMP",
         "device": {
           "name": "res.47k_0402",
-          "libraryUuid": "01fab7af9c1d4121a2873047a5a99251",
-          "deviceUuid": "6017058cb2e9427fbbcc70b6297aed67"
+          "libraryUuid": "97ee120a8e7e45228fbb55b92ead330b",
+          "deviceUuid": "7f8517046d5745479b75cadd5fcaa9f5"
         },
         "pins": [
           {
@@ -482,8 +482,8 @@
         "role": "C_COMP",
         "device": {
           "name": "cap.47nf_0402",
-          "libraryUuid": "40bbe427feed4c04ab6a98a2cd719e49",
-          "deviceUuid": "f3448080c3754bc89d3b300792519918"
+          "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
+          "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab"
         },
         "pins": [
           {
@@ -622,12 +622,12 @@
       },
       {
         "id": "n7",
-        "name": "X2_N8",
+        "name": "U1_N8",
         "scope": "local"
       },
       {
         "id": "n8",
-        "name": "X2_N9",
+        "name": "U1_N9",
         "scope": "local"
       },
       {
@@ -643,12 +643,12 @@
       },
       {
         "id": "n11",
-        "name": "X2_N12",
+        "name": "U1_N12",
         "scope": "local"
       },
       {
         "id": "n12",
-        "name": "X2_N13",
+        "name": "U1_N13",
         "scope": "local"
       },
       {
@@ -1246,7 +1246,7 @@
     },
     {
       "primitiveId": "c5",
-      "designator": "X1",
+      "designator": "D1",
       "x": 55.0,
       "y": 35.0,
       "rotation": 0,
@@ -1278,7 +1278,7 @@
     },
     {
       "primitiveId": "c6",
-      "designator": "D1",
+      "designator": "D2",
       "x": 95.0,
       "y": 35.0,
       "rotation": 0,
@@ -1406,7 +1406,7 @@
     },
     {
       "primitiveId": "c10",
-      "designator": "X2",
+      "designator": "U1",
       "x": 15.0,
       "y": 65.0,
       "rotation": 0,
@@ -1421,7 +1421,7 @@
         {
           "number": "BOOT",
           "name": "BOOT",
-          "net": "X2_N9",
+          "net": "U1_N9",
           "x": -35.0,
           "y": 50.0,
           "rotation": 180.0
@@ -1429,7 +1429,7 @@
         {
           "number": "COMP",
           "name": "COMP",
-          "net": "X2_N13",
+          "net": "U1_N13",
           "x": 65.0,
           "y": 70.0,
           "rotation": 0.0
@@ -1453,7 +1453,7 @@
         {
           "number": "FB",
           "name": "FB",
-          "net": "X2_N12",
+          "net": "U1_N12",
           "x": 65.0,
           "y": 80.0,
           "rotation": 0.0
@@ -1469,7 +1469,7 @@
         {
           "number": "RT/CLK",
           "name": "RT/CLK",
-          "net": "X2_N8",
+          "net": "U1_N8",
           "x": -35.0,
           "y": 80.0,
           "rotation": 180.0
@@ -1573,7 +1573,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X2_N8",
+          "net": "U1_N8",
           "x": -5.0,
           "y": 80.0,
           "rotation": 180.0
@@ -1605,7 +1605,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X2_N9",
+          "net": "U1_N9",
           "x": 35.0,
           "y": 80.0,
           "rotation": 180.0
@@ -1670,7 +1670,7 @@
     },
     {
       "primitiveId": "c16",
-      "designator": "D2",
+      "designator": "D3",
       "x": 15.0,
       "y": 95.0,
       "rotation": 0,
@@ -1725,7 +1725,7 @@
         {
           "number": "2",
           "name": "2",
-          "net": "X2_N12",
+          "net": "U1_N12",
           "x": 75.0,
           "y": 95.0,
           "rotation": 0.0
@@ -1749,7 +1749,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X2_N12",
+          "net": "U1_N12",
           "x": 75.0,
           "y": 95.0,
           "rotation": 180.0
@@ -1781,7 +1781,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X2_N13",
+          "net": "U1_N13",
           "x": -5.0,
           "y": 110.0,
           "rotation": 180.0
@@ -1845,7 +1845,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "X2_N13",
+          "net": "U1_N13",
           "x": 80.0,
           "y": 110.0,
           "rotation": 180.0

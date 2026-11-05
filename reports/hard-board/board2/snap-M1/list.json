@@ -12,7 +12,7 @@
       {
         "componentType": "part",
         "primitiveId": "c10",
-        "designator": "X2",
+        "designator": "U1",
         "x": 0,
         "y": 0,
         "rotation": 0,
@@ -27,7 +27,7 @@
           {
             "pinNumber": "BOOT",
             "pinName": "BOOT",
-            "net": "X2_N9",
+            "net": "U1_N9",
             "x": -50,
             "y": -15,
             "rotation": 180,
@@ -36,7 +36,7 @@
           {
             "pinNumber": "COMP",
             "pinName": "COMP",
-            "net": "X2_N13",
+            "net": "U1_N13",
             "x": 50,
             "y": 5,
             "rotation": 0,
@@ -63,7 +63,7 @@
           {
             "pinNumber": "FB",
             "pinName": "FB",
-            "net": "X2_N12",
+            "net": "U1_N12",
             "x": 50,
             "y": 15,
             "rotation": 0,
@@ -81,7 +81,7 @@
           {
             "pinNumber": "RT/CLK",
             "pinName": "RT/CLK",
-            "net": "X2_N8",
+            "net": "U1_N8",
             "x": -50,
             "y": 15,
             "rotation": 180,
@@ -111,7 +111,7 @@
       {
         "componentType": "part",
         "primitiveId": "c6",
-        "designator": "D1",
+        "designator": "D2",
         "x": -35,
         "y": -50,
         "rotation": 0,
@@ -597,7 +597,7 @@
       {
         "componentType": "part",
         "primitiveId": "c5",
-        "designator": "X1",
+        "designator": "D1",
         "x": -255,
         "y": 35,
         "rotation": 0,
@@ -720,7 +720,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "X2_N8",
+            "net": "U1_N8",
             "x": -55,
             "y": 105,
             "rotation": 180,
@@ -756,7 +756,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "X2_N9",
+            "net": "U1_N9",
             "x": 15,
             "y": -70,
             "rotation": 180,
@@ -777,7 +777,7 @@
       {
         "componentType": "part",
         "primitiveId": "c16",
-        "designator": "D2",
+        "designator": "D3",
         "x": 85,
         "y": -75,
         "rotation": 0,
@@ -837,7 +837,7 @@
           {
             "pinNumber": "2",
             "pinName": "2",
-            "net": "X2_N12",
+            "net": "U1_N12",
             "x": 120,
             "y": 55,
             "rotation": 0,
@@ -864,7 +864,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "X2_N12",
+            "net": "U1_N12",
             "x": 125,
             "y": 105,
             "rotation": 180,
@@ -900,7 +900,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "X2_N13",
+            "net": "U1_N13",
             "x": 55,
             "y": 105,
             "rotation": 180,
@@ -972,7 +972,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "X2_N13",
+            "net": "U1_N13",
             "x": 5,
             "y": 105,
             "rotation": 180,
@@ -2091,7 +2091,7 @@
             105
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2105,7 +2105,7 @@
             100
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2119,7 +2119,7 @@
             5
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2133,7 +2133,7 @@
             100
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2147,7 +2147,7 @@
             100
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2161,7 +2161,7 @@
             100
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2259,7 +2259,7 @@
             105
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2273,7 +2273,7 @@
             80
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2287,7 +2287,7 @@
             80
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2301,7 +2301,7 @@
             55
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2315,7 +2315,7 @@
             55
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2329,7 +2329,7 @@
             80
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2371,7 +2371,7 @@
             15
           ]
         ],
-        "Net": "X2_N8",
+        "Net": "U1_N8",
         "primitiveId": ""
       },
       {
@@ -2385,7 +2385,7 @@
             15
           ]
         ],
-        "Net": "X2_N8",
+        "Net": "U1_N8",
         "primitiveId": ""
       },
       {
@@ -2399,7 +2399,7 @@
             -70
           ]
         ],
-        "Net": "X2_N9",
+        "Net": "U1_N9",
         "primitiveId": ""
       },
       {
@@ -2413,7 +2413,7 @@
             -25
           ]
         ],
-        "Net": "X2_N9",
+        "Net": "U1_N9",
         "primitiveId": ""
       },
       {
@@ -2427,7 +2427,7 @@
             -25
           ]
         ],
-        "Net": "X2_N9",
+        "Net": "U1_N9",
         "primitiveId": ""
       },
       {
@@ -2679,7 +2679,7 @@
             -15
           ]
         ],
-        "Net": "X2_N9",
+        "Net": "U1_N9",
         "primitiveId": ""
       },
       {
@@ -2693,7 +2693,7 @@
             -15
           ]
         ],
-        "Net": "X2_N9",
+        "Net": "U1_N9",
         "primitiveId": ""
       },
       {
@@ -2707,7 +2707,7 @@
             105
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2721,7 +2721,7 @@
             105
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2735,7 +2735,7 @@
             110
           ]
         ],
-        "Net": "X2_N13",
+        "Net": "U1_N13",
         "primitiveId": ""
       },
       {
@@ -2791,7 +2791,7 @@
             15
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2805,7 +2805,7 @@
             15
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2819,7 +2819,7 @@
             40
           ]
         ],
-        "Net": "X2_N12",
+        "Net": "U1_N12",
         "primitiveId": ""
       },
       {
@@ -2833,7 +2833,7 @@
             105
           ]
         ],
-        "Net": "X2_N8",
+        "Net": "U1_N8",
         "primitiveId": ""
       },
       {
@@ -2847,7 +2847,7 @@
             105
           ]
         ],
-        "Net": "X2_N8",
+        "Net": "U1_N8",
         "primitiveId": ""
       },
       {
@@ -2861,7 +2861,7 @@
             110
           ]
         ],
-        "Net": "X2_N8",
+        "Net": "U1_N8",
         "primitiveId": ""
       },
       {
@@ -3127,14 +3127,14 @@
         "direction": "left"
       },
       {
-        "net": "X2_N9",
+        "net": "U1_N9",
         "kind": "net_port_bi",
         "x": -55,
         "y": -20,
         "direction": "left"
       },
       {
-        "net": "X2_N13",
+        "net": "U1_N13",
         "kind": "net_port_bi",
         "x": 50,
         "y": 110,
@@ -3148,14 +3148,14 @@
         "direction": "down"
       },
       {
-        "net": "X2_N12",
+        "net": "U1_N12",
         "kind": "net_port_bi",
         "x": 75,
         "y": 40,
         "direction": "left"
       },
       {
-        "net": "X2_N8",
+        "net": "U1_N8",
         "kind": "net_port_bi",
         "x": -60,
         "y": 110,

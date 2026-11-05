@@ -47,49 +47,49 @@
     {
       "code": "outside_page",
       "objects": [
-        "U2-IN"
+        "U4-IN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-LX"
+        "U4-LX"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-LX#2"
+        "U4-LX#2"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-OUT"
+        "U4-OUT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-OUT#2"
+        "U4-OUT#2"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-PGND"
+        "U4-PGND"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-SGND"
+        "U4-SGND"
       ],
       "status": "review_candidate"
     },
@@ -283,49 +283,49 @@
     {
       "code": "outside_page",
       "objects": [
-        "U2-IN"
+        "U4-IN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-LX"
+        "U4-LX"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-LX#2"
+        "U4-LX#2"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-OUT"
+        "U4-OUT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-OUT#2"
+        "U4-OUT#2"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-PGND"
+        "U4-PGND"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "U2-SGND"
+        "U4-SGND"
       ],
       "status": "review_candidate"
     },

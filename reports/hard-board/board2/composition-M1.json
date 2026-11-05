@@ -112,7 +112,7 @@
       },
       {
         "id": "c5",
-        "ref": "X1",
+        "ref": "D1",
         "role": "D_QG",
         "device": {
           "libraryUuid": "f4288d098d4b4843911bc9918a68a779",
@@ -134,7 +134,7 @@
       },
       {
         "id": "c6",
-        "ref": "D1",
+        "ref": "D2",
         "role": "D_TVS",
         "device": {
           "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -203,8 +203,8 @@
         "ref": "C3",
         "role": "C_IN_HF",
         "device": {
-          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-          "deviceUuid": "6817eaee8d224720b6c722f3a69fc5c6",
+          "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+          "deviceUuid": "b5784e6c8475475893cee8110c44816d",
           "name": "cap.100nf_0603"
         },
         "pins": [
@@ -222,7 +222,7 @@
       },
       {
         "id": "c10",
-        "ref": "X2",
+        "ref": "U1",
         "role": "U",
         "device": {
           "libraryUuid": "0481ea3f21c8478dbff09dc19803ed28",
@@ -390,7 +390,7 @@
       },
       {
         "id": "c16",
-        "ref": "D2",
+        "ref": "D3",
         "role": "D_CATCH",
         "device": {
           "libraryUuid": "4cc456c593ec4d8bb3958e1c14cd60b7",
@@ -459,8 +459,8 @@
         "ref": "R7",
         "role": "R_COMP",
         "device": {
-          "libraryUuid": "01fab7af9c1d4121a2873047a5a99251",
-          "deviceUuid": "6017058cb2e9427fbbcc70b6297aed67",
+          "libraryUuid": "97ee120a8e7e45228fbb55b92ead330b",
+          "deviceUuid": "7f8517046d5745479b75cadd5fcaa9f5",
           "name": "res.47k_0402"
         },
         "pins": [
@@ -481,8 +481,8 @@
         "ref": "C5",
         "role": "C_COMP",
         "device": {
-          "libraryUuid": "40bbe427feed4c04ab6a98a2cd719e49",
-          "deviceUuid": "f3448080c3754bc89d3b300792519918",
+          "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
+          "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab",
           "name": "cap.47nf_0402"
         },
         "pins": [
@@ -622,12 +622,12 @@
       },
       {
         "id": "n7",
-        "name": "X2_N8",
+        "name": "U1_N8",
         "scope": "local"
       },
       {
         "id": "n8",
-        "name": "X2_N9",
+        "name": "U1_N9",
         "scope": "local"
       },
       {
@@ -643,12 +643,12 @@
       },
       {
         "id": "n11",
-        "name": "X2_N12",
+        "name": "U1_N12",
         "scope": "local"
       },
       {
         "id": "n12",
-        "name": "X2_N13",
+        "name": "U1_N13",
         "scope": "local"
       },
       {
@@ -1095,7 +1095,7 @@
       "placements": [
         {
           "primitiveId": "c10",
-          "designator": "X2",
+          "designator": "U1",
           "x": 0,
           "y": 0,
           "rotation": 0,
@@ -1110,7 +1110,7 @@
             {
               "number": "BOOT",
               "name": "BOOT",
-              "net": "X2_N9",
+              "net": "U1_N9",
               "x": -50,
               "y": -15,
               "rotation": 180
@@ -1118,7 +1118,7 @@
             {
               "number": "COMP",
               "name": "COMP",
-              "net": "X2_N13",
+              "net": "U1_N13",
               "x": 50,
               "y": 5,
               "rotation": 0
@@ -1142,7 +1142,7 @@
             {
               "number": "FB",
               "name": "FB",
-              "net": "X2_N12",
+              "net": "U1_N12",
               "x": 50,
               "y": 15,
               "rotation": 0
@@ -1158,7 +1158,7 @@
             {
               "number": "RT/CLK",
               "name": "RT/CLK",
-              "net": "X2_N8",
+              "net": "U1_N8",
               "x": -50,
               "y": 15,
               "rotation": 180
@@ -1183,7 +1183,7 @@
         },
         {
           "primitiveId": "c6",
-          "designator": "D1",
+          "designator": "D2",
           "x": -35,
           "y": -50,
           "rotation": 0,
@@ -1615,7 +1615,7 @@
         },
         {
           "primitiveId": "c5",
-          "designator": "X1",
+          "designator": "D1",
           "x": -255,
           "y": 35,
           "rotation": 0,
@@ -1726,7 +1726,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X2_N8",
+              "net": "U1_N8",
               "x": -55,
               "y": 105,
               "rotation": 180
@@ -1758,7 +1758,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X2_N9",
+              "net": "U1_N9",
               "x": 15,
               "y": -70,
               "rotation": 180
@@ -1775,7 +1775,7 @@
         },
         {
           "primitiveId": "c16",
-          "designator": "D2",
+          "designator": "D3",
           "x": 85,
           "y": -75,
           "rotation": 0,
@@ -1830,7 +1830,7 @@
             {
               "number": "2",
               "name": "2",
-              "net": "X2_N12",
+              "net": "U1_N12",
               "x": 120,
               "y": 55,
               "rotation": 0
@@ -1854,7 +1854,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X2_N12",
+              "net": "U1_N12",
               "x": 125,
               "y": 105,
               "rotation": 180
@@ -1886,7 +1886,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X2_N13",
+              "net": "U1_N13",
               "x": 55,
               "y": 105,
               "rotation": 180
@@ -1950,7 +1950,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X2_N13",
+              "net": "U1_N13",
               "x": 5,
               "y": 105,
               "rotation": 180
@@ -2969,7 +2969,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               5,
@@ -2982,7 +2982,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               0,
@@ -2995,7 +2995,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               50,
@@ -3008,7 +3008,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               60,
@@ -3021,7 +3021,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               0,
@@ -3034,7 +3034,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               50,
@@ -3125,7 +3125,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               125,
@@ -3138,7 +3138,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               120,
@@ -3151,7 +3151,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               120,
@@ -3164,7 +3164,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               125,
@@ -3177,7 +3177,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               125,
@@ -3190,7 +3190,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               125,
@@ -3229,7 +3229,7 @@
           ]
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "points": [
             [
               -65,
@@ -3242,7 +3242,7 @@
           ]
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "points": [
             [
               -65,
@@ -3255,7 +3255,7 @@
           ]
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "points": [
             [
               15,
@@ -3268,7 +3268,7 @@
           ]
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "points": [
             [
               -5,
@@ -3281,7 +3281,7 @@
           ]
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "points": [
             [
               -5,
@@ -3515,7 +3515,7 @@
           ]
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "points": [
             [
               -55,
@@ -3528,7 +3528,7 @@
           ]
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "points": [
             [
               -55,
@@ -3541,7 +3541,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               50,
@@ -3554,7 +3554,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               50,
@@ -3567,7 +3567,7 @@
           ]
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "points": [
             [
               50,
@@ -3619,7 +3619,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               50,
@@ -3632,7 +3632,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               75,
@@ -3645,7 +3645,7 @@
           ]
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "points": [
             [
               75,
@@ -3658,7 +3658,7 @@
           ]
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "points": [
             [
               -65,
@@ -3671,7 +3671,7 @@
           ]
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "points": [
             [
               -60,
@@ -3684,7 +3684,7 @@
           ]
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "points": [
             [
               -60,
@@ -4007,7 +4007,7 @@
           }
         },
         {
-          "net": "X2_N9",
+          "net": "U1_N9",
           "kind": "net_port_bi",
           "pinX": -55,
           "pinY": -20,
@@ -4015,13 +4015,13 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X2_N9",
+            "net": "U1_N9",
             "x": -55,
             "y": -20
           }
         },
         {
-          "net": "X2_N13",
+          "net": "U1_N13",
           "kind": "net_port_bi",
           "pinX": 50,
           "pinY": 110,
@@ -4029,7 +4029,7 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X2_N13",
+            "net": "U1_N13",
             "x": 50,
             "y": 110
           }
@@ -4049,7 +4049,7 @@
           }
         },
         {
-          "net": "X2_N12",
+          "net": "U1_N12",
           "kind": "net_port_bi",
           "pinX": 75,
           "pinY": 40,
@@ -4057,13 +4057,13 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X2_N12",
+            "net": "U1_N12",
             "x": 75,
             "y": 40
           }
         },
         {
-          "net": "X2_N8",
+          "net": "U1_N8",
           "kind": "net_port_bi",
           "pinX": -60,
           "pinY": 110,
@@ -4071,7 +4071,7 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X2_N8",
+            "net": "U1_N8",
             "x": -60,
             "y": 110
           }

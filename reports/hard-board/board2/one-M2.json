@@ -7,7 +7,7 @@
     "components": [
       {
         "id": "c25",
-        "ref": "U1",
+        "ref": "U2",
         "role": "U5",
         "device": {
           "name": "ic.xl1509_5v_buck",
@@ -53,7 +53,7 @@
       },
       {
         "id": "c26",
-        "ref": "D3",
+        "ref": "D4",
         "role": "D501",
         "device": {
           "name": "diode.ss34_sma",
@@ -75,7 +75,7 @@
       },
       {
         "id": "c27",
-        "ref": "D4",
+        "ref": "D5",
         "role": "D502",
         "device": {
           "name": "diode.ss34_sma",
@@ -221,12 +221,12 @@
       },
       {
         "id": "n14",
-        "name": "D4_N2",
+        "name": "D5_N2",
         "scope": "local"
       },
       {
         "id": "n15",
-        "name": "U1_N3",
+        "name": "U2_N3",
         "scope": "local"
       },
       {
@@ -414,14 +414,14 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 594,
+    "maxY": 420
   },
   "keepouts": [],
   "measurements": [
     {
       "primitiveId": "c25",
-      "designator": "U1",
+      "designator": "U2",
       "x": 160.0,
       "y": 20.0,
       "rotation": 0,
@@ -484,7 +484,7 @@
         {
           "number": "OUTPUT",
           "name": "OUTPUT",
-          "net": "U1_N3",
+          "net": "U2_N3",
           "x": 105.0,
           "y": 10.0,
           "rotation": 180.0
@@ -492,7 +492,7 @@
         {
           "number": "VIN",
           "name": "VIN",
-          "net": "D4_N2",
+          "net": "D5_N2",
           "x": 105.0,
           "y": -10.0,
           "rotation": 180.0
@@ -501,7 +501,7 @@
     },
     {
       "primitiveId": "c26",
-      "designator": "D3",
+      "designator": "D4",
       "x": 200.0,
       "y": 20.0,
       "rotation": 0,
@@ -524,7 +524,7 @@
         {
           "number": "K",
           "name": "K",
-          "net": "U1_N3",
+          "net": "U2_N3",
           "x": 180.0,
           "y": 20.0,
           "rotation": 180.0
@@ -533,7 +533,7 @@
     },
     {
       "primitiveId": "c27",
-      "designator": "D4",
+      "designator": "D5",
       "x": 160.0,
       "y": 35.0,
       "rotation": 0,
@@ -556,7 +556,7 @@
         {
           "number": "K",
           "name": "K",
-          "net": "D4_N2",
+          "net": "D5_N2",
           "x": 140.0,
           "y": 35.0,
           "rotation": 180.0
@@ -580,7 +580,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "U1_N3",
+          "net": "U2_N3",
           "x": 180.0,
           "y": 35.0,
           "rotation": 180.0
@@ -612,7 +612,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "D4_N2",
+          "net": "D5_N2",
           "x": 160.0,
           "y": 30.0,
           "rotation": 0.0
@@ -676,7 +676,7 @@
         {
           "number": "1",
           "name": "1",
-          "net": "D4_N2",
+          "net": "D5_N2",
           "x": 145.0,
           "y": 65.0,
           "rotation": 180.0

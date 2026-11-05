@@ -30,10 +30,26 @@ for _s in (sys.stdout, sys.stderr):
 SCHEMA = "1.4"
 
 # 器件 id 前缀 → 位号前缀。块库的 part 形如 `res.1k_0402`、`ic.xl1509_5v_buck`。
+# 型号前缀 → 位号前缀。
+#
+# **块库实际用到 31 个前缀，必须全覆盖。** 早先只映射了 17 个，于是
+# `buck.*` / `buckboost.*` / `ldo.*` 回落成 `X` —— `X` 在行业惯例里是
+# "不装/机械件/其他"，把 buck 芯片标成 `X2` 是错的，而且会让下游按 `U*`
+# 判 IC 的地方（如离线管线的 `has_ic`）认为这页没有 IC。
 PREFIX = {
-    "res": "R", "cap": "C", "ind": "L", "ic": "U", "diode": "D", "led": "D",
-    "conn": "J", "term": "J", "hdr": "J", "xtal": "Y", "sw": "SW",
-    "fuse": "F", "mos": "Q", "fet": "Q", "tvs": "D", "opt": "U", "relay": "K",
+    # 无源件
+    "res": "R", "cap": "C", "ind": "L", "fb": "FB", "xtal": "Y",
+    # 半导体分立
+    "diode": "D", "zener": "D", "tvs": "D", "led": "D", "esd": "D",
+    "bjt": "Q", "mos": "Q", "mosfet": "Q", "pmos": "Q",
+    # 集成电路（一律 U —— 电源芯片、MCU、传感器、存储、接口都算）
+    "ic": "U", "buck": "U", "buckboost": "U", "boost": "U", "ldo": "U",
+    "pmu": "U", "charger": "U", "mcu": "U", "sensor": "U", "storage": "U",
+    "opto": "U", "opt": "U", "mic": "U", "gnss": "U", "ant": "U",
+    "relay": "K",
+    # 机电/连接
+    "conn": "J", "term": "J", "hdr": "J", "sw": "SW", "fuse": "F",
+    "ntc": "RT", "storage_card": "J",
 }
 
 

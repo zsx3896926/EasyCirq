@@ -7,11 +7,11 @@
     "components": [
       {
         "id": "c33",
-        "ref": "X3",
+        "ref": "U3",
         "role": "U",
         "device": {
-          "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
-          "deviceUuid": "9db86f545bc44f07a72b7a3eba3417fc",
+          "libraryUuid": "5e7382a69781406ba214cc82244d6207",
+          "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927",
           "name": "buck.sy8089_tsot23"
         },
         "pins": [
@@ -66,8 +66,8 @@
         "ref": "R8",
         "role": "R_FBT",
         "device": {
-          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
-          "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079",
+          "libraryUuid": "ac78ab4a28be472d84f4f45d3c27084b",
+          "deviceUuid": "c76ee55dbd9841d385bd5bdb94f3bbc4",
           "name": "res.453k_0402__2"
         },
         "pins": [
@@ -110,8 +110,8 @@
         "ref": "C13",
         "role": "C_IN",
         "device": {
-          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
-          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93",
+          "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
+          "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4",
           "name": "cap.10uf_0805"
         },
         "pins": [
@@ -154,8 +154,8 @@
         "ref": "C15",
         "role": "C_HF",
         "device": {
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732",
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
           "name": "cap.100nf_0402"
         },
         "pins": [
@@ -187,7 +187,7 @@
       },
       {
         "id": "n17",
-        "name": "X3_N3",
+        "name": "U3_N3",
         "scope": "local"
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "id": "n19",
-        "name": "X3_N5",
+        "name": "U3_N5",
         "scope": "local"
       }
     ],
@@ -354,8 +354,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 841,
-    "maxY": 594
+    "maxX": 594,
+    "maxY": 420
   },
   "keepouts": [],
   "modules": [
@@ -365,7 +365,7 @@
       "placements": [
         {
           "primitiveId": "c33",
-          "designator": "X3",
+          "designator": "U3",
           "x": 0,
           "y": 0,
           "rotation": 0,
@@ -388,7 +388,7 @@
             {
               "number": "FB",
               "name": "FB",
-              "net": "X3_N5",
+              "net": "U3_N5",
               "x": 35,
               "y": -10,
               "rotation": 0
@@ -412,7 +412,7 @@
             {
               "number": "LX",
               "name": "LX",
-              "net": "X3_N3",
+              "net": "U3_N3",
               "x": -35,
               "y": 10,
               "rotation": 180
@@ -468,7 +468,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X3_N3",
+              "net": "U3_N3",
               "x": -45,
               "y": 50,
               "rotation": 180
@@ -518,14 +518,14 @@
         {
           "primitiveId": "c39",
           "designator": "C15",
-          "x": 25,
+          "x": 30,
           "y": 115,
           "rotation": 0,
           "mirror": false,
           "bbox": {
             "minX": 20,
             "minY": 110,
-            "maxX": 30,
+            "maxX": 40,
             "maxY": 120
           },
           "pins": [
@@ -541,7 +541,7 @@
               "number": "2",
               "name": "2",
               "net": "GND",
-              "x": 40,
+              "x": 50,
               "y": 115,
               "rotation": 0
             }
@@ -572,7 +572,7 @@
             {
               "number": "2",
               "name": "2",
-              "net": "X3_N5",
+              "net": "U3_N5",
               "x": -5,
               "y": 115,
               "rotation": 0
@@ -596,7 +596,7 @@
             {
               "number": "1",
               "name": "1",
-              "net": "X3_N5",
+              "net": "U3_N5",
               "x": 50,
               "y": -40,
               "rotation": 180
@@ -744,7 +744,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               35,
@@ -757,7 +757,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               45,
@@ -770,7 +770,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               100,
@@ -783,7 +783,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               100,
@@ -796,7 +796,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               0,
@@ -809,7 +809,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               0,
@@ -822,7 +822,7 @@
           ]
         },
         {
-          "net": "X3_N3",
+          "net": "U3_N3",
           "points": [
             [
               -50,
@@ -864,11 +864,11 @@
           "net": "GND",
           "points": [
             [
-              40,
+              50,
               115
             ],
             [
-              45,
+              55,
               115
             ]
           ]
@@ -877,7 +877,7 @@
           "net": "GND",
           "points": [
             [
-              45,
+              55,
               115
             ],
             [
@@ -890,11 +890,11 @@
           "net": "GND",
           "points": [
             [
-              45,
+              55,
               115
             ],
             [
-              45,
+              55,
               120
             ]
           ]
@@ -1004,7 +1004,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               45,
@@ -1017,7 +1017,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               45,
@@ -1030,7 +1030,7 @@
           ]
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "points": [
             [
               45,
@@ -1043,7 +1043,7 @@
           ]
         },
         {
-          "net": "X3_N3",
+          "net": "U3_N3",
           "points": [
             [
               -50,
@@ -1056,7 +1056,7 @@
           ]
         },
         {
-          "net": "X3_N3",
+          "net": "U3_N3",
           "points": [
             [
               -50,
@@ -1069,7 +1069,7 @@
           ]
         },
         {
-          "net": "X3_N3",
+          "net": "U3_N3",
           "points": [
             [
               -50,
@@ -1114,14 +1114,14 @@
         {
           "net": "GND",
           "kind": "ground",
-          "pinX": 45,
+          "pinX": 55,
           "pinY": 120,
           "direction": "up",
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "GND",
-            "x": 45,
+            "x": 55,
             "y": 120
           }
         },
@@ -1168,7 +1168,7 @@
           }
         },
         {
-          "net": "X3_N5",
+          "net": "U3_N5",
           "kind": "net_port_bi",
           "pinX": 45,
           "pinY": -45,
@@ -1176,13 +1176,13 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X3_N5",
+            "net": "U3_N5",
             "x": 45,
             "y": -45
           }
         },
         {
-          "net": "X3_N3",
+          "net": "U3_N3",
           "kind": "net_port_bi",
           "pinX": -50,
           "pinY": 55,
@@ -1190,7 +1190,7 @@
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
-            "net": "X3_N3",
+            "net": "U3_N3",
             "x": -50,
             "y": 55
           }

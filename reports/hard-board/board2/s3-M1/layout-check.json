@@ -124,63 +124,63 @@
     {
       "code": "outside_page",
       "objects": [
-        "X2-BOOT"
+        "U1-BOOT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-EN"
+        "U1-EN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-EP"
+        "U1-EP"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-GND"
+        "U1-GND"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-RT/CLK"
+        "U1-RT/CLK"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-SW"
+        "U1-SW"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-VIN"
+        "U1-VIN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D1-A"
+        "D2-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D1-C"
+        "D2-C"
       ],
       "status": "review_candidate"
     },
@@ -341,14 +341,14 @@
     {
       "code": "outside_page",
       "objects": [
-        "X1-A"
+        "D1-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X1-C"
+        "D1-C"
       ],
       "status": "review_candidate"
     },
@@ -411,14 +411,14 @@
     {
       "code": "outside_page",
       "objects": [
-        "D2-A"
+        "D3-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D2-K"
+        "D3-K"
       ],
       "status": "review_candidate"
     }
@@ -640,63 +640,63 @@
     {
       "code": "outside_page",
       "objects": [
-        "X2-BOOT"
+        "U1-BOOT"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-EN"
+        "U1-EN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-EP"
+        "U1-EP"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-GND"
+        "U1-GND"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-RT/CLK"
+        "U1-RT/CLK"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-SW"
+        "U1-SW"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X2-VIN"
+        "U1-VIN"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D1-A"
+        "D2-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D1-C"
+        "D2-C"
       ],
       "status": "review_candidate"
     },
@@ -857,14 +857,14 @@
     {
       "code": "outside_page",
       "objects": [
-        "X1-A"
+        "D1-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "X1-C"
+        "D1-C"
       ],
       "status": "review_candidate"
     },
@@ -927,14 +927,14 @@
     {
       "code": "outside_page",
       "objects": [
-        "D2-A"
+        "D3-A"
       ],
       "status": "review_candidate"
     },
     {
       "code": "outside_page",
       "objects": [
-        "D2-K"
+        "D3-K"
       ],
       "status": "review_candidate"
     }

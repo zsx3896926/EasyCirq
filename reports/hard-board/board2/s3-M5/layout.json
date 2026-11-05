@@ -3,8 +3,8 @@
  "page_bbox": [
   0.0,
   0.0,
-  841.0,
-  594.0
+  594.0,
+  420.0
  ],
  "components": [
   {
@@ -39,7 +39,7 @@
    "bbox": [
     65.0,
     75.0,
-    75.0,
+    85.0,
     85.0
    ]
   },
@@ -75,61 +75,61 @@
  "wires": [],
  "attachment_points": [
   {
-   "id": "X4-AGND",
+   "id": "U5-AGND",
    "x": -45,
    "y": 0,
    "kind": "pin"
   },
   {
-   "id": "X4-EN",
+   "id": "U5-EN",
    "x": -45,
    "y": -20,
    "kind": "pin"
   },
   {
-   "id": "X4-FB",
+   "id": "U5-FB",
    "x": -45,
    "y": 10,
    "kind": "pin"
   },
   {
-   "id": "X4-GND",
+   "id": "U5-GND",
    "x": 45,
    "y": 0,
    "kind": "pin"
   },
   {
-   "id": "X4-L1",
+   "id": "U5-L1",
    "x": 45,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "X4-L2",
+   "id": "U5-L2",
    "x": 45,
    "y": 10,
    "kind": "pin"
   },
   {
-   "id": "X4-MODE",
+   "id": "U5-MODE",
    "x": -45,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "X4-PG",
+   "id": "U5-PG",
    "x": -45,
    "y": 20,
    "kind": "pin"
   },
   {
-   "id": "X4-VIN",
+   "id": "U5-VIN",
    "x": 45,
    "y": -20,
    "kind": "pin"
   },
   {
-   "id": "X4-VOUT",
+   "id": "U5-VOUT",
    "x": 45,
    "y": 20,
    "kind": "pin"
@@ -166,7 +166,7 @@
   },
   {
    "id": "C23-2",
-   "x": 85,
+   "x": 95,
    "y": 80,
    "kind": "pin"
   },
@@ -249,7 +249,7 @@
    "rectangles": 0
   }
  },
- "snapshot_sha256": "4156287cfaf7b37db73a8a0f4a71f0583681c31d39044f7563b47ab39655b057",
+ "snapshot_sha256": "ec0320b5c1cb65d9156cccb7534edbfb99ad899ccfee911edfcb2a427cc96ff3",
  "expected_counts": {
   "components": 7,
   "texts": 0,

@@ -5,7 +5,7 @@
   "components": [
     {
       "id": "c40",
-      "ref": "U2",
+      "ref": "U4",
       "role": "U",
       "device": {
         "libraryUuid": "ed673a013a644ceb9f50cbb02e82271d",
@@ -273,12 +273,12 @@
     },
     {
       "id": "n20",
-      "name": "U2_N1",
+      "name": "U4_N1",
       "scope": "local"
     },
     {
       "id": "n21",
-      "name": "U2_N4",
+      "name": "U4_N4",
       "scope": "local"
     }
   ],

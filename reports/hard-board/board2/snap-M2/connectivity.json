@@ -5,7 +5,7 @@
   "components": [
     {
       "id": "c25",
-      "ref": "U1",
+      "ref": "U2",
       "role": "U5",
       "device": {
         "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
@@ -51,7 +51,7 @@
     },
     {
       "id": "c26",
-      "ref": "D3",
+      "ref": "D4",
       "role": "D501",
       "device": {
         "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
@@ -73,7 +73,7 @@
     },
     {
       "id": "c27",
-      "ref": "D4",
+      "ref": "D5",
       "role": "D502",
       "device": {
         "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
@@ -186,8 +186,8 @@
       "ref": "J2",
       "role": "J1",
       "device": {
-        "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
-        "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116",
+        "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
+        "deviceUuid": "c6dd164532ad43d987993b5850265e6b",
         "name": "conn.screw_terminal_2p"
       },
       "pins": [
@@ -219,12 +219,12 @@
     },
     {
       "id": "n14",
-      "name": "D4_N2",
+      "name": "D5_N2",
       "scope": "local"
     },
     {
       "id": "n15",
-      "name": "U1_N3",
+      "name": "U2_N3",
       "scope": "local"
     },
     {

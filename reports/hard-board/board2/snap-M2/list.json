@@ -5,14 +5,14 @@
     "sheet": {
       "minX": 0,
       "minY": 0,
-      "maxX": 841,
-      "maxY": 594
+      "maxX": 594,
+      "maxY": 420
     },
     "components": [
       {
         "componentType": "part",
         "primitiveId": "c25",
-        "designator": "U1",
+        "designator": "U2",
         "x": 0,
         "y": 0,
         "rotation": 0,
@@ -81,7 +81,7 @@
           {
             "pinNumber": "OUTPUT",
             "pinName": "OUTPUT",
-            "net": "U1_N3",
+            "net": "U2_N3",
             "x": -55,
             "y": -10,
             "rotation": 180,
@@ -90,7 +90,7 @@
           {
             "pinNumber": "VIN",
             "pinName": "VIN",
-            "net": "D4_N2",
+            "net": "D5_N2",
             "x": -55,
             "y": -30,
             "rotation": 180,
@@ -138,7 +138,7 @@
       {
         "componentType": "part",
         "primitiveId": "c26",
-        "designator": "D3",
+        "designator": "D4",
         "x": -75,
         "y": -25,
         "rotation": 0,
@@ -162,7 +162,7 @@
           {
             "pinNumber": "K",
             "pinName": "K",
-            "net": "U1_N3",
+            "net": "U2_N3",
             "x": -95,
             "y": -25,
             "rotation": 180,
@@ -174,7 +174,7 @@
       {
         "componentType": "part",
         "primitiveId": "c27",
-        "designator": "D4",
+        "designator": "D5",
         "x": -40,
         "y": -75,
         "rotation": 0,
@@ -198,7 +198,7 @@
           {
             "pinNumber": "K",
             "pinName": "K",
-            "net": "D4_N2",
+            "net": "D5_N2",
             "x": -60,
             "y": -75,
             "rotation": 180,
@@ -261,7 +261,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "U1_N3",
+            "net": "U2_N3",
             "x": -150,
             "y": -25,
             "rotation": 180,
@@ -297,7 +297,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "D4_N2",
+            "net": "D5_N2",
             "x": -110,
             "y": -75,
             "rotation": 180,
@@ -333,7 +333,7 @@
           {
             "pinNumber": "1",
             "pinName": "1",
-            "net": "D4_N2",
+            "net": "D5_N2",
             "x": -160,
             "y": -75,
             "rotation": 0,
@@ -357,8 +357,8 @@
         "bbox": {
           "minX": 0,
           "minY": 0,
-          "maxX": 841,
-          "maxY": 594
+          "maxX": 594,
+          "maxY": 420
         }
       }
     ],
@@ -598,7 +598,7 @@
             -75
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -612,7 +612,7 @@
             -70
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -626,7 +626,7 @@
             -30
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -640,7 +640,7 @@
             -30
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -654,7 +654,7 @@
             -70
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -668,7 +668,7 @@
             -25
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -682,7 +682,7 @@
             -20
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -696,7 +696,7 @@
             -10
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -710,7 +710,7 @@
             -10
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -724,7 +724,7 @@
             -20
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -738,7 +738,7 @@
             -20
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -1018,7 +1018,7 @@
             -25
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -1032,7 +1032,7 @@
             -20
           ]
         ],
-        "Net": "U1_N3",
+        "Net": "U2_N3",
         "primitiveId": ""
       },
       {
@@ -1046,7 +1046,7 @@
             -75
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -1060,7 +1060,7 @@
             -75
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -1074,7 +1074,7 @@
             -75
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       },
       {
@@ -1088,7 +1088,7 @@
             -70
           ]
         ],
-        "Net": "D4_N2",
+        "Net": "D5_N2",
         "primitiveId": ""
       }
     ],
@@ -1144,14 +1144,14 @@
         "direction": "down"
       },
       {
-        "net": "U1_N3",
+        "net": "U2_N3",
         "kind": "net_port_bi",
         "x": -155,
         "y": -20,
         "direction": "up"
       },
       {
-        "net": "D4_N2",
+        "net": "D5_N2",
         "kind": "net_port_bi",
         "x": -115,
         "y": -80,

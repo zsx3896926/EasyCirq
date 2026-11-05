@@ -3,8 +3,8 @@
  "page_bbox": [
   0.0,
   0.0,
-  841.0,
-  594.0
+  594.0,
+  420.0
  ],
  "components": [
   {
@@ -84,49 +84,49 @@
  "wires": [],
  "attachment_points": [
   {
-   "id": "U1-FB",
+   "id": "U2-FB",
    "x": -55,
    "y": 10,
    "kind": "pin"
   },
   {
-   "id": "U1-GND",
+   "id": "U2-GND",
    "x": 55,
    "y": 30,
    "kind": "pin"
   },
   {
-   "id": "U1-GND#2",
+   "id": "U2-GND#2",
    "x": 55,
    "y": 10,
    "kind": "pin"
   },
   {
-   "id": "U1-GND#3",
+   "id": "U2-GND#3",
    "x": 55,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "U1-GND#4",
+   "id": "U2-GND#4",
    "x": 55,
    "y": -30,
    "kind": "pin"
   },
   {
-   "id": "U1-ON/OFF",
+   "id": "U2-ON/OFF",
    "x": -55,
    "y": 30,
    "kind": "pin"
   },
   {
-   "id": "U1-OUTPUT",
+   "id": "U2-OUTPUT",
    "x": -55,
    "y": -10,
    "kind": "pin"
   },
   {
-   "id": "U1-VIN",
+   "id": "U2-VIN",
    "x": -55,
    "y": -30,
    "kind": "pin"
@@ -144,25 +144,25 @@
    "kind": "pin"
   },
   {
-   "id": "D3-A",
+   "id": "D4-A",
    "x": -55,
    "y": -25,
    "kind": "pin"
   },
   {
-   "id": "D3-K",
+   "id": "D4-K",
    "x": -95,
    "y": -25,
    "kind": "pin"
   },
   {
-   "id": "D4-A",
+   "id": "D5-A",
    "x": -20,
    "y": -75,
    "kind": "pin"
   },
   {
-   "id": "D4-K",
+   "id": "D5-K",
    "x": -60,
    "y": -75,
    "kind": "pin"
@@ -258,7 +258,7 @@
    "rectangles": 0
   }
  },
- "snapshot_sha256": "803de5ab7528f4b545a9b1ed5631e836aef784c1c1abec2e6cdbbe2ad9611130",
+ "snapshot_sha256": "535a2e8b426683fae92e8ed5e66431e010497f8b5bc59d4d1519fe84e20f3672",
  "expected_counts": {
   "components": 8,
   "texts": 0,

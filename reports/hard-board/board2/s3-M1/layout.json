@@ -228,67 +228,67 @@
  "wires": [],
  "attachment_points": [
   {
-   "id": "X2-BOOT",
+   "id": "U1-BOOT",
    "x": -50,
    "y": -15,
    "kind": "pin"
   },
   {
-   "id": "X2-COMP",
+   "id": "U1-COMP",
    "x": 50,
    "y": 5,
    "kind": "pin"
   },
   {
-   "id": "X2-EN",
+   "id": "U1-EN",
    "x": -50,
    "y": 5,
    "kind": "pin"
   },
   {
-   "id": "X2-EP",
+   "id": "U1-EP",
    "x": 0,
    "y": -35,
    "kind": "pin"
   },
   {
-   "id": "X2-FB",
+   "id": "U1-FB",
    "x": 50,
    "y": 15,
    "kind": "pin"
   },
   {
-   "id": "X2-GND",
+   "id": "U1-GND",
    "x": 50,
    "y": -5,
    "kind": "pin"
   },
   {
-   "id": "X2-RT/CLK",
+   "id": "U1-RT/CLK",
    "x": -50,
    "y": 15,
    "kind": "pin"
   },
   {
-   "id": "X2-SW",
+   "id": "U1-SW",
    "x": 50,
    "y": -15,
    "kind": "pin"
   },
   {
-   "id": "X2-VIN",
+   "id": "U1-VIN",
    "x": -50,
    "y": -5,
    "kind": "pin"
   },
   {
-   "id": "D1-A",
+   "id": "D2-A",
    "x": -15,
    "y": -50,
    "kind": "pin"
   },
   {
-   "id": "D1-C",
+   "id": "D2-C",
    "x": -55,
    "y": -50,
    "kind": "pin"
@@ -462,13 +462,13 @@
    "kind": "pin"
   },
   {
-   "id": "X1-A",
+   "id": "D1-A",
    "x": -235,
    "y": 35,
    "kind": "pin"
   },
   {
-   "id": "X1-C",
+   "id": "D1-C",
    "x": -275,
    "y": 35,
    "kind": "pin"
@@ -522,13 +522,13 @@
    "kind": "pin"
   },
   {
-   "id": "D2-A",
+   "id": "D3-A",
    "x": 105,
    "y": -75,
    "kind": "pin"
   },
   {
-   "id": "D2-K",
+   "id": "D3-K",
    "x": 65,
    "y": -75,
    "kind": "pin"
@@ -636,7 +636,7 @@
    "rectangles": 0
   }
  },
- "snapshot_sha256": "f11eb1bf4ce5e1ea8c44e38954f3db91ed33bfe055cb105de2bc68be38bda993",
+ "snapshot_sha256": "56fee9cda7ca1cad84378805e133799816ebb21a2e798e08ea55b013687fdc37",
  "expected_counts": {
   "components": 24,
   "texts": 0,
