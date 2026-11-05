@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-sch-measurements/v1",
-  "netlist": "reports\\hard-board\\board2\\netlist.json",
+  "netlist": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\netlist.json",
   "parts": {
     "buck.sy8089_tsot23": {
       "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
@@ -315,49 +315,49 @@
       "pinCount": 10
     },
     "cap.100nf_0402": {
-      "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-      "deviceUuid": "67499aaae1134337a02800b9c07f7732",
-      "symbolUuid": "5e7f81ce5a064e10be8cca6eb1f60436",
+      "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+      "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+      "symbolUuid": "64737b0d82df41749fa597a505d30499",
       "lcsc": "C1525",
-      "archive": ".easycirq\\symbol-cache\\cap_100nf_0402_5e7f81ce.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_100nf_0402_64737b0d.elibz2",
       "pins": {
         "1": {
-          "x": -15,
+          "x": -20,
           "y": 0,
           "length": 10,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
-            -15.0,
+            -20.0,
             0.0
           ]
         },
         "2": {
-          "x": 15,
+          "x": 20,
           "y": 0,
           "length": 10,
           "rotation": 180,
           "outwardRotation": 0.0,
           "connectionPoint": [
-            15.0,
+            20.0,
             0.0
           ]
         }
       },
       "body": {
-        "minX": -5.0,
+        "minX": -10.0,
         "minY": -5.000000000000001,
-        "maxX": 5.0,
+        "maxX": 10.0,
         "maxY": 4.999999999999999
       },
       "pinCount": 2
     },
     "cap.100nf_0603": {
-      "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-      "deviceUuid": "6817eaee8d224720b6c722f3a69fc5c6",
-      "symbolUuid": "4b3b2bdc140d43188993bed6e52d758b",
+      "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+      "deviceUuid": "b5784e6c8475475893cee8110c44816d",
+      "symbolUuid": "92bf789a17c44ef58399c3f11c0a273a",
       "lcsc": "C14663",
-      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_4b3b2bdc.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_92bf789a.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -543,11 +543,11 @@
       "pinCount": 2
     },
     "cap.22uf_0805": {
-      "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-      "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
-      "symbolUuid": "59578d7da0104acba2613c2b1c113da7",
+      "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+      "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd",
+      "symbolUuid": "67f3ddf4bc60455cbace16bb9c6453ac",
       "lcsc": "C45783",
-      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_59578d7d.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_67f3ddf4.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -619,11 +619,11 @@
       "pinCount": 2
     },
     "cap.47nf_0402": {
-      "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
-      "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab",
-      "symbolUuid": "e9de883aaba6444fbc2bc750159db372",
+      "libraryUuid": "40bbe427feed4c04ab6a98a2cd719e49",
+      "deviceUuid": "f3448080c3754bc89d3b300792519918",
+      "symbolUuid": "13c5bfd9dbe24633abb90bdb58230bcf",
       "lcsc": "C1538",
-      "archive": ".easycirq\\symbol-cache\\cap_47nf_0402_e9de883a.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_47nf_0402_13c5bfd9.elibz2",
       "pins": {
         "1": {
           "x": -15,
@@ -695,11 +695,11 @@
       "pinCount": 2
     },
     "conn.screw_terminal_2p": {
-      "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
-      "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116",
-      "symbolUuid": "d9b41abbded543e9b1b0ef2ec3984472",
+      "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
+      "deviceUuid": "c6dd164532ad43d987993b5850265e6b",
+      "symbolUuid": "e28aa965aef54e4890b6c8bfa39a1bed",
       "lcsc": "C474881",
-      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_d9b41abb.elibz2",
+      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_e28aa965.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1049,11 +1049,11 @@
       "pinCount": 9
     },
     "ic.xl1509_5v_buck": {
-      "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
-      "deviceUuid": "bb201d9430f147e28691f5c18dacc89f",
-      "symbolUuid": "06ce3738ef2745e7a22dcfef559c8f48",
+      "libraryUuid": "ae000c5248a548c2bcf421edda5596d8",
+      "deviceUuid": "8010833fbc56415d99e144b88c6be723",
+      "symbolUuid": "78b6343845a343e387cff9f246191b7c",
       "lcsc": "C61063",
-      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_06ce3738.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_78b63438.elibz2",
       "pins": {
         "FB": {
           "x": -55,
@@ -1153,11 +1153,11 @@
       "pinCount": 8
     },
     "ind.15uh_12x12mm": {
-      "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
-      "deviceUuid": "844d3737c395406cbda147b110b6c196",
-      "symbolUuid": "04f35e5c403f48f98661ab5e6f6293cd",
+      "libraryUuid": "a62e072cc495443992e280a5f85ea1eb",
+      "deviceUuid": "421af6f80350495e9a8f06e0a7fd147f",
+      "symbolUuid": "08132f0033aa49fba06b524648b59d4b",
       "lcsc": "C22387937",
-      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_04f35e5c.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_08132f00.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1436,11 +1436,11 @@
       "pinCount": 5
     },
     "res.100k_0402": {
-      "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-      "deviceUuid": "ca74fa48280a42d5966001f9b9585429",
-      "symbolUuid": "a977d3a89a7440608600ceb9c373aef0",
+      "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+      "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6",
+      "symbolUuid": "b502112b23014a6fa7a1720f044007b2",
       "lcsc": "C25741",
-      "archive": ".easycirq\\symbol-cache\\res_100k_0402_a977d3a8.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_100k_0402_b502112b.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1626,11 +1626,11 @@
       "pinCount": 2
     },
     "res.453k_0402__2": {
-      "libraryUuid": "0285b653b2194bf4aef348582ad03975",
-      "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079",
-      "symbolUuid": "36fae5926f8b4127a70846a38b54f3b3",
+      "libraryUuid": "ac78ab4a28be472d84f4f45d3c27084b",
+      "deviceUuid": "c76ee55dbd9841d385bd5bdb94f3bbc4",
+      "symbolUuid": "c4338bd1d5e04b7a8c80ac7659d95ea2",
       "lcsc": "C26980",
-      "archive": ".easycirq\\symbol-cache\\res_453k_0402__2_36fae592.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_453k_0402__2_c4338bd1.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1893,8 +1893,8 @@
     }
   },
   "stats": {
-    "cache": 34,
-    "fetched": 5,
+    "cache": 38,
+    "fetched": 1,
     "failed": 0
   },
   "problems": []

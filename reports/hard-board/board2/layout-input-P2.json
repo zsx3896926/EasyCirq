@@ -83,8 +83,8 @@
         "role": "C_IN1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -105,8 +105,8 @@
         "role": "C_IN2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -127,8 +127,8 @@
         "role": "C_IN3",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -149,8 +149,8 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -171,8 +171,8 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -237,8 +237,8 @@
         "role": "R_EN",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
         },
         "pins": [
           {
@@ -358,8 +358,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
         },
         "pins": [
           {
@@ -402,8 +402,8 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -424,8 +424,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -843,8 +843,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 420,
+    "maxY": 297
   },
   "keepouts": [],
   "measurements": [
@@ -1488,9 +1488,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 155.0,
+        "minX": 150.0,
         "minY": 90.0,
-        "maxX": 165.0,
+        "maxX": 170.0,
         "maxY": 100.0
       },
       "pins": [
@@ -1498,7 +1498,7 @@
           "number": "1",
           "name": "1",
           "net": "+3V8",
-          "x": 145.0,
+          "x": 140.0,
           "y": 95.0,
           "rotation": 180.0
         },
@@ -1506,7 +1506,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 175.0,
+          "x": 180.0,
           "y": 95.0,
           "rotation": 0.0
         }
@@ -1589,5 +1589,5 @@
       }
     }
   ],
-  "maxCandidates": 1000000
+  "maxCandidates": 20000
 }

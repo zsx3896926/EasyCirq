@@ -1,17 +1,20 @@
 {
   "schema": "easycirq-sch-page-plan/v1",
-  "rule": "一个模块一页；纸型由实测包络决定",
+  "rule": "一个模块一页；纸型先由估计包络给候选，再由真实运行确认",
   "margin": 5.0,
   "widthFactor": 1.15,
+  "paperFloor": "A4",
+  "confirmed": false,
   "pages": [
     {
       "page": "P1",
       "module": "M1",
       "parts": 24,
-      "estWidth": 609.5,
+      "estWidth": 632.5,
       "estHeight": 75.0,
-      "paper": "A1",
-      "paperValidated": "A1"
+      "suggestedPaper": "A1",
+      "confirmedPaper": null,
+      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P2",
@@ -19,17 +22,19 @@
       "parts": 8,
       "estWidth": 195.5,
       "estHeight": 150.0,
-      "paper": "A4",
-      "paperValidated": "A1"
+      "suggestedPaper": "A4",
+      "confirmedPaper": null,
+      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P3",
       "module": "M3",
       "parts": 7,
-      "estWidth": 195.5,
+      "estWidth": 207.0,
       "estHeight": 60.0,
-      "paper": "A4",
-      "paperValidated": "A1"
+      "suggestedPaper": "A4",
+      "confirmedPaper": null,
+      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P4",
@@ -37,23 +42,19 @@
       "parts": 10,
       "estWidth": 287.5,
       "estHeight": 120.0,
-      "paper": "A3",
-      "paperValidated": "A1"
+      "suggestedPaper": "A3",
+      "confirmedPaper": null,
+      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P2.json"
     },
     {
       "page": "P5",
       "module": "M5",
       "parts": 7,
-      "estWidth": 218.5,
+      "estWidth": 230.0,
       "estHeight": 90.0,
-      "paper": "A4",
-      "paperValidated": "A1"
+      "suggestedPaper": "A4",
+      "confirmedPaper": null,
+      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P2.json"
     }
-  ],
-  "validated": true,
-  "validatedAt": "2026-11-05",
-  "paperUsed": "A1",
-  "result": "5/5 模块全部产出排版稿",
-  "correction": "预检原先按估计宽给纸（M3 估 196 → 判 A4），但实测 A4 上 M3（7 件）仍报 would exceed the single sheet —— 说明宽度系数对小模块**低估**了。所以纸型不能只按公式给，必须用一次真实运行确认。",
-  "lesson": "用户指出：放不下就多加图纸。对。一模块一页 + A1，连 24 件的整块也一次通过，不需要把模块拆碎。"
+  ]
 }

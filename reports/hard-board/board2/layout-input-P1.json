@@ -94,8 +94,8 @@
         "role": "R_QG",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
         },
         "pins": [
           {
@@ -204,8 +204,8 @@
         "role": "C_IN_HF",
         "device": {
           "name": "cap.100nf_0603",
-          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-          "deviceUuid": "6817eaee8d224720b6c722f3a69fc5c6"
+          "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+          "deviceUuid": "b5784e6c8475475893cee8110c44816d"
         },
         "pins": [
           {
@@ -342,8 +342,8 @@
         "role": "C_BOOT",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -364,8 +364,8 @@
         "role": "L_OUT",
         "device": {
           "name": "ind.15uh_12x12mm",
-          "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
-          "deviceUuid": "844d3737c395406cbda147b110b6c196"
+          "libraryUuid": "a62e072cc495443992e280a5f85ea1eb",
+          "deviceUuid": "421af6f80350495e9a8f06e0a7fd147f"
         },
         "pins": [
           {
@@ -482,8 +482,8 @@
         "role": "C_COMP",
         "device": {
           "name": "cap.47nf_0402",
-          "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
-          "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab"
+          "libraryUuid": "40bbe427feed4c04ab6a98a2cd719e49",
+          "deviceUuid": "f3448080c3754bc89d3b300792519918"
         },
         "pins": [
           {
@@ -526,8 +526,8 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -548,8 +548,8 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -570,8 +570,8 @@
         "role": "C_OUT_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -592,8 +592,8 @@
         "role": "U5",
         "device": {
           "name": "ic.xl1509_5v_buck",
-          "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
-          "deviceUuid": "bb201d9430f147e28691f5c18dacc89f"
+          "libraryUuid": "ae000c5248a548c2bcf421edda5596d8",
+          "deviceUuid": "8010833fbc56415d99e144b88c6be723"
         },
         "pins": [
           {
@@ -770,8 +770,8 @@
         "role": "J1",
         "device": {
           "name": "conn.screw_terminal_2p",
-          "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
-          "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116"
+          "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
+          "deviceUuid": "c6dd164532ad43d987993b5850265e6b"
         },
         "pins": [
           {
@@ -848,8 +848,8 @@
         "role": "R_FBT",
         "device": {
           "name": "res.453k_0402__2",
-          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
-          "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079"
+          "libraryUuid": "ac78ab4a28be472d84f4f45d3c27084b",
+          "deviceUuid": "c76ee55dbd9841d385bd5bdb94f3bbc4"
         },
         "pins": [
           {
@@ -914,8 +914,8 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -936,8 +936,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -1742,8 +1742,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 841,
+    "maxY": 594
   },
   "keepouts": [],
   "measurements": [
@@ -2259,9 +2259,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 50.0,
+        "minX": 45.0,
         "minY": 75.0,
-        "maxX": 60.0,
+        "maxX": 65.0,
         "maxY": 85.0
       },
       "pins": [
@@ -2269,7 +2269,7 @@
           "number": "1",
           "name": "1",
           "net": "X2_N9",
-          "x": 40.0,
+          "x": 35.0,
           "y": 80.0,
           "rotation": 180.0
         },
@@ -2277,7 +2277,7 @@
           "number": "2",
           "name": "2",
           "net": "C4_N10",
-          "x": 70.0,
+          "x": 75.0,
           "y": 80.0,
           "rotation": 0.0
         }
@@ -2595,9 +2595,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 90.0,
+        "minX": 85.0,
         "minY": 120.0,
-        "maxX": 100.0,
+        "maxX": 105.0,
         "maxY": 130.0
       },
       "pins": [
@@ -2605,7 +2605,7 @@
           "number": "1",
           "name": "1",
           "net": "+5V",
-          "x": 80.0,
+          "x": 75.0,
           "y": 125.0,
           "rotation": 180.0
         },
@@ -2613,7 +2613,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 110.0,
+          "x": 115.0,
           "y": 125.0,
           "rotation": 0.0
         }
@@ -3147,9 +3147,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 155.0,
+        "minX": 150.0,
         "minY": 125.0,
-        "maxX": 165.0,
+        "maxX": 170.0,
         "maxY": 135.0
       },
       "pins": [
@@ -3157,7 +3157,7 @@
           "number": "1",
           "name": "1",
           "net": "+3V3",
-          "x": 145.0,
+          "x": 140.0,
           "y": 130.0,
           "rotation": 180.0
         },
@@ -3165,7 +3165,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 175.0,
+          "x": 180.0,
           "y": 130.0,
           "rotation": 0.0
         }
@@ -3332,5 +3332,5 @@
       }
     }
   ],
-  "maxCandidates": 1000000
+  "maxCandidates": 20000
 }

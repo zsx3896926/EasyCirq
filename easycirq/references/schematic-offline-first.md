@@ -68,6 +68,105 @@ S2 的规则不变：局部拓扑电路（分压、反馈、滤波、去耦、�
 **硬约束恒为 0，profile 不能放宽**；profile 只覆盖软指标（`dense-digital` 线长 80 mm、
 `power` 可跟读率 0.7 等），见 KPI 定义文件的 `profiles`。
 
+
+## 一条命令跑完 S1→S3（推荐入口）
+
+以前这条链是**七个脚本手工串**，每步产物路径都要记，错一步到下一步才炸。
+现在一条命令把它固定下来，**每步报告状态与下一步，任一步失败就停在那里**：
+
+```bash
+python scripts/sch_offline_chain.py \
+  --spec reports/<板>/spec.json \
+  --out-dir reports/<板> \
+  --part-audit reports/part-audit.json
+```
+
+它按顺序做七件事（**全程不碰画布**，只读库与本地文件）：
+
+| 步 | 脚本 | 做什么 |
+|---|---|---|
+| S1 | `sch_spec_check.py` | 规格自检 + **选型可用性**（用不到的器件早点换） |
+| S2 | `sch_spec_netlist.py` | spec + 块库 → **规范网表**（`connectivity.Document`） |
+| S3 | `sch_measure_parts.py` | 逐件只读导出库符号 → **引脚几何**（39/39 可量） |
+| S4 | `sch_page_plan.py` | **按实测包络定页、定纸**（一模块一页） |
+| S5 | `sch_layout_input.py` | 按页裁切 → `lib-layout` 的输入 |
+| S4b | — | 把规划出的纸型**应用回**输入（否则 S6 必然报装不下） |
+| S6 | `sch_module_fit.py` + `sch_layout_precheck.py` | **两道预检**，都过才允许跑求解器 |
+
+通过后它直接告诉你下一步：`sch lib-layout` 逐页出排版稿 → `sch compose` 落图。
+
+## 两道预检：为什么不许跳过
+
+`lib-layout` 一次只报**一条**规则，每错一条要走一遍「构造输入 → 跑 CLI →
+解析错误 → 改代码」。它的规则是**静态**的，可以在本地 0.1 秒全查完。
+
+| 预检 | 查什么 | 为什么 |
+|---|---|---|
+| `sch_layout_precheck.py` | **24 条**结构规则：页身份、器件身份、5-raw 网格、引脚数与名、net 一致、模块归属、网络策略… | 结构不合法时求解器会拒，而拒因一条条挤出来 |
+| `sch_module_fit.py` | 模块**装不装得下**（按实测本体宽度） | 否则要跑 18 秒才知道"比纸宽" |
+
+> **建了两个预检却只跑一个，等于没建。** 两道都过才允许跑求解器。
+
+## 装不下时：先加纸，别先拆模块
+
+`lib-layout` 只做平移、**不做自动分页**（报错原话 *no automatic pagination*）。
+装不下时有两条路，优先级是明确的：
+
+1. **加页 / 换大纸**（`sch_page_plan.py`）—— 实测**一模块一页 + A1，5/5 模块一次通过**，
+   含 24 件的整块
+2. 拆模块 —— 会破坏电气完整性（孤立件、跨模块网、外设与 core 失去共享网）
+
+**纸型必须先估计、再确认**：估计公式对小模块会**低估**（实测 M3 估 196 判 A4，
+实测 A4 仍超宽）。所以：
+
+```bash
+python scripts/sch_module_fit.py <输入> --paper A3     # 估算，用于排除不可能
+python scripts/sch_page_plan.py --input ... --confirm  # 真实跑一遍才算定论
+```
+
+## 引脚几何的三个语义（踩过才记住）
+
+从 `lib symbol export-source` 的 `.elibz2` 里读引脚时：
+
+1. **`.elibu` 的 `x,y` 就是引脚连接点**，`rotation` 是引脚线**朝本体**的方向 ——
+   不要沿 rotation 再走 length，那会把连接点推进本体内部
+2. 求解器要的是**世界朝外角**。**最可靠的是用符号自己的 `RECT` 本体矩形**：
+   引脚落在本体哪一侧外侧，就朝那边
+3. 没有 `RECT` 的符号（电阻/电感/二极管）用「远离引脚中心」判朝向 ——
+   这类文件的 `rotation` 本身就是朝外的，`+180` 会**正好反掉**
+
+本体框同理：用符号 `RECT`；没有就用「引脚朝内退 length」推，并保证**非退化**
+（两脚件引脚共线，退完在某轴厚度为 0，会被 `plBoxValid` 拒）。
+
+## 选型前置：查得到才算选上
+
+`sch_part_audit.py` 对每个型号走全链只读验证：
+
+```
+C 号 → lib by-lcsc → lib device get → lib symbol export-source
+```
+
+三种结论：`ok` / `unreadable`（记录在但读不出）/ `missing`（解析不出身份）。
+
+**实测全表 172 个标准件，15 个不可用（8.7%）**，含 `cap.1uf_0402`、`led.yellow_0805`
+这种常用件。不前置的话，会一路走到 S3 要几何时才炸，前面全部作废。
+
+```bash
+python scripts/sch_part_audit.py --standard-parts references/standard-parts.json \
+  --out reports/part-audit.json
+```
+
+审计报告带**标准件表指纹**：表改过之后报告即过期，`sch_spec_check --audit`
+会拒绝陈旧证据，而不是照信旧结论。
+
+## 换料的两条规则
+
+| 情形 | 做法 | 理由 |
+|---|---|---|
+| 换后 **id 描述的属性变了**（SOT-23 → PowerDI3333） | **新建 id** | 否则 id 变成谎话 |
+| 换后 **id 仍然准确**（1uF 0402 → 1uF 0402） | **改指向** | 不必惊动所有引用它的块 |
+
+
 ## 用法
 
 ```bash
