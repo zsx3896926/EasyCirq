@@ -53,12 +53,12 @@
     },
     {
       "id": "c3",
-      "ref": "X1",
+      "ref": "Q1",
       "role": "Q_REV",
       "moduleId": "M1",
       "device": {
         "deviceUuid": "",
-        "name": "bjt.pmos40v_sot23"
+        "name": "mos.pmos40v_powerdi3333"
       },
       "pins": [
         {
@@ -101,7 +101,7 @@
     },
     {
       "id": "c5",
-      "ref": "X2",
+      "ref": "X1",
       "role": "D_QG",
       "moduleId": "M1",
       "device": {
@@ -211,7 +211,7 @@
     },
     {
       "id": "c10",
-      "ref": "X3",
+      "ref": "X2",
       "role": "U",
       "moduleId": "M1",
       "device": {
@@ -765,7 +765,7 @@
     },
     {
       "id": "c33",
-      "ref": "X4",
+      "ref": "X3",
       "role": "U",
       "moduleId": "M3",
       "device": {
@@ -1171,7 +1171,7 @@
     },
     {
       "id": "c50",
-      "ref": "X5",
+      "ref": "X4",
       "role": "U",
       "moduleId": "M5",
       "device": {
@@ -1371,7 +1371,7 @@
     },
     {
       "id": "n4",
-      "name": "X1_N5",
+      "name": "Q1_N5",
       "scope": "local"
     },
     {
@@ -1387,12 +1387,12 @@
     },
     {
       "id": "n7",
-      "name": "X3_N8",
+      "name": "X2_N8",
       "scope": "local"
     },
     {
       "id": "n8",
-      "name": "X3_N9",
+      "name": "X2_N9",
       "scope": "local"
     },
     {
@@ -1408,12 +1408,12 @@
     },
     {
       "id": "n11",
-      "name": "X3_N12",
+      "name": "X2_N12",
       "scope": "local"
     },
     {
       "id": "n12",
-      "name": "X3_N13",
+      "name": "X2_N13",
       "scope": "local"
     },
     {
@@ -1439,7 +1439,7 @@
     },
     {
       "id": "n17",
-      "name": "X4_N3",
+      "name": "X3_N3",
       "scope": "local"
     },
     {
@@ -1450,7 +1450,7 @@
     },
     {
       "id": "n19",
-      "name": "X4_N5",
+      "name": "X3_N5",
       "scope": "local"
     },
     {
@@ -1465,12 +1465,12 @@
     },
     {
       "id": "n22",
-      "name": "X5_N3",
+      "name": "X4_N3",
       "scope": "local"
     },
     {
       "id": "n23",
-      "name": "X5_N4",
+      "name": "X4_N4",
       "scope": "local"
     },
     {
@@ -1481,7 +1481,7 @@
     },
     {
       "id": "n25",
-      "name": "X5_N6",
+      "name": "X4_N6",
       "scope": "local"
     }
   ],
@@ -1490,841 +1490,841 @@
       "componentId": "c1",
       "pinNumber": "1",
       "netId": "n1",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c2",
       "pinNumber": "1",
       "netId": "n1",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c1",
       "pinNumber": "3",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c2",
       "pinNumber": "2",
       "netId": "n3",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c3",
       "pinNumber": "D",
       "netId": "n3",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c3",
       "pinNumber": "G",
       "netId": "n4",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c4",
       "pinNumber": "1",
       "netId": "n4",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c5",
       "pinNumber": "A",
       "netId": "n4",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c3",
       "pinNumber": "S",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c5",
       "pinNumber": "C",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c6",
       "pinNumber": "C",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c7",
       "pinNumber": "1",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c8",
       "pinNumber": "1",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c9",
       "pinNumber": "1",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c10",
       "pinNumber": "VIN",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c11",
       "pinNumber": "1",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c11",
       "pinNumber": "2",
       "netId": "n6",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "EN",
       "netId": "n6",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c12",
       "pinNumber": "1",
       "netId": "n6",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "RT/CLK",
       "netId": "n7",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c13",
       "pinNumber": "1",
       "netId": "n7",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "BOOT",
       "netId": "n8",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c14",
       "pinNumber": "1",
       "netId": "n8",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c14",
       "pinNumber": "2",
       "netId": "n9",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "SW",
       "netId": "n9",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c16",
       "pinNumber": "K",
       "netId": "n9",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c15",
       "pinNumber": "1",
       "netId": "n9",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c15",
       "pinNumber": "2",
       "netId": "n9",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c15",
       "pinNumber": "3",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c15",
       "pinNumber": "4",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c22",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c23",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c24",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c17",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c10",
       "pinNumber": "FB",
       "netId": "n11",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c17",
       "pinNumber": "2",
       "netId": "n11",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c18",
       "pinNumber": "1",
       "netId": "n11",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "COMP",
       "netId": "n12",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c19",
       "pinNumber": "1",
       "netId": "n12",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c21",
       "pinNumber": "1",
       "netId": "n12",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c19",
       "pinNumber": "2",
       "netId": "n13",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c20",
       "pinNumber": "1",
       "netId": "n13",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c10",
       "pinNumber": "GND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c10",
       "pinNumber": "EP",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c4",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c6",
       "pinNumber": "A",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c16",
       "pinNumber": "A",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c12",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c13",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c18",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c20",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c21",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c7",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c8",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c9",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c22",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c23",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c24",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c32",
       "pinNumber": "1",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c27",
       "pinNumber": "A",
       "netId": "n5",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c27",
       "pinNumber": "K",
       "netId": "n14",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c29",
       "pinNumber": "1",
       "netId": "n14",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c31",
       "pinNumber": "1",
       "netId": "n14",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c25",
       "pinNumber": "VIN",
       "netId": "n14",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c25",
       "pinNumber": "OUTPUT",
       "netId": "n15",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c26",
       "pinNumber": "K",
       "netId": "n15",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c28",
       "pinNumber": "1",
       "netId": "n15",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c28",
       "pinNumber": "2",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c30",
       "pinNumber": "1",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c25",
       "pinNumber": "FB",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c32",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c29",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c31",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c26",
       "pinNumber": "A",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c30",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c25",
       "pinNumber": "GND*",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c25",
       "pinNumber": "ON/OFF",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c33",
       "pinNumber": "IN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c37",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c33",
       "pinNumber": "EN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c33",
       "pinNumber": "LX",
       "netId": "n17",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c34",
       "pinNumber": "1",
       "netId": "n17",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c34",
       "pinNumber": "2",
       "netId": "n18",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c38",
       "pinNumber": "1",
       "netId": "n18",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c39",
       "pinNumber": "1",
       "netId": "n18",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c35",
       "pinNumber": "1",
       "netId": "n18",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c33",
       "pinNumber": "FB",
       "netId": "n19",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c35",
       "pinNumber": "2",
       "netId": "n19",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c36",
       "pinNumber": "1",
       "netId": "n19",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c33",
       "pinNumber": "GND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c36",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c37",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c38",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c39",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c40",
       "pinNumber": "LX*",
       "netId": "n20",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c41",
       "pinNumber": "1",
       "netId": "n20",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c41",
       "pinNumber": "2",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c40",
       "pinNumber": "IN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c42",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c43",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c44",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c40",
       "pinNumber": "OUT*",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c45",
       "pinNumber": "1",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c46",
       "pinNumber": "1",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c47",
       "pinNumber": "1",
       "netId": "n16",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c40",
       "pinNumber": "FB",
       "netId": "n21",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c47",
       "pinNumber": "2",
       "netId": "n21",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c48",
       "pinNumber": "1",
       "netId": "n21",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c48",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c40",
       "pinNumber": "EN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c49",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c40",
       "pinNumber": "PGND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c40",
       "pinNumber": "SGND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c42",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c43",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c44",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c45",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c46",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c49",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c50",
       "pinNumber": "VIN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c54",
       "pinNumber": "1",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c50",
       "pinNumber": "EN",
       "netId": "n10",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c50",
       "pinNumber": "L1",
       "netId": "n22",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c51",
       "pinNumber": "1",
       "netId": "n22",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c50",
       "pinNumber": "L2",
       "netId": "n23",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c51",
       "pinNumber": "2",
       "netId": "n23",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c50",
       "pinNumber": "VOUT",
       "netId": "n24",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c55",
       "pinNumber": "1",
       "netId": "n24",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c56",
       "pinNumber": "1",
       "netId": "n24",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c52",
       "pinNumber": "1",
       "netId": "n24",
-      "kind": "global"
+      "kind": "power"
     },
     {
       "componentId": "c50",
       "pinNumber": "FB",
       "netId": "n25",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c52",
       "pinNumber": "2",
       "netId": "n25",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c53",
       "pinNumber": "1",
       "netId": "n25",
-      "kind": "local"
+      "kind": "wire"
     },
     {
       "componentId": "c50",
       "pinNumber": "MODE",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c50",
       "pinNumber": "AGND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c50",
       "pinNumber": "GND",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c53",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c54",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c55",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     },
     {
       "componentId": "c56",
       "pinNumber": "2",
       "netId": "n2",
-      "kind": "global"
+      "kind": "ground"
     }
   ],
   "modules": [

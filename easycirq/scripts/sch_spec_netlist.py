@@ -185,10 +185,24 @@ def generate(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
                 if not any(p["number"] == pin for p in comp["pins"]):
                     comp["pins"].append({"number": pin, "name": pin})
                     unknown_pins += 1
+                # `Connection.Kind` 是**连接方式**，取值见 connectivity/design.go：
+                #   "", pin_net, netlist, wire, netflag, netport, netlabel,
+                #   power, ground, net_port_in/out/bi
+                # `local`/`global` 是 `Net.Scope`，不是 Kind —— 两者混用会被拒。
+                if net_name.upper() == "GND":
+                    kind = "ground"
+                elif net_name.upper() in ("+5V", "+3V3", "+3V8", "+12V_FILT",
+                                          "VBAT_RAW", "+12V_RAW", "VSYS",
+                                          "VBUS_L0", "BOOST_OUT"):
+                    kind = "power"
+                elif port_names:
+                    kind = "netport"
+                else:
+                    kind = "wire"
                 if not any(c_ for c_ in connections
                            if c_["componentId"] == cid and c_["pinNumber"] == pin):
                     connections.append({"componentId": cid, "pinNumber": pin,
-                                        "netId": n["id"], "kind": scope})
+                                        "netId": n["id"], "kind": kind})
 
         if unknown_pins:
             issues.append({"severity": "info",

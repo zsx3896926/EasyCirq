@@ -1467,3 +1467,80 @@ lib device get --library 3ccd... --uuid 282e...   → ok: False, detail: "the pl
    补进 `standard-parts.json`，并在 spec 里记录这次换料与理由。
 
 **两条都不需要放宽任何判据。**
+
+
+---
+
+## #44 `lib-layout` 求解失败时**说不出该改什么**，而且候选数对输入不敏感
+
+| | |
+|---|---|
+| **分类** | 产品缺陷（**报错不可执行**，与 #38/#39 同族：数据给了，可行动性没给） |
+| **现象** | `unresolved: module M1: local search failed after 175328 candidates, 0 backtracks, 0 relocation attempts (branch limit 200000; no capacity proof): component c13 (R4) placement` |
+| **问题** | 说了"哪个器件""搜了多少候选"，但**没说该改什么**：是图纸不够大？模块太大？网络策略互相矛盾？几何有冲突？"no capacity proof"这句话对用户没有行动含义 |
+| **决定性证据** | 我做了四个**互不相同**的实验，候选数**一模一样（175328）** |
+
+| 实验 | 改动 | 结果 |
+|---|---|---|
+| 1 | 图纸 297×210 → **594×420**（4 倍面积） | 175328，同样失败 |
+| 2 | 把 24 件的 M1 **拆成 17+7** | 175328，同样失败 |
+| 3 | **去掉全部 attachTo**（35 个） | 175328，同样失败 |
+| 4 | 名义间距 40×35 → **90×90**（2.25 倍） | 175328，同样失败 |
+
+**四个变量全排除了，数字一个字节都没变。** 这证明：
+- 失败与图纸容量、模块规模、挂靠约束、引脚间距**都无关**
+- 而报错把原因指向"capacity"，**方向是错的**
+
+### 建议
+
+1. 失败时列出**具体冲突**（哪个引脚与哪个引脚撞、哪条线必须直连却绕不开），
+   而不是只给候选数
+2. 区分"约束自相矛盾"与"搜索预算不够"—— 这两种的修法完全不同
+3. 候选数应当**随输入变化**；四个变量全改而数字不变，说明这个计数器
+   反映的不是搜索进度，读者会被误导
+
+---
+
+## 2026-11-05 S3 输入构建：8 次拒绝，全部解决；最后卡在求解器
+
+### 一路的拒绝（每条都精确，除 #43）
+
+| # | 报错 | 真因 |
+|---|---|---|
+| 1 | `unknown field /connectivity/noConnectDeclarations` | 附加字段 |
+| 2 | `unknown field /components/0/moduleId` | 同上 |
+| 3 | `unknown field /components/0/device/uuid` | tag 是 `deviceUuid` |
+| 4 | `schemaVersion is required` | 必须精确 `"1.4"` |
+| 5 | `c1 requires libraryUuid and 32-char deviceUuid` | 身份要注入 |
+| 6 | `c1 requires pageId in an all-pages document` | 多页要 pageId |
+| 7 | `target project/page and measured sheet are required` | **`connectivity.documentId`** 空 |
+| 8 | `J1 incomplete measured geometry` | **bbox 退化**（两脚件引脚共线，吸附把 pad 抹成 0）|
+
+后两条是真正的技术问题：
+- `documentId` 就是"target page"，projectId 是工程 —— 少一个都只得到一句合并报错
+- bbox 不能只按引脚算：两脚件的引脚共线，外框在一个轴上厚度为 0，
+  而 `plBoxValid` 要求宽高都为正。实测**一半器件**因此被拒
+
+另外还修了自己的两个 bug：
+- style-plan 循环把 `page` 参数**遮蔽**了（P1 只拿到 17 件）
+- 内层用 `conn` 当局部变量，遮蔽了外层
+
+### 还有一处是**我发明了约束**
+
+我给每个外设都填了 `attachTo`（"这个件挂在 core 的哪个脚"）。
+但网表只能推出"有共同网"，推不出"贴哪个脚、朝哪个方向"。
+文档说 `attachTo` 是**可选**的 —— 填了等于替求解器做决定，而且做错了。
+
+**教训**：可选字段不是"能填就填"。推不出来的东西，留空比瞎填好。
+
+### 现在的状态
+
+```
+✅ 输入结构全部通过校验（8 类拒绝全部解决）
+✅ 39 + 17 件几何完整、引脚名与网表逐字一致、坐标都在 5-raw 网格上
+❌ lib-layout 对 M1 求解失败（#44）
+```
+
+**结论：S3 仍未通过，但失败点从"输入不合格"推进到了"求解器表达不出原因"。**
+
+> 按硬规则，这仍是"还不能下单"——不能用"输入都对了"冒充通过。

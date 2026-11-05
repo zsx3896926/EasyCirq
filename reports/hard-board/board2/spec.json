@@ -360,5 +360,18 @@
     "P2": "a223803d1fb015ce",
     "P3": "aebe039a74031d84"
   },
-  "pages_note": "S2 分页结果；pageId 是 S5 落块时的目标页 uuid"
+  "pages_note": "S2 分页结果；pageId 是 S5 落块时的目标页 uuid",
+  "substitutions": [
+    {
+      "from": "bjt.pmos40v_sot23",
+      "fromPart": "AP40P05 / C2886385",
+      "to": "mos.pmos40v_powerdi3333",
+      "toPart": "DMP4013LFG-7 / C460203",
+      "reason": "原器件库记录读不出来（lib device get 只返回占位符错误，friction #42），几何与身份都拿不到",
+      "electrical": "Vds -40V=原值, Vgs ±20V=原值, Id -4.2A→-10.4A, Rds(on) ~60mΩ→13mΩ",
+      "packageChange": "SOT-23 → PowerDI3333-8（更大；反接保护是热瓶颈，属改善）",
+      "keeps": "块里『必须配 R_QG+D_QG 栅极网络』的注记仍然成立",
+      "approvedBy": "用户选择方案 B（换一个能读的 PMOS）"
+    }
+  ]
 }

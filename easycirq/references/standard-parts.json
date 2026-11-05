@@ -1762,6 +1762,17 @@
       "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
       "basic": true,
       "desc": "AO3400A N-MOSFET, SOT-23, logic level Vgs(th) 1.05V, Id 4A"
+    },
+    "mos.pmos40v_powerdi3333": {
+      "value": "PMOS -40V",
+      "mpn": "DMP4013LFG-7",
+      "lcsc": "C460203",
+      "manufacturer": "Diodes Incorporated",
+      "deviceUuid": "a74b3c84e3a345d7b3acca5a8bae0b58",
+      "footprint": "POWERDI3333-8_L3.3-W3.3-P0.65-BL",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "basic": false,
+      "desc": "P 沟道 MOS，Vds=-40V, Vgs=±20V, Id=-10.4A, Rds(on)=13mΩ。用于车辆输入反接保护（理想二极管接法）的 Q_REV。替代原 AP40P05（C2886385，库记录读不出来，friction #42）。"
     }
   }
 }
