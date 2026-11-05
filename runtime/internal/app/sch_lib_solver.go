@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 
 	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
@@ -11,12 +12,110 @@ import (
 
 // The electrical graph and measured poses are immutable. Only translations,
 // routes and naming markers are searched, on a bounded five-raw grid.
+// libLayoutRetryable 判断这次失败是否值得"换个搜索起点"重摆。
+//
+// 只对**摆完了却过不了校验**重试（信号网被拆成多岛 / 外设没有通向 core 的
+// 非地导线）。候选预算耗尽是"没搜到"，换顺序确实可能有用，但代价是再烧几十万
+// 候选，交给调用方决定，不在这里硬试。
+func libLayoutRetryable(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := err.Error()
+	for _, k := range []string{"peripheral-direct-missing", "peripheral-label-incomplete"} {
+		if strings.Contains(msg, k) {
+			return true
+		}
+	}
+	return false
+}
+
+// libLayoutReorder 返回把各模块外设按指定方式重排后的输入。
+//
+// `mode`：1=按 componentId 排序，2=按位号排序，3=反序。
+//
+// 为什么是"排序"而不是"轮换"：实测把一张倒序表轮换 1..5 位，永远到不了那个
+// 能排出来的顺序；而排序给出的是**另一类**顺序，才可能跨过去。
+func libLayoutReorder(input libLayoutSource, mode int) libLayoutSource {
+	refOf := map[string]string{}
+	for _, c := range input.Connectivity.Components {
+		refOf[c.ID] = c.Ref
+	}
+	mods := make([]connectivity.Module, len(input.Connectivity.Modules))
+	copy(mods, input.Connectivity.Modules)
+	changed := false
+	for i := range mods {
+		per := append([]string(nil), mods[i].PeripheralComponents...)
+		if len(per) < 2 {
+			continue
+		}
+		switch mode {
+		case 1:
+			sort.SliceStable(per, func(a, b int) bool { return per[a] < per[b] })
+		case 2:
+			sort.SliceStable(per, func(a, b int) bool {
+				ra, rb := refOf[per[a]], refOf[per[b]]
+				if ra != rb {
+					return ra < rb
+				}
+				return per[a] < per[b]
+			})
+		case 3:
+			for a, b := 0, len(per)-1; a < b; a, b = a+1, b-1 {
+				per[a], per[b] = per[b], per[a]
+			}
+		}
+		if !libSameOrder(per, mods[i].PeripheralComponents) {
+			changed = true
+		}
+		mods[i].PeripheralComponents = per
+	}
+	if !changed {
+		return input
+	}
+	out := input
+	out.Connectivity.Modules = mods
+	return out
+}
+
+func libSameOrder(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func planLibLayout(input libLayoutSource) (*schCompositionSource, error) {
 	computed, err := computeLibLayout(input, "", false)
-	if err != nil {
+	if err == nil {
+		return computed.composition, nil
+	}
+	if !libLayoutRetryable(err) {
 		return nil, err
 	}
-	return computed.composition, nil
+	// 摆出来了但校验不过 —— **换一种外设顺序重摆**。
+	// 校验标准一次都没降，只是给搜索另一个起点。
+	firstErr := err
+	for mode := 1; mode <= 3; mode++ {
+		alt := libLayoutReorder(input, mode)
+		if libSameOrder(alt.Connectivity.Modules[0].PeripheralComponents,
+			input.Connectivity.Modules[0].PeripheralComponents) && mode == 1 {
+			continue
+		}
+		computed, e2 := computeLibLayout(alt, "", false)
+		if e2 == nil {
+			return computed.composition, nil
+		}
+		if !libLayoutRetryable(e2) {
+			return nil, e2
+		}
+	}
+	return nil, firstErr
 }
 
 // The canonical adapter is shared by legacy composition and local-only layout.
