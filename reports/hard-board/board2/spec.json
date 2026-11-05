@@ -7,21 +7,34 @@
   "revision": "r1",
   "generatedAt": "2026-11-05",
   "note": "S1 产出。所有端口名、器件数均从 runtime/internal/blocks/data/<id>.json 读出，不凭记忆写。",
-
   "requirements": {
     "input": "车辆 12V/24V 宽压输入（TPS54360 支持到 60V）",
     "rails": {
       "min": 5,
       "planned": 5,
-      "list": ["VBAT_RAW", "+5V", "+12V_FILT", "+3V3", "+3V8"]
+      "list": [
+        "VBAT_RAW",
+        "+5V",
+        "+12V_FILT",
+        "+3V3",
+        "+3V8"
+      ]
     },
     "topologies": {
       "min": 3,
       "planned": 3,
-      "list": ["buck", "boost", "buck-boost"]
+      "list": [
+        "buck",
+        "boost",
+        "buck-boost"
+      ]
     },
-    "parts": { "min": 60 },
-    "nets": { "min": 120 },
+    "parts": {
+      "min": 60
+    },
+    "nets": {
+      "min": 120
+    },
     "constraints": [
       "大电流路径：TPS54360 输入侧与 +5V 主干需按实际负载核算线宽/温升（PCB 阶段）",
       "电气隔离：本版**不做**隔离（无隔离块落地），见 open_items",
@@ -29,7 +42,6 @@
       "热：TPS54360 / XL1509 为开关电源，需留铺铜与散热过孔（PCB 阶段）"
     ]
   },
-
   "modules": [
     {
       "id": "M1",
@@ -38,10 +50,27 @@
       "parts": 24,
       "page": "P1",
       "ports": {
-        "VBAT_RAW": { "dir": "out", "default_net": "VBAT_RAW", "bind_to": "VBAT_RAW" },
-        "5V": { "dir": "out", "default_net": "+5V", "bind_to": "+5V" },
-        "IGN_12V": { "dir": "out", "default_net": "IGN_12V", "bind_to": null, "nc": "本版不接点火检测（见 NC-1）" },
-        "GND": { "dir": "bidir", "default_net": "GND", "bind_to": "GND" }
+        "VBAT_RAW": {
+          "dir": "out",
+          "default_net": "VBAT_RAW",
+          "bind_to": "VBAT_RAW"
+        },
+        "5V": {
+          "dir": "out",
+          "default_net": "+5V",
+          "bind_to": "+5V"
+        },
+        "IGN_12V": {
+          "dir": "out",
+          "default_net": "IGN_12V",
+          "bind_to": null,
+          "nc": "本版不接点火检测（见 NC-1）"
+        },
+        "GND": {
+          "dir": "bidir",
+          "default_net": "GND",
+          "bind_to": "GND"
+        }
       }
     },
     {
@@ -51,10 +80,29 @@
       "parts": 8,
       "page": "P1",
       "ports": {
-        "VIN_12V": { "dir": "in", "default_net": "+12V_RAW", "bind_to": "VBAT_RAW", "note": "块默认要 +12V_RAW，本设计绑到 VBAT_RAW" },
-        "+5V": { "dir": "out", "default_net": "+5V", "bind_to": "+12V_FILT", "note": "块端口名叫 +5V，本设计用它产 12V 中间轨，命名改绑" },
-        "ONOFF": { "dir": "in", "default_net": "GND", "bind_to": "GND", "note": "接地=常开" },
-        "GND": { "dir": "bidir", "default_net": "GND", "bind_to": "GND" }
+        "VIN_12V": {
+          "dir": "in",
+          "default_net": "+12V_RAW",
+          "bind_to": "VBAT_RAW",
+          "note": "块默认要 +12V_RAW，本设计绑到 VBAT_RAW"
+        },
+        "+5V": {
+          "dir": "out",
+          "default_net": "+5V",
+          "bind_to": "+12V_FILT",
+          "note": "块端口名叫 +5V，本设计用它产 12V 中间轨，命名改绑"
+        },
+        "ONOFF": {
+          "dir": "in",
+          "default_net": "GND",
+          "bind_to": "GND",
+          "note": "接地=常开"
+        },
+        "GND": {
+          "dir": "bidir",
+          "default_net": "GND",
+          "bind_to": "GND"
+        }
       }
     },
     {
@@ -64,10 +112,27 @@
       "parts": 7,
       "page": "P1",
       "ports": {
-        "VIN": { "dir": "in", "default_net": "VSYS", "bind_to": "+5V" },
-        "EN": { "dir": "in", "default_net": "VSYS", "bind_to": "+5V", "note": "使能绑输入=随上电启动" },
-        "3V3": { "dir": "out", "default_net": "+3V3", "bind_to": "+3V3" },
-        "GND": { "dir": "bidir", "default_net": "GND", "bind_to": "GND" }
+        "VIN": {
+          "dir": "in",
+          "default_net": "VSYS",
+          "bind_to": "+5V"
+        },
+        "EN": {
+          "dir": "in",
+          "default_net": "VSYS",
+          "bind_to": "+5V",
+          "note": "使能绑输入=随上电启动"
+        },
+        "3V3": {
+          "dir": "out",
+          "default_net": "+3V3",
+          "bind_to": "+3V3"
+        },
+        "GND": {
+          "dir": "bidir",
+          "default_net": "GND",
+          "bind_to": "GND"
+        }
       }
     },
     {
@@ -77,10 +142,28 @@
       "parts": 10,
       "page": "P2",
       "ports": {
-        "VIN": { "dir": "in", "default_net": "VBUS_L0", "bind_to": "+5V" },
-        "EN": { "dir": "in", "default_net": "EXT_5V_EN", "bind_to": "+5V", "note": "本版常开；见 NC-2" },
-        "VOUT": { "dir": "out", "default_net": "BOOST_OUT", "bind_to": "+12V_FILT", "note": "与 M2 输出的中间轨并到同一张网" },
-        "GND": { "dir": "in", "default_net": "GND", "bind_to": "GND" }
+        "VIN": {
+          "dir": "in",
+          "default_net": "VBUS_L0",
+          "bind_to": "+5V"
+        },
+        "EN": {
+          "dir": "in",
+          "default_net": "EXT_5V_EN",
+          "bind_to": "+5V",
+          "note": "本版常开；见 NC-2"
+        },
+        "VOUT": {
+          "dir": "out",
+          "default_net": "BOOST_OUT",
+          "bind_to": "+12V_FILT",
+          "note": "与 M2 输出的中间轨并到同一张网"
+        },
+        "GND": {
+          "dir": "in",
+          "default_net": "GND",
+          "bind_to": "GND"
+        }
       }
     },
     {
@@ -90,38 +173,116 @@
       "parts": 7,
       "page": "P2",
       "ports": {
-        "VIN": { "dir": "in", "default_net": "VSYS", "bind_to": "+5V" },
-        "EN": { "dir": "in", "default_net": "VSYS", "bind_to": "+5V" },
-        "3V8": { "dir": "out", "default_net": "+3V8", "bind_to": "+3V8" },
-        "GND": { "dir": "bidir", "default_net": "GND", "bind_to": "GND" }
+        "VIN": {
+          "dir": "in",
+          "default_net": "VSYS",
+          "bind_to": "+5V"
+        },
+        "EN": {
+          "dir": "in",
+          "default_net": "VSYS",
+          "bind_to": "+5V"
+        },
+        "3V8": {
+          "dir": "out",
+          "default_net": "+3V8",
+          "bind_to": "+3V8"
+        },
+        "GND": {
+          "dir": "bidir",
+          "default_net": "GND",
+          "bind_to": "GND"
+        }
       }
     }
   ],
-
   "power_tree": {
-    "roots": ["VBAT_RAW"],
+    "roots": [
+      "VBAT_RAW"
+    ],
     "edges": [
-      { "from": "VBAT_RAW", "via": "M1 TPS54360 buck", "to": "+5V", "topology": "buck" },
-      { "from": "VBAT_RAW", "via": "M2 XL1509 buck", "to": "+12V_FILT", "topology": "buck" },
-      { "from": "+5V", "via": "M3 SY8089 buck", "to": "+3V3", "topology": "buck" },
-      { "from": "+5V", "via": "M4 SY7088 boost", "to": "+12V_FILT", "topology": "boost" },
-      { "from": "+5V", "via": "M5 TPS63802 buck-boost", "to": "+3V8", "topology": "buck-boost" }
+      {
+        "from": "VBAT_RAW",
+        "via": "M1 TPS54360 buck",
+        "to": "+5V",
+        "topology": "buck"
+      },
+      {
+        "from": "VBAT_RAW",
+        "via": "M2 XL1509 buck",
+        "to": "+12V_FILT",
+        "topology": "buck"
+      },
+      {
+        "from": "+5V",
+        "via": "M3 SY8089 buck",
+        "to": "+3V3",
+        "topology": "buck"
+      },
+      {
+        "from": "+5V",
+        "via": "M4 SY7088 boost",
+        "to": "+12V_FILT",
+        "topology": "boost"
+      },
+      {
+        "from": "+5V",
+        "via": "M5 TPS63802 buck-boost",
+        "to": "+3V8",
+        "topology": "buck-boost"
+      }
     ],
     "rails": {
-      "VBAT_RAW": { "producer": "vehicle input", "consumers": ["M1", "M2"] },
-      "+5V": { "producer": "M1", "consumers": ["M3", "M4", "M5"] },
-      "+12V_FILT": { "producer": ["M2", "M4"], "consumers": ["(预留大电流外设)"] },
-      "+3V3": { "producer": "M3", "consumers": ["(预留逻辑外设)"] },
-      "+3V8": { "producer": "M5", "consumers": ["(预留)"] }
+      "VBAT_RAW": {
+        "producer": "vehicle input",
+        "consumers": [
+          "M1",
+          "M2"
+        ]
+      },
+      "+5V": {
+        "producer": "M1",
+        "consumers": [
+          "M3",
+          "M4",
+          "M5"
+        ]
+      },
+      "+12V_FILT": {
+        "producer": [
+          "M2",
+          "M4"
+        ],
+        "consumers": [
+          "(预留大电流外设)"
+        ]
+      },
+      "+3V3": {
+        "producer": "M3",
+        "consumers": [
+          "(预留逻辑外设)"
+        ]
+      },
+      "+3V8": {
+        "producer": "M5",
+        "consumers": [
+          "(预留)"
+        ]
+      }
     },
     "consistency_rule": "每条边 from 必须有 producer，否则 KPI 会报 POWER_SPLIT（板1/板2 都撞过）"
   },
-
   "cross_page_nets": {
     "reason": "P1 与 P2 上的模块必须通过全局网相连；这些网在 S2 规划时就要定名，不许事后靠 flag 猜",
-    "nets": ["GND", "+5V", "VBAT_RAW", "+12V_FILT", "+3V3", "+3V8"]
+    "nets": [
+      "GND",
+      "+5V",
+      "VBAT_RAW",
+      "+12V_FILT",
+      "+3V3",
+      "+3V8"
+    ]
   },
-
   "nc": [
     {
       "id": "NC-1",
@@ -134,7 +295,6 @@
       "reason": "无 MCU 可控 GPIO（本版 MCU 块只暴露电源/复位/UART）；绑定到 +5V 常开，并在 spec 里说明"
     }
   ],
-
   "open_items": [
     {
       "id": "OI-1",
@@ -158,15 +318,46 @@
       "next": "补隔离 + 电机驱动后重新统计；**不靠降低门槛解决**"
     }
   ],
-
   "page_plan": {
-    "P1": { "modules": ["M1", "M2", "M3"], "why": "输入与两条 buck 在画布左上，短连线" },
-    "P2": { "modules": ["M4", "M5"], "why": "boost 与 buck-boost 放第二页，给标号留空间" }
+    "P1": {
+      "modules": [
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "why": "输入与两条 buck 在画布左上，短连线"
+    },
+    "P2": {
+      "modules": [
+        "M4",
+        "M5"
+      ],
+      "why": "boost 与 buck-boost 放第二页，给标号留空间"
+    }
   },
-
   "verified_against": {
     "block_data": "runtime/internal/blocks/data/<id>.json（端口/器件数/内部网均为实读）",
     "readAt": "2026-11-05",
     "canvasState": "板2 三页均为 0 器件（清空后重来）"
+  },
+  "s2_style_plan": {
+    "schema": "easycirq-sch-style-plan/v1",
+    "files": [
+      "reports/hard-board/board2/style-plan-P1.json",
+      "reports/hard-board/board2/style-plan-P2.json"
+    ],
+    "checkResult": {
+      "P1": {
+        "verdict": "pass",
+        "score": 100,
+        "zone_area_ratio": 0.523
+      },
+      "P2": {
+        "verdict": "pass",
+        "score": 100,
+        "zone_area_ratio": 0.447
+      }
+    },
+    "note": "按页各一份（schema 是单页语义：sheet + titleBlock.page 都是单数）"
   }
 }

@@ -42,15 +42,25 @@ func newSchPlanAckCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				return fmt.Errorf("--style-plan 与 --kpi-report 都要给：回执要的是证据，不是承诺")
 			}
 			project := cfg.project
-			r := planReceipt{Project: project, Page: page, StylePlan: stylePlan, KPIReport: kpiReport}
+			r := planReceipt{Project: project, Page: page}
 
 			// --- S2：读 style-plan 报告，看它自己说什么 ---
+			//
+			// **只有真读到了才登记路径。** 否则回执里会留下一条指向不存在文件的
+			// 记录，而 plan-status 会据此显示 ✓ —— 那等于把"给了个路径"当成
+			// "有证据"。（实测踩过：kpi-report.json 根本不存在，S3 却显示已完成。）
 			okStyle, styleDetail := planReadVerdict(stylePlan)
 			r.StylePlanOK = okStyle
+			if _, err := os.Stat(stylePlan); err == nil {
+				r.StylePlan = stylePlan
+			}
 
 			// --- S4：读 kpi-report，看 apply_allowed ---
 			okKPI, kpiDetail := planReadApplyAllowed(kpiReport)
 			r.ApplyAllowed = okKPI
+			if _, err := os.Stat(kpiReport); err == nil {
+				r.KPIReport = kpiReport
+			}
 
 			if err := savePlanReceipt(r); err != nil {
 				return fmt.Errorf("写回执失败（%w）—— 闸门仍会拦，所以这不是放行", err)

@@ -1,0 +1,11 @@
+{
+  "schema": "easycirq-sch-style-plan-report/v1",
+  "verdict": "pass",
+  "score": 100,
+  "problems": [],
+  "metrics": {
+    "zone_area_ratio": 0.523
+  },
+  "note": "style PASS is layout compliance, not electrical/visual/hardware proof",
+  "plan": "reports\\hard-board\\board2\\style-plan-P1.json"
+}

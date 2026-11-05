@@ -1899,3 +1899,77 @@ inspect-bundle → verdict ok / corrupt [] / sourceCommit f83f493a / dirty False
 ### 板2 下一步（按六阶段重做）
 
 S1 spec → S2 style-plan（**未过不进器件**）→ S3/S4 KPI 连续 2 轮 → **S5 一次性批量写入** → S6 回执。
+
+
+---
+
+## 2026-11-05 S2 完成：style-plan 两页都 PASS
+
+### 格式没自创
+
+`sch_style_plan_check.py` 的 schema 是 `easycirq-sch-style-plan/v1 = { sheet, zones, titleBlock }`，
+门限来自 `style-tokens.json`：
+
+| 项 | 值 |
+|---|---|
+| 页边距 | 5 mm |
+| 最小区数 | 2 |
+| 区间距 | ≥3 mm |
+| 面积占比 | 0.25–0.8 |
+| 区间框色 | 5 色调色板 |
+| 区块标题字号 | 12–18 |
+| 图签必填 | project / version / date / sheet / page / size |
+
+**它是单页语义**（`sheet` 与 `titleBlock.page` 都是单数），所以板2 出了**两份**：
+`style-plan-P1.json`（M1/M2/M3）、`style-plan-P2.json`（M4/M5）。
+
+### 结果
+
+```
+P1: verdict=pass  score=100  zone_area_ratio=0.523
+P2: verdict=pass  score=100  zone_area_ratio=0.447
+```
+
+### 并且验证了 checker 真会拒
+
+注入六类错（出页边距 / 区域重叠 / 标题空 / order 重复 / 图签字段空）：
+
+```
+verdict: blocked  score: 10
+  blocked | Z1: zone is outside the 5 mm page margin
+  blocked | Z3: zone title is empty
+  blocked | Z3: duplicate order 1
+  blocked | Z1 and Z2 overlap
+  blocked | Z2 and Z3 overlap
+  blocked | titleBlock.sheet is empty
+```
+
+### 机制状态
+
+```
+✓ S1   离线规格化
+✓ S2   离线布局（style-plan）  verdict=pass
+· S3   离线度量                没有离线度量报告
+· S4   KPI 门禁                没有 KPI 报告
+闸门：closed —— block-apply 仍会拒绝
+```
+
+**"跑了一半 ≠ 跑过了" 在真机上成立。**
+
+### 顺带修掉我自己机制的一个 bug（1.4.35）
+
+`plan-ack` 原本把**用户给的路径**直接记进回执，哪怕文件根本不存在。
+于是 `plan-status` 的 S3 显示 ✓ —— 而那份 `kpi-report.json` 从来不存在。
+
+> **把"说了"当成"有了"**，正是这套机制最不该犯的错。
+
+修法：只有**真读到**的文件才登记路径；读不到就留空并如实报错。
+测试：`TestPlanStatusDoesNotTrustUnreadablePaths`、`TestPlanReadApplyAllowedOnMissingFile`。
+
+### S3 的输入是什么（下一轮要解决）
+
+`sch layout-plan` 要**实测几何**：`components:[{id, measurement:{designator,x,y,rotation,bbox,pins}}]`。
+也就是说 S3 不是"对着 spec 空算"，而是要先有一条**离线布局**产物
+（`sch lib-layout` 从块库 + 规范网表算出每件的位置与边缘）。
+
+所以 S2→S3 之间还有一步：**离线组件级布局**（不是只画框）。

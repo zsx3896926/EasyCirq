@@ -1,0 +1,45 @@
+{
+  "schema": "easycirq-sch-style-plan/v1",
+  "note": "S2 第 1 页：M1 宽压输入 + M2 第二路 buck + M3 3V3。A4 横向 297×210，页边距 5mm，区间距 ≥3mm。",
+  "sheet": {
+    "width_mm": 297,
+    "height_mm": 210
+  },
+  "zones": [
+    {
+      "id": "Z1",
+      "module": "M1",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "rect_mm": [6, 6, 140, 120],
+      "order": 1,
+      "borderColor": "#C800C8",
+      "titleSize": 14
+    },
+    {
+      "id": "Z2",
+      "module": "M2",
+      "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+      "rect_mm": [152, 6, 139, 57],
+      "order": 2,
+      "borderColor": "#0066CC",
+      "titleSize": 14
+    },
+    {
+      "id": "Z3",
+      "module": "M3",
+      "title": "5V → 3.3V 主逻辑轨（SY8089）",
+      "rect_mm": [152, 69, 139, 57],
+      "order": 3,
+      "borderColor": "#009944",
+      "titleSize": 14
+    }
+  ],
+  "titleBlock": {
+    "project": "板2-24V隔离控制板",
+    "version": "r1",
+    "date": "2026-11-05",
+    "sheet": "1/2",
+    "page": "P1",
+    "size": "A4"
+  }
+}
