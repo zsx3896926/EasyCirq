@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -152,6 +153,53 @@ func switchToPage(cfg *appConfig, window, target string) (pageScope, error) {
 	// Probe by the resolved document's own type: `doc switch` already guarded
 	// this, but --page went through here unguarded, so a PCB target polled the
 	// schematic probe 21 times over the full deadline (issue #161).
+	sc.settled = waitDocSettleFor(cfg, win, match.Type)
+	if err := settleGateError(sc.settled, sc.switched); err != nil {
+		return pageScope{}, err
+	}
+	return sc, nil
+}
+
+// settleGateError 决定"切页没就绪"要不要变成错误。
+//
+// **切页没就绪 != 页面是空的。** 这是「读路径不认 --page」这一族的根因
+// （#24 / #39 / 板2 清空脚本）：切过去之后页面还没渲染完，
+// `components.list` 返回 0 条，调用方拿到一个**看起来空、其实没读成**的页面 ——
+// 于是「删 30 个器件」变成「报告已空、什么也没删」，而退出码是 0。
+//
+// 只在**真的切过页**时才报错：本来就在这一页、探针也没稳定，说明这一页此刻就是
+// 这个样子，读它不比别的时候更不可信；而切页场景下"没就绪"几乎一定意味着
+// "读到的是半成品"。
+func settleGateError(settled, switched bool) error {
+	if settled || !switched {
+		return nil
+	}
+	return fmt.Errorf(
+		"切到页面后它没有就绪（探针在期限内没拿到稳定结果）—— " +
+			"此时读到的器件数**不可信**，不要当成空页；重试，或先 `easycirq doc switch` 再读")
+}
+
+// switchToPageBestEffort 与 switchToPage 相同，但**容忍未就绪**。
+//
+// 只给那些"读到的数据本来就只是提示、拿到空也不致误判"的调用方用。
+// 默认路径必须是严格的 —— 宽松的语义要显式选。
+func switchToPageBestEffort(cfg *appConfig, window, target string) (pageScope, error) {
+	docs, activeUUID, win, err := discoverDocs(cfg, window)
+	if err != nil {
+		return pageScope{}, err
+	}
+	match, err := resolveDoc(docs, target)
+	if err != nil {
+		return pageScope{}, err
+	}
+	sc := pageScope{window: win, prevActive: activeUUID}
+	if match.UUID != activeUUID {
+		if _, err := requestAction(cfg, "document.open", win,
+			map[string]any{"uuid": match.UUID}); err != nil {
+			return pageScope{}, err
+		}
+		sc.switched = true
+	}
 	sc.settled = waitDocSettleFor(cfg, win, match.Type)
 	return sc, nil
 }
