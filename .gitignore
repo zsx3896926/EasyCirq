@@ -71,3 +71,5 @@ dist-release/
 # local customer-test build
 .cust-build/
 
+# 符号导出缓存（可重新生成，不入库）
+.easycirq/symbol-cache/
