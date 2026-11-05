@@ -1973,3 +1973,60 @@ verdict: blocked  score: 10
 （`sch lib-layout` 从块库 + 规范网表算出每件的位置与边缘）。
 
 所以 S2→S3 之间还有一步：**离线组件级布局**（不是只画框）。
+
+
+---
+
+## 2026-11-05 S2→S3 之间补上的一步：**规范网表**
+
+### 为什么这一步是空白
+
+- `style-plan` 只画**框**（每块占哪一片），没有器件
+- S3 的度量要**器件级网表**
+- `sch lib-layout` 要两样：`connectivity`（规范网表）+ `measurements`（实测几何）
+
+以前没有"spec → 网表"这一步，所以只能先落图再量 —— 那正好绕过「未过 S2 不得进器件」。
+`easycirq/scripts/sch_spec_netlist.py` 补上了它：**纯离线，只读块库**。
+
+### 产物：`reports/hard-board/board2/netlist.json`
+
+```
+器件 56 / 网络 25 / 连接 140
+按页：P1=39  P2=17
+单成员网 0        NC 引脚 1
+横页全局网：GND(45) VBAT_RAW(10) +5V(19) +12V_FILT(7) +3V3(4) +3V8(4)
+```
+
+`connectivity.Document` 形态（components / nets / connections / modules / issues）。
+
+### 生成时踩到并修掉的两件事
+
+**① NC 的引脚曾被给了网。**
+`IGN_12V` 在 spec 里是 NC，但生成器退回块的 `default_net`，造出一张只有它自己的网 ——
+在 KPI「未连接/悬空=0」里就是违规。改成：NC 引脚落成 `noConnected`，**不产生任何连接**。
+
+**② 我自己的 spec 自相矛盾。**
+`nc` 数组里写了 NC-2 = `M4:EN`「不接」，可模块里它 `bind_to: "+5V"`。
+于是网表里它是接的、NC 清单里它是不接的，**两边都有据**。
+
+> **要么接、要么不接，不能两头都写。**
+
+修法：从 `nc` 里删掉 NC-2（理由留在模块端口的 note 上，不丢信息），
+并给 `sch_spec_check.py` 加一条**互斥规则**：NC 指向的引脚不许同时有 `bind_to`。
+
+### 测试
+
+`tests/test_sch_spec_netlist.py` 四条：
+- 生成后**没有单成员网**（悬空）
+- NC 引脚是 `noConnected` 且**不带任何连接**
+- spec 里 NC 与 bind_to 冲突时必须被拒（变异测试）
+- 同一份 spec 跑两次**位号与网号一致**（否则做不了前后 diff）
+
+### 还差什么才能进 S3
+
+`lib-layout` 除网表外还要 `measurements`：每件的 `bbox` 与**引脚坐标**。
+块库**没有**原理图几何（`placement` 是 PCB 层面的板边/朝向意图），
+
+所以要么：
+- 找到一条**从库符号量尺寸**的离线路径（若有，测出来接上）
+- 或者承认这一步必须上机（那 S5 就不是"一次性"，流程要重画）

@@ -109,6 +109,19 @@ def check(spec_path: pathlib.Path, blocks_dir: pathlib.Path):
         if not nc.get("reason"):
             problems.append("NC %s 没写理由 —— 不接也要说清为什么不接"
                             % (nc.get("id") or "?"))
+        # **要么接、要么不接，不能两头都写。**
+        # 实测踩过：spec 把 M4:EN 列进 nc，同时又在模块里 bind_to=+5V，
+        # 于是网表里它是接的、NC 清单里它是不接的，两边都"有据"。
+        if pin in mod_ports:
+            mid, pname = pin.split(":", 1)
+            for m in modules:
+                if m.get("id") != mid:
+                    continue
+                bind = ((m.get("ports") or {}).get(pname) or {}).get("bind_to")
+                if bind:
+                    problems.append(
+                        "NC %s 说 %r 不接，但模块里它 bind_to=%r —— 二者只能取一"
+                        % (nc.get("id") or "?", pin, bind))
 
     # ── 分页：每页的模块都必须存在 ────────────────────────────────────
     ids = {m.get("id") for m in modules}

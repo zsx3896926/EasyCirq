@@ -151,7 +151,7 @@
           "dir": "in",
           "default_net": "EXT_5V_EN",
           "bind_to": "+5V",
-          "note": "本版常开；见 NC-2"
+          "note": "无 MCU 可控 GPIO（本版 MCU 块只暴露电源/复位/UART）→ 绑 +5V 常开；**这是接了，不是 NC**"
         },
         "VOUT": {
           "dir": "out",
@@ -288,11 +288,6 @@
       "id": "NC-1",
       "pin": "M1:IGN_12V",
       "reason": "本版不做点火检测（无光耦隔离块落地）；显式标 NC，不让它悬空"
-    },
-    {
-      "id": "NC-2",
-      "pin": "M4:EN",
-      "reason": "无 MCU 可控 GPIO（本版 MCU 块只暴露电源/复位/UART）；绑定到 +5V 常开，并在 spec 里说明"
     }
   ],
   "open_items": [
