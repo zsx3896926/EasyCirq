@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "a223803d1fb015ce",
+    "components": [
+      {
+        "id": "c40",
+        "ref": "U2",
+        "role": "U",
+        "device": {
+          "name": "ic.sy7088",
+          "libraryUuid": "ed673a013a644ceb9f50cbb02e82271d",
+          "deviceUuid": "2b438f9b61784302b5e0807f29106491"
+        },
+        "pins": [
+          {
+            "number": "EN",
+            "name": "EN"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "IN",
+            "name": "IN"
+          },
+          {
+            "number": "LX",
+            "name": "LX"
+          },
+          {
+            "number": "LX#2",
+            "name": "LX#2"
+          },
+          {
+            "number": "OUT",
+            "name": "OUT"
+          },
+          {
+            "number": "OUT#2",
+            "name": "OUT#2"
+          },
+          {
+            "number": "PGND",
+            "name": "PGND"
+          },
+          {
+            "number": "SGND",
+            "name": "SGND"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c41",
+        "ref": "L4",
+        "role": "L",
+        "device": {
+          "name": "ind.2u2h",
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "b9e91430c31d4fdeb255dc61d0358e9e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c42",
+        "ref": "C16",
+        "role": "C_IN1",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c43",
+        "ref": "C17",
+        "role": "C_IN2",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c44",
+        "ref": "C18",
+        "role": "C_IN3",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c45",
+        "ref": "C19",
+        "role": "C_OUT1",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c46",
+        "ref": "C20",
+        "role": "C_OUT2",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c47",
+        "ref": "R10",
+        "role": "R_FB_H",
+        "device": {
+          "name": "res.147k_0402",
+          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+          "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c48",
+        "ref": "R11",
+        "role": "R_FB_L",
+        "device": {
+          "name": "res.46k4_0402",
+          "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
+          "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c49",
+        "ref": "R12",
+        "role": "R_EN",
+        "device": {
+          "name": "res.100k_0402",
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n10",
+        "name": "+5V",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n16",
+        "name": "+12V_FILT",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n20",
+        "name": "U2_N1",
+        "scope": "local"
+      },
+      {
+        "id": "n21",
+        "name": "U2_N4",
+        "scope": "local"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c40",
+        "pinNumber": "EN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "FB",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "IN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "LX",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "LX#2",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "OUT",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "OUT#2",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "PGND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "SGND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c41",
+        "pinNumber": "1",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c41",
+        "pinNumber": "2",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c42",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c42",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c47",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c47",
+        "pinNumber": "2",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c48",
+        "pinNumber": "1",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c48",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c49",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c49",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M4",
+        "name": "5V → 升压轨（SY7088）",
+        "coreComponents": [
+          "c40"
+        ],
+        "peripheralComponents": [
+          "c41",
+          "c42",
+          "c43",
+          "c44",
+          "c45",
+          "c46",
+          "c47",
+          "c48",
+          "c49"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 841,
+    "maxY": 594
+  },
+  "keepouts": [],
+  "measurements": [
+    {
+      "primitiveId": "c40",
+      "designator": "U2",
+      "x": 15.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": -15.0,
+        "minY": -20.0,
+        "maxX": 45.0,
+        "maxY": 60.0
+      },
+      "pins": [
+        {
+          "number": "EN",
+          "name": "EN",
+          "net": "+5V",
+          "x": 55.0,
+          "y": 40.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "FB",
+          "name": "FB",
+          "net": "U2_N4",
+          "x": 55.0,
+          "y": 20.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "IN",
+          "name": "IN",
+          "net": "+5V",
+          "x": -25.0,
+          "y": 20.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "LX",
+          "name": "LX",
+          "net": "U2_N1",
+          "x": -25.0,
+          "y": -10.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "LX#2",
+          "name": "LX#2",
+          "net": "U2_N1",
+          "x": -25.0,
+          "y": 0.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "OUT",
+          "name": "OUT",
+          "net": "+12V_FILT",
+          "x": 55.0,
+          "y": 0.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "OUT#2",
+          "name": "OUT#2",
+          "net": "+12V_FILT",
+          "x": 55.0,
+          "y": -10.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "PGND",
+          "name": "PGND",
+          "net": "GND",
+          "x": -25.0,
+          "y": 50.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "SGND",
+          "name": "SGND",
+          "net": "GND",
+          "x": -25.0,
+          "y": 40.0,
+          "rotation": 180.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c41",
+      "designator": "L4",
+      "x": 55.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 40.0,
+        "minY": 15.0,
+        "maxX": 70.0,
+        "maxY": 25.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "U2_N1",
+          "x": 35.0,
+          "y": 20.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "+5V",
+          "x": 75.0,
+          "y": 20.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c42",
+      "designator": "C16",
+      "x": 95.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 85.0,
+        "minY": 15.0,
+        "maxX": 105.0,
+        "maxY": 25.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
+          "x": 75.0,
+          "y": 20.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 115.0,
+          "y": 20.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c43",
+      "designator": "C17",
+      "x": 15.0,
+      "y": 45.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 5.0,
+        "minY": 40.0,
+        "maxX": 25.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
+          "x": -5.0,
+          "y": 45.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 35.0,
+          "y": 45.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c44",
+      "designator": "C18",
+      "x": 55.0,
+      "y": 45.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 45.0,
+        "minY": 40.0,
+        "maxX": 65.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
+          "x": 35.0,
+          "y": 45.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 75.0,
+          "y": 45.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c45",
+      "designator": "C19",
+      "x": 95.0,
+      "y": 45.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 85.0,
+        "minY": 40.0,
+        "maxX": 105.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
+          "x": 75.0,
+          "y": 45.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 115.0,
+          "y": 45.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c46",
+      "designator": "C20",
+      "x": 15.0,
+      "y": 70.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 5.0,
+        "minY": 65.0,
+        "maxX": 25.0,
+        "maxY": 75.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
+          "x": -5.0,
+          "y": 70.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 35.0,
+          "y": 70.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c47",
+      "designator": "R10",
+      "x": 55.0,
+      "y": 70.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 45.0,
+        "minY": 65.0,
+        "maxX": 65.0,
+        "maxY": 75.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
+          "x": 35.0,
+          "y": 70.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "U2_N4",
+          "x": 75.0,
+          "y": 70.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c48",
+      "designator": "R11",
+      "x": 95.0,
+      "y": 70.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 85.0,
+        "minY": 65.0,
+        "maxX": 105.0,
+        "maxY": 75.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "U2_N4",
+          "x": 75.0,
+          "y": 70.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 115.0,
+          "y": 70.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c49",
+      "designator": "R12",
+      "x": 15.0,
+      "y": 95.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 5.0,
+        "minY": 90.0,
+        "maxX": 25.0,
+        "maxY": 100.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
+          "x": -5.0,
+          "y": 95.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 35.0,
+          "y": 95.0,
+          "rotation": 0.0
+        }
+      ]
+    }
+  ],
+  "layoutModules": [
+    {
+      "id": "M4",
+      "title": "5V → 升压轨（SY7088）",
+      "coreComponentId": "c40",
+      "peripherals": [
+        {
+          "componentId": "c41"
+        },
+        {
+          "componentId": "c42"
+        },
+        {
+          "componentId": "c43"
+        },
+        {
+          "componentId": "c44"
+        },
+        {
+          "componentId": "c45"
+        },
+        {
+          "componentId": "c46"
+        },
+        {
+          "componentId": "c47"
+        },
+        {
+          "componentId": "c48"
+        },
+        {
+          "componentId": "c49"
+        }
+      ],
+      "netPolicies": {
+        "n2": "local_ground",
+        "n10": "local_power",
+        "n16": "local_power",
+        "n20": "direct",
+        "n21": "direct"
+      }
+    }
+  ],
+  "maxCandidates": 1000000
+}

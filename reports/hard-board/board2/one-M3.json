@@ -1,0 +1,641 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "49c6dbb9567dd6af",
+    "components": [
+      {
+        "id": "c33",
+        "ref": "X3",
+        "role": "U",
+        "device": {
+          "name": "buck.sy8089_tsot23",
+          "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
+          "deviceUuid": "9db86f545bc44f07a72b7a3eba3417fc"
+        },
+        "pins": [
+          {
+            "number": "EN",
+            "name": "EN"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "GND",
+            "name": "GND"
+          },
+          {
+            "number": "IN",
+            "name": "IN"
+          },
+          {
+            "number": "LX",
+            "name": "LX"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c34",
+        "ref": "L3",
+        "role": "L",
+        "device": {
+          "name": "ind.2u2_swpa4020",
+          "libraryUuid": "b2d87f64b53d4f12a6700cc8988eb7a2",
+          "deviceUuid": "5e7ac7b4008542d0853f1c725b8095c7"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c35",
+        "ref": "R8",
+        "role": "R_FBT",
+        "device": {
+          "name": "res.453k_0402__2",
+          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+          "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c36",
+        "ref": "R9",
+        "role": "R_FBB",
+        "device": {
+          "name": "res.10k_0402",
+          "libraryUuid": "f23fe15671054e81ab261d14102c265f",
+          "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c37",
+        "ref": "C13",
+        "role": "C_IN",
+        "device": {
+          "name": "cap.10uf_0805",
+          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
+          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c38",
+        "ref": "C14",
+        "role": "C_OUT",
+        "device": {
+          "name": "cap.22uf_0805",
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c39",
+        "ref": "C15",
+        "role": "C_HF",
+        "device": {
+          "name": "cap.100nf_0402",
+          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
+          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n10",
+        "name": "+5V",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n17",
+        "name": "X3_N3",
+        "scope": "local"
+      },
+      {
+        "id": "n18",
+        "name": "+3V3",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n19",
+        "name": "X3_N5",
+        "scope": "local"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c33",
+        "pinNumber": "EN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "FB",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "GND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "IN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "LX",
+        "netId": "n17",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c34",
+        "pinNumber": "1",
+        "netId": "n17",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c34",
+        "pinNumber": "2",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c35",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c35",
+        "pinNumber": "2",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c36",
+        "pinNumber": "1",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c36",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c37",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c37",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c38",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c38",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c39",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c39",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M3",
+        "name": "5V → 3.3V 主逻辑轨（SY8089）",
+        "coreComponents": [
+          "c33"
+        ],
+        "peripheralComponents": [
+          "c34",
+          "c35",
+          "c36",
+          "c37",
+          "c38",
+          "c39"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 841,
+    "maxY": 594
+  },
+  "keepouts": [],
+  "measurements": [
+    {
+      "primitiveId": "c33",
+      "designator": "X3",
+      "x": 160.0,
+      "y": 85.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 135.0,
+        "minY": 65.0,
+        "maxX": 185.0,
+        "maxY": 105.0
+      },
+      "pins": [
+        {
+          "number": "EN",
+          "name": "EN",
+          "net": "+5V",
+          "x": 125.0,
+          "y": 75.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "FB",
+          "name": "FB",
+          "net": "X3_N5",
+          "x": 195.0,
+          "y": 75.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "GND",
+          "name": "GND",
+          "net": "GND",
+          "x": 125.0,
+          "y": 85.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "IN",
+          "name": "IN",
+          "net": "+5V",
+          "x": 195.0,
+          "y": 95.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "LX",
+          "name": "LX",
+          "net": "X3_N3",
+          "x": 125.0,
+          "y": 95.0,
+          "rotation": 180.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c34",
+      "designator": "L3",
+      "x": 200.0,
+      "y": 85.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 185.0,
+        "minY": 80.0,
+        "maxX": 215.0,
+        "maxY": 90.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "X3_N3",
+          "x": 180.0,
+          "y": 85.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "+3V3",
+          "x": 220.0,
+          "y": 85.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c35",
+      "designator": "R8",
+      "x": 160.0,
+      "y": 100.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 150.0,
+        "minY": 95.0,
+        "maxX": 170.0,
+        "maxY": 105.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+3V3",
+          "x": 140.0,
+          "y": 100.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "X3_N5",
+          "x": 180.0,
+          "y": 100.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c36",
+      "designator": "R9",
+      "x": 200.0,
+      "y": 100.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 190.0,
+        "minY": 95.0,
+        "maxX": 210.0,
+        "maxY": 105.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "X3_N5",
+          "x": 180.0,
+          "y": 100.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 220.0,
+          "y": 100.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c37",
+      "designator": "C13",
+      "x": 160.0,
+      "y": 115.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 150.0,
+        "minY": 110.0,
+        "maxX": 170.0,
+        "maxY": 120.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
+          "x": 140.0,
+          "y": 115.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 180.0,
+          "y": 115.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c38",
+      "designator": "C14",
+      "x": 200.0,
+      "y": 115.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 190.0,
+        "minY": 110.0,
+        "maxX": 210.0,
+        "maxY": 120.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+3V3",
+          "x": 180.0,
+          "y": 115.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 220.0,
+          "y": 115.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c39",
+      "designator": "C15",
+      "x": 160.0,
+      "y": 130.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 155.0,
+        "minY": 125.0,
+        "maxX": 165.0,
+        "maxY": 135.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+3V3",
+          "x": 145.0,
+          "y": 130.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 175.0,
+          "y": 130.0,
+          "rotation": 0.0
+        }
+      ]
+    }
+  ],
+  "layoutModules": [
+    {
+      "id": "M3",
+      "title": "5V → 3.3V 主逻辑轨（SY8089）",
+      "coreComponentId": "c33",
+      "peripherals": [
+        {
+          "componentId": "c34"
+        },
+        {
+          "componentId": "c35"
+        },
+        {
+          "componentId": "c36"
+        },
+        {
+          "componentId": "c37"
+        },
+        {
+          "componentId": "c38"
+        },
+        {
+          "componentId": "c39"
+        }
+      ],
+      "netPolicies": {
+        "n2": "local_ground",
+        "n10": "local_power",
+        "n17": "direct",
+        "n18": "local_power",
+        "n19": "direct"
+      }
+    }
+  ],
+  "maxCandidates": 1000000
+}

@@ -1,0 +1,765 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "49c6dbb9567dd6af",
+    "components": [
+      {
+        "id": "c25",
+        "ref": "U1",
+        "role": "U5",
+        "device": {
+          "name": "ic.xl1509_5v_buck",
+          "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
+          "deviceUuid": "bb201d9430f147e28691f5c18dacc89f"
+        },
+        "pins": [
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "GND",
+            "name": "GND"
+          },
+          {
+            "number": "GND#2",
+            "name": "GND#2"
+          },
+          {
+            "number": "GND#3",
+            "name": "GND#3"
+          },
+          {
+            "number": "GND#4",
+            "name": "GND#4"
+          },
+          {
+            "number": "ON/OFF",
+            "name": "ON/OFF"
+          },
+          {
+            "number": "OUTPUT",
+            "name": "OUTPUT"
+          },
+          {
+            "number": "VIN",
+            "name": "VIN"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c26",
+        "ref": "D3",
+        "role": "D501",
+        "device": {
+          "name": "diode.ss34_sma",
+          "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
+          "deviceUuid": "902b2703f65541f6b14a5b108d45b474"
+        },
+        "pins": [
+          {
+            "number": "A",
+            "name": "A"
+          },
+          {
+            "number": "K",
+            "name": "K"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c27",
+        "ref": "D4",
+        "role": "D502",
+        "device": {
+          "name": "diode.ss34_sma",
+          "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
+          "deviceUuid": "902b2703f65541f6b14a5b108d45b474"
+        },
+        "pins": [
+          {
+            "number": "A",
+            "name": "A"
+          },
+          {
+            "number": "K",
+            "name": "K"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c28",
+        "ref": "L2",
+        "role": "L501",
+        "device": {
+          "name": "ind.68uh_3a",
+          "libraryUuid": "2b7ab9c85e1e46d7a7f6649d7d8303d2",
+          "deviceUuid": "35271e7ee9a64136af7acc79569f526f"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c29",
+        "ref": "C10",
+        "role": "C501",
+        "device": {
+          "name": "cap.470uf35v_smd",
+          "libraryUuid": "8f668c3ce23b4c15902197ea167b7c3e",
+          "deviceUuid": "710778ef19c648879bffa379e8c29d06"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c30",
+        "ref": "C11",
+        "role": "C502",
+        "device": {
+          "name": "cap.220uf35v_smd",
+          "libraryUuid": "0e38ab80ab78448a88d5085597fca312",
+          "deviceUuid": "fb458b2b36f9432e88225f509d1f6e85"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c31",
+        "ref": "C12",
+        "role": "C503",
+        "device": {
+          "name": "cap.1uf_0402",
+          "libraryUuid": "127545ebfde442869533bbd6e835406d",
+          "deviceUuid": "c0fa9b747a644ed8a224afcb9acfc6ea"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c32",
+        "ref": "J2",
+        "role": "J1",
+        "device": {
+          "name": "conn.screw_terminal_2p",
+          "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
+          "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n5",
+        "name": "VBAT_RAW",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n14",
+        "name": "D4_N2",
+        "scope": "local"
+      },
+      {
+        "id": "n15",
+        "name": "U1_N3",
+        "scope": "local"
+      },
+      {
+        "id": "n16",
+        "name": "+12V_FILT",
+        "scope": "global",
+        "role": "power"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c25",
+        "pinNumber": "FB",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "GND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "GND#2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "GND#3",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "GND#4",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "ON/OFF",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "OUTPUT",
+        "netId": "n15",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c25",
+        "pinNumber": "VIN",
+        "netId": "n14",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c26",
+        "pinNumber": "A",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c26",
+        "pinNumber": "K",
+        "netId": "n15",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c27",
+        "pinNumber": "A",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c27",
+        "pinNumber": "K",
+        "netId": "n14",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c28",
+        "pinNumber": "1",
+        "netId": "n15",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c28",
+        "pinNumber": "2",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c29",
+        "pinNumber": "1",
+        "netId": "n14",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c29",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c30",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c30",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c31",
+        "pinNumber": "1",
+        "netId": "n14",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c31",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c32",
+        "pinNumber": "1",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c32",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M2",
+        "name": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+        "coreComponents": [
+          "c25"
+        ],
+        "peripheralComponents": [
+          "c26",
+          "c27",
+          "c28",
+          "c29",
+          "c30",
+          "c31",
+          "c32"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 841,
+    "maxY": 594
+  },
+  "keepouts": [],
+  "measurements": [
+    {
+      "primitiveId": "c25",
+      "designator": "U1",
+      "x": 160.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 125.0,
+        "minY": -30.0,
+        "maxX": 195.0,
+        "maxY": 70.0
+      },
+      "pins": [
+        {
+          "number": "FB",
+          "name": "FB",
+          "net": "+12V_FILT",
+          "x": 105.0,
+          "y": 30.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "GND",
+          "name": "GND",
+          "net": "GND",
+          "x": 215.0,
+          "y": 50.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "GND#2",
+          "name": "GND#2",
+          "net": "GND",
+          "x": 215.0,
+          "y": 30.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "GND#3",
+          "name": "GND#3",
+          "net": "GND",
+          "x": 215.0,
+          "y": 10.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "GND#4",
+          "name": "GND#4",
+          "net": "GND",
+          "x": 215.0,
+          "y": -10.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "ON/OFF",
+          "name": "ON/OFF",
+          "net": "GND",
+          "x": 105.0,
+          "y": 50.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "OUTPUT",
+          "name": "OUTPUT",
+          "net": "U1_N3",
+          "x": 105.0,
+          "y": 10.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "VIN",
+          "name": "VIN",
+          "net": "D4_N2",
+          "x": 105.0,
+          "y": -10.0,
+          "rotation": 180.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c26",
+      "designator": "D3",
+      "x": 200.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 195.0,
+        "minY": 15.0,
+        "maxX": 205.0,
+        "maxY": 25.0
+      },
+      "pins": [
+        {
+          "number": "A",
+          "name": "A",
+          "net": "GND",
+          "x": 220.0,
+          "y": 20.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "K",
+          "name": "K",
+          "net": "U1_N3",
+          "x": 180.0,
+          "y": 20.0,
+          "rotation": 180.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c27",
+      "designator": "D4",
+      "x": 160.0,
+      "y": 35.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 155.0,
+        "minY": 30.0,
+        "maxX": 165.0,
+        "maxY": 40.0
+      },
+      "pins": [
+        {
+          "number": "A",
+          "name": "A",
+          "net": "VBAT_RAW",
+          "x": 180.0,
+          "y": 35.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "K",
+          "name": "K",
+          "net": "D4_N2",
+          "x": 140.0,
+          "y": 35.0,
+          "rotation": 180.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c28",
+      "designator": "L2",
+      "x": 200.0,
+      "y": 35.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 185.0,
+        "minY": 30.0,
+        "maxX": 215.0,
+        "maxY": 40.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "U1_N3",
+          "x": 180.0,
+          "y": 35.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "+12V_FILT",
+          "x": 220.0,
+          "y": 35.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c29",
+      "designator": "C10",
+      "x": 160.0,
+      "y": 50.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 150.0,
+        "minY": 40.0,
+        "maxX": 160.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "D4_N2",
+          "x": 160.0,
+          "y": 30.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 160.0,
+          "y": 70.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c30",
+      "designator": "C11",
+      "x": 200.0,
+      "y": 50.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 190.0,
+        "minY": 40.0,
+        "maxX": 200.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
+          "x": 200.0,
+          "y": 30.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 200.0,
+          "y": 70.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c31",
+      "designator": "C12",
+      "x": 160.0,
+      "y": 65.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 155.0,
+        "minY": 60.0,
+        "maxX": 165.0,
+        "maxY": 70.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "D4_N2",
+          "x": 145.0,
+          "y": 65.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 175.0,
+          "y": 65.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "primitiveId": "c32",
+      "designator": "J2",
+      "x": 200.0,
+      "y": 65.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 190.0,
+        "minY": 50.0,
+        "maxX": 210.0,
+        "maxY": 80.0
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1",
+          "net": "VBAT_RAW",
+          "x": 180.0,
+          "y": 60.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "2",
+          "name": "2",
+          "net": "GND",
+          "x": 180.0,
+          "y": 70.0,
+          "rotation": 180.0
+        }
+      ]
+    }
+  ],
+  "layoutModules": [
+    {
+      "id": "M2",
+      "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+      "coreComponentId": "c25",
+      "peripherals": [
+        {
+          "componentId": "c26"
+        },
+        {
+          "componentId": "c27"
+        },
+        {
+          "componentId": "c28"
+        },
+        {
+          "componentId": "c29"
+        },
+        {
+          "componentId": "c30"
+        },
+        {
+          "componentId": "c31"
+        },
+        {
+          "componentId": "c32"
+        }
+      ],
+      "netPolicies": {
+        "n2": "local_ground",
+        "n5": "local_power",
+        "n14": "direct",
+        "n15": "direct",
+        "n16": "local_power"
+      }
+    }
+  ],
+  "maxCandidates": 1000000
+}
