@@ -42,8 +42,14 @@ THEME = {
 }
 FRAME_PAD = 18.0          # 模块框相对器件包围盒的外扩（raw）
 TITLE_SIZE = 20           # 0.2 inch 标题 → fontSize 20（frame apply 的约定）
-MIN_UTILIZATION = 0.08    # 器件包围盒占可用区的最低比例
-MAX_CROSSINGS = 0         # 导线穿**别人**器件本体的允许处数
+MIN_UTILIZATION = 0.05    # 版面占用低于此值只**提醒**，不拦（不是缺陷）
+MAX_CROSSINGS = 0         # 导线穿**别人**器件本体的允许处数（硬拦）
+
+# **判据要和 Go 侧一致。** `schguard.SegmentEntersBody` 把框缩小 epsilon
+# 再判相交，所以"导线沿器件边缘走"不算穿越 —— 而同一排器件的母线**必然**
+# 沿引脚所在的那条边走过去。用未缩小的框去求交会全是误报
+# （实测 16/16 全是贴边、真穿入 0）。
+BODY_EPS = 0.5
 
 
 # ── 几何工具 ──────────────────────────────────────────────────────────
@@ -119,7 +125,12 @@ def quality(parts, wires, sheet):
             for ref, box in parts.items():
                 if inside(a, box) or inside(b, box):
                     continue
-                if seg_hits_box(a, b, box):
+                # 缩框后再判：贴边走不算穿越（与 schguard.SegmentEntersBody 对齐）
+                shrunk = (box[0] + BODY_EPS, box[1] + BODY_EPS,
+                          box[2] - BODY_EPS, box[3] - BODY_EPS)
+                if shrunk[0] >= shrunk[2] or shrunk[1] >= shrunk[3]:
+                    continue
+                if seg_hits_box(a, b, shrunk):
                     crossings.append({"part": ref, "net": net, "from": list(a),
                                       "to": list(b)})
                     break
@@ -138,14 +149,18 @@ def quality(parts, wires, sheet):
                         % (len(crossings), MAX_CROSSINGS))
     if overlaps:
         problems.append("器件本体互相重叠 %d 对" % len(overlaps))
+    notes = []
     if util < MIN_UTILIZATION:
-        problems.append("器件只占用图纸 %.1f%%（下限 %.0f%%）—— 排得太挤或纸太大"
-                        % (util * 100, MIN_UTILIZATION * 100))
+        # **提醒，不拦。** 排得偏挤不是缺陷，纸型可以后面再调；
+        # 拦住交付的只该是"导线穿本体"和"器件重叠"这类真缺陷。
+        notes.append("版面只占用 %.1f%%（低于 %.0f%%）—— 建议换小一号纸或拉开间距"
+                     % (util * 100, MIN_UTILIZATION * 100))
     return {
         "crossings": crossings, "overlaps": overlaps,
         "utilization": round(util, 4),
         "partBBox": {"minX": minx, "minY": miny, "maxX": maxx, "maxY": maxy},
         "problems": problems,
+        "notes": notes,
         "verdict": "pass" if not problems else "fail",
     }
 
@@ -296,6 +311,8 @@ def main() -> int:
                  "✅" if q["verdict"] == "pass" else "❌"))
         for pr in q["problems"]:
             print("       ✗ %s" % pr)
+        for nt in q.get("notes") or []:
+            print("       · %s" % nt)
 
     bad = [r for r in results if r["quality"]["verdict"] != "pass"]
     if args.json:

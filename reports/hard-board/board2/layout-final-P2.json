@@ -83,8 +83,8 @@
         "role": "C_IN1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -105,8 +105,8 @@
         "role": "C_IN2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -127,8 +127,8 @@
         "role": "C_IN3",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -149,8 +149,8 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -171,8 +171,8 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -215,8 +215,8 @@
         "role": "R_FB_L",
         "device": {
           "name": "res.46k4_0402",
-          "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
-          "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb"
+          "libraryUuid": "93b9460b251f4968a40ba77879183d36",
+          "deviceUuid": "7ef817a7eb734b879ce88b3e371b5ddf"
         },
         "pins": [
           {
@@ -237,8 +237,8 @@
         "role": "R_EN",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+          "libraryUuid": "ce4ea38baad04ee0aae3d11bfe221759",
+          "deviceUuid": "62a01926c5b745a185af94b5d0a191af"
         },
         "pins": [
           {
@@ -259,8 +259,8 @@
         "role": "U",
         "device": {
           "name": "buckboost.tps63802_vson10",
-          "libraryUuid": "01a036a82f3e4723b4d5e3058bf1ffd2",
-          "deviceUuid": "21c410988f214465b9d9afb2bdb45c80"
+          "libraryUuid": "47f06c21e97045619f537003ee13abf3",
+          "deviceUuid": "5c36c123745a4fe5bc6dda4d1451f279"
         },
         "pins": [
           {
@@ -314,8 +314,8 @@
         "role": "L",
         "device": {
           "name": "ind.1uh_1210",
-          "libraryUuid": "1d2534a4aebd443e9fc8d204865468f4",
-          "deviceUuid": "91c55cd7475c41b4b7f48ca45f7ab5b3"
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "683f9c0af1e3404ca105328c4c4b94c3"
         },
         "pins": [
           {
@@ -336,8 +336,8 @@
         "role": "R_FBT",
         "device": {
           "name": "res.665k_0402",
-          "libraryUuid": "c2378bfc933c4daface786d2ca8d147c",
-          "deviceUuid": "5446ba25c8174b7fbd5c214ae2fc44e9"
+          "libraryUuid": "5d93352485894d278cca24fa6662c66f",
+          "deviceUuid": "df87cf8864404586ab4596f6205f7c4c"
         },
         "pins": [
           {
@@ -358,8 +358,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
-          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+          "libraryUuid": "ce4ea38baad04ee0aae3d11bfe221759",
+          "deviceUuid": "62a01926c5b745a185af94b5d0a191af"
         },
         "pins": [
           {
@@ -380,8 +380,8 @@
         "role": "C_IN",
         "device": {
           "name": "cap.10uf_0805",
-          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
-          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93"
+          "libraryUuid": "ad73d6db1236408ca51c8110e24b28fd",
+          "deviceUuid": "dea48852289b446d96ecc1727abb75e3"
         },
         "pins": [
           {
@@ -402,8 +402,8 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
-          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
