@@ -58,8 +58,12 @@ def test_card_refuses_a_board_without_plan_receipt():
     """
     code, out, _ = _run("card", "--project", "__no-such-project-for-card-test__")
     text = out
-    assert "还不能打样" in text, "没有规划回执的板子不能是绿卡"
-    assert "离线规划" in text, "要说清是流程没过，不是电路有问题"
+    # 没测过的板子保持 not_measured（A5 的判据），但**必须同时说出流程缺口** ——
+    # 否则用户以为"去跑一次检查就行"，而实际连离线规划都没做。
+    assert ("还不能打样" in text) or ("还没检查过" in text), \
+        "绕过流程的板子不能是绿卡：%r" % text[:300]
+    assert "离线规划" in text, "必须把流程缺口说出来：%r" % text[:300]
+    assert ("S1" in text and "S4" in text), "要说清缺的是哪几阶段：%r" % text[:300]
 
 
 def test_panel_visualises_the_offline_plan():

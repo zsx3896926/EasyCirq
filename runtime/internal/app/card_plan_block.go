@@ -49,8 +49,25 @@ func planCardBlocker(project string) (entry cardEntry, blocked bool) {
 // 为什么插到最前：**流程没走完时，KPI 的那些细节不是读者该先关心的事**。
 // 先告诉他"流程没走完"，再谈具体缺陷。
 func applyPlanGateToCard(result *cardResult, project string) {
+	// **没测过就不该被流程门盖住。**
+	//
+	// `not_measured`（⏳ 这块板还没检查过）本身就覆盖了"流程没走完"这件事，
+	// 而且它更准确地告诉用户"这块板还没被测量过"。把它压成 blocked 会丢掉
+	// A5 那条判据（exit=2 要显示"还没检查过"，不是"通过"、也不该被别的结论顶掉）。
+	//
+	// 所以流程门只在**已经有测量结论**时才改写它 —— 那时"流程没走完"是
+	// 读者必须先知道的那一条。
 	entry, blocked := planCardBlocker(project)
 	if !blocked {
+		return
+	}
+
+	if result.State == "not_measured" {
+		// 保留 `not_measured`（A5：还没检查过就是还没检查过），但**把流程缺口说出来** ——
+		// 否则用户只看到"还没检查过"，会以为是"去跑一次检查就行"，
+		// 而实际上他连离线规划都没做。
+		result.Blockers = append(result.Blockers, entry)
+		result.Next = result.Next + "；另外这块板还没走离线规划（S1–S4），补完再看判词"
 		return
 	}
 	result.Blockers = append([]cardEntry{entry}, result.Blockers...)
