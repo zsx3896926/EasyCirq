@@ -65,15 +65,56 @@ def sanitize_connectivity(net):
 
 
 def body_world(body, cx, cy):
-    """把符号本体矩形平移到世界坐标并吸附到网格。"""
+    """把符号本体矩形平移到世界坐标，并**保证每个引脚都在本体外侧**。
+
+    两个坑都踩过：
+      • 只按符号 RECT 平移 + 吸附 → 引脚吸附后可能落进本体（吸附各做各的，
+        最多差 2.5 raw），求解器判 `pin-exit-blocked`；
+      • 只按引脚推本体 → 没有 RECT 的符号（电感/端子）本体会退化。
+    所以：以 RECT 为基准，再按引脚朝向把对应的边**收进去**，直到每脚都在外侧。
+    """
     if not body:
         return None
-    return {
+    b = {
         "minX": snap(cx + float(body["minX"])),
         "minY": snap(cy + float(body["minY"])),
         "maxX": snap(cx + float(body["maxX"])),
         "maxY": snap(cy + float(body["maxY"])),
     }
+    return b
+
+
+def enforce_pin_sides(b, pins):
+    """按引脚朝向把本体对应的边收进去，保证每脚都在外侧。
+
+    **两条路径都要走这一步**：有 RECT 的按符号本体起步，没有 RECT 的按引脚
+    推出本体起步 —— 但收边规则相同。否则电阻这类无 RECT 的两脚件会漏掉，
+    预检报 `朝上但 y=… 在本体里侧`。
+    """
+    if not b:
+        return b
+    for (x, y, out) in (pins or []):
+        if out is None:
+            continue
+        out = float(out) % 360.0
+        if out == 180.0:      # 朝左：minX 必须 ≥ x
+            if b["minX"] < x:
+                b["minX"] = snap(x)
+        elif out == 0.0:      # 朝右：maxX 必须 ≤ x
+            if b["maxX"] > x:
+                b["maxX"] = snap(x)
+        elif out == 270.0:    # 朝下：minY 必须 ≥ y
+            if b["minY"] < y:
+                b["minY"] = snap(y)
+        elif out == 90.0:     # 朝上：maxY 必须 ≤ y
+            if b["maxY"] > y:
+                b["maxY"] = snap(y)
+    MIN_EXT = 10.0
+    if b["maxX"] - b["minX"] < MIN_EXT:
+        b["maxX"] = snap(b["minX"] + MIN_EXT)
+    if b["maxY"] - b["minY"] < MIN_EXT:
+        b["maxY"] = snap(b["minY"] + MIN_EXT)
+    return b
 
 
 def outward_from_centre(world: dict, pname: str) -> float:
@@ -289,8 +330,11 @@ def build(netlist_path, measure_path, style_plans, out_path,
                     # 求解器判定朝外段穿过本体；靠"朝内退 length"又会因
                     # `.elibu` rotation 约定不统一而在 EP 这类焊盘上判错。
                     # 符号里有真本体（TPS54360 是 x -40..40 / y -25..25），直接平移过来。
-                    "bbox": body_world(mp.get("body"), cx, cy)
-                             or {k: snap(v) for k, v in bbox_of_pins(body_pts).items()},
+                    "bbox": enforce_pin_sides(
+                        body_world(mp.get("body"), cx, cy)
+                        or {k: snap(v) for k, v in bbox_of_pins(body_pts).items()},
+                        [(world[pn][0], world[pn][1], g2.get("outwardRotation"))
+                         for pn, g2 in (mp.get("pins") or {}).items()]),
                     "pins": pins,
                 })
 

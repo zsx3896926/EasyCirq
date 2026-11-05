@@ -64,22 +64,20 @@ def resolve_identities(exe: str, parts: dict, ids: list[str]):
     if not lcsc_of:
         return {}, {}, {}
 
-    nums = sorted(set(lcsc_of.values()))
-    out, text = cli_json(exe, ["lib", "by-lcsc", "--lcsc", ",".join(nums)],
-                         timeout=300)
-    if out is None:
-        return {}, lcsc_of, {"error": "by-lcsc 失败：" + text[:200]}
-
-    by_lcsc = {}
-    for c in out.get("components") or []:
-        by_lcsc[(c.get("lcsc") or "").upper()] = c
-
+    # **逐件解析**，不做批量。
+    #
+    # 批量 `--lcsc a,b,c…` 时，个别型号在回执里映射不到（实测 tps63802：
+    # 单独查得到 libraryUuid/deviceUuid，39 个一起查就落空），于是
+    # `device get` 用错身份、拿不到 symbolUuid。逐件查多花几十次只读往返，
+    # 但结果确定 —— 导出本身有缓存，重复跑不会变慢。
     lib_of, dev_of = {}, {}
     for pid, lcsc in lcsc_of.items():
-        c = by_lcsc.get(lcsc.upper())
-        if c:
-            lib_of[pid] = c.get("libraryUuid") or ""
-            dev_of[pid] = c.get("uuid") or ""
+        out, _ = cli_json(exe, ["lib", "by-lcsc", "--lcsc", lcsc])
+        hit = next((c for c in ((out or {}).get("components") or [])
+                    if (c.get("lcsc") or "").upper() == lcsc.upper()), None)
+        if hit:
+            lib_of[pid] = hit.get("libraryUuid") or ""
+            dev_of[pid] = hit.get("uuid") or ""
     return lib_of, dev_of, lcsc_of
 
 
@@ -191,13 +189,32 @@ def main() -> int:
         # 两遍法：先用 `rotation+180` 朝内退 length 推出本体，
         # 再用同一套"引脚在本体哪一侧"的规则重算朝向。
         if body is None and pins:
+            # 无 RECT 时**不能**指望 `.elibu` 的 rotation：实测对电阻/电感/二极管
+            # 这类两脚件，文件里的 rotation 本身就是**朝外**，再加 180 正好反了
+            # （R1 的 pin1 在 y=15 被判成"朝上"，收边时与 pin2 自相矛盾）。
+            #
+            # 改用**远离本器件引脚中心**的主轴方向：两脚件必然一脚朝上、一脚朝下
+            # （或左右），完全正确；四脚件也成立。
+            _xs = [v.get("x") for v in pins.values() if v.get("x") is not None]
+            _ys = [v.get("y") for v in pins.values() if v.get("y") is not None]
+            _cx = sum(_xs) / len(_xs) if _xs else 0.0
+            _cy = sum(_ys) / len(_ys) if _ys else 0.0
+            for _p in pins.values():
+                _x, _y = _p.get("x"), _p.get("y")
+                if _x is None or _y is None:
+                    continue
+                _dx, _dy = _x - _cx, _y - _cy
+                if abs(_dx) >= abs(_dy):
+                    _p["_derived_out"] = 0.0 if _dx >= 0 else 180.0
+                else:
+                    _p["_derived_out"] = 90.0 if _dy >= 0 else 270.0
             import math as _math
             cand = []
             for _p in pins.values():
                 _x, _y = _p.get("x"), _p.get("y")
                 if _x is None or _y is None:
                     continue
-                _o = ((_p.get("rotation") or 0) + 180.0) % 360.0
+                _o = _p["_derived_out"]
                 _l = float(_p.get("length") or 0)
                 cand.append((_x - _math.cos(_math.radians(_o)) * _l,
                              _y - _math.sin(_math.radians(_o)) * _l))
@@ -233,7 +250,9 @@ def main() -> int:
                 # `rotation` 保留文件原值（朝本体）便于追溯；
                 # `outwardRotation` 是求解器要的世界朝外角。
                 "rotation": p.get("rotation"),
-                "outwardRotation": measure.outward_rotation(p, body),
+                "outwardRotation": (p.get("_derived_out")
+                                    if p.get("_derived_out") is not None
+                                    else measure.outward_rotation(p, body)),
                 "connectionPoint": measure.connection_point(p),
             }
         results[pid] = {
