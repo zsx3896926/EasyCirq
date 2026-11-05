@@ -45,7 +45,10 @@ type panelSnapshot struct {
 	Status  json.RawMessage `json:"status"`
 	// Artifacts 是 `easycirq artifacts --json` 的原样转发（P4「历史与产物」）。
 	// 面板照旧只搬运不判断 —— 交付证据该列什么由 CLI 决定。
-	Artifacts json.RawMessage   `json:"artifacts"`
+	Artifacts json.RawMessage `json:"artifacts"`
+	// Plan 是 `sch plan-status --json` 的原样转发（离线规划四阶段 + 闸门）。
+	// 面板零判定：哪一步没过由 CLI 说。
+	Plan      json.RawMessage   `json:"plan"`
 	Errors    map[string]string `json:"errors,omitempty"`
 	FetchedAt string            `json:"fetchedAt"`
 }
@@ -319,6 +322,12 @@ func collectSnapshot(self, project string) panelSnapshot {
 		snap.Artifacts = v
 	} else {
 		snap.Errors["artifacts"] = e
+	}
+
+	if v, e := fetch("sch", "plan-status", "--json"); v != nil {
+		snap.Plan = v
+	} else {
+		snap.Errors["plan"] = e
 	}
 
 	if len(snap.Errors) == 0 {

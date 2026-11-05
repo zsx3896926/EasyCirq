@@ -65,8 +65,8 @@ type cardResult struct {
 // and never claims "ready" without a live write permission.
 func analyzeCard(report *statusReport, gatePath, gateOverride string) cardResult {
 	result := cardResult{
-		Schema: "easycirq-sch-delivery-card/v1",
-		Counts: map[string]int{"pass": 0, "fail": 0, "missing": 0, "na": 0, "advisory": 0},
+		Schema:   "easycirq-sch-delivery-card/v1",
+		Counts:   map[string]int{"pass": 0, "fail": 0, "missing": 0, "na": 0, "advisory": 0},
 		Blockers: []cardEntry{}, Missing: []cardEntry{},
 	}
 	if report == nil {
@@ -295,6 +295,9 @@ Exit codes: 0 ready, 1 not ready, 2 not measured or invalid.`,
 				}
 			}
 			result := analyzeCard(report, gatePath, gate)
+			// 流程级阻塞（friction #40）：没走完离线规划的板子不能拿绿卡。
+			// 放在 analyzeCard 之后、mergePCB 之前 —— 它是最高优先级的那一条。
+			applyPlanGateToCard(&result, cfg.project)
 			if pcbDRC != "" {
 				mergePCB(&result, pcbDRC)
 			} else if result.State == "ready" {

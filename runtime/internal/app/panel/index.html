@@ -202,6 +202,14 @@ footer{margin-top:8px;font-size:12px;color:var(--faint);display:flex;gap:16px;fl
     <div class="metrics" id="metrics"></div>
   </div>
 
+  <!-- 离线规划（S1–S4）：流程走没走完，一眼可见 -->
+  <div class="card" id="planCard" hidden>
+    <h2>离线规划</h2>
+    <p class="sub" id="planGate"></p>
+    <ul class="art" id="planList"></ul>
+    <p class="sub" id="planNext"></p>
+  </div>
+
   <!-- ② 相位条 -->
   <div class="card">
     <h2>相位与证据</h2>
@@ -487,6 +495,37 @@ function renderArtifacts(art){
   card.hidden = false;
 }
 
+function renderPlan(plan){
+  const card = document.getElementById("planCard");
+  const gate = document.getElementById("planGate");
+  const list = document.getElementById("planList");
+  const next = document.getElementById("planNext");
+  if (!plan || !plan.stages){
+    card.hidden = true;
+    return;
+  }
+  list.textContent = "";
+  plan.stages.forEach(st => {
+    const li = el("li");
+    // 状态三件套：色 + 文 + 图标（不靠颜色单独表意）
+    const mark = st.status === "done" ? "✓" : (st.status === "missing" ? "✗" : "·");
+    const cls  = st.status === "done" ? "ok" : (st.status === "missing" ? "bad" : "idle");
+    const icon = el("span", "k " + cls, mark + " " + (st.id || ""));
+    li.appendChild(icon);
+    li.appendChild(el("span", "p", (st.name || "") + " — " + (st.detail || "")));
+    list.appendChild(li);
+  });
+  const open = plan.gate === "open";
+  gate.textContent = open
+    ? "闸门：开 —— 可以落块"
+    : "闸门：关 —— 落块会被拒绝（这就是「未过 S2 不得进器件」）";
+  gate.className = "sub " + (open ? "ok" : "bad");
+  next.textContent = open
+    ? "证据齐全。落块请走一次性批量写入（S5）。"
+    : (plan.reason || "") + (plan.howTo && plan.howTo.length ? "　按下面的顺序补：" + plan.howTo.join("；") : "");
+  card.hidden = false;
+}
+
 function render(snap){
   LAST = snap;
   const proj = document.getElementById("proj");
@@ -496,6 +535,7 @@ function render(snap){
   // 而不是把三块读不到数据的区域并排摆着让人猜。
   applyVisibility();
   renderArtifacts(snap.artifacts);
+  renderPlan(snap.plan);
   document.getElementById("stamp").textContent = snap.fetchedAt || "";
   renderErrors(snap.errors);
   renderOverview(snap.card);

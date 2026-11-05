@@ -67,21 +67,21 @@ var bapPrefixes = map[string]string{
 	"sw":   "SW",
 	"led":  "LED",
 	// conventional (IEEE-315 classes) — not yet exercised by a placed board
-	"ind":       "L",
-	"fb":        "FB",
-	"diode":     "D",
-	"zener":     "D",
-	"tvs":       "D",
-	"esd":       "D",
-	"bjt":       "Q",
-	"pmos":      "Q",
-	"mosfet":    "Q",  // StickS3 吸收引入(2N7002/2N7002DW/CJ3439KDW)
-	"sensor":    "U",  // StickS3 吸收引入(BMI270 IMU)
-	"mic":       "MK", // StickS3 吸收引入(MSM381 MEMS mic;IEEE-315 麦克风=MK)
-	"xtal":      "X",
-	"fuse":      "F",
-	"ant":       "ANT",
-	"ntc":       "TH",  // 热敏电阻（IPC-7351 惯用 TH）；温控块 threshold_switch_12v 首次使用
+	"ind":    "L",
+	"fb":     "FB",
+	"diode":  "D",
+	"zener":  "D",
+	"tvs":    "D",
+	"esd":    "D",
+	"bjt":    "Q",
+	"pmos":   "Q",
+	"mosfet": "Q",  // StickS3 吸收引入(2N7002/2N7002DW/CJ3439KDW)
+	"sensor": "U",  // StickS3 吸收引入(BMI270 IMU)
+	"mic":    "MK", // StickS3 吸收引入(MSM381 MEMS mic;IEEE-315 麦克风=MK)
+	"xtal":   "X",
+	"fuse":   "F",
+	"ant":    "ANT",
+	"ntc":    "TH", // 热敏电阻（IPC-7351 惯用 TH）；温控块 threshold_switch_12v 首次使用
 
 	"opto":      "U",
 	"ldo":       "U",
@@ -269,7 +269,7 @@ type bapInput struct {
 	PartsPath     string
 	PartsShadowed []string
 	Bind          map[string]string // PORT → host net
-	KindOver map[string]string // NET → flag kind override
+	KindOver      map[string]string // NET → flag kind override
 	// Layout is the block's schematic_layout template (nil → fallback grid).
 	Layout *blocks.SchematicLayout
 	// Obstacles are the existing parts' rendered bboxes on the active page; when

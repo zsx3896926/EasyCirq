@@ -1471,6 +1471,7 @@ func newSchBlockApplyCmd(cfg *appConfig, window *string, stdout, stderr io.Write
 		spacing                 float64
 		perRow, maxAttempts     int
 		dryRun, asJSON          bool
+		unplanned               bool
 		skipDevicePreflight     bool
 	)
 	c := &cobra.Command{
@@ -1542,6 +1543,27 @@ idempotent per pin — an already-connected pin is skipped rather than re-flagge
   easycirq sch block-apply led_indicator_gpio --at 400,300 --bind CTRL=IO2 --bind GND=GND
   easycirq sch block-apply block.led_indicator_gpio --instance led2 --at 400,500 --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// ── 离线规划闸门（机制，不是建议）──────────────────────────────
+			// 产品文档写着「未过 S2 不得进器件」「apply_allowed 才允许上机」，
+			// 但那只是一句话。没有回执就**拒绝落块**；要用 --unplanned 必须显式说，
+			// 而且会被记进回执、跟着板子走到交付卡（card 会因此拒绝说可以打样）。
+			// 背景：friction #40 —— 板1/板2 前几十轮就是跳过 S1–S4 直接落图，
+			// 之后一直在补几何（引脚没连、标号撞图签、组框重叠、块装不下）。
+			if !dryRun {
+				gate := planGate(cfg.project, cfg.doc, unplanned)
+				if !gate.Allow {
+					fmt.Fprintf(stderr, "✗ 离线规划闸门：%s\n", gate.Reason)
+					for _, h := range gate.HowTo {
+						fmt.Fprintf(stderr, "    %s\n", h)
+					}
+					return fmt.Errorf("block-apply 被离线规划闸门拒绝 —— 先跑 S1–S4，或用 --unplanned 明确留痕跳过")
+				}
+				if gate.Receipt.Unplanned {
+					fmt.Fprintf(stderr, "⚠ --unplanned：这块板会记为「绕过离线规划」，交付卡不会说可以打样\n")
+					_ = savePlanReceipt(gate.Receipt)
+				}
+			}
+
 			bind, err := parseKV(binds, "--bind")
 			if err != nil {
 				return err
@@ -1575,6 +1597,8 @@ idempotent per pin — an already-connected pin is skipped rather than re-flagge
 			return runBlockApply(cfg, *window, args[0], in, partsPath, dryRun, asJSON, maxAttempts, stdout, stderr)
 		},
 	}
+	c.Flags().BoolVar(&unplanned, "unplanned", false,
+		"EXPLICITLY bypass the offline-plan gate: the board is recorded as unplanned and card refuses to say ready")
 	c.Flags().StringVar(&at, "at", "400,300", "origin coordinate x,y for the first part")
 	c.Flags().Float64Var(&spacing, "spacing", 0, "fallback-grid spacing between placed parts; "+
 		"0 = auto-size from the block's biggest part (an IC needs ~220, a discrete ~120 — a fixed 100 "+

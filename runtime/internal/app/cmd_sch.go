@@ -2222,6 +2222,8 @@ the selection). Without --ids it exports the whole active page.`,
 	// ── block-apply ──────────────────────────────────────────────────────
 	// Circuit-block instantiation: the executable path for internal/blocks.
 	sch.AddCommand(newSchBlockApplyCmd(cfg, &window, stdout, stderr))
+	sch.AddCommand(newSchPlanAckCmd(cfg, stdout, stderr))
+	sch.AddCommand(newSchPlanStatusCmd(cfg, stdout, stderr))
 	sch.AddCommand(newSchExtractLayoutCmd(cfg, &window, stdout, stderr))
 	sch.AddCommand(newSchZonesCmd(cfg, &window, stdout, stderr))
 	sch.AddCommand(newSchZoneDrawCmd(cfg, &window, stdout, stderr))
