@@ -126,7 +126,7 @@ def check(src: dict) -> Check:
     comps = conn.get("components") or []
     if not comps:
         c.bad("/connectivity/components 为空")
-    by_id, by_ref = {}, {}
+    by_id, by_ref, ref_of = {}, {}, {}
     for i, x in enumerate(comps):
         cid, ref = x.get("id") or "", x.get("ref") or ""
         p = "/connectivity/components/%d" % i
@@ -140,6 +140,7 @@ def check(src: dict) -> Check:
         if not REF_RE.match(ref):
             c.bad("%s 位号 %r 不符合 字母+数字 格式" % (p, ref))
         by_id[cid], by_ref[ref] = x, x
+        ref_of[cid] = ref
         # 12
         dev = x.get("device") or {}
         if not (dev.get("libraryUuid") or "").strip():
@@ -324,7 +325,9 @@ def check(src: dict) -> Check:
         intents[mid] = it
         core = it.get("coreComponentId") or ""
         if core not in (modules[mid].get("coreComponents") or []):
-            c.bad("%s coreComponentId %r 不是该模块的 core" % (p, core))
+            # 拆模块时最容易漏改的就是这一处
+            c.bad("%s coreComponentId %r 不是该模块的 core（CoreComponents=%r）"
+                  % (p, core, modules[mid].get("coreComponents")))
         members = set((modules[mid].get("coreComponents") or []) +
                       (modules[mid].get("peripheralComponents") or []))
         for j, per in enumerate(it.get("peripherals") or []):
@@ -340,11 +343,40 @@ def check(src: dict) -> Check:
                     c.bad("%s/peripherals/%d attachTo 目标必须是同模块的另一成员"
                           "（得到 %r）" % (p, j, aid))
         used = set()
+        nets_by_comp = {}
         for cid in members:
+            got = set()
             for pin in (by_id.get(cid, {}).get("pins") or []):
                 nid = pin_net.get((cid, pin.get("number") or ""))
                 if nid:
                     used.add(nid)
+                    got.add(nid)
+            nets_by_comp[cid] = got
+
+        # **每个外设必须与 core 共享至少一条网。**
+        # 求解器按电气支路挂靠；没有共享网就报
+        # "disconnected or cyclic attachment for [...]"，
+        # 而这条**在拆模块时极易产生**（把一堆只挂电源的件单独成块，
+        # 随便挑一个当 core，其余与它并无共同网）。
+        core_nets = nets_by_comp.get(core, set())
+        for cid in members:
+            if cid == core:
+                continue
+            nets_here = nets_by_comp.get(cid, set())
+            others = set()
+            for o in members:
+                if o != cid:
+                    others |= nets_by_comp.get(o, set())
+            # **完全孤立才是错误**：与模块里任何成员都没有共享网。
+            if not (nets_here & others):
+                c.bad("%s 器件 %s(%s) 与模块内任何成员都无共享网 —— "
+                      "孤立件，求解器无法挂靠"
+                      % (p, cid, ref_of.get(cid, "")))
+            # **串联件不算错**：保险丝/采样电阻/跳线按构造连接两张网，
+            # 本来就不会与 core 共享同一张网（实测 F1 就是这种）。
+            elif not (nets_here & core_nets):
+                c.note("%s 器件 %s(%s) 与 core 无直接共享网（串联件，正常）"
+                       % (p, cid, ref_of.get(cid, "")))
         pol = it.get("netPolicies") or {}
         for nid in used:
             if pol.get(nid) not in POLICIES:

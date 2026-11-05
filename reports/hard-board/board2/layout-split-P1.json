@@ -94,8 +94,8 @@
         "role": "R_QG",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "07a18896f06f42028e9c1cfd88139a92",
-          "deviceUuid": "6112c6eec8dc489f9b673076b773bc69"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
         },
         "pins": [
           {
@@ -204,8 +204,8 @@
         "role": "C_IN_HF",
         "device": {
           "name": "cap.100nf_0603",
-          "libraryUuid": "1696190e5e924ccfb5d5adb89f53e403",
-          "deviceUuid": "0dab24f8625d4442a4533862995844a5"
+          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
+          "deviceUuid": "6817eaee8d224720b6c722f3a69fc5c6"
         },
         "pins": [
           {
@@ -342,8 +342,8 @@
         "role": "C_BOOT",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "55cbe8b29b4444728d992b01b0a5e61e"
+          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
+          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
         },
         "pins": [
           {
@@ -364,8 +364,8 @@
         "role": "L_OUT",
         "device": {
           "name": "ind.15uh_12x12mm",
-          "libraryUuid": "a62e072cc495443992e280a5f85ea1eb",
-          "deviceUuid": "421af6f80350495e9a8f06e0a7fd147f"
+          "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
+          "deviceUuid": "844d3737c395406cbda147b110b6c196"
         },
         "pins": [
           {
@@ -438,8 +438,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.10k_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "0a77acc204b14601b776a3615132df6b"
+          "libraryUuid": "f23fe15671054e81ab261d14102c265f",
+          "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58"
         },
         "pins": [
           {
@@ -460,8 +460,8 @@
         "role": "R_COMP",
         "device": {
           "name": "res.47k_0402",
-          "libraryUuid": "97ee120a8e7e45228fbb55b92ead330b",
-          "deviceUuid": "7f8517046d5745479b75cadd5fcaa9f5"
+          "libraryUuid": "01fab7af9c1d4121a2873047a5a99251",
+          "deviceUuid": "6017058cb2e9427fbbcc70b6297aed67"
         },
         "pins": [
           {
@@ -526,19 +526,17 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "49c6dbb9567dd6af",
@@ -550,19 +548,17 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "49c6dbb9567dd6af",
@@ -574,8 +570,8 @@
         "role": "C_OUT_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "55cbe8b29b4444728d992b01b0a5e61e"
+          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
+          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
         },
         "pins": [
           {
@@ -642,8 +638,8 @@
         "role": "D501",
         "device": {
           "name": "diode.ss34_sma",
-          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-          "deviceUuid": "84ecc086f0a94af09d2bdf6aaf81a9ef"
+          "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
+          "deviceUuid": "902b2703f65541f6b14a5b108d45b474"
         },
         "pins": [
           {
@@ -664,8 +660,8 @@
         "role": "D502",
         "device": {
           "name": "diode.ss34_sma",
-          "libraryUuid": "87e662035a6f4630ad07a1f767e166db",
-          "deviceUuid": "84ecc086f0a94af09d2bdf6aaf81a9ef"
+          "libraryUuid": "c7798588769341b0aeea4cefbb96464f",
+          "deviceUuid": "902b2703f65541f6b14a5b108d45b474"
         },
         "pins": [
           {
@@ -774,8 +770,8 @@
         "role": "J1",
         "device": {
           "name": "conn.screw_terminal_2p",
-          "libraryUuid": "043659e9cc3a45e58a20eea1bf399b08",
-          "deviceUuid": "80c64560e1b04864a9a3c0ba5626af24"
+          "libraryUuid": "d755f3a8c8f2432b9dc17d43bd2bc5bf",
+          "deviceUuid": "126f0fc076eb40a097ef3649c6a3a116"
         },
         "pins": [
           {
@@ -796,8 +792,8 @@
         "role": "U",
         "device": {
           "name": "buck.sy8089_tsot23",
-          "libraryUuid": "5e7382a69781406ba214cc82244d6207",
-          "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927"
+          "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
+          "deviceUuid": "9db86f545bc44f07a72b7a3eba3417fc"
         },
         "pins": [
           {
@@ -852,8 +848,8 @@
         "role": "R_FBT",
         "device": {
           "name": "res.453k_0402__2",
-          "libraryUuid": "ac78ab4a28be472d84f4f45d3c27084b",
-          "deviceUuid": "c76ee55dbd9841d385bd5bdb94f3bbc4"
+          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+          "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079"
         },
         "pins": [
           {
@@ -874,8 +870,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.10k_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "0a77acc204b14601b776a3615132df6b"
+          "libraryUuid": "f23fe15671054e81ab261d14102c265f",
+          "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58"
         },
         "pins": [
           {
@@ -896,8 +892,8 @@
         "role": "C_IN",
         "device": {
           "name": "cap.10uf_0805",
-          "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
-          "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4"
+          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
+          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93"
         },
         "pins": [
           {
@@ -918,19 +914,17 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "49c6dbb9567dd6af",
@@ -942,8 +936,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "55cbe8b29b4444728d992b01b0a5e61e"
+          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
+          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
         },
         "pins": [
           {
@@ -1387,6 +1381,30 @@
         "kind": "ground"
       },
       {
+        "componentId": "c22",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c22",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c23",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c23",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
         "componentId": "c24",
         "pinNumber": "1",
         "netId": "n10",
@@ -1609,6 +1627,18 @@
         "kind": "ground"
       },
       {
+        "componentId": "c38",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c38",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
         "componentId": "c39",
         "pinNumber": "1",
         "netId": "n18",
@@ -1630,37 +1660,66 @@
         ],
         "peripheralComponents": [
           "c1",
-          "c2",
           "c3",
           "c4",
           "c5",
-          "c11",
-          "c12",
-          "c13",
-          "c14",
-          "c15",
-          "c16",
-          "c17",
-          "c18",
-          "c19",
-          "c20",
-          "c21"
+          "c6",
+          "c7"
         ]
       },
       {
-        "id": "M1P",
-        "name": "车辆宽压输入 + 主 5V（TPS54360）（电源）",
+        "id": "M1_2",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）（续）",
         "coreComponents": [
-          "c6"
+          "c16"
         ],
         "peripheralComponents": [
-          "c7",
           "c8",
           "c9",
+          "c12",
+          "c13",
+          "c14",
+          "c15"
+        ]
+      },
+      {
+        "id": "M1_3",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）（续）",
+        "coreComponents": [
+          "c18"
+        ],
+        "peripheralComponents": [
+          "c17",
+          "c20",
+          "c21",
           "c22",
           "c23",
           "c24"
         ]
+      },
+      {
+        "id": "M1_4",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）（续）",
+        "coreComponents": [
+          "c2"
+        ],
+        "peripheralComponents": []
+      },
+      {
+        "id": "M1_5",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）（续）",
+        "coreComponents": [
+          "c11"
+        ],
+        "peripheralComponents": []
+      },
+      {
+        "id": "M1_6",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）（续）",
+        "coreComponents": [
+          "c19"
+        ],
+        "peripheralComponents": []
       },
       {
         "id": "M2",
@@ -1674,9 +1733,16 @@
           "c28",
           "c29",
           "c30",
-          "c31",
-          "c32"
+          "c31"
         ]
+      },
+      {
+        "id": "M2_2",
+        "name": "第二路 buck：VBAT → 12V 中间轨（XL1509）（续）",
+        "coreComponents": [
+          "c32"
+        ],
+        "peripheralComponents": []
       },
       {
         "id": "M3",
@@ -1720,8 +1786,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 420,
+    "maxY": 297
   },
   "keepouts": [],
   "measurements": [
@@ -1893,10 +1959,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 40.0,
-        "minY": 20.0,
-        "maxX": 70.0,
-        "maxY": 50.0
+        "minX": 50.0,
+        "minY": 30.0,
+        "maxX": 60.0,
+        "maxY": 40.0
       },
       "pins": [
         {
@@ -1925,10 +1991,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 80.0,
-        "minY": 20.0,
-        "maxX": 110.0,
-        "maxY": 50.0
+        "minX": 90.0,
+        "minY": 30.0,
+        "maxX": 100.0,
+        "maxY": 40.0
       },
       "pins": [
         {
@@ -1957,10 +2023,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": -5.0,
-        "minY": 35.0,
-        "maxX": 35.0,
-        "maxY": 65.0
+        "minX": 5.0,
+        "minY": 45.0,
+        "maxX": 25.0,
+        "maxY": 55.0
       },
       "pins": [
         {
@@ -1989,10 +2055,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 35.0,
-        "minY": 35.0,
-        "maxX": 75.0,
-        "maxY": 65.0
+        "minX": 45.0,
+        "minY": 45.0,
+        "maxX": 65.0,
+        "maxY": 55.0
       },
       "pins": [
         {
@@ -2021,10 +2087,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 75.0,
-        "minY": 35.0,
-        "maxX": 115.0,
-        "maxY": 65.0
+        "minX": 85.0,
+        "minY": 45.0,
+        "maxX": 105.0,
+        "maxY": 55.0
       },
       "pins": [
         {
@@ -2237,10 +2303,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 40.0,
-        "minY": 65.0,
-        "maxX": 70.0,
-        "maxY": 95.0
+        "minX": 50.0,
+        "minY": 75.0,
+        "maxX": 60.0,
+        "maxY": 85.0
       },
       "pins": [
         {
@@ -2269,10 +2335,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 70.0,
-        "minY": 60.0,
-        "maxX": 120.0,
-        "maxY": 100.0
+        "minX": 80.0,
+        "minY": 70.0,
+        "maxX": 110.0,
+        "maxY": 90.0
       },
       "pins": [
         {
@@ -2317,10 +2383,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 0.0,
-        "minY": 80.0,
-        "maxX": 30.0,
-        "maxY": 110.0
+        "minX": 10.0,
+        "minY": 90.0,
+        "maxX": 20.0,
+        "maxY": 100.0
       },
       "pins": [
         {
@@ -2445,10 +2511,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 40.0,
-        "minY": 95.0,
-        "maxX": 70.0,
-        "maxY": 125.0
+        "minX": 50.0,
+        "minY": 105.0,
+        "maxX": 60.0,
+        "maxY": 115.0
       },
       "pins": [
         {
@@ -2477,10 +2543,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 80.0,
-        "minY": 95.0,
-        "maxX": 110.0,
-        "maxY": 125.0
+        "minX": 90.0,
+        "minY": 105.0,
+        "maxX": 100.0,
+        "maxY": 115.0
       },
       "pins": [
         {
@@ -2509,24 +2575,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": -5.0,
-        "minY": 110.0,
-        "maxX": 35.0,
-        "maxY": 140.0
+        "minX": 5.0,
+        "minY": 120.0,
+        "maxX": 25.0,
+        "maxY": 130.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
           "x": -5.0,
           "y": 125.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 35.0,
           "y": 125.0,
           "rotation": 0.0
@@ -2541,24 +2607,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 35.0,
-        "minY": 110.0,
-        "maxX": 75.0,
-        "maxY": 140.0
+        "minX": 45.0,
+        "minY": 120.0,
+        "maxX": 65.0,
+        "maxY": 130.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
           "x": 35.0,
           "y": 125.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 75.0,
           "y": 125.0,
           "rotation": 0.0
@@ -2573,10 +2639,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 80.0,
-        "minY": 110.0,
-        "maxX": 110.0,
-        "maxY": 140.0
+        "minX": 90.0,
+        "minY": 120.0,
+        "maxX": 100.0,
+        "maxY": 130.0
       },
       "pins": [
         {
@@ -2685,10 +2751,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 185.0,
-        "minY": 5.0,
-        "maxX": 215.0,
-        "maxY": 35.0
+        "minX": 195.0,
+        "minY": 15.0,
+        "maxX": 205.0,
+        "maxY": 25.0
       },
       "pins": [
         {
@@ -2717,10 +2783,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 145.0,
-        "minY": 20.0,
-        "maxX": 175.0,
-        "maxY": 50.0
+        "minX": 155.0,
+        "minY": 30.0,
+        "maxX": 165.0,
+        "maxY": 40.0
       },
       "pins": [
         {
@@ -2749,10 +2815,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 175.0,
-        "minY": 20.0,
-        "maxX": 225.0,
-        "maxY": 50.0
+        "minX": 185.0,
+        "minY": 30.0,
+        "maxX": 215.0,
+        "maxY": 40.0
       },
       "pins": [
         {
@@ -2783,8 +2849,8 @@
       "bbox": {
         "minX": 150.0,
         "minY": 40.0,
-        "maxX": 155.0,
-        "maxY": 45.0
+        "maxX": 160.0,
+        "maxY": 50.0
       },
       "pins": [
         {
@@ -2815,8 +2881,8 @@
       "bbox": {
         "minX": 190.0,
         "minY": 40.0,
-        "maxX": 195.0,
-        "maxY": 45.0
+        "maxX": 200.0,
+        "maxY": 50.0
       },
       "pins": [
         {
@@ -2845,10 +2911,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 145.0,
-        "minY": 50.0,
-        "maxX": 175.0,
-        "maxY": 80.0
+        "minX": 155.0,
+        "minY": 60.0,
+        "maxX": 165.0,
+        "maxY": 70.0
       },
       "pins": [
         {
@@ -2965,10 +3031,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 175.0,
-        "minY": 70.0,
-        "maxX": 225.0,
-        "maxY": 100.0
+        "minX": 185.0,
+        "minY": 80.0,
+        "maxX": 215.0,
+        "maxY": 90.0
       },
       "pins": [
         {
@@ -3061,10 +3127,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 140.0,
-        "minY": 100.0,
-        "maxX": 180.0,
-        "maxY": 130.0
+        "minX": 150.0,
+        "minY": 110.0,
+        "maxX": 170.0,
+        "maxY": 120.0
       },
       "pins": [
         {
@@ -3093,24 +3159,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 180.0,
-        "minY": 100.0,
-        "maxX": 220.0,
-        "maxY": 130.0
+        "minX": 190.0,
+        "minY": 110.0,
+        "maxX": 210.0,
+        "maxY": 120.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+3V3",
           "x": 180.0,
           "y": 115.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 220.0,
           "y": 115.0,
           "rotation": 0.0
@@ -3125,10 +3191,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 145.0,
-        "minY": 115.0,
-        "maxX": 175.0,
-        "maxY": 145.0
+        "minX": 155.0,
+        "minY": 125.0,
+        "maxX": 165.0,
+        "maxY": 135.0
       },
       "pins": [
         {
@@ -3160,9 +3226,6 @@
           "componentId": "c1"
         },
         {
-          "componentId": "c2"
-        },
-        {
           "componentId": "c3"
         },
         {
@@ -3172,7 +3235,36 @@
           "componentId": "c5"
         },
         {
-          "componentId": "c11"
+          "componentId": "c6"
+        },
+        {
+          "componentId": "c7"
+        }
+      ],
+      "netPolicies": {
+        "n3": "direct",
+        "n6": "direct",
+        "n1": "direct",
+        "n8": "direct",
+        "n5": "local_power",
+        "n2": "local_ground",
+        "n12": "direct",
+        "n11": "direct",
+        "n4": "direct",
+        "n7": "direct",
+        "n9": "direct"
+      }
+    },
+    {
+      "id": "M1_2",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "coreComponentId": "c16",
+      "peripherals": [
+        {
+          "componentId": "c8"
+        },
+        {
+          "componentId": "c9"
         },
         {
           "componentId": "c12"
@@ -3185,55 +3277,31 @@
         },
         {
           "componentId": "c15"
-        },
-        {
-          "componentId": "c16"
-        },
+        }
+      ],
+      "netPolicies": {
+        "n8": "direct",
+        "n10": "local_power",
+        "n5": "local_power",
+        "n2": "local_ground",
+        "n6": "direct",
+        "n7": "direct",
+        "n9": "direct"
+      }
+    },
+    {
+      "id": "M1_3",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "coreComponentId": "c18",
+      "peripherals": [
         {
           "componentId": "c17"
-        },
-        {
-          "componentId": "c18"
-        },
-        {
-          "componentId": "c19"
         },
         {
           "componentId": "c20"
         },
         {
           "componentId": "c21"
-        }
-      ],
-      "netPolicies": {
-        "n1": "direct",
-        "n2": "local_ground",
-        "n3": "direct",
-        "n4": "direct",
-        "n5": "local_power",
-        "n6": "direct",
-        "n7": "direct",
-        "n8": "direct",
-        "n9": "direct",
-        "n10": "local_power",
-        "n11": "direct",
-        "n12": "direct",
-        "n13": "direct"
-      }
-    },
-    {
-      "id": "M1P",
-      "title": "车辆宽压输入 + 主 5V（TPS54360）（电源）",
-      "coreComponentId": "c6",
-      "peripherals": [
-        {
-          "componentId": "c7"
-        },
-        {
-          "componentId": "c8"
-        },
-        {
-          "componentId": "c9"
         },
         {
           "componentId": "c22"
@@ -3246,9 +3314,41 @@
         }
       ],
       "netPolicies": {
+        "n10": "local_power",
         "n2": "local_ground",
+        "n12": "direct",
+        "n11": "direct",
+        "n13": "direct"
+      }
+    },
+    {
+      "id": "M1_4",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "coreComponentId": "c2",
+      "peripherals": [],
+      "netPolicies": {
+        "n1": "direct",
+        "n3": "direct"
+      }
+    },
+    {
+      "id": "M1_5",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "coreComponentId": "c11",
+      "peripherals": [],
+      "netPolicies": {
         "n5": "local_power",
-        "n10": "local_power"
+        "n6": "direct"
+      }
+    },
+    {
+      "id": "M1_6",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "coreComponentId": "c19",
+      "peripherals": [],
+      "netPolicies": {
+        "n13": "direct",
+        "n12": "direct"
       }
     },
     {
@@ -3273,17 +3373,24 @@
         },
         {
           "componentId": "c31"
-        },
-        {
-          "componentId": "c32"
         }
       ],
       "netPolicies": {
-        "n2": "local_ground",
-        "n5": "local_power",
+        "n16": "local_power",
         "n14": "direct",
-        "n15": "direct",
-        "n16": "local_power"
+        "n5": "local_power",
+        "n2": "local_ground",
+        "n15": "direct"
+      }
+    },
+    {
+      "id": "M2_2",
+      "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+      "coreComponentId": "c32",
+      "peripherals": [],
+      "netPolicies": {
+        "n5": "local_power",
+        "n2": "local_ground"
       }
     },
     {

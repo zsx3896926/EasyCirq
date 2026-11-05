@@ -83,19 +83,17 @@
         "role": "C_IN1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -107,19 +105,17 @@
         "role": "C_IN2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -131,19 +127,17 @@
         "role": "C_IN3",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -155,19 +149,17 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -179,19 +171,17 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -247,8 +237,8 @@
         "role": "R_EN",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "07a18896f06f42028e9c1cfd88139a92",
-          "deviceUuid": "6112c6eec8dc489f9b673076b773bc69"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
         },
         "pins": [
           {
@@ -268,17 +258,26 @@
         "ref": "X4",
         "role": "U",
         "device": {
-          "deviceUuid": "",
-          "name": "buckboost.tps63802_vson10"
+          "name": "buckboost.tps63802_vson10",
+          "libraryUuid": "01a036a82f3e4723b4d5e3058bf1ffd2",
+          "deviceUuid": "21c410988f214465b9d9afb2bdb45c80"
         },
         "pins": [
           {
-            "number": "VIN",
-            "name": "VIN"
+            "number": "AGND",
+            "name": "AGND"
           },
           {
             "number": "EN",
             "name": "EN"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "GND",
+            "name": "GND"
           },
           {
             "number": "L1",
@@ -289,24 +288,21 @@
             "name": "L2"
           },
           {
-            "number": "VOUT",
-            "name": "VOUT"
-          },
-          {
-            "number": "FB",
-            "name": "FB"
-          },
-          {
             "number": "MODE",
             "name": "MODE"
           },
           {
-            "number": "AGND",
-            "name": "AGND"
+            "number": "PG",
+            "name": "PG",
+            "noConnected": true
           },
           {
-            "number": "GND",
-            "name": "GND"
+            "number": "VIN",
+            "name": "VIN"
+          },
+          {
+            "number": "VOUT",
+            "name": "VOUT"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -362,8 +358,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "07a18896f06f42028e9c1cfd88139a92",
-          "deviceUuid": "6112c6eec8dc489f9b673076b773bc69"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
         },
         "pins": [
           {
@@ -384,8 +380,8 @@
         "role": "C_IN",
         "device": {
           "name": "cap.10uf_0805",
-          "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
-          "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4"
+          "libraryUuid": "346dce6f78f94d99835e77eefd0b73eb",
+          "deviceUuid": "e20bb058d0a94ffb9cc5d7f37c630c93"
         },
         "pins": [
           {
@@ -406,19 +402,17 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "580c175366944cdfafe41e35ec5163bb",
-          "deviceUuid": "10e5e55ed16c4be7ab011c3e089713b9"
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
         },
         "pins": [
           {
-            "number": "e1",
-            "name": "e1",
-            "noConnected": true
+            "number": "1",
+            "name": "1"
           },
           {
-            "number": "e7",
-            "name": "e7",
-            "noConnected": true
+            "number": "2",
+            "name": "2"
           }
         ],
         "pageId": "a223803d1fb015ce",
@@ -430,8 +424,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "0db78bf0b30641378d05afc9e8e1f6ff",
-          "deviceUuid": "55cbe8b29b4444728d992b01b0a5e61e"
+          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
+          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
         },
         "pins": [
           {
@@ -566,6 +560,66 @@
         "kind": "power"
       },
       {
+        "componentId": "c42",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c42",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
         "componentId": "c47",
         "pinNumber": "1",
         "netId": "n16",
@@ -600,6 +654,60 @@
         "pinNumber": "2",
         "netId": "n2",
         "kind": "ground"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "AGND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "EN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "FB",
+        "netId": "n25",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "GND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "L1",
+        "netId": "n22",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "L2",
+        "netId": "n23",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "MODE",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "VIN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c50",
+        "pinNumber": "VOUT",
+        "netId": "n24",
+        "kind": "power"
       },
       {
         "componentId": "c51",
@@ -650,6 +758,18 @@
         "kind": "ground"
       },
       {
+        "componentId": "c55",
+        "pinNumber": "1",
+        "netId": "n24",
+        "kind": "power"
+      },
+      {
+        "componentId": "c55",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
         "componentId": "c56",
         "pinNumber": "1",
         "netId": "n24",
@@ -675,9 +795,17 @@
           "c43",
           "c44",
           "c45",
-          "c46",
+          "c46"
+        ]
+      },
+      {
+        "id": "M4_2",
+        "name": "5V → 升压轨（SY7088）（续）",
+        "coreComponents": [
+          "c48"
+        ],
+        "peripheralComponents": [
           "c47",
-          "c48",
           "c49"
         ]
       },
@@ -723,8 +851,8 @@
   "sheet": {
     "minX": 0,
     "minY": 0,
-    "maxX": 297,
-    "maxY": 210
+    "maxX": 420,
+    "maxY": 297
   },
   "keepouts": [],
   "measurements": [
@@ -824,10 +952,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 30.0,
-        "minY": 5.0,
-        "maxX": 80.0,
-        "maxY": 35.0
+        "minX": 40.0,
+        "minY": 15.0,
+        "maxX": 70.0,
+        "maxY": 25.0
       },
       "pins": [
         {
@@ -856,24 +984,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 75.0,
-        "minY": 5.0,
-        "maxX": 115.0,
-        "maxY": 35.0
+        "minX": 85.0,
+        "minY": 15.0,
+        "maxX": 105.0,
+        "maxY": 25.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
           "x": 75.0,
           "y": 20.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 115.0,
           "y": 20.0,
           "rotation": 0.0
@@ -888,24 +1016,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": -5.0,
-        "minY": 30.0,
-        "maxX": 35.0,
-        "maxY": 60.0
+        "minX": 5.0,
+        "minY": 40.0,
+        "maxX": 25.0,
+        "maxY": 50.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
           "x": -5.0,
           "y": 45.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 35.0,
           "y": 45.0,
           "rotation": 0.0
@@ -920,24 +1048,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 35.0,
-        "minY": 30.0,
-        "maxX": 75.0,
-        "maxY": 60.0
+        "minX": 45.0,
+        "minY": 40.0,
+        "maxX": 65.0,
+        "maxY": 50.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+5V",
           "x": 35.0,
           "y": 45.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 75.0,
           "y": 45.0,
           "rotation": 0.0
@@ -952,24 +1080,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 75.0,
-        "minY": 30.0,
-        "maxX": 115.0,
-        "maxY": 60.0
+        "minX": 85.0,
+        "minY": 40.0,
+        "maxX": 105.0,
+        "maxY": 50.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
           "x": 75.0,
           "y": 45.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 115.0,
           "y": 45.0,
           "rotation": 0.0
@@ -984,24 +1112,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": -5.0,
-        "minY": 55.0,
-        "maxX": 35.0,
-        "maxY": 85.0
+        "minX": 5.0,
+        "minY": 65.0,
+        "maxX": 25.0,
+        "maxY": 75.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+12V_FILT",
           "x": -5.0,
           "y": 70.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 35.0,
           "y": 70.0,
           "rotation": 0.0
@@ -1105,6 +1233,102 @@
       ]
     },
     {
+      "primitiveId": "c50",
+      "designator": "X4",
+      "x": 160.0,
+      "y": 20.0,
+      "rotation": 0,
+      "mirror": false,
+      "bbox": {
+        "minX": 125.0,
+        "minY": -10.0,
+        "maxX": 195.0,
+        "maxY": 50.0
+      },
+      "pins": [
+        {
+          "number": "AGND",
+          "name": "AGND",
+          "net": "GND",
+          "x": 115.0,
+          "y": 20.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "EN",
+          "name": "EN",
+          "net": "+5V",
+          "x": 115.0,
+          "y": 0.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "FB",
+          "name": "FB",
+          "net": "X4_N6",
+          "x": 115.0,
+          "y": 30.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "GND",
+          "name": "GND",
+          "net": "GND",
+          "x": 205.0,
+          "y": 20.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "L1",
+          "name": "L1",
+          "net": "X4_N3",
+          "x": 205.0,
+          "y": 10.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "L2",
+          "name": "L2",
+          "net": "X4_N4",
+          "x": 205.0,
+          "y": 30.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "MODE",
+          "name": "MODE",
+          "net": "GND",
+          "x": 115.0,
+          "y": 10.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "PG",
+          "name": "PG",
+          "net": "",
+          "x": 115.0,
+          "y": 40.0,
+          "rotation": 180.0
+        },
+        {
+          "number": "VIN",
+          "name": "VIN",
+          "net": "+5V",
+          "x": 205.0,
+          "y": 0.0,
+          "rotation": 0.0
+        },
+        {
+          "number": "VOUT",
+          "name": "VOUT",
+          "net": "+3V8",
+          "x": 205.0,
+          "y": 40.0,
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
       "primitiveId": "c51",
       "designator": "L5",
       "x": 200.0,
@@ -1112,10 +1336,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 175.0,
-        "minY": 5.0,
-        "maxX": 225.0,
-        "maxY": 35.0
+        "minX": 185.0,
+        "minY": 15.0,
+        "maxX": 215.0,
+        "maxY": 25.0
       },
       "pins": [
         {
@@ -1208,10 +1432,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 140.0,
-        "minY": 55.0,
-        "maxX": 180.0,
-        "maxY": 85.0
+        "minX": 150.0,
+        "minY": 65.0,
+        "maxX": 170.0,
+        "maxY": 75.0
       },
       "pins": [
         {
@@ -1240,24 +1464,24 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 180.0,
-        "minY": 55.0,
-        "maxX": 220.0,
-        "maxY": 85.0
+        "minX": 190.0,
+        "minY": 65.0,
+        "maxX": 210.0,
+        "maxY": 75.0
       },
       "pins": [
         {
-          "number": "e1",
-          "name": "e1",
-          "net": "",
+          "number": "1",
+          "name": "1",
+          "net": "+3V8",
           "x": 180.0,
           "y": 70.0,
           "rotation": 180.0
         },
         {
-          "number": "e7",
-          "name": "e7",
-          "net": "",
+          "number": "2",
+          "name": "2",
+          "net": "GND",
           "x": 220.0,
           "y": 70.0,
           "rotation": 0.0
@@ -1272,10 +1496,10 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 145.0,
-        "minY": 80.0,
-        "maxX": 175.0,
-        "maxY": 110.0
+        "minX": 155.0,
+        "minY": 90.0,
+        "maxX": 165.0,
+        "maxY": 100.0
       },
       "pins": [
         {
@@ -1320,22 +1544,32 @@
         },
         {
           "componentId": "c46"
-        },
+        }
+      ],
+      "netPolicies": {
+        "n16": "local_power",
+        "n10": "local_power",
+        "n2": "local_ground",
+        "n20": "direct",
+        "n21": "direct"
+      }
+    },
+    {
+      "id": "M4_2",
+      "title": "5V → 升压轨（SY7088）",
+      "coreComponentId": "c48",
+      "peripherals": [
         {
           "componentId": "c47"
-        },
-        {
-          "componentId": "c48"
         },
         {
           "componentId": "c49"
         }
       ],
       "netPolicies": {
-        "n2": "local_ground",
-        "n10": "local_power",
         "n16": "local_power",
-        "n20": "direct",
+        "n10": "local_power",
+        "n2": "local_ground",
         "n21": "direct"
       }
     },
