@@ -150,7 +150,25 @@ def main() -> int:
             continue
         sym = symbol_uuid_of(exe, lib, dev)
         if not sym:
-            problems.append("%s: 拿不到 symbolUuid" % pid)
+            # **回退**：`standard-parts` 里的 deviceUuid 可能与库当前记录不一致
+            # （实测 tps63802：审计用 by-lcsc 查到能读，这里用表里的 uuid
+            # 却拿不到 symbolUuid）。那就按 C 号重解析一次身份再试。
+            lcsc = lcsc_of.get(pid)
+            if lcsc:
+                for attempt in range(2):
+                    if attempt:
+                        time.sleep(1.5)
+                    fresh, _ = cli_json(exe, ["lib", "by-lcsc", "--lcsc", lcsc])
+                    hit = next((c for c in ((fresh or {}).get("components") or [])
+                                if (c.get("lcsc") or "").upper() == lcsc.upper()), None)
+                    if hit:
+                        lib = hit.get("libraryUuid") or lib
+                        dev = hit.get("uuid") or dev
+                        sym = symbol_uuid_of(exe, lib, dev)
+                        if sym:
+                            break
+        if not sym:
+            problems.append("%s: 拿不到 symbolUuid（已按 C 号回退重试）" % pid)
             stats["failed"] += 1
             continue
         dest = cache / ("%s_%s.elibz2" % (pid.replace(".", "_"), sym[:8]))
@@ -164,6 +182,43 @@ def main() -> int:
             problems.append("%s: %s" % (pid, err))
             continue
         pins, shapes, _ = parsed
+        body = measure.body_rect(shapes)
+
+        # **不是所有符号都带 RECT。** 电感/端子这类简单符号往往没有本体矩形，
+        # 于是朝外方向只能退回 `rotation+180` —— 实测 4 脚电感会出现
+        # 两个脚都判成 180°，自相矛盾，求解器排不下。
+        #
+        # 两遍法：先用 `rotation+180` 朝内退 length 推出本体，
+        # 再用同一套"引脚在本体哪一侧"的规则重算朝向。
+        if body is None and pins:
+            import math as _math
+            cand = []
+            for _p in pins.values():
+                _x, _y = _p.get("x"), _p.get("y")
+                if _x is None or _y is None:
+                    continue
+                _o = ((_p.get("rotation") or 0) + 180.0) % 360.0
+                _l = float(_p.get("length") or 0)
+                cand.append((_x - _math.cos(_math.radians(_o)) * _l,
+                             _y - _math.sin(_math.radians(_o)) * _l))
+            if cand:
+                xs = [c[0] for c in cand]
+                ys = [c[1] for c in cand]
+                bx1, bx2 = min(xs), max(xs)
+                by1, by2 = min(ys), max(ys)
+                # **推出的本体也必须非退化**：两脚件（电阻/二极管/电感）的引脚共线，
+                # 退 length 之后在某轴上厚度为 0，而 `plBoxValid` 要求宽高都为正，
+                # 否则报 "incomplete measured geometry"。
+                MIN_EXT = 10.0
+                if bx2 - bx1 < MIN_EXT:
+                    _mid = (bx1 + bx2) / 2
+                    bx1, bx2 = _mid - MIN_EXT / 2, _mid + MIN_EXT / 2
+                if by2 - by1 < MIN_EXT:
+                    _mid = (by1 + by2) / 2
+                    by1, by2 = _mid - MIN_EXT / 2, _mid + MIN_EXT / 2
+                body = (bx1, by1, bx2, by2)
+                print("  %s: 符号无 RECT，本体由引脚推出 %s"
+                      % (pid, tuple(round(v, 1) for v in body)))
         # 同名引脚（比如 4 个 GND）要能分开，否则几何会互相覆盖。
         # 块库用 `GND*` 表示"其中一个地脚"，这里用 `GND#1..#4` 与之一一对应。
         seen: dict[str, int] = {}
@@ -174,7 +229,11 @@ def main() -> int:
             key = name if seen[name] == 1 else "%s#%d" % (name, seen[name])
             pin_map[key] = {
                 "x": p.get("x"), "y": p.get("y"),
-                "length": p.get("length"), "rotation": p.get("rotation"),
+                "length": p.get("length"),
+                # `rotation` 保留文件原值（朝本体）便于追溯；
+                # `outwardRotation` 是求解器要的世界朝外角。
+                "rotation": p.get("rotation"),
+                "outwardRotation": measure.outward_rotation(p, body),
                 "connectionPoint": measure.connection_point(p),
             }
         results[pid] = {
@@ -182,6 +241,8 @@ def main() -> int:
             "lcsc": lcsc_of.get(pid, ""),
             "archive": str(dest),
             "pins": pin_map,
+            "body": ({"minX": body[0], "minY": body[1],
+                      "maxX": body[2], "maxY": body[3]} if body else None),
             "pinCount": len(pins),
         }
 

@@ -74,17 +74,66 @@ def parse_elibu(text: str):
 
 
 def connection_point(pin):
-    """引脚与导线的接触点：从 (x,y) 沿 rotation 方向走 length。"""
+    """引脚与导线的接触点。
+
+    **`.elibu` 里的 `x,y` 本身就是连接点**（引脚外端的自由端），
+    `rotation` 指的是从该点**朝本体**画线的方向，`length` 是线长。
+
+    所以连接点就是 `(x, y)`，不要再沿 rotation 走一段 ——
+    那样会把连接点推进本体内部，导致求解器报
+    `pin-exit-blocked: ... minimum outward segment crosses <part> body`。
+    实测踩过：全部器件的引脚都"朝内"，求解器一个位置都排不下。
+    """
     x, y = pin.get("x"), pin.get("y")
-    ln = pin.get("length") or 0
-    rot = pin.get("rotation") or 0
     if x is None or y is None:
         return None
-    # EasyEDA 符号坐标系里 rotation 0 = 引脚朝 +x（本体在 -x 侧）
-    import math
-    dx = math.cos(math.radians(rot)) * ln
-    dy = math.sin(math.radians(rot)) * ln
-    return (round(x + dx, 2), round(y + dy, 2))
+    return (round(float(x), 2), round(float(y), 2))
+
+
+def body_rect(shapes):
+    """符号本体矩形（由 RECT 记录求并）。
+
+    **不用引脚范围猜本体**：`.elibu` 里有真正的 RECT（如 TPS54360 是
+    x -40..40 / y -25..25），用它判"引脚在本体外侧的哪一边"才准。
+    实测：靠"离引脚中心最远的主轴"来判，EP（外露焊盘）会判错 ——
+    它在引脚范围中间，朝外就成了"朝内"。
+    """
+    boxes = []
+    for sh in (shapes or {}).values():
+        if sh.get("kind") != "RECT":
+            continue
+        x1, y1 = sh.get("dotX1"), sh.get("dotY1")
+        x2, y2 = sh.get("dotX2"), sh.get("dotY2")
+        if None in (x1, y1, x2, y2):
+            continue
+        boxes.append((min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)))
+    if not boxes:
+        return None
+    return (min(b[0] for b in boxes), min(b[1] for b in boxes),
+            max(b[2] for b in boxes), max(b[3] for b in boxes))
+
+
+def outward_rotation(pin, body=None):
+    """世界「朝外」角（度）。
+
+    优先按**本体矩形**判：引脚落在本体的哪一侧外侧，就朝那边。
+    本体判不出来时退回 `.elibu` 的 rotation + 180（对普通引脚成立）。
+    """
+    x, y = pin.get("x"), pin.get("y")
+    if body and x is not None and y is not None:
+        minx, miny, maxx, maxy = body
+        if x < minx:
+            return 180.0
+        if x > maxx:
+            return 0.0
+        if y < miny:
+            return 270.0
+        if y > maxy:
+            return 90.0
+    rot = pin.get("rotation")
+    if rot is None:
+        return None
+    return (float(rot) + 180.0) % 360.0
 
 
 def main():

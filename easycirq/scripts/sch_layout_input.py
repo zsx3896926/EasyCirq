@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import pathlib
 import sys
 
@@ -61,6 +62,37 @@ def sanitize_connectivity(net):
     if net.get("issues"):
         conn["issues"] = net["issues"]
     return conn
+
+
+def body_world(body, cx, cy):
+    """把符号本体矩形平移到世界坐标并吸附到网格。"""
+    if not body:
+        return None
+    return {
+        "minX": snap(cx + float(body["minX"])),
+        "minY": snap(cy + float(body["minY"])),
+        "maxX": snap(cx + float(body["maxX"])),
+        "maxY": snap(cy + float(body["maxY"])),
+    }
+
+
+def outward_from_centre(world: dict, pname: str) -> float:
+    """引脚朝外角（度）：离器件中心更远的那根主轴方向。
+
+    `world` 是该器件所有引脚的**世界坐标**。用主轴对齐（0/90/180/270），
+    因为原理图引脚本来就只在四个方向。
+    """
+    if not world or pname not in world:
+        return 0.0
+    xs = [p[0] for p in world.values()]
+    ys = [p[1] for p in world.values()]
+    cx = sum(xs) / len(xs)
+    cy = sum(ys) / len(ys)
+    dx = world[pname][0] - cx
+    dy = world[pname][1] - cy
+    if abs(dx) >= abs(dy):
+        return 0.0 if dx >= 0 else 180.0
+    return 90.0 if dy >= 0 else 270.0
 
 
 GRID = 5.0     # lib-layout 在 bounded five-raw grid 上搜索，输入必须对齐
@@ -198,6 +230,15 @@ def build(netlist_path, measure_path, style_plans, out_path,
                     continue
                 pins = []
                 pts = []
+                body_pts = []
+                # 先算所有脚的**世界坐标**，才能用它们的中心判"朝外"
+                world = {}
+                for pname, g in (mp.get("pins") or {}).items():
+                    world[pname] = (
+                        snap(cx + (g.get("connectionPoint") or [0, 0])[0]),
+                        snap(cy + (g.get("connectionPoint") or [0, 0])[1]),
+                    )
+
                 for pname, g in (mp.get("pins") or {}).items():
                     base = pname.split("#")[0]
                     cn = next((c for c in conns_by_comp.get(comp["id"], [])
@@ -206,8 +247,23 @@ def build(netlist_path, measure_path, style_plans, out_path,
                     if cn is None:
                         cn = next((c for c in conns_by_comp.get(comp["id"], [])
                                      if c["pinNumber"].rstrip("*") == base), None)
-                    wx = snap(cx + (g.get("connectionPoint") or [0, 0])[0])
-                    wy = snap(cy + (g.get("connectionPoint") or [0, 0])[1])
+                    wx, wy = world[pname]
+                    # 朝外方向**从几何推导**，不靠 `.elibu` 的 rotation。
+                    #
+                    # 实测：`.elibu` 的 rotation 约定并不统一 —— 侧边脚是"朝本体"，
+                    # 而 EP（外露焊盘）却是"朝外"。按它推会一半对一半错，
+                    # 求解器逐条报 `pin-exit-blocked: <ref>.<pin> minimum outward
+                    # segment crosses <ref> body`。
+                    #
+                    # 稳的做法：引脚在器件中心的哪一侧，朝外就是那一侧的主轴方向。
+                    _outs = float(g.get("outwardRotation")
+                                  if g.get("outwardRotation") is not None
+                                  else outward_from_centre(world, pname))
+                    _ln = float(g.get("length") or 0)
+                    body_pts.append((
+                        wx - math.cos(math.radians(_outs)) * _ln,
+                        wy - math.sin(math.radians(_outs)) * _ln,
+                    ))
                     pins.append({
                         # **name 必须与 connectivity 里逐字相同**，否则
                         # lib-layout 报 "measured pin differs from canonical IR"。
@@ -215,15 +271,26 @@ def build(netlist_path, measure_path, style_plans, out_path,
                         "number": pname, "name": pname,
                         "net": net_name.get(cn["netId"], "") if cn else "",
                         "x": wx, "y": wy,
-                        # 器件旋转为 0，所以世界朝外角就是符号里的 rotation。
-                        "rotation": float(g.get("rotation") or 0),
+                        # **必须用朝外角**（rotation + 180）：文件里的 rotation
+                        # 是引脚线朝本体的方向，直接交上去会让求解器判定
+                        # "outward segment crosses body"，一个位置都排不下。
+                        # measurements 里已按**符号本体**判好朝外角
+                        "rotation": float(g.get("outwardRotation")
+                                          if g.get("outwardRotation") is not None
+                                          else outward_from_centre(world, pname)),
                     })
                     pts.append((wx, wy))
                 measurements.append({
                     "primitiveId": comp["id"],
                     "designator": comp["ref"],
                     "x": cx, "y": cy, "rotation": 0, "mirror": False,
-                    "bbox": {k: snap(v) for k, v in bbox_of_pins(pts).items()},
+                    # **本体框用符号自己给的 RECT**，不自己造。
+                    # 靠"引脚范围 + padding"当本体，会让引脚全落在框内，
+                    # 求解器判定朝外段穿过本体；靠"朝内退 length"又会因
+                    # `.elibu` rotation 约定不统一而在 EP 这类焊盘上判错。
+                    # 符号里有真本体（TPS54360 是 x -40..40 / y -25..25），直接平移过来。
+                    "bbox": body_world(mp.get("body"), cx, cy)
+                             or {k: snap(v) for k, v in bbox_of_pins(body_pts).items()},
                     "pins": pins,
                 })
 
