@@ -38,6 +38,16 @@
 | 不同网络导线交叉无结点 | 同上 | **宿主** junction 报告；离线 → NOT RUN |
 | 图签无重复文字 | 同上 | titleBlock 数据；排版稿不含 → N/A |
 
+## 当前状态：看 `sch_preview_status.py` 的输出，不看手写总结
+
+```bash
+python scripts/sch_preview_status.py --work reports/hard-board/board2
+```
+
+它把**目标点名的每条判据**逐模块列出来，并附上**直接跑**技能检查器的结果
+（不经本仓封装）。产物早于排版稿的模块会被标 🕒 并按 NOT RUN 处理 ——
+手写状态会过期，这个不会。
+
 ## 一键复现
 
 ```bash
