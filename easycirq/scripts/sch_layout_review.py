@@ -130,6 +130,58 @@ def extract(doc):
 
 
 # ── 质量判据 ──────────────────────────────────────────────────────────
+class _RecordingDraw:
+    """代理 ImageDraw：记录每次 text() 的框，供"文字相压"检查用。"""
+
+    def __init__(self, real):
+        self._real = real
+        self.texts = []
+
+    def text(self, xy, msg, **kw):
+        fnt = kw.get("font")
+        try:
+            w = self._real.textlength(msg, font=fnt)
+            hh = getattr(fnt, "size", 10) or 10
+        except Exception:
+            w, hh = len(str(msg)) * 6.0, 10.0
+        self.texts.append((str(msg), (float(xy[0]), float(xy[1]),
+                                     float(xy[0]) + float(w),
+                                     float(xy[1]) + float(hh))))
+        return self._real.text(xy, msg, **kw)
+
+    def __getattr__(self, name):
+        return getattr(self._real, name)
+
+
+def count_text_overlaps(texts, width, height, tb_rect=None):
+    """统计**内容区**文字相压；排除页头、图签、底部标尺这些刻意叠放。"""
+    def is_chrome(box):
+        if box[1] < 85:                      # 页头
+            return True
+        if box[1] > height - 26:             # 底部标尺带
+            return True
+        if box[0] > width - 22 or box[2] < 22:   # 左右标尺
+            return True
+        if tb_rect and not (box[2] < tb_rect[0] or box[0] > tb_rect[2]
+                            or box[3] < tb_rect[1] or box[1] > tb_rect[3]):
+            return True
+        return False
+
+    kept = [(t, b) for t, b in texts if b[2] > b[0] and b[3] > b[1]
+            and not is_chrome(b)]
+    hits = []
+    for i in range(len(kept)):
+        ti, bi = kept[i]
+        for j in range(i + 1, len(kept)):
+            tj, bj = kept[j]
+            ox = min(bi[2], bj[2]) - max(bi[0], bj[0])
+            oy = min(bi[3], bj[3]) - max(bi[1], bj[1])
+            if ox > 1.0 and oy > 1.0:
+                hits.append({"a": ti, "b": tj,
+                             "overlap": [round(ox, 1), round(oy, 1)]})
+    return hits
+
+
 def quality(parts, wires, sheet):
     minx, miny, maxx, maxy = union(list(parts.values())) if parts else (0, 0, 1, 1)
     avail_w = max(1.0, sheet["maxX"] - sheet["minX"])
@@ -292,7 +344,8 @@ def _net_text_color(net):
     return (0, 0, 0)                # #000000
 
 
-def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
+def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill,
+                avoid=None):
     """按位号前缀画符号。坐标仍走 px()，所以和器件/导线严格同一坐标系。"""
     x1, y1, x2, y2 = box
     prefix = (ref or "")[:1].upper()
@@ -409,7 +462,7 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     h = int((maxy - miny) * scale) + 2 * pad + 26
 
     img = Image.new("RGB", (w, h), "white")
-    d = ImageDraw.Draw(img)
+    d = _RecordingDraw(ImageDraw.Draw(img))
 
     pins_of = extract_pins(doc)
 
@@ -586,12 +639,25 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
 
     # 器件本体 + 位号
     f_tiny = font(8)
+    # 先把网标文字的**大致框**算出来，供位号避让（保守：左右两侧都算）
+    flag_boxes = []
+    for (fx, fy, fnet, fkind) in flags:
+        cxp, cyp = px(fx, fy)
+        try:
+            tw = d.textlength(fnet, font=f_small)
+        except Exception:
+            tw = 8 * len(fnet)
+        flag_boxes.append((cxp + 8, cyp - 6, cxp + 8 + tw, cyp + 4))
+        flag_boxes.append((cxp - 8 - tw, cyp - 6, cxp - 8, cyp + 4))
     for ref, box in parts.items():
         draw_symbol(d, px, ref, box, pins_of.get(ref) or [], f_tiny, f_small,
-                    THEME["body_edge"], THEME["body"])
+                    THEME["body_edge"], THEME["body"], avoid=flag_boxes)
         # 位号画在本体**上方外侧**（基准图的做法），不压本体、不压引脚
         x1, y1, x2, y2 = box
         tx, ty = px(x1, y2)
+        # 位号画在本体上方外侧（基准图的做法）。
+        # 试过"与网标相撞就下移"，但下方是邻居的位号，一样相压（#101）——
+        # 器件排得太密，两边都没空位。缺陷由 `--gate` 如实报出，不在这里绕。
         d.text((tx, ty - 13), ref, fill=(15, 15, 15), font=f_small)
 
     # 引脚
@@ -684,7 +750,12 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
 
     pathlib.Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path)
-    return str(out_path)
+    # **文字相压**：排除页头/图签/标尺后，内容区两两相交即为缺陷。
+    # 这是把"放大才看见"的问题变成自动判据。
+    tb_px = (px(tb_page[0], tb_page[3])[0], px(tb_page[0], tb_page[3])[1],
+             px(tb_page[2], tb_page[1])[0], px(tb_page[2], tb_page[1])[1])
+    overlaps = count_text_overlaps(getattr(d, "texts", []), w, h, tb_px)
+    return str(out_path), overlaps
 
 
 def main() -> int:
@@ -711,12 +782,18 @@ def main() -> int:
             (modules[0].get("id") if modules else stem))
 
         q = quality(parts, wires, sheet)
-        png = render(doc, parts, wires, flags, modules, page_name,
+        png, txt_overlaps = render(doc, parts, wires, flags, modules, page_name,
                      out / ("%s.png" % page_name.replace("/", "_")), q)
         fr = frames_doc(doc, modules, parts, page_name)
         fr_path = out / ("frames-%s.json" % page_name.replace("/", "_"))
         fr_path.write_text(json.dumps(fr, ensure_ascii=False, indent=2) + "\n",
                            encoding="utf-8")
+
+        # 文字相压并入质量结论：**这是把"放大才看见"的问题变成自动判据**
+        q["textOverlaps"] = txt_overlaps
+        if txt_overlaps:
+            q["problems"].append("文字相压 %d 处" % len(txt_overlaps))
+            q["verdict"] = "fail"
 
         results.append({
             "composition": cp, "pageName": page_name, "image": png,
@@ -729,6 +806,9 @@ def main() -> int:
                  "✅" if q["verdict"] == "pass" else "❌"))
         for pr in q["problems"]:
             print("       ✗ %s" % pr)
+        for ov in (txt_overlaps or [])[:4]:
+            print("         相压：%r × %r  叠 %s px"
+                  % (ov["a"][:14], ov["b"][:14], ov["overlap"]))
         for nt in q.get("notes") or []:
             print("       · %s" % nt)
 
