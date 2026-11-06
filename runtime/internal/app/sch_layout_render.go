@@ -209,9 +209,35 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 				tx0, ty0, tb.MaxX-tb.MinX, tb.MaxY-tb.MinY)
 			// 字段用**短 ASCII 安全**文本：实测含全角括号/箭头的长文本
 			// 有一项测不出 bbox（29 条输入 vs 28 条实测），会让整组判据变 N/R。
-			for i, fv := range []string{"SHEET " + panels[0].zone.ID, "REV A",
-				"PAGE 1/1", "2026-11-06", "EasyCirq"} {
-				text(tx0+6, ty0+15+float64(i)*13, 8, "#000000", fv, "start")
+			// 字段对齐 style-tokens.title_block.required_fields：
+			// project / version / date / sheet / page / size
+			sheetSize := s.PageSize
+			switch {
+			case (s.Bounds.MaxX - s.Bounds.MinX) > 1000:
+				sheetSize = "A0"
+			case (s.Bounds.MaxX - s.Bounds.MinX) > 700:
+				sheetSize = "A1"
+			case (s.Bounds.MaxX - s.Bounds.MinX) > 500:
+				sheetSize = "A2"
+			case (s.Bounds.MaxX - s.Bounds.MinX) > 380:
+				sheetSize = "A3"
+			}
+			if s.PageSize != "" {
+				sheetSize = s.PageSize
+			}
+			proj := in.Title
+			if proj == "" {
+				proj = "EasyCirq"
+			}
+			for i, fv := range []string{
+				"PROJECT " + proj,
+				"REV A",
+				"2026-11-06",
+				"SHEET " + panels[0].zone.ID,
+				"PAGE 1/1",
+				"SIZE " + sheetSize,
+			} {
+				text(tx0+6, ty0+13+float64(i)*11, 8, "#000000", fv, "start")
 			}
 		}
 		for _, k := range s.Keepouts {

@@ -120,15 +120,15 @@
     "samples": [
       [
         "c40",
-        "svgtext-10"
-      ],
-      [
-        "c40",
         "svgtext-11"
       ],
       [
         "c40",
         "svgtext-12"
+      ],
+      [
+        "c40",
+        "svgtext-13"
       ]
     ]
   },
@@ -139,9 +139,9 @@
     },
     "texts": {
       "status": "complete",
-      "observed": 42,
+      "observed": 43,
       "estimated": 0,
-      "rendered": 55
+      "rendered": 56
     },
     "wires": {
       "status": "complete",
@@ -165,7 +165,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 55,
+      "observed": 56,
       "unique_ids": 0
     },
     "title_block": {

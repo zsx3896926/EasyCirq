@@ -14,6 +14,9 @@ type SchematicRenderSheet struct {
 	Bounds   SchematicBox   `json:"bounds"`
 	Border   SchematicBox   `json:"border"`
 	Keepouts []SchematicBox `json:"keepouts"`
+	// 真实纸型（由 Python 按真实页算出）。驱动会放大画布，
+	// 渲染器自己按宽度推会得出错的纸型（实测 A2 被报成 A0）。
+	PageSize string `json:"pageSize,omitempty"`
 	// 图签字面矩形（真实页坐标）。不能从 Border 推：Border 会被放大到
 	// 包住模块框，一放大图签就落到页外、被页界过滤掉（见 friction #81）。
 	TitleBlock   *SchematicBox `json:"titleBlock,omitempty"`

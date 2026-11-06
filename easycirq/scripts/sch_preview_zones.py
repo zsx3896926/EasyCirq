@@ -160,8 +160,14 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
             "maxX": bounds["maxX"] - 14,
             "maxY": bounds["minY"] + 14 + th,
         }
+        # 真实纸型：由真实页尺寸判定，供图签 `SIZE` 使用。
+        # 驱动会放大画布，渲染器自己推会得出错的纸型（实测 A2 被报成 A0）。
+        _w = bounds["maxX"] - bounds["minX"]
+        _paper = ("A0" if _w > 1000 else "A1" if _w > 700 else
+                  "A2" if _w > 500 else "A3" if _w > 380 else "A4")
         out["sheet"] = {
             "bounds": bounds,
+            "pageSize": _paper,
             "border": bounds,
             "keepouts": [],
             "titleBlock": title_block,

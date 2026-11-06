@@ -65,10 +65,16 @@ def test_title_block_text_is_ascii_safe():
         .read_text(encoding="utf-8")
     i = src.find("// 字段用**短 ASCII 安全**文本")
     assert i > 0, "缺少'短 ASCII 安全文本'的说明（说明之前踩过这个坑）"
-    seg = src[i:i + 400]
+    # 直接定位字段列表本身，别用固定窗口猜（新增行会让窗口失效）
+    j = src.find("for i, fv := range []string{", i)
+    assert j > 0, "找不到图签字段列表"
+    # 只取 `[]string{ ... } {` 这一段：窗口放大到 400 会把后文注释里的
+    # 全角括号也算进来，那是**注释**不是字段值。
+    end = src.find("} {", j)
+    assert end > j, "找不到字段列表结尾"
+    seg = src[j:end]
     for bad in ("→", "（", "）", "图名", "版本", "第 ", "绘制"):
-        assert bad not in seg.split("for i, fv")[1][:200], \
-            "图签字段仍含可能测不出 bbox 的字符：%s" % bad
+        assert bad not in seg, "图签字段仍含可能测不出 bbox 的字符：%s" % bad
 
 
 def test_acceptance_declares_title_block_to_adapter():

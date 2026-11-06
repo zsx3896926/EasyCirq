@@ -4782,3 +4782,68 @@ typography.zone_title  ❌ 最大字号 20，要求 12~18
 ### 状态
 
 M3/M4/M5 仍 **8 PASS / 0 FAIL / 1 N/R / 1 N/A**。
+
+
+---
+
+## #96 补齐 style-tokens 的其余项：图签 6 字段、纸型、内距、min_zones 的 N/A
+
+### tokens 里还剩什么没测
+
+`style-tokens.json` 的 `layout` 与 `title_block` 此前没进检查：
+
+```
+layout.min_zones = 2
+layout.zone_min_padding_mm = 2
+layout.zone_min_gap_mm = 3
+title_block.required_fields = [project, version, date, sheet, page, size]
+```
+
+### 三个处置
+
+| 项 | 处置 |
+|---|---|
+| `zone_min_padding_mm` | **实测**：M3 24.97 mm、M5 30.05 mm（要求 ≥2 mm）✅ |
+| `min_zones = 2` | **N/A 并写明理由**：本设计一页一模块（单分区），该值针对多分区页 |
+| `title_block.required_fields` | **真缺口**：原来只有 5 行且字段不对应 → 补齐为 6 行 |
+
+### 图签补齐（6 字段）
+
+```
+PROJECT EasyCirq   REV A   2026-11-06
+SHEET M3           PAGE 1/1   SIZE A2
+```
+
+### 补的时候踩的坑：纸型**算错**
+
+第一版 `SIZE` 从**画布宽度**推纸型，得出 `SIZE A0` —— 因为驱动会把画布放大到 ~2594 宽。
+真实页是 A2（594×420）。
+
+修法与 #82 的 `titleBlock` 一样：**由 Python 按真实页算好，随 zones 传下去**
+（`sheet.pageSize`），渲染器不再自己推。
+
+### 又一个"估出来的结论"要按 NOT RUN 报
+
+`--work` 会扫到 M1/M2 这些**没有真实分区框**的模块，于是回退到"器件外框"估值，
+把 5.5% 报成"违反 25% 下限"。但那是**估的**。
+
+改成：没有 `frames-*.json` 就报 **NOT RUN（按器件外框估不算数）**，
+而不是给出一个诱人的错误结论。
+
+> 结果从"违规 6 项"变成"**违规 0 项**（其中 3 个模块是 NOT RUN）"。
+
+### 现在的合规覆盖（M3/M4/M5 全绿）
+
+| 检查 | 实测 |
+|---|---|
+| `layout.zone_area_ratio` | 75.8% ✅ |
+| `layout.zone_min_padding_mm` | 24.97 / 30.05 mm ✅ |
+| `layout.min_zones` | N/A（一页一模块）|
+| `layout.page_margin_mm` | 无越边 ✅ |
+| `typography.zone_title` | 18 ✅ |
+| `title_block.required_fields` | 6/6 ✅ |
+
+### 4 条测试
+
+图签 6 字段齐全、纸型必须由 Python 传（源码级三处断言）、
+检查器报出图签项、`min_zones` 必须显式写"不适用"。

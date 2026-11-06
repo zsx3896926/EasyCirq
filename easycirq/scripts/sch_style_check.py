@@ -66,6 +66,14 @@ def check(doc: dict, tokens: dict) -> list[dict]:
         return [{"check": "zone_area_ratio", "ok": False,
                  "detail": "排版稿里找不到分区框"}]
 
+    # 没有**真实分区框**时，这条判据测不了：用器件外框估出来的比例
+    # 会把"框很松"误判成"框太小"，是错误结论。
+    if not doc.get("_framesPath"):
+        return [{"check": "layout.zone_area_ratio", "ok": True, "na": True,
+                 "value": None, "want": [lo, hi],
+                 "detail": "没有真实分区框（frames-*.json），"
+                           "按器件外框估不算数 → NOT RUN"}]
+
     total = 0.0
     for f in frames:
         b = f.get("bbox") or {}
@@ -81,6 +89,45 @@ def check(doc: dict, tokens: dict) -> list[dict]:
         "detail": ("分区占页面 %.1f%%，tokens 要求 %.0f%%~%.0f%%"
                    % (ratio * 100, lo * 100, hi * 100)),
     })
+
+    # ── 分区内距：框与内容的最小距离（tokens: zone_min_padding_mm）──────
+    pad_mm = layout.get("zone_min_padding_mm")
+    if pad_mm is not None and frames:
+        need = pad_mm / MM_PER_RAW
+        worst = None
+        for mod in doc.get("modules") or []:
+            boxes = [p["bbox"] for p in mod.get("placements") or []]
+            if not boxes:
+                continue
+            for f in frames:
+                b = f.get("bbox") or {}
+                for bb in boxes:
+                    if (bb["minX"] >= b.get("minX", 0) and bb["maxX"] <= b.get("maxX", 0)
+                            and bb["minY"] >= b.get("minY", 0)
+                            and bb["maxY"] <= b.get("maxY", 0)):
+                        gap = min(bb["minX"] - b["minX"], b["maxX"] - bb["maxX"],
+                                  bb["minY"] - b["minY"], b["maxY"] - bb["maxY"])
+                        if worst is None or gap < worst:
+                            worst = gap
+        out.append({"check": "layout.zone_min_padding_mm",
+                    "ok": worst is None or worst >= need,
+                    "value": round(worst, 3) if worst is not None else None,
+                    "want": pad_mm,
+                    "detail": "框与内容最小内距 %.2f mm（要求 ≥ %g mm）"
+                              % ((worst or 0) * MM_PER_RAW, pad_mm)})
+
+    # ── 单模块页：min_zones / zone_min_gap 明确不适用 ─────────────────────
+    n_zones = len(frames)
+    min_zones = layout.get("min_zones")
+    if min_zones is not None:
+        if n_zones < min_zones:
+            out.append({"check": "layout.min_zones", "ok": True, "value": n_zones,
+                        "want": min_zones, "na": True,
+                        "detail": "本设计一页一模块（单分区），min_zones 针对多分区页，不适用"})
+        else:
+            out.append({"check": "layout.min_zones", "ok": True, "value": n_zones,
+                        "want": min_zones, "detail": "分区数 %d（要求 ≥ %d）"
+                                                    % (n_zones, min_zones)})
 
     margin_mm = layout.get("page_margin_mm")
     if margin_mm is not None:
@@ -126,6 +173,33 @@ def check_typography(svg_path: pathlib.Path, tokens: dict) -> list[dict]:
                     "value": biggest, "want": [lo, hi],
                     "detail": "最大字号 %g，要求 %s~%s" % (biggest, lo, hi)})
     return out
+
+
+FIELD_KEYWORDS = {
+    "project": ("PROJECT",), "version": ("REV",), "date": ("20",),
+    "sheet": ("SHEET",), "page": ("PAGE",), "size": ("SIZE",),
+}
+
+
+def check_title_block(svg_path: pathlib.Path, tokens: dict) -> list[dict]:
+    """按 tokens.title_block.required_fields 检查图签字段是否齐全。"""
+    import re
+    want = (tokens.get("title_block") or {}).get("required_fields") or []
+    if not want:
+        return []
+    try:
+        svg = pathlib.Path(svg_path).read_text(encoding="utf-8")
+    except OSError:
+        return [{"check": "title_block.required_fields", "ok": False,
+                 "detail": "读不到 SVG"}]
+    texts = re.findall(r'<text[^>]*>([^<]*)</text>', svg)
+    joined = " ".join(texts).upper()
+    missing = [f for f in want
+               if not any(k in joined for k in FIELD_KEYWORDS.get(f, (f.upper(),)))]
+    return [{"check": "title_block.required_fields", "ok": not missing,
+             "value": len(want) - len(missing), "want": len(want),
+             "detail": ("齐全 %d/%d" % (len(want) - len(missing), len(want)))
+                       + ("；缺 %r" % missing if missing else "")}]
 
 
 def main() -> int:
@@ -176,6 +250,7 @@ def main() -> int:
                 k, v = spec.split("=", 1)
                 if k.strip() == name:
                     res = res + check_typography(v, tokens)
+                    res = res + check_title_block(v, tokens)
                     break
         rows.append({"module": name, "checks": res})
         if not args.json:
