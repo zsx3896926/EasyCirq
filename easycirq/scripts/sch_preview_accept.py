@@ -79,6 +79,18 @@ def widen(zones_path, page):
     return z
 
 
+def safe_page_name(page_name):
+    """与 `sch_layout_review.safe_name` **同一规则**（文件名安全化）。"""
+    t = str(page_name or "").strip()
+    for a, b in (("→", "-"), ("←", "-"), ("（", "_"), ("）", ""),
+                 ("(", "_"), (")", ""), ("：", "_"), (":", "_"),
+                 ("/", "_"), ("\\", "_"), (" ", "_"), ("　", "_")):
+        t = t.replace(a, b)
+    while "__" in t:
+        t = t.replace("__", "_")
+    return t.strip("_") or "page"
+
+
 def one(module, work, exe, sk, verbose=True, comp_override=None,
         no_label_boxes=False):
     work = pathlib.Path(work)
@@ -255,7 +267,7 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         rv = run_py([HERE / "sch_layout_review.py", "--composition", str(comp),
                      "--page-name", page_name, "--out-dir", str(review_out),
                      "--gate"], 2400)
-        png_file = review_out / ("%s.png" % page_name.replace("/", "_"))
+        png_file = review_out / ("%s.png" % safe_page_name(page_name))
         if png_file.is_file():
             png_status = "PASS" if rv.returncode == 0 else "FAIL"
             hit = re.search(r"文字相压 (\d+) 处", rv.stdout or "")

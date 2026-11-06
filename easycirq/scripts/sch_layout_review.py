@@ -481,6 +481,21 @@ def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill,
                            font=f_tiny)
 
 
+def safe_name(page_name):
+    """把图纸名变成安全的文件名：去箭头/括号/空格，保留中文与字母数字。
+
+    只影响文件名，图上标题仍是原串。
+    """
+    t = str(page_name or "").strip()
+    for a, b in (("→", "-"), ("←", "-"), ("（", "_"), ("）", ""),
+                 ("(", "_"), (")", ""), ("：", "_"), (":", "_"),
+                 ("/", "_"), ("\\", "_"), (" ", "_"), ("　", "_")):
+        t = t.replace(a, b)
+    while "__" in t:
+        t = t.replace("__", "_")
+    return t.strip("_") or "page"
+
+
 def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     if Image is None:
         return None
@@ -905,9 +920,9 @@ def main() -> int:
 
         q = quality(parts, wires, sheet)
         png, txt_overlaps, wire_hits = render(doc, parts, wires, flags, modules, page_name,
-                     out / ("%s.png" % page_name.replace("/", "_")), q)
+                     out / ("%s.png" % safe_name(page_name)), q)
         fr = frames_doc(doc, modules, parts, page_name)
-        fr_path = out / ("frames-%s.json" % page_name.replace("/", "_"))
+        fr_path = out / ("frames-%s.json" % safe_name(page_name))
         fr_path.write_text(json.dumps(fr, ensure_ascii=False, indent=2) + "\n",
                            encoding="utf-8")
 
