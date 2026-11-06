@@ -1,0 +1,205 @@
+{
+  "status": "findings",
+  "measured_count": 85,
+  "findings": [
+    {
+      "kind": "text_overlap",
+      "ids": [
+        "svgtext-18",
+        "svgtext-19"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          367.492,
+          194.5,
+          371.492,
+          199.5
+        ],
+        [
+          365.0,
+          194.5,
+          368.5,
+          199.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-39",
+        "svgtext-41"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          618.0,
+          234.5,
+          625.789,
+          242.5
+        ],
+        [
+          620.0,
+          229.5,
+          622.508,
+          234.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_overlap",
+      "ids": [
+        "svgtext-75",
+        "svgtext-76"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          632.492,
+          274.5,
+          636.492,
+          279.5
+        ],
+        [
+          630.0,
+          274.5,
+          633.5,
+          279.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-91",
+        "svgtext-92"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          745.0,
+          249.5,
+          747.508,
+          254.5
+        ],
+        [
+          747.992,
+          249.5,
+          751.0,
+          254.5
+        ]
+      ],
+      "distance": 0.484,
+      "same_content": false
+    },
+    {
+      "kind": "text_overlap",
+      "ids": [
+        "svgtext-108",
+        "svgtext-109"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          87.492,
+          284.5,
+          91.492,
+          289.5
+        ],
+        [
+          85.0,
+          284.5,
+          88.5,
+          289.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-112",
+        "svgtext-113"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          680.0,
+          129.5,
+          682.508,
+          134.5
+        ],
+        [
+          682.992,
+          129.5,
+          686.0,
+          134.5
+        ]
+      ],
+      "distance": 0.484,
+      "same_content": false
+    }
+  ],
+  "missing_classes": [
+    "values",
+    "pin_names",
+    "wire_names",
+    "title_block"
+  ],
+  "unmeasured": [],
+  "coverage_complete": false,
+  "visual_verified": false,
+  "electrical_verified": false,
+  "scope": "text-text only; inspect official full-page and local exports separately",
+  "source_sha256": "19f4e316147464c82bd09dee67e0ea4b8ccb5b16cc8ea1abd05c51d67c9acfa7",
+  "exit_code": 2
+}

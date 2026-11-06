@@ -28,6 +28,15 @@ ICON = {"PASS": "✅", "FAIL": "❌", "NOT RUN": "⛔", "N/A": "➖"}
 MODULES = ("M1", "M2", "M3", "M4", "M5")
 
 
+def is_stale(artifact, reference) -> bool:
+    """产物比它所依据的排版稿还旧 → 过期，不能当作当前结论。"""
+    try:
+        return pathlib.Path(artifact).stat().st_mtime < \
+            pathlib.Path(reference).stat().st_mtime
+    except OSError:
+        return True
+
+
 def load(path):
     try:
         return json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
@@ -38,14 +47,33 @@ def load(path):
 def build(work):
     work = pathlib.Path(work)
     rows = {}
+    stale = {}
+    found = 0
     for m in MODULES:
-        d = load(work / ("acceptance-%s.json" % m))
+        acc = work / ("acceptance-%s.json" % m)
+        comp = work / ("composition-%s-placed.json" % m)
+        d = load(acc)
         if not d:
             continue
+        found += 1
+        # **过期判定**：产物比排版稿旧，就是旧结论，按 NOT RUN 报告
+        if comp.is_file() and is_stale(acc, comp):
+            stale[m] = "验收产物早于排版稿（陈旧）"
+            continue
         rows[m] = d
-    if not rows:
+    if not found:
         raise SystemExit("没有 acceptance-*.json —— 先跑 sch_preview_accept.py")
+    # 全部陈旧时**不报错**：如实说"结论全都不可用"，而不是假装什么都没跑
 
+
+    if not rows:
+        lines = ["# 原理图预览 · 图面验收报告", "", "## ⚠ 全部产物陈旧", ""]
+        for m, why in stale.items():
+            lines.append("- **%s**：%s" % (m, why))
+        lines.append("")
+        lines.append("没有可用结论：请重跑 `sch_preview_accept.py`。")
+        lines.append("")
+        return "\n".join(lines)
     first = next(iter(rows.values()))
     crit = [c["id"] for c in first["criteria"]]
     titles = {c["id"]: c["title"] for c in first["criteria"]}
@@ -54,6 +82,13 @@ def build(work):
     lines.append("> 由 `sch_preview_report.py` 从真实执行产物生成；"
                  "表格里每个状态都能用下方命令复现。")
     lines.append("")
+
+    if stale:
+        lines.append("## ⚠ 过期产物（按 NOT RUN 处理）")
+        lines.append("")
+        for m, why in stale.items():
+            lines.append("- **%s**：%s —— 结论不可用，需重跑" % (m, why))
+        lines.append("")
 
     lines.append("## 判据总表")
     lines.append("")
