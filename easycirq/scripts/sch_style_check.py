@@ -100,6 +100,34 @@ def check(doc: dict, tokens: dict) -> list[dict]:
     return out
 
 
+def check_typography(svg_path: pathlib.Path, tokens: dict) -> list[dict]:
+    """从渲染 SVG 读字号，按 tokens 的 typography 区间校验。"""
+    import re
+    typo = tokens.get("typography") or {}
+    out = []
+    try:
+        svg = pathlib.Path(svg_path).read_text(encoding="utf-8")
+    except OSError:
+        return [{"check": "typography", "ok": False, "detail": "读不到 SVG"}]
+    rows = re.findall(r'<text x="[\d.-]+" y="([\d.-]+)" font-size="([\d.]+)"', svg)
+    if not rows:
+        return [{"check": "typography", "ok": False, "detail": "SVG 里没有可解析的 text"}]
+    # **只看图纸区域内**的文字：页标题画在 y<85（页面之上），属于纸张装饰，
+    # tokens 的 zone_title 管的是页内分区名。混在一起会把 20 当成区名。
+    sizes = [float(fs) for y, fs in rows if float(y) >= 85.0]
+    if not sizes:
+        sizes = [float(fs) for _y, fs in rows]
+    biggest = max(sizes)
+    spec = typo.get("zone_title") or {}
+    lo, hi = spec.get("min"), spec.get("max")
+    if lo is not None and hi is not None:
+        out.append({"check": "typography.zone_title",
+                    "ok": lo <= biggest <= hi,
+                    "value": biggest, "want": [lo, hi],
+                    "detail": "最大字号 %g，要求 %s~%s" % (biggest, lo, hi)})
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="按 style-tokens 检查图面合规")
     ap.add_argument("--composition", action="append", default=[])
@@ -108,6 +136,8 @@ def main() -> int:
     ap.add_argument("--frames", action="append", default=[],
                     help="审图渲染器导出的 frames-*.json；不给我就按器件外框估")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--svg", action="append", default=[],
+                    help="渲染 SVG `模块=路径`：给了就一并校验字体尺寸")
     args = ap.parse_args()
 
     root = pathlib.Path(__file__).resolve().parent.parent
@@ -141,6 +171,12 @@ def main() -> int:
         if fb:
             doc["_framesPath"] = fb
         res = check(doc, tokens)
+        for spec in args.svg:
+            if "=" in spec:
+                k, v = spec.split("=", 1)
+                if k.strip() == name:
+                    res = res + check_typography(v, tokens)
+                    break
         rows.append({"module": name, "checks": res})
         if not args.json:
             print("  %s" % name)

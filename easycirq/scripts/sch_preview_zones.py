@@ -19,6 +19,19 @@ import pathlib
 import sys
 
 
+def _zone_title_size():
+    """从 style-tokens 取区名字号上限（读不到就退回 18）。"""
+    try:
+        root = pathlib.Path(__file__).resolve().parent.parent
+        toks = json.loads((root / "assets" / "style-reference"
+                           / "style-tokens.json").read_text(encoding="utf-8"))
+        spec = (toks.get("typography") or {}).get("zone_title") or {}
+        hi = spec.get("max")
+        return int(hi) if hi else 18
+    except (OSError, ValueError):
+        return 18
+
+
 def build_zones_input(doc, padding=10.0, gap=10.0):
     zones = []
     for mod in doc.get("modules") or []:
@@ -107,7 +120,9 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
                 "rect": r,
                 "titleX": r["minX"] + 4,
                 "titleY": r["maxY"] - 4,
-                "fontSize": 20,
+                # 字号必须落在 style-tokens.typography.zone_title（12~18）内；
+                # 原来写死 20，超出上限，违反图面基准。
+                "fontSize": _zone_title_size(),
                 "color": "#AA00AA",
                 "lineType": 1,
             }

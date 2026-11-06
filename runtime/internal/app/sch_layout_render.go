@@ -186,11 +186,11 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		title = "诊断模式 · " + title
 	}
 	text(20, 28, 20, "#000000", title, "start")
-	text(20, 49, 9, "#666666", "离线转译 / 简化符号 / 非仿真、非官方导图", "start")
+	text(20, 49, 8, "#666666", "离线转译 / 简化符号 / 非仿真、非官方导图", "start")
 	if in.Diagnostic {
-		text(20, 65, 9, "#c53b45", "诊断输出：未通过完整性门禁，不得作为完成效果或 Apply 依据。", "start")
+		text(20, 65, 8, "#C800C8", "诊断输出：未通过完整性门禁，不得作为完成效果或 Apply 依据。", "start")
 	} else {
-		text(20, 65, 9, "#666666", "只转译输入几何；离线预览不等于现场 Apply 验收。", "start")
+		text(20, 65, 8, "#666666", "只转译输入几何；离线预览不等于现场 Apply 验收。", "start")
 	}
 	if in.Sheet != nil {
 		s := in.Sheet
