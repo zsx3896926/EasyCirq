@@ -22,11 +22,11 @@
 
 | 模块 | sch_layout_check --strict | sch_text_audit --strict |
 |---|---|---|
-| M1 | incomplete（blocking 101） | 实测 85 / 缺陷 6 |
-| M2 | incomplete（blocking 32） | 实测 30 / 缺陷 5 |
-| M3 | incomplete（blocking 27） | 实测 24 / 缺陷 0 |
-| M4 | incomplete（blocking 38） | 实测 37 / 缺陷 0 |
-| M5 | incomplete（blocking 31） | 实测 29 / 缺陷 0 |
+| M1 | NOT RUN | NOT RUN |
+| M2 | NOT RUN | NOT RUN |
+| M3 | incomplete（blocking 27） | NOT RUN |
+| M4 | incomplete（blocking 38） | NOT RUN |
+| M5 | incomplete（blocking 31） | NOT RUN |
 
 ## 复现命令
 

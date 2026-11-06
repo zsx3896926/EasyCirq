@@ -33,9 +33,12 @@ def test_guard_message_explains_the_fallback():
 
 def test_real_frames_give_zero_violations():
     """真实 frames 下应当 0 违规（回归保护）。"""
-    fr = WORK / "review" / "frames-P3_5V转3V3主逻辑轨.json"
-    if not fr.is_file():
+    # 名字会随标题漂移，**动态查找**
+    hits = sorted((WORK / "review").glob("frames-P3*.json")) \
+        if (WORK / "review").is_dir() else []
+    if not hits:
         pytest.skip("没有审图产出的 frames")
+    fr = hits[0]
     r = subprocess.run([sys.executable, str(CHECK), "--work", str(WORK),
                         "--frames", "M3=%s" % fr],
                        capture_output=True, text=True, encoding="utf-8",

@@ -1,9 +1,0 @@
-{
-  "schema": "easycirq-power-net-check/v1",
-  "status": "n/a",
-  "reason": "图里没有电源类引脚（纯无源或未标注），这一项不适用；若要验证具体电源网络，请在计划的 power_nets 里声明",
-  "source": "pin-name",
-  "powerPins": [],
-  "nets": [],
-  "findings": []
-}
