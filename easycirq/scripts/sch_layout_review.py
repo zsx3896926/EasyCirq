@@ -446,6 +446,24 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             continue
         d.line([px(*p) for p in pts], fill=net_color(net), width=1)
 
+    # 结点圆点：只画**同网**的连接点（≥3 个线段端点落在同一点）。
+    # 跨网交叉不给点 —— 那会让人以为是两个网络连在一起（SVG 渲染器同一规则）。
+    ends = {}
+    for pts, net in wires:
+        if len(pts) < 2:
+            continue
+        # 变量名不能用 q —— render() 的参数 q 是质量字典，会被覆盖（踩过）
+        for jp in (pts[0], pts[-1]):
+            key = (net, round(jp[0], 3), round(jp[1], 3))
+            ends[key] = ends.get(key, 0) + 1
+        for jp in pts[1:-1]:
+            key = (net, round(jp[0], 3), round(jp[1], 3))
+            ends[key] = ends.get(key, 0) + 1
+    for (net, jx, jy), count in ends.items():
+        if count >= 3:
+            cx, cy = px(jx, jy)
+            d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=net_color(net))
+
     # 器件本体 + 位号
     f_tiny = font(8)
     for ref, box in parts.items():

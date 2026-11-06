@@ -1,0 +1,1852 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "a223803d1fb015ce",
+    "components": [
+      {
+        "id": "c40",
+        "ref": "U4",
+        "role": "U",
+        "device": {
+          "libraryUuid": "ed673a013a644ceb9f50cbb02e82271d",
+          "deviceUuid": "2b438f9b61784302b5e0807f29106491",
+          "name": "ic.sy7088"
+        },
+        "pins": [
+          {
+            "number": "EN",
+            "name": "EN"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "IN",
+            "name": "IN"
+          },
+          {
+            "number": "LX",
+            "name": "LX"
+          },
+          {
+            "number": "LX#2",
+            "name": "LX#2"
+          },
+          {
+            "number": "OUT",
+            "name": "OUT"
+          },
+          {
+            "number": "OUT#2",
+            "name": "OUT#2"
+          },
+          {
+            "number": "PGND",
+            "name": "PGND"
+          },
+          {
+            "number": "SGND",
+            "name": "SGND"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c41",
+        "ref": "L4",
+        "role": "L",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "b9e91430c31d4fdeb255dc61d0358e9e",
+          "name": "ind.2u2h"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c42",
+        "ref": "C16",
+        "role": "C_IN1",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c43",
+        "ref": "C17",
+        "role": "C_IN2",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c44",
+        "ref": "C18",
+        "role": "C_IN3",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c45",
+        "ref": "C19",
+        "role": "C_OUT1",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c46",
+        "ref": "C20",
+        "role": "C_OUT2",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c47",
+        "ref": "R10",
+        "role": "R_FB_H",
+        "device": {
+          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+          "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8",
+          "name": "res.147k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c48",
+        "ref": "R11",
+        "role": "R_FB_L",
+        "device": {
+          "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
+          "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb",
+          "name": "res.46k4_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      },
+      {
+        "id": "c49",
+        "ref": "R12",
+        "role": "R_EN",
+        "device": {
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429",
+          "name": "res.100k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "a223803d1fb015ce",
+        "pageName": "P2"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n10",
+        "name": "+5V",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n16",
+        "name": "+12V_FILT",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n20",
+        "name": "U4_N1",
+        "scope": "local"
+      },
+      {
+        "id": "n21",
+        "name": "U4_N4",
+        "scope": "local"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c40",
+        "pinNumber": "EN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "FB",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "IN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "LX",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "LX#2",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "OUT",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "OUT#2",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "PGND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c40",
+        "pinNumber": "SGND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c41",
+        "pinNumber": "1",
+        "netId": "n20",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c41",
+        "pinNumber": "2",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c42",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c42",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c43",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c44",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c45",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c46",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c47",
+        "pinNumber": "1",
+        "netId": "n16",
+        "kind": "power"
+      },
+      {
+        "componentId": "c47",
+        "pinNumber": "2",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c48",
+        "pinNumber": "1",
+        "netId": "n21",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c48",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c49",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c49",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M4",
+        "name": "5V → 升压轨（SY7088）",
+        "coreComponents": [
+          "c40"
+        ],
+        "peripheralComponents": [
+          "c41",
+          "c42",
+          "c43",
+          "c44",
+          "c45",
+          "c46",
+          "c47",
+          "c48",
+          "c49"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 594,
+    "maxY": 420
+  },
+  "keepouts": [],
+  "modules": [
+    {
+      "id": "M4",
+      "title": "5V → 升压轨（SY7088）",
+      "placements": [
+        {
+          "primitiveId": "c40",
+          "designator": "U4",
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": -30,
+            "minY": -40,
+            "maxX": 30,
+            "maxY": 40
+          },
+          "textBboxes": [
+            {
+              "minX": -32,
+              "minY": 39.5,
+              "maxX": -21.5,
+              "maxY": 47.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "EN",
+              "name": "EN",
+              "net": "+5V",
+              "x": 40,
+              "y": 20,
+              "rotation": 0
+            },
+            {
+              "number": "FB",
+              "name": "FB",
+              "net": "U4_N4",
+              "x": 40,
+              "y": 0,
+              "rotation": 0
+            },
+            {
+              "number": "IN",
+              "name": "IN",
+              "net": "+5V",
+              "x": -40,
+              "y": 0,
+              "rotation": 180
+            },
+            {
+              "number": "LX",
+              "name": "LX",
+              "net": "U4_N1",
+              "x": -40,
+              "y": -30,
+              "rotation": 180
+            },
+            {
+              "number": "LX#2",
+              "name": "LX#2",
+              "net": "U4_N1",
+              "x": -40,
+              "y": -20,
+              "rotation": 180
+            },
+            {
+              "number": "OUT",
+              "name": "OUT",
+              "net": "+12V_FILT",
+              "x": 40,
+              "y": -20,
+              "rotation": 0
+            },
+            {
+              "number": "OUT#2",
+              "name": "OUT#2",
+              "net": "+12V_FILT",
+              "x": 40,
+              "y": -30,
+              "rotation": 0
+            },
+            {
+              "number": "PGND",
+              "name": "PGND",
+              "net": "GND",
+              "x": -40,
+              "y": 30,
+              "rotation": 180
+            },
+            {
+              "number": "SGND",
+              "name": "SGND",
+              "net": "GND",
+              "x": -40,
+              "y": 20,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c42",
+          "designator": "C16",
+          "x": 70,
+          "y": 20,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 60,
+            "minY": 15,
+            "maxX": 80,
+            "maxY": 25
+          },
+          "textBboxes": [
+            {
+              "minX": 58,
+              "minY": 24.5,
+              "maxX": 73.8,
+              "maxY": 32.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 50,
+              "y": 20,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 90,
+              "y": 20,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c43",
+          "designator": "C17",
+          "x": 65,
+          "y": 45,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 55,
+            "minY": 40,
+            "maxX": 75,
+            "maxY": 50
+          },
+          "textBboxes": [
+            {
+              "minX": 53,
+              "minY": 49.5,
+              "maxX": 68.8,
+              "maxY": 57.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 45,
+              "y": 45,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 85,
+              "y": 45,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c44",
+          "designator": "C18",
+          "x": 60,
+          "y": 70,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 50,
+            "minY": 65,
+            "maxX": 70,
+            "maxY": 75
+          },
+          "textBboxes": [
+            {
+              "minX": 48,
+              "minY": 74.5,
+              "maxX": 63.8,
+              "maxY": 82.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 40,
+              "y": 70,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 80,
+              "y": 70,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c45",
+          "designator": "C19",
+          "x": 70,
+          "y": -20,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 60,
+            "minY": -25,
+            "maxX": 80,
+            "maxY": -15
+          },
+          "textBboxes": [
+            {
+              "minX": 58,
+              "minY": -15.5,
+              "maxX": 73.8,
+              "maxY": -7.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+12V_FILT",
+              "x": 50,
+              "y": -20,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 90,
+              "y": -20,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c46",
+          "designator": "C20",
+          "x": 65,
+          "y": -45,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 55,
+            "minY": -50,
+            "maxX": 75,
+            "maxY": -40
+          },
+          "textBboxes": [
+            {
+              "minX": 53,
+              "minY": -40.5,
+              "maxX": 68.8,
+              "maxY": -32.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+12V_FILT",
+              "x": 45,
+              "y": -45,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 85,
+              "y": -45,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c49",
+          "designator": "R12",
+          "x": 55,
+          "y": 95,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 45,
+            "minY": 90,
+            "maxX": 65,
+            "maxY": 100
+          },
+          "textBboxes": [
+            {
+              "minX": 43,
+              "minY": 99.5,
+              "maxX": 58.8,
+              "maxY": 107.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 35,
+              "y": 95,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 75,
+              "y": 95,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c41",
+          "designator": "L4",
+          "x": 5,
+          "y": 95,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": -10,
+            "minY": 90,
+            "maxX": 20,
+            "maxY": 100
+          },
+          "textBboxes": [
+            {
+              "minX": -12,
+              "minY": 99.5,
+              "maxX": -1.5,
+              "maxY": 107.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U4_N1",
+              "x": -15,
+              "y": 95,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "+5V",
+              "x": 25,
+              "y": 95,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c47",
+          "designator": "R10",
+          "x": 60,
+          "y": -70,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 50,
+            "minY": -75,
+            "maxX": 70,
+            "maxY": -65
+          },
+          "textBboxes": [
+            {
+              "minX": 48,
+              "minY": -65.5,
+              "maxX": 63.8,
+              "maxY": -57.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+12V_FILT",
+              "x": 40,
+              "y": -70,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "U4_N4",
+              "x": 80,
+              "y": -70,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c48",
+          "designator": "R11",
+          "x": 110,
+          "y": -70,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 100,
+            "minY": -75,
+            "maxX": 120,
+            "maxY": -65
+          },
+          "textBboxes": [
+            {
+              "minX": 98,
+              "minY": -65.5,
+              "maxX": 113.8,
+              "maxY": -57.5
+            }
+          ],
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U4_N4",
+              "x": 90,
+              "y": -70,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 130,
+              "y": -70,
+              "rotation": 0
+            }
+          ]
+        }
+      ],
+      "wires": [
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -45,
+              -20
+            ],
+            [
+              -45,
+              -30
+            ]
+          ]
+        },
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -45,
+              -30
+            ],
+            [
+              -40,
+              -30
+            ]
+          ]
+        },
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -15,
+              95
+            ],
+            [
+              -50,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -50,
+              95
+            ],
+            [
+              -50,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -50,
+              -20
+            ],
+            [
+              -45,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "U4_N1",
+          "points": [
+            [
+              -45,
+              -20
+            ],
+            [
+              -40,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              90,
+              -70
+            ],
+            [
+              85,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              85,
+              -70
+            ],
+            [
+              80,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              40,
+              0
+            ],
+            [
+              100,
+              0
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              100,
+              0
+            ],
+            [
+              100,
+              -55
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              100,
+              -55
+            ],
+            [
+              85,
+              -55
+            ]
+          ]
+        },
+        {
+          "net": "U4_N4",
+          "points": [
+            [
+              85,
+              -55
+            ],
+            [
+              85,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -45,
+              30
+            ],
+            [
+              -40,
+              30
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              90,
+              70
+            ],
+            [
+              90,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              85,
+              45
+            ],
+            [
+              90,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              90,
+              45
+            ],
+            [
+              95,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              85,
+              95
+            ],
+            [
+              85,
+              70
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              80,
+              70
+            ],
+            [
+              85,
+              70
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              85,
+              70
+            ],
+            [
+              90,
+              70
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              90,
+              -20
+            ],
+            [
+              95,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              95,
+              -45
+            ],
+            [
+              95,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              95,
+              -20
+            ],
+            [
+              95,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              95,
+              20
+            ],
+            [
+              95,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              90,
+              20
+            ],
+            [
+              95,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              130,
+              -70
+            ],
+            [
+              135,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              135,
+              -70
+            ],
+            [
+              135,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              85,
+              -45
+            ],
+            [
+              95,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              95,
+              -45
+            ],
+            [
+              135,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -20
+            ],
+            [
+              45,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              45,
+              -20
+            ],
+            [
+              50,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -45
+            ],
+            [
+              40,
+              -40
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -40
+            ],
+            [
+              45,
+              -40
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              45,
+              -40
+            ],
+            [
+              45,
+              -30
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              45,
+              -30
+            ],
+            [
+              45,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -30
+            ],
+            [
+              45,
+              -30
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              40,
+              45
+            ],
+            [
+              40,
+              30
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              40,
+              30
+            ],
+            [
+              45,
+              30
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              45,
+              30
+            ],
+            [
+              45,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              40,
+              20
+            ],
+            [
+              45,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              45,
+              20
+            ],
+            [
+              50,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              35,
+              70
+            ],
+            [
+              35,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              35,
+              45
+            ],
+            [
+              40,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              40,
+              45
+            ],
+            [
+              45,
+              45
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              30,
+              70
+            ],
+            [
+              35,
+              70
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              35,
+              70
+            ],
+            [
+              40,
+              70
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -70
+            ],
+            [
+              35,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              35,
+              -70
+            ],
+            [
+              35,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -45,
+              20
+            ],
+            [
+              -40,
+              20
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -45,
+              20
+            ],
+            [
+              -45,
+              30
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              75,
+              95
+            ],
+            [
+              80,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              80,
+              95
+            ],
+            [
+              85,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              80,
+              95
+            ],
+            [
+              80,
+              100
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              25,
+              95
+            ],
+            [
+              30,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              30,
+              95
+            ],
+            [
+              35,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              30,
+              70
+            ],
+            [
+              30,
+              95
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              30,
+              95
+            ],
+            [
+              30,
+              100
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              30,
+              -45
+            ],
+            [
+              35,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              35,
+              -45
+            ],
+            [
+              40,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              40,
+              -45
+            ],
+            [
+              45,
+              -45
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              30,
+              -45
+            ],
+            [
+              30,
+              -50
+            ]
+          ]
+        }
+      ],
+      "flags": [
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": -45,
+          "pinY": 25,
+          "direction": "left",
+          "offset": 25,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -45,
+            "y": 25
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 80,
+          "pinY": 100,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": 80,
+            "y": 100
+          }
+        },
+        {
+          "net": "+5V",
+          "kind": "power",
+          "pinX": 30,
+          "pinY": 100,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "+5V",
+            "x": 30,
+            "y": 100
+          }
+        },
+        {
+          "net": "+5V",
+          "kind": "power",
+          "pinX": -40,
+          "pinY": 0,
+          "direction": "left",
+          "offset": 30,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c40",
+            "pinNumber": "IN",
+            "net": "+5V"
+          }
+        },
+        {
+          "net": "+12V_FILT",
+          "kind": "power",
+          "pinX": 30,
+          "pinY": -50,
+          "direction": "down",
+          "offset": 25,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "+12V_FILT",
+            "x": 30,
+            "y": -50
+          }
+        },
+        {
+          "net": "U4_N4",
+          "kind": "net_port_bi",
+          "pinX": 100,
+          "pinY": 0,
+          "direction": "right",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U4_N4",
+            "x": 100,
+            "y": 0
+          }
+        },
+        {
+          "net": "U4_N1",
+          "kind": "net_port_bi",
+          "pinX": -45,
+          "pinY": -25,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U4_N1",
+            "x": -45,
+            "y": -25
+          }
+        }
+      ]
+    }
+  ]
+}

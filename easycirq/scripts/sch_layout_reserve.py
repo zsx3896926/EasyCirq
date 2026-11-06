@@ -51,6 +51,37 @@ def default_exe() -> str:
     return str(pathlib.Path(base) / "EasyCirq" / "bin" / "easycirq.exe")
 
 
+# 标准纸（raw，0.01 inch），按面积从小到大
+PAPERS = {
+    "A4": (297.0, 210.0),
+    "A3": (420.0, 297.0),
+    "A2": (594.0, 420.0),
+    "A1": (841.0, 594.0),
+    "A0": (1189.0, 841.0),
+}
+
+
+def pick_paper(doc, margin=20.0):
+    """按内容外框挑能装下的最小标准纸；装不下就用 A0。"""
+    xs0, ys0, xs1, ys1 = [], [], [], []
+    for m in doc.get("measurements") or []:
+        b = m.get("bbox")
+        if not b:
+            continue
+        xs0.append(b["minX"]); xs1.append(b["maxX"])
+        ys0.append(b["minY"]); ys1.append(b["maxY"])
+    if not xs0:
+        return None, None
+    w = (max(xs1) - min(xs0)) + 2 * margin
+    h = (max(ys1) - min(ys0)) + 2 * margin
+    for name in ("A4", "A3", "A2", "A1", "A0"):
+        pw, ph = PAPERS[name]
+        # 横竖都试
+        if (w <= pw and h <= ph) or (h <= pw and w <= ph):
+            return name, (pw, ph) if (w <= pw and h <= ph) else (ph, pw)
+    return "A0", PAPERS["A0"]
+
+
 def try_solve(exe, doc, reserve, out_path, budget=None):
     d = json.loads(json.dumps(doc))
     if budget is not None:
@@ -86,6 +117,9 @@ def main() -> int:
     ap.add_argument("--no-reserve", action="store_true",
                     help="完全不使用预留区（回到旧行为）")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--auto-paper", action="store_true",
+                    help="按内容试排最小标准纸。默认**关**：实测 A3 会让"
+                         "'模块框不切器件/导线'退步（框溢出页面）")
     args = ap.parse_args()
 
     out = pathlib.Path(args.out_dir)
@@ -96,6 +130,28 @@ def main() -> int:
         mid = stem[4:] if stem.startswith("one-") else stem
         doc = json.loads(pathlib.Path(inp).read_text(encoding="utf-8"))
         target = out / ("composition-%s.json" % mid)
+        if args.auto_paper:
+            # 从小到大**实际试排**：装得下不等于排得出（模块框/位号/网标
+            # 都要额外空间，实测 A4 按尺寸够却解不出来）。
+            order = ["A4", "A3", "A2", "A1", "A0"]
+            picked = None
+            for pname in order:
+                pw, ph = PAPERS[pname]
+                probe_doc = json.loads(json.dumps(doc))
+                probe_doc["sheet"] = {"minX": 0.0, "minY": 0.0,
+                                      "maxX": pw, "maxY": ph}
+                ok_probe, _dt, _msg = try_solve(args.exe, probe_doc, True,
+                                                out / ("probe-%s.json" % mid),
+                                                args.budget)
+                if ok_probe:
+                    picked = (pname, (pw, ph))
+                    break
+            if picked:
+                doc["sheet"] = {"minX": 0.0, "minY": 0.0,
+                                "maxX": float(picked[1][0]),
+                                "maxY": float(picked[1][1])}
+                print("  %-3s 自动选纸 %s（%g×%g）"
+                      % (mid, picked[0], picked[1][0], picked[1][1]))
 
         if args.no_reserve:
             ok, dt, msg = try_solve(args.exe, doc, False, target)
