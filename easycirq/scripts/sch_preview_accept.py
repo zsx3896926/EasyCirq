@@ -160,9 +160,36 @@ def one(module, work, exe, sk, verbose=True):
             acmd += ["--sheet-geometry", geo]
     except (OSError, ValueError):
         pass
+
     for net, deg in rot_policy.items():
         acmd += ["--expect-rotation", "%s=%d" % (net, deg)]
     run_py(acmd)
+
+    # 按**几何**补登记图签归属：适配器给的 title_block_owned 可能是空的
+    # （它按渲染行打标，id 命名空间与 page_texts 不一定对齐）。
+    # 框心落在图签矩形内的文字，就属于图签。
+    try:
+        if tb_rect:
+            doc = json.loads(pathlib.Path(strict).read_text(encoding="utf-8"))
+            owned = []
+            for t in doc.get("texts") or []:
+                b = t.get("bbox")
+                if not b:
+                    continue
+                cx = (b[0] + b[2]) / 2.0
+                cy = (b[1] + b[3]) / 2.0
+                if (tb_rect["minX"] <= cx <= tb_rect["maxX"]
+                        and tb_rect["minY"] <= cy <= tb_rect["maxY"]):
+                    t["kind"] = "title_block"
+                    owned.append(t["id"])
+            if owned:
+                doc["title_block_owned"] = sorted(set(doc.get("title_block_owned") or [])
+                                                   | set(owned))
+                pathlib.Path(strict).write_text(
+                    json.dumps(doc, ensure_ascii=False), encoding="utf-8")
+    except (OSError, ValueError, UnboundLocalError):
+        pass
+
     if not strict.is_file():
         return {"module": module, "error": "严格输入生成失败"}
     src = json.loads(strict.read_text(encoding="utf-8"))
