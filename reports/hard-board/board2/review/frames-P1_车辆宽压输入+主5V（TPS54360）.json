@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "documentId": "49c6dbb9567dd6af",
+  "frames": [
+    {
+      "id": "M1",
+      "title": "P1_车辆宽压输入+主5V（TPS54360） · 车辆宽压输入 + 主 5V（TPS54360）",
+      "rect": {
+        "minX": 67.0,
+        "minY": 112.0,
+        "maxX": 773.0,
+        "maxY": 443.0
+      },
+      "titleX": 71.0,
+      "titleY": 439.0,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    }
+  ]
+}

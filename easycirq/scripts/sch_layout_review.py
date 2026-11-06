@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import sys
 
@@ -33,6 +34,20 @@ try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:                                        # pragma: no cover
     Image = None
+
+def load_style_tokens():
+    """读技能自带的 style-tokens.json；缺失时退回内置 THEME。"""
+    home = pathlib.Path(os.environ.get("USERPROFILE") or pathlib.Path.home())
+    for base in (home / ".agents" / "skills" / "easycirq" / "assets" / "style-reference",
+                 pathlib.Path(__file__).resolve().parent.parent / "assets" / "style-reference"):
+        f = base / "style-tokens.json"
+        if f.is_file():
+            try:
+                return json.loads(f.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+    return {}
+
 
 THEME = {
     "body": (245, 245, 250), "body_edge": (35, 35, 35),
@@ -205,6 +220,30 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     img = Image.new("RGB", (w, h), "white")
     d = ImageDraw.Draw(img)
 
+    tokens = load_style_tokens()
+    palette = ((tokens.get("palette") or {}).get("zone_border")
+               or ["#00B3B3", "#C800C8", "#0066CC", "#009944", "#E07800"])
+    net_colors = (tokens.get("palette") or {}).get("text") or {}
+    power_col = net_colors.get("net_power", "#CC0000")
+    ground_col = net_colors.get("net_ground", "#0000CC")
+    signal_col = net_colors.get("net_signal", "#000000")
+    typo = tokens.get("typography") or {}
+
+    def _rgb(hex_str, fallback):
+        try:
+            v = hex_str.lstrip("#")
+            return (int(v[0:2], 16), int(v[2:4], 16), int(v[4:6], 16))
+        except (ValueError, IndexError):
+            return fallback
+
+    def net_color(net):
+        n = (net or "").upper()
+        if n in ("GND", "AGND", "DGND", "PGND") or "GND" in n:
+            return _rgb(ground_col, (0, 0, 204))
+        if n.startswith("+") or n in ("VBAT_RAW", "VBAT", "VSYS", "VIN", "VCC"):
+            return _rgb(power_col, (204, 0, 0))
+        return _rgb(signal_col, (0, 0, 0))
+
     def font(size):
         for p in (r"C:\Windows\Fonts\msyh.ttc", r"C:\Windows\Fonts\arial.ttf"):
             if pathlib.Path(p).is_file():
@@ -222,30 +261,42 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
 
     d.rectangle([px(minx, maxy), px(maxx, miny)], outline=THEME["sheet"], width=1)
 
-    # 模块框 + 标题（画在导线之下，避免挡住）
-    for m in modules:
+    # 模块框 + **色块标题**（基准图的视觉语言：大字号区名放在框角）
+    zone_font = font(max(13, min(18, int(typo.get("zone_title", {}).get("max", 16)))))
+    for bi, m in enumerate(modules):
         boxes = [parts[r] for r in m["refs"] if r in parts]
         if not boxes:
             continue
         r = expand(union(boxes), FRAME_PAD)
-        d.rectangle([px(r[0], r[3]), px(r[2], r[1])], outline=THEME["frame"], width=2)
-        label = (page_name + " · " if page_name else "") + m["title"]
-        d.text((px(r[0], r[3])[0] + 4, px(r[0], r[3])[1] + 2), label,
-               fill=THEME["title"], font=f_mid)
+        zc = _rgb(palette[bi % len(palette)], (0, 179, 179))
+        d.rectangle([px(r[0], r[3]), px(r[2], r[1])], outline=zc, width=2)
+        label = m["title"] or m.get("id") or ""
+        if not label:
+            continue
+        ax, ay = px(r[0], r[3])
+        tb = d.textbbox((0, 0), label, font=zone_font)
+        pad = 4
+        chip_w, chip_h = tb[2] - tb[0] + 2 * pad, tb[3] - tb[1] + 2 * pad
+        # **画在框外上方**：画在框内会压住器件（实测 C15 被盖住）
+        cy0 = ay - chip_h - 2
+        if cy0 < 26:                      # 顶到页头就翻到框内底线之上
+            cy0 = ay + 2
+        d.rectangle([ax, cy0, ax + chip_w, cy0 + chip_h], fill=zc)
+        d.text((ax + pad, cy0 + pad - 1), label, fill="white", font=zone_font)
 
     # 导线
     for pts, net in wires:
         if len(pts) < 2:
             continue
-        col = THEME["gnd"] if net.upper() == "GND" else THEME["wire"]
-        d.line([px(*p) for p in pts], fill=col, width=1)
+        d.line([px(*p) for p in pts], fill=net_color(net), width=1)
 
     # 器件本体 + 位号
     for ref, (x1, y1, x2, y2) in parts.items():
         d.rectangle([px(x1, y2), px(x2, y1)], outline=THEME["body_edge"],
                     width=2, fill=THEME["body"])
-        d.text((px(x1, y2)[0] + 2, px(x1, y2)[1] + 1), ref, fill=(15, 15, 15),
-               font=f_small)
+        # 位号画在本体**上方外侧**（基准图的做法），不压本体、不压引脚
+        tx, ty = px(x1, y2)
+        d.text((tx, ty - 13), ref, fill=(15, 15, 15), font=f_small)
 
     # 引脚
     for pts, _net in []:
@@ -255,7 +306,11 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         cxp, cyp = px(x, y)
         d.polygon([(cxp, cyp - 5), (cxp + 6, cyp), (cxp, cyp + 5), (cxp - 6, cyp)],
                   outline=THEME["flag"])
-        d.text((cxp + 8, cyp - 6), net[:9], fill=THEME["flag"], font=f_small)
+        # 网名**不截断**：+3V3 被切成 +3V 会误导。按可用宽度缩小字号。
+        net_font = f_small
+        if d.textlength(net, font=f_small) > 90:
+            net_font = font(9)
+        d.text((cxp + 8, cyp - 6), net, fill=THEME["flag"], font=net_font)
 
     # 页头：图纸名 + 质量结论
     head = "%s　·　%d 件 / %d 导线 / %d 网标　·　占用 %.0f%%　·　穿器件 %d　·　%s" % (
@@ -263,6 +318,41 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         q["utilization"] * 100, len(q["crossings"]),
         "可审查" if q["verdict"] == "pass" else "**有问题**")
     d.text((pad, 4), head, fill=(0, 0, 0), font=f_title)
+
+    # ── 图签（右下角）────────────────────────────────────────────
+    # 基准图的图签含：图名 / 版本 / 页 / 日期 / 作者。
+    # 这里只写**已知**信息；不知道的留空，不编造。
+    tb_w = int(min(w * 0.42, 520))
+    tb_h = 86
+    x0, y0 = w - tb_w - pad, h - tb_h - pad
+    d.rectangle([x0, y0, x0 + tb_w, y0 + tb_h], outline=(40, 40, 40), width=2)
+    rows = [
+        ("图名", page_name or "（未命名）"),
+        ("版本", str(doc.get("version") or "v1.0")),
+        ("页", "%d / %d" % (int(doc.get("pageIndex") or 1),
+                           int(doc.get("pageCount") or 1))),
+        ("日期", str(doc.get("date") or "")),
+        ("绘制", str(doc.get("author") or "")),
+    ]
+    rh = tb_h / len(rows)
+    key_w = 54
+    val_room = tb_w - key_w - 10
+
+    def fit(text, fnt):
+        """按可用宽度截断，超长用省略号 —— 不许画出框外。"""
+        t = str(text or "")
+        if d.textlength(t, font=fnt) <= val_room:
+            return t
+        while t and d.textlength(t + "…", font=fnt) > val_room:
+            t = t[:-1]
+        return (t + "…") if t else ""
+
+    for i, (k, v) in enumerate(rows):
+        yy = y0 + i * rh
+        d.line([x0, yy, x0 + tb_w, yy], fill=(120, 120, 120), width=1)
+        d.text((x0 + 6, yy + rh / 2 - 7), k, fill=(90, 90, 90), font=f_small)
+        d.text((x0 + key_w, yy + rh / 2 - 7), fit(v, f_small),
+               fill=(20, 20, 20), font=f_small)
 
     pathlib.Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path)
