@@ -186,6 +186,38 @@ def count_symbol_text_hits(symbols, texts, width, height, tb_rect=None):
     return hits
 
 
+def count_text_in_own_body(texts, part_boxes, width, height, tb_rect=None,
+                           designators=None):
+    """**位号**落在器件本体**内部**（压住自己的符号）。
+
+    只看位号：引脚名本来就画在符号里（PG/FB/VOUT…），那是标准画法。
+    """
+    gap = 1.0
+
+    def is_chrome(box):
+        if box[1] < 85 or box[1] > height - 26:
+            return True
+        if box[0] > width - 22 or box[2] < 22:
+            return True
+        if tb_rect and not (box[2] < tb_rect[0] or box[0] > tb_rect[2]
+                            or box[3] < tb_rect[1] or box[1] > tb_rect[3]):
+            return True
+        return False
+
+    hits = []
+    for t, tb in texts:
+        if tb[2] <= tb[0] or tb[3] <= tb[1] or is_chrome(tb):
+            continue
+        if designators is not None and t not in designators:
+            continue
+        for (px0, py0, px1, py1) in part_boxes:
+            if (tb[0] > px0 + gap and tb[2] < px1 - gap
+                    and tb[1] > py0 + gap and tb[3] < py1 - gap):
+                hits.append({"text": t})
+                break
+    return hits
+
+
 class _RecordingDraw:
     """代理 ImageDraw：记录每次 text() 的框，供"文字相压"检查用。"""
 
@@ -718,7 +750,10 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         for i in range(len(pts) - 1):
             wire_segs.append((px(*pts[i]), px(*pts[i + 1])))
     ref_boxes = []          # 已画位号框，供后续位号避让
+    body_px = []            # 器件本体像素框（判"文字落在自己体内"）
     for ref, box in parts.items():
+        body_px.append((px(box[0], box[3])[0], px(box[0], box[3])[1],
+                        px(box[2], box[1])[0], px(box[2], box[1])[1]))
         draw_symbol(d, px, ref, box, pins_of.get(ref) or [], f_tiny, f_small,
                     THEME["body_edge"], THEME["body"], avoid=flag_boxes)
         # 位号画在本体**上方外侧**（基准图的做法），不压本体、不压引脚
@@ -915,7 +950,9 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     wire_hits = count_wire_text_hits(getattr(d, "texts", []), segs, w, h, tb_px)
     sym_hits = count_symbol_text_hits(symbol_boxes, getattr(d, "texts", []),
                                       w, h, tb_px)
-    return str(out_path), overlaps, wire_hits, sym_hits
+    own_hits = count_text_in_own_body(getattr(d, "texts", []), body_px, w, h, tb_px,
+                                      designators=set(parts.keys()))
+    return str(out_path), overlaps, wire_hits, sym_hits, own_hits
 
 
 def main() -> int:
@@ -942,7 +979,7 @@ def main() -> int:
             (modules[0].get("id") if modules else stem))
 
         q = quality(parts, wires, sheet)
-        png, txt_overlaps, wire_hits, sym_hits = render(doc, parts, wires, flags, modules, page_name,
+        png, txt_overlaps, wire_hits, sym_hits, own_hits = render(doc, parts, wires, flags, modules, page_name,
                      out / ("%s.png" % safe_name(page_name)), q)
         fr = frames_doc(doc, modules, parts, page_name)
         fr_path = out / ("frames-%s.json" % safe_name(page_name))
@@ -953,8 +990,13 @@ def main() -> int:
         q["textOverlaps"] = txt_overlaps
         q["wireTextHits"] = wire_hits
         q["symbolTextHits"] = sym_hits
+        q["textInOwnBody"] = own_hits
         if txt_overlaps:
             q["problems"].append("文字相压 %d 处" % len(txt_overlaps))
+            q["verdict"] = "fail"
+        if own_hits:
+            q["problems"].append("文字落在自己本体内 %d 处"
+                                 % len(own_hits))
             q["verdict"] = "fail"
         if sym_hits:
             q["problems"].append("符号贴近文字 %d 处" % len(sym_hits))
