@@ -184,6 +184,58 @@ def quality(parts, wires, sheet):
 
 
 # ── 框数据（给 sch frame apply）──────────────────────────────────────
+TB_SCALE = 1.6        # 图签尺寸换算用的名义比例（只影响纸内的相对大小）
+TB_MAX_W = 520        # 图签最大宽度（像素，与绘制端一致）
+
+
+def title_block_page(sheet):
+    """图签的**页面坐标**矩形。只依赖页面，导出端与绘制端共用，避免两边不一致。"""
+    if not sheet:
+        return (0.0, 0.0, 0.0, 0.0)
+    sx0, sy0, sx1, sy1 = (sheet["minX"], sheet["minY"], sheet["maxX"], sheet["maxY"])
+    tbw = min((sx1 - sx0) * 0.42, TB_MAX_W / TB_SCALE)
+    tbh = 86.0 / TB_SCALE
+    inset = 6.0 / TB_SCALE
+    ruler = 22.0 / TB_SCALE
+    return (sx1 - tbw - inset, sy0 + ruler, sx1 - inset, sy0 + ruler + tbh)
+
+
+def zone_rect(doc, content, tb_page, scale):
+    """分区框：铺满可用区（受 tokens 80% 上限），并**避开图签**。
+
+    `frames_doc` 与 `render` 必须共用这一个算法 —— 算两遍就会出现
+    "画出来的框"和"导出的框"不一致（#91 踩过）。
+    """
+    r = content
+    sheet = doc.get("sheet") or {}
+    if not sheet:
+        return r
+    pg = (sheet["minX"], sheet["minY"], sheet["maxX"], sheet["maxY"])
+    pa = max(1e-9, (pg[2] - pg[0]) * (pg[3] - pg[1]))
+
+    def ratio(b):
+        return max(0.0, (b[2] - b[0]) * (b[3] - b[1])) / pa
+
+    if ratio(content) >= ZONE_AREA_MIN:
+        return r
+    r = expand(pg, -PAGE_MARGIN_RAW)
+    # 框会压住图签 → 把下沿抬到图签上方（tokens 把框压图签算违规）
+    if (r[0] < tb_page[2] and tb_page[0] < r[2]
+            and r[1] < tb_page[3] and tb_page[1] < r[3]):
+        r = (r[0], max(r[1], tb_page[3] + 6.0 / scale), r[2], r[3])
+    t = 0
+    while t < 40:
+        if ratio(r) <= ZONE_AREA_MAX:
+            break
+        n = expand(r, -6.0)
+        if (n[0] > content[0] or n[1] > content[1]
+                or n[2] < content[2] or n[3] < content[3]):
+            break
+        r = n
+        t += 1
+    return r
+
+
 def frames_doc(doc, modules, parts, page_name, color="#AA00AA"):
     frames = []
     for m in modules:
@@ -191,28 +243,8 @@ def frames_doc(doc, modules, parts, page_name, color="#AA00AA"):
         if not boxes:
             continue
         content = expand(union(boxes), FRAME_PAD)
-        # 分区框取**可用区**（页面减页边距），受 tokens 的 80% 上限约束。
-        # 只按器件包围盒外扩时，小电路的分区只占页面 5.5%，
-        # 违反 style-tokens.layout.zone_area_ratio（要求 25%~80%）。
-        r = content
-        _sheet = doc.get("sheet") or {}
-        if _sheet:
-            _pg = (_sheet["minX"], _sheet["minY"], _sheet["maxX"], _sheet["maxY"])
-            _pa = max(1e-9, (_pg[2] - _pg[0]) * (_pg[3] - _pg[1]))
-            if (max(0.0, (content[2] - content[0]) * (content[3] - content[1]))
-                    / _pa) < ZONE_AREA_MIN:
-                r = expand(_pg, -PAGE_MARGIN_RAW)
-                _t = 0
-                while _t < 40:
-                    _a = max(0.0, (r[2] - r[0]) * (r[3] - r[1])) / _pa
-                    if _a <= ZONE_AREA_MAX:
-                        break
-                    _n = expand(r, -6.0)
-                    if (_n[0] > content[0] or _n[1] > content[1]
-                            or _n[2] < content[2] or _n[3] < content[3]):
-                        break
-                    r = _n
-                    _t += 1
+        r = zone_rect(doc, content, title_block_page(doc.get("sheet")),
+                      TB_SCALE)
         frames.append({
             "id": m["id"],
             "title": page_name and ("%s · %s" % (page_name, m["title"])) or m["title"],
@@ -456,6 +488,15 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             d.text((px(maxx, y0)[0] - 14, cy0 - 6), letter, fill=(120, 120, 128),
                    font=f_small)
 
+    # 图签的**页面坐标**矩形：右下角，让开底部标尺带。
+    # 先算好，供分区框避让（框压住图签正是 tokens 要拦的情况）。
+    # 图签矩形**只由页面决定**（与导出端共用同一函数），
+    # 用像素/scale 反推会让两边算出不同的框。
+    tb_page = title_block_page({"minX": minx, "minY": miny,
+                                "maxX": maxx, "maxY": maxy})
+    _tb_w_px = int((tb_page[2] - tb_page[0]) * scale)
+    _tb_h_px = int((tb_page[3] - tb_page[1]) * scale)
+
     # 模块框 + **色块标题**（基准图的视觉语言：大字号区名放在框角）
     zone_font = font(max(13, min(18, int(typo.get("zone_title", {}).get("max", 16)))))
     for bi, m in enumerate(modules):
@@ -474,6 +515,11 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             if (max(0.0, (content[2] - content[0]) * (content[3] - content[1]))
                     / _pa) < ZONE_AREA_MIN:
                 r = expand(_pg, -PAGE_MARGIN_RAW)
+                # 框会压住图签 → 把下沿抬到图签上方
+                if (r[0] < tb_page[2] and tb_page[0] < r[2]
+                        and r[1] < tb_page[3] and tb_page[1] < r[3]):
+                    r = (r[0], max(r[1], tb_page[3] + 6.0 / scale),
+                         r[2], r[3])
                 _t = 0
                 while _t < 40:
                     _a = max(0.0, (r[2] - r[0]) * (r[3] - r[1])) / _pa
@@ -585,11 +631,12 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     # ── 图签（右下角）────────────────────────────────────────────
     # 基准图的图签含：图名 / 版本 / 页 / 日期 / 作者。
     # 这里只写**已知**信息；不知道的留空，不编造。
-    tb_w = int(min(w * 0.42, 520))
-    tb_h = 86
+    # 用**页面坐标**落图（原来按图像右下角定位，图纸有内边距时图签会跑到纸外）
+    tb_w, tb_h = _tb_w_px, _tb_h_px
     # 底部有标尺带，图签要让开它（实测压住过 8/9/10/11 这些数字）
     ruler_band = 22
-    x0, y0 = w - tb_w - pad, h - tb_h - pad - ruler_band
+    x0, y0 = px(tb_page[0], tb_page[3])
+    x0, y0 = int(x0), int(y0)
     d.rectangle([x0, y0, x0 + tb_w, y0 + tb_h], outline=(40, 40, 40), width=2)
     rows = [
         ("图名", page_name or "（未命名）"),

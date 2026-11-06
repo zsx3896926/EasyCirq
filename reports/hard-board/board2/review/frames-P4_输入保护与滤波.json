@@ -6,13 +6,13 @@
       "id": "M4",
       "title": "P4_输入保护与滤波 · 5V → 升压轨（SY7088）",
       "rect": {
-        "minX": 37.7,
-        "minY": 37.7,
-        "maxX": 803.3,
-        "maxY": 556.3
+        "minX": 25.7,
+        "minY": 77.25,
+        "maxX": 815.3,
+        "maxY": 568.3
       },
-      "titleX": 41.7,
-      "titleY": 552.3,
+      "titleX": 29.7,
+      "titleY": 564.3,
       "fontSize": 20,
       "color": "#AA00AA",
       "lineType": 1
