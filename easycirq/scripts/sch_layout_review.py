@@ -296,12 +296,15 @@ def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
                 qx, qy = q["x"], q["y"]
                 tx = min(max(qx, x1), x2)
                 ty = min(max(qy, y1), y2)
-                ix = tx + (3.0 if tx <= cx else -3.0)
-                iy = ty + (3.0 if ty <= cy else -3.0)
+                # 引脚名/号**对齐成列**：名字贴固定内缩列，号贴固定外偏列，
+                # 不随引脚 jitter（否则一列字看起来是歪的）
+                inset = 3.0
+                ix = x1 + inset if side == "L" else (x2 - inset if side == "R" else tx)
+                iy = y1 + inset if side == "B" else (y2 - inset if side == "T" else ty)
                 gx, gy = px(ix, iy)
                 if show_name and q["name"]:
                     tw = d.textlength(q["name"], font=f_tiny)
-                    d.text((gx - (tw if ix > cx else 0), gy - 6), q["name"],
+                    d.text((gx if side == "L" else gx - tw, gy - 6), q["name"],
                            fill=(70, 70, 80), font=f_tiny)
                 if q["number"]:
                     ox, oy = px(qx, qy)
@@ -365,7 +368,54 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         # EasyEDA 原理图是 y-UP，图片是 y-DOWN → 翻转
         return (pad + (x - minx) * scale, pad + 26 + (maxy - y) * scale)
 
-    d.rectangle([px(minx, maxy), px(maxx, miny)], outline=THEME["sheet"], width=1)
+    # ── 网格底纹：每 10 raw 一条，浅到不影响读图 ────────────────────
+    grid_raw = float(((tokens.get("sheet") or {}).get("grid_mil") or 10))
+    if grid_raw <= 0:
+        grid_raw = 10.0
+    grid_col = (238, 240, 243)
+    gx = minx
+    while gx <= maxx + 1e-6:
+        d.line([px(gx, miny), px(gx, maxy)], fill=grid_col, width=1)
+        gx += grid_raw
+    gy = miny
+    while gy <= maxy + 1e-6:
+        d.line([px(minx, gy), px(maxx, gy)], fill=grid_col, width=1)
+        gy += grid_raw
+
+    # ── 图纸边框 + 行列标尺（A/B/C… 与 1/2/3…）──────────────────────
+    d.rectangle([px(minx, maxy), px(maxx, miny)], outline=(150, 150, 155), width=2)
+    sheet_w = maxx - minx
+    sheet_h = maxy - miny
+    cells_x = max(1, int(sheet_w // 50))
+    cells_y = max(1, int(sheet_h // 50))
+    # 图签水平范围（与下方图签公式保持一致，供标尺避让）
+    tb_left = w - int(min(w * 0.42, 520)) - pad
+    tb_right = w - pad
+    for i in range(cells_x):
+        x0 = minx + sheet_w * i / cells_x
+        x1 = minx + sheet_w * (i + 1) / cells_x
+        d.line([px(x0, miny), px(x0, maxy)], fill=(190, 190, 195), width=1)
+        cx0 = px((x0 + x1) / 2, maxy)[0]
+        d.text((cx0 - 3, px(x0, maxy)[1] + 3), str(i + 1), fill=(120, 120, 128),
+               font=f_small)
+        # 图签会盖住右下角一段底部标尺 —— 落在它范围内的数字直接不画，
+        # 免得和表头文字叠在一起
+        if not (tb_left <= cx0 <= tb_right):
+            d.text((cx0 - 3, px(x0, miny)[1] - 16), str(i + 1),
+                   fill=(120, 120, 128), font=f_small)
+    for j in range(cells_y):
+        y0 = miny + sheet_h * j / cells_y
+        y1 = miny + sheet_h * (j + 1) / cells_y
+        d.line([px(minx, y0), px(maxx, y0)], fill=(190, 190, 195), width=1)
+        cy0 = px(minx, (y0 + y1) / 2)[1]
+        letter = chr(ord("A") + j % 26)
+        d.text((px(minx, y0)[0] + 4, cy0 - 6), letter, fill=(120, 120, 128),
+               font=f_small)
+        # 右侧行标若落在图签纵向范围内就不画，免得压在表头上
+        tb_top = h - 86 - pad - 22
+        if cy0 < tb_top - 4:
+            d.text((px(maxx, y0)[0] - 14, cy0 - 6), letter, fill=(120, 120, 128),
+                   font=f_small)
 
     # 模块框 + **色块标题**（基准图的视觉语言：大字号区名放在框角）
     zone_font = font(max(13, min(18, int(typo.get("zone_title", {}).get("max", 16)))))
@@ -445,7 +495,9 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     # 这里只写**已知**信息；不知道的留空，不编造。
     tb_w = int(min(w * 0.42, 520))
     tb_h = 86
-    x0, y0 = w - tb_w - pad, h - tb_h - pad
+    # 底部有标尺带，图签要让开它（实测压住过 8/9/10/11 这些数字）
+    ruler_band = 22
+    x0, y0 = w - tb_w - pad, h - tb_h - pad - ruler_band
     d.rectangle([x0, y0, x0 + tb_w, y0 + tb_h], outline=(40, 40, 40), width=2)
     rows = [
         ("图名", page_name or "（未命名）"),

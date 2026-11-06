@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "documentId": "a223803d1fb015ce",
+  "frames": [
+    {
+      "id": "M4",
+      "title": "P4 · 5V → 升压轨（SY7088）",
+      "rect": {
+        "minX": 177.0,
+        "minY": 127.0,
+        "maxX": 668.0,
+        "maxY": 423.0
+      },
+      "titleX": 181.0,
+      "titleY": 419.0,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    }
+  ]
+}
