@@ -47,8 +47,19 @@ def test_covers_every_objective_criterion(text):
 
 
 def test_uses_real_criterion_ids(text):
-    """ID 写错会导致整行显示 `—`（踩过：三个 ID 猜错）。"""
-    assert "| — |" not in text, "有判据没匹配上 ID（checkid 写错了）"
+    """ID 写错会导致整行显示 `—`（踩过：三个 ID 猜错）。
+
+    只看**有判据**的模块（M3/M4/M5）。M1/M2 现在是 REFUSED、无任何判据，
+    整列 `—` 是**正确**的，不能因此判失败。
+    """
+    rows = [l for l in text.splitlines()
+            if l.startswith("|") and "✅" in l]
+    assert rows, "表里没有任何通过的判据行"
+    for line in rows:
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        for i, mod in ((3, "M3"), (4, "M4"), (5, "M5")):
+            if i < len(cells):
+                assert cells[i] != "—", "%s 的 %s 没匹配上 ID" % (mod, cells[0])
 
 
 def test_reports_direct_checker_output(text):
