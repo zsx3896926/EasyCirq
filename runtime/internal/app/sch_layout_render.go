@@ -237,6 +237,10 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		for _, c := range z.Layout.Placements {
 			r := c.BBox
 			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="white" stroke="#34445b" stroke-width="0.8"/>`, X(r.MinX), Y(r.MaxY), r.MaxX-r.MinX, r.MaxY-r.MinY)
+			// 位号画在本体左上角上方（与基准图和既有验收口径一致）。
+			// **不要**为了躲导线把它挪到下方：实测会掉出模块框，
+			// 变成 frame_border_crosses_object（打地鼠）。导线穿位号属布局层，
+			// 记在 friction #69，未在此处绕开。
 			text(X(r.MinX), Y(r.MaxY)-4, 7, "#24344a", c.Designator, "start")
 			text(X(r.MinX), Y(r.MinY)+9, 5, "#546579", c.Value, "start")
 			// 引脚标签去重：字号 4.5、间距常常只有 5 raw，无条件画必然互压

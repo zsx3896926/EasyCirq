@@ -15,7 +15,56 @@ type libMeasuredStem struct {
 // validateLibGeometry validates an incomplete local placement/routing candidate.
 // Unlike the final composition net gate, it does not require every pin to have
 // reached its final named tree yet.
+// libLabelBoxesOverlap 判断两个矩形的内部是否相交（相接不算，留 0.5 raw 余量）。
+func libLabelBoxesOverlap(a, b layoutBBox) bool {
+	return a.MinX+0.5 < b.MaxX && b.MinX+0.5 < a.MaxX &&
+		a.MinY+0.5 < b.MaxY && b.MinY+0.5 < a.MaxY
+}
+
+// libValidateLabelReservations 校验**位号预留区**互不冲突。
+//
+// 只在器件带了 TextBBoxes 时才查（没给就一条都不查，默认行为不变）。
+// 为什么需要：摆放原本只避让本体，于是两个器件可以贴到"位号压位号"，
+// 渲染阶段报 `component label reservation collision`。
+func libValidateLabelReservations(p *powerLayoutPlan) error {
+	boxes := make([][]layoutBBox, len(p.Placements))
+	any := false
+	for i, c := range p.Placements {
+		boxes[i] = c.TextBBoxes
+		if len(c.TextBBoxes) > 0 {
+			any = true
+		}
+	}
+	if !any {
+		return nil
+	}
+	for i, c := range p.Placements {
+		for j := i + 1; j < len(p.Placements); j++ {
+			other := p.Placements[j]
+			for _, a := range boxes[i] {
+				for _, b := range boxes[j] {
+					if libLabelBoxesOverlap(a, b) {
+						return schObstruction("label-reservation",
+							fmt.Errorf("label reservation of %s overlaps %s", c.Designator, other.Designator),
+							c.Designator, other.Designator)
+					}
+				}
+				// 位号预留区也不许压到别人的本体
+				if libLabelBoxesOverlap(a, other.BBox) {
+					return schObstruction("label-reservation",
+						fmt.Errorf("label reservation of %s overlaps %s body", c.Designator, other.Designator),
+						c.Designator, other.Designator)
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func validateLibGeometry(p *powerLayoutPlan) error {
+	if err := libValidateLabelReservations(p); err != nil {
+		return err
+	}
 	if err := validatePowerLayout(p, layoutBBox{-math.MaxFloat64, -math.MaxFloat64, math.MaxFloat64, math.MaxFloat64}); err != nil {
 		return err
 	}
