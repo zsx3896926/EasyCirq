@@ -131,6 +131,35 @@ def extract(doc):
 
 
 # ── 质量判据 ──────────────────────────────────────────────────────────
+def count_wire_text_hits(texts, segments, width, height, tb_rect=None):
+    """导线穿过文字：与 SVG 侧 `wire_enters_bbox` 同口径。"""
+    def is_chrome(box):
+        if box[1] < 85 or box[1] > height - 26:
+            return True
+        if box[0] > width - 22 or box[2] < 22:
+            return True
+        if tb_rect and not (box[2] < tb_rect[0] or box[0] > tb_rect[2]
+                            or box[3] < tb_rect[1] or box[1] > tb_rect[3]):
+            return True
+        return False
+
+    hits = []
+    for t, box in texts:
+        if box[2] <= box[0] or box[3] <= box[1] or is_chrome(box):
+            continue
+        for (ax, ay), (bx, by) in segments:
+            # 只判正交段（本项目导线全是水平/垂直）
+            if abs(ax - bx) < 1e-9:
+                if box[0] < ax < box[2] and max(ay, by) > box[1] and min(ay, by) < box[3]:
+                    hits.append({"text": t, "x": round(ax, 1)})
+                    break
+            elif abs(ay - by) < 1e-9:
+                if box[1] < ay < box[3] and max(ax, bx) > box[0] and min(ax, bx) < box[2]:
+                    hits.append({"text": t, "y": round(ay, 1)})
+                    break
+    return hits
+
+
 class _RecordingDraw:
     """代理 ImageDraw：记录每次 text() 的框，供"文字相压"检查用。"""
 
@@ -652,6 +681,13 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             tw = 8 * len(fnet)
         flag_boxes.append((cxp + 8, cyp - 6, cxp + 8 + tw, cyp + 4))
         flag_boxes.append((cxp - 8 - tw, cyp - 6, cxp - 8, cyp + 4))
+    # 导线段（像素坐标）：位号搜索要避开它们，否则会出现"导线穿过文字"
+    wire_segs = []
+    for pts, _net in wires:
+        if len(pts) < 2:
+            continue
+        for i in range(len(pts) - 1):
+            wire_segs.append((px(*pts[i]), px(*pts[i + 1])))
     ref_boxes = []          # 已画位号框，供后续位号避让
     for ref, box in parts.items():
         draw_symbol(d, px, ref, box, pins_of.get(ref) or [], f_tiny, f_small,
@@ -679,9 +715,23 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         for cx, cy in cand:
             # 判据要**留间距**（与门禁同一口径），否则会挑到贴边的位置
             bx = (cx, cy, cx + tw_ref, cy + 10)
-            if not any(bx[0] - TEXT_MIN_GAP < ob[2] and ob[0] - TEXT_MIN_GAP < bx[2]
-                       and bx[1] - TEXT_MIN_GAP < ob[3]
-                       and ob[1] - TEXT_MIN_GAP < bx[3] for ob in blockers):
+            bad = any(bx[0] - TEXT_MIN_GAP < ob[2] and ob[0] - TEXT_MIN_GAP < bx[2]
+                      and bx[1] - TEXT_MIN_GAP < ob[3]
+                      and ob[1] - TEXT_MIN_GAP < bx[3] for ob in blockers)
+            if not bad:
+                # 导线穿过位号框也算冲突（与 PNG 判据同口径）
+                for (ax, ay), (bx2, by2) in wire_segs:
+                    if (abs(ax - bx2) < 1e-9
+                            and bx[0] < ax < bx[2] and max(ay, by2) > bx[1]
+                            and min(ay, by2) < bx[3]):
+                        bad = True
+                        break
+                    if (abs(ay - by2) < 1e-9
+                            and bx[1] < ay < bx[3] and max(ax, bx2) > bx[0]
+                            and min(ax, bx2) < bx[2]):
+                        bad = True
+                        break
+            if not bad:
                 chosen = (cx, cy)
                 break
         d.text(chosen, ref, fill=(15, 15, 15), font=f_small)
@@ -726,10 +776,37 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         # 文字颜色跟**网络类别**（tokens：地蓝 / 电源红 / 信号黑）。
         # 原来用 THEME["flag"] 紫色，与旗标符号的 net_color() 是两套，语义丢了。
         label_fill = _net_text_color(net)
-        if to_left:
-            d.text((cxp - 8 - tw, cyp - 6), net, fill=label_fill, font=net_font)
-        else:
-            d.text((cxp + 8, cyp - 6), net, fill=label_fill, font=net_font)
+        # 四向候选：右 / 左 / 上 / 下。选第一个**不压导线、不压其它文字**的。
+        # 原来按"背离器件中心"固定一侧，导线走向没被考虑 ——
+        # 实测 PNG 门禁报 `+5V`、`GND` 被导线穿过。
+        cand_xy = ([(cxp - 8 - tw, cyp - 6), (cxp + 8, cyp - 6)]
+                   if to_left else
+                   [(cxp + 8, cyp - 6), (cxp - 8 - tw, cyp - 6)])
+        cand_xy += [(cxp - tw / 2, cyp - 16), (cxp - tw / 2, cyp + 8),
+                    (cxp - tw / 2, cyp - 28), (cxp - tw / 2, cyp + 20),
+                    (cxp + 16, cyp - 6), (cxp - 16 - tw, cyp - 6)]
+        blockers = list(flag_boxes) + list(ref_boxes)
+        chosen = cand_xy[0]
+        for (lx, ly) in cand_xy:
+            bx = (lx, ly, lx + tw, ly + 10)
+            bad = any(bx[0] - TEXT_MIN_GAP < ob[2] and ob[0] - TEXT_MIN_GAP < bx[2]
+                      and bx[1] - TEXT_MIN_GAP < ob[3]
+                      and ob[1] - TEXT_MIN_GAP < bx[3] for ob in blockers)
+            if not bad:
+                for (ax, ay), (bx2, by2) in wire_segs:
+                    if (abs(ax - bx2) < 1e-9 and bx[0] < ax < bx[2]
+                            and max(ay, by2) > bx[1] and min(ay, by2) < bx[3]):
+                        bad = True
+                        break
+                    if (abs(ay - by2) < 1e-9 and bx[1] < ay < bx[3]
+                            and max(ax, bx2) > bx[0] and min(ax, bx2) < bx[2]):
+                        bad = True
+                        break
+            if not bad:
+                chosen = (lx, ly)
+                break
+        d.text(chosen, net, fill=label_fill, font=net_font)
+        flag_boxes.append((chosen[0], chosen[1], chosen[0] + tw, chosen[1] + 10))
 
     # 页头：图纸名 + 质量结论
     head = "%s　·　%d 件 / %d 导线 / %d 网标　·　占用 %.0f%%　·　穿器件 %d　·　%s" % (
@@ -783,7 +860,15 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     tb_px = (px(tb_page[0], tb_page[3])[0], px(tb_page[0], tb_page[3])[1],
              px(tb_page[2], tb_page[1])[0], px(tb_page[2], tb_page[1])[1])
     overlaps = count_text_overlaps(getattr(d, "texts", []), w, h, tb_px)
-    return str(out_path), overlaps
+    # **导线穿过文字**：与 SVG 侧的 wire_enters_bbox 同口径。
+    segs = []
+    for pts, _net in wires:
+        if len(pts) < 2:
+            continue
+        for i in range(len(pts) - 1):
+            segs.append((px(*pts[i]), px(*pts[i + 1])))
+    wire_hits = count_wire_text_hits(getattr(d, "texts", []), segs, w, h, tb_px)
+    return str(out_path), overlaps, wire_hits
 
 
 def main() -> int:
@@ -810,7 +895,7 @@ def main() -> int:
             (modules[0].get("id") if modules else stem))
 
         q = quality(parts, wires, sheet)
-        png, txt_overlaps = render(doc, parts, wires, flags, modules, page_name,
+        png, txt_overlaps, wire_hits = render(doc, parts, wires, flags, modules, page_name,
                      out / ("%s.png" % page_name.replace("/", "_")), q)
         fr = frames_doc(doc, modules, parts, page_name)
         fr_path = out / ("frames-%s.json" % page_name.replace("/", "_"))
@@ -819,8 +904,14 @@ def main() -> int:
 
         # 文字相压并入质量结论：**这是把"放大才看见"的问题变成自动判据**
         q["textOverlaps"] = txt_overlaps
+        q["wireTextHits"] = wire_hits
         if txt_overlaps:
             q["problems"].append("文字相压 %d 处" % len(txt_overlaps))
+            q["verdict"] = "fail"
+        if wire_hits:
+            q["problems"].append("导线穿过文字 %d 处：%s"
+                                 % (len(wire_hits),
+                                    [h["text"][:12] for h in wire_hits[:5]]))
             q["verdict"] = "fail"
 
         results.append({
