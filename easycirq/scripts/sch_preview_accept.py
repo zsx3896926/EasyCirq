@@ -185,8 +185,10 @@ def main() -> int:
             line = "  " + title.ljust(28)
             for r in rows:
                 c = next(x for x in r["criteria"] if x["id"] == cid)
-                line += "%-6s" % ("PASS" if c["status"] == "PASS"
-                                  else ("FAIL" if c["status"] == "FAIL" else "N/R"))
+                st = c["status"]
+                line += "%-6s" % ("PASS" if st == "PASS"
+                                  else ("FAIL" if st == "FAIL"
+                                        else ("N/A" if st == "N/A" else "N/R")))
             print(line)
         print()
         for r in results:
@@ -197,9 +199,10 @@ def main() -> int:
             p = sum(1 for c in cs if c["status"] == "PASS")
             f = sum(1 for c in cs if c["status"] == "FAIL")
             n = sum(1 for c in cs if c["status"] == "NOT RUN")
+            na = sum(1 for c in cs if c["status"] == "N/A")
             fp = (r["knownFalsePositives"] or {}).get("count", 0)
-            print("  %-3s %-11s 通过 %d 失败 %d 缺证据 %d 已知误报 %d"
-                  % (r["module"], r["verdict"], p, f, n, fp))
+            print("  %-3s %-11s 通过 %d 失败 %d 缺证据 %d 不适用 %d 已知误报 %d"
+                  % (r["module"], r["verdict"], p, f, n, na, fp))
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
     return 0 if all(r.get("verdict") == "PASS" for r in results) else 1

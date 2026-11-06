@@ -58,14 +58,12 @@
     {
       "id": "E_label_anchor",
       "title": "标签落在真实端点、朝向一致",
-      "status": "NOT RUN",
+      "status": "N/A",
       "count": 0,
-      "needs": [
-        "easycirq sch read --page <P>（取 visible_text 与 junction）"
-      ],
+      "needs": [],
       "samples": [],
       "detail": [
-        "标签锚点覆盖为 0"
+        "本图没有 netport/netlabel 图元（只有电源/地符号与网标），该判据无对象可测"
       ]
     },
     {
@@ -103,14 +101,12 @@
     {
       "id": "I_title_block",
       "title": "图签无重复文字",
-      "status": "NOT RUN",
+      "status": "N/A",
       "count": 0,
-      "needs": [
-        "easycirq sch sheet-geometry --from-svg page.svg"
-      ],
+      "needs": [],
       "samples": [],
       "detail": [
-        "覆盖缺口：title_block"
+        "本图未设置图签数据（排版稿不含 titleBlock / 渲染 SVG 不画图签），该判据无对象可测；若排版稿带上 titleBlock 会自动回到可测状态"
       ]
     },
     {

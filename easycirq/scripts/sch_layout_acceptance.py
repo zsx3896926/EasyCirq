@@ -70,6 +70,9 @@ CRITERIA = [
         "title": "标签落在真实端点、朝向一致",
         "codes": ["dangling_label", "label_net_mismatch",
                   "netflag_rotation_outlier"],
+        # 这条测的是 **netport / netlabel**（有真实锚点的端口标签）。
+        # 若图里只有电源/地符号与网标，就没有被测量的对象 → 不适用。
+        "requires_kind": ("netport", "netlabel"),
         "needs": ["easycirq sch read --page <P>（取 visible_text 与 junction）"],
     },
     {
@@ -93,6 +96,9 @@ CRITERIA = [
         "title": "图签无重复文字",
         "codes": ["title_block_duplicate_text"],
         "requires": ["title_block"],
+        # 排版稿不含 titleBlock 时，这条没有对象可测 → N/A（不是缺证据）
+        "na_when_missing": "本图未设置图签数据（排版稿不含 titleBlock / 渲染 SVG 不画图签），"
+                           "该判据无对象可测；若排版稿带上 titleBlock 会自动回到可测状态",
         "needs": ["easycirq sch sheet-geometry --from-svg page.svg"],
     },
     {
@@ -243,6 +249,9 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
         src = json.loads(pathlib.Path(strict_input).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         src = {}
+    kinds = {str(c.get("componentType") or "")
+             for c in (src.get("components") or [])}
+    kinds |= {str(c.get("kind") or "") for c in (src.get("components") or [])}
     if (src.get("title_block") or src.get("titleBlock")
             or (src.get("sheet") or {}).get("title_block")):
         data.setdefault("coverage", {})["_title_block"] = True
@@ -258,6 +267,15 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
 
     rows = []
     for c in CRITERIA:
+        # **先判"适不适用"**：判据要贴着被测量的东西。
+        # 必须放在最前面 —— 放到后面会被更早的分支截胡（实测踩过）。
+        kind_need = c.get("requires_kind")
+        if kind_need and not (set(kind_need) & kinds):
+            rows.append({"id": c["id"], "title": c["title"],
+                         "status": "N/A", "count": 0, "needs": [], "samples": [],
+                         "detail": ["本图没有 %s 图元（只有电源/地符号与网标），"
+                                    "该判据无对象可测" % "/".join(kind_need)]})
+            continue
         hits = []
         for code in c["codes"]:
             hits += by_code.get(code) or []
@@ -291,6 +309,13 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
                 # **没有数据不许判 PASS。** 缺覆盖就是没测，记 NOT RUN。
                 lacking = [k for k in (c.get("requires") or [])
                            if not _covered(k, coverage)]
+                na_reason = c.get("na_when_missing")
+                if lacking and na_reason and set(lacking) <= set(
+                        c.get("requires") or []):
+                    rows.append({"id": c["id"], "title": c["title"],
+                                 "status": "N/A", "count": 0, "needs": [],
+                                 "samples": [], "detail": [na_reason]})
+                    continue
                 if lacking:
                     rows.append({"id": c["id"], "title": c["title"],
                                  "status": "NOT RUN", "count": 0,
@@ -326,7 +351,7 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
 
 
 def render(report):
-    icon = {"PASS": "✅", "FAIL": "❌", "NOT RUN": "⛔"}
+    icon = {"PASS": "✅", "FAIL": "❌", "NOT RUN": "⛔", "N/A": "➖"}
     lines = ["  %-4s %-26s %-8s %s" % ("", "判据", "结论", "说明")]
     for r in report["criteria"]:
         note = ""

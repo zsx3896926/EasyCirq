@@ -29,9 +29,10 @@ def report(tmp_path_factory):
     return run(STRICT, tmp_path_factory.mktemp("acc"))
 
 
-def test_criteria_have_three_states(report):
+def test_criteria_have_four_states(report):
+    """PASS / FAIL / NOT RUN / N/A —— "不适用"与"缺证据"必须分开。"""
     for c in report["criteria"]:
-        assert c["status"] in ("PASS", "FAIL", "NOT RUN"), c
+        assert c["status"] in ("PASS", "FAIL", "NOT RUN", "N/A"), c
 
 
 def test_missing_evidence_is_not_pass(report):
@@ -45,10 +46,16 @@ def test_missing_evidence_is_not_pass(report):
         assert c["status"] == "NOT RUN", "%s 缺证据却判成 %s" % (cid, c["status"])
 
 
-def test_title_block_requires_data(report):
-    """没有图签数据 → NOT RUN，不许 PASS。"""
+def test_title_block_never_passes_without_data(report):
+    """没有图签数据时**不许判 PASS**；结论是 N/A（无对象可测），并写明理由。
+
+    早先记 NOT RUN，会误导成"补点证据就行"；实际是排版稿不含 titleBlock。
+    但底线不变：**没有数据就是不能 PASS**。
+    """
     c = next(x for x in report["criteria"] if x["id"] == "I_title_block")
-    assert c["status"] == "NOT RUN", c
+    assert c["status"] in ("NOT RUN", "N/A"), c
+    assert c["status"] != "PASS"
+    assert c.get("detail"), "必须写明为什么"
 
 
 def test_not_run_entries_carry_next_command(report):
