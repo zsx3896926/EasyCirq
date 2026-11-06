@@ -1,0 +1,18 @@
+{
+  "status": "incomplete",
+  "measured_count": 24,
+  "findings": [],
+  "missing_classes": [
+    "values",
+    "pin_names",
+    "wire_names",
+    "title_block"
+  ],
+  "unmeasured": [],
+  "coverage_complete": false,
+  "visual_verified": false,
+  "electrical_verified": false,
+  "scope": "text-text only; inspect official full-page and local exports separately",
+  "source_sha256": "a5ea3660636e30d5208110888a3482c18982889368d4a73323c58ebfad26ae55",
+  "exit_code": 2
+}

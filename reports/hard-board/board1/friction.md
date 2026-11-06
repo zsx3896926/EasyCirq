@@ -3053,3 +3053,64 @@ D1/D2 是二极管；L1 是电感；J1/J2 是连接器；+5V 是横杠、GND 是
 | 晶振/三极管/运放专用符号 | 统一方框 |
 | 引脚名成整齐两列（密集处）| 已对齐到列，密集时仍挤 |
 | 图签日期/作者/版本来源 | 空着（不编造）|
+
+
+---
+
+## #67 目标点名的 `sch_text_audit --strict`，我前 8 轮一次都没跑
+
+目标写得很清楚：「以 `sch_layout_check --strict`、**`sch_text_audit --strict`**、
+分区阅读顺序…为基准」。8 轮里我只跑了第一个。本轮把第二个接进链路。
+
+### 打通输入（格式错会得到 invalid_input，不是结论）
+
+`sch_text_audit.py` 要的是 `{result:{count,items,unmeasured,coverage}}`，
+而 `svg_text_bbox.py` 给的是 `{count,rows,viewBox}`。新增
+`sch_preview_textaudit.py` 做转换，三个格式细节是读源码 + 试错得出的：
+
+| 字段 | 要求 | 我踩的坑 |
+|---|---|---|
+| `count` | 必须等于 items 长度 | — |
+| `unmeasured` | **必须是数组**（逐条列出没测到框的文字）| 一开始给了数字 → `invalid_input` |
+| `coverage` | 放在 `result` 里，按 `TEXT_CLASSES` 名标 true | 一开始放在顶层 |
+
+### 真实结果（五块）
+
+| 模块 | status | 实测 | 缺陷 | 缺类别 | 覆盖完整 |
+|---|---|---|---|---|---|
+| **M1** | findings | 85 | **6** | 4 | ❌ |
+| **M2** | findings | 30 | **5** | 4 | ❌ |
+| M3 | incomplete | 24 | 0 | 4 | ❌ |
+| M4 | incomplete | 37 | 0 | 4 | ❌ |
+| M5 | incomplete | 29 | 0 | 4 | ❌ |
+
+缺陷都是 `text_overlap` / `text_tight` —— 两段文字互相压 1–4 raw，
+多数是**相邻的引脚号/引脚名**（例：`[367.5,194.5,371.5,199.5]` 与
+`[365,194.5,368.5,199.5]`）。
+
+### 根因与归属
+
+这些文字是 **`layout-render`（Go 渲染器）** 画的，落点由它的固定偏移决定 ——
+不是我的 PNG 预览（我的预览是另一套画法）。所以：
+
+> **文字重叠是渲染器的问题，修法在 Go 侧，不是调我的 Python 画笔。**
+
+### `coverage_complete: false` 是**如实**结果
+
+我只测到渲染器画出的自由文字/位号/网名；`values`、`pin_names`、
+`wire_names`、`title_block` 四个类别**没有采集**，所以一律标 `false`，
+不写 true 冒充已覆盖。审计自己也返回 `visual_verified: false`、
+`electrical_verified: false`。
+
+### 4 条测试
+
+`unmeasured` 必须是数组、`count` 与 items 一致、**没采集的类别不许标 true**、
+真实审计能出结论且不声称视觉/电气已验证。
+
+### 更新后的判据总账
+
+| 判据 | 工具 | 状态 |
+|---|---|---|
+| 几何/越框/框切件/网名重复/阅读顺序 | `sch_layout_check --strict` | ✅ 已跑 |
+| **文字互压** | **`sch_text_audit --strict`** | ✅ **已跑**（M1 6 / M2 5，其余 0）|
+| 标签端点 / 交叉无结点 / 图签 | — | ⛔ 需宿主证据 |
