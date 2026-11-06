@@ -3182,6 +3182,12 @@
       "maxY": 1494
     },
     "keepouts": [],
+    "titleBlock": {
+      "minX": 637.0,
+      "minY": 14,
+      "maxX": 827,
+      "maxY": 90.0
+    },
     "padding": 10.0,
     "gap": 10.0
   }

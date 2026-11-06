@@ -73,7 +73,67 @@
  ],
  "texts": [
   {
+   "id": "svgtext-3",
+   "bbox": [
+    396.0,
+    73.5,
+    435.914,
+    82.0
+   ],
+   "kind": "free_text",
+   "content": "SHEET M5",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-4",
+   "bbox": [
+    396.0,
+    60.5,
+    419.73,
+    69.0
+   ],
+   "kind": "free_text",
+   "content": "REV A",
+   "measurement": "bbox"
+  },
+  {
    "id": "svgtext-5",
+   "bbox": [
+    396.0,
+    47.5,
+    430.984,
+    56.0
+   ],
+   "kind": "free_text",
+   "content": "PAGE 1/1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-6",
+   "bbox": [
+    396.0,
+    34.5,
+    436.379,
+    43.0
+   ],
+   "kind": "free_text",
+   "content": "2026-11-06",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-7",
+   "bbox": [
+    396.0,
+    21.5,
+    428.504,
+    30.0
+   ],
+   "kind": "free_text",
+   "content": "EasyCirq",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-10",
    "bbox": [
     228.0,
     209.5,
@@ -85,7 +145,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-6",
+   "id": "svgtext-11",
    "bbox": [
     229.5,
     174.5,
@@ -97,7 +157,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-7",
+   "id": "svgtext-12",
    "bbox": [
     230.0,
     154.5,
@@ -109,7 +169,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-8",
+   "id": "svgtext-13",
    "bbox": [
     230.0,
     184.5,
@@ -121,7 +181,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-9",
+   "id": "svgtext-14",
    "bbox": [
     284.875,
     174.5,
@@ -133,7 +193,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-10",
+   "id": "svgtext-15",
    "bbox": [
     288.25,
     164.5,
@@ -145,7 +205,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-11",
+   "id": "svgtext-16",
    "bbox": [
     288.25,
     184.5,
@@ -157,7 +217,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-12",
+   "id": "svgtext-17",
    "bbox": [
     230.0,
     164.5,
@@ -169,7 +229,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-13",
+   "id": "svgtext-18",
    "bbox": [
     230.0,
     194.5,
@@ -181,7 +241,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-14",
+   "id": "svgtext-19",
    "bbox": [
     284.375,
     154.5,
@@ -193,7 +253,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-15",
+   "id": "svgtext-20",
    "bbox": [
     281.0,
     194.5,
@@ -205,7 +265,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-16",
+   "id": "svgtext-21",
    "bbox": [
     328.0,
     164.5,
@@ -217,7 +277,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-17",
+   "id": "svgtext-22",
    "bbox": [
     330.0,
     154.5,
@@ -229,7 +289,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-18",
+   "id": "svgtext-23",
    "bbox": [
     341.125,
     154.5,
@@ -241,7 +301,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-19",
+   "id": "svgtext-24",
    "bbox": [
     328.0,
     204.5,
@@ -253,7 +313,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-20",
+   "id": "svgtext-25",
    "bbox": [
     330.0,
     194.5,
@@ -265,7 +325,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-21",
+   "id": "svgtext-26",
    "bbox": [
     341.125,
     194.5,
@@ -277,7 +337,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-22",
+   "id": "svgtext-27",
    "bbox": [
     323.0,
     229.5,
@@ -289,7 +349,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-23",
+   "id": "svgtext-28",
    "bbox": [
     325.0,
     219.5,
@@ -301,7 +361,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-24",
+   "id": "svgtext-29",
    "bbox": [
     336.125,
     219.5,
@@ -313,7 +373,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-25",
+   "id": "svgtext-30",
    "bbox": [
     378.0,
     174.5,
@@ -325,7 +385,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-26",
+   "id": "svgtext-31",
    "bbox": [
     380.0,
     164.5,
@@ -337,7 +397,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-27",
+   "id": "svgtext-32",
    "bbox": [
     401.125,
     164.5,
@@ -349,7 +409,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-28",
+   "id": "svgtext-33",
    "bbox": [
     178.0,
     194.5,
@@ -361,7 +421,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-29",
+   "id": "svgtext-34",
    "bbox": [
     180.0,
     184.5,
@@ -373,7 +433,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-30",
+   "id": "svgtext-35",
    "bbox": [
     191.125,
     184.5,
@@ -385,7 +445,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-31",
+   "id": "svgtext-36",
    "bbox": [
     223.0,
     234.5,
@@ -397,7 +457,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-32",
+   "id": "svgtext-37",
    "bbox": [
     225.0,
     224.5,
@@ -409,7 +469,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-33",
+   "id": "svgtext-38",
    "bbox": [
     236.125,
     224.5,
@@ -1302,11 +1362,6 @@
     "c51",
     "c52",
     "c53",
-    "svgtext-5",
-    "svgtext-6",
-    "svgtext-7",
-    "svgtext-8",
-    "svgtext-9",
     "svgtext-10",
     "svgtext-11",
     "svgtext-12",
@@ -1330,7 +1385,12 @@
     "svgtext-30",
     "svgtext-31",
     "svgtext-32",
-    "svgtext-33"
+    "svgtext-33",
+    "svgtext-34",
+    "svgtext-35",
+    "svgtext-36",
+    "svgtext-37",
+    "svgtext-38"
    ]
   }
  ],
@@ -1354,9 +1414,9 @@
   },
   "texts": {
    "status": "complete",
-   "observed": 29,
+   "observed": 34,
    "estimated": 0,
-   "rendered": 44
+   "rendered": 49
   },
   "wires": {
    "status": "complete",
@@ -1380,14 +1440,24 @@
   },
   "rendered_texts": {
    "status": "complete",
-   "observed": 44,
+   "observed": 49,
    "unique_ids": 0
+  },
+  "title_block": {
+   "status": "complete",
+   "source": "sheet-geometry"
   }
  },
- "snapshot_sha256": "cc438a1a2b2c213e0bf492f256cfd1f9cc6f775c16538b78e5696cfac36c6d52",
+ "title_block": [
+  390.0,
+  14.0,
+  580.0,
+  90.0
+ ],
+ "snapshot_sha256": "bfcd7068e3b3e7826c4c2fb347b201dec1cabd78ec36340d9489bac4342de34b",
  "expected_counts": {
   "components": 7,
-  "texts": 29,
+  "texts": 34,
   "wires": 39
  }
 }

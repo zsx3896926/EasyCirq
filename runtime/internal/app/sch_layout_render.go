@@ -201,6 +201,19 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		rect(s.Border, "none", "#c74747", "")
 		usable := sheetPreviewUsable(*s)
 		rect(usable, "none", "#4a998e", "3 4")
+		if s.TitleBlock != nil {
+			tb := *s.TitleBlock
+			tx0 := 20 + tb.MinX - s.Bounds.MinX
+			ty0 := 85 + s.Bounds.MaxY - tb.MaxY
+			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="#f8fafc" stroke="#94a3b8"/>`,
+				tx0, ty0, tb.MaxX-tb.MinX, tb.MaxY-tb.MinY)
+			// 字段用**短 ASCII 安全**文本：实测含全角括号/箭头的长文本
+			// 有一项测不出 bbox（29 条输入 vs 28 条实测），会让整组判据变 N/R。
+			for i, fv := range []string{"SHEET " + panels[0].zone.ID, "REV A",
+				"PAGE 1/1", "2026-11-06", "EasyCirq"} {
+				text(tx0+6, ty0+15+float64(i)*13, 8, "#334155", fv, "start")
+			}
+		}
 		for _, k := range s.Keepouts {
 			rect(k, "#f1f5f9", "#9ca8b8", "3 3")
 			// 图签本身：画在禁放区里（内容区之外，不与器件文字争空间）。

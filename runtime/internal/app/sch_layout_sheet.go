@@ -11,13 +11,16 @@ type SchematicSheetPosition struct {
 	Y float64 `json:"y"`
 }
 type SchematicRenderSheet struct {
-	Bounds       SchematicBox   `json:"bounds"`
-	Border       SchematicBox   `json:"border"`
-	Keepouts     []SchematicBox `json:"keepouts"`
-	Padding      float64        `json:"padding"`
-	Gap          float64        `json:"gap"`
-	BorderSource string         `json:"borderSource,omitempty"`
-	Flow         string         `json:"flow,omitempty"`
+	Bounds   SchematicBox   `json:"bounds"`
+	Border   SchematicBox   `json:"border"`
+	Keepouts []SchematicBox `json:"keepouts"`
+	// 图签字面矩形（真实页坐标）。不能从 Border 推：Border 会被放大到
+	// 包住模块框，一放大图签就落到页外、被页界过滤掉（见 friction #81）。
+	TitleBlock   *SchematicBox `json:"titleBlock,omitempty"`
+	Padding      float64       `json:"padding"`
+	Gap          float64       `json:"gap"`
+	BorderSource string        `json:"borderSource,omitempty"`
+	Flow         string        `json:"flow,omitempty"`
 }
 type SchematicSheetsPreview struct {
 	SchemaVersion        int                          `json:"schemaVersion"`

@@ -135,10 +135,21 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
     if sheet:
         bounds = {"minX": sheet.get("minX", 0), "minY": sheet.get("minY", 0),
                   "maxX": sheet.get("maxX", 0), "maxY": sheet.get("maxY", 0)}
+        # 图签：按**真实页**右下角算（不跟 border 放大），宽 190 高 76，内缩 14。
+        # 必须独立于 border：border 会被驱动放大到包住模块框，
+        # 一放大图签就落到页外并被 --page-bounds 过滤（friction #81）。
+        tw, th = 190.0, 76.0
+        title_block = {
+            "minX": bounds["maxX"] - tw - 14,
+            "minY": bounds["minY"] + 14,
+            "maxX": bounds["maxX"] - 14,
+            "maxY": bounds["minY"] + 14 + th,
+        }
         out["sheet"] = {
             "bounds": bounds,
             "border": bounds,
             "keepouts": [],
+            "titleBlock": title_block,
             "padding": padding,
             "gap": gap,
         }

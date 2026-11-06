@@ -147,6 +147,19 @@ def one(module, work, exe, sk, verbose=True):
     acmd = [sk / "layout_from_easycirq.py", "--list", snap / "list.json",
             "--visible-text", visible, "--rendered-text", text_json,
             "--out", strict]
+    # 图签：把 zones 里的 titleBlock 矩形交给适配器，
+    # 它据此把框内文字标为 title_block，并置覆盖为 complete。
+    # 少了这一步，"图签无重复文字"只能一直是 N/A。
+    try:
+        tbz = json.loads((work / ("zones-%s.json" % module)).read_text(encoding="utf-8"))
+        tb_rect = (tbz.get("sheet") or {}).get("titleBlock")
+        if tb_rect:
+            geo = work / ("sheet-geometry-%s.json" % module)
+            geo.write_text(json.dumps({"titleBlock": {"bbox": tb_rect}},
+                                      ensure_ascii=False), encoding="utf-8")
+            acmd += ["--sheet-geometry", geo]
+    except (OSError, ValueError):
+        pass
     for net, deg in rot_policy.items():
         acmd += ["--expect-rotation", "%s=%d" % (net, deg)]
     run_py(acmd)

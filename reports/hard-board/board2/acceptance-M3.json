@@ -99,13 +99,11 @@
     {
       "id": "I_title_block",
       "title": "图签无重复文字",
-      "status": "N/A",
+      "status": "PASS",
       "count": 0,
       "needs": [],
       "samples": [],
-      "detail": [
-        "本图未设置图签数据（排版稿不含 titleBlock / 渲染 SVG 不画图签），该判据无对象可测；若排版稿带上 titleBlock 会自动回到可测状态"
-      ]
+      "detail": []
     },
     {
       "id": "G_zone_readability",
@@ -130,15 +128,15 @@
     "samples": [
       [
         "c33",
-        "svgtext-5"
+        "svgtext-10"
       ],
       [
         "c33",
-        "svgtext-6"
+        "svgtext-11"
       ],
       [
         "c33",
-        "svgtext-7"
+        "svgtext-12"
       ]
     ]
   },
@@ -149,9 +147,9 @@
     },
     "texts": {
       "status": "complete",
-      "observed": 24,
+      "observed": 29,
       "estimated": 0,
-      "rendered": 36
+      "rendered": 41
     },
     "wires": {
       "status": "complete",
@@ -175,8 +173,13 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 36,
+      "observed": 41,
       "unique_ids": 0
-    }
+    },
+    "title_block": {
+      "status": "complete",
+      "source": "sheet-geometry"
+    },
+    "_title_block": true
   }
 }
