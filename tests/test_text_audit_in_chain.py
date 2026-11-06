@@ -49,11 +49,18 @@ def test_skill_audit_reports_clear():
     assert '"clear"' in (r.stdout or "")
 
 
-def test_acceptance_has_text_audit_row():
-    """磁盘产物里必须出现这条判据。"""
+def test_acceptance_has_text_audit_row(tmp_path):
+    """**跑一次**再断言：不读全局产物，避免受测试执行顺序影响。"""
+    if not (WORK / "composition-M3-placed.json").is_file():
+        pytest.skip("没有排版稿")
+    r = subprocess.run(
+        [sys.executable, str(ACC).replace("sch_preview_accept.py", "").rstrip("\\/")
+         + "/sch_preview_accept.py", "--work", str(WORK), "--modules", "M3"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=2400)
     p = WORK / "acceptance-M3.json"
     if not p.is_file():
-        pytest.skip("没有验收产物")
+        pytest.skip("未产出：%s" % (r.stdout or r.stderr)[-200:])
     d = json.loads(p.read_text(encoding="utf-8"))
     row = [c for c in d["criteria"] if c["id"] == "L_text_audit"]
     assert row, "产物里没有文字审计判据"

@@ -19,17 +19,15 @@ def test_parses_all_five_classes():
         assert pat in s, "没有解析 %s" % pat
 
 
-def test_out_is_assigned_exactly_once():
-    """`out` 只能是验收产物的那**一处**赋值。
+def test_out_is_not_shadowed_by_stdout():
+    """`out` 是验收产物路径，不能被用来存 stdout。
 
-    被拿来存 stdout 会覆盖产物路径 → `'str' object has no attribute 'write_text'`。
-    只判"有没有 `out = `" 会误报（那处本来就该有），所以数**次数**。
+    只查真正的回归点：不出现 `out = rv.stdout`，且改用 `rv_out`。
+    不数全文件 `out` 的赋值次数 —— `_mark_refused` 里也有一个**局部** `out`，
+    那是合法的（本测试第一版因此误报过）。
     """
     lines = ACC.read_text(encoding="utf-8").splitlines()
-    assigns = [l.strip() for l in lines if l.strip().startswith("out = ")]
-    assert len(assigns) == 1, "对 out 的赋值应只有 1 处，实际 %d：%r" % (
-        len(assigns), assigns[:3])
-    assert "acceptance-%s.json" in assigns[0]
+    assert not any(l.strip().startswith("out = rv.stdout") for l in lines)
     assert any("rv_out = rv.stdout" in l for l in lines)
 
 

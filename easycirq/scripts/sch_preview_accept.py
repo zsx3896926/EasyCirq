@@ -54,8 +54,14 @@ def run_py(cmd, timeout=1800):
                           errors="replace", timeout=timeout)
 
 
-def _mark_refused(module, work, message):
-    """渲染被拒时覆盖旧验收产物，避免报告把旧结论当现状。"""
+def _mark_refused(module, work, message, official=True):
+    """渲染被拒时覆盖旧验收产物，避免报告把旧结论当现状。
+
+    **候选稿实验（`--candidate`）不写**：那种运行验的是另一份文件，
+    不该改动正式产物 —— 否则后续读产物的测试会读到 REFUSED。
+    """
+    if not official:
+        return
     try:
         out = pathlib.Path(work) / ("acceptance-%s.json" % module)
         out.write_text(json.dumps({
@@ -115,12 +121,14 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
     comp = pathlib.Path(comp_override) if comp_override \
         else work / ("composition-%s-placed.json" % module)
     if not comp.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module,
                 "error": "缺 %s（先跑 sch_layout_normalize.py）" % comp.name}
     page = json.loads(comp.read_text(encoding="utf-8")).get("sheet")
     if not page:
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module, "error": "排版稿没有 sheet"}
 
     zones = work / ("zones-%s.json" % module)
@@ -129,7 +137,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         zcmd.append("--no-label-boxes")
     r = run_py(zcmd)
     if not zones.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module, "error": "zones 生成失败：%s" % (r.stderr or "")[:200]}
     # **实测框注入**：先用探针渲染量出每个位号的真实文字框，
     # 替换掉公式估算框（#114：公式框过覆盖，会误拦本来没问题的排版）。
@@ -151,7 +160,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
                         "--out", str(svg)], capture_output=True, text=True,
                        encoding="utf-8", errors="replace", timeout=1800)
     if not svg.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module,
                 "error": "渲染失败：%s" % ((p.stdout or p.stderr or "").strip()[:200])}
 
@@ -164,7 +174,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
                 "--measure", text_json, "--out-texts", texts,
                 "--out-visible", visible, "--page-bounds", pb])
     if not texts.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module, "error": "文字换算失败：%s" % (r.stderr or "")[:200]}
 
     snap = work / ("snap-%s-full" % module)
@@ -244,7 +255,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         pass
 
     if not strict.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module, "error": "严格输入生成失败"}
     src = json.loads(strict.read_text(encoding="utf-8"))
 
@@ -268,7 +280,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         acmd += ["--owners", owners]
     run_py(acmd)
     if not out.is_file():
-        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出")
+        _mark_refused(module, work, "渲染/验收未通过，详见本次运行输出",
+                  official=comp_override is None)
         return {"module": module, "error": "验收未产出"}
     rep = json.loads(out.read_text(encoding="utf-8"))
     if verbose:
