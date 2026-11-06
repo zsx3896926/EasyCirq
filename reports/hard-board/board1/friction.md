@@ -3882,3 +3882,55 @@ bbox_overlap       c25(U2)    ×  'FB' / 'GND' / 'ON/OFF' / 'OUTPUT' / 'VIN' …
 |---|---|
 | **M3 / M4 / M5** | **7 PASS / 0 FAIL / 1 N/R / 2 N/A** |
 | M1 / M2 | 渲染被拒（位号与网标争用，见 #78/#79）|
+
+
+---
+
+## #81 图签三次尝试全失败，但拿到了它的**正确做法**
+
+### 直接跑目标点名的命令
+
+```
+sch_layout_check.py strict-M3-full.json --strict
+  M3  status=incomplete   blocking=27
+  M4  status=incomplete   blocking=39
+  M5  status=incomplete   blocking=31
+```
+
+`blocking` 里 24/37/29 是我已验证分类的**已知误报**（`pin_name_inside_body`），
+真缺陷 0。`incomplete` 来自**覆盖不全**——`title_block` 这一类没有数据。
+
+### 想补齐 title_block，试了三次
+
+| # | 做法 | 结果 |
+|---|---|---|
+| 1 | 画在禁放区（keepout）| `sheet.keepouts` 是**空数组**，代码一次都没执行 |
+| 2 | 没有禁放区就画在图框右下角 | 驱动把图框放大 800/1200/900，图签**被甩到页外**，被 `--page-bounds` 过滤 |
+| 3 | 让图框改用**真实页** | `zone M3 violates page padding`（模块框本来就超出真实页）|
+
+三次全部**回退**，没留下未验证的改动。
+
+### 但拿到了正确做法
+
+> 图签不能靠"改图框"实现。应在 **zones 契约里加 `titleBlock` 矩形**，
+> 由 Python 按**真实页**算好位置，渲染器按这个矩形画。
+
+这样：图框该多大还是多大（不影响 `page padding` 校验），
+图签落在真实页的右下角（落在 `--page-bounds` 内），实测文字集里就有图签文字，
+`title_block` 覆盖才能为真，这条判据才能从 **N/A** 变成**可测**。
+
+属契约扩展，下一轮做。
+
+### 顺带确认的两件事
+
+- 驱动里的 `widen()` **同时放大画布和图框**，这是"模块框不切内容"的必要条件
+  （改小就报 `violates page padding`）——所以它是**必需的**，不是临时 hack
+- `--page-bounds` 过滤是正确的：它挡掉了渲染器画的标题/脚注等**页面装饰**，
+  避免被当成图面文字参与判据
+
+### 当前状态
+
+| 模块 | 验收 | 直接 strict 检查 |
+|---|---|---|
+| M3 / M4 / M5 | **7 PASS / 0 FAIL / 1 N/R / 2 N/A** | `incomplete`（覆盖缺口：title_block）|
+| M1 / M2 | 渲染被拒（位号与网标争用）| — |

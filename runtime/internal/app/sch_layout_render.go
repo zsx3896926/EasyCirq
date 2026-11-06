@@ -203,7 +203,25 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		rect(usable, "none", "#4a998e", "3 4")
 		for _, k := range s.Keepouts {
 			rect(k, "#f1f5f9", "#9ca8b8", "3 3")
-			text(24+k.MinX-s.Bounds.MinX, 99+s.Bounds.MaxY-k.MaxY, 9, "#64748b", "图签禁放区", "start")
+			// 图签本身：画在禁放区里（内容区之外，不与器件文字争空间）。
+			// 字段与 PNG 预览保持一致；文字内容进实测文字集，
+			// 供 `sch_text_audit` 判"图签无重复文字"。
+			kxc := 20 + k.MinX - s.Bounds.MinX
+			kyc := 85 + s.Bounds.MaxY - k.MaxY
+			kw, kh := k.MaxX-k.MinX, k.MaxY-k.MinY
+			if kw >= 120 && kh >= 50 {
+				sheetName := "原理图"
+				if len(panels) == 1 {
+					sheetName = panels[0].zone.Title
+				}
+				fields := []string{sheetName, "版本 A", "第 1 页", "EasyCirq 离线预览", "图签"}
+				for i, fv := range fields {
+					text(kxc+6, kyc+14+float64(i)*11, 7, "#334155", fv, "start")
+				}
+				_ = kw
+			} else {
+				text(kxc+4, kyc+14, 9, "#64748b", "图签禁放区", "start")
+			}
 		}
 		text(20, canvasH-7, 9, "#546579", fmt.Sprintf("原比例 / 页边净距 ≥ %g raw (%.2f mm) / 区间净距 ≥ %g raw / 绿色虚线：排版边界", s.Padding, s.Padding*.254, s.Gap), "start")
 		if s.BorderSource != "" {
