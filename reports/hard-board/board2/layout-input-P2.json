@@ -83,8 +83,8 @@
         "role": "C_IN1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -105,8 +105,8 @@
         "role": "C_IN2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -127,8 +127,8 @@
         "role": "C_IN3",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -149,8 +149,8 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -171,8 +171,8 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -193,8 +193,8 @@
         "role": "R_FB_H",
         "device": {
           "name": "res.147k_0402",
-          "libraryUuid": "b0ed651439db4eedb68717a321728220",
-          "deviceUuid": "164cc9f0a40e4f569a0f1fc43a0d0433"
+          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+          "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8"
         },
         "pins": [
           {
@@ -215,8 +215,8 @@
         "role": "R_FB_L",
         "device": {
           "name": "res.46k4_0402",
-          "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
-          "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb"
+          "libraryUuid": "93b9460b251f4968a40ba77879183d36",
+          "deviceUuid": "7ef817a7eb734b879ce88b3e371b5ddf"
         },
         "pins": [
           {
@@ -314,8 +314,8 @@
         "role": "L",
         "device": {
           "name": "ind.1uh_1210",
-          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-          "deviceUuid": "683f9c0af1e3404ca105328c4c4b94c3"
+          "libraryUuid": "1d2534a4aebd443e9fc8d204865468f4",
+          "deviceUuid": "91c55cd7475c41b4b7f48ca45f7ab5b3"
         },
         "pins": [
           {
@@ -402,8 +402,8 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
+          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
         },
         "pins": [
           {
@@ -851,6 +851,7 @@
     {
       "primitiveId": "c40",
       "designator": "U4",
+      "textBboxes": [],
       "x": 15.0,
       "y": 20.0,
       "rotation": 0,
@@ -939,6 +940,7 @@
     {
       "primitiveId": "c41",
       "designator": "L4",
+      "textBboxes": [],
       "x": 55.0,
       "y": 20.0,
       "rotation": 0,
@@ -971,6 +973,7 @@
     {
       "primitiveId": "c42",
       "designator": "C16",
+      "textBboxes": [],
       "x": 95.0,
       "y": 20.0,
       "rotation": 0,
@@ -1003,6 +1006,7 @@
     {
       "primitiveId": "c43",
       "designator": "C17",
+      "textBboxes": [],
       "x": 15.0,
       "y": 45.0,
       "rotation": 0,
@@ -1035,6 +1039,7 @@
     {
       "primitiveId": "c44",
       "designator": "C18",
+      "textBboxes": [],
       "x": 55.0,
       "y": 45.0,
       "rotation": 0,
@@ -1067,6 +1072,7 @@
     {
       "primitiveId": "c45",
       "designator": "C19",
+      "textBboxes": [],
       "x": 95.0,
       "y": 45.0,
       "rotation": 0,
@@ -1099,6 +1105,7 @@
     {
       "primitiveId": "c46",
       "designator": "C20",
+      "textBboxes": [],
       "x": 15.0,
       "y": 70.0,
       "rotation": 0,
@@ -1131,6 +1138,7 @@
     {
       "primitiveId": "c47",
       "designator": "R10",
+      "textBboxes": [],
       "x": 55.0,
       "y": 70.0,
       "rotation": 0,
@@ -1163,6 +1171,7 @@
     {
       "primitiveId": "c48",
       "designator": "R11",
+      "textBboxes": [],
       "x": 95.0,
       "y": 70.0,
       "rotation": 0,
@@ -1195,6 +1204,7 @@
     {
       "primitiveId": "c49",
       "designator": "R12",
+      "textBboxes": [],
       "x": 15.0,
       "y": 95.0,
       "rotation": 0,
@@ -1227,6 +1237,7 @@
     {
       "primitiveId": "c50",
       "designator": "U5",
+      "textBboxes": [],
       "x": 160.0,
       "y": 20.0,
       "rotation": 0,
@@ -1323,6 +1334,7 @@
     {
       "primitiveId": "c51",
       "designator": "L5",
+      "textBboxes": [],
       "x": 200.0,
       "y": 20.0,
       "rotation": 0,
@@ -1355,6 +1367,7 @@
     {
       "primitiveId": "c52",
       "designator": "R13",
+      "textBboxes": [],
       "x": 160.0,
       "y": 45.0,
       "rotation": 0,
@@ -1387,6 +1400,7 @@
     {
       "primitiveId": "c53",
       "designator": "R14",
+      "textBboxes": [],
       "x": 200.0,
       "y": 45.0,
       "rotation": 0,
@@ -1419,6 +1433,7 @@
     {
       "primitiveId": "c54",
       "designator": "C21",
+      "textBboxes": [],
       "x": 160.0,
       "y": 70.0,
       "rotation": 0,
@@ -1451,6 +1466,7 @@
     {
       "primitiveId": "c55",
       "designator": "C22",
+      "textBboxes": [],
       "x": 200.0,
       "y": 70.0,
       "rotation": 0,
@@ -1483,6 +1499,7 @@
     {
       "primitiveId": "c56",
       "designator": "C23",
+      "textBboxes": [],
       "x": 160.0,
       "y": 95.0,
       "rotation": 0,

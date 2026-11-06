@@ -1,5 +1,22 @@
 # 变更记录
 
+## 1.1.2 — 2026-11-06
+
+### 修复：`easycirq panel` 抢 daemon 的 23111 端口
+
+**现象**：daemon 没起时 `easycirq panel` 从 23111 开始找空闲端口，占住了 daemon 固定要用的端口；之后 `easycirq daemon start` 拒绝启动（占用者不是 daemon），连接器就永远连不上。面板自己的 snapshot 又要靠 CLI 子命令拉起 daemon，等于把自己的数据源也堵死。
+
+**修法**（`runtime/internal/app/cmd_panel.go`）：
+
+- 不给 `--port` 时跳过 daemon 保留端口，默认从 `23112` 起；
+- 显式 `--port 23111` 直接报错并给出替代端口，不静默换；
+- 只含保留端口的区间报错；
+- 新增 `cmd_panel_test.go` 8 条单测。
+
+**文档**：`references/panel-diag.md` 补端口规则表与「坑二」；CLI `--help` 同步。
+
+**兼容性**：不改协议、不改连接器；显式把面板绑在 23111 的人需要改用 `--port 23112`。
+
 ## 1.1.1 — 2026-11-04
 
 ### 新增：第一页上门（`QUICKSTART.md`）

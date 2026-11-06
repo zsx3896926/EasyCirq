@@ -177,7 +177,7 @@ def bbox_of_pins(points, pad=MIN_EXTENT):
 
 
 def build(netlist_path, measure_path, style_plans, out_path,
-          max_candidates=20000, page=None):
+          max_candidates=20000, page=None, designator_reserve=False):
     net = json.loads(pathlib.Path(netlist_path).read_text(encoding="utf-8"))
     meas = json.loads(pathlib.Path(measure_path).read_text(encoding="utf-8"))
 
@@ -213,6 +213,11 @@ def build(netlist_path, measure_path, style_plans, out_path,
     # 少一个都只会得到一句合并报错 "target project/page and measured sheet are required"，
     # 所以这里单独补齐并注明。
     page_ids = {c.get("pageId") for c in net["components"] if c.get("pageId")}
+    # **先声明再使用。** 早先这里是先 append 后声明，多页输入时直接
+    # `UnboundLocalError` —— 一个本该给出"请用 --page 收窄"的报错，
+    # 变成了崩溃堆栈（实测由 tests/test_designator_reserve.py 撞出来）。
+    problems: list[str] = []
+    problems_by_page: list[str] = []
     if len(page_ids) == 1:
         net["documentId"] = next(iter(page_ids))
     elif page_ids:
@@ -226,8 +231,6 @@ def build(netlist_path, measure_path, style_plans, out_path,
     for c in net["connections"]:
         conns_by_comp.setdefault(c["componentId"], []).append(c)
 
-    problems: list[str] = []
-    problems_by_page: list[str] = []
     measurements = []
     # 每页每个区块内按行列铺开
     for page, zones in zones_by_page.items():
@@ -321,20 +324,45 @@ def build(netlist_path, measure_path, style_plans, out_path,
                                           else outward_from_centre(world, pname)),
                     })
                     pts.append((wx, wy))
+                # 位号预留区（**默认关闭**，见 --designator-reserve）。
+                #
+                # `validateLibRoutingEdge` 里本来就有 wire-text 判据：
+                # 只要 measurements 带 textBboxes，导线就会避开文字框。
+                # 实测效果：M3/M4/M5 可解且不再穿位号；
+                # 但 M1（24 件）与 M2 会**解不出来**，渲染阶段还会报
+                # `component label reservation collision`——
+                # 因为位号与位号之间的预留区没有互相避让。
+                # 在"把位号预留区算进器件占位"做完之前，默认不开，
+                # 否则会把原本能解的板子弄坏。
+                bbox_d = comp_body if designator_reserve else None
+                text_boxes = []
+                if bbox_d:
+                    ref_text = str(comp.get("ref") or "")
+                    fs = 7.0
+                    tw = max(6.0, 0.62 * fs * max(1, len(ref_text)))
+                    tx = bbox_d["minX"]
+                    ty = bbox_d["maxY"] + 4.0
+                    text_boxes.append({"minX": tx - 1.0, "minY": ty - 2.0,
+                                       "maxX": tx + tw + 1.0, "maxY": ty + fs + 2.0})
+
+                comp_body = enforce_pin_sides(
+                    body_world(mp.get("body"), cx, cy)
+                    or {k: snap(v) for k, v in bbox_of_pins(body_pts).items()},
+                    [(world[pn][0], world[pn][1], g2.get("outwardRotation"))
+                     for pn, g2 in (mp.get("pins") or {}).items()])
+
                 measurements.append({
                     "primitiveId": comp["id"],
                     "designator": comp["ref"],
+                    # 关闭时不写这个键（写空数组会让输入看起来"开了但没生效"）
+                    **({"textBboxes": text_boxes} if text_boxes else {}),
                     "x": cx, "y": cy, "rotation": 0, "mirror": False,
                     # **本体框用符号自己给的 RECT**，不自己造。
                     # 靠"引脚范围 + padding"当本体，会让引脚全落在框内，
                     # 求解器判定朝外段穿过本体；靠"朝内退 length"又会因
                     # `.elibu` rotation 约定不统一而在 EP 这类焊盘上判错。
                     # 符号里有真本体（TPS54360 是 x -40..40 / y -25..25），直接平移过来。
-                    "bbox": enforce_pin_sides(
-                        body_world(mp.get("body"), cx, cy)
-                        or {k: snap(v) for k, v in bbox_of_pins(body_pts).items()},
-                        [(world[pn][0], world[pn][1], g2.get("outwardRotation"))
-                         for pn, g2 in (mp.get("pins") or {}).items()]),
+                    "bbox": comp_body,
                     "pins": pins,
                 })
 
@@ -529,7 +557,9 @@ def main() -> int:
               file=sys.stderr)
 
     src, problems = build(args.netlist, args.measurements, args.style_plan,
-                          args.out, page=args.page)
+                          args.out, page=args.page,
+                          designator_reserve=getattr(args, "designator_reserve",
+                                                     False))
     print("lib-layout 输入 → %s" % args.out)
     print("  measurements: %d 件" % len(src["measurements"]))
     print("  layoutModules: %d 块" % len(src["layoutModules"]))

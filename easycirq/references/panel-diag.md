@@ -23,7 +23,7 @@
 ## 二、怎么用
 
 ```powershell
-easycirq panel                       # 自动选端口并打开浏览器
+easycirq panel                       # 自动选端口（跳过 daemon 保留的 23111）并打开浏览器
 easycirq panel --no-open             # 只打印 URL
 easycirq panel --project <uuid>      # 指定工程
 easycirq panel --port 23115          # 指定端口（被占用则报错，不会悄悄换）
@@ -35,6 +35,19 @@ easycirq panel --port 23115          # 指定端口（被占用则报错，不�
 面板已启动：http://127.0.0.1:23112/
 （只监听 127.0.0.1；Ctrl+C 停止。关掉面板不影响 easycirq 命令。）
 ```
+
+### 端口规则（2026-11-06 修）
+
+daemon 固定绑 `23111`（连接器只重试这一个端口），所以面板**默认不碰它**：
+
+| 用法 | 结果 |
+|---|---|
+| 不写 `--port` | 在 `--ports` 区间里跳过 daemon 保留端口，默认起在 `23112` |
+| `--port 23111` | 直接报错并提示改用 `23112` —— 不静默换端口 |
+| `--port 23111-23113` | 区间内跳过 `23111`，用 `23112` / `23113` |
+| 区间里只有保留端口 | 报错 |
+
+**为什么不静默换**：换了你会以为面板真的在 23111 上，下次握手就对不上。
 
 ---
 
@@ -97,7 +110,9 @@ S0    S1    S2    S3    S4    S5    S6    交付
 
 ---
 
-## 五、踩过的一个坑（值得记）
+## 五、踩过的坑（值得记）
+
+### 坑一：`card`/`status` 的非零退出不等于没有数据
 
 `card` 和 `status` 用**退出码**表达语义：`0` 可以下单 / `1` 不行 / `2` 还没检查过。
 而 **exit 2 时它们照样打印完整 JSON**。
@@ -106,6 +121,16 @@ S0    S1    S2    S3    S4    S5    S6    交付
 「还没检查过」这张卡，**而这恰恰是这层界面最该说清的状态**。
 
 现在的规则：**只要 stdout 是合法 JSON 就用它**，退出码只管"命令有没有正常结束"。
+
+### 坑二：面板抢了 daemon 的端口
+
+旧行为：`easycirq panel` 不给 `--port` 时，从 `23111-23120` 里找第一个空闲端口。
+daemon 没起时它就把 **23111 占掉**；而 `daemon start` 只在「端口被自己的另一个
+daemon 占着」时才接管，被面板占着就**拒绝启动**。结果：daemon 起不来、连接器永远
+连不上；更讽刺的是面板自己的 snapshot 还要靠 CLI 子命令去拉起 daemon。
+
+现在：面板候选端口跳过保留端口（默认 23112 起），显式 `--port 23111` 直接报错，
+只含保留端口的区间也报错。单测在 `runtime/internal/app/cmd_panel_test.go`。
 
 ---
 
@@ -163,6 +188,7 @@ python -m pytest tests/test_panel.py tests/test_diag_bundle.py -q
 | 五态不为绿 | `test_non_pass_states_never_borrow_the_pass_class` |
 | C19 诊断包脱敏 | `test_bundle_carries_no_secrets` 等 7 条 |
 | B15 无遥测 | `test_panel_and_diag_never_call_out` |
+| 端口不抢 daemon 的 23111 | `go test ./internal/app -run PanelPort`（`runtime/` 下） |
 
 ---
 

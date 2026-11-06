@@ -16,7 +16,7 @@
       "estHeight": 75.0,
       "suggestedPaper": "A1",
       "confirmedPaper": null,
-      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
+      "source": "reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P2",
@@ -28,7 +28,7 @@
       "estHeight": 150.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,
-      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
+      "source": "reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P3",
@@ -40,7 +40,7 @@
       "estHeight": 60.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,
-      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P1.json"
+      "source": "reports\\hard-board\\board2\\layout-input-P1.json"
     },
     {
       "page": "P4",
@@ -52,7 +52,7 @@
       "estHeight": 120.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,
-      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P2.json"
+      "source": "reports\\hard-board\\board2\\layout-input-P2.json"
     },
     {
       "page": "P5",
@@ -64,7 +64,7 @@
       "estHeight": 90.0,
       "suggestedPaper": "A4",
       "confirmedPaper": null,
-      "source": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\layout-input-P2.json"
+      "source": "reports\\hard-board\\board2\\layout-input-P2.json"
     }
   ]
 }

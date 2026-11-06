@@ -1,13 +1,13 @@
 {
   "schema": "easycirq-sch-measurements/v1",
-  "netlist": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\netlist.json",
+  "netlist": "reports\\hard-board\\board2\\netlist.json",
   "parts": {
     "buck.sy8089_tsot23": {
-      "libraryUuid": "5e7382a69781406ba214cc82244d6207",
-      "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927",
-      "symbolUuid": "e0abbd8233464f4ca8337e3c9a4e9e8a",
+      "libraryUuid": "5ee80b62a13e4c258d008bc882b2beb1",
+      "deviceUuid": "9db86f545bc44f07a72b7a3eba3417fc",
+      "symbolUuid": "a374686d2093467c8786cca79509eaa3",
       "lcsc": "C479074",
-      "archive": ".easycirq\\symbol-cache\\buck_sy8089_tsot23_e0abbd82.elibz2",
+      "archive": ".easycirq\\symbol-cache\\buck_sy8089_tsot23_a374686d.elibz2",
       "pins": {
         "EN": {
           "x": -35,
@@ -353,11 +353,11 @@
       "pinCount": 2
     },
     "cap.100nf_0603": {
-      "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
-      "deviceUuid": "b5784e6c8475475893cee8110c44816d",
-      "symbolUuid": "92bf789a17c44ef58399c3f11c0a273a",
+      "libraryUuid": "2a9b71d157ba4a04b2da0542264fc583",
+      "deviceUuid": "f8e10f897aa04b27a6c8fd52da974f9d",
+      "symbolUuid": "3838e8d99e2e45ef9a4add912c71630b",
       "lcsc": "C14663",
-      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_92bf789a.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_3838e8d9.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -543,11 +543,11 @@
       "pinCount": 2
     },
     "cap.22uf_0805": {
-      "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
-      "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd",
-      "symbolUuid": "67f3ddf4bc60455cbace16bb9c6453ac",
+      "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
+      "deviceUuid": "332288bd9dc0418ead423c403a4ec1de",
+      "symbolUuid": "238299d702334c108d0e606695a06d4e",
       "lcsc": "C45783",
-      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_67f3ddf4.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_238299d7.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -695,11 +695,11 @@
       "pinCount": 2
     },
     "conn.screw_terminal_2p": {
-      "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
-      "deviceUuid": "c6dd164532ad43d987993b5850265e6b",
-      "symbolUuid": "e28aa965aef54e4890b6c8bfa39a1bed",
+      "libraryUuid": "9875a7916d2d4a0d8052ee6936d44523",
+      "deviceUuid": "6aba5c2f23fb40a8b4a7c475d05e9d13",
+      "symbolUuid": "8d7b7c697fca43779d5d7caf47cdc426",
       "lcsc": "C474881",
-      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_e28aa965.elibz2",
+      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_8d7b7c69.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -820,24 +820,13 @@
       "pinCount": 2
     },
     "diode.smbj33a_smb": {
-      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-      "deviceUuid": "4e5e35f0bedc48efa4bdf3fe659de2df",
-      "symbolUuid": "18b972a9f8b54353843e41eace27ed36",
+      "libraryUuid": "ff575526d61f4fffb6ad1284362ddc82",
+      "deviceUuid": "a2de87dc910c4773a015378772bea910",
+      "symbolUuid": "2a6de0d468434d39bf358e156e9af2c9",
       "lcsc": "C726834",
-      "archive": ".easycirq\\symbol-cache\\diode_smbj33a_smb_18b972a9.elibz2",
+      "archive": ".easycirq\\symbol-cache\\diode_smbj33a_smb_2a6de0d4.elibz2",
       "pins": {
-        "A": {
-          "x": 20,
-          "y": 0,
-          "length": 15,
-          "rotation": 180,
-          "outwardRotation": 0.0,
-          "connectionPoint": [
-            20.0,
-            0.0
-          ]
-        },
-        "C": {
+        "ie2": {
           "x": -20,
           "y": 0,
           "length": 15,
@@ -845,6 +834,17 @@
           "outwardRotation": 180.0,
           "connectionPoint": [
             -20.0,
+            0.0
+          ]
+        },
+        "ie6": {
+          "x": 20,
+          "y": 0,
+          "length": 15,
+          "rotation": 180,
+          "outwardRotation": 0.0,
+          "connectionPoint": [
+            20.0,
             0.0
           ]
         }
@@ -896,11 +896,11 @@
       "pinCount": 2
     },
     "fuse.2a_1206": {
-      "libraryUuid": "33c14f629d704208a50cada9fb371a73",
-      "deviceUuid": "d593eeaef4f944e4b25b9114d8a50049",
-      "symbolUuid": "60bda2fdfcd646a78c2b9d94cb131ea2",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "deviceUuid": "dc120c572b1544619b5c0f3313259566",
+      "symbolUuid": "94d163705dc94c41872e88b6f8e50e2f",
       "lcsc": "C163132",
-      "archive": ".easycirq\\symbol-cache\\fuse_2a_1206_60bda2fd.elibz2",
+      "archive": ".easycirq\\symbol-cache\\fuse_2a_1206_94d16370.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1049,11 +1049,11 @@
       "pinCount": 9
     },
     "ic.xl1509_5v_buck": {
-      "libraryUuid": "5ff25a08544d45169db5e0eb2e978f1c",
-      "deviceUuid": "551ea37b6b8d45a69d34e436135d6031",
-      "symbolUuid": "b242d126abd34b70abb81d4e7dfe92cc",
+      "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
+      "deviceUuid": "bb201d9430f147e28691f5c18dacc89f",
+      "symbolUuid": "06ce3738ef2745e7a22dcfef559c8f48",
       "lcsc": "C61063",
-      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_b242d126.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_06ce3738.elibz2",
       "pins": {
         "FB": {
           "x": -55,
@@ -1153,11 +1153,11 @@
       "pinCount": 8
     },
     "ind.15uh_12x12mm": {
-      "libraryUuid": "747b4fa2a60a42ba92fc785f90cfed21",
-      "deviceUuid": "ba651d1e18654f258c51777c1a6a073c",
-      "symbolUuid": "26b244bfef7d49a1837d65ec8f9bacb8",
+      "libraryUuid": "a62e072cc495443992e280a5f85ea1eb",
+      "deviceUuid": "421af6f80350495e9a8f06e0a7fd147f",
+      "symbolUuid": "08132f0033aa49fba06b524648b59d4b",
       "lcsc": "C22387937",
-      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_26b244bf.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_15uh_12x12mm_08132f00.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1213,11 +1213,11 @@
       "pinCount": 4
     },
     "ind.1uh_1210": {
-      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-      "deviceUuid": "683f9c0af1e3404ca105328c4c4b94c3",
-      "symbolUuid": "519ab4d1def34a919a5ab9e11fd87e4c",
+      "libraryUuid": "1d2534a4aebd443e9fc8d204865468f4",
+      "deviceUuid": "91c55cd7475c41b4b7f48ca45f7ab5b3",
+      "symbolUuid": "c6c8a24a258f46bcb9f565b74a72f757",
       "lcsc": "C250225",
-      "archive": ".easycirq\\symbol-cache\\ind_1uh_1210_519ab4d1.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_1uh_1210_c6c8a24a.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1327,11 +1327,11 @@
       "pinCount": 2
     },
     "ind.68uh_3a": {
-      "libraryUuid": "2b7ab9c85e1e46d7a7f6649d7d8303d2",
-      "deviceUuid": "35271e7ee9a64136af7acc79569f526f",
-      "symbolUuid": "f898767e16d84206b85d7de9331d8d65",
+      "libraryUuid": "7d45c4214805418789bc48dbf4c9b5eb",
+      "deviceUuid": "144fe1c9ed024fceaa37611950e3c2fd",
+      "symbolUuid": "9a3dacb561b24a80b0ead87cc7370148",
       "lcsc": "C7431083",
-      "archive": ".easycirq\\symbol-cache\\ind_68uh_3a_f898767e.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_68uh_3a_9a3dacb5.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1474,11 +1474,11 @@
       "pinCount": 2
     },
     "res.10k_0402": {
-      "libraryUuid": "f23fe15671054e81ab261d14102c265f",
-      "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58",
-      "symbolUuid": "74209db725c0484f9198379f10552625",
+      "libraryUuid": "5e60d8172a434779a86559d09709c8d5",
+      "deviceUuid": "02044ac8cc914704ba7959836a0227a4",
+      "symbolUuid": "b61e25fb4189466a883672f2d1d3107d",
       "lcsc": "C25744",
-      "archive": ".easycirq\\symbol-cache\\res_10k_0402_74209db7.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_10k_0402_b61e25fb.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1505,18 +1505,18 @@
       },
       "body": {
         "minX": -10,
-        "minY": -5,
+        "minY": -4,
         "maxX": 10,
-        "maxY": 5
+        "maxY": 4
       },
       "pinCount": 2
     },
     "res.147k_0402": {
-      "libraryUuid": "b0ed651439db4eedb68717a321728220",
-      "deviceUuid": "164cc9f0a40e4f569a0f1fc43a0d0433",
-      "symbolUuid": "4171e5fbf8c24acbba487212fc3cd73a",
+      "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+      "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8",
+      "symbolUuid": "735a1584085040a4b98cb39d2eb8ef87",
       "lcsc": "C64171",
-      "archive": ".easycirq\\symbol-cache\\res_147k_0402_4171e5fb.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_147k_0402_735a1584.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1626,11 +1626,11 @@
       "pinCount": 2
     },
     "res.453k_0402__2": {
-      "libraryUuid": "6b41da2e798e4a4a885703f6dcd7e7b8",
-      "deviceUuid": "ae718880ac37440b9c43d85961ebb0c0",
-      "symbolUuid": "47af8382eb95417fa265630d984eef02",
+      "libraryUuid": "0285b653b2194bf4aef348582ad03975",
+      "deviceUuid": "633dcfe9a00d45539cf5c2441cc64079",
+      "symbolUuid": "36fae5926f8b4127a70846a38b54f3b3",
       "lcsc": "C26980",
-      "archive": ".easycirq\\symbol-cache\\res_453k_0402__2_47af8382.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_453k_0402__2_36fae592.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1664,11 +1664,11 @@
       "pinCount": 2
     },
     "res.46k4_0402": {
-      "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
-      "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb",
-      "symbolUuid": "35f4e2f8e5f7435e9bfa64485c1c6908",
+      "libraryUuid": "93b9460b251f4968a40ba77879183d36",
+      "deviceUuid": "7ef817a7eb734b879ce88b3e371b5ddf",
+      "symbolUuid": "6852323ed0204098a392fa05f7df704d",
       "lcsc": "C52378",
-      "archive": ".easycirq\\symbol-cache\\res_46k4_0402_35f4e2f8.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_46k4_0402_6852323e.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1740,11 +1740,11 @@
       "pinCount": 2
     },
     "res.523k_0402": {
-      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-      "deviceUuid": "c6bb55cf9b1342eeae23d37df21c5154",
-      "symbolUuid": "2dad499486f84d408aeeae1c6433bdc5",
+      "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
+      "deviceUuid": "c77d16ba7a664986b5dacef6830da749",
+      "symbolUuid": "9395b58f6bca49e4be047da8a40f90f0",
       "lcsc": "C170333",
-      "archive": ".easycirq\\symbol-cache\\res_523k_0402_2dad4994.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_523k_0402_9395b58f.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1893,8 +1893,8 @@
     }
   },
   "stats": {
-    "cache": 35,
-    "fetched": 4,
+    "cache": 38,
+    "fetched": 1,
     "failed": 0
   },
   "problems": []
