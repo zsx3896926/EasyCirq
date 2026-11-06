@@ -205,6 +205,110 @@ def frames_doc(doc, modules, parts, page_name, color="#AA00AA"):
 
 
 # ── 出图 ──────────────────────────────────────────────────────────────
+def extract_pins(doc):
+    """ref → [{"number","name","x","y","rotation","net"}]（只读，不改数据）。"""
+    out = {}
+    for mod in doc.get("modules") or []:
+        for pl in mod.get("placements") or []:
+            out[pl.get("designator")] = [
+                {"number": str(q.get("number") or ""),
+                 "name": str(q.get("name") or ""),
+                 "x": q.get("x"), "y": q.get("y"),
+                 "rotation": q.get("rotation") or 0,
+                 "net": q.get("net") or ""}
+                for q in (pl.get("pins") or []) if q.get("x") is not None
+            ]
+    return out
+
+
+BOX_PREFIXES = ("U", "X", "IC", "J", "F", "K", "SW", "Y")
+
+
+def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
+    """按位号前缀画符号。坐标仍走 px()，所以和器件/导线严格同一坐标系。"""
+    x1, y1, x2, y2 = box
+    prefix = (ref or "")[:1].upper()
+    try:
+        cx, cy = (x1 + x2) / 2.0, (y1 + y2) / 2.0
+        w, h = abs(x2 - x1), abs(y2 - y1)
+    except TypeError:
+        return
+
+    # 引脚引线：从引脚端点连到本体边（这条线让"引脚"看得见）
+    for q in pins:
+        qx, qy = q["x"], q["y"]
+        tx = min(max(qx, x1), x2)
+        ty = min(max(qy, y1), y2)
+        d.line([px(qx, qy), px(tx, ty)], fill=body_edge, width=1)
+
+    if prefix == "C" and w and h:
+        # 电容：两块极板（垂直于长轴）
+        if w >= h:      # 极板竖直
+            gap = min(w * 0.15, 6.0)
+            d.line([px(cx - gap, y1), px(cx - gap, y2)], fill=body_edge, width=2)
+            d.line([px(cx + gap, y1), px(cx + gap, y2)], fill=body_edge, width=2)
+        else:
+            gap = min(h * 0.15, 6.0)
+            d.line([px(x1, cy - gap), px(x2, cy - gap)], fill=body_edge, width=2)
+            d.line([px(x1, cy + gap), px(x2, cy + gap)], fill=body_edge, width=2)
+    elif prefix == "D" and w and h:
+        # 二极管：三角 + 横杠
+        if w >= h:
+            d.polygon([px(x1, cy + h / 2), px(x2, cy), px(x1, cy - h / 2)],
+                      outline=body_edge, fill=body_fill)
+            d.line([px(x2, y1), px(x2, y2)], fill=body_edge, width=2)
+        else:
+            d.polygon([px(cx + w / 2, y1), px(cx, y2), px(cx - w / 2, y1)],
+                      outline=body_edge, fill=body_fill)
+            d.line([px(x1, y2), px(x2, y2)], fill=body_edge, width=2)
+    elif prefix == "L" and w and h:
+        # 电感：方框 + 中缝
+        d.rectangle([px(x1, y2), px(x2, y1)], outline=body_edge, width=2,
+                    fill=body_fill)
+        if w >= h:
+            d.line([px(x1, cy), px(x2, cy)], fill=body_edge, width=1)
+        else:
+            d.line([px(cx, y1), px(cx, y2)], fill=body_edge, width=1)
+    else:
+        d.rectangle([px(x1, y2), px(x2, y1)], outline=body_edge, width=2,
+                    fill=body_fill)
+
+    # 方框类器件：引脚名写框内、引脚号写框外 —— 但要先看**密度**
+    if prefix in BOX_PREFIXES:
+        # **按最近边归类**：引脚端点在本体外（引线长度约 10 raw），
+        # 所以不能用"贴着边"的判据，否则一个都匹配不上。
+        sides = {"L": [], "R": [], "B": [], "T": []}
+        for q in pins:
+            qx, qy = q["x"], q["y"]
+            dist = {"L": abs(qx - x1), "R": abs(qx - x2),
+                    "B": abs(qy - y1), "T": abs(qy - y2)}
+            sides[min(dist, key=dist.get)].append(q)
+
+        def spacing(group, span):
+            return span / max(1, len(group))
+
+        room = {"L": spacing(sides["L"], h), "R": spacing(sides["R"], h),
+                "B": spacing(sides["B"], w), "T": spacing(sides["T"], w)}
+        for side, group in sides.items():
+            # 间距太窄就别写名字（宁缺勿叠），引脚号总是写
+            show_name = room[side] >= 9.0
+            for q in group:
+                qx, qy = q["x"], q["y"]
+                tx = min(max(qx, x1), x2)
+                ty = min(max(qy, y1), y2)
+                ix = tx + (3.0 if tx <= cx else -3.0)
+                iy = ty + (3.0 if ty <= cy else -3.0)
+                gx, gy = px(ix, iy)
+                if show_name and q["name"]:
+                    tw = d.textlength(q["name"], font=f_tiny)
+                    d.text((gx - (tw if ix > cx else 0), gy - 6), q["name"],
+                           fill=(70, 70, 80), font=f_tiny)
+                if q["number"]:
+                    ox, oy = px(qx, qy)
+                    d.text((ox + 2, oy - 12), q["number"], fill=(150, 60, 60),
+                           font=f_tiny)
+
+
 def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     if Image is None:
         return None
@@ -219,6 +323,8 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
 
     img = Image.new("RGB", (w, h), "white")
     d = ImageDraw.Draw(img)
+
+    pins_of = extract_pins(doc)
 
     tokens = load_style_tokens()
     palette = ((tokens.get("palette") or {}).get("zone_border")
@@ -291,10 +397,12 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         d.line([px(*p) for p in pts], fill=net_color(net), width=1)
 
     # 器件本体 + 位号
-    for ref, (x1, y1, x2, y2) in parts.items():
-        d.rectangle([px(x1, y2), px(x2, y1)], outline=THEME["body_edge"],
-                    width=2, fill=THEME["body"])
+    f_tiny = font(8)
+    for ref, box in parts.items():
+        draw_symbol(d, px, ref, box, pins_of.get(ref) or [], f_tiny, f_small,
+                    THEME["body_edge"], THEME["body"])
         # 位号画在本体**上方外侧**（基准图的做法），不压本体、不压引脚
+        x1, y1, x2, y2 = box
         tx, ty = px(x1, y2)
         d.text((tx, ty - 13), ref, fill=(15, 15, 15), font=f_small)
 
@@ -302,10 +410,23 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
     for pts, _net in []:
         pass
     # 网标
-    for (x, y, net, _kind) in flags:
+    for (x, y, net, kind) in flags:
         cxp, cyp = px(x, y)
-        d.polygon([(cxp, cyp - 5), (cxp + 6, cyp), (cxp, cyp + 5), (cxp - 6, cyp)],
-                  outline=THEME["flag"])
+        kind_l = (kind or "").lower()
+        if "ground" in kind_l or net.upper() in ("GND", "AGND", "DGND"):
+            # 地：三横递减（标准画法）
+            for i, half in enumerate((7, 4.5, 2)):
+                yy = cyp + i * 4
+                d.line([(cxp - half, yy), (cxp + half, yy)],
+                       fill=net_color(net), width=2)
+        elif "power" in kind_l or net.startswith("+"):
+            # 电源：横杠 + 引线
+            d.line([(cxp, cyp), (cxp, cyp - 8)], fill=net_color(net), width=1)
+            d.line([(cxp - 6, cyp - 8), (cxp + 6, cyp - 8)],
+                   fill=net_color(net), width=2)
+        else:
+            d.polygon([(cxp, cyp - 5), (cxp + 6, cyp), (cxp, cyp + 5),
+                       (cxp - 6, cyp)], outline=THEME["flag"])
         # 网名**不截断**：+3V3 被切成 +3V 会误导。按可用宽度缩小字号。
         net_font = f_small
         if d.textlength(net, font=f_small) > 90:
