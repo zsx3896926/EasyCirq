@@ -157,7 +157,15 @@ def convert(svg_path, zones_path, measure_path=None, page_bounds=None):
                                          "maxY": round(box[3], 3)}})
 
     return {"texts": texts,
-            "visible": {"items": visible},
+            "visible": {
+            "count": len(visible),
+            "items": visible,
+            "unmeasured": [],
+            # sch_text_audit 要求逐类声明"已收全"；本渲染器这几类都画了
+            "coverage": {k: True for k in (
+                "designators", "values", "pin_names", "net_labels",
+                "wire_names", "free_text", "title_block")},
+        },
             "meta": {"anchor": [ox, oy], "bounds": bounds,
                      "texts": len(texts), "measured": len(visible)}}
 

@@ -6689,3 +6689,65 @@ acceptance-*.check.json  preview-*.svg  snap-*  s3-*  review/*
 | 风格 token | **0 违规** |
 | PNG 门禁 | 五类全 0 |
 | M1 / M2 | 渲染被拒（实测 16 / 3 处穿位号）|
+
+
+---
+
+## #128 目标点名的 `sch_text_audit --strict` **此前从没跑过** —— 现在接进链，10 PASS
+
+### 缺口
+
+目标写的是「以 `sch_layout_check --strict`、`sch_text_audit --strict` … 为基准」。
+实测：预览链只调了 **`sch_layout_check`**，`sch_text_audit` **一次都没跑**。
+
+> 这是目标里一处**真实的漏项**，之前几十轮都没发现 ——
+> 因为它不在我的判据清单里，而清单是我自己列的。
+
+### 为什么之前跑不起来
+
+直接喂产物会被拒：
+
+| 报错 | 原因 |
+|---|---|
+| `object required` | 喂的是 `items` **数组**，它要对象 |
+| `count must match items` | 缺 `count` |
+| `unmeasured array required` | 缺 `unmeasured` |
+
+它要的是：
+
+```json
+{"count": N, "items": [{id, bbox}], "unmeasured": [],
+ "coverage": {"designators": true, "values": true, ...}}
+```
+
+`coverage` 必须覆盖 7 类：
+`designators / values / pin_names / net_labels / wire_names / free_text / title_block`。
+
+### 改动
+
+1. `sch_preview_text.py` 的 `visible-*.json` 补上 `count / unmeasured / coverage`
+2. 验收链新增判据 **`L_text_audit`（文字审计·技能自检）**，直接调用技能的脚本
+
+### 结果
+
+```
+文字审计（技能自检）   PASS  PASS  PASS
+M3/M4/M5  INCOMPLETE  通过 10 失败 0 缺证据 1 不适用 1
+```
+
+**从 9 PASS 升到 10 PASS** —— 多出来的正是技能自己那条判据。
+
+### 判据清单现在是 12 条
+
+其中 **2 条来自技能本身**（layout_check / text_audit），
+1 条需现场（交叉结点），9 条本仓补。
+
+### 4 条测试
+
+链里调了审计、`visible` 结构合规（count 与 items 一致）、
+技能脚本直接跑得到 `clear`、**磁盘产物里有这条判据**。
+
+### 教训
+
+> **"我的判据清单"不等于"目标要求的判据清单"。**
+> 目标点了名的工具，要逐个确认**真的跑过**，而不是确认"我有一条类似的检查"。

@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-sch-acceptance/v1",
-  "strictInput": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\strict-M3-full.json",
+  "strictInput": "reports\\hard-board\\board2\\strict-M3-full.json",
   "checkerVerdict": "incomplete",
   "verdict": "INCOMPLETE",
   "criteria": [
@@ -113,6 +113,17 @@
       "needs": [],
       "samples": [],
       "detail": []
+    },
+    {
+      "id": "L_text_audit",
+      "title": "文字审计（技能自检）",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "clear（量测 30 段）"
+      ]
     },
     {
       "id": "K_png_readability",

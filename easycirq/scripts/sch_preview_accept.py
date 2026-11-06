@@ -286,6 +286,40 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
             png_classes = counts
     except (OSError, ValueError):
         pass
+    # ── 技能自带判据：`sch_text_audit --strict` ──────────────────
+    # 目标点名要求以它为基准；此前只在预览链外跑过。
+    audit_status, audit_detail = "NOT RUN", "未产出 visible 文字"
+    try:
+        if visible.is_file():
+            au = run_py([sk / "sch_text_audit.py", visible, "--strict"], 900)
+            try:
+                aj = json.loads(au.stdout or "{}")
+            except ValueError:
+                aj = {}
+            st = aj.get("status") or ""
+            if st == "clear":
+                audit_status = "PASS"
+                audit_detail = "clear（量测 %s 段）" % aj.get("measured_count")
+            elif st:
+                audit_status = "FAIL"
+                audit_detail = "audit=%s findings=%s" % (
+                    st, len(aj.get("findings") or []))
+            else:
+                audit_status = "NOT RUN"
+                audit_detail = "audit 无输出"
+    except (OSError, ValueError):
+        pass
+    rep["criteria"] = list(rep.get("criteria") or []) + [{
+        "id": "L_text_audit",
+        "title": "文字审计（技能自检）",
+        "status": audit_status,
+        "count": 0 if audit_status == "PASS" else 1,
+        "needs": [] if audit_status != "NOT RUN"
+        else ["python scripts/sch_text_audit.py <visible.json> --strict"],
+        "samples": [],
+        "detail": [audit_detail],
+    }]
+
     rep["criteria"] = list(rep.get("criteria") or []) + [{
         "id": "K_png_readability",
         "title": "审图 PNG 可读性",

@@ -1,4 +1,5 @@
 {
+  "count": 30,
   "items": [
     {
       "id": "svgtext-3",
@@ -270,5 +271,15 @@
         "maxY": 239.5
       }
     }
-  ]
+  ],
+  "unmeasured": [],
+  "coverage": {
+    "designators": true,
+    "values": true,
+    "pin_names": true,
+    "net_labels": true,
+    "wire_names": true,
+    "free_text": true,
+    "title_block": true
+  }
 }

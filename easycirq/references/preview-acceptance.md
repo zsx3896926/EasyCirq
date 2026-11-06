@@ -101,6 +101,38 @@ python scripts/sch_layout_review.py --composition composition-M3-placed.json \
     --page-name "P3_5V转3V3主逻辑轨" --out-dir reports/hard-board/board2/review --gate
 ```
 
+## 判据清单（12 条，其中 2 条来自技能本身）
+
+| # | 判据 | 来源 |
+|---|---|---|
+| 1 | 内容不越框 | 技能 `sch_layout_check --strict` |
+| 2 | 导线不穿器件本体 | 技能 |
+| 3 | 模块框不切器件/导线 | 技能 |
+| 4 | 遮字/文字相压 | 技能 |
+| 5 | 标签落在真实端点、朝向一致 | 技能（本设计 N/A）|
+| 6 | 网标朝向一致 | 技能 |
+| 7 | 重复网名/孤立文字 | 技能 |
+| 8 | 不同网络导线交叉无结点 | 需现场结点证据（NOT RUN）|
+| 9 | 图签无重复文字 | 本仓补 |
+| 10 | 分区阅读顺序 | 本仓补 |
+| 11 | **文字审计（技能自检）** | 技能 `sch_text_audit --strict` |
+| 12 | 审图 PNG 可读性 | 本仓补（五类缺陷）|
+
+### 文字审计的输入结构（踩过）
+
+`sch_text_audit` 要求：
+
+```json
+{"count": N, "items": [{id, bbox}], "unmeasured": [], "coverage": {"designators": true, ...}}
+```
+
+- 缺 `count` → `count must match items`
+- 缺 `unmeasured` → `unmeasured array required`
+- `coverage` 要覆盖 `designators/values/pin_names/net_labels/wire_names/free_text/title_block`
+- **直接喂 `items` 数组**会报 `object required`
+
+所以预览链的 `visible-*.json` 里同时带这几项，才能直接跑审计。
+
 ## 一键复现
 
 ```bash
