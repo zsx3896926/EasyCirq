@@ -48,6 +48,23 @@ python scripts/sch_preview_status.py --work reports/hard-board/board2
 （不经本仓封装）。产物早于排版稿的模块会被标 🕒 并按 NOT RUN 处理 ——
 手写状态会过期，这个不会。
 
+## 什么时候必须现场：两条命令只能 NOT RUN
+
+| 命令 | 依赖 | 离线能跑吗 |
+|---|---|---|
+| `easycirq sch gate` | 前台 EasyEDA 窗口（`drc` 是最后一步且需要前台）| N |
+| `easycirq sch layout-score` | daemon + 活页（五维可读性打分，自带可执行修复建议）| N |
+| `easycirq sch layout-render --from <zones>` | 纯文件 | Y |
+| 本仓 `sch_preview_accept.py` 整链 | 纯文件 + 上述离线命令 | Y |
+
+离线跑 `sch layout-score` 会直接报：
+
+```
+no easycirq-agent daemon found on 127.0.0.1:23111-23120 (start it with `easycirq daemon start`)
+```
+
+**没有对象可测就写 NOT RUN，不要拿"我跑过验收"暗示覆盖了这两条。**
+
 ## 一键复现
 
 ```bash
