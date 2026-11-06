@@ -256,7 +256,7 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
     # ── 审图 PNG 门禁：并入**同一条命令**，避免漏跑 ───────────────
     # 目标里"审图 PNG"是交付物的一部分；此前要单独跑 review --gate，
     # 很容易漏。这里把它并进验收链，并作为一条判据列出。
-    png_status, png_overlaps = "NOT RUN", None
+    png_status, png_overlaps, png_classes = "NOT RUN", None, {}
     try:
         pg = json.loads(comp.read_text(encoding="utf-8"))
         titles = [z.get("title") for z in pg.get("modules") or []]
@@ -270,8 +270,20 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         png_file = review_out / ("%s.png" % safe_page_name(page_name))
         if png_file.is_file():
             png_status = "PASS" if rv.returncode == 0 else "FAIL"
-            hit = re.search(r"文字相压 (\d+) 处", rv.stdout or "")
-            png_overlaps = int(hit.group(1)) if hit else 0
+            # **五类都统计**：只读"文字相压"会让另外四类缺陷显示成 0
+            rv_out = rv.stdout or ""
+            counts = {}
+            for key, pat in (
+                    ("overlap", r"文字相压 (\d+) 处"),
+                    ("wire_text", r"导线穿过文字 (\d+) 处"),
+                    ("symbol_text", r"符号贴近文字 (\d+) 处"),
+                    ("own_body", r"文字落在自己本体内 (\d+) 处"),
+                    ("body_hit", r"器件压叠 (\d+) 处")):
+                m2 = re.search(pat, rv_out)
+                if m2:
+                    counts[key] = int(m2.group(1))
+            png_overlaps = sum(counts.values())
+            png_classes = counts
     except (OSError, ValueError):
         pass
     rep["criteria"] = list(rep.get("criteria") or []) + [{
@@ -282,7 +294,9 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         "needs": [] if png_status != "NOT RUN"
         else ["python scripts/sch_layout_review.py --composition <稿> --gate"],
         "samples": [],
-        "detail": (["文字相压 %d 处" % png_overlaps]
+        "detail": (["各类缺陷：%s" % (
+            ", ".join("%s=%d" % (k, v) for k, v in sorted(png_classes.items()))
+            or "无")]
                    if png_overlaps is not None else ["未产出审图"]),
     }]
     if any(c["status"] == "FAIL" for c in rep["criteria"]):

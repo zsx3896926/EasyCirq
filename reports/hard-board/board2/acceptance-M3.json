@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-sch-acceptance/v1",
-  "strictInput": "reports\\hard-board\\board2\\strict-M3-full.json",
+  "strictInput": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\strict-M3-full.json",
   "checkerVerdict": "incomplete",
   "verdict": "INCOMPLETE",
   "criteria": [
@@ -122,7 +122,7 @@
       "needs": [],
       "samples": [],
       "detail": [
-        "文字相压 0 处"
+        "各类缺陷：无"
       ]
     }
   ],
