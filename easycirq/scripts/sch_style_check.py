@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+"""按 `assets/style-reference/style-tokens.json` 检查图面合规性。
+
+目标明确要求"以 style-reference 样例为基准"。这份脚本把 tokens 变成**可测量**的判据：
+
+  · `layout.zone_area_ratio` 分区面积占比必须在 [0.25, 0.8]
+  · `layout.page_margin_mm` 内容不得进入页边
+  · `layout.zone_min_padding_mm` 分区框与内容的最小内距
+  · `palette.zone_border` 分区框颜色必须取自调色板
+  · `typography.*` 字号必须落在给定区间
+
+**实测发现（本脚本写出来的原因）**：M3 的分区只占页面 **5.5%**，
+而 tokens 要求 **≥25%** —— 这是硬性违反，而且解释了"一张邮票贴在巨幅纸上"。
+
+用法：
+  python scripts/sch_style_check.py --composition reports/.../composition-M3-placed.json
+  python scripts/sch_style_check.py --work reports/hard-board/board2
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import sys
+
+for _s in (sys.stdout, sys.stderr):
+    if hasattr(_s, "reconfigure"):
+        _s.reconfigure(encoding="utf-8", errors="replace")
+
+MM_PER_RAW = 0.254          # 1 raw = 0.01 inch = 0.254 mm
+
+
+def load_tokens(path: pathlib.Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def check(doc: dict, tokens: dict) -> list[dict]:
+    out = []
+    sheet = doc.get("sheet") or {}
+    page_area = max(1e-9, (sheet.get("maxX", 0) - sheet.get("minX", 0))
+                    * (sheet.get("maxY", 0) - sheet.get("minY", 0)))
+    layout = tokens.get("layout") or {}
+    lo, hi = (layout.get("zone_area_ratio") or [0.0, 1.0])[:2]
+
+    frames = []
+    # 优先用**真实导出**的分区框（审图渲染器写的 frames-*.json）：
+    # 这样量的是"画出来的框"，而不是按器件外框估的。
+    fr_path = doc.get("_framesPath")
+    if fr_path and pathlib.Path(fr_path).is_file():
+        fd = json.loads(pathlib.Path(fr_path).read_text(encoding="utf-8"))
+        frames = [{"bbox": f["rect"]} for f in fd.get("frames") or []]
+    for mod in ([] if frames else (doc.get("modules") or [])):
+        fr = mod.get("frames") or mod.get("moduleFrames")
+        if fr:
+            frames.extend(fr)
+        else:
+            # 没有显式 frame 时用器件外框估
+            xs0 = [p["bbox"]["minX"] for p in mod.get("placements") or []]
+            xs1 = [p["bbox"]["maxX"] for p in mod.get("placements") or []]
+            ys0 = [p["bbox"]["minY"] for p in mod.get("placements") or []]
+            ys1 = [p["bbox"]["maxY"] for p in mod.get("placements") or []]
+            if xs0:
+                frames.append({"bbox": {"minX": min(xs0), "minY": min(ys0),
+                                        "maxX": max(xs1), "maxY": max(ys1)}})
+    if not frames:
+        return [{"check": "zone_area_ratio", "ok": False,
+                 "detail": "排版稿里找不到分区框"}]
+
+    total = 0.0
+    for f in frames:
+        b = f.get("bbox") or {}
+        a = max(0.0, (b.get("maxX", 0) - b.get("minX", 0))
+                * (b.get("maxY", 0) - b.get("minY", 0)))
+        total += a
+    ratio = total / page_area
+    out.append({
+        "check": "layout.zone_area_ratio",
+        "ok": lo <= ratio <= hi,
+        "value": round(ratio, 4),
+        "want": [lo, hi],
+        "detail": ("分区占页面 %.1f%%，tokens 要求 %.0f%%~%.0f%%"
+                   % (ratio * 100, lo * 100, hi * 100)),
+    })
+
+    margin_mm = layout.get("page_margin_mm")
+    if margin_mm is not None:
+        margin = margin_mm / MM_PER_RAW
+        violations = []
+        for mod in doc.get("modules") or []:
+            for p in mod.get("placements") or []:
+                b = p["bbox"]
+                if (b["minX"] < sheet["minX"] + margin
+                        or b["minY"] < sheet["minY"] + margin
+                        or b["maxX"] > sheet["maxX"] - margin
+                        or b["maxY"] > sheet["maxY"] - margin):
+                    violations.append(p.get("designator"))
+        out.append({"check": "layout.page_margin_mm", "ok": not violations,
+                    "value": len(violations), "want": 0,
+                    "detail": "越页边的器件：%r" % (violations[:5] or "无")})
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="按 style-tokens 检查图面合规")
+    ap.add_argument("--composition", action="append", default=[])
+    ap.add_argument("--work")
+    ap.add_argument("--tokens", default=None)
+    ap.add_argument("--frames", action="append", default=[],
+                    help="审图渲染器导出的 frames-*.json；不给我就按器件外框估")
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args()
+
+    root = pathlib.Path(__file__).resolve().parent.parent
+    tpath = pathlib.Path(args.tokens) if args.tokens else \
+        root / "assets" / "style-reference" / "style-tokens.json"
+    tokens = load_tokens(tpath)
+
+    comps = list(args.composition)
+    if args.work:
+        comps += [str(p) for p in
+                  sorted(pathlib.Path(args.work).glob("composition-M*-placed.json"))]
+    if not comps:
+        raise SystemExit("需要 --composition 或 --work")
+
+    rows = []
+    for cp in comps:
+        doc = json.loads(pathlib.Path(cp).read_text(encoding="utf-8"))
+        name = pathlib.Path(cp).stem.replace("composition-", "").replace("-placed", "")
+        # 显式映射 `模块=路径`；也兼容只给路径时按 stem 包含模块名匹配。
+        # （按文件名猜结果永远匹配不上：`frames-P3_xxx.json` 里没有 `M3`。）
+        fb = None
+        for cand in args.frames:
+            if "=" in cand:
+                k, v = cand.split("=", 1)
+                if k.strip() == name:
+                    fb = v
+                    break
+            elif pathlib.Path(cand).stem.lower().find(name.lower()) >= 0:
+                fb = cand
+                break
+        if fb:
+            doc["_framesPath"] = fb
+        res = check(doc, tokens)
+        rows.append({"module": name, "checks": res})
+        if not args.json:
+            print("  %s" % name)
+            for r in res:
+                print("     %-26s %s  %s"
+                      % (r["check"], "✅" if r["ok"] else "❌", r["detail"]))
+    if args.json:
+        print(json.dumps(rows, ensure_ascii=False, indent=2))
+    bad = sum(1 for r in rows for c in r["checks"] if not c["ok"])
+    if not args.json:
+        print()
+        print("  违规 %d 项（%d 个模块）" % (bad, len(rows)))
+    return 0 if bad == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

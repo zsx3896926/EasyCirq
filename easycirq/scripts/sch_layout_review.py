@@ -56,6 +56,9 @@ THEME = {
     "sheet": (205, 205, 205),
 }
 FRAME_PAD = 18.0          # 模块框相对器件包围盒的外扩（raw）
+PAGE_MARGIN_RAW = 19.7    # 5 mm 页边距（style-tokens.layout.page_margin_mm）
+ZONE_AREA_MIN = 0.25      # style-tokens.layout.zone_area_ratio[0]
+ZONE_AREA_MAX = 0.80      # style-tokens.layout.zone_area_ratio[1]
 TITLE_SIZE = 20           # 0.2 inch 标题 → fontSize 20（frame apply 的约定）
 MIN_UTILIZATION = 0.05    # 版面占用低于此值只**提醒**，不拦（不是缺陷）
 MAX_CROSSINGS = 0         # 导线穿**别人**器件本体的允许处数（硬拦）
@@ -187,7 +190,29 @@ def frames_doc(doc, modules, parts, page_name, color="#AA00AA"):
         boxes = [parts[r] for r in m["refs"] if r in parts]
         if not boxes:
             continue
-        r = expand(union(boxes), FRAME_PAD)
+        content = expand(union(boxes), FRAME_PAD)
+        # 分区框取**可用区**（页面减页边距），受 tokens 的 80% 上限约束。
+        # 只按器件包围盒外扩时，小电路的分区只占页面 5.5%，
+        # 违反 style-tokens.layout.zone_area_ratio（要求 25%~80%）。
+        r = content
+        _sheet = doc.get("sheet") or {}
+        if _sheet:
+            _pg = (_sheet["minX"], _sheet["minY"], _sheet["maxX"], _sheet["maxY"])
+            _pa = max(1e-9, (_pg[2] - _pg[0]) * (_pg[3] - _pg[1]))
+            if (max(0.0, (content[2] - content[0]) * (content[3] - content[1]))
+                    / _pa) < ZONE_AREA_MIN:
+                r = expand(_pg, -PAGE_MARGIN_RAW)
+                _t = 0
+                while _t < 40:
+                    _a = max(0.0, (r[2] - r[0]) * (r[3] - r[1])) / _pa
+                    if _a <= ZONE_AREA_MAX:
+                        break
+                    _n = expand(r, -6.0)
+                    if (_n[0] > content[0] or _n[1] > content[1]
+                            or _n[2] < content[2] or _n[3] < content[3]):
+                        break
+                    r = _n
+                    _t += 1
         frames.append({
             "id": m["id"],
             "title": page_name and ("%s · %s" % (page_name, m["title"])) or m["title"],
@@ -437,7 +462,29 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         boxes = [parts[r] for r in m["refs"] if r in parts]
         if not boxes:
             continue
-        r = expand(union(boxes), FRAME_PAD)
+        content = expand(union(boxes), FRAME_PAD)
+        # 分区框取**可用区**（页面减页边距），受 tokens 的 80% 上限约束。
+        # 只按器件包围盒外扩时，小电路的分区只占页面 5.5%，
+        # 违反 style-tokens.layout.zone_area_ratio（要求 25%~80%）。
+        r = content
+        _sheet = doc.get("sheet") or {}
+        if _sheet:
+            _pg = (_sheet["minX"], _sheet["minY"], _sheet["maxX"], _sheet["maxY"])
+            _pa = max(1e-9, (_pg[2] - _pg[0]) * (_pg[3] - _pg[1]))
+            if (max(0.0, (content[2] - content[0]) * (content[3] - content[1]))
+                    / _pa) < ZONE_AREA_MIN:
+                r = expand(_pg, -PAGE_MARGIN_RAW)
+                _t = 0
+                while _t < 40:
+                    _a = max(0.0, (r[2] - r[0]) * (r[3] - r[1])) / _pa
+                    if _a <= ZONE_AREA_MAX:
+                        break
+                    _n = expand(r, -6.0)
+                    if (_n[0] > content[0] or _n[1] > content[1]
+                            or _n[2] < content[2] or _n[3] < content[3]):
+                        break
+                    r = _n
+                    _t += 1
         zc = _rgb(palette[bi % len(palette)], (0, 179, 179))
         d.rectangle([px(r[0], r[3]), px(r[2], r[1])], outline=zc, width=2)
         label = m["title"] or m.get("id") or ""

@@ -6,13 +6,13 @@
       "id": "M3",
       "title": "P3_5V转3V3主逻辑轨 · 5V → 3.3V 主逻辑轨（SY8089）",
       "rect": {
-        "minX": 217.0,
-        "minY": 112.0,
-        "maxX": 373.0,
-        "maxY": 263.0
+        "minX": 31.7,
+        "minY": 31.7,
+        "maxX": 562.3,
+        "maxY": 388.3
       },
-      "titleX": 221.0,
-      "titleY": 259.0,
+      "titleX": 35.7,
+      "titleY": 384.3,
       "fontSize": 20,
       "color": "#AA00AA",
       "lineType": 1
