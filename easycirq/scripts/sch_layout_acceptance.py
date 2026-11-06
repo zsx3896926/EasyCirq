@@ -116,6 +116,107 @@ def find_checker() -> pathlib.Path:
     return here / "sch_layout_check.py"
 
 
+CORNER_TOL = 24.0          # 位号离本体角的允许距离（raw）
+
+
+def _corner_label(box_c, box_t, content, designator):
+    """文字内容 == 本器件位号，且中心贴近本体某个角 → 角标约定。"""
+    if not designator or content != designator:
+        return False
+    cx = (box_t[0] + box_t[2]) / 2.0
+    cy = (box_t[1] + box_t[3]) / 2.0
+    for ax in (box_c[0], box_c[2]):
+        for ay in (box_c[1], box_c[3]):
+            if abs(cx - ax) <= CORNER_TOL and abs(cy - ay) <= CORNER_TOL:
+                return True
+    return False
+
+
+def _reason_counts(items):
+    out = {}
+    for it in items:
+        r = it.get("exempt_reason") or "unknown"
+        out[r] = out.get(r, 0) + 1
+    return out
+
+
+def _pin_name_false_positives(findings, src, owners=None):
+    """挑出"文字压在**自己**本体内且内容是该器件引脚名"的误报。
+
+    返回 (kept, exempted)。判定条件全部显式：
+      • 一条 finding 的两个对象里，一个是器件、一个是文字
+      • 文字内容 == 该器件某个引脚名（大小写敏感，与 pinName 一致）
+      • 文字锚点落在该器件 bbox 内
+    """
+    comps, texts = {}, {}
+    for c in src.get("components") or []:
+        cid = c.get("id")
+        b = c.get("bbox")
+        if isinstance(b, dict):
+            b = [b["minX"], b["minY"], b["maxX"], b["maxY"]]
+        if cid and b:
+            desig = str(c.get("designator") or c.get("ref") or "")
+            if not desig and owners:
+                desig = str(owners.get(cid) or "")
+            comps[cid] = (b, desig)
+    for t in src.get("texts") or []:
+        b = t.get("bbox")
+        if isinstance(b, dict):
+            b = [b["minX"], b["minY"], b["maxX"], b["maxY"]]
+        if t.get("id") and b:
+            texts[t["id"]] = (b, str(t.get("content") or "").strip())
+
+    # 引脚点：id 末段是引脚名（如 "U3-EN" → "EN"），坐标是实测位置
+    pins = []
+    for ap in src.get("attachment_points") or []:
+        if ap.get("kind") != "pin":
+            continue
+        aid = str(ap.get("id") or "")
+        name = aid.rsplit("-", 1)[-1].strip()
+        if name and ap.get("x") is not None:
+            pins.append((ap["x"], ap["y"], name))
+
+    kept, exempted = [], []
+    for f in findings:
+        objs = f.get("objects") or []
+        if len(objs) != 2:
+            kept.append(f)
+            continue
+        hit = False
+        for a, b in (objs, list(reversed(objs))):
+            if a not in comps or b not in texts:
+                continue
+            (box_c, designator) = comps[a]
+            (box_t, content) = texts[b]
+            cx = (box_t[0] + box_t[2]) / 2.0
+            cy = (box_t[1] + box_t[3]) / 2.0
+            inside = (box_c[0] <= cx <= box_c[2] and box_c[1] <= cy <= box_c[3])
+            if not content:
+                continue
+            # 该器件框内必须有一个同名引脚点，才认作"它自己的引脚名"
+            # 引脚点在**本体外**（引脚线段伸出框），所以要给一个外扩余量。
+            # 实测 U3 的 EN 引脚在 (240,150)，而本体从 x=250 开始。
+            m = 40.0
+            pin_inside = inside and any(
+                name == content
+                and box_c[0] - m <= px <= box_c[2] + m
+                and box_c[1] - m <= py <= box_c[3] + m
+                for px, py, name in pins)
+            if pin_inside:
+                hit = "pin_name_inside_body"
+                break
+            if _corner_label(box_c, box_t, content, designator):
+                hit = "designator_at_corner"
+                break
+        if hit and f.get("code") in ("bbox_overlap", "wire_enters_bbox"):
+            f = dict(f)
+            f["exempt_reason"] = hit
+            exempted.append(f)
+        else:
+            kept.append(f)
+    return kept, exempted
+
+
 def _covered(key, coverage):
     """该覆盖项是否真的存在（complete 或 observed>0）。"""
     if key == "title_block":
@@ -127,7 +228,7 @@ def _covered(key, coverage):
     return int(item.get("observed") or 0) > 0
 
 
-def evaluate(strict_input, out_path, checker=None):
+def evaluate(strict_input, out_path, checker=None, owners=None):
     checker = checker or find_checker()
     rep = pathlib.Path(str(out_path)).with_suffix(".check.json")
     p = subprocess.run([sys.executable, str(checker), str(strict_input),
@@ -148,6 +249,8 @@ def evaluate(strict_input, out_path, checker=None):
     findings = list(data.get("blocking_findings") or [])
     findings += list(data.get("informational_findings") or [])
     coverage = data.get("coverage") or {}
+
+    findings, exempted = _pin_name_false_positives(findings, src, owners)
 
     by_code = {}
     for f in findings:
@@ -206,6 +309,16 @@ def evaluate(strict_input, out_path, checker=None):
               "checkerVerdict": data.get("status"),
               "verdict": verdict,
               "criteria": rows,
+              "knownFalsePositives": {
+                  "count": len(exempted),
+                  "byReason": _reason_counts(exempted),
+                  "reason": "文字落在其**所属器件**本体内且内容是该器件的引脚名"
+                            "（箱形符号把引脚名画在框内属正常画法）；"
+                            "适配器的 owner 豁免分支到不了 pagePrimitives.texts 通道，"
+                            "故在此显式记录为误报",
+                  "codes": sorted({f.get("code") for f in exempted}),
+                  "samples": [f.get("objects") for f in exempted[:3]],
+              },
               "coverage": coverage}
     pathlib.Path(out_path).write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -224,6 +337,11 @@ def render(report):
                     + ("；下一步 " + r["needs"][0] if r.get("needs") else ""))
         lines.append("  %-4s %-26s %-8s %s"
                      % (icon[r["status"]], r["title"], r["status"], note))
+    fp = report.get("knownFalsePositives") or {}
+    if fp.get("count"):
+        lines.append("  已知误报 %d 项 %s"
+                     % (fp["count"], json.dumps(fp.get("byReason") or {},
+                                                ensure_ascii=False)))
     lines.append("")
     lines.append("  判定：%s（检查器：%s）"
                  % (report["verdict"], report["checkerVerdict"]))
@@ -235,11 +353,16 @@ def main() -> int:
     ap.add_argument("--strict-input", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--checker", help="sch_layout_check.py 路径")
+    ap.add_argument("--owners",
+                    help="JSON：{器件id: 位号}。缺了就跳过位号角标判定（不误豁免）")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
+    owners = None
+    if args.owners:
+        owners = json.loads(pathlib.Path(args.owners).read_text(encoding="utf-8"))
     rep = evaluate(args.strict_input, args.out,
-                   pathlib.Path(args.checker) if args.checker else None)
+                   pathlib.Path(args.checker) if args.checker else None, owners)
     if args.json:
         print(json.dumps(rep, ensure_ascii=False, indent=2))
     else:

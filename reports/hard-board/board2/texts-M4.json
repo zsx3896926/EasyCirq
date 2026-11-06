@@ -1,0 +1,335 @@
+[
+  {
+    "primitiveId": "svgtext-5",
+    "Content": "U4",
+    "X": 358.0,
+    "Y": 271.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-7",
+    "Content": "EN",
+    "X": 416.0,
+    "Y": 245.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-8",
+    "Content": "FB",
+    "X": 416.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-9",
+    "Content": "IN",
+    "X": 360.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-10",
+    "Content": "LX",
+    "X": 360.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-11",
+    "Content": "LX#2",
+    "X": 360.0,
+    "Y": 205.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-12",
+    "Content": "OUT",
+    "X": 416.0,
+    "Y": 205.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-13",
+    "Content": "OUT#2",
+    "X": 416.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-14",
+    "Content": "PGND",
+    "X": 360.0,
+    "Y": 255.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-15",
+    "Content": "SGND",
+    "X": 360.0,
+    "Y": 245.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-16",
+    "Content": "C16",
+    "X": 453.0,
+    "Y": 256.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-18",
+    "Content": "1",
+    "X": 455.0,
+    "Y": 245.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-19",
+    "Content": "2",
+    "X": 471.0,
+    "Y": 245.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-20",
+    "Content": "C17",
+    "X": 448.0,
+    "Y": 306.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-22",
+    "Content": "1",
+    "X": 450.0,
+    "Y": 295.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-23",
+    "Content": "2",
+    "X": 466.0,
+    "Y": 295.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-24",
+    "Content": "C18",
+    "X": 443.0,
+    "Y": 356.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-26",
+    "Content": "1",
+    "X": 445.0,
+    "Y": 345.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-27",
+    "Content": "2",
+    "X": 461.0,
+    "Y": 345.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-28",
+    "Content": "C19",
+    "X": 453.0,
+    "Y": 206.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-30",
+    "Content": "1",
+    "X": 455.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-31",
+    "Content": "2",
+    "X": 471.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-32",
+    "Content": "C20",
+    "X": 448.0,
+    "Y": 156.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-34",
+    "Content": "1",
+    "X": 450.0,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-35",
+    "Content": "2",
+    "X": 466.0,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-36",
+    "Content": "R12",
+    "X": 438.0,
+    "Y": 406.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-38",
+    "Content": "1",
+    "X": 440.0,
+    "Y": 395.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-39",
+    "Content": "2",
+    "X": 456.0,
+    "Y": 395.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-40",
+    "Content": "L4",
+    "X": 193.0,
+    "Y": 206.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-42",
+    "Content": "1",
+    "X": 195.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-43",
+    "Content": "2",
+    "X": 221.0,
+    "Y": 195.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-44",
+    "Content": "R10",
+    "X": 558.0,
+    "Y": 236.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-46",
+    "Content": "1",
+    "X": 560.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-47",
+    "Content": "2",
+    "X": 576.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-48",
+    "Content": "R11",
+    "X": 628.0,
+    "Y": 236.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-50",
+    "Content": "1",
+    "X": 630.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-51",
+    "Content": "2",
+    "X": 646.0,
+    "Y": 225.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  }
+]

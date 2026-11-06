@@ -22,11 +22,23 @@ import sys
 def build_zones_input(doc, padding=10.0, gap=10.0):
     zones = []
     for mod in doc.get("modules") or []:
+        # pinStates：**无网的引脚必须显式声明状态**，否则渲染器报
+        # "<ref>.<pin> lacks explicit pin state"；有网的引脚必须留空，
+        # 否则报 "conflicting pin state"。合法值只有 nc / unconnected。
+        pin_states = {}
+        for pl in (mod.get("placements") or []):
+            pid = pl.get("primitiveId") or ""
+            row = {}
+            for q in (pl.get("pins") or []):
+                if not (q.get("net") or "").strip() and q.get("number"):
+                    row[str(q["number"])] = "nc"
+            if row:
+                pin_states[pid] = row
         layout = {
             "schemaVersion": 1,
             "componentIds": {pl["designator"]: pl.get("primitiveId")
                              for pl in (mod.get("placements") or [])},
-            "pinStates": {},
+            "pinStates": pin_states,
             "placements": [{
                 "designator": pl["designator"],
                 "x": pl["x"], "y": pl["y"],

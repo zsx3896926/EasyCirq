@@ -3,6 +3,474 @@
   "informational_findings": [],
   "blocking_findings": [
     {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-5"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-7"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.502,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-8"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        5.758,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-9"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        4.75,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-10"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.003,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-11"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.516,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-12"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        9.75,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-13"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        14.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-14"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-15"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-16"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-18"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-19"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-20"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-22"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-23"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-24"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-26"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-27"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-28"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-30"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-31"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-32"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-34"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-35"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-36"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-38"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-39"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-40"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        5.893,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-42"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-43"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-44"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-46"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-47"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-48"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.328,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-50"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-51"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-6#0",
+        "svgtext-40"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-11#0",
+        "svgtext-46"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-11#0",
+        "svgtext-47"
+      ],
+      "status": "review_candidate"
+    },
+    {
       "code": "different_named_wires_cross",
       "objects": [
         "w-M4-20#0",
@@ -15,21 +483,21 @@
   ],
   "counts": {
     "components": 10,
-    "texts": 0,
+    "texts": 37,
     "wires": 53
   },
   "declared_inventory_matches": true,
-  "coverage_status": "incomplete",
+  "coverage_status": "complete",
   "coverage": {
     "components": {
       "status": "complete",
       "observed": 10
     },
     "texts": {
-      "status": "partial",
-      "observed": 0,
+      "status": "complete",
+      "observed": 37,
       "estimated": 0,
-      "rendered": 0
+      "rendered": 52
     },
     "wires": {
       "status": "complete",
@@ -50,6 +518,11 @@
       "status": "complete",
       "observed": 1,
       "rectangles": 1
+    },
+    "rendered_texts": {
+      "status": "complete",
+      "observed": 52,
+      "unique_ids": 0
     }
   },
   "optional_counts": {
@@ -100,7 +573,9 @@
     }
   },
   "reading_order": null,
-  "text_classes": {},
+  "text_classes": {
+    "free_text": 37
+  },
   "self_text_contact_tolerance": 1.0,
   "label_own_wire_edge_tolerance": 1.0,
   "junction_evidence": null,
@@ -108,7 +583,6 @@
   "strict_mode": true,
   "strict_missing": [
     "title_block",
-    "coverage.texts",
     "module reading order: frame-M4",
     "module title/purpose bbox: frame-M4",
     "module title/purpose bbox: frame-M4",
@@ -125,6 +599,474 @@
     "zone_reading_order: module_frames[].order not supplied"
   ],
   "findings": [
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-5"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-7"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.502,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-8"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        5.758,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-9"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        4.75,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-10"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.003,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-11"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.516,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-12"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        9.75,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-13"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        14.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-14"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-15"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-16"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-18"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c42",
+        "svgtext-19"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-20"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-22"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-23"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-24"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-26"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-27"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-28"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-30"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
+        "svgtext-31"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-32"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-34"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c46",
+        "svgtext-35"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-36"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-38"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
+        "svgtext-39"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-40"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        5.893,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-42"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c41",
+        "svgtext-43"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-44"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-46"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c47",
+        "svgtext-47"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-48"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.328,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-50"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c48",
+        "svgtext-51"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-6#0",
+        "svgtext-40"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-11#0",
+        "svgtext-46"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M4-11#0",
+        "svgtext-47"
+      ],
+      "status": "review_candidate"
+    },
     {
       "code": "different_named_wires_cross",
       "objects": [

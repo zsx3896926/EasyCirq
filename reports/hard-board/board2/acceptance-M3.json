@@ -1,8 +1,8 @@
 {
   "schema": "easycirq-sch-acceptance/v1",
-  "strictInput": "reports\\hard-board\\board2\\strict-M3-placed.json",
+  "strictInput": "reports\\hard-board\\board2\\strict-M3-full.json",
   "checkerVerdict": "incomplete",
-  "verdict": "INCOMPLETE",
+  "verdict": "BLOCKED",
   "criteria": [
     {
       "id": "A_content_inside_page",
@@ -16,11 +16,26 @@
     {
       "id": "C_wire_vs_body",
       "title": "导线不穿器件本体",
-      "status": "PASS",
-      "count": 0,
+      "status": "FAIL",
+      "count": 3,
       "needs": [],
-      "samples": [],
-      "detail": []
+      "samples": [
+        [
+          "w-M3-0#0",
+          "svgtext-5"
+        ],
+        [
+          "w-M3-1#0",
+          "svgtext-5"
+        ],
+        [
+          "w-M3-19#0",
+          "svgtext-16"
+        ]
+      ],
+      "detail": [
+        ""
+      ]
     },
     {
       "id": "D_frame_vs_object",
@@ -34,16 +49,11 @@
     {
       "id": "B_text_occlusion",
       "title": "遮字/文字相压",
-      "status": "NOT RUN",
+      "status": "PASS",
       "count": 0,
-      "needs": [
-        "easycirq sch export-image --scope page --format svg",
-        "python scripts/svg_text_bbox.py page.svg"
-      ],
+      "needs": [],
       "samples": [],
-      "detail": [
-        "文字覆盖 partial，无渲染文字"
-      ]
+      "detail": []
     },
     {
       "id": "E_label_anchor",
@@ -61,16 +71,11 @@
     {
       "id": "F_net_text",
       "title": "重复网名/孤立文字",
-      "status": "NOT RUN",
+      "status": "PASS",
       "count": 0,
-      "needs": [
-        "easycirq sch export-image --scope page --format svg",
-        "python scripts/svg_text_bbox.py page.svg"
-      ],
+      "needs": [],
       "samples": [],
-      "detail": [
-        "文字覆盖 partial，无渲染文字"
-      ]
+      "detail": []
     },
     {
       "id": "H_crossing_evidence",
@@ -111,27 +116,48 @@
     {
       "id": "G_zone_readability",
       "title": "分区阅读顺序",
-      "status": "NOT RUN",
+      "status": "PASS",
       "count": 0,
-      "needs": [
-        "--visible-text（分区标题文字）"
-      ],
+      "needs": [],
       "samples": [],
-      "detail": [
-        "文字覆盖 partial，无渲染文字"
-      ]
+      "detail": []
     }
   ],
+  "knownFalsePositives": {
+    "count": 24,
+    "byReason": {
+      "designator_at_corner": 7,
+      "pin_name_inside_body": 17
+    },
+    "reason": "文字落在其**所属器件**本体内且内容是该器件的引脚名（箱形符号把引脚名画在框内属正常画法）；适配器的 owner 豁免分支到不了 pagePrimitives.texts 通道，故在此显式记录为误报",
+    "codes": [
+      "bbox_overlap"
+    ],
+    "samples": [
+      [
+        "c33",
+        "svgtext-5"
+      ],
+      [
+        "c33",
+        "svgtext-7"
+      ],
+      [
+        "c33",
+        "svgtext-8"
+      ]
+    ]
+  },
   "coverage": {
     "components": {
       "status": "complete",
       "observed": 7
     },
     "texts": {
-      "status": "partial",
-      "observed": 0,
+      "status": "complete",
+      "observed": 24,
       "estimated": 0,
-      "rendered": 0
+      "rendered": 37
     },
     "wires": {
       "status": "complete",
@@ -152,6 +178,11 @@
       "status": "complete",
       "observed": 1,
       "rectangles": 1
+    },
+    "rendered_texts": {
+      "status": "complete",
+      "observed": 37,
+      "unique_ids": 0
     }
   }
 }

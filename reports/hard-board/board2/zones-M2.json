@@ -1,0 +1,909 @@
+{
+  "schemaVersion": 1,
+  "zones": [
+    {
+      "id": "M2",
+      "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+      "layout": {
+        "schemaVersion": 1,
+        "componentIds": {
+          "U2": "c25",
+          "C11": "c30",
+          "D4": "c26",
+          "D5": "c27",
+          "J2": "c32",
+          "L2": "c28",
+          "C10": "c29",
+          "C12": "c31"
+        },
+        "pinStates": {},
+        "placements": [
+          {
+            "designator": "U2",
+            "x": 395.0,
+            "y": 220.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 360.0,
+              "minY": 170.0,
+              "maxX": 430.0,
+              "maxY": 270.0
+            },
+            "pins": [
+              {
+                "number": "FB",
+                "name": "FB",
+                "net": "+12V_FILT",
+                "x": 340.0,
+                "y": 230.0,
+                "rotation": 180
+              },
+              {
+                "number": "GND",
+                "name": "GND",
+                "net": "GND",
+                "x": 450.0,
+                "y": 250.0,
+                "rotation": 0
+              },
+              {
+                "number": "GND#2",
+                "name": "GND#2",
+                "net": "GND",
+                "x": 450.0,
+                "y": 230.0,
+                "rotation": 0
+              },
+              {
+                "number": "GND#3",
+                "name": "GND#3",
+                "net": "GND",
+                "x": 450.0,
+                "y": 210.0,
+                "rotation": 0
+              },
+              {
+                "number": "GND#4",
+                "name": "GND#4",
+                "net": "GND",
+                "x": 450.0,
+                "y": 190.0,
+                "rotation": 0
+              },
+              {
+                "number": "ON/OFF",
+                "name": "ON/OFF",
+                "net": "GND",
+                "x": 340.0,
+                "y": 250.0,
+                "rotation": 180
+              },
+              {
+                "number": "OUTPUT",
+                "name": "OUTPUT",
+                "net": "U2_N3",
+                "x": 340.0,
+                "y": 210.0,
+                "rotation": 180
+              },
+              {
+                "number": "VIN",
+                "name": "VIN",
+                "net": "D5_N2",
+                "x": 340.0,
+                "y": 190.0,
+                "rotation": 180
+              }
+            ]
+          },
+          {
+            "designator": "C11",
+            "x": 315.0,
+            "y": 250.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 305.0,
+              "minY": 240.0,
+              "maxX": 315.0,
+              "maxY": 250.0
+            },
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "+12V_FILT",
+                "x": 315.0,
+                "y": 230.0,
+                "rotation": 0
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 315.0,
+                "y": 270.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "D4",
+            "x": 200.0,
+            "y": 210.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 195.0,
+              "minY": 205.0,
+              "maxX": 205.0,
+              "maxY": 215.0
+            },
+            "pins": [
+              {
+                "number": "A",
+                "name": "A",
+                "net": "GND",
+                "x": 220.0,
+                "y": 210.0,
+                "rotation": 0
+              },
+              {
+                "number": "K",
+                "name": "K",
+                "net": "U2_N3",
+                "x": 180.0,
+                "y": 210.0,
+                "rotation": 180
+              }
+            ]
+          },
+          {
+            "designator": "D5",
+            "x": 200.0,
+            "y": 160.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 195.0,
+              "minY": 155.0,
+              "maxX": 205.0,
+              "maxY": 165.0
+            },
+            "pins": [
+              {
+                "number": "A",
+                "name": "A",
+                "net": "VBAT_RAW",
+                "x": 220.0,
+                "y": 160.0,
+                "rotation": 0
+              },
+              {
+                "number": "K",
+                "name": "K",
+                "net": "D5_N2",
+                "x": 180.0,
+                "y": 160.0,
+                "rotation": 180
+              }
+            ]
+          },
+          {
+            "designator": "J2",
+            "x": 250.0,
+            "y": 165.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 240.0,
+              "minY": 150.0,
+              "maxX": 260.0,
+              "maxY": 180.0
+            },
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "VBAT_RAW",
+                "x": 230.0,
+                "y": 160.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 230.0,
+                "y": 170.0,
+                "rotation": 180
+              }
+            ]
+          },
+          {
+            "designator": "L2",
+            "x": 200.0,
+            "y": 260.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 185.0,
+              "minY": 255.0,
+              "maxX": 215.0,
+              "maxY": 265.0
+            },
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U2_N3",
+                "x": 180.0,
+                "y": 260.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "+12V_FILT",
+                "x": 220.0,
+                "y": 260.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "C10",
+            "x": 150.0,
+            "y": 210.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 140.0,
+              "minY": 200.0,
+              "maxX": 150.0,
+              "maxY": 210.0
+            },
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "D5_N2",
+                "x": 150.0,
+                "y": 190.0,
+                "rotation": 0
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 150.0,
+                "y": 230.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "C12",
+            "x": 195.0,
+            "y": 110.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 190.0,
+              "minY": 105.0,
+              "maxX": 200.0,
+              "maxY": 115.0
+            },
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "D5_N2",
+                "x": 180.0,
+                "y": 110.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 210.0,
+                "y": 110.0,
+                "rotation": 0
+              }
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "net": "GND",
+            "points": [
+              [
+                450.0,
+                230.0
+              ],
+              [
+                455.0,
+                230.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                450.0,
+                190.0
+              ],
+              [
+                455.0,
+                190.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                450.0,
+                210.0
+              ],
+              [
+                455.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                320.0,
+                250.0
+              ],
+              [
+                340.0,
+                250.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                230.0,
+                170.0
+              ],
+              [
+                225.0,
+                170.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                175.0,
+                210.0
+              ],
+              [
+                180.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                340.0,
+                210.0
+              ],
+              [
+                230.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                230.0,
+                210.0
+              ],
+              [
+                230.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                230.0,
+                215.0
+              ],
+              [
+                175.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                180.0,
+                110.0
+              ],
+              [
+                175.0,
+                110.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                150.0,
+                190.0
+              ],
+              [
+                175.0,
+                190.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                175.0,
+                190.0
+              ],
+              [
+                340.0,
+                190.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                450.0,
+                250.0
+              ],
+              [
+                455.0,
+                250.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                455.0,
+                190.0
+              ],
+              [
+                455.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                455.0,
+                210.0
+              ],
+              [
+                455.0,
+                230.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                455.0,
+                230.0
+              ],
+              [
+                455.0,
+                250.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                455.0,
+                250.0
+              ],
+              [
+                455.0,
+                255.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                315.0,
+                270.0
+              ],
+              [
+                320.0,
+                270.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                320.0,
+                250.0
+              ],
+              [
+                320.0,
+                270.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                320.0,
+                270.0
+              ],
+              [
+                320.0,
+                275.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                220.0,
+                210.0
+              ],
+              [
+                225.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                225.0,
+                170.0
+              ],
+              [
+                225.0,
+                210.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                225.0,
+                210.0
+              ],
+              [
+                225.0,
+                225.0
+              ]
+            ]
+          },
+          {
+            "net": "+12V_FILT",
+            "points": [
+              [
+                315.0,
+                230.0
+              ],
+              [
+                330.0,
+                230.0
+              ]
+            ]
+          },
+          {
+            "net": "+12V_FILT",
+            "points": [
+              [
+                330.0,
+                230.0
+              ],
+              [
+                340.0,
+                230.0
+              ]
+            ]
+          },
+          {
+            "net": "+12V_FILT",
+            "points": [
+              [
+                330.0,
+                230.0
+              ],
+              [
+                330.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                220.0,
+                160.0
+              ],
+              [
+                225.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                225.0,
+                160.0
+              ],
+              [
+                230.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                225.0,
+                160.0
+              ],
+              [
+                225.0,
+                130.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                175.0,
+                260.0
+              ],
+              [
+                180.0,
+                260.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                175.0,
+                210.0
+              ],
+              [
+                175.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                175.0,
+                215.0
+              ],
+              [
+                175.0,
+                260.0
+              ]
+            ]
+          },
+          {
+            "net": "U2_N3",
+            "points": [
+              [
+                175.0,
+                260.0
+              ],
+              [
+                175.0,
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                175.0,
+                160.0
+              ],
+              [
+                180.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                175.0,
+                110.0
+              ],
+              [
+                175.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "D5_N2",
+            "points": [
+              [
+                175.0,
+                160.0
+              ],
+              [
+                175.0,
+                190.0
+              ]
+            ]
+          }
+        ],
+        "flags": [
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 455.0,
+            "pinY": 255.0,
+            "direction": "up",
+            "offset": 10
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 320.0,
+            "pinY": 275.0,
+            "direction": "up",
+            "offset": 10
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 225.0,
+            "pinY": 225.0,
+            "direction": "right",
+            "offset": 25
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 150.0,
+            "pinY": 230.0,
+            "direction": "right",
+            "offset": 55
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 210.0,
+            "pinY": 110.0,
+            "direction": "right",
+            "offset": 25
+          },
+          {
+            "net": "+12V_FILT",
+            "kind": "power",
+            "pinX": 330.0,
+            "pinY": 235.0,
+            "direction": "up",
+            "offset": 30
+          },
+          {
+            "net": "VBAT_RAW",
+            "kind": "power",
+            "pinX": 225.0,
+            "pinY": 130.0,
+            "direction": "right",
+            "offset": 50
+          },
+          {
+            "net": "+12V_FILT",
+            "kind": "power",
+            "pinX": 220.0,
+            "pinY": 260.0,
+            "direction": "right",
+            "offset": 60
+          },
+          {
+            "net": "U2_N3",
+            "kind": "net_port_bi",
+            "pinX": 175.0,
+            "pinY": 265.0,
+            "direction": "left",
+            "offset": 10
+          },
+          {
+            "net": "D5_N2",
+            "kind": "net_port_bi",
+            "pinX": 175.0,
+            "pinY": 165.0,
+            "direction": "left",
+            "offset": 10
+          }
+        ]
+      },
+      "frame": {
+        "id": "M2",
+        "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",
+        "rect": {
+          "minX": -343.0,
+          "minY": -358.0,
+          "maxX": 903.0,
+          "maxY": 758.0
+        },
+        "titleX": -339.0,
+        "titleY": 754.0,
+        "fontSize": 20,
+        "color": "#AA00AA",
+        "lineType": 1
+      },
+      "sheetPosition": {
+        "x": -345.0,
+        "y": 755.0
+      }
+    }
+  ],
+  "sheet": {
+    "bounds": {
+      "minX": -800,
+      "minY": -800,
+      "maxX": 1794,
+      "maxY": 1320
+    },
+    "border": {
+      "minX": -800,
+      "minY": -800,
+      "maxX": 1794,
+      "maxY": 1320
+    },
+    "keepouts": [],
+    "padding": 10.0,
+    "gap": 10.0
+  }
+}

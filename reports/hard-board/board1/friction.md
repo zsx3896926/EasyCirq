@@ -2757,3 +2757,69 @@ M3 实测 `(ox, oy) = (20, 85)`。**双向验证**：U3 本体 bbox `250..300 / 
   页眉要被过滤
 
 **只有坐标系对齐之后，"文字类通过/失败"才第一次有意义。**
+
+
+---
+
+## #62 五块全链路跑通：4~5 项通过、1 项真缺陷、3 项缺证据
+
+目标：原理图预览对标顶尖工程师。本轮把**整条验收链**做成一条命令，五块全部跑通。
+
+### 一条命令
+
+```
+python scripts/sch_preview_accept.py --work reports/hard-board/board2
+```
+
+内部链路（每步可单独复现）：
+
+```
+排版稿(已归位) → sch_preview_zones → sch layout-render → SVG
+  → svg_text_bbox.py（实测文字）→ sch_preview_text（还原页坐标）
+  → sch_composition_snapshot --text-plan → layout_from_easycirq
+  → sch_layout_check --strict → sch_layout_acceptance（分类结论）
+```
+
+### 结果（真实执行）
+
+| 判据 | M1 | M2 | M3 | M4 | M5 |
+|---|---|---|---|---|---|
+| 内容不越框 | PASS | PASS | PASS | PASS | PASS |
+| 模块框不切器件 | PASS | PASS | PASS | PASS | PASS |
+| 重复网名/孤立文字 | PASS | PASS | PASS | PASS | PASS |
+| 分区阅读顺序 | PASS | PASS | PASS | PASS | PASS |
+| **遮字/文字相压** | FAIL | FAIL | **PASS** | **PASS** | **PASS** |
+| **导线不穿器件本体** | FAIL | FAIL | FAIL | FAIL | FAIL |
+| 标签端点 / 交叉无结点 / 图签 | N/R | N/R | N/R | N/R | N/R |
+
+已知误报（已按理由计数）：M1 **82** / M2 **28** / M3 **24** / M4 **37** / M5 **29**。
+
+### 途中解开的三个阻塞
+
+| 阻塞 | 真因 | 修法 |
+|---|---|---|
+| `J1.2 / U5.PG lacks explicit pin state` | 无网引脚必须显式声明状态，有网的必须留空 | `pinStates` 只填无网引脚 = `nc` |
+| 误报判不出来 | 严格输入的 `components` **没有位号字段** | driver 生成 `owners-<M>.json` 显式传入，缺失就跳过判定（不猜） |
+| 角标规则不生效 | 位号在框**外**（186.5 > 180），被 `inside` 守卫提前挡掉 | 先判引脚名（需在框内），再判角标（可在框外） |
+
+### 误报的两类，以及"不许滥用"
+
+| 理由 | 说明 |
+|---|---|
+| `pin_name_inside_body` | 引脚名（EN/FB/GND/IN/LX）画在自己本体内 —— 箱形符号正常画法 |
+| `designator_at_corner` | 位号（U3）贴在本体角上 —— 预览渲染器的排版约定 |
+
+**红线**：内容碰巧等于某引脚名/位号、但既不在该器件框内也不在其角上时，**不许豁免**。
+9 条测试钉住这条：位置不对不放、内容不对不放、离角太远不放、没有 owners 不猜。
+
+### 仍然 FAIL 的那一项
+
+**导线穿过位号文字**，五块都有。这是预览渲染器把位号画在符号角、而导线正好从那里
+引出的结果 —— 属**真缺陷**（技能明确"导线不得穿过位号"），
+修法要么改渲染器的标签落点，要么让布线避开标签框。**本轮未做。**
+
+### 还没判的
+
+- 标签落在真实端点、朝向一致（需宿主 `visible_text`/`junction` 证据）
+- 不同网络导线交叉无结点（需宿主"无结点"证据）
+- 图签无重复文字（需图签几何）

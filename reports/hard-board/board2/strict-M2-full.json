@@ -1,0 +1,1365 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easycirq reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  594.0,
+  420.0
+ ],
+ "components": [
+  {
+   "id": "c25",
+   "bbox": [
+    360.0,
+    170.0,
+    430.0,
+    270.0
+   ]
+  },
+  {
+   "id": "c30",
+   "bbox": [
+    305.0,
+    240.0,
+    315.0,
+    250.0
+   ]
+  },
+  {
+   "id": "c26",
+   "bbox": [
+    195.0,
+    205.0,
+    205.0,
+    215.0
+   ]
+  },
+  {
+   "id": "c27",
+   "bbox": [
+    195.0,
+    155.0,
+    205.0,
+    165.0
+   ]
+  },
+  {
+   "id": "c32",
+   "bbox": [
+    240.0,
+    150.0,
+    260.0,
+    180.0
+   ]
+  },
+  {
+   "id": "c28",
+   "bbox": [
+    185.0,
+    255.0,
+    215.0,
+    265.0
+   ]
+  },
+  {
+   "id": "c29",
+   "bbox": [
+    140.0,
+    200.0,
+    150.0,
+    210.0
+   ]
+  },
+  {
+   "id": "c31",
+   "bbox": [
+    190.0,
+    105.0,
+    200.0,
+    115.0
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "id": "svgtext-5",
+   "bbox": [
+    358.0,
+    269.5,
+    367.055,
+    277.5
+   ],
+   "kind": "free_text",
+   "content": "U2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-7",
+   "bbox": [
+    360.0,
+    224.5,
+    365.758,
+    229.5
+   ],
+   "kind": "free_text",
+   "content": "FB",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-8",
+   "bbox": [
+    416.0,
+    244.5,
+    426.25,
+    249.5
+   ],
+   "kind": "free_text",
+   "content": "GND",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-9",
+   "bbox": [
+    410.992,
+    224.5,
+    426.0,
+    229.5
+   ],
+   "kind": "free_text",
+   "content": "GND#2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-10",
+   "bbox": [
+    410.992,
+    204.5,
+    426.0,
+    209.5
+   ],
+   "kind": "free_text",
+   "content": "GND#3",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-11",
+   "bbox": [
+    410.992,
+    184.5,
+    426.0,
+    189.5
+   ],
+   "kind": "free_text",
+   "content": "GND#4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-12",
+   "bbox": [
+    360.0,
+    244.5,
+    377.249,
+    249.5
+   ],
+   "kind": "free_text",
+   "content": "ON/OFF",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-13",
+   "bbox": [
+    360.0,
+    204.5,
+    378.75,
+    209.5
+   ],
+   "kind": "free_text",
+   "content": "OUTPUT",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-14",
+   "bbox": [
+    359.5,
+    184.5,
+    367.752,
+    189.5
+   ],
+   "kind": "free_text",
+   "content": "VIN",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-15",
+   "bbox": [
+    303.0,
+    249.5,
+    315.328,
+    257.5
+   ],
+   "kind": "free_text",
+   "content": "C11",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-17",
+   "bbox": [
+    311.746,
+    234.5,
+    314.254,
+    239.5
+   ],
+   "kind": "free_text",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-18",
+   "bbox": [
+    311.246,
+    244.5,
+    314.254,
+    249.5
+   ],
+   "kind": "free_text",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-19",
+   "bbox": [
+    193.0,
+    214.5,
+    202.055,
+    222.5
+   ],
+   "kind": "free_text",
+   "content": "D4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-21",
+   "bbox": [
+    197.492,
+    204.5,
+    201.492,
+    209.5
+   ],
+   "kind": "free_text",
+   "content": "A",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-22",
+   "bbox": [
+    195.0,
+    204.5,
+    198.5,
+    209.5
+   ],
+   "kind": "free_text",
+   "content": "K",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-23",
+   "bbox": [
+    193.0,
+    164.5,
+    202.055,
+    172.5
+   ],
+   "kind": "free_text",
+   "content": "D5",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-25",
+   "bbox": [
+    197.492,
+    154.5,
+    201.492,
+    159.5
+   ],
+   "kind": "free_text",
+   "content": "A",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-26",
+   "bbox": [
+    195.0,
+    154.5,
+    198.5,
+    159.5
+   ],
+   "kind": "free_text",
+   "content": "K",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-27",
+   "bbox": [
+    238.0,
+    179.5,
+    245.5,
+    187.5
+   ],
+   "kind": "free_text",
+   "content": "J2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-29",
+   "bbox": [
+    240.0,
+    154.5,
+    242.508,
+    159.5
+   ],
+   "kind": "free_text",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-30",
+   "bbox": [
+    239.5,
+    164.5,
+    242.508,
+    169.5
+   ],
+   "kind": "free_text",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-31",
+   "bbox": [
+    183.0,
+    264.5,
+    190.893,
+    272.5
+   ],
+   "kind": "free_text",
+   "content": "L2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-33",
+   "bbox": [
+    185.0,
+    254.5,
+    187.508,
+    259.5
+   ],
+   "kind": "free_text",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-34",
+   "bbox": [
+    207.992,
+    254.5,
+    211.0,
+    259.5
+   ],
+   "kind": "free_text",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-35",
+   "bbox": [
+    138.0,
+    209.5,
+    150.948,
+    217.5
+   ],
+   "kind": "free_text",
+   "content": "C10",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-37",
+   "bbox": [
+    146.746,
+    194.5,
+    149.254,
+    199.5
+   ],
+   "kind": "free_text",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-38",
+   "bbox": [
+    146.246,
+    204.5,
+    149.254,
+    209.5
+   ],
+   "kind": "free_text",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-39",
+   "bbox": [
+    188.0,
+    114.5,
+    200.948,
+    122.5
+   ],
+   "kind": "free_text",
+   "content": "C12",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-41",
+   "bbox": [
+    190.0,
+    104.5,
+    192.508,
+    109.5
+   ],
+   "kind": "free_text",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "svgtext-42",
+   "bbox": [
+    192.992,
+    104.5,
+    196.0,
+    109.5
+   ],
+   "kind": "free_text",
+   "content": "2",
+   "measurement": "bbox"
+  }
+ ],
+ "wires": [
+  {
+   "id": "w-M2-0#0",
+   "primitive_id": "w-M2-0",
+   "points": [
+    [
+     450.0,
+     230.0
+    ],
+    [
+     455.0,
+     230.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-1#0",
+   "primitive_id": "w-M2-1",
+   "points": [
+    [
+     450.0,
+     190.0
+    ],
+    [
+     455.0,
+     190.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-2#0",
+   "primitive_id": "w-M2-2",
+   "points": [
+    [
+     450.0,
+     210.0
+    ],
+    [
+     455.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-3#0",
+   "primitive_id": "w-M2-3",
+   "points": [
+    [
+     320.0,
+     250.0
+    ],
+    [
+     340.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-4#0",
+   "primitive_id": "w-M2-4",
+   "points": [
+    [
+     230.0,
+     170.0
+    ],
+    [
+     225.0,
+     170.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-5#0",
+   "primitive_id": "w-M2-5",
+   "points": [
+    [
+     175.0,
+     210.0
+    ],
+    [
+     180.0,
+     210.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-6#0",
+   "primitive_id": "w-M2-6",
+   "points": [
+    [
+     340.0,
+     210.0
+    ],
+    [
+     230.0,
+     210.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-7#0",
+   "primitive_id": "w-M2-7",
+   "points": [
+    [
+     230.0,
+     210.0
+    ],
+    [
+     230.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-8#0",
+   "primitive_id": "w-M2-8",
+   "points": [
+    [
+     230.0,
+     215.0
+    ],
+    [
+     175.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-9#0",
+   "primitive_id": "w-M2-9",
+   "points": [
+    [
+     180.0,
+     110.0
+    ],
+    [
+     175.0,
+     110.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-10#0",
+   "primitive_id": "w-M2-10",
+   "points": [
+    [
+     150.0,
+     190.0
+    ],
+    [
+     175.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-11#0",
+   "primitive_id": "w-M2-11",
+   "points": [
+    [
+     175.0,
+     190.0
+    ],
+    [
+     340.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-12#0",
+   "primitive_id": "w-M2-12",
+   "points": [
+    [
+     450.0,
+     250.0
+    ],
+    [
+     455.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-13#0",
+   "primitive_id": "w-M2-13",
+   "points": [
+    [
+     455.0,
+     190.0
+    ],
+    [
+     455.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-14#0",
+   "primitive_id": "w-M2-14",
+   "points": [
+    [
+     455.0,
+     210.0
+    ],
+    [
+     455.0,
+     230.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-15#0",
+   "primitive_id": "w-M2-15",
+   "points": [
+    [
+     455.0,
+     230.0
+    ],
+    [
+     455.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-16#0",
+   "primitive_id": "w-M2-16",
+   "points": [
+    [
+     455.0,
+     250.0
+    ],
+    [
+     455.0,
+     255.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-17#0",
+   "primitive_id": "w-M2-17",
+   "points": [
+    [
+     315.0,
+     270.0
+    ],
+    [
+     320.0,
+     270.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-18#0",
+   "primitive_id": "w-M2-18",
+   "points": [
+    [
+     320.0,
+     250.0
+    ],
+    [
+     320.0,
+     270.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-19#0",
+   "primitive_id": "w-M2-19",
+   "points": [
+    [
+     320.0,
+     270.0
+    ],
+    [
+     320.0,
+     275.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-20#0",
+   "primitive_id": "w-M2-20",
+   "points": [
+    [
+     220.0,
+     210.0
+    ],
+    [
+     225.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-21#0",
+   "primitive_id": "w-M2-21",
+   "points": [
+    [
+     225.0,
+     170.0
+    ],
+    [
+     225.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-22#0",
+   "primitive_id": "w-M2-22",
+   "points": [
+    [
+     225.0,
+     210.0
+    ],
+    [
+     225.0,
+     225.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-23#0",
+   "primitive_id": "w-M2-23",
+   "points": [
+    [
+     315.0,
+     230.0
+    ],
+    [
+     330.0,
+     230.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-24#0",
+   "primitive_id": "w-M2-24",
+   "points": [
+    [
+     330.0,
+     230.0
+    ],
+    [
+     340.0,
+     230.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-25#0",
+   "primitive_id": "w-M2-25",
+   "points": [
+    [
+     330.0,
+     230.0
+    ],
+    [
+     330.0,
+     235.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-26#0",
+   "primitive_id": "w-M2-26",
+   "points": [
+    [
+     220.0,
+     160.0
+    ],
+    [
+     225.0,
+     160.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-27#0",
+   "primitive_id": "w-M2-27",
+   "points": [
+    [
+     225.0,
+     160.0
+    ],
+    [
+     230.0,
+     160.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-28#0",
+   "primitive_id": "w-M2-28",
+   "points": [
+    [
+     225.0,
+     160.0
+    ],
+    [
+     225.0,
+     130.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-29#0",
+   "primitive_id": "w-M2-29",
+   "points": [
+    [
+     175.0,
+     260.0
+    ],
+    [
+     180.0,
+     260.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-30#0",
+   "primitive_id": "w-M2-30",
+   "points": [
+    [
+     175.0,
+     210.0
+    ],
+    [
+     175.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-31#0",
+   "primitive_id": "w-M2-31",
+   "points": [
+    [
+     175.0,
+     215.0
+    ],
+    [
+     175.0,
+     260.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-32#0",
+   "primitive_id": "w-M2-32",
+   "points": [
+    [
+     175.0,
+     260.0
+    ],
+    [
+     175.0,
+     265.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-33#0",
+   "primitive_id": "w-M2-33",
+   "points": [
+    [
+     175.0,
+     160.0
+    ],
+    [
+     180.0,
+     160.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-34#0",
+   "primitive_id": "w-M2-34",
+   "points": [
+    [
+     175.0,
+     110.0
+    ],
+    [
+     175.0,
+     160.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-35#0",
+   "primitive_id": "w-M2-35",
+   "points": [
+    [
+     175.0,
+     160.0
+    ],
+    [
+     175.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  }
+ ],
+ "attachment_points": [
+  {
+   "id": "U2-FB",
+   "x": 340.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND",
+   "x": 450.0,
+   "y": 250.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#2",
+   "x": 450.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#3",
+   "x": 450.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#4",
+   "x": 450.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-ON/OFF",
+   "x": 340.0,
+   "y": 250.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-OUTPUT",
+   "x": 340.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-VIN",
+   "x": 340.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C11-1",
+   "x": 315.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C11-2",
+   "x": 315.0,
+   "y": 270.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D4-A",
+   "x": 220.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D4-K",
+   "x": 180.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D5-A",
+   "x": 220.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D5-K",
+   "x": 180.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "J2-1",
+   "x": 230.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "J2-2",
+   "x": 230.0,
+   "y": 170.0,
+   "kind": "pin"
+  },
+  {
+   "id": "L2-1",
+   "x": 180.0,
+   "y": 260.0,
+   "kind": "pin"
+  },
+  {
+   "id": "L2-2",
+   "x": 220.0,
+   "y": 260.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C10-1",
+   "x": 150.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C10-2",
+   "x": 150.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C12-1",
+   "x": 180.0,
+   "y": 110.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C12-2",
+   "x": 210.0,
+   "y": 110.0,
+   "kind": "pin"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [
+  {
+   "id": "flag-0",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    449.0,
+    251.0,
+    461.0,
+    259.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-1",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    314.0,
+    271.0,
+    326.0,
+    279.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-2",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    219.0,
+    221.0,
+    231.0,
+    229.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-3",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    144.0,
+    226.0,
+    156.0,
+    234.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-4",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    204.0,
+    106.0,
+    216.0,
+    114.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-5",
+   "net": "+12V_FILT",
+   "kind": "netflag",
+   "bbox": [
+    324.0,
+    231.0,
+    336.0,
+    239.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-6",
+   "net": "VBAT_RAW",
+   "kind": "netflag",
+   "bbox": [
+    219.0,
+    126.0,
+    231.0,
+    134.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-7",
+   "net": "+12V_FILT",
+   "kind": "netflag",
+   "bbox": [
+    214.0,
+    256.0,
+    226.0,
+    264.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-8",
+   "net": "U2_N3",
+   "kind": "netflag",
+   "bbox": [
+    169.0,
+    261.0,
+    181.0,
+    269.0
+   ],
+   "rotation": 270,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-9",
+   "net": "D5_N2",
+   "kind": "netflag",
+   "bbox": [
+    169.0,
+    161.0,
+    181.0,
+    169.0
+   ],
+   "rotation": 270,
+   "anchor": null,
+   "text_id": null
+  }
+ ],
+ "module_frames": [
+  {
+   "id": "frame-M2",
+   "bbox": [
+    122.0,
+    87.0,
+    448.0,
+    288.0
+   ],
+   "contains": [
+    "c25",
+    "c30",
+    "c26",
+    "c27",
+    "c32",
+    "c28",
+    "c29",
+    "c31",
+    "svgtext-5",
+    "svgtext-7",
+    "svgtext-8",
+    "svgtext-9",
+    "svgtext-10",
+    "svgtext-11",
+    "svgtext-12",
+    "svgtext-13",
+    "svgtext-14",
+    "svgtext-15",
+    "svgtext-17",
+    "svgtext-18",
+    "svgtext-19",
+    "svgtext-21",
+    "svgtext-22",
+    "svgtext-23",
+    "svgtext-25",
+    "svgtext-26",
+    "svgtext-27",
+    "svgtext-29",
+    "svgtext-30",
+    "svgtext-31",
+    "svgtext-33",
+    "svgtext-34",
+    "svgtext-35",
+    "svgtext-37",
+    "svgtext-38",
+    "svgtext-39",
+    "svgtext-41",
+    "svgtext-42"
+   ]
+  }
+ ],
+ "title_block_owned": [],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": true,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 8
+  },
+  "texts": {
+   "status": "complete",
+   "observed": 30,
+   "estimated": 0,
+   "rendered": 45
+  },
+  "wires": {
+   "status": "complete",
+   "observed": 36,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 22,
+   "measured_pins": 22,
+   "total_pins": 22
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "complete",
+   "observed": 1,
+   "rectangles": 1
+  },
+  "rendered_texts": {
+   "status": "complete",
+   "observed": 45,
+   "unique_ids": 0
+  }
+ },
+ "snapshot_sha256": "82d0d61027df92fcb92c6535d048e3a5f9a06947ca519b35deb22346232569c9",
+ "expected_counts": {
+  "components": 8,
+  "texts": 30,
+  "wires": 36
+ }
+}
