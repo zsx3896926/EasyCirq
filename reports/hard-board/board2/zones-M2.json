@@ -1132,6 +1132,12 @@
           }
         ]
       },
+      "realFrame": {
+        "minX": 162.0,
+        "minY": 82.0,
+        "maxX": 403.0,
+        "maxY": 288.0
+      },
       "frame": {
         "id": "M2",
         "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）",

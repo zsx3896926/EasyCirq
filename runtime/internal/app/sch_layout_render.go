@@ -10,11 +10,14 @@ import (
 )
 
 type SchematicRenderZone struct {
-	ID                string                  `json:"id"`
-	Title             string                  `json:"title"`
-	CoreComponentID   string                  `json:"coreComponentId,omitempty"`
-	ContentBounds     *SchematicBox           `json:"contentBounds,omitempty"`
-	Frame             *schFrameSpec           `json:"frame,omitempty"`
+	ID              string        `json:"id"`
+	Title           string        `json:"title"`
+	CoreComponentID string        `json:"coreComponentId,omitempty"`
+	ContentBounds   *SchematicBox `json:"contentBounds,omitempty"`
+	Frame           *schFrameSpec `json:"frame,omitempty"`
+	// 真实模块框（内容并集 + 18 raw）。驱动的 widen() 会放大 frame.rect，
+	// 所以判断"位号是否在框内"必须用这个真实值（friction #110）。
+	RealFrame         *SchematicBox           `json:"realFrame,omitempty"`
 	Layout            *SchematicLayoutResult  `json:"layout"`
 	Status            string                  `json:"status,omitempty"`
 	Error             string                  `json:"error,omitempty"`
@@ -384,6 +387,102 @@ func netStroke(net, kind string) string {
 		return "#CC0000"
 	}
 	return "#000000"
+}
+
+// pinLabelBoxes 返回某器件所有引脚标签的页面坐标框（与绘制端同一公式）。
+func pinLabelBoxes(c powerLayoutPlacement, r layoutBBox) [][4]float64 {
+	var out [][4]float64
+	for _, q := range c.Pins {
+		ex := math.Max(r.MinX, math.Min(r.MaxX, q.X))
+		ey := math.Max(r.MinY, math.Min(r.MaxY, q.Y))
+		label := q.Name
+		if label == "" {
+			label = q.Number
+		}
+		if label == "" {
+			continue
+		}
+		const fs = 4.5
+		w := 0.75*fs*float64(len([]rune(label))) + 1.0
+		bx := ex
+		if q.X < r.MinX {
+			bx += 2
+		} else if q.X > r.MaxX {
+			bx -= 2 + w
+		} else {
+			bx -= w / 2
+		}
+		by := ey - 1.5
+		out = append(out, [4]float64{bx, by - 0.2*fs, bx + w, by + fs})
+	}
+	return out
+}
+
+// designatorCandidates 是位号落点的候选偏移（raw）。
+var designatorCandidates = [][2]float64{
+	{0, 10}, {0, 20}, {0, -22}, {0, -30}, {0, 10 + 24},
+}
+
+func boxesClash(a, b [4]float64, gap float64) bool {
+	return a[0]-gap < b[2] && b[0]-gap < a[2] && a[1]-gap < b[3] && b[1]-gap < a[3]
+}
+
+// pickDesignatorOffset 选一个不与任何已绘元素冲突、且留在 realFrame 内的落点。
+func pickDesignatorOffset(c powerLayoutPlacement, r layoutBBox,
+	layout *SchematicLayoutResult, desigW float64,
+	pinBoxes, taken [][4]float64, allow layoutBBox, hasAllow bool) (float64, float64) {
+	var boxes [][4]float64
+	for _, o := range layout.Placements {
+		if o.Designator == c.Designator {
+			continue
+		}
+		ob := o.BBox
+		boxes = append(boxes, [4]float64{ob.MinX, ob.MinY, ob.MaxX, ob.MaxY})
+	}
+	for _, f := range layout.Flags {
+		x, y := endpointFor(f.PinX, f.PinY, f.Offset, f.Direction)
+		mb := predictedMarkerBody(x, y, f.Kind, f.Direction, f.Net)
+		boxes = append(boxes, [4]float64{mb.MinX, mb.MinY, mb.MaxX, mb.MaxY})
+		if band := predictedFlagTextBand(x, y, mb, f.Kind, f.Direction, f.Net); band != nil {
+			boxes = append(boxes, [4]float64{band.MinX, band.MinY, band.MaxX, band.MaxY})
+		}
+	}
+	boxes = append(boxes, pinBoxes...)
+	boxes = append(boxes, taken...)
+
+	for _, cand := range designatorCandidates {
+		box := [4]float64{r.MinX + cand[0] - 0.5, r.MaxY + cand[1] - 7.5,
+			r.MinX + cand[0] + desigW + 0.5, r.MaxY + cand[1] + 2.0}
+		if hasAllow && (box[0] < allow.MinX || box[1] < allow.MinY ||
+			box[2] > allow.MaxX || box[3] > allow.MaxY) {
+			continue
+		}
+		bad := false
+		for _, b := range boxes {
+			if boxesClash(box, b, 4.0) {
+				bad = true
+				break
+			}
+		}
+		if !bad {
+			for _, w := range layout.Wires {
+				for i := 1; i < len(w.Points); i++ {
+					if plSegmentBox(w.Points[i-1], w.Points[i],
+						layoutBBox{MinX: box[0], MinY: box[1], MaxX: box[2], MaxY: box[3]}) {
+						bad = true
+						break
+					}
+				}
+				if bad {
+					break
+				}
+			}
+		}
+		if !bad {
+			return cand[0], cand[1]
+		}
+	}
+	return 0, 10
 }
 
 func renderLayoutMarker(b *bytes.Buffer, m powerLayoutFlag, X, Y func(float64) float64) {

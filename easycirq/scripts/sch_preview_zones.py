@@ -140,6 +140,16 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
         zone = {"id": mod.get("id") or "",
                 "title": mod.get("title") or "",
                 "layout": layout}
+        # **真实模块框**（内容并集 + 18 raw，与 sch_composition_snapshot 同算法）。
+        # 驱动会放大 frame.rect，渲染器判"位号是否在框内"必须用这个。
+        _bs = [pl["bbox"] for pl in (mod.get("placements") or []) if pl.get("bbox")]
+        if _bs:
+            zone["realFrame"] = {
+                "minX": min(b["minX"] for b in _bs) - 18.0,
+                "minY": min(b["minY"] for b in _bs) - 18.0,
+                "maxX": max(b["maxX"] for b in _bs) + 18.0,
+                "maxY": max(b["maxY"] for b in _bs) + 18.0,
+            }
         if frame:
             zone["frame"] = frame
             zone["sheetPosition"] = pos
