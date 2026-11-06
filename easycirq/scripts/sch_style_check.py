@@ -46,6 +46,12 @@ def check(doc: dict, tokens: dict) -> list[dict]:
     # 优先用**真实导出**的分区框（审图渲染器写的 frames-*.json）：
     # 这样量的是"画出来的框"，而不是按器件外框估的。
     fr_path = doc.get("_framesPath")
+    if fr_path and not pathlib.Path(fr_path).is_file():
+        # **不许静默回退**：路径给了但文件不在，说明调用出错了；
+        # 静默按估算算会得出假违规（实测报过 6 项）。
+        raise SystemExit("  --frames 指向的文件不存在：%s\n"
+                         "  （不给 --frames 才会按器件外框估算；给了就必须是真实产物）"
+                         % fr_path)
     if fr_path and pathlib.Path(fr_path).is_file():
         fd = json.loads(pathlib.Path(fr_path).read_text(encoding="utf-8"))
         frames = [{"bbox": f["rect"]} for f in fd.get("frames") or []]
