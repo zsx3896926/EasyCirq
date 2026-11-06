@@ -76,3 +76,7 @@ dist-release/
 
 # 选型审计缓存（可重新生成）
 .easycirq/part-audit-cache.json
+
+# 排版铺开的中间产物
+*.cand.json
+*.probe.json
