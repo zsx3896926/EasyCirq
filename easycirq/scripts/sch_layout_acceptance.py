@@ -242,6 +242,44 @@ def _covered(key, coverage):
     return int(item.get("observed") or 0) > 0
 
 
+def _population(src):
+    """各类受检对象的数量。"""
+    return {
+        "components": len(src.get("components") or []),
+        "wires": len(src.get("wires") or []),
+        "texts": len(src.get("texts") or []),
+        "net_flags": len(src.get("net_flags") or []),
+        "zones": len(src.get("module_frames") or src.get("frames") or []),
+    }
+
+
+_NEED = {
+    "A_content_inside_page": ("components", "wires"),
+    "B_text_occlusion": ("texts",),
+    "C_wire_vs_body": ("wires", "components"),
+    "D_frame_vs_object": ("zones", "components", "wires"),
+    "E_label_anchor": ("net_flags",),
+    "F_net_text": ("net_flags", "texts"),
+    "G_zone_readability": ("zones", "components"),
+    "H_crossing_evidence": ("wires",),
+    "I_title_block": ("texts",),
+    "J_netflag_rotation": ("net_flags",),
+}
+
+
+def _annotate_checked(rows, src):
+    """PASS 必须能证明"查过"：写明受检对象数。"""
+    pop = _population(src)
+    for r in rows:
+        keys = _NEED.get(r.get("id")) or ()
+        if not keys:
+            continue
+        r["checked"] = {k: pop.get(k, 0) for k in keys}
+        if r.get("status") == "PASS":
+            r["detail"] = ["已查：" + "，".join(
+                "%s %d" % (k, pop.get(k, 0)) for k in keys)]
+
+
 def evaluate(strict_input, out_path, checker=None, owners=None):
     checker = checker or find_checker()
     rep = pathlib.Path(str(out_path)).with_suffix(".check.json")
@@ -339,6 +377,7 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
                                  "status": "PASS", "count": 0, "needs": [],
                                  "samples": [], "detail": []})
 
+    _annotate_checked(rows, src)
     verdict = "BLOCKED" if any(r["status"] == "FAIL" for r in rows) else (
         "INCOMPLETE" if any(r["status"] == "NOT RUN" for r in rows) else "PASS")
     report = {"schema": "easycirq-sch-acceptance/v1",

@@ -257,6 +257,7 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
     # 目标里"审图 PNG"是交付物的一部分；此前要单独跑 review --gate，
     # 很容易漏。这里把它并进验收链，并作为一条判据列出。
     png_status, png_overlaps, png_classes = "NOT RUN", None, {}
+    png_checked = {}
     try:
         pg = json.loads(comp.read_text(encoding="utf-8"))
         titles = [z.get("title") for z in pg.get("modules") or []]
@@ -283,6 +284,10 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
                 if m2:
                     counts[key] = int(m2.group(1))
             png_overlaps = sum(counts.values())
+            mc = re.search(r"件\s+(\d+)\s+导线\s+(\d+)", rv_out)
+            if mc:
+                png_checked = {"components": int(mc.group(1)),
+                               "wires": int(mc.group(2))}
             png_classes = counts
     except (OSError, ValueError):
         pass
@@ -318,6 +323,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         else ["python scripts/sch_text_audit.py <visible.json> --strict"],
         "samples": [],
         "detail": [audit_detail],
+        "checked": {"texts": int(aj.get("measured_count") or 0)
+                    if audit_status == "PASS" else 0},
     }]
 
     rep["criteria"] = list(rep.get("criteria") or []) + [{
@@ -328,6 +335,8 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
         "needs": [] if png_status != "NOT RUN"
         else ["python scripts/sch_layout_review.py --composition <稿> --gate"],
         "samples": [],
+        "checked": {"components": png_checked.get("components", 0),
+                    "wires": png_checked.get("wires", 0)},
         "detail": (["各类缺陷：%s" % (
             ", ".join("%s=%d" % (k, v) for k, v in sorted(png_classes.items()))
             or "无")]
