@@ -6,13 +6,13 @@
       "id": "M5",
       "title": "P5_升降压：5V → 3.8V（TPS63802） · 升降压：5V → 3.8V（TPS63802）",
       "rect": {
-        "minX": -173.0,
-        "minY": -48.0,
-        "maxX": 183.0,
-        "maxY": 103.0
+        "minX": 19.7,
+        "minY": 71.25,
+        "maxX": 574.3,
+        "maxY": 400.3
       },
-      "titleX": -169.0,
-      "titleY": 99.0,
+      "titleX": 23.7,
+      "titleY": 396.3,
       "fontSize": 20,
       "color": "#AA00AA",
       "lineType": 1

@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -224,6 +225,50 @@ def one(module, work, exe, sk, verbose=True, comp_override=None):
         measured = sum(1 for t in txts if t.get("measurement") == "bbox")
         print("  %-3s 文字 %2d（实测 %2d）  → %s"
               % (module, len(txts), measured, rep["verdict"]))
+    # ── 审图 PNG 门禁：并入**同一条命令**，避免漏跑 ───────────────
+    # 目标里"审图 PNG"是交付物的一部分；此前要单独跑 review --gate，
+    # 很容易漏。这里把它并进验收链，并作为一条判据列出。
+    png_status, png_overlaps = "NOT RUN", None
+    try:
+        pg = json.loads(comp.read_text(encoding="utf-8"))
+        titles = [z.get("title") for z in pg.get("modules") or []]
+        page_name = "P%s_%s" % (module[1:],
+                                (titles[0] or module) if titles else module)
+        review_out = work / "review"
+        review_out.mkdir(parents=True, exist_ok=True)
+        rv = run_py([HERE / "sch_layout_review.py", "--composition", str(comp),
+                     "--page-name", page_name, "--out-dir", str(review_out),
+                     "--gate"], 2400)
+        png_file = review_out / ("%s.png" % page_name.replace("/", "_"))
+        if png_file.is_file():
+            png_status = "PASS" if rv.returncode == 0 else "FAIL"
+            hit = re.search(r"文字相压 (\d+) 处", rv.stdout or "")
+            png_overlaps = int(hit.group(1)) if hit else 0
+    except (OSError, ValueError):
+        pass
+    rep["criteria"] = list(rep.get("criteria") or []) + [{
+        "id": "K_png_readability",
+        "title": "审图 PNG 可读性",
+        "status": png_status,
+        "count": png_overlaps or 0,
+        "needs": [] if png_status != "NOT RUN"
+        else ["python scripts/sch_layout_review.py --composition <稿> --gate"],
+        "samples": [],
+        "detail": (["文字相压 %d 处" % png_overlaps]
+                   if png_overlaps is not None else ["未产出审图"]),
+    }]
+    if any(c["status"] == "FAIL" for c in rep["criteria"]):
+        rep["verdict"] = "BLOCKED"
+    elif any(c["status"] == "NOT RUN" for c in rep["criteria"]):
+        rep["verdict"] = "INCOMPLETE"
+    # **写回产物**：不写回的话，磁盘上的报告只含 SVG 那条线，
+    # 报告/状态汇总/后人读到的都不含审图结论。
+    try:
+        out.write_text(json.dumps(rep, ensure_ascii=False, indent=2) + "\n",
+                       encoding="utf-8")
+    except (OSError, ValueError):
+        pass
+
     return {"module": module, "verdict": rep["verdict"],
             "criteria": rep["criteria"],
             "knownFalsePositives": rep.get("knownFalsePositives") or {},

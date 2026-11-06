@@ -105,6 +105,17 @@
       "needs": [],
       "samples": [],
       "detail": []
+    },
+    {
+      "id": "K_png_readability",
+      "title": "审图 PNG 可读性",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "文字相压 0 处"
+      ]
     }
   ],
   "knownFalsePositives": {
