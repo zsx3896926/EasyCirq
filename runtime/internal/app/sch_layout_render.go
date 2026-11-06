@@ -241,6 +241,11 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 			// **不要**为了躲导线把它挪到下方：实测会掉出模块框，
 			// 变成 frame_border_crosses_object（打地鼠）。导线穿位号属布局层，
 			// 记在 friction #69，未在此处绕开。
+			// 位号画在本体左上角上方（与基准图、既有验收口径一致）。
+			// 两种避让都试过：挪到本体下方（掉出模块框）、
+			// 顶边左右换端（实测无改善——导线只是路过，不是从该角引出的）。
+			// 根因在引擎侧：导线不让走标签没有贯通到最终几何校验，
+			// 已在 friction #69 记录，不在此处继续绕。
 			text(X(r.MinX), Y(r.MaxY)-4, 7, "#24344a", c.Designator, "start")
 			text(X(r.MinX), Y(r.MinY)+9, 5, "#546579", c.Value, "start")
 			// 引脚标签去重：字号 4.5、间距常常只有 5 raw，无条件画必然互压
