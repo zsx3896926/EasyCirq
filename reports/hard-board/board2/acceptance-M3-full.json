@@ -7,23 +7,11 @@
     {
       "id": "A_content_inside_page",
       "title": "内容不越框",
-      "status": "FAIL",
-      "count": 10,
+      "status": "PASS",
+      "count": 0,
       "needs": [],
-      "samples": [
-        [
-          "svgtext-0"
-        ],
-        [
-          "svgtext-1"
-        ],
-        [
-          "svgtext-2"
-        ]
-      ],
-      "detail": [
-        ""
-      ]
+      "samples": [],
+      "detail": []
     },
     {
       "id": "C_wire_vs_body",
@@ -33,16 +21,16 @@
       "needs": [],
       "samples": [
         [
-          "w-M3-6#0",
-          "svgtext-35"
+          "w-M3-0#0",
+          "svgtext-5"
         ],
         [
-          "w-M3-7#0",
-          "svgtext-35"
+          "w-M3-1#0",
+          "svgtext-5"
         ],
         [
-          "w-M3-32#0",
-          "svgtext-19"
+          "w-M3-26#0",
+          "svgtext-32"
         ]
       ],
       "detail": [
@@ -52,24 +40,17 @@
     {
       "id": "D_frame_vs_object",
       "title": "模块框不切器件/导线",
-      "status": "FAIL",
-      "count": 1,
+      "status": "PASS",
+      "count": 0,
       "needs": [],
-      "samples": [
-        [
-          "frame-M3",
-          "svgtext-35"
-        ]
-      ],
-      "detail": [
-        ""
-      ]
+      "samples": [],
+      "detail": []
     },
     {
       "id": "B_text_occlusion",
       "title": "遮字/文字相压",
       "status": "FAIL",
-      "count": 24,
+      "count": 17,
       "needs": [
         "easycirq sch export-image --scope page --format svg",
         "python scripts/svg_text_bbox.py page.svg"
@@ -77,15 +58,15 @@
       "samples": [
         [
           "c33",
-          "svgtext-34"
+          "svgtext-7"
         ],
         [
-          "c38",
-          "svgtext-10"
+          "c33",
+          "svgtext-8"
         ],
         [
-          "c36",
-          "svgtext-35"
+          "c33",
+          "svgtext-9"
         ]
       ],
       "detail": [
@@ -176,8 +157,8 @@
     },
     "texts": {
       "status": "partial",
-      "observed": 37,
-      "estimated": 7,
+      "observed": 24,
+      "estimated": 0,
       "rendered": 0
     },
     "wires": {

@@ -14,6 +14,7 @@
 带 `sheet` + `sheetPosition{0,0}` 时按原坐标渲染，两边才可比。
 """
 import json
+import math
 import pathlib
 import sys
 
@@ -48,11 +49,63 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
                        "offset": f.get("offset", 10)}
                       for f in (mod.get("flags") or [])],
         }
-        zones.append({"id": mod.get("id") or "",
-                      "title": mod.get("title") or "",
-                      "layout": layout,
-                      # 几何已在页坐标里，所以 zone 原点就是 (0,0)
-                      "sheetPosition": {"x": 0, "y": 0}})
+        # 模块框：要包住**渲染器认定的全部内容**
+        # （`powerLayoutContentObstacles` = 器件 bbox + 引脚 + 导线 + 网标）。
+        # 只按器件 bbox 外扩会被判 "frame clips content"。
+        xs, ys = [], []
+        for pl in (mod.get("placements") or []):
+            b = pl.get("bbox") or {}
+            if b:
+                xs += [b["minX"], b["maxX"]]
+                ys += [b["minY"], b["maxY"]]
+            for q in (pl.get("pins") or []):
+                if q.get("x") is not None:
+                    xs.append(q["x"])
+                    ys.append(q["y"])
+        for w in (mod.get("wires") or []):
+            for pt in w.get("points") or []:
+                xs.append(pt[0])
+                ys.append(pt[1])
+        for f in (mod.get("flags") or []):
+            if f.get("pinX") is not None:
+                # 网标有实体（箭头/菱形）+ offset，给足余量
+                off = float(f.get("offset") or 10)
+                xs += [f["pinX"] - off - 20, f["pinX"] + off + 20]
+                ys += [f["pinY"] - off - 20, f["pinY"] + off + 20]
+        frame = None
+        pos = None
+        if xs:
+            pad = 18.0
+            r = {"minX": min(xs) - pad, "minY": min(ys) - pad,
+                 "maxX": max(xs) + pad, "maxY": max(ys) + pad}
+            frame = {
+                "id": mod.get("id") or "",
+                "title": mod.get("title") or "",
+                "rect": r,
+                "titleX": r["minX"] + 4,
+                "titleY": r["maxY"] - 4,
+                "fontSize": 20,
+                "color": "#AA00AA",
+                "lineType": 1,
+            }
+            # **sheetPosition 是框的左上角**（读 schPreviewRect 得出）：
+            # 矩形往下展开 p.Y-框高 .. p.Y，往右展开 p.X .. p.X+框宽。
+            # 给 {0,0} 会让框落在负 y，报 violates page padding。
+            #
+            # 还必须落在 5-raw 锚点网格上：Go 用
+            # `plFloor(v) = floor((v+1e-8)/5)*5` 校验 `p.X == plFloor(p.X)`，
+            # 所以坐标要向下取整到 5 的倍数。
+            grid = 5.0
+            pos = {"x": math.floor(r["minX"] / grid) * grid,
+                   "y": math.floor(r["maxY"] / grid) * grid}
+
+        zone = {"id": mod.get("id") or "",
+                "title": mod.get("title") or "",
+                "layout": layout}
+        if frame:
+            zone["frame"] = frame
+            zone["sheetPosition"] = pos
+        zones.append(zone)
 
     out = {"schemaVersion": 1, "zones": zones}
     sheet = doc.get("sheet") or {}

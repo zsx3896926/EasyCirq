@@ -822,33 +822,42 @@
           }
         ]
       },
-      "sheetPosition": {
-        "x": 0,
-        "y": 0
+      "frame": {
+        "id": "M3",
+        "title": "5V → 3.3V 主逻辑轨（SY8089）",
+        "rect": {
+          "minX": -235.0,
+          "minY": -285.0,
+          "maxX": 820.0,
+          "maxY": 665.0
+        },
+        "titleX": -231.0,
+        "titleY": 661.0,
+        "fontSize": 20,
+        "color": "#AA00AA",
+        "lineType": 1
       },
-      "contentBounds": {
-        "minX": 155,
-        "minY": 115,
-        "maxX": 435,
-        "maxY": 265
+      "sheetPosition": {
+        "x": -235.0,
+        "y": 665.0
       }
     }
   ],
   "sheet": {
     "bounds": {
-      "minX": 0,
-      "minY": 0,
-      "maxX": 594,
-      "maxY": 420
+      "minX": -800,
+      "minY": -800,
+      "maxX": 2600,
+      "maxY": 1800
     },
     "border": {
-      "minX": 0,
-      "minY": 0,
-      "maxX": 594,
-      "maxY": 420
+      "minX": -800,
+      "minY": -800,
+      "maxX": 2600,
+      "maxY": 1800
     },
     "keepouts": [],
-    "padding": 10,
-    "gap": 10
+    "padding": 10.0,
+    "gap": 10.0
   }
 }

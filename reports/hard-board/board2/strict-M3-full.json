@@ -73,72 +73,12 @@
  ],
  "texts": [
   {
-   "id": "svgtext-0",
-   "bbox": [
-    20.0,
-    448.0,
-    411.227,
-    470.0
-   ],
-   "kind": "free_text",
-   "content": "5V → 3.3V 主逻辑轨（SY8089） · 布局预览",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-1",
-   "bbox": [
-    20.0,
-    429.0,
-    188.008,
-    439.0
-   ],
-   "kind": "free_text",
-   "content": "离线转译 / 简化符号 / 非仿真、非官方导图",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-2",
-   "bbox": [
-    20.0,
-    413.0,
-    227.516,
-    423.0
-   ],
-   "kind": "free_text",
-   "content": "只转译输入几何；离线预览不等于现场 Apply 验收。",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-3",
-   "bbox": [
-    20.0,
-    383.0,
-    80.508,
-    393.0
-   ],
-   "kind": "free_text",
-   "content": "预案 · 7 个器件",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-4",
-   "bbox": [
-    30.0,
-    340.0,
-    323.453,
-    362.0
-   ],
-   "kind": "free_text",
-   "content": "5V → 3.3V 主逻辑轨（SY8089）",
-   "measurement": "bbox"
-  },
-  {
    "id": "svgtext-5",
    "bbox": [
-    215.0,
-    217.5,
-    224.055,
-    225.5
+    250.0,
+    182.5,
+    259.055,
+    190.5
    ],
    "kind": "free_text",
    "content": "U3",
@@ -147,10 +87,10 @@
   {
    "id": "svgtext-7",
    "bbox": [
-    257.242,
-    182.5,
-    263.0,
-    187.5
+    252.0,
+    147.5,
+    258.501,
+    152.5
    ],
    "kind": "free_text",
    "content": "EN",
@@ -159,10 +99,10 @@
   {
    "id": "svgtext-8",
    "bbox": [
-    217.0,
-    192.5,
-    227.25,
-    197.5
+    292.242,
+    147.5,
+    298.0,
+    152.5
    ],
    "kind": "free_text",
    "content": "FB",
@@ -171,10 +111,10 @@
   {
    "id": "svgtext-9",
    "bbox": [
-    258.5,
-    202.5,
-    263.25,
-    207.5
+    252.0,
+    157.5,
+    262.25,
+    162.5
    ],
    "kind": "free_text",
    "content": "GND",
@@ -183,10 +123,10 @@
   {
    "id": "svgtext-10",
    "bbox": [
-    217.0,
-    202.5,
-    223.003,
-    207.5
+    293.5,
+    167.5,
+    298.25,
+    172.5
    ],
    "kind": "free_text",
    "content": "IN",
@@ -195,10 +135,10 @@
   {
    "id": "svgtext-11",
    "bbox": [
-    300.0,
-    212.5,
-    312.948,
-    220.5
+    252.0,
+    167.5,
+    258.003,
+    172.5
    ],
    "kind": "free_text",
    "content": "LX",
@@ -207,10 +147,10 @@
   {
    "id": "svgtext-12",
    "bbox": [
-    302.0,
-    202.5,
-    304.508,
-    207.5
+    335.0,
+    177.5,
+    347.948,
+    185.5
    ],
    "kind": "free_text",
    "content": "C13",
@@ -219,10 +159,10 @@
   {
    "id": "svgtext-14",
    "bbox": [
-    130.0,
-    212.5,
-    137.893,
-    220.5
+    337.0,
+    167.5,
+    339.508,
+    172.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -231,10 +171,10 @@
   {
    "id": "svgtext-15",
    "bbox": [
-    132.0,
-    202.5,
-    134.508,
-    207.5
+    349.992,
+    167.5,
+    353.0,
+    172.5
    ],
    "kind": "free_text",
    "content": "2",
@@ -243,10 +183,10 @@
   {
    "id": "svgtext-16",
    "bbox": [
-    154.992,
-    202.5,
-    158.0,
-    207.5
+    165.0,
+    177.5,
+    172.893,
+    185.5
    ],
    "kind": "free_text",
    "content": "L3",
@@ -255,10 +195,10 @@
   {
    "id": "svgtext-18",
    "bbox": [
-    182.0,
-    242.5,
-    184.508,
-    247.5
+    167.0,
+    167.5,
+    169.508,
+    172.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -267,10 +207,10 @@
   {
    "id": "svgtext-19",
    "bbox": [
-    194.992,
-    242.5,
-    198.0,
-    247.5
+    189.992,
+    167.5,
+    193.0,
+    172.5
    ],
    "kind": "free_text",
    "content": "2",
@@ -279,10 +219,10 @@
   {
    "id": "svgtext-20",
    "bbox": [
-    175.0,
-    302.5,
-    187.948,
-    310.5
+    215.0,
+    217.5,
+    227.948,
+    225.5
    ],
    "kind": "free_text",
    "content": "C14",
@@ -291,10 +231,10 @@
   {
    "id": "svgtext-22",
    "bbox": [
-    189.992,
-    292.5,
-    193.0,
-    297.5
+    217.0,
+    207.5,
+    219.508,
+    212.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -303,10 +243,10 @@
   {
    "id": "svgtext-23",
    "bbox": [
-    325.0,
-    162.5,
-    334.055,
-    170.5
+    229.992,
+    207.5,
+    233.0,
+    212.5
    ],
    "kind": "free_text",
    "content": "2",
@@ -315,10 +255,10 @@
   {
    "id": "svgtext-24",
    "bbox": [
-    327.0,
-    152.5,
-    329.508,
-    157.5
+    210.0,
+    267.5,
+    222.948,
+    275.5
    ],
    "kind": "free_text",
    "content": "C15",
@@ -327,10 +267,10 @@
   {
    "id": "svgtext-26",
    "bbox": [
-    365.0,
-    197.5,
-    374.055,
-    205.5
+    212.0,
+    257.5,
+    214.508,
+    262.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -339,10 +279,10 @@
   {
    "id": "svgtext-27",
    "bbox": [
-    367.0,
-    187.5,
-    369.508,
-    192.5
+    224.992,
+    257.5,
+    228.0,
+    262.5
    ],
    "kind": "free_text",
    "content": "2",
@@ -351,10 +291,10 @@
   {
    "id": "svgtext-28",
    "bbox": [
-    379.992,
-    187.5,
-    383.0,
-    192.5
+    360.0,
+    127.5,
+    369.055,
+    135.5
    ],
    "kind": "free_text",
    "content": "R8",
@@ -363,10 +303,10 @@
   {
    "id": "svgtext-30",
    "bbox": [
-    327.0,
-    240.0,
-    343.0,
-    251.0
+    362.0,
+    117.5,
+    364.508,
+    122.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -375,10 +315,10 @@
   {
    "id": "svgtext-31",
    "bbox": [
-    176.0,
-    185.5,
-    192.286,
-    196.5
+    374.992,
+    117.5,
+    378.0,
+    122.5
    ],
    "kind": "free_text",
    "content": "2",
@@ -387,10 +327,10 @@
   {
    "id": "svgtext-32",
    "bbox": [
-    272.0,
-    231.0,
-    288.286,
-    242.0
+    400.0,
+    162.5,
+    409.055,
+    170.5
    ],
    "kind": "free_text",
    "content": "R9",
@@ -399,10 +339,10 @@
   {
    "id": "svgtext-34",
    "bbox": [
-    286.0,
-    155.5,
-    308.0,
-    166.5
+    402.0,
+    152.5,
+    404.508,
+    157.5
    ],
    "kind": "free_text",
    "content": "1",
@@ -411,110 +351,14 @@
   {
    "id": "svgtext-35",
    "bbox": [
-    411.5,
-    154.0,
-    447.5,
-    165.5
+    414.992,
+    152.5,
+    418.0,
+    157.5
    ],
    "kind": "free_text",
    "content": "2",
    "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-36",
-   "bbox": [
-    32.5,
-    204.0,
-    68.5,
-    215.5
-   ],
-   "kind": "free_text",
-   "content": "GND",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-37",
-   "bbox": [
-    -11.5,
-    476.5,
-    11.5,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "GND",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-38",
-   "bbox": [
-    -10.0,
-    476.5,
-    10.0,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "+5V",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-39",
-   "bbox": [
-    -10.0,
-    476.5,
-    10.0,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "+5V",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-40",
-   "bbox": [
-    -13.0,
-    476.5,
-    13.0,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "+3V3",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-41",
-   "bbox": [
-    -13.0,
-    476.5,
-    13.0,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "+3V3",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-42",
-   "bbox": [
-    -16.5,
-    476.5,
-    16.5,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "U3_N5",
-   "measurement": "estimated"
-  },
-  {
-   "id": "svgtext-43",
-   "bbox": [
-    -16.5,
-    476.5,
-    16.5,
-    490.5
-   ],
-   "kind": "free_text",
-   "content": "U3_N3",
-   "measurement": "estimated"
   }
  ],
  "wires": [
@@ -1332,9 +1176,13 @@
     "svgtext-10",
     "svgtext-11",
     "svgtext-12",
+    "svgtext-14",
+    "svgtext-15",
     "svgtext-16",
     "svgtext-18",
     "svgtext-19",
+    "svgtext-20",
+    "svgtext-22",
     "svgtext-23",
     "svgtext-24",
     "svgtext-26",
@@ -1362,8 +1210,8 @@
   },
   "texts": {
    "status": "partial",
-   "observed": 37,
-   "estimated": 7,
+   "observed": 24,
+   "estimated": 0,
    "rendered": 0
   },
   "wires": {
@@ -1387,10 +1235,10 @@
    "rectangles": 1
   }
  },
- "snapshot_sha256": "7937d33023a8a96f72407d594c4b50437a02d1d7bc0620ab21631e338c603305",
+ "snapshot_sha256": "1e21bf85a5b95427311fce56c0bf4f5f01b3a3ed5606bf29c7c8548d7ce0dac4",
  "expected_counts": {
   "components": 7,
-  "texts": 37,
+  "texts": 24,
   "wires": 38
  }
 }
