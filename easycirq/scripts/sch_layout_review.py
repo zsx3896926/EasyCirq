@@ -160,6 +160,32 @@ def count_wire_text_hits(texts, segments, width, height, tb_rect=None):
     return hits
 
 
+def count_symbol_text_hits(symbols, texts, width, height, tb_rect=None):
+    """图形符号与文字的间距不足：符号贴着字，放大看像压在一起。"""
+    gap = 2.0
+
+    def is_chrome(box):
+        if box[1] < 85 or box[1] > height - 26:
+            return True
+        if box[0] > width - 22 or box[2] < 22:
+            return True
+        if tb_rect and not (box[2] < tb_rect[0] or box[0] > tb_rect[2]
+                            or box[3] < tb_rect[1] or box[1] > tb_rect[3]):
+            return True
+        return False
+
+    hits = []
+    for sb in symbols:
+        for t, tb in texts:
+            if tb[2] <= tb[0] or tb[3] <= tb[1] or is_chrome(tb):
+                continue
+            if (sb[0] - gap < tb[2] and tb[0] - gap < sb[2]
+                    and sb[1] - gap < tb[3] and tb[1] - gap < sb[3]):
+                hits.append({"symbol": "flag", "text": t})
+                break
+    return hits
+
+
 class _RecordingDraw:
     """代理 ImageDraw：记录每次 text() 的框，供"文字相压"检查用。"""
 
@@ -671,6 +697,7 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             cx, cy = px(jx, jy)
             d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=net_color(net))
 
+    symbol_boxes = []      # 网标符号框（判据用，也作避让障碍）
     # 器件本体 + 位号
     f_tiny = font(8)
     # 先把网标文字的**大致框**算出来，供位号避让（保守：左右两侧都算）
@@ -714,7 +741,7 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         ]
         # 阻挡清单用**所有已画文字**：引脚名、位号、之前的网标都算。
         # 只列 flag_boxes/ref_boxes 会漏掉引脚名（实测压到 PGND/SGND）。
-        blockers = [b for _t, b in getattr(d, "texts", [])]
+        blockers = [b for _t, b in getattr(d, "texts", [])] + list(symbol_boxes)
         chosen = cand[0]
         for cx, cy in cand:
             # 判据要**留间距**（与门禁同一口径），否则会挑到贴边的位置
@@ -763,6 +790,13 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         else:
             d.polygon([(cxp, cyp - 5), (cxp + 6, cyp), (cxp, cyp + 5),
                        (cxp - 6, cyp)], outline=THEME["flag"])
+        # 符号框：地=三横(±7, cyp..cyp+8)；电源=横杠(±6, cyp-8)；信宿=菱形(±6,±5)
+        if "ground" in kind_l or net.upper() in ("GND", "AGND", "DGND"):
+            symbol_boxes.append((cxp - 7, cyp - 2, cxp + 7, cyp + 9))
+        elif "power" in kind_l or net.startswith("+"):
+            symbol_boxes.append((cxp - 6, cyp - 9, cxp + 6, cyp + 1))
+        else:
+            symbol_boxes.append((cxp - 6, cyp - 5, cxp + 6, cyp + 5))
         # 网名**不截断**：+3V3 被切成 +3V 会误导。按可用宽度缩小字号。
         net_font = f_small
         if d.textlength(net, font=f_small) > 90:
@@ -783,12 +817,12 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         # 四向候选：右 / 左 / 上 / 下。选第一个**不压导线、不压其它文字**的。
         # 原来按"背离器件中心"固定一侧，导线走向没被考虑 ——
         # 实测 PNG 门禁报 `+5V`、`GND` 被导线穿过。
-        cand_xy = ([(cxp - 8 - tw, cyp - 6), (cxp + 8, cyp - 6)]
+        cand_xy = ([(cxp - 12 - tw, cyp - 6), (cxp + 12, cyp - 6)]
                    if to_left else
-                   [(cxp + 8, cyp - 6), (cxp - 8 - tw, cyp - 6)])
+                   [(cxp + 12, cyp - 6), (cxp - 12 - tw, cyp - 6)])
         # 近距候选：上下左右
         cand_xy += [(cxp - tw / 2, cyp - 16), (cxp - tw / 2, cyp + 8),
-                    (cxp + 16, cyp - 6), (cxp - 16 - tw, cyp - 6)]
+                    (cxp + 20, cyp - 6), (cxp - 20 - tw, cyp - 6)]
         # **远距候选**：网标在三线交汇处时近处全被占，往更远处放仍可读
         for far in (26, 36, 48):
             cand_xy += [(cxp + far, cyp - 6), (cxp - far - tw, cyp - 6),
@@ -796,7 +830,7 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
                         (cxp - tw / 2, cyp + 4 + far)]
         # 阻挡清单用**所有已画文字**：引脚名、位号、之前的网标都算。
         # 只列 flag_boxes/ref_boxes 会漏掉引脚名（实测压到 PGND/SGND）。
-        blockers = [b for _t, b in getattr(d, "texts", [])]
+        blockers = [b for _t, b in getattr(d, "texts", [])] + list(symbol_boxes)
         chosen = cand_xy[0]
         for (lx, ly) in cand_xy:
             bx = (lx, ly, lx + tw, ly + 10)
@@ -879,7 +913,9 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         for i in range(len(pts) - 1):
             segs.append((px(*pts[i]), px(*pts[i + 1])))
     wire_hits = count_wire_text_hits(getattr(d, "texts", []), segs, w, h, tb_px)
-    return str(out_path), overlaps, wire_hits
+    sym_hits = count_symbol_text_hits(symbol_boxes, getattr(d, "texts", []),
+                                      w, h, tb_px)
+    return str(out_path), overlaps, wire_hits, sym_hits
 
 
 def main() -> int:
@@ -906,7 +942,7 @@ def main() -> int:
             (modules[0].get("id") if modules else stem))
 
         q = quality(parts, wires, sheet)
-        png, txt_overlaps, wire_hits = render(doc, parts, wires, flags, modules, page_name,
+        png, txt_overlaps, wire_hits, sym_hits = render(doc, parts, wires, flags, modules, page_name,
                      out / ("%s.png" % safe_name(page_name)), q)
         fr = frames_doc(doc, modules, parts, page_name)
         fr_path = out / ("frames-%s.json" % safe_name(page_name))
@@ -916,8 +952,12 @@ def main() -> int:
         # 文字相压并入质量结论：**这是把"放大才看见"的问题变成自动判据**
         q["textOverlaps"] = txt_overlaps
         q["wireTextHits"] = wire_hits
+        q["symbolTextHits"] = sym_hits
         if txt_overlaps:
             q["problems"].append("文字相压 %d 处" % len(txt_overlaps))
+            q["verdict"] = "fail"
+        if sym_hits:
+            q["problems"].append("符号贴近文字 %d 处" % len(sym_hits))
             q["verdict"] = "fail"
         if wire_hits:
             q["problems"].append("导线穿过文字 %d 处：%s"
