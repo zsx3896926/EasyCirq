@@ -21,8 +21,8 @@
       "needs": [],
       "samples": [
         [
-          "w-M2-8#0",
-          "svgtext-18"
+          "w-M2-34#0",
+          "svgtext-20"
         ]
       ],
       "detail": [
@@ -41,11 +41,25 @@
     {
       "id": "B_text_occlusion",
       "title": "遮字/文字相压",
-      "status": "PASS",
-      "count": 0,
-      "needs": [],
-      "samples": [],
-      "detail": []
+      "status": "FAIL",
+      "count": 2,
+      "needs": [
+        "easycirq sch export-image --scope page --format svg",
+        "python scripts/svg_text_bbox.py page.svg"
+      ],
+      "samples": [
+        [
+          "svgtext-15",
+          "svgtext-17"
+        ],
+        [
+          "svgtext-32",
+          "svgtext-34"
+        ]
+      ],
+      "detail": [
+        ""
+      ]
     },
     {
       "id": "E_label_anchor",
@@ -78,12 +92,12 @@
       ],
       "samples": [
         [
-          "w-M2-22#0",
-          "w-M2-8#0"
+          "w-M2-3#0",
+          "w-M2-41#0"
         ],
         [
-          "w-M2-11#0",
-          "w-M2-21#0"
+          "w-M2-6#0",
+          "w-M2-7#0"
         ]
       ],
       "detail": [
@@ -145,11 +159,11 @@
       "status": "complete",
       "observed": 25,
       "estimated": 0,
-      "rendered": 40
+      "rendered": 38
     },
     "wires": {
       "status": "complete",
-      "observed": 36,
+      "observed": 50,
       "unparsed": 0
     },
     "attachment_points": {
@@ -169,7 +183,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 40,
+      "observed": 38,
       "unique_ids": 0
     }
   }

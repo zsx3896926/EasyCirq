@@ -119,7 +119,7 @@
       "status": "review_candidate",
       "overlap": [
         10.0,
-        0.5
+        3.5
       ]
     },
     {
@@ -251,7 +251,7 @@
       "status": "review_candidate",
       "overlap": [
         10.0,
-        0.5
+        3.5
       ]
     },
     {
@@ -279,18 +279,42 @@
       ]
     },
     {
+      "code": "bbox_overlap",
+      "objects": [
+        "svgtext-15",
+        "svgtext-17"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        3.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "svgtext-32",
+        "svgtext-34"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        3.0
+      ]
+    },
+    {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M2-8#0",
-        "svgtext-18"
+        "w-M2-34#0",
+        "svgtext-20"
       ],
       "status": "review_candidate"
     },
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M2-22#0",
-        "w-M2-8#0"
+        "w-M2-3#0",
+        "w-M2-41#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -299,8 +323,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M2-11#0",
-        "w-M2-21#0"
+        "w-M2-6#0",
+        "w-M2-7#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -310,7 +334,7 @@
   "counts": {
     "components": 8,
     "texts": 25,
-    "wires": 36
+    "wires": 50
   },
   "declared_inventory_matches": true,
   "coverage_status": "complete",
@@ -323,11 +347,11 @@
       "status": "complete",
       "observed": 25,
       "estimated": 0,
-      "rendered": 40
+      "rendered": 38
     },
     "wires": {
       "status": "complete",
-      "observed": 36,
+      "observed": 50,
       "unparsed": 0
     },
     "attachment_points": {
@@ -347,7 +371,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 40,
+      "observed": 38,
       "unique_ids": 0
     }
   },
@@ -355,7 +379,7 @@
     "module_frames": 1,
     "attachment_points": 22,
     "label_anchors": 0,
-    "net_flags": 10,
+    "net_flags": 8,
     "title_block_owned": 0
   },
   "net_flag_census": {
@@ -364,33 +388,31 @@
         "flag-0",
         "flag-1"
       ],
-      "90": [
-        "flag-2",
-        "flag-3",
-        "flag-4"
+      "270": [
+        "flag-2"
+      ],
+      "180": [
+        "flag-3"
       ]
     },
     "+12V_FILT": {
-      "0": [
-        "flag-5"
-      ],
       "90": [
-        "flag-7"
+        "flag-4"
       ]
     },
     "VBAT_RAW": {
-      "90": [
-        "flag-6"
+      "180": [
+        "flag-5"
       ]
     },
     "U2_N3": {
       "270": [
-        "flag-8"
+        "flag-6"
       ]
     },
     "D5_N2": {
       "270": [
-        "flag-9"
+        "flag-7"
       ]
     }
   },
@@ -538,7 +560,7 @@
       "status": "review_candidate",
       "overlap": [
         10.0,
-        0.5
+        3.5
       ]
     },
     {
@@ -670,7 +692,7 @@
       "status": "review_candidate",
       "overlap": [
         10.0,
-        0.5
+        3.5
       ]
     },
     {
@@ -698,18 +720,42 @@
       ]
     },
     {
+      "code": "bbox_overlap",
+      "objects": [
+        "svgtext-15",
+        "svgtext-17"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        3.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "svgtext-32",
+        "svgtext-34"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        3.0
+      ]
+    },
+    {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M2-8#0",
-        "svgtext-18"
+        "w-M2-34#0",
+        "svgtext-20"
       ],
       "status": "review_candidate"
     },
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M2-22#0",
-        "w-M2-8#0"
+        "w-M2-3#0",
+        "w-M2-41#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -718,8 +764,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M2-11#0",
-        "w-M2-21#0"
+        "w-M2-6#0",
+        "w-M2-7#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,

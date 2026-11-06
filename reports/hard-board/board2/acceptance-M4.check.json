@@ -18,7 +18,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-7"
+        "svgtext-6"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -30,7 +30,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-8"
+        "svgtext-7"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -42,7 +42,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-9"
+        "svgtext-8"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -54,7 +54,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-10"
+        "svgtext-9"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -66,7 +66,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-11"
+        "svgtext-10"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -78,7 +78,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-12"
+        "svgtext-11"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -90,11 +90,23 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-13"
+        "svgtext-12"
       ],
       "status": "review_candidate",
       "overlap": [
         14.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-13"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
         5.0
       ]
     },
@@ -113,20 +125,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c40",
-        "svgtext-15"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        13.251,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
         "c42",
-        "svgtext-16"
+        "svgtext-15"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -138,7 +138,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c42",
-        "svgtext-18"
+        "svgtext-16"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -150,11 +150,35 @@
       "code": "bbox_overlap",
       "objects": [
         "c42",
-        "svgtext-19"
+        "svgtext-17"
       ],
       "status": "review_candidate",
       "overlap": [
         3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-18"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-19"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
         4.5
       ]
     },
@@ -166,6 +190,18 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-21"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         10.948,
         0.5
       ]
@@ -173,7 +209,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c43",
+        "c44",
         "svgtext-22"
       ],
       "status": "review_candidate",
@@ -185,7 +221,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c43",
+        "c44",
         "svgtext-23"
       ],
       "status": "review_candidate",
@@ -197,7 +233,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c45",
         "svgtext-24"
       ],
       "status": "review_candidate",
@@ -209,128 +245,92 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c45",
+        "svgtext-25"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
         "svgtext-26"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
+        3.008,
         4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c46",
         "svgtext-27"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
-        4.5
+        10.948,
+        0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c46",
         "svgtext-28"
       ],
       "status": "review_candidate",
       "overlap": [
-        10.948,
-        0.5
+        2.508,
+        4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c46",
+        "svgtext-29"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
         "svgtext-30"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
-        4.5
+        10.948,
+        0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c49",
         "svgtext-31"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
+        2.508,
         4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c46",
+        "c49",
         "svgtext-32"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        10.948,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c46",
-        "svgtext-34"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c46",
-        "svgtext-35"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-36"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        10.948,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-38"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-39"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -342,7 +342,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-40"
+        "svgtext-33"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -354,7 +354,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-42"
+        "svgtext-34"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -366,7 +366,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-43"
+        "svgtext-35"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -378,7 +378,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-44"
+        "svgtext-36"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -390,7 +390,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-46"
+        "svgtext-37"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -402,7 +402,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-47"
+        "svgtext-38"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -414,7 +414,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-48"
+        "svgtext-39"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -426,7 +426,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-50"
+        "svgtext-40"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -438,7 +438,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-51"
+        "svgtext-41"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -594,7 +594,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-7"
+        "svgtext-6"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -606,7 +606,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-8"
+        "svgtext-7"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -618,7 +618,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-9"
+        "svgtext-8"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -630,7 +630,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-10"
+        "svgtext-9"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -642,7 +642,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-11"
+        "svgtext-10"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -654,7 +654,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-12"
+        "svgtext-11"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -666,11 +666,23 @@
       "code": "bbox_overlap",
       "objects": [
         "c40",
-        "svgtext-13"
+        "svgtext-12"
       ],
       "status": "review_candidate",
       "overlap": [
         14.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c40",
+        "svgtext-13"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        13.251,
         5.0
       ]
     },
@@ -689,20 +701,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c40",
-        "svgtext-15"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        13.251,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
         "c42",
-        "svgtext-16"
+        "svgtext-15"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -714,7 +714,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c42",
-        "svgtext-18"
+        "svgtext-16"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -726,11 +726,35 @@
       "code": "bbox_overlap",
       "objects": [
         "c42",
-        "svgtext-19"
+        "svgtext-17"
       ],
       "status": "review_candidate",
       "overlap": [
         3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-18"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        10.948,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c43",
+        "svgtext-19"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
         4.5
       ]
     },
@@ -742,6 +766,18 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c44",
+        "svgtext-21"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         10.948,
         0.5
       ]
@@ -749,7 +785,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c43",
+        "c44",
         "svgtext-22"
       ],
       "status": "review_candidate",
@@ -761,7 +797,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c43",
+        "c44",
         "svgtext-23"
       ],
       "status": "review_candidate",
@@ -773,7 +809,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c45",
         "svgtext-24"
       ],
       "status": "review_candidate",
@@ -785,128 +821,92 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c45",
+        "svgtext-25"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c45",
         "svgtext-26"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
+        3.008,
         4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c44",
+        "c46",
         "svgtext-27"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
-        4.5
+        10.948,
+        0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c46",
         "svgtext-28"
       ],
       "status": "review_candidate",
       "overlap": [
-        10.948,
-        0.5
+        2.508,
+        4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c46",
+        "svgtext-29"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c49",
         "svgtext-30"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
-        4.5
+        10.948,
+        0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c45",
+        "c49",
         "svgtext-31"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
+        2.508,
         4.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c46",
+        "c49",
         "svgtext-32"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        10.948,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c46",
-        "svgtext-34"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c46",
-        "svgtext-35"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-36"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        10.948,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-38"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c49",
-        "svgtext-39"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -918,7 +918,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-40"
+        "svgtext-33"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -930,7 +930,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-42"
+        "svgtext-34"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -942,7 +942,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c41",
-        "svgtext-43"
+        "svgtext-35"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -954,7 +954,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-44"
+        "svgtext-36"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -966,7 +966,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-46"
+        "svgtext-37"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -978,7 +978,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c47",
-        "svgtext-47"
+        "svgtext-38"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -990,7 +990,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-48"
+        "svgtext-39"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1002,7 +1002,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-50"
+        "svgtext-40"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1014,7 +1014,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c48",
-        "svgtext-51"
+        "svgtext-41"
       ],
       "status": "review_candidate",
       "overlap": [

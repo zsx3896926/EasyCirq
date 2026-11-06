@@ -237,24 +237,14 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		for _, c := range z.Layout.Placements {
 			r := c.BBox
 			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="white" stroke="#34445b" stroke-width="0.8"/>`, X(r.MinX), Y(r.MaxY), r.MaxX-r.MinX, r.MaxY-r.MinY)
-			// 位号画在本体左上角上方（与基准图和既有验收口径一致）。
-			// **不要**为了躲导线把它挪到下方：实测会掉出模块框，
-			// 变成 frame_border_crosses_object（打地鼠）。导线穿位号属布局层，
-			// 记在 friction #69，未在此处绕开。
-			// 位号画在本体左上角上方（与基准图、既有验收口径一致）。
-			// 两种避让都试过：挪到本体下方（掉出模块框）、
-			// 顶边左右换端（实测无改善——导线只是路过，不是从该角引出的）。
-			// 根因在引擎侧：导线不让走标签没有贯通到最终几何校验，
-			// 已在 friction #69 记录，不在此处继续绕。
-			text(X(r.MinX), Y(r.MaxY)-4, 7, "#24344a", c.Designator, "start")
-			text(X(r.MinX), Y(r.MinY)+9, 5, "#546579", c.Value, "start")
-			// 引脚标签去重：字号 4.5、间距常常只有 5 raw，无条件画必然互压
-			// （`sch_text_audit --strict` 在 M1/M2 报出 6/5 项 text_overlap）。
-			// 这里按估算框记录已画的标签，重叠就跳过 —— 宁缺勿叠。
-			// 位号与值先占位（实测 'C11' 位号压住过引脚标签 '2'）
+			// 位号画在本体左上角上方。三种避让都试过并回退：
+			// 挪到本体下方（掉出模块框）、顶边左右换端（无改善）、
+			// 顶部有引脚就画进体内（M2 可解但验收 5 PASS→4 PASS）。
+			// 导线穿位号属布局层，见 friction #69/#78/#79。
 			var drawnLabels [][4]float64
 			desigW := 0.75 * 7.0 * float64(len([]rune(c.Designator)))
 			dx0, dy0 := X(r.MinX), Y(r.MaxY)-4
+			text(dx0, dy0, 7, "#24344a", c.Designator, "start")
 			drawnLabels = append(drawnLabels,
 				[4]float64{dx0 - 0.5, dy0 - 7.5, dx0 + desigW + 0.5, dy0 + 2.0})
 			if c.Value != "" {

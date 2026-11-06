@@ -85,7 +85,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-7",
+   "id": "svgtext-6",
    "bbox": [
     229.5,
     174.5,
@@ -97,7 +97,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-8",
+   "id": "svgtext-7",
    "bbox": [
     230.0,
     154.5,
@@ -109,7 +109,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-9",
+   "id": "svgtext-8",
    "bbox": [
     230.0,
     184.5,
@@ -121,7 +121,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-10",
+   "id": "svgtext-9",
    "bbox": [
     284.875,
     174.5,
@@ -133,7 +133,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-11",
+   "id": "svgtext-10",
    "bbox": [
     288.25,
     164.5,
@@ -145,7 +145,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-12",
+   "id": "svgtext-11",
    "bbox": [
     288.25,
     184.5,
@@ -157,7 +157,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-13",
+   "id": "svgtext-12",
    "bbox": [
     230.0,
     164.5,
@@ -169,7 +169,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-14",
+   "id": "svgtext-13",
    "bbox": [
     230.0,
     194.5,
@@ -181,7 +181,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-15",
+   "id": "svgtext-14",
    "bbox": [
     284.375,
     154.5,
@@ -193,7 +193,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-16",
+   "id": "svgtext-15",
    "bbox": [
     281.0,
     194.5,
@@ -205,7 +205,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-17",
+   "id": "svgtext-16",
    "bbox": [
     328.0,
     164.5,
@@ -217,7 +217,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-19",
+   "id": "svgtext-17",
    "bbox": [
     330.0,
     154.5,
@@ -229,7 +229,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-20",
+   "id": "svgtext-18",
    "bbox": [
     341.125,
     154.5,
@@ -241,7 +241,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-21",
+   "id": "svgtext-19",
    "bbox": [
     328.0,
     204.5,
@@ -253,7 +253,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-23",
+   "id": "svgtext-20",
    "bbox": [
     330.0,
     194.5,
@@ -265,7 +265,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-24",
+   "id": "svgtext-21",
    "bbox": [
     341.125,
     194.5,
@@ -277,7 +277,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-25",
+   "id": "svgtext-22",
    "bbox": [
     323.0,
     229.5,
@@ -289,7 +289,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-27",
+   "id": "svgtext-23",
    "bbox": [
     325.0,
     219.5,
@@ -301,7 +301,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-28",
+   "id": "svgtext-24",
    "bbox": [
     336.125,
     219.5,
@@ -313,7 +313,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-29",
+   "id": "svgtext-25",
    "bbox": [
     378.0,
     174.5,
@@ -325,7 +325,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-31",
+   "id": "svgtext-26",
    "bbox": [
     380.0,
     164.5,
@@ -337,7 +337,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-32",
+   "id": "svgtext-27",
    "bbox": [
     401.125,
     164.5,
@@ -349,7 +349,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-33",
+   "id": "svgtext-28",
    "bbox": [
     178.0,
     194.5,
@@ -361,7 +361,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-35",
+   "id": "svgtext-29",
    "bbox": [
     180.0,
     184.5,
@@ -373,7 +373,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-36",
+   "id": "svgtext-30",
    "bbox": [
     191.125,
     184.5,
@@ -385,7 +385,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-37",
+   "id": "svgtext-31",
    "bbox": [
     223.0,
     234.5,
@@ -397,7 +397,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-39",
+   "id": "svgtext-32",
    "bbox": [
     225.0,
     224.5,
@@ -409,7 +409,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-40",
+   "id": "svgtext-33",
    "bbox": [
     236.125,
     224.5,
@@ -1303,6 +1303,7 @@
     "c52",
     "c53",
     "svgtext-5",
+    "svgtext-6",
     "svgtext-7",
     "svgtext-8",
     "svgtext-9",
@@ -1314,23 +1315,22 @@
     "svgtext-15",
     "svgtext-16",
     "svgtext-17",
+    "svgtext-18",
     "svgtext-19",
     "svgtext-20",
     "svgtext-21",
+    "svgtext-22",
     "svgtext-23",
     "svgtext-24",
     "svgtext-25",
+    "svgtext-26",
     "svgtext-27",
     "svgtext-28",
     "svgtext-29",
+    "svgtext-30",
     "svgtext-31",
     "svgtext-32",
-    "svgtext-33",
-    "svgtext-35",
-    "svgtext-36",
-    "svgtext-37",
-    "svgtext-39",
-    "svgtext-40"
+    "svgtext-33"
    ]
   }
  ],
@@ -1378,7 +1378,7 @@
    "unique_ids": 0
   }
  },
- "snapshot_sha256": "c2ec921ac4a95e5160130a5e7c9ee26f88a0c3af4a658bcf6884040cad74af70",
+ "snapshot_sha256": "cc438a1a2b2c213e0bf492f256cfd1f9cc6f775c16538b78e5696cfac36c6d52",
  "expected_counts": {
   "components": 7,
   "texts": 29,

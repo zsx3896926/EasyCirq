@@ -9,7 +9,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-7",
+    "primitiveId": "svgtext-6",
     "Content": "AGND",
     "X": 230.0,
     "Y": 175.5,
@@ -18,7 +18,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-8",
+    "primitiveId": "svgtext-7",
     "Content": "EN",
     "X": 230.0,
     "Y": 155.5,
@@ -27,7 +27,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-9",
+    "primitiveId": "svgtext-8",
     "Content": "FB",
     "X": 230.0,
     "Y": 185.5,
@@ -36,7 +36,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-10",
+    "primitiveId": "svgtext-9",
     "Content": "GND",
     "X": 284.875,
     "Y": 175.5,
@@ -45,7 +45,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-11",
+    "primitiveId": "svgtext-10",
     "Content": "L1",
     "X": 288.25,
     "Y": 165.5,
@@ -54,7 +54,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-12",
+    "primitiveId": "svgtext-11",
     "Content": "L2",
     "X": 288.25,
     "Y": 185.5,
@@ -63,7 +63,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-13",
+    "primitiveId": "svgtext-12",
     "Content": "MODE",
     "X": 230.0,
     "Y": 165.5,
@@ -72,7 +72,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-14",
+    "primitiveId": "svgtext-13",
     "Content": "PG",
     "X": 230.0,
     "Y": 195.5,
@@ -81,7 +81,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-15",
+    "primitiveId": "svgtext-14",
     "Content": "VIN",
     "X": 284.875,
     "Y": 155.5,
@@ -90,7 +90,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-16",
+    "primitiveId": "svgtext-15",
     "Content": "VOUT",
     "X": 281.5,
     "Y": 195.5,
@@ -99,7 +99,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-17",
+    "primitiveId": "svgtext-16",
     "Content": "C21",
     "X": 328.0,
     "Y": 166.0,
@@ -108,7 +108,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-19",
+    "primitiveId": "svgtext-17",
     "Content": "1",
     "X": 330.0,
     "Y": 155.5,
@@ -117,7 +117,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-20",
+    "primitiveId": "svgtext-18",
     "Content": "2",
     "X": 341.625,
     "Y": 155.5,
@@ -126,7 +126,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-21",
+    "primitiveId": "svgtext-19",
     "Content": "C22",
     "X": 328.0,
     "Y": 206.0,
@@ -135,7 +135,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-23",
+    "primitiveId": "svgtext-20",
     "Content": "1",
     "X": 330.0,
     "Y": 195.5,
@@ -144,7 +144,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-24",
+    "primitiveId": "svgtext-21",
     "Content": "2",
     "X": 341.625,
     "Y": 195.5,
@@ -153,7 +153,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-25",
+    "primitiveId": "svgtext-22",
     "Content": "C23",
     "X": 323.0,
     "Y": 231.0,
@@ -162,7 +162,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-27",
+    "primitiveId": "svgtext-23",
     "Content": "1",
     "X": 325.0,
     "Y": 220.5,
@@ -171,7 +171,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-28",
+    "primitiveId": "svgtext-24",
     "Content": "2",
     "X": 336.625,
     "Y": 220.5,
@@ -180,7 +180,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-29",
+    "primitiveId": "svgtext-25",
     "Content": "L5",
     "X": 378.0,
     "Y": 176.0,
@@ -189,7 +189,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-31",
+    "primitiveId": "svgtext-26",
     "Content": "1",
     "X": 380.0,
     "Y": 165.5,
@@ -198,7 +198,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-32",
+    "primitiveId": "svgtext-27",
     "Content": "2",
     "X": 401.625,
     "Y": 165.5,
@@ -207,7 +207,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-33",
+    "primitiveId": "svgtext-28",
     "Content": "R13",
     "X": 178.0,
     "Y": 196.0,
@@ -216,7 +216,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-35",
+    "primitiveId": "svgtext-29",
     "Content": "1",
     "X": 180.0,
     "Y": 185.5,
@@ -225,7 +225,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-36",
+    "primitiveId": "svgtext-30",
     "Content": "2",
     "X": 191.625,
     "Y": 185.5,
@@ -234,7 +234,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-37",
+    "primitiveId": "svgtext-31",
     "Content": "R14",
     "X": 223.0,
     "Y": 236.0,
@@ -243,7 +243,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-39",
+    "primitiveId": "svgtext-32",
     "Content": "1",
     "X": 225.0,
     "Y": 225.5,
@@ -252,7 +252,7 @@
     "AlignMode": 0
   },
   {
-    "primitiveId": "svgtext-40",
+    "primitiveId": "svgtext-33",
     "Content": "2",
     "X": 236.625,
     "Y": 225.5,
