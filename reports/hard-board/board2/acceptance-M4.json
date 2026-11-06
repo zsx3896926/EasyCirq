@@ -73,19 +73,15 @@
       "id": "H_crossing_evidence",
       "title": "不同网络导线交叉无结点",
       "status": "NOT RUN",
-      "count": 2,
+      "count": 1,
       "needs": [
         "easycirq sch junction-report --page <P>",
         "layout_from_easycirq.py --junction-report <报告>"
       ],
       "samples": [
         [
-          "w-M4-21#0",
+          "w-M4-17#0",
           "w-M4-8#0"
-        ],
-        [
-          "w-M4-27#0",
-          "w-M4-9#0"
         ]
       ],
       "detail": [
@@ -145,11 +141,11 @@
       "status": "complete",
       "observed": 42,
       "estimated": 0,
-      "rendered": 54
+      "rendered": 55
     },
     "wires": {
       "status": "complete",
-      "observed": 60,
+      "observed": 49,
       "unparsed": 0
     },
     "attachment_points": {
@@ -169,7 +165,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 54,
+      "observed": 55,
       "unique_ids": 0
     },
     "title_block": {

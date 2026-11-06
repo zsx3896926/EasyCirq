@@ -449,18 +449,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M4-21#0",
+        "w-M4-17#0",
         "w-M4-8#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M4-27#0",
-        "w-M4-9#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -470,7 +460,7 @@
   "counts": {
     "components": 10,
     "texts": 42,
-    "wires": 60
+    "wires": 49
   },
   "declared_inventory_matches": true,
   "coverage_status": "complete",
@@ -483,11 +473,11 @@
       "status": "complete",
       "observed": 42,
       "estimated": 0,
-      "rendered": 54
+      "rendered": 55
     },
     "wires": {
       "status": "complete",
-      "observed": 60,
+      "observed": 49,
       "unparsed": 0
     },
     "attachment_points": {
@@ -507,7 +497,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 54,
+      "observed": 55,
       "unique_ids": 0
     },
     "title_block": {
@@ -519,7 +509,7 @@
     "module_frames": 1,
     "attachment_points": 27,
     "label_anchors": 0,
-    "net_flags": 7,
+    "net_flags": 8,
     "title_block_owned": 5
   },
   "net_flag_census": {
@@ -529,29 +519,32 @@
       ],
       "0": [
         "flag-1"
+      ],
+      "90": [
+        "flag-2"
       ]
     },
     "+5V": {
       "0": [
-        "flag-2"
+        "flag-3"
       ],
       "270": [
-        "flag-3"
+        "flag-4"
       ]
     },
     "+12V_FILT": {
-      "180": [
-        "flag-4"
+      "270": [
+        "flag-5"
       ]
     },
     "U4_N4": {
       "90": [
-        "flag-5"
+        "flag-6"
       ]
     },
     "U4_N1": {
       "270": [
-        "flag-6"
+        "flag-7"
       ]
     }
   },
@@ -1030,18 +1023,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M4-21#0",
+        "w-M4-17#0",
         "w-M4-8#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M4-27#0",
-        "w-M4-9#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,

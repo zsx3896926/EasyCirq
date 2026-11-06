@@ -56,10 +56,20 @@ def test_label_anchor_is_na_without_port_labels(rep):
         assert c["detail"], "N/A 必须写明理由"
 
 
-def test_title_block_is_na_without_data(rep):
+def test_title_block_is_measured_when_rect_exists(rep):
+    """有 titleBlock 矩形就必须**测量**；只有没有时才 N/A。
+
+    （第 23 轮之前一直是 N/A，因为排版稿不带图签数据；现在带了。）
+    """
+    import json
     c = next(x for x in rep["criteria"] if x["id"] == "I_title_block")
-    assert c["status"] == "N/A", c
-    assert "图签" in (c["detail"][0] if c["detail"] else "")
+    strict = json.loads(pathlib.Path(rep["strictInput"]).read_text(encoding="utf-8"))
+    if strict.get("title_block"):
+        assert c["status"] in ("PASS", "FAIL"), \
+            "有图签矩形却判成 %s" % c["status"]
+    else:
+        assert c["status"] == "N/A", c
+        assert "图签" in (c["detail"][0] if c["detail"] else "")
 
 
 def test_na_is_not_incomplete(rep):
