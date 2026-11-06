@@ -421,7 +421,8 @@
   ],
   "checks_run": [
     "module_frames",
-    "net_text_identity"
+    "net_text_identity",
+    "netflag_orientation"
   ],
   "checks_skipped": [
     "title_block: title_block not supplied",

@@ -52,6 +52,15 @@
       ]
     },
     {
+      "id": "J_netflag_rotation",
+      "title": "网标朝向一致",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": []
+    },
+    {
       "id": "F_net_text",
       "title": "重复网名/孤立文字",
       "status": "PASS",

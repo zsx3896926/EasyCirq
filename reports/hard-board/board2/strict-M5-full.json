@@ -1339,7 +1339,13 @@
   "connection_tolerance": 1.0,
   "reading_order": true,
   "self_text_contact_tolerance": 1.0,
-  "wire_endpoint_check": false
+  "wire_endpoint_check": false,
+  "netflag_rotation": {
+   "+5V": {
+    "expectedRotation": 180.0,
+    "requireHorizontalText": false
+   }
+  }
  },
  "coverage": {
   "components": {

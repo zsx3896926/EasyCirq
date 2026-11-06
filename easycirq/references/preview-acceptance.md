@@ -1,0 +1,99 @@
+# 原理图预览 · 图面验收
+
+> 本文是**产品文档**，说明"离线预览图在交付前必须过哪些判据、怎么复现、缺证据时怎么办"。
+> 与 `references/schematic-layout.md`（图面表达规则）互补：那份讲"怎么画好"，
+> 这份讲"**怎么证明它够好**"。
+
+## 为什么需要一条验收链
+
+一张图"看起来还行"和"能交付"是两件事。判据能证明的只有**已知缺陷类型不成立**，
+它不证明图漂亮，也不证明电气正确。
+
+所以本链的目标是：**把"我觉得画完了"变成"有证据说明哪些项已测、哪些没测"**。
+
+## 四种结论，必须分清
+
+| 结论 | 含义 | 该做什么 |
+|---|---|---|
+| **PASS** | 已测且无缺陷 | 无 |
+| **FAIL** | 已测且有缺陷 | 修，或明确接受 |
+| **NOT RUN** | 有对象、缺证据 | 按给出的命令补证据 |
+| **N/A** | **没有对象可测** | 无需处理，但必须写明理由 |
+
+> `NOT RUN` 和 `N/A` 混为一谈，会让人既判断不了进度也判断不了成本。
+> 例：本图不使用端口标签 → "标签落在真实端点"是 N/A，不是缺证据。
+
+## 判据清单
+
+| 判据 | 工具 | 依赖 |
+|---|---|---|
+| 内容不越框 | `sch_layout_check.py --strict` | 器件/导线/模块框几何 |
+| 导线不穿器件本体 | 同上 | 同上 + 位号预留区（`textBboxes`）|
+| 模块框不切器件/导线 | 同上 | 模块框矩形 |
+| 遮字 / 文字相压 | 同上 | **实测文字框** |
+| 重复网名 / 孤立文字 | 同上 | 实测文字框 |
+| 分区阅读顺序 | 同上 | 分区标题 |
+| 文字互压（独立一项） | `sch_text_audit.py --strict` | 实测文字框 + 覆盖声明 |
+| 标签落在真实端点 | 同上 | netport/netlabel 图元；本图无 → N/A |
+| 不同网络导线交叉无结点 | 同上 | **宿主** junction 报告；离线 → NOT RUN |
+| 图签无重复文字 | 同上 | titleBlock 数据；排版稿不含 → N/A |
+
+## 一键复现
+
+```bash
+# 1) 排版：带位号预留区求解，解不出自动回退并标注
+python scripts/sch_layout_reserve.py \
+    --input one-M3.json --out-dir reports/hard-board/board2
+
+# 2) 归位（只平移，不改相对几何）
+python scripts/sch_layout_normalize.py \
+    --composition composition-M3.json --out composition-M3-placed.json
+
+# 3) 出图 + 出框 + 质量判据
+python scripts/sch_layout_review.py \
+    --composition composition-M3-placed.json --page-name "P3_3V3主逻辑" \
+    --out-dir reports/hard-board/board2/review --gate
+
+# 4) 走完整验收链（渲染 → 实测文字 → 严格检查 → 分类结论）
+python scripts/sch_preview_accept.py --work reports/hard-board/board2 --modules M3
+
+# 5) 一页纸报告
+python scripts/sch_preview_report.py --work reports/hard-board/board2
+```
+
+## 文字处理的三个坑（都踩过）
+
+1. **排版稿不带文字几何。** 自己编一组坐标会产出大量假缺陷（见过 83/115 项全假）。
+   必须用 `sch layout-render` 渲染后再由 `svg_text_bbox.py` 实测。
+2. **渲染器不带 `sheet` 时会自己装行**，坐标与器件不是一套 → 越页/相压全是假象。
+   渲染输入必须带 `sheet.bounds`。
+3. **键名大小写是契约**：`textBboxes`（小写 b）。写成 `textBBoxes` 会被严格解码器
+   当未知字段**静默忽略**，于是"约束看起来加了却从没生效"。
+
+## 已知限制（如实记录，未绕过）
+
+**位号与网标争用本体上方那条带。** 位号被画在本体左上角上方，而顶部出线的网标
+也需要那条带。实测：
+
+| 措施 | 结果 |
+|---|---|
+| 位号挪到本体下方 | 掉出模块框（`frame_border_crosses_object`）|
+| 位号顶边左右换端 | 无改善 |
+| 位号画进本体内 | 可解，但与体内引脚名相撞（验收倒退）|
+| 加纸 A2→A0 | 无效，说明不是容量 |
+
+现状态：**7–10 器件的模块可解且 0 穿线**；24 件模块在"避开位号"前提下排不出，
+由渲染门**显式拒绝**（报出哪根线穿哪个预留区），而不是交付一张穿线图。
+
+**正确的下一步**：位号位置在**布局阶段与网标联合决策**。
+三种位置都试遍仍不行，说明这不是绘制层的选择问题。
+
+## 加一条新判据的步骤
+
+1. 在 `sch_layout_acceptance.py` 的 `CRITERIA` 里加一条：`id` / `title` / `codes`
+2. 声明依赖：`requires`（覆盖度）或 `requires_kind`（图元类型）或 `na_when_missing`
+3. 若依赖新证据，在 `needs` 里写**可直接粘贴的命令**
+4. 加至少一条测试：PASS 的条件、以及**缺数据不许判 PASS**
+5. 同步到四个技能目录（有测试强制）
+
+> 顺序有讲究：**适用性判定必须写在循环最前面**，否则会被更早的分支截胡（踩过）。

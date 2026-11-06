@@ -118,11 +118,38 @@ def one(module, work, exe, sk, verbose=True):
     run_py([HERE / "sch_composition_snapshot.py", "--composition", comp,
             "--out-dir", snap, "--text-plan", texts])
 
+    # 网标朝向一致性：每个网络取标记朝向的**众数**作为期望值。
+    # 只有 ≥2 个标记的网络才判"是否一致"（一个标记谈不上一致性）。
+    rot_policy = {}
+    try:
+        snap_doc = json.loads((snap / "list.json").read_text(encoding="utf-8"))
+        by_net = {}
+        for c in (snap_doc.get("result") or {}).get("components") or []:
+            if c.get("componentType") != "netflag":
+                continue
+            net, rot = c.get("net"), c.get("rotation")
+            if net and rot is not None:
+                by_net.setdefault(net, []).append(int(rot))
+        for net, rots in by_net.items():
+            if len(rots) < 2:
+                continue
+            counts = {}
+            for r in rots:
+                counts[r] = counts.get(r, 0) + 1
+            best = max(counts, key=lambda k: counts[k])
+            if counts[best] * 2 > len(rots):        # 有明显众数才立判据
+                rot_policy[net] = best
+    except (OSError, ValueError):
+        rot_policy = {}
+
     strict = work / ("strict-%s-full.json" % module)
     strict.unlink(missing_ok=True)
-    run_py([sk / "layout_from_easycirq.py", "--list", snap / "list.json",
+    acmd = [sk / "layout_from_easycirq.py", "--list", snap / "list.json",
             "--visible-text", visible, "--rendered-text", text_json,
-            "--out", strict])
+            "--out", strict]
+    for net, deg in rot_policy.items():
+        acmd += ["--expect-rotation", "%s=%d" % (net, deg)]
+    run_py(acmd)
     if not strict.is_file():
         return {"module": module, "error": "严格输入生成失败"}
     src = json.loads(strict.read_text(encoding="utf-8"))

@@ -68,12 +68,20 @@ CRITERIA = [
     {
         "id": "E_label_anchor",
         "title": "标签落在真实端点、朝向一致",
-        "codes": ["dangling_label", "label_net_mismatch",
-                  "netflag_rotation_outlier"],
+        "codes": ["dangling_label", "label_net_mismatch"],
         # 这条测的是 **netport / netlabel**（有真实锚点的端口标签）。
         # 若图里只有电源/地符号与网标，就没有被测量的对象 → 不适用。
         "requires_kind": ("netport", "netlabel"),
         "needs": ["easycirq sch read --page <P>（取 visible_text 与 junction）"],
+    },
+    {
+        "id": "J_netflag_rotation",
+        "title": "网标朝向一致",
+        # 同一网络的多个标记朝向应当一致；偏离众数即为离群。
+        # 这条**不需要端口标签**，只要图里有 netflag 就能判。
+        "codes": ["netflag_rotation_outlier"],
+        "requires_kind": ("netflag",),
+        "needs": [],
     },
     {
         "id": "F_net_text",
@@ -252,6 +260,10 @@ def evaluate(strict_input, out_path, checker=None, owners=None):
     kinds = {str(c.get("componentType") or "")
              for c in (src.get("components") or [])}
     kinds |= {str(c.get("kind") or "") for c in (src.get("components") or [])}
+    # 适配器把网标放进独立的 net_flags，不在 components 里 —— 少这一条，
+    # "网标朝向一致"会被误判成 N/A（实际有对象可测）。
+    if src.get("net_flags"):
+        kinds.add("netflag")
     if (src.get("title_block") or src.get("titleBlock")
             or (src.get("sheet") or {}).get("title_block")):
         data.setdefault("coverage", {})["_title_block"] = True

@@ -22,9 +22,9 @@
 |---|---|---|---|---|---|---|
 | M1 | BLOCKED | 5 | 1 | 1 | 2 | 76 |
 | M2 | BLOCKED | 4 | 2 | 1 | 2 | 23 |
-| M3 | INCOMPLETE | 6 | 0 | 1 | 2 | 24 |
-| M4 | INCOMPLETE | 6 | 0 | 1 | 2 | 37 |
-| M5 | INCOMPLETE | 6 | 0 | 1 | 2 | 29 |
+| M3 | INCOMPLETE | 7 | 0 | 1 | 2 | 24 |
+| M4 | INCOMPLETE | 7 | 0 | 1 | 2 | 37 |
+| M5 | INCOMPLETE | 7 | 0 | 1 | 2 | 29 |
 
 ## 未通过 / 未测 / 不适用（逐条）
 
