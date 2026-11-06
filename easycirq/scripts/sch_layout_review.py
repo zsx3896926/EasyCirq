@@ -60,6 +60,7 @@ PAGE_MARGIN_RAW = 19.7    # 5 mm 页边距（style-tokens.layout.page_margin_mm�
 ZONE_AREA_MIN = 0.25      # style-tokens.layout.zone_area_ratio[0]
 ZONE_AREA_MAX = 0.80      # style-tokens.layout.zone_area_ratio[1]
 TITLE_SIZE = 20           # 0.2 inch 标题 → fontSize 20（frame apply 的约定）
+TEXT_MIN_GAP = 4.0      # 相邻文字最小间距（px）：只判相交会放过"贴边"
 MIN_UTILIZATION = 0.05    # 版面占用低于此值只**提醒**，不拦（不是缺陷）
 MAX_CROSSINGS = 0         # 导线穿**别人**器件本体的允许处数（硬拦）
 
@@ -174,9 +175,11 @@ def count_text_overlaps(texts, width, height, tb_rect=None):
         ti, bi = kept[i]
         for j in range(i + 1, len(kept)):
             tj, bj = kept[j]
+            # **要求最小间距**：只判"相交"会放过"贴在一起"的情况 ——
+            # 实测 GND 与 L5 贴边不重叠，读起来却是 GNDL5。
             ox = min(bi[2], bj[2]) - max(bi[0], bj[0])
             oy = min(bi[3], bj[3]) - max(bi[1], bj[1])
-            if ox > 1.0 and oy > 1.0:
+            if ox > -TEXT_MIN_GAP and oy > -TEXT_MIN_GAP:
                 hits.append({"a": ti, "b": tj,
                              "overlap": [round(ox, 1), round(oy, 1)]})
     return hits
@@ -649,16 +652,41 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             tw = 8 * len(fnet)
         flag_boxes.append((cxp + 8, cyp - 6, cxp + 8 + tw, cyp + 4))
         flag_boxes.append((cxp - 8 - tw, cyp - 6, cxp - 8, cyp + 4))
+    ref_boxes = []          # 已画位号框，供后续位号避让
     for ref, box in parts.items():
         draw_symbol(d, px, ref, box, pins_of.get(ref) or [], f_tiny, f_small,
                     THEME["body_edge"], THEME["body"], avoid=flag_boxes)
         # 位号画在本体**上方外侧**（基准图的做法），不压本体、不压引脚
         x1, y1, x2, y2 = box
         tx, ty = px(x1, y2)
-        # 位号画在本体上方外侧（基准图的做法）。
-        # 试过"与网标相撞就下移"，但下方是邻居的位号，一样相压（#101）——
-        # 器件排得太密，两边都没空位。缺陷由 `--gate` 如实报出，不在这里绕。
-        d.text((tx, ty - 13), ref, fill=(15, 15, 15), font=f_small)
+        # 位号落点：**横向优先**的四向局部搜索。
+        # 下移试过会撞邻居位号（#101）；横向位移量小，更容易找到空位。
+        try:
+            tw_ref = d.textlength(ref, font=f_small)
+        except Exception:
+            tw_ref = 8 * len(ref)
+        cand = [
+            (tx, ty - 13),                                   # 默认：本体上方
+            (tx - tw_ref - 6, ty - 13),                      # 左移
+            (px(x2, y2)[0] - tw_ref, ty - 13),               # 右上
+            (tx, px(x1, y1)[1] + 14),                        # 下方
+            (tx, ty - 26),                                   # 更高
+            (tx - tw_ref - 6, ty - 26),                      # 更高且左
+            (tx - tw_ref - 6, px(x1, y1)[1] + 14),           # 下方且左
+        ]
+        blockers = list(flag_boxes) + list(ref_boxes)
+        chosen = cand[0]
+        for cx, cy in cand:
+            # 判据要**留间距**（与门禁同一口径），否则会挑到贴边的位置
+            bx = (cx, cy, cx + tw_ref, cy + 10)
+            if not any(bx[0] - TEXT_MIN_GAP < ob[2] and ob[0] - TEXT_MIN_GAP < bx[2]
+                       and bx[1] - TEXT_MIN_GAP < ob[3]
+                       and ob[1] - TEXT_MIN_GAP < bx[3] for ob in blockers):
+                chosen = (cx, cy)
+                break
+        d.text(chosen, ref, fill=(15, 15, 15), font=f_small)
+        ref_boxes.append((chosen[0], chosen[1],
+                          chosen[0] + tw_ref, chosen[1] + 10))
 
     # 引脚
     for pts, _net in []:
