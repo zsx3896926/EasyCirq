@@ -80,6 +80,14 @@ def check(doc: dict, tokens: dict) -> list[dict]:
                  "detail": "没有真实分区框（frames-*.json），"
                            "按器件外框估不算数 → NOT RUN"}]
 
+    # **单分区页不适用**：见本文件顶部说明与 friction #126。
+    # 一页一模块时框应贴合模块，"占页面 25% 以上"是为多分区页定的。
+    if len(frames) == 1:
+        return [{"check": "layout.zone_area_ratio", "ok": True, "na": True,
+                 "value": None, "want": [lo, hi],
+                 "detail": "本页只有 1 个分区（一页一模块），框应贴合模块；"
+                           "该比例针对多分区页，不适用 → N/A"}]
+
     total = 0.0
     for f in frames:
         b = f.get("bbox") or {}
