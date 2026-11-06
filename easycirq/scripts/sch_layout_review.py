@@ -710,7 +710,9 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
             (tx - tw_ref - 6, ty - 26),                      # 更高且左
             (tx - tw_ref - 6, px(x1, y1)[1] + 14),           # 下方且左
         ]
-        blockers = list(flag_boxes) + list(ref_boxes)
+        # 阻挡清单用**所有已画文字**：引脚名、位号、之前的网标都算。
+        # 只列 flag_boxes/ref_boxes 会漏掉引脚名（实测压到 PGND/SGND）。
+        blockers = [b for _t, b in getattr(d, "texts", [])]
         chosen = cand[0]
         for cx, cy in cand:
             # 判据要**留间距**（与门禁同一口径），否则会挑到贴边的位置
@@ -782,10 +784,17 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         cand_xy = ([(cxp - 8 - tw, cyp - 6), (cxp + 8, cyp - 6)]
                    if to_left else
                    [(cxp + 8, cyp - 6), (cxp - 8 - tw, cyp - 6)])
+        # 近距候选：上下左右
         cand_xy += [(cxp - tw / 2, cyp - 16), (cxp - tw / 2, cyp + 8),
-                    (cxp - tw / 2, cyp - 28), (cxp - tw / 2, cyp + 20),
                     (cxp + 16, cyp - 6), (cxp - 16 - tw, cyp - 6)]
-        blockers = list(flag_boxes) + list(ref_boxes)
+        # **远距候选**：网标在三线交汇处时近处全被占，往更远处放仍可读
+        for far in (26, 36, 48):
+            cand_xy += [(cxp + far, cyp - 6), (cxp - far - tw, cyp - 6),
+                        (cxp - tw / 2, cyp - 10 - far),
+                        (cxp - tw / 2, cyp + 4 + far)]
+        # 阻挡清单用**所有已画文字**：引脚名、位号、之前的网标都算。
+        # 只列 flag_boxes/ref_boxes 会漏掉引脚名（实测压到 PGND/SGND）。
+        blockers = [b for _t, b in getattr(d, "texts", [])]
         chosen = cand_xy[0]
         for (lx, ly) in cand_xy:
             bx = (lx, ly, lx + tw, ly + 10)
