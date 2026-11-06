@@ -115,7 +115,7 @@ def measure(doc):
     return b[2] - b[0], b[3] - b[1], len(q["crossings"])
 
 
-def spread(input_path, out_path, exe, distances, verbose=True):
+def spread(input_path, out_path, exe, distances, verbose=True, reserve=False):
     src = json.loads(pathlib.Path(input_path).read_text(encoding="utf-8"))
     sheet = src.get("sheet") or {"minX": 0, "minY": 0}
     page_w = sheet["maxX"] - sheet["minX"]
@@ -126,6 +126,8 @@ def spread(input_path, out_path, exe, distances, verbose=True):
 
     trials = []
     best = None
+    if reserve:
+        src = with_reservations(src)
     for d in distances:
         trial = json.loads(json.dumps(src))
         trial["layoutModules"][0]["peripherals"] = (
@@ -169,6 +171,28 @@ def spread(input_path, out_path, exe, distances, verbose=True):
     return {"distance": d, "width": w, "height": h, "trials": trials}
 
 
+FS = 7.0
+WIDTH_K = 0.75
+DX, DY0, DY1 = -2.0, -0.5, 7.5      # 实测（7/7 器件一致）
+
+
+def label_box(bbox, designator):
+    tw = max(6.0, WIDTH_K * FS * max(1, len(str(designator or ""))))
+    return {"minX": round(bbox["minX"] + DX, 1),
+            "minY": round(bbox["maxY"] + DY0, 1),
+            "maxX": round(bbox["minX"] + DX + tw, 1),
+            "maxY": round(bbox["maxY"] + DY1, 1)}
+
+
+def with_reservations(doc):
+    d = json.loads(json.dumps(doc))
+    for meas in d.get("measurements") or []:
+        b = meas.get("bbox")
+        if b:
+            meas["textBboxes"] = [label_box(b, meas.get("designator"))]
+    return d
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="把排版铺开：逐级尝试最小附着间距")
     ap.add_argument("--input", action="append", required=True,
@@ -179,6 +203,9 @@ def main() -> int:
                     help="逗号分隔，从大到小尝试（含 0 表示不铺开）")
     ap.add_argument("--exe", default=default_exe())
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--reserve-labels", action="store_true",
+                    help="注入位号预留区（与 sch_layout_reserve.py 同一偏移），"
+                         "确保铺开后排出的导线也不穿位号")
     args = ap.parse_args()
 
     distances = [float(x) for x in args.distances.split(",") if x.strip()] + [0.0]
@@ -193,7 +220,7 @@ def main() -> int:
             base.mkdir(parents=True, exist_ok=True)
             out = str(base / ("composition-%s.json" % mid))
         print("  %s" % mid)
-        r = spread(inp, out, args.exe, distances)
+        r = spread(inp, out, args.exe, distances, reserve=args.reserve_labels)
         r["module"] = mid
         r["out"] = out
         results.append(r)

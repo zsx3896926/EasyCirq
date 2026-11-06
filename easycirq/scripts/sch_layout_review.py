@@ -289,6 +289,15 @@ def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
 
         room = {"L": spacing(sides["L"], h), "R": spacing(sides["R"], h),
                 "B": spacing(sides["B"], w), "T": spacing(sides["T"], w)}
+        drawn_boxes = []          # 已画标签的像素框，用于去重
+
+        def clashes(box):
+            for b in drawn_boxes:
+                if (box[0] < b[2] and b[0] < box[2]
+                        and box[1] < b[3] and b[1] < box[3]):
+                    return True
+            return False
+
         for side, group in sides.items():
             # 间距太窄就别写名字（宁缺勿叠），引脚号总是写
             show_name = room[side] >= 9.0
@@ -304,8 +313,13 @@ def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
                 gx, gy = px(ix, iy)
                 if show_name and q["name"]:
                     tw = d.textlength(q["name"], font=f_tiny)
-                    d.text((gx if side == "L" else gx - tw, gy - 6), q["name"],
-                           fill=(70, 70, 80), font=f_tiny)
+                    nx = gx if side == "L" else gx - tw
+                    # 去重：夹到同一条边的引脚会撞在一起（实测 U3 左侧四名叠成一团）
+                    box = (nx, gy - 6, nx + tw, gy + 4)
+                    if not clashes(box):
+                        d.text((nx, gy - 6), q["name"], fill=(70, 70, 80),
+                               font=f_tiny)
+                        drawn_boxes.append(box)
                 if q["number"]:
                     ox, oy = px(qx, qy)
                     d.text((ox + 2, oy - 12), q["number"], fill=(150, 60, 60),
@@ -499,7 +513,20 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         net_font = f_small
         if d.textlength(net, font=f_small) > 90:
             net_font = font(9)
-        d.text((cxp + 8, cyp - 6), net, fill=THEME["flag"], font=net_font)
+        # 标签朝**背离器件**的一侧：旗标落在引脚上，朝右往往就是本体内部，
+        # 会把引脚名压住（实测 GND 压 EN、+5V 压 IN）。
+        tw = d.textlength(net, font=net_font)
+        near = None
+        for _ref, b in parts.items():
+            if (b[0] - 20 <= x <= b[2] + 20
+                    and b[1] - 20 <= y <= b[3] + 20):
+                near = b
+                break
+        to_left = bool(near) and x <= (near[0] + near[2]) / 2.0
+        if to_left:
+            d.text((cxp - 8 - tw, cyp - 6), net, fill=THEME["flag"], font=net_font)
+        else:
+            d.text((cxp + 8, cyp - 6), net, fill=THEME["flag"], font=net_font)
 
     # 页头：图纸名 + 质量结论
     head = "%s　·　%d 件 / %d 导线 / %d 网标　·　占用 %.0f%%　·　穿器件 %d　·　%s" % (

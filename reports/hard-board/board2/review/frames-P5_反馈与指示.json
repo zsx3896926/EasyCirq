@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "documentId": "a223803d1fb015ce",
+  "frames": [
+    {
+      "id": "M5",
+      "title": "P5_反馈与指示 · 升降压：5V → 3.8V（TPS63802）",
+      "rect": {
+        "minX": 162.0,
+        "minY": 132.0,
+        "maxX": 428.0,
+        "maxY": 253.0
+      },
+      "titleX": 166.0,
+      "titleY": 249.0,
+      "fontSize": 20,
+      "color": "#AA00AA",
+      "lineType": 1
+    }
+  ]
+}
