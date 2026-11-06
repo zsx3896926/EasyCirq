@@ -17,6 +17,10 @@
           "C7": "c22",
           "C8": "c23",
           "C9": "c24",
+          "F1": "c2",
+          "J1": "c1",
+          "R1": "c4",
+          "D1": "c5",
           "R2": "c11",
           "R3": "c12",
           "R4": "c13",
@@ -25,12 +29,8 @@
           "R5": "c17",
           "R6": "c18",
           "R7": "c19",
-          "C6": "c21",
-          "F1": "c2",
-          "J1": "c1",
-          "R1": "c4",
-          "D1": "c5",
-          "C5": "c20"
+          "C5": "c20",
+          "C6": "c21"
         },
         "pinStates": {
           "c1": {
@@ -40,288 +40,344 @@
         "placements": [
           {
             "designator": "U1",
-            "x": 405.0,
-            "y": 250.0,
+            "x": 470.0,
+            "y": 230.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 365.0,
-              "minY": 225.0,
-              "maxX": 445.0,
-              "maxY": 275.0
+              "minX": 430.0,
+              "minY": 205.0,
+              "maxX": 510.0,
+              "maxY": 255.0
             },
+            "textBboxes": [
+              {
+                "minX": 428.0,
+                "minY": 254.5,
+                "maxX": 438.5,
+                "maxY": 262.5
+              }
+            ],
             "pins": [
               {
                 "number": "BOOT",
                 "name": "BOOT",
                 "net": "U1_N9",
-                "x": 355.0,
-                "y": 235.0,
+                "x": 420.0,
+                "y": 215.0,
                 "rotation": 180
               },
               {
                 "number": "COMP",
                 "name": "COMP",
                 "net": "U1_N13",
-                "x": 455.0,
-                "y": 255.0,
+                "x": 520.0,
+                "y": 235.0,
                 "rotation": 0
               },
               {
                 "number": "EN",
                 "name": "EN",
                 "net": "R2_N7",
-                "x": 355.0,
-                "y": 255.0,
+                "x": 420.0,
+                "y": 235.0,
                 "rotation": 180
               },
               {
                 "number": "EP",
                 "name": "EP",
                 "net": "GND",
-                "x": 405.0,
-                "y": 215.0,
+                "x": 470.0,
+                "y": 195.0,
                 "rotation": 270
               },
               {
                 "number": "FB",
                 "name": "FB",
                 "net": "U1_N12",
-                "x": 455.0,
-                "y": 265.0,
+                "x": 520.0,
+                "y": 245.0,
                 "rotation": 0
               },
               {
                 "number": "GND",
                 "name": "GND",
                 "net": "GND",
-                "x": 455.0,
-                "y": 245.0,
+                "x": 520.0,
+                "y": 225.0,
                 "rotation": 0
               },
               {
                 "number": "RT/CLK",
                 "name": "RT/CLK",
                 "net": "U1_N8",
-                "x": 355.0,
-                "y": 265.0,
+                "x": 420.0,
+                "y": 245.0,
                 "rotation": 180
               },
               {
                 "number": "SW",
                 "name": "SW",
                 "net": "C4_N10",
-                "x": 455.0,
-                "y": 235.0,
+                "x": 520.0,
+                "y": 215.0,
                 "rotation": 0
               },
               {
                 "number": "VIN",
                 "name": "VIN",
                 "net": "VBAT_RAW",
-                "x": 355.0,
-                "y": 245.0,
+                "x": 420.0,
+                "y": 225.0,
                 "rotation": 180
               }
             ]
           },
           {
             "designator": "D2",
-            "x": 370.0,
-            "y": 200.0,
+            "x": 435.0,
+            "y": 180.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 365.0,
-              "minY": 195.0,
-              "maxX": 375.0,
-              "maxY": 205.0
+              "minX": 430.0,
+              "minY": 175.0,
+              "maxX": 440.0,
+              "maxY": 185.0
             },
+            "textBboxes": [
+              {
+                "minX": 428.0,
+                "minY": 184.5,
+                "maxX": 438.5,
+                "maxY": 192.5
+              }
+            ],
             "pins": [
               {
                 "number": "A",
                 "name": "A",
                 "net": "GND",
-                "x": 390.0,
-                "y": 200.0,
+                "x": 455.0,
+                "y": 180.0,
                 "rotation": 0
               },
               {
                 "number": "C",
                 "name": "C",
                 "net": "VBAT_RAW",
-                "x": 350.0,
-                "y": 200.0,
+                "x": 415.0,
+                "y": 180.0,
                 "rotation": 180
               }
             ]
           },
           {
             "designator": "C1",
-            "x": 315.0,
-            "y": 200.0,
+            "x": 380.0,
+            "y": 180.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 305.0,
-              "minY": 195.0,
-              "maxX": 325.0,
-              "maxY": 205.0
+              "minX": 370.0,
+              "minY": 175.0,
+              "maxX": 390.0,
+              "maxY": 185.0
             },
+            "textBboxes": [
+              {
+                "minX": 368.0,
+                "minY": 184.5,
+                "maxX": 378.5,
+                "maxY": 192.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "VBAT_RAW",
-                "x": 295.0,
-                "y": 200.0,
+                "x": 360.0,
+                "y": 180.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 335.0,
-                "y": 200.0,
+                "x": 400.0,
+                "y": 180.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "C2",
-            "x": 260.0,
-            "y": 200.0,
+            "x": 325.0,
+            "y": 180.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 250.0,
-              "minY": 195.0,
-              "maxX": 270.0,
-              "maxY": 205.0
+              "minX": 315.0,
+              "minY": 175.0,
+              "maxX": 335.0,
+              "maxY": 185.0
             },
+            "textBboxes": [
+              {
+                "minX": 313.0,
+                "minY": 184.5,
+                "maxX": 323.5,
+                "maxY": 192.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "VBAT_RAW",
-                "x": 240.0,
-                "y": 200.0,
+                "x": 305.0,
+                "y": 180.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 280.0,
-                "y": 200.0,
+                "x": 345.0,
+                "y": 180.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "C3",
-            "x": 205.0,
-            "y": 200.0,
+            "x": 270.0,
+            "y": 180.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 195.0,
-              "minY": 195.0,
-              "maxX": 215.0,
-              "maxY": 205.0
+              "minX": 260.0,
+              "minY": 175.0,
+              "maxX": 280.0,
+              "maxY": 185.0
             },
+            "textBboxes": [
+              {
+                "minX": 258.0,
+                "minY": 184.5,
+                "maxX": 268.5,
+                "maxY": 192.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "VBAT_RAW",
-                "x": 185.0,
-                "y": 200.0,
+                "x": 250.0,
+                "y": 180.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 225.0,
-                "y": 200.0,
+                "x": 290.0,
+                "y": 180.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "Q1",
-            "x": 265.0,
-            "y": 270.0,
+            "x": 330.0,
+            "y": 250.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 245.0,
-              "minY": 245.0,
-              "maxX": 285.0,
-              "maxY": 295.0
+              "minX": 310.0,
+              "minY": 225.0,
+              "maxX": 350.0,
+              "maxY": 275.0
             },
+            "textBboxes": [
+              {
+                "minX": 308.0,
+                "minY": 274.5,
+                "maxX": 318.5,
+                "maxY": 282.5
+              }
+            ],
             "pins": [
               {
                 "number": "D",
                 "name": "D",
                 "net": "F1_N4",
-                "x": 295.0,
-                "y": 275.0,
+                "x": 360.0,
+                "y": 255.0,
                 "rotation": 0
               },
               {
                 "number": "G",
                 "name": "G",
                 "net": "Q1_N5",
-                "x": 235.0,
-                "y": 285.0,
+                "x": 300.0,
+                "y": 265.0,
                 "rotation": 180
               },
               {
                 "number": "S",
                 "name": "S",
                 "net": "VBAT_RAW",
-                "x": 235.0,
-                "y": 255.0,
+                "x": 300.0,
+                "y": 235.0,
                 "rotation": 180
               },
               {
                 "number": "S#2",
                 "name": "S#2",
                 "net": "VBAT_RAW",
-                "x": 235.0,
-                "y": 265.0,
+                "x": 300.0,
+                "y": 245.0,
                 "rotation": 180
               },
               {
                 "number": "S#3",
                 "name": "S#3",
                 "net": "VBAT_RAW",
-                "x": 235.0,
-                "y": 275.0,
+                "x": 300.0,
+                "y": 255.0,
                 "rotation": 180
               }
             ]
           },
           {
             "designator": "L1",
-            "x": 635.0,
+            "x": 570.0,
             "y": 225.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 620.0,
+              "minX": 555.0,
               "minY": 215.0,
-              "maxX": 650.0,
+              "maxX": 585.0,
               "maxY": 235.0
             },
+            "textBboxes": [
+              {
+                "minX": 553.0,
+                "minY": 234.5,
+                "maxX": 563.5,
+                "maxY": 242.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "C4_N10",
-                "x": 615.0,
+                "x": 550.0,
                 "y": 235.0,
                 "rotation": 180
               },
@@ -329,7 +385,7 @@
                 "number": "2",
                 "name": "2",
                 "net": "C4_N10",
-                "x": 615.0,
+                "x": 550.0,
                 "y": 215.0,
                 "rotation": 180
               },
@@ -337,7 +393,7 @@
                 "number": "3",
                 "name": "3",
                 "net": "+5V",
-                "x": 655.0,
+                "x": 590.0,
                 "y": 235.0,
                 "rotation": 0
               },
@@ -345,7 +401,7 @@
                 "number": "4",
                 "name": "4",
                 "net": "+5V",
-                "x": 655.0,
+                "x": 590.0,
                 "y": 215.0,
                 "rotation": 0
               }
@@ -353,22 +409,30 @@
           },
           {
             "designator": "C7",
-            "x": 695.0,
+            "x": 630.0,
             "y": 235.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 685.0,
+              "minX": 620.0,
               "minY": 230.0,
-              "maxX": 705.0,
+              "maxX": 640.0,
               "maxY": 240.0
             },
+            "textBboxes": [
+              {
+                "minX": 618.0,
+                "minY": 239.5,
+                "maxX": 628.5,
+                "maxY": 247.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "+5V",
-                "x": 675.0,
+                "x": 610.0,
                 "y": 235.0,
                 "rotation": 180
               },
@@ -376,7 +440,7 @@
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 715.0,
+                "x": 650.0,
                 "y": 235.0,
                 "rotation": 0
               }
@@ -384,22 +448,30 @@
           },
           {
             "designator": "C8",
-            "x": 680.0,
+            "x": 615.0,
             "y": 185.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 670.0,
+              "minX": 605.0,
               "minY": 180.0,
-              "maxX": 690.0,
+              "maxX": 625.0,
               "maxY": 190.0
             },
+            "textBboxes": [
+              {
+                "minX": 603.0,
+                "minY": 189.5,
+                "maxX": 613.5,
+                "maxY": 197.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "+5V",
-                "x": 660.0,
+                "x": 595.0,
                 "y": 185.0,
                 "rotation": 180
               },
@@ -407,7 +479,7 @@
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 700.0,
+                "x": 635.0,
                 "y": 185.0,
                 "rotation": 0
               }
@@ -415,22 +487,30 @@
           },
           {
             "designator": "C9",
-            "x": 690.0,
+            "x": 625.0,
             "y": 285.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 680.0,
+              "minX": 615.0,
               "minY": 280.0,
-              "maxX": 700.0,
+              "maxX": 635.0,
               "maxY": 290.0
             },
+            "textBboxes": [
+              {
+                "minX": 613.0,
+                "minY": 289.5,
+                "maxX": 623.5,
+                "maxY": 297.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "+5V",
-                "x": 670.0,
+                "x": 605.0,
                 "y": 285.0,
                 "rotation": 180
               },
@@ -438,450 +518,562 @@
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 710.0,
+                "x": 645.0,
                 "y": 285.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "R2",
-            "x": 175.0,
-            "y": 255.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 165.0,
-              "minY": 250.0,
-              "maxX": 185.0,
-              "maxY": 260.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "VBAT_RAW",
-                "x": 155.0,
-                "y": 255.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "R2_N7",
-                "x": 195.0,
-                "y": 255.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "R3",
-            "x": 200.0,
-            "y": 305.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 190.0,
-              "minY": 300.0,
-              "maxX": 210.0,
-              "maxY": 310.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "R2_N7",
-                "x": 180.0,
-                "y": 305.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "GND",
-                "x": 220.0,
-                "y": 305.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "R4",
-            "x": 215.0,
-            "y": 355.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 205.0,
-              "minY": 350.0,
-              "maxX": 225.0,
-              "maxY": 360.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "U1_N8",
-                "x": 195.0,
-                "y": 355.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "GND",
-                "x": 235.0,
-                "y": 355.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "C4",
-            "x": 140.0,
-            "y": 225.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 130.0,
-              "minY": 220.0,
-              "maxX": 150.0,
-              "maxY": 230.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "U1_N9",
-                "x": 120.0,
-                "y": 225.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "C4_N10",
-                "x": 160.0,
-                "y": 225.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "D3",
-            "x": 635.0,
-            "y": 280.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 630.0,
-              "minY": 275.0,
-              "maxX": 640.0,
-              "maxY": 285.0
-            },
-            "pins": [
-              {
-                "number": "A",
-                "name": "A",
-                "net": "GND",
-                "x": 655.0,
-                "y": 280.0,
-                "rotation": 0
-              },
-              {
-                "number": "K",
-                "name": "K",
-                "net": "C4_N10",
-                "x": 615.0,
-                "y": 280.0,
-                "rotation": 180
-              }
-            ]
-          },
-          {
-            "designator": "R5",
-            "x": 595.0,
-            "y": 315.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 585.0,
-              "minY": 310.0,
-              "maxX": 605.0,
-              "maxY": 320.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "+5V",
-                "x": 575.0,
-                "y": 315.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "U1_N12",
-                "x": 615.0,
-                "y": 315.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "R6",
-            "x": 650.0,
-            "y": 330.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 640.0,
-              "minY": 325.0,
-              "maxX": 660.0,
-              "maxY": 335.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "U1_N12",
-                "x": 630.0,
-                "y": 330.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "GND",
-                "x": 670.0,
-                "y": 330.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "R7",
-            "x": 635.0,
-            "y": 155.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 625.0,
-              "minY": 150.0,
-              "maxX": 645.0,
-              "maxY": 160.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "U1_N13",
-                "x": 615.0,
-                "y": 155.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "R7_N14",
-                "x": 655.0,
-                "y": 155.0,
-                "rotation": 0
-              }
-            ]
-          },
-          {
-            "designator": "C6",
-            "x": 750.0,
-            "y": 255.0,
-            "rotation": 0,
-            "mirror": false,
-            "bbox": {
-              "minX": 745.0,
-              "minY": 250.0,
-              "maxX": 755.0,
-              "maxY": 260.0
-            },
-            "pins": [
-              {
-                "number": "1",
-                "name": "1",
-                "net": "U1_N13",
-                "x": 735.0,
-                "y": 255.0,
-                "rotation": 180
-              },
-              {
-                "number": "2",
-                "name": "2",
-                "net": "GND",
-                "x": 765.0,
-                "y": 255.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "F1",
-            "x": 280.0,
-            "y": 340.0,
+            "x": 345.0,
+            "y": 320.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 265.0,
-              "minY": 335.0,
-              "maxX": 295.0,
-              "maxY": 345.0
+              "minX": 330.0,
+              "minY": 315.0,
+              "maxX": 360.0,
+              "maxY": 325.0
             },
+            "textBboxes": [
+              {
+                "minX": 328.0,
+                "minY": 324.5,
+                "maxX": 338.5,
+                "maxY": 332.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "J1_N1",
-                "x": 260.0,
-                "y": 340.0,
+                "x": 325.0,
+                "y": 320.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "F1_N4",
-                "x": 300.0,
-                "y": 340.0,
+                "x": 365.0,
+                "y": 320.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "J1",
-            "x": 275.0,
-            "y": 405.0,
+            "x": 340.0,
+            "y": 385.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 265.0,
-              "minY": 385.0,
-              "maxX": 305.0,
-              "maxY": 425.0
+              "minX": 330.0,
+              "minY": 365.0,
+              "maxX": 370.0,
+              "maxY": 405.0
             },
+            "textBboxes": [
+              {
+                "minX": 328.0,
+                "minY": 404.5,
+                "maxX": 338.5,
+                "maxY": 412.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "J1_N1",
-                "x": 255.0,
-                "y": 395.0,
+                "x": 320.0,
+                "y": 375.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "",
-                "x": 255.0,
-                "y": 405.0,
+                "x": 320.0,
+                "y": 385.0,
                 "rotation": 180
               },
               {
                 "number": "3",
                 "name": "3",
                 "net": "GND",
-                "x": 255.0,
-                "y": 415.0,
+                "x": 320.0,
+                "y": 395.0,
                 "rotation": 180
               }
             ]
           },
           {
             "designator": "R1",
-            "x": 140.0,
-            "y": 290.0,
+            "x": 265.0,
+            "y": 265.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 130.0,
-              "minY": 285.0,
-              "maxX": 150.0,
-              "maxY": 295.0
+              "minX": 255.0,
+              "minY": 260.0,
+              "maxX": 275.0,
+              "maxY": 270.0
             },
+            "textBboxes": [
+              {
+                "minX": 253.0,
+                "minY": 269.5,
+                "maxX": 263.5,
+                "maxY": 277.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
                 "net": "Q1_N5",
-                "x": 120.0,
-                "y": 290.0,
+                "x": 245.0,
+                "y": 265.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 160.0,
-                "y": 290.0,
+                "x": 285.0,
+                "y": 265.0,
                 "rotation": 0
               }
             ]
           },
           {
             "designator": "D1",
-            "x": 90.0,
-            "y": 290.0,
+            "x": 215.0,
+            "y": 265.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 85.0,
-              "minY": 285.0,
-              "maxX": 95.0,
-              "maxY": 295.0
+              "minX": 210.0,
+              "minY": 260.0,
+              "maxX": 220.0,
+              "maxY": 270.0
             },
+            "textBboxes": [
+              {
+                "minX": 208.0,
+                "minY": 269.5,
+                "maxX": 218.5,
+                "maxY": 277.5
+              }
+            ],
             "pins": [
               {
                 "number": "A",
                 "name": "A",
                 "net": "Q1_N5",
-                "x": 110.0,
-                "y": 290.0,
+                "x": 235.0,
+                "y": 265.0,
                 "rotation": 0
               },
               {
                 "number": "C",
                 "name": "C",
                 "net": "VBAT_RAW",
-                "x": 70.0,
-                "y": 290.0,
+                "x": 195.0,
+                "y": 265.0,
                 "rotation": 180
               }
             ]
           },
           {
-            "designator": "C5",
-            "x": 685.0,
-            "y": 135.0,
+            "designator": "R2",
+            "x": 215.0,
+            "y": 180.0,
             "rotation": 0,
             "mirror": false,
             "bbox": {
-              "minX": 680.0,
-              "minY": 130.0,
-              "maxX": 690.0,
-              "maxY": 140.0
+              "minX": 205.0,
+              "minY": 175.0,
+              "maxX": 225.0,
+              "maxY": 185.0
             },
+            "textBboxes": [
+              {
+                "minX": 203.0,
+                "minY": 184.5,
+                "maxX": 213.5,
+                "maxY": 192.5
+              }
+            ],
             "pins": [
               {
                 "number": "1",
                 "name": "1",
-                "net": "R7_N14",
-                "x": 670.0,
-                "y": 135.0,
+                "net": "VBAT_RAW",
+                "x": 195.0,
+                "y": 180.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "R2_N7",
+                "x": 235.0,
+                "y": 180.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "R3",
+            "x": 435.0,
+            "y": 285.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 425.0,
+              "minY": 280.0,
+              "maxX": 445.0,
+              "maxY": 290.0
+            },
+            "textBboxes": [
+              {
+                "minX": 423.0,
+                "minY": 289.5,
+                "maxX": 433.5,
+                "maxY": 297.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "R2_N7",
+                "x": 415.0,
+                "y": 285.0,
                 "rotation": 180
               },
               {
                 "number": "2",
                 "name": "2",
                 "net": "GND",
-                "x": 700.0,
-                "y": 135.0,
+                "x": 455.0,
+                "y": 285.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "R4",
+            "x": 435.0,
+            "y": 335.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 425.0,
+              "minY": 330.0,
+              "maxX": 445.0,
+              "maxY": 340.0
+            },
+            "textBboxes": [
+              {
+                "minX": 423.0,
+                "minY": 339.5,
+                "maxX": 433.5,
+                "maxY": 347.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U1_N8",
+                "x": 415.0,
+                "y": 335.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 455.0,
+                "y": 335.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "C4",
+            "x": 505.0,
+            "y": 160.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 495.0,
+              "minY": 155.0,
+              "maxX": 515.0,
+              "maxY": 165.0
+            },
+            "textBboxes": [
+              {
+                "minX": 493.0,
+                "minY": 164.5,
+                "maxX": 503.5,
+                "maxY": 172.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U1_N9",
+                "x": 485.0,
+                "y": 160.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "C4_N10",
+                "x": 525.0,
+                "y": 160.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "D3",
+            "x": 555.0,
+            "y": 155.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 550.0,
+              "minY": 150.0,
+              "maxX": 560.0,
+              "maxY": 160.0
+            },
+            "textBboxes": [
+              {
+                "minX": 548.0,
+                "minY": 159.5,
+                "maxX": 558.5,
+                "maxY": 167.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "A",
+                "name": "A",
+                "net": "GND",
+                "x": 575.0,
+                "y": 155.0,
+                "rotation": 0
+              },
+              {
+                "number": "K",
+                "name": "K",
+                "net": "C4_N10",
+                "x": 535.0,
+                "y": 155.0,
+                "rotation": 180
+              }
+            ]
+          },
+          {
+            "designator": "R5",
+            "x": 570.0,
+            "y": 285.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 560.0,
+              "minY": 280.0,
+              "maxX": 580.0,
+              "maxY": 290.0
+            },
+            "textBboxes": [
+              {
+                "minX": 558.0,
+                "minY": 289.5,
+                "maxX": 568.5,
+                "maxY": 297.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "+5V",
+                "x": 550.0,
+                "y": 285.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "U1_N12",
+                "x": 590.0,
+                "y": 285.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "R6",
+            "x": 615.0,
+            "y": 335.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 605.0,
+              "minY": 330.0,
+              "maxX": 625.0,
+              "maxY": 340.0
+            },
+            "textBboxes": [
+              {
+                "minX": 603.0,
+                "minY": 339.5,
+                "maxX": 613.5,
+                "maxY": 347.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U1_N12",
+                "x": 595.0,
+                "y": 335.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 635.0,
+                "y": 335.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "R7",
+            "x": 545.0,
+            "y": 335.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 535.0,
+              "minY": 330.0,
+              "maxX": 555.0,
+              "maxY": 340.0
+            },
+            "textBboxes": [
+              {
+                "minX": 533.0,
+                "minY": 339.5,
+                "maxX": 543.5,
+                "maxY": 347.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U1_N13",
+                "x": 525.0,
+                "y": 335.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "R7_N14",
+                "x": 565.0,
+                "y": 335.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "C5",
+            "x": 585.0,
+            "y": 370.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 580.0,
+              "minY": 365.0,
+              "maxX": 590.0,
+              "maxY": 375.0
+            },
+            "textBboxes": [
+              {
+                "minX": 578.0,
+                "minY": 374.5,
+                "maxX": 588.5,
+                "maxY": 382.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "R7_N14",
+                "x": 570.0,
+                "y": 370.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 600.0,
+                "y": 370.0,
+                "rotation": 0
+              }
+            ]
+          },
+          {
+            "designator": "C6",
+            "x": 490.0,
+            "y": 335.0,
+            "rotation": 0,
+            "mirror": false,
+            "bbox": {
+              "minX": 485.0,
+              "minY": 330.0,
+              "maxX": 495.0,
+              "maxY": 340.0
+            },
+            "textBboxes": [
+              {
+                "minX": 483.0,
+                "minY": 339.5,
+                "maxX": 493.5,
+                "maxY": 347.5
+              }
+            ],
+            "pins": [
+              {
+                "number": "1",
+                "name": "1",
+                "net": "U1_N13",
+                "x": 475.0,
+                "y": 335.0,
+                "rotation": 180
+              },
+              {
+                "number": "2",
+                "name": "2",
+                "net": "GND",
+                "x": 505.0,
+                "y": 335.0,
                 "rotation": 0
               }
             ]
@@ -889,1146 +1081,1328 @@
         ],
         "wires": [
           {
-            "net": "C4_N10",
+            "net": "GND",
             "points": [
               [
-                615.0,
-                215.0
+                460.0,
+                285.0
               ],
-              [
-                610.0,
-                215.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
               [
                 455.0,
-                235.0
-              ],
-              [
-                460.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                460.0,
-                235.0
-              ],
-              [
-                610.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                610.0,
-                235.0
-              ],
-              [
-                615.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                160.0,
-                225.0
-              ],
-              [
-                400.0,
-                225.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                400.0,
-                225.0
-              ],
-              [
-                400.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                400.0,
-                205.0
-              ],
-              [
-                460.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                460.0,
-                205.0
-              ],
-              [
-                460.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                615.0,
-                280.0
-              ],
-              [
-                610.0,
-                280.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                610.0,
-                215.0
-              ],
-              [
-                610.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "C4_N10",
-            "points": [
-              [
-                610.0,
-                235.0
-              ],
-              [
-                610.0,
-                280.0
-              ]
-            ]
-          },
-          {
-            "net": "Q1_N5",
-            "points": [
-              [
-                110.0,
-                290.0
-              ],
-              [
-                115.0,
-                290.0
-              ]
-            ]
-          },
-          {
-            "net": "Q1_N5",
-            "points": [
-              [
-                115.0,
-                290.0
-              ],
-              [
-                120.0,
-                290.0
-              ]
-            ]
-          },
-          {
-            "net": "Q1_N5",
-            "points": [
-              [
-                235.0,
-                285.0
-              ],
-              [
-                115.0,
                 285.0
               ]
             ]
           },
           {
-            "net": "Q1_N5",
+            "net": "GND",
             "points": [
               [
-                115.0,
+                505.0,
+                335.0
+              ],
+              [
+                510.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                510.0,
+                335.0
+              ],
+              [
+                510.0,
+                340.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                510.0,
+                340.0
+              ],
+              [
+                460.0,
+                340.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                405.0,
+                180.0
+              ],
+              [
+                405.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                400.0,
+                180.0
+              ],
+              [
+                405.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                290.0,
+                180.0
+              ],
+              [
+                295.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                295.0,
+                180.0
+              ],
+              [
+                295.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                295.0,
+                185.0
+              ],
+              [
+                350.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                350.0,
+                185.0
+              ],
+              [
+                405.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                405.0,
+                185.0
+              ],
+              [
+                460.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                350.0,
+                180.0
+              ],
+              [
+                350.0,
+                185.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                345.0,
+                180.0
+              ],
+              [
+                350.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                650.0,
+                335.0
+              ],
+              [
+                650.0,
+                285.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                645.0,
                 285.0
               ],
               [
-                115.0,
-                290.0
+                650.0,
+                285.0
               ]
             ]
           },
           {
-            "net": "U1_N12",
+            "net": "GND",
             "points": [
               [
-                630.0,
-                330.0
-              ],
-              [
-                625.0,
-                330.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                625.0,
-                330.0
-              ],
-              [
-                625.0,
-                315.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                625.0,
-                315.0
-              ],
-              [
-                620.0,
-                315.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                620.0,
-                315.0
-              ],
-              [
-                615.0,
-                315.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                455.0,
-                265.0
-              ],
-              [
-                605.0,
-                265.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                605.0,
-                265.0
-              ],
-              [
-                605.0,
-                310.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                605.0,
-                310.0
-              ],
-              [
-                620.0,
-                310.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N12",
-            "points": [
-              [
-                620.0,
-                310.0
-              ],
-              [
-                620.0,
-                315.0
-              ]
-            ]
-          },
-          {
-            "net": "R7_N14",
-            "points": [
-              [
-                670.0,
-                135.0
-              ],
-              [
-                665.0,
-                135.0
-              ]
-            ]
-          },
-          {
-            "net": "R7_N14",
-            "points": [
-              [
-                665.0,
-                135.0
-              ],
-              [
-                665.0,
-                155.0
-              ]
-            ]
-          },
-          {
-            "net": "R7_N14",
-            "points": [
-              [
-                665.0,
-                155.0
+                650.0,
+                285.0
               ],
               [
                 655.0,
-                155.0
+                285.0
               ]
             ]
           },
           {
-            "net": "J1_N1",
+            "net": "GND",
             "points": [
               [
-                250.0,
-                395.0
+                635.0,
+                185.0
               ],
               [
-                250.0,
-                340.0
+                655.0,
+                185.0
               ]
             ]
           },
           {
-            "net": "J1_N1",
+            "net": "GND",
             "points": [
               [
-                250.0,
-                340.0
+                655.0,
+                185.0
               ],
               [
-                260.0,
-                340.0
+                655.0,
+                235.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                180.0,
-                305.0
+                655.0,
+                235.0
               ],
               [
-                175.0,
-                305.0
+                655.0,
+                285.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                175.0,
-                305.0
+                650.0,
+                235.0
               ],
               [
-                175.0,
-                280.0
+                655.0,
+                235.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                175.0,
-                280.0
+                640.0,
+                370.0
               ],
               [
-                200.0,
-                280.0
+                640.0,
+                335.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                200.0,
-                255.0
+                635.0,
+                335.0
               ],
               [
-                195.0,
-                255.0
+                640.0,
+                335.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                355.0,
-                255.0
+                640.0,
+                335.0
               ],
               [
-                285.0,
-                255.0
+                650.0,
+                335.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                285.0,
-                255.0
+                520.0,
+                225.0
               ],
               [
-                285.0,
-                245.0
+                530.0,
+                225.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                285.0,
-                245.0
+                530.0,
+                225.0
               ],
               [
-                200.0,
-                245.0
+                530.0,
+                185.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                200.0,
-                245.0
+                530.0,
+                185.0
               ],
               [
-                200.0,
-                255.0
+                470.0,
+                185.0
               ]
             ]
           },
           {
-            "net": "R2_N7",
+            "net": "GND",
             "points": [
               [
-                200.0,
-                255.0
+                470.0,
+                180.0
               ],
               [
-                200.0,
-                280.0
+                470.0,
+                185.0
               ]
             ]
           },
           {
-            "net": "F1_N4",
+            "net": "GND",
+            "points": [
+              [
+                470.0,
+                185.0
+              ],
+              [
+                470.0,
+                195.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
             "points": [
               [
                 300.0,
-                340.0
-              ],
-              [
-                305.0,
-                340.0
-              ]
-            ]
-          },
-          {
-            "net": "F1_N4",
-            "points": [
-              [
-                305.0,
-                340.0
-              ],
-              [
-                305.0,
-                275.0
-              ]
-            ]
-          },
-          {
-            "net": "F1_N4",
-            "points": [
-              [
-                305.0,
-                275.0
+                255.0
               ],
               [
                 295.0,
-                275.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N13",
-            "points": [
-              [
-                735.0,
-                255.0
-              ],
-              [
-                730.0,
                 255.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "VBAT_RAW",
             "points": [
               [
-                730.0,
-                255.0
+                300.0,
+                245.0
               ],
               [
-                730.0,
-                205.0
+                295.0,
+                245.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "+5V",
             "points": [
               [
-                610.0,
-                205.0
+                595.0,
+                185.0
               ],
               [
-                610.0,
-                155.0
+                590.0,
+                185.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "+5V",
             "points": [
               [
-                610.0,
-                155.0
+                590.0,
+                185.0
               ],
               [
-                615.0,
-                155.0
+                590.0,
+                200.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "+5V",
             "points": [
               [
-                455.0,
-                255.0
+                590.0,
+                200.0
               ],
               [
-                605.0,
-                255.0
+                595.0,
+                200.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "+5V",
             "points": [
               [
-                605.0,
-                255.0
+                595.0,
+                200.0
               ],
               [
-                605.0,
-                205.0
+                595.0,
+                215.0
               ]
             ]
           },
           {
-            "net": "U1_N13",
+            "net": "+5V",
             "points": [
               [
-                605.0,
-                205.0
+                595.0,
+                215.0
               ],
               [
-                610.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N13",
-            "points": [
-              [
-                610.0,
-                205.0
-              ],
-              [
-                730.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N9",
-            "points": [
-              [
-                120.0,
-                225.0
-              ],
-              [
-                115.0,
-                225.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N9",
-            "points": [
-              [
-                115.0,
-                225.0
-              ],
-              [
-                115.0,
+                595.0,
                 235.0
               ]
             ]
           },
           {
-            "net": "U1_N9",
+            "net": "+5V",
             "points": [
               [
-                115.0,
-                235.0
+                590.0,
+                215.0
+              ],
+              [
+                595.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                410.0,
+                225.0
+              ],
+              [
+                420.0,
+                225.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                355.0,
+                175.0
               ],
               [
                 355.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                355.0,
+                180.0
+              ],
+              [
+                360.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                245.0,
+                175.0
+              ],
+              [
+                300.0,
+                175.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                300.0,
+                175.0
+              ],
+              [
+                355.0,
+                175.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                355.0,
+                175.0
+              ],
+              [
+                410.0,
+                175.0
+              ]
+            ]
+          },
+          {
+            "net": "+5V",
+            "points": [
+              [
+                590.0,
+                235.0
+              ],
+              [
+                595.0,
                 235.0
               ]
             ]
           },
           {
-            "net": "U1_N8",
+            "net": "+5V",
+            "points": [
+              [
+                595.0,
+                235.0
+              ],
+              [
+                600.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "+5V",
+            "points": [
+              [
+                600.0,
+                235.0
+              ],
+              [
+                610.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
             "points": [
               [
                 195.0,
-                355.0
+                180.0
               ],
               [
                 190.0,
-                355.0
+                180.0
               ]
             ]
           },
           {
-            "net": "U1_N8",
+            "net": "VBAT_RAW",
             "points": [
               [
                 190.0,
-                355.0
+                180.0
               ],
               [
                 190.0,
-                310.0
+                185.0
               ]
             ]
           },
           {
-            "net": "U1_N8",
+            "net": "VBAT_RAW",
             "points": [
               [
                 190.0,
-                310.0
+                185.0
               ],
               [
-                350.0,
-                310.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N8",
-            "points": [
-              [
-                350.0,
-                310.0
-              ],
-              [
-                350.0,
-                265.0
-              ]
-            ]
-          },
-          {
-            "net": "U1_N8",
-            "points": [
-              [
-                350.0,
-                265.0
-              ],
-              [
-                355.0,
-                265.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                700.0,
-                135.0
-              ],
-              [
-                705.0,
-                135.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                705.0,
-                135.0
-              ],
-              [
-                705.0,
+                245.0,
                 185.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                340.0,
-                200.0
+                245.0,
+                175.0
               ],
               [
-                340.0,
-                205.0
+                245.0,
+                180.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                335.0,
-                200.0
+                245.0,
+                180.0
               ],
               [
-                340.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                225.0,
-                200.0
-              ],
-              [
-                230.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                230.0,
-                200.0
-              ],
-              [
-                230.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                230.0,
-                205.0
-              ],
-              [
-                285.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                285.0,
-                205.0
-              ],
-              [
-                340.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                340.0,
-                205.0
-              ],
-              [
-                395.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                285.0,
-                200.0
-              ],
-              [
-                285.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                280.0,
-                200.0
-              ],
-              [
-                285.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                700.0,
-                185.0
-              ],
-              [
-                705.0,
+                245.0,
                 185.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                705.0,
-                185.0
+                245.0,
+                180.0
               ],
               [
-                720.0,
-                185.0
+                250.0,
+                180.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "+5V",
             "points": [
               [
-                720.0,
-                185.0
+                545.0,
+                290.0
               ],
               [
-                720.0,
-                235.0
+                600.0,
+                290.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "+5V",
             "points": [
               [
-                720.0,
+                600.0,
                 235.0
               ],
               [
-                720.0,
+                600.0,
                 285.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "+5V",
             "points": [
               [
-                670.0,
-                330.0
+                600.0,
+                285.0
               ],
               [
-                675.0,
-                330.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                675.0,
-                330.0
-              ],
-              [
-                675.0,
-                305.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                675.0,
-                305.0
-              ],
-              [
-                660.0,
-                305.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                660.0,
-                305.0
-              ],
-              [
-                660.0,
-                280.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                655.0,
-                280.0
-              ],
-              [
-                660.0,
-                280.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                660.0,
-                280.0
-              ],
-              [
-                715.0,
-                280.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                765.0,
-                255.0
-              ],
-              [
-                770.0,
-                255.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                770.0,
-                255.0
-              ],
-              [
-                770.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                715.0,
-                235.0
-              ],
-              [
-                720.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                720.0,
-                235.0
-              ],
-              [
-                770.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                225.0,
+                600.0,
                 290.0
-              ],
-              [
-                225.0,
-                305.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "+5V",
             "points": [
               [
-                220.0,
-                305.0
+                600.0,
+                285.0
               ],
               [
-                225.0,
-                305.0
+                605.0,
+                285.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                225.0,
-                305.0
+                295.0,
+                235.0
               ],
               [
-                240.0,
-                305.0
+                300.0,
+                235.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                255.0,
-                415.0
+                295.0,
+                205.0
               ],
               [
-                240.0,
-                415.0
+                295.0,
+                235.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                240.0,
-                305.0
+                295.0,
+                235.0
               ],
               [
-                240.0,
-                355.0
+                295.0,
+                245.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
             "points": [
               [
-                240.0,
-                355.0
+                295.0,
+                245.0
               ],
               [
-                240.0,
-                415.0
+                295.0,
+                255.0
               ]
             ]
           },
           {
-            "net": "GND",
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                295.0,
+                205.0
+              ],
+              [
+                300.0,
+                205.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                300.0,
+                175.0
+              ],
+              [
+                300.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                300.0,
+                180.0
+              ],
+              [
+                300.0,
+                205.0
+              ]
+            ]
+          },
+          {
+            "net": "VBAT_RAW",
+            "points": [
+              [
+                300.0,
+                180.0
+              ],
+              [
+                305.0,
+                180.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                545.0,
+                215.0
+              ],
+              [
+                545.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                545.0,
+                235.0
+              ],
+              [
+                550.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                520.0,
+                215.0
+              ],
+              [
+                535.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                535.0,
+                215.0
+              ],
+              [
+                545.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                545.0,
+                215.0
+              ],
+              [
+                550.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                535.0,
+                160.0
+              ],
+              [
+                535.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                535.0,
+                155.0
+              ],
+              [
+                530.0,
+                155.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
             "points": [
               [
                 235.0,
-                355.0
+                265.0
               ],
               [
                 240.0,
-                355.0
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                240.0,
+                265.0
+              ],
+              [
+                245.0,
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                295.0,
+                260.0
+              ],
+              [
+                240.0,
+                260.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                240.0,
+                260.0
+              ],
+              [
+                240.0,
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "R7_N14",
+            "points": [
+              [
+                565.0,
+                350.0
+              ],
+              [
+                570.0,
+                350.0
+              ]
+            ]
+          },
+          {
+            "net": "R7_N14",
+            "points": [
+              [
+                570.0,
+                350.0
+              ],
+              [
+                570.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "R7_N14",
+            "points": [
+              [
+                570.0,
+                335.0
+              ],
+              [
+                565.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                475.0,
+                335.0
+              ],
+              [
+                470.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                470.0,
+                335.0
+              ],
+              [
+                470.0,
+                330.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                520.0,
+                235.0
+              ],
+              [
+                530.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                530.0,
+                235.0
+              ],
+              [
+                530.0,
+                330.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                470.0,
+                330.0
+              ],
+              [
+                520.0,
+                330.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                520.0,
+                330.0
+              ],
+              [
+                530.0,
+                330.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                415.0,
+                285.0
+              ],
+              [
+                410.0,
+                285.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                410.0,
+                285.0
+              ],
+              [
+                410.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                240.0,
+                225.0
+              ],
+              [
+                405.0,
+                225.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                405.0,
+                225.0
+              ],
+              [
+                405.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                405.0,
+                235.0
+              ],
+              [
+                410.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
+                410.0,
+                235.0
+              ],
+              [
+                420.0,
+                235.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                595.0,
+                335.0
+              ],
+              [
+                590.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                590.0,
+                335.0
+              ],
+              [
+                590.0,
+                310.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                590.0,
+                310.0
+              ],
+              [
+                595.0,
+                310.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                595.0,
+                285.0
+              ],
+              [
+                590.0,
+                285.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                595.0,
+                245.0
+              ],
+              [
+                595.0,
+                285.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N12",
+            "points": [
+              [
+                595.0,
+                285.0
+              ],
+              [
+                595.0,
+                310.0
+              ]
+            ]
+          },
+          {
+            "net": "J1_N1",
+            "points": [
+              [
+                320.0,
+                375.0
+              ],
+              [
+                315.0,
+                375.0
+              ]
+            ]
+          },
+          {
+            "net": "F1_N4",
+            "points": [
+              [
+                370.0,
+                255.0
+              ],
+              [
+                360.0,
+                255.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N8",
+            "points": [
+              [
+                405.0,
+                335.0
+              ],
+              [
+                405.0,
+                245.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N8",
+            "points": [
+              [
+                405.0,
+                245.0
+              ],
+              [
+                420.0,
+                245.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N9",
+            "points": [
+              [
+                485.0,
+                160.0
+              ],
+              [
+                465.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N9",
+            "points": [
+              [
+                465.0,
+                160.0
+              ],
+              [
+                465.0,
+                205.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N9",
+            "points": [
+              [
+                465.0,
+                205.0
+              ],
+              [
+                415.0,
+                205.0
               ]
             ]
           },
@@ -2037,11 +2411,11 @@
             "points": [
               [
                 455.0,
-                245.0
+                180.0
               ],
               [
-                475.0,
-                245.0
+                460.0,
+                180.0
               ]
             ]
           },
@@ -2049,12 +2423,12 @@
             "net": "GND",
             "points": [
               [
-                475.0,
-                245.0
+                460.0,
+                180.0
               ],
               [
-                475.0,
-                195.0
+                470.0,
+                180.0
               ]
             ]
           },
@@ -2062,12 +2436,12 @@
             "net": "GND",
             "points": [
               [
-                475.0,
-                195.0
+                460.0,
+                175.0
               ],
               [
-                405.0,
-                195.0
+                460.0,
+                180.0
               ]
             ]
           },
@@ -2075,12 +2449,12 @@
             "net": "GND",
             "points": [
               [
-                405.0,
-                195.0
+                460.0,
+                180.0
               ],
               [
-                405.0,
-                200.0
+                460.0,
+                185.0
               ]
             ]
           },
@@ -2088,272 +2462,103 @@
             "net": "GND",
             "points": [
               [
-                405.0,
-                200.0
+                600.0,
+                370.0
               ],
               [
-                405.0,
-                215.0
+                605.0,
+                370.0
               ]
             ]
           },
           {
-            "net": "VBAT_RAW",
+            "net": "GND",
             "points": [
               [
-                235.0,
-                275.0
+                605.0,
+                370.0
               ],
               [
-                230.0,
-                275.0
+                640.0,
+                370.0
               ]
             ]
           },
           {
-            "net": "+5V",
+            "net": "GND",
             "points": [
               [
-                655.0,
-                200.0
+                605.0,
+                370.0
               ],
               [
-                660.0,
-                200.0
+                605.0,
+                375.0
               ]
             ]
           },
           {
-            "net": "+5V",
+            "net": "GND",
             "points": [
               [
-                660.0,
-                200.0
-              ],
-              [
-                660.0,
-                215.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                660.0,
-                215.0
-              ],
-              [
-                660.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                655.0,
-                215.0
-              ],
-              [
-                660.0,
-                215.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                345.0,
-                245.0
-              ],
-              [
-                355.0,
-                245.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                290.0,
-                195.0
-              ],
-              [
-                290.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                290.0,
-                200.0
-              ],
-              [
-                295.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                185.0,
-                200.0
-              ],
-              [
-                180.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                180.0,
-                200.0
-              ],
-              [
-                180.0,
-                195.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                180.0,
-                195.0
-              ],
-              [
-                235.0,
-                195.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                235.0,
-                195.0
-              ],
-              [
-                290.0,
-                195.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                290.0,
-                195.0
-              ],
-              [
-                345.0,
-                195.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                670.0,
-                285.0
-              ],
-              [
-                665.0,
-                285.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                665.0,
-                285.0
-              ],
-              [
-                665.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                655.0,
-                235.0
-              ],
-              [
-                660.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                660.0,
-                235.0
-              ],
-              [
-                665.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "+5V",
-            "points": [
-              [
-                665.0,
-                235.0
-              ],
-              [
-                675.0,
-                235.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
+                285.0,
                 265.0
               ],
               [
-                235.0,
+                290.0,
                 265.0
               ]
             ]
           },
           {
-            "net": "VBAT_RAW",
+            "net": "GND",
             "points": [
               [
-                230.0,
-                230.0
+                290.0,
+                265.0
               ],
               [
-                235.0,
-                230.0
+                290.0,
+                270.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                455.0,
+                335.0
+              ],
+              [
+                460.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                460.0,
+                285.0
+              ],
+              [
+                460.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "GND",
+            "points": [
+              [
+                460.0,
+                335.0
+              ],
+              [
+                460.0,
+                340.0
               ]
             ]
           },
@@ -2361,12 +2566,12 @@
             "net": "VBAT_RAW",
             "points": [
               [
-                235.0,
-                195.0
+                410.0,
+                180.0
               ],
               [
-                235.0,
-                200.0
+                415.0,
+                180.0
               ]
             ]
           },
@@ -2374,12 +2579,12 @@
             "net": "VBAT_RAW",
             "points": [
               [
-                235.0,
-                200.0
+                410.0,
+                175.0
               ],
               [
-                235.0,
-                230.0
+                410.0,
+                180.0
               ]
             ]
           },
@@ -2387,324 +2592,337 @@
             "net": "VBAT_RAW",
             "points": [
               [
+                410.0,
+                180.0
+              ],
+              [
+                410.0,
+                225.0
+              ]
+            ]
+          },
+          {
+            "net": "+5V",
+            "points": [
+              [
+                545.0,
+                285.0
+              ],
+              [
+                550.0,
+                285.0
+              ]
+            ]
+          },
+          {
+            "net": "+5V",
+            "points": [
+              [
+                545.0,
+                285.0
+              ],
+              [
+                545.0,
+                290.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N9",
+            "points": [
+              [
+                415.0,
+                215.0
+              ],
+              [
+                420.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N9",
+            "points": [
+              [
+                415.0,
+                205.0
+              ],
+              [
+                415.0,
+                215.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                520.0,
+                335.0
+              ],
+              [
+                525.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                520.0,
+                330.0
+              ],
+              [
+                520.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N13",
+            "points": [
+              [
+                520.0,
+                335.0
+              ],
+              [
+                520.0,
+                340.0
+              ]
+            ]
+          },
+          {
+            "net": "R2_N7",
+            "points": [
+              [
                 235.0,
-                200.0
+                180.0
               ],
               [
                 240.0,
-                200.0
+                180.0
               ]
             ]
           },
           {
-            "net": "VBAT_RAW",
+            "net": "R2_N7",
             "points": [
               [
-                155.0,
-                255.0
+                240.0,
+                175.0
               ],
               [
-                150.0,
-                255.0
+                240.0,
+                180.0
               ]
             ]
           },
           {
-            "net": "VBAT_RAW",
+            "net": "R2_N7",
             "points": [
               [
-                150.0,
-                255.0
+                240.0,
+                180.0
               ],
               [
-                150.0,
-                260.0
+                240.0,
+                225.0
               ]
             ]
           },
           {
-            "net": "VBAT_RAW",
+            "net": "U1_N12",
             "points": [
               [
-                150.0,
-                260.0
+                520.0,
+                245.0
               ],
               [
-                230.0,
-                260.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
-                230.0
-              ],
-              [
-                230.0,
-                255.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
-                255.0
-              ],
-              [
-                230.0,
-                260.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
-                260.0
-              ],
-              [
-                230.0,
-                265.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
-                265.0
-              ],
-              [
-                230.0,
-                275.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                230.0,
-                255.0
-              ],
-              [
-                235.0,
-                255.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                390.0,
-                200.0
-              ],
-              [
-                395.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                395.0,
-                200.0
-              ],
-              [
-                405.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                395.0,
-                195.0
-              ],
-              [
-                395.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                395.0,
-                200.0
-              ],
-              [
-                395.0,
-                205.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                710.0,
-                285.0
-              ],
-              [
-                715.0,
-                285.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                715.0,
-                285.0
-              ],
-              [
-                720.0,
-                285.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                715.0,
-                280.0
-              ],
-              [
-                715.0,
-                285.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                715.0,
-                285.0
-              ],
-              [
-                715.0,
-                290.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                160.0,
-                290.0
-              ],
-              [
-                165.0,
-                290.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                165.0,
-                290.0
-              ],
-              [
-                225.0,
-                290.0
-              ]
-            ]
-          },
-          {
-            "net": "GND",
-            "points": [
-              [
-                165.0,
-                290.0
-              ],
-              [
-                165.0,
-                295.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                345.0,
-                200.0
-              ],
-              [
-                350.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                345.0,
-                195.0
-              ],
-              [
-                345.0,
-                200.0
-              ]
-            ]
-          },
-          {
-            "net": "VBAT_RAW",
-            "points": [
-              [
-                345.0,
-                200.0
-              ],
-              [
-                345.0,
+                545.0,
                 245.0
               ]
             ]
           },
           {
-            "net": "+5V",
+            "net": "U1_N12",
             "points": [
               [
-                655.0,
-                185.0
+                545.0,
+                245.0
               ],
               [
-                660.0,
-                185.0
+                595.0,
+                245.0
               ]
             ]
           },
           {
-            "net": "+5V",
+            "net": "U1_N12",
             "points": [
               [
-                655.0,
-                185.0
+                545.0,
+                245.0
               ],
               [
-                655.0,
-                200.0
+                545.0,
+                270.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N8",
+            "points": [
+              [
+                405.0,
+                335.0
+              ],
+              [
+                410.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N8",
+            "points": [
+              [
+                410.0,
+                335.0
+              ],
+              [
+                415.0,
+                335.0
+              ]
+            ]
+          },
+          {
+            "net": "U1_N8",
+            "points": [
+              [
+                410.0,
+                335.0
+              ],
+              [
+                410.0,
+                340.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                525.0,
+                160.0
+              ],
+              [
+                530.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                530.0,
+                160.0
+              ],
+              [
+                535.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "C4_N10",
+            "points": [
+              [
+                530.0,
+                155.0
+              ],
+              [
+                530.0,
+                160.0
+              ]
+            ]
+          },
+          {
+            "net": "F1_N4",
+            "points": [
+              [
+                365.0,
+                320.0
+              ],
+              [
+                370.0,
+                320.0
+              ]
+            ]
+          },
+          {
+            "net": "F1_N4",
+            "points": [
+              [
+                370.0,
+                255.0
+              ],
+              [
+                370.0,
+                320.0
+              ]
+            ]
+          },
+          {
+            "net": "F1_N4",
+            "points": [
+              [
+                370.0,
+                320.0
+              ],
+              [
+                370.0,
+                325.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                295.0,
+                265.0
+              ],
+              [
+                300.0,
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                295.0,
+                260.0
+              ],
+              [
+                295.0,
+                265.0
+              ]
+            ]
+          },
+          {
+            "net": "Q1_N5",
+            "points": [
+              [
+                295.0,
+                265.0
+              ],
+              [
+                295.0,
+                285.0
               ]
             ]
           },
@@ -2712,12 +2930,12 @@
             "net": "J1_N1",
             "points": [
               [
-                245.0,
-                395.0
+                315.0,
+                320.0
               ],
               [
-                250.0,
-                395.0
+                325.0,
+                320.0
               ]
             ]
           },
@@ -2725,25 +2943,51 @@
             "net": "J1_N1",
             "points": [
               [
-                250.0,
-                395.0
+                315.0,
+                320.0
               ],
               [
-                255.0,
-                395.0
+                315.0,
+                375.0
               ]
             ]
           },
           {
-            "net": "J1_N1",
+            "net": "R7_N14",
             "points": [
               [
-                245.0,
-                395.0
+                565.0,
+                370.0
               ],
               [
-                245.0,
-                400.0
+                570.0,
+                370.0
+              ]
+            ]
+          },
+          {
+            "net": "R7_N14",
+            "points": [
+              [
+                565.0,
+                350.0
+              ],
+              [
+                565.0,
+                370.0
+              ]
+            ]
+          },
+          {
+            "net": "R7_N14",
+            "points": [
+              [
+                565.0,
+                370.0
+              ],
+              [
+                565.0,
+                375.0
               ]
             ]
           }
@@ -2752,138 +2996,154 @@
           {
             "net": "GND",
             "kind": "ground",
-            "pinX": 395.0,
-            "pinY": 195.0,
+            "pinX": 460.0,
+            "pinY": 175.0,
             "direction": "down",
             "offset": 10
           },
           {
             "net": "GND",
             "kind": "ground",
-            "pinX": 715.0,
-            "pinY": 290.0,
+            "pinX": 605.0,
+            "pinY": 375.0,
             "direction": "up",
             "offset": 10
           },
           {
             "net": "GND",
             "kind": "ground",
-            "pinX": 165.0,
-            "pinY": 295.0,
-            "direction": "up",
-            "offset": 10
-          },
-          {
-            "net": "VBAT_RAW",
-            "kind": "power",
-            "pinX": 345.0,
-            "pinY": 195.0,
-            "direction": "down",
-            "offset": 10
-          },
-          {
-            "net": "+5V",
-            "kind": "power",
-            "pinX": 655.0,
-            "pinY": 190.0,
+            "pinX": 320.0,
+            "pinY": 395.0,
             "direction": "left",
-            "offset": 20
+            "offset": 25
           },
           {
-            "net": "+5V",
-            "kind": "power",
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 290.0,
+            "pinY": 270.0,
+            "direction": "up",
+            "offset": 10
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
+            "pinX": 460.0,
+            "pinY": 340.0,
+            "direction": "up",
+            "offset": 10
+          },
+          {
+            "net": "GND",
+            "kind": "ground",
             "pinX": 575.0,
-            "pinY": 315.0,
-            "direction": "left",
+            "pinY": 155.0,
+            "direction": "right",
             "offset": 25
           },
           {
             "net": "VBAT_RAW",
             "kind": "power",
-            "pinX": 70.0,
+            "pinX": 410.0,
+            "pinY": 175.0,
+            "direction": "down",
+            "offset": 10
+          },
+          {
+            "net": "+5V",
+            "kind": "power",
+            "pinX": 545.0,
             "pinY": 290.0,
+            "direction": "up",
+            "offset": 10
+          },
+          {
+            "net": "VBAT_RAW",
+            "kind": "power",
+            "pinX": 195.0,
+            "pinY": 265.0,
             "direction": "left",
             "offset": 55
           },
           {
             "net": "U1_N9",
             "kind": "net_port_bi",
-            "pinX": 115.0,
-            "pinY": 230.0,
+            "pinX": 415.0,
+            "pinY": 210.0,
             "direction": "left",
             "offset": 10
           },
           {
             "net": "U1_N13",
             "kind": "net_port_bi",
-            "pinX": 530.0,
-            "pinY": 255.0,
-            "direction": "down",
-            "offset": 15
+            "pinX": 520.0,
+            "pinY": 340.0,
+            "direction": "up",
+            "offset": 10
           },
           {
             "net": "R2_N7",
             "kind": "net_port_bi",
-            "pinX": 320.0,
-            "pinY": 255.0,
-            "direction": "up",
-            "offset": 50
+            "pinX": 240.0,
+            "pinY": 175.0,
+            "direction": "down",
+            "offset": 10
           },
           {
             "net": "U1_N12",
             "kind": "net_port_bi",
-            "pinX": 530.0,
-            "pinY": 265.0,
-            "direction": "up",
-            "offset": 55
+            "pinX": 545.0,
+            "pinY": 270.0,
+            "direction": "left",
+            "offset": 10
           },
           {
             "net": "U1_N8",
             "kind": "net_port_bi",
-            "pinX": 190.0,
-            "pinY": 355.0,
-            "direction": "up",
+            "pinX": 410.0,
+            "pinY": 340.0,
+            "direction": "left",
             "offset": 10
           },
           {
             "net": "C4_N10",
             "kind": "net_port_bi",
-            "pinX": 430.0,
-            "pinY": 205.0,
+            "pinX": 530.0,
+            "pinY": 155.0,
             "direction": "down",
-            "offset": 15
+            "offset": 10
           },
           {
             "net": "F1_N4",
             "kind": "net_port_bi",
-            "pinX": 305.0,
-            "pinY": 340.0,
-            "direction": "up",
-            "offset": 85
+            "pinX": 370.0,
+            "pinY": 325.0,
+            "direction": "left",
+            "offset": 50
           },
           {
             "net": "Q1_N5",
             "kind": "net_port_bi",
-            "pinX": 115.0,
-            "pinY": 290.0,
-            "direction": "up",
+            "pinX": 295.0,
+            "pinY": 285.0,
+            "direction": "left",
+            "offset": 15
+          },
+          {
+            "net": "J1_N1",
+            "kind": "net_port_bi",
+            "pinX": 315.0,
+            "pinY": 345.0,
+            "direction": "left",
             "offset": 10
           },
           {
             "net": "R7_N14",
             "kind": "net_port_bi",
-            "pinX": 660.0,
-            "pinY": 155.0,
-            "direction": "down",
-            "offset": 20
-          },
-          {
-            "net": "J1_N1",
-            "kind": "net_port_bi",
-            "pinX": 245.0,
-            "pinY": 400.0,
+            "pinX": 565.0,
+            "pinY": 375.0,
             "direction": "up",
-            "offset": 20
+            "offset": 10
           }
         ]
       },
@@ -2891,20 +3151,20 @@
         "id": "M1",
         "title": "车辆宽压输入 + 主 5V（TPS54360）",
         "rect": {
-          "minX": -423.0,
-          "minY": -303.0,
-          "maxX": 1188.0,
-          "maxY": 863.0
+          "minX": -298.0,
+          "minY": -308.0,
+          "maxX": 1073.0,
+          "maxY": 858.0
         },
-        "titleX": -419.0,
-        "titleY": 859.0,
+        "titleX": -294.0,
+        "titleY": 854.0,
         "fontSize": 20,
         "color": "#AA00AA",
         "lineType": 1
       },
       "sheetPosition": {
-        "x": -425.0,
-        "y": 860.0
+        "x": -300.0,
+        "y": 855.0
       }
     }
   ],

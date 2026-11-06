@@ -2,7 +2,7 @@
   "schema": "easycirq-sch-acceptance/v1",
   "strictInput": "reports\\hard-board\\board2\\strict-M5-full.json",
   "checkerVerdict": "incomplete",
-  "verdict": "BLOCKED",
+  "verdict": "INCOMPLETE",
   "criteria": [
     {
       "id": "A_content_inside_page",
@@ -16,18 +16,11 @@
     {
       "id": "C_wire_vs_body",
       "title": "导线不穿器件本体",
-      "status": "FAIL",
-      "count": 1,
+      "status": "PASS",
+      "count": 0,
       "needs": [],
-      "samples": [
-        [
-          "w-M5-29#0",
-          "svgtext-17"
-        ]
-      ],
-      "detail": [
-        ""
-      ]
+      "samples": [],
+      "detail": []
     },
     {
       "id": "D_frame_vs_object",
@@ -79,11 +72,11 @@
       "samples": [
         [
           "w-M5-12#0",
-          "w-M5-18#0"
+          "w-M5-21#0"
         ],
         [
-          "w-M5-17#0",
-          "w-M5-29#0"
+          "w-M5-15#0",
+          "w-M5-22#0"
         ]
       ],
       "detail": [
@@ -149,7 +142,7 @@
     },
     "wires": {
       "status": "complete",
-      "observed": 34,
+      "observed": 39,
       "unparsed": 0
     },
     "attachment_points": {

@@ -2,8 +2,8 @@
   {
     "primitiveId": "svgtext-5",
     "Content": "U4",
-    "X": 358.0,
-    "Y": 271.0,
+    "X": 348.0,
+    "Y": 306.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -11,8 +11,8 @@
   {
     "primitiveId": "svgtext-7",
     "Content": "EN",
-    "X": 408.25,
-    "Y": 245.5,
+    "X": 398.25,
+    "Y": 280.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -20,8 +20,8 @@
   {
     "primitiveId": "svgtext-8",
     "Content": "FB",
-    "X": 408.25,
-    "Y": 225.5,
+    "X": 398.25,
+    "Y": 260.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -29,8 +29,8 @@
   {
     "primitiveId": "svgtext-9",
     "Content": "IN",
-    "X": 360.0,
-    "Y": 225.5,
+    "X": 350.0,
+    "Y": 260.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -38,8 +38,8 @@
   {
     "primitiveId": "svgtext-10",
     "Content": "LX",
-    "X": 360.0,
-    "Y": 195.5,
+    "X": 350.0,
+    "Y": 230.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -47,8 +47,8 @@
   {
     "primitiveId": "svgtext-11",
     "Content": "LX#2",
-    "X": 360.0,
-    "Y": 205.5,
+    "X": 350.0,
+    "Y": 240.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -56,8 +56,8 @@
   {
     "primitiveId": "svgtext-12",
     "Content": "OUT",
-    "X": 404.875,
-    "Y": 205.5,
+    "X": 394.875,
+    "Y": 240.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -65,8 +65,8 @@
   {
     "primitiveId": "svgtext-13",
     "Content": "OUT#2",
-    "X": 398.125,
-    "Y": 195.5,
+    "X": 388.125,
+    "Y": 230.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -74,8 +74,8 @@
   {
     "primitiveId": "svgtext-14",
     "Content": "PGND",
-    "X": 360.0,
-    "Y": 255.5,
+    "X": 350.0,
+    "Y": 290.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -83,8 +83,8 @@
   {
     "primitiveId": "svgtext-15",
     "Content": "SGND",
-    "X": 360.0,
-    "Y": 245.5,
+    "X": 350.0,
+    "Y": 280.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -92,8 +92,8 @@
   {
     "primitiveId": "svgtext-16",
     "Content": "C16",
-    "X": 453.0,
-    "Y": 256.0,
+    "X": 438.0,
+    "Y": 291.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -101,8 +101,8 @@
   {
     "primitiveId": "svgtext-18",
     "Content": "1",
-    "X": 455.0,
-    "Y": 245.5,
+    "X": 440.0,
+    "Y": 280.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -110,8 +110,8 @@
   {
     "primitiveId": "svgtext-19",
     "Content": "2",
-    "X": 466.625,
-    "Y": 245.5,
+    "X": 451.625,
+    "Y": 280.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -119,8 +119,8 @@
   {
     "primitiveId": "svgtext-20",
     "Content": "C17",
-    "X": 448.0,
-    "Y": 306.0,
+    "X": 433.0,
+    "Y": 316.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -128,8 +128,8 @@
   {
     "primitiveId": "svgtext-22",
     "Content": "1",
-    "X": 450.0,
-    "Y": 295.5,
+    "X": 435.0,
+    "Y": 305.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -137,8 +137,8 @@
   {
     "primitiveId": "svgtext-23",
     "Content": "2",
-    "X": 461.625,
-    "Y": 295.5,
+    "X": 446.625,
+    "Y": 305.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -146,8 +146,8 @@
   {
     "primitiveId": "svgtext-24",
     "Content": "C18",
-    "X": 443.0,
-    "Y": 356.0,
+    "X": 428.0,
+    "Y": 341.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -155,8 +155,8 @@
   {
     "primitiveId": "svgtext-26",
     "Content": "1",
-    "X": 445.0,
-    "Y": 345.5,
+    "X": 430.0,
+    "Y": 330.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -164,8 +164,8 @@
   {
     "primitiveId": "svgtext-27",
     "Content": "2",
-    "X": 456.625,
-    "Y": 345.5,
+    "X": 441.625,
+    "Y": 330.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -173,8 +173,8 @@
   {
     "primitiveId": "svgtext-28",
     "Content": "C19",
-    "X": 453.0,
-    "Y": 206.0,
+    "X": 438.0,
+    "Y": 251.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -182,8 +182,8 @@
   {
     "primitiveId": "svgtext-30",
     "Content": "1",
-    "X": 455.0,
-    "Y": 195.5,
+    "X": 440.0,
+    "Y": 240.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -191,8 +191,8 @@
   {
     "primitiveId": "svgtext-31",
     "Content": "2",
-    "X": 466.625,
-    "Y": 195.5,
+    "X": 451.625,
+    "Y": 240.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -200,8 +200,8 @@
   {
     "primitiveId": "svgtext-32",
     "Content": "C20",
-    "X": 448.0,
-    "Y": 156.0,
+    "X": 433.0,
+    "Y": 226.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -209,8 +209,8 @@
   {
     "primitiveId": "svgtext-34",
     "Content": "1",
-    "X": 450.0,
-    "Y": 145.5,
+    "X": 435.0,
+    "Y": 215.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -218,8 +218,8 @@
   {
     "primitiveId": "svgtext-35",
     "Content": "2",
-    "X": 461.625,
-    "Y": 145.5,
+    "X": 446.625,
+    "Y": 215.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -227,8 +227,8 @@
   {
     "primitiveId": "svgtext-36",
     "Content": "R12",
-    "X": 438.0,
-    "Y": 406.0,
+    "X": 423.0,
+    "Y": 366.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -236,8 +236,8 @@
   {
     "primitiveId": "svgtext-38",
     "Content": "1",
-    "X": 440.0,
-    "Y": 395.5,
+    "X": 425.0,
+    "Y": 355.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -245,8 +245,8 @@
   {
     "primitiveId": "svgtext-39",
     "Content": "2",
-    "X": 451.625,
-    "Y": 395.5,
+    "X": 436.625,
+    "Y": 355.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -254,8 +254,8 @@
   {
     "primitiveId": "svgtext-40",
     "Content": "L4",
-    "X": 193.0,
-    "Y": 206.0,
+    "X": 368.0,
+    "Y": 366.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -263,8 +263,8 @@
   {
     "primitiveId": "svgtext-42",
     "Content": "1",
-    "X": 195.0,
-    "Y": 195.5,
+    "X": 370.0,
+    "Y": 355.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -272,8 +272,8 @@
   {
     "primitiveId": "svgtext-43",
     "Content": "2",
-    "X": 216.625,
-    "Y": 195.5,
+    "X": 391.625,
+    "Y": 355.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -281,8 +281,8 @@
   {
     "primitiveId": "svgtext-44",
     "Content": "R10",
-    "X": 558.0,
-    "Y": 236.0,
+    "X": 428.0,
+    "Y": 201.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -290,8 +290,8 @@
   {
     "primitiveId": "svgtext-46",
     "Content": "1",
-    "X": 560.0,
-    "Y": 225.5,
+    "X": 430.0,
+    "Y": 190.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -299,8 +299,8 @@
   {
     "primitiveId": "svgtext-47",
     "Content": "2",
-    "X": 571.625,
-    "Y": 225.5,
+    "X": 441.625,
+    "Y": 190.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -308,8 +308,8 @@
   {
     "primitiveId": "svgtext-48",
     "Content": "R11",
-    "X": 628.0,
-    "Y": 236.0,
+    "X": 478.0,
+    "Y": 201.0,
     "FontSize": 7.0,
     "Rotation": 0,
     "AlignMode": 0
@@ -317,8 +317,8 @@
   {
     "primitiveId": "svgtext-50",
     "Content": "1",
-    "X": 630.0,
-    "Y": 225.5,
+    "X": 480.0,
+    "Y": 190.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0
@@ -326,8 +326,8 @@
   {
     "primitiveId": "svgtext-51",
     "Content": "2",
-    "X": 641.625,
-    "Y": 225.5,
+    "X": 491.625,
+    "Y": 190.5,
     "FontSize": 4.5,
     "Rotation": 0,
     "AlignMode": 0

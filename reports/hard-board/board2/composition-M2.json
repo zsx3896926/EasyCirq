@@ -543,31 +543,31 @@
         {
           "primitiveId": "c26",
           "designator": "D4",
-          "x": -195,
-          "y": -10,
+          "x": -75,
+          "y": -25,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -200,
-            "minY": -15,
-            "maxX": -190,
-            "maxY": -5
+            "minX": -80,
+            "minY": -30,
+            "maxX": -70,
+            "maxY": -20
           },
           "pins": [
             {
               "number": "A",
               "name": "A",
               "net": "GND",
-              "x": -175,
-              "y": -10,
+              "x": -55,
+              "y": -25,
               "rotation": 0
             },
             {
               "number": "K",
               "name": "K",
               "net": "U2_N3",
-              "x": -215,
-              "y": -10,
+              "x": -95,
+              "y": -25,
               "rotation": 180
             }
           ]
@@ -575,31 +575,31 @@
         {
           "primitiveId": "c27",
           "designator": "D5",
-          "x": -195,
-          "y": -60,
+          "x": -40,
+          "y": -75,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -200,
-            "minY": -65,
-            "maxX": -190,
-            "maxY": -55
+            "minX": -45,
+            "minY": -80,
+            "maxX": -35,
+            "maxY": -70
           },
           "pins": [
             {
               "number": "A",
               "name": "A",
               "net": "VBAT_RAW",
-              "x": -175,
-              "y": -60,
+              "x": -20,
+              "y": -75,
               "rotation": 0
             },
             {
               "number": "K",
               "name": "K",
               "net": "D5_N2",
-              "x": -215,
-              "y": -60,
+              "x": -60,
+              "y": -75,
               "rotation": 180
             }
           ]
@@ -607,31 +607,31 @@
         {
           "primitiveId": "c32",
           "designator": "J2",
-          "x": -145,
-          "y": -55,
+          "x": 10,
+          "y": -105,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -155,
-            "minY": -70,
-            "maxX": -135,
-            "maxY": -40
+            "minX": 0,
+            "minY": -120,
+            "maxX": 20,
+            "maxY": -90
           },
           "pins": [
             {
               "number": "1",
               "name": "1",
               "net": "VBAT_RAW",
-              "x": -165,
-              "y": -60,
+              "x": -10,
+              "y": -110,
               "rotation": 180
             },
             {
               "number": "2",
               "name": "2",
               "net": "GND",
-              "x": -165,
-              "y": -50,
+              "x": -10,
+              "y": -100,
               "rotation": 180
             }
           ]
@@ -639,63 +639,31 @@
         {
           "primitiveId": "c28",
           "designator": "L2",
-          "x": -195,
-          "y": 40,
+          "x": -130,
+          "y": -25,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -210,
-            "minY": 35,
-            "maxX": -180,
-            "maxY": 45
+            "minX": -145,
+            "minY": -30,
+            "maxX": -115,
+            "maxY": -20
           },
           "pins": [
             {
               "number": "1",
               "name": "1",
               "net": "U2_N3",
-              "x": -215,
-              "y": 40,
+              "x": -150,
+              "y": -25,
               "rotation": 180
             },
             {
               "number": "2",
               "name": "2",
               "net": "+12V_FILT",
-              "x": -175,
-              "y": 40,
-              "rotation": 0
-            }
-          ]
-        },
-        {
-          "primitiveId": "c29",
-          "designator": "C10",
-          "x": -245,
-          "y": -10,
-          "rotation": 0,
-          "mirror": false,
-          "bbox": {
-            "minX": -255,
-            "minY": -20,
-            "maxX": -245,
-            "maxY": -10
-          },
-          "pins": [
-            {
-              "number": "1",
-              "name": "1",
-              "net": "D5_N2",
-              "x": -245,
-              "y": -30,
-              "rotation": 0
-            },
-            {
-              "number": "2",
-              "name": "2",
-              "net": "GND",
-              "x": -245,
-              "y": 10,
+              "x": -110,
+              "y": -25,
               "rotation": 0
             }
           ]
@@ -703,31 +671,63 @@
         {
           "primitiveId": "c31",
           "designator": "C12",
-          "x": -200,
-          "y": -110,
+          "x": -95,
+          "y": -75,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -205,
-            "minY": -115,
-            "maxX": -195,
-            "maxY": -105
+            "minX": -100,
+            "minY": -80,
+            "maxX": -90,
+            "maxY": -70
           },
           "pins": [
             {
               "number": "1",
               "name": "1",
               "net": "D5_N2",
-              "x": -215,
-              "y": -110,
+              "x": -110,
+              "y": -75,
               "rotation": 180
             },
             {
               "number": "2",
               "name": "2",
               "net": "GND",
-              "x": -185,
-              "y": -110,
+              "x": -80,
+              "y": -75,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c29",
+          "designator": "C10",
+          "x": -160,
+          "y": -55,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": -170,
+            "minY": -65,
+            "maxX": -160,
+            "maxY": -55
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "D5_N2",
+              "x": -160,
+              "y": -75,
+              "rotation": 0
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": -160,
+              "y": -35,
               "rotation": 0
             }
           ]
@@ -790,103 +790,298 @@
           "net": "GND",
           "points": [
             [
-              -165,
-              -50
+              -70,
+              -75
             ],
             [
-              -170,
-              -50
+              -70,
+              -15
             ]
           ]
         },
         {
-          "net": "U2_N3",
+          "net": "GND",
           "points": [
             [
-              -220,
-              -10
+              -70,
+              -15
             ],
             [
-              -215,
-              -10
+              -45,
+              -15
             ]
           ]
         },
         {
-          "net": "U2_N3",
+          "net": "GND",
           "points": [
             [
-              -55,
-              -10
+              -45,
+              -15
             ],
             [
-              -165,
-              -10
+              -45,
+              -25
             ]
           ]
         },
         {
-          "net": "U2_N3",
+          "net": "GND",
           "points": [
             [
-              -165,
-              -10
-            ],
-            [
-              -165,
-              -5
-            ]
-          ]
-        },
-        {
-          "net": "U2_N3",
-          "points": [
-            [
-              -165,
-              -5
-            ],
-            [
-              -220,
-              -5
-            ]
-          ]
-        },
-        {
-          "net": "D5_N2",
-          "points": [
-            [
-              -215,
-              -110
-            ],
-            [
-              -220,
-              -110
-            ]
-          ]
-        },
-        {
-          "net": "D5_N2",
-          "points": [
-            [
-              -245,
-              -30
-            ],
-            [
-              -220,
-              -30
-            ]
-          ]
-        },
-        {
-          "net": "D5_N2",
-          "points": [
-            [
-              -220,
-              -30
+              -45,
+              -25
             ],
             [
               -55,
+              -25
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -20,
+              -110
+            ],
+            [
+              -20,
+              -95
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -20,
+              -95
+            ],
+            [
+              -10,
+              -95
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -10,
+              -95
+            ],
+            [
+              -10,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -10,
+              -75
+            ],
+            [
+              -20,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              -105,
+              -10
+            ],
+            [
+              -75,
+              -10
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              -75,
+              -10
+            ],
+            [
+              -75,
+              10
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              -80,
+              10
+            ],
+            [
+              -75,
+              10
+            ]
+          ]
+        },
+        {
+          "net": "+12V_FILT",
+          "points": [
+            [
+              -75,
+              10
+            ],
+            [
+              -55,
+              10
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -60,
+              -75
+            ],
+            [
+              -65,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -65,
+              -75
+            ],
+            [
+              -65,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -65,
+              -70
+            ],
+            [
+              -65,
               -30
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -65,
+              -30
+            ],
+            [
+              -55,
+              -30
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -115,
+              -70
+            ],
+            [
+              -65,
+              -70
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -95,
+              -25
+            ],
+            [
+              -100,
+              -25
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -100,
+              -25
+            ],
+            [
+              -100,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -60,
+              -20
+            ],
+            [
+              -60,
+              -10
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -60,
+              -10
+            ],
+            [
+              -55,
+              -10
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -155,
+              -20
+            ],
+            [
+              -100,
+              -20
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -100,
+              -20
+            ],
+            [
+              -60,
+              -20
             ]
           ]
         },
@@ -998,51 +1193,64 @@
           "net": "GND",
           "points": [
             [
-              -175,
-              -10
-            ],
-            [
-              -170,
-              -10
-            ]
-          ]
-        },
-        {
-          "net": "GND",
-          "points": [
-            [
-              -170,
-              -50
-            ],
-            [
-              -170,
-              -10
-            ]
-          ]
-        },
-        {
-          "net": "GND",
-          "points": [
-            [
-              -170,
-              -10
-            ],
-            [
-              -170,
-              5
-            ]
-          ]
-        },
-        {
-          "net": "+12V_FILT",
-          "points": [
-            [
               -80,
-              10
+              -75
             ],
             [
-              -65,
-              10
+              -75,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -75,
+              -75
+            ],
+            [
+              -70,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -75,
+              -75
+            ],
+            [
+              -75,
+              -80
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -160,
+              -35
+            ],
+            [
+              -155,
+              -35
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              -155,
+              -35
+            ],
+            [
+              -155,
+              -30
             ]
           ]
         },
@@ -1050,12 +1258,12 @@
           "net": "+12V_FILT",
           "points": [
             [
-              -65,
-              10
+              -110,
+              -25
             ],
             [
-              -55,
-              10
+              -105,
+              -25
             ]
           ]
         },
@@ -1063,129 +1271,90 @@
           "net": "+12V_FILT",
           "points": [
             [
-              -65,
-              10
+              -105,
+              -30
             ],
             [
-              -65,
-              15
+              -105,
+              -25
             ]
           ]
         },
         {
-          "net": "VBAT_RAW",
+          "net": "+12V_FILT",
           "points": [
             [
-              -175,
-              -60
+              -105,
+              -25
             ],
             [
-              -170,
-              -60
-            ]
-          ]
-        },
-        {
-          "net": "VBAT_RAW",
-          "points": [
-            [
-              -170,
-              -60
-            ],
-            [
-              -165,
-              -60
-            ]
-          ]
-        },
-        {
-          "net": "VBAT_RAW",
-          "points": [
-            [
-              -170,
-              -60
-            ],
-            [
-              -170,
-              -90
-            ]
-          ]
-        },
-        {
-          "net": "U2_N3",
-          "points": [
-            [
-              -220,
-              40
-            ],
-            [
-              -215,
-              40
-            ]
-          ]
-        },
-        {
-          "net": "U2_N3",
-          "points": [
-            [
-              -220,
+              -105,
               -10
-            ],
-            [
-              -220,
-              -5
             ]
           ]
         },
         {
-          "net": "U2_N3",
+          "net": "VBAT_RAW",
           "points": [
             [
-              -220,
-              -5
-            ],
-            [
-              -220,
-              40
-            ]
-          ]
-        },
-        {
-          "net": "U2_N3",
-          "points": [
-            [
-              -220,
-              40
-            ],
-            [
-              -220,
-              45
-            ]
-          ]
-        },
-        {
-          "net": "D5_N2",
-          "points": [
-            [
-              -220,
-              -60
-            ],
-            [
-              -215,
-              -60
-            ]
-          ]
-        },
-        {
-          "net": "D5_N2",
-          "points": [
-            [
-              -220,
+              -20,
               -110
             ],
             [
-              -220,
-              -60
+              -15,
+              -110
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -15,
+              -110
+            ],
+            [
+              -10,
+              -110
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              -15,
+              -110
+            ],
+            [
+              -15,
+              -115
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -155,
+              -25
+            ],
+            [
+              -150,
+              -25
+            ]
+          ]
+        },
+        {
+          "net": "U2_N3",
+          "points": [
+            [
+              -155,
+              -25
+            ],
+            [
+              -155,
+              -20
             ]
           ]
         },
@@ -1193,12 +1362,51 @@
           "net": "D5_N2",
           "points": [
             [
-              -220,
-              -60
+              -160,
+              -75
             ],
             [
-              -220,
-              -30
+              -115,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -115,
+              -75
+            ],
+            [
+              -110,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -115,
+              -80
+            ],
+            [
+              -115,
+              -75
+            ]
+          ]
+        },
+        {
+          "net": "D5_N2",
+          "points": [
+            [
+              -115,
+              -75
+            ],
+            [
+              -115,
+              -70
             ]
           ]
         }
@@ -1235,113 +1443,99 @@
         {
           "net": "GND",
           "kind": "ground",
-          "pinX": -170,
-          "pinY": 5,
-          "direction": "right",
+          "pinX": -75,
+          "pinY": -80,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -75,
+            "y": -80
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": -10,
+          "pinY": -100,
+          "direction": "left",
+          "offset": 30,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c32",
+            "pinNumber": "2",
+            "net": "GND"
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": -155,
+          "pinY": -30,
+          "direction": "left",
           "offset": 25,
           "anchor": {
             "type": "wire_tree",
             "net": "GND",
-            "x": -170,
-            "y": 5
-          }
-        },
-        {
-          "net": "GND",
-          "kind": "ground",
-          "pinX": -245,
-          "pinY": 10,
-          "direction": "right",
-          "offset": 55,
-          "anchor": {
-            "type": "pin",
-            "componentId": "c29",
-            "pinNumber": "2",
-            "net": "GND"
-          }
-        },
-        {
-          "net": "GND",
-          "kind": "ground",
-          "pinX": -185,
-          "pinY": -110,
-          "direction": "right",
-          "offset": 25,
-          "anchor": {
-            "type": "pin",
-            "componentId": "c31",
-            "pinNumber": "2",
-            "net": "GND"
+            "x": -155,
+            "y": -30
           }
         },
         {
           "net": "+12V_FILT",
           "kind": "power",
-          "pinX": -65,
-          "pinY": 15,
-          "direction": "up",
-          "offset": 30,
+          "pinX": -105,
+          "pinY": -30,
+          "direction": "down",
+          "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "+12V_FILT",
-            "x": -65,
-            "y": 15
+            "x": -105,
+            "y": -30
           }
         },
         {
           "net": "VBAT_RAW",
           "kind": "power",
-          "pinX": -170,
-          "pinY": -90,
-          "direction": "right",
-          "offset": 50,
+          "pinX": -15,
+          "pinY": -115,
+          "direction": "down",
+          "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "VBAT_RAW",
-            "x": -170,
-            "y": -90
-          }
-        },
-        {
-          "net": "+12V_FILT",
-          "kind": "power",
-          "pinX": -175,
-          "pinY": 40,
-          "direction": "right",
-          "offset": 60,
-          "anchor": {
-            "type": "pin",
-            "componentId": "c28",
-            "pinNumber": "2",
-            "net": "+12V_FILT"
+            "x": -15,
+            "y": -115
           }
         },
         {
           "net": "U2_N3",
           "kind": "net_port_bi",
-          "pinX": -220,
-          "pinY": 45,
-          "direction": "left",
+          "pinX": -155,
+          "pinY": -20,
+          "direction": "up",
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "U2_N3",
-            "x": -220,
-            "y": 45
+            "x": -155,
+            "y": -20
           }
         },
         {
           "net": "D5_N2",
           "kind": "net_port_bi",
-          "pinX": -220,
-          "pinY": -55,
-          "direction": "left",
+          "pinX": -115,
+          "pinY": -80,
+          "direction": "down",
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "D5_N2",
-            "x": -220,
-            "y": -55
+            "x": -115,
+            "y": -80
           }
         }
       ]

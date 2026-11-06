@@ -2,7 +2,7 @@
   "schema": "easycirq-sch-acceptance/v1",
   "strictInput": "reports\\hard-board\\board2\\strict-M3-full.json",
   "checkerVerdict": "incomplete",
-  "verdict": "BLOCKED",
+  "verdict": "INCOMPLETE",
   "criteria": [
     {
       "id": "A_content_inside_page",
@@ -16,26 +16,11 @@
     {
       "id": "C_wire_vs_body",
       "title": "导线不穿器件本体",
-      "status": "FAIL",
-      "count": 3,
+      "status": "PASS",
+      "count": 0,
       "needs": [],
-      "samples": [
-        [
-          "w-M3-0#0",
-          "svgtext-5"
-        ],
-        [
-          "w-M3-1#0",
-          "svgtext-5"
-        ],
-        [
-          "w-M3-19#0",
-          "svgtext-16"
-        ]
-      ],
-      "detail": [
-        ""
-      ]
+      "samples": [],
+      "detail": []
     },
     {
       "id": "D_frame_vs_object",
@@ -79,19 +64,23 @@
       "id": "H_crossing_evidence",
       "title": "不同网络导线交叉无结点",
       "status": "NOT RUN",
-      "count": 2,
+      "count": 3,
       "needs": [
         "easycirq sch junction-report --page <P>",
         "layout_from_easycirq.py --junction-report <报告>"
       ],
       "samples": [
         [
-          "w-M3-10#0",
-          "w-M3-19#0"
+          "w-M3-19#0",
+          "w-M3-2#0"
         ],
         [
           "w-M3-19#0",
-          "w-M3-24#0"
+          "w-M3-4#0"
+        ],
+        [
+          "w-M3-17#0",
+          "w-M3-28#0"
         ]
       ],
       "detail": [
@@ -153,11 +142,11 @@
       "status": "complete",
       "observed": 24,
       "estimated": 0,
-      "rendered": 37
+      "rendered": 36
     },
     "wires": {
       "status": "complete",
-      "observed": 38,
+      "observed": 37,
       "unparsed": 0
     },
     "attachment_points": {
@@ -177,7 +166,7 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 37,
+      "observed": 36,
       "unique_ids": 0
     }
   }

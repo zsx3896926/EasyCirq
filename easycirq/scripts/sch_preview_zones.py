@@ -39,12 +39,23 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
             "componentIds": {pl["designator"]: pl.get("primitiveId")
                              for pl in (mod.get("placements") or [])},
             "pinStates": pin_states,
+            # 位号预留区：按**实测渲染偏移**给出，供渲染门执行
+            # "导线不许穿过位号"（libValidateWireTextClearance）。
+            # 实测（7/7 器件一致）：x 从 minX-2 起，y 从 maxY-0.5 到 maxY+7.5。
             "placements": [{
                 "designator": pl["designator"],
                 "x": pl["x"], "y": pl["y"],
                 "rotation": pl.get("rotation", 0),
                 "mirror": bool(pl.get("mirror", False)),
                 "bbox": pl["bbox"],
+                "textBboxes": [{
+                    "minX": round(pl["bbox"]["minX"] - 2.0, 1),
+                    "minY": round(pl["bbox"]["maxY"] - 0.5, 1),
+                    "maxX": round(pl["bbox"]["minX"] - 2.0
+                                  + max(6.0, 0.75 * 7.0
+                                        * max(1, len(pl.get("designator") or ""))), 1),
+                    "maxY": round(pl["bbox"]["maxY"] + 7.5, 1),
+                }],
                 "pins": [{"number": p.get("number"), "name": p.get("name"),
                           "net": p.get("net") or "", "x": p["x"], "y": p["y"],
                           "rotation": p.get("rotation", 0)}

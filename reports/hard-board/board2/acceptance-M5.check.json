@@ -351,18 +351,10 @@
       ]
     },
     {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M5-29#0",
-        "svgtext-17"
-      ],
-      "status": "review_candidate"
-    },
-    {
       "code": "different_named_wires_cross",
       "objects": [
         "w-M5-12#0",
-        "w-M5-18#0"
+        "w-M5-21#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -371,8 +363,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M5-17#0",
-        "w-M5-29#0"
+        "w-M5-15#0",
+        "w-M5-22#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -382,7 +374,7 @@
   "counts": {
     "components": 7,
     "texts": 29,
-    "wires": 34
+    "wires": 39
   },
   "declared_inventory_matches": true,
   "coverage_status": "complete",
@@ -399,7 +391,7 @@
     },
     "wires": {
       "status": "complete",
-      "observed": 34,
+      "observed": 39,
       "unparsed": 0
     },
     "attachment_points": {
@@ -443,10 +435,8 @@
       ]
     },
     "+5V": {
-      "270": [
-        "flag-3"
-      ],
       "180": [
+        "flag-3",
         "flag-4"
       ]
     },
@@ -850,18 +840,10 @@
       ]
     },
     {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M5-29#0",
-        "svgtext-17"
-      ],
-      "status": "review_candidate"
-    },
-    {
       "code": "different_named_wires_cross",
       "objects": [
         "w-M5-12#0",
-        "w-M5-18#0"
+        "w-M5-21#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -870,8 +852,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M5-17#0",
-        "w-M5-29#0"
+        "w-M5-15#0",
+        "w-M5-22#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
