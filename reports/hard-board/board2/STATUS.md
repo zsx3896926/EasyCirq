@@ -37,7 +37,7 @@
 
 ```bash
 # 全链：排版 → 归位 → 出图 → 渲染 → 实测文字 → 严格检查 → 验收
-python scripts/sch_preview_accept.py --work C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board2
+python scripts/sch_preview_accept.py --work reports\hard-board\board2
 # 本汇总
-python scripts/sch_preview_status.py --work C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a-method\reports\hard-board\board2
+python scripts/sch_preview_status.py --work reports\hard-board\board2
 ```

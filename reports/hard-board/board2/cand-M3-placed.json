@@ -1,0 +1,1150 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "49c6dbb9567dd6af",
+    "components": [
+      {
+        "id": "c33",
+        "ref": "U3",
+        "role": "U",
+        "device": {
+          "libraryUuid": "5e7382a69781406ba214cc82244d6207",
+          "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927",
+          "name": "buck.sy8089_tsot23"
+        },
+        "pins": [
+          {
+            "number": "EN",
+            "name": "EN"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "GND",
+            "name": "GND"
+          },
+          {
+            "number": "IN",
+            "name": "IN"
+          },
+          {
+            "number": "LX",
+            "name": "LX"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c34",
+        "ref": "L3",
+        "role": "L",
+        "device": {
+          "libraryUuid": "b2d87f64b53d4f12a6700cc8988eb7a2",
+          "deviceUuid": "5e7ac7b4008542d0853f1c725b8095c7",
+          "name": "ind.2u2_swpa4020"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c35",
+        "ref": "R8",
+        "role": "R_FBT",
+        "device": {
+          "libraryUuid": "ac78ab4a28be472d84f4f45d3c27084b",
+          "deviceUuid": "c76ee55dbd9841d385bd5bdb94f3bbc4",
+          "name": "res.453k_0402__2"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c36",
+        "ref": "R9",
+        "role": "R_FBB",
+        "device": {
+          "libraryUuid": "f23fe15671054e81ab261d14102c265f",
+          "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58",
+          "name": "res.10k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c37",
+        "ref": "C13",
+        "role": "C_IN",
+        "device": {
+          "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
+          "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4",
+          "name": "cap.10uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c38",
+        "ref": "C14",
+        "role": "C_OUT",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c39",
+        "ref": "C15",
+        "role": "C_HF",
+        "device": {
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+          "name": "cap.100nf_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n10",
+        "name": "+5V",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n17",
+        "name": "U3_N3",
+        "scope": "local"
+      },
+      {
+        "id": "n18",
+        "name": "+3V3",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n19",
+        "name": "U3_N5",
+        "scope": "local"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c33",
+        "pinNumber": "EN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "FB",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "GND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "IN",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c33",
+        "pinNumber": "LX",
+        "netId": "n17",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c34",
+        "pinNumber": "1",
+        "netId": "n17",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c34",
+        "pinNumber": "2",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c35",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c35",
+        "pinNumber": "2",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c36",
+        "pinNumber": "1",
+        "netId": "n19",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c36",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c37",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c37",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c38",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c38",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c39",
+        "pinNumber": "1",
+        "netId": "n18",
+        "kind": "power"
+      },
+      {
+        "componentId": "c39",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M3",
+        "name": "5V → 3.3V 主逻辑轨（SY8089）",
+        "coreComponents": [
+          "c33"
+        ],
+        "peripheralComponents": [
+          "c34",
+          "c35",
+          "c36",
+          "c37",
+          "c38",
+          "c39"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 594,
+    "maxY": 420
+  },
+  "keepouts": [],
+  "modules": [
+    {
+      "id": "M3",
+      "title": "5V → 3.3V 主逻辑轨（SY8089）",
+      "placements": [
+        {
+          "primitiveId": "c33",
+          "designator": "U3",
+          "x": 270.0,
+          "y": 160.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 245.0,
+            "minY": 140.0,
+            "maxX": 295.0,
+            "maxY": 180.0
+          },
+          "pins": [
+            {
+              "number": "EN",
+              "name": "EN",
+              "net": "+5V",
+              "x": 235.0,
+              "y": 150.0,
+              "rotation": 180
+            },
+            {
+              "number": "FB",
+              "name": "FB",
+              "net": "U3_N5",
+              "x": 305.0,
+              "y": 150.0,
+              "rotation": 0
+            },
+            {
+              "number": "GND",
+              "name": "GND",
+              "net": "GND",
+              "x": 235.0,
+              "y": 160.0,
+              "rotation": 180
+            },
+            {
+              "number": "IN",
+              "name": "IN",
+              "net": "+5V",
+              "x": 305.0,
+              "y": 170.0,
+              "rotation": 0
+            },
+            {
+              "number": "LX",
+              "name": "LX",
+              "net": "U3_N3",
+              "x": 235.0,
+              "y": 170.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c37",
+          "designator": "C13",
+          "x": 340.0,
+          "y": 170.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 330.0,
+            "minY": 165.0,
+            "maxX": 350.0,
+            "maxY": 175.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 320.0,
+              "y": 170.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 360.0,
+              "y": 170.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c34",
+          "designator": "L3",
+          "x": 195.0,
+          "y": 170.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 180.0,
+            "minY": 165.0,
+            "maxX": 210.0,
+            "maxY": 175.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U3_N3",
+              "x": 175.0,
+              "y": 170.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "+3V3",
+              "x": 215.0,
+              "y": 170.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c38",
+          "designator": "C14",
+          "x": 240.0,
+          "y": 210.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 230.0,
+            "minY": 205.0,
+            "maxX": 250.0,
+            "maxY": 215.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+3V3",
+              "x": 220.0,
+              "y": 210.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 260.0,
+              "y": 210.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c39",
+          "designator": "C15",
+          "x": 235.0,
+          "y": 260.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 225.0,
+            "minY": 255.0,
+            "maxX": 245.0,
+            "maxY": 265.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+3V3",
+              "x": 215.0,
+              "y": 260.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 255.0,
+              "y": 260.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c35",
+          "designator": "R8",
+          "x": 345.0,
+          "y": 120.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 335.0,
+            "minY": 115.0,
+            "maxX": 355.0,
+            "maxY": 125.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+3V3",
+              "x": 325.0,
+              "y": 120.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "U3_N5",
+              "x": 365.0,
+              "y": 120.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c36",
+          "designator": "R9",
+          "x": 405.0,
+          "y": 150.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 395.0,
+            "minY": 145.0,
+            "maxX": 415.0,
+            "maxY": 155.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U3_N5",
+              "x": 385.0,
+              "y": 150.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 425.0,
+              "y": 150.0,
+              "rotation": 0
+            }
+          ]
+        }
+      ],
+      "wires": [
+        {
+          "net": "GND",
+          "points": [
+            [
+              255.0,
+              260.0
+            ],
+            [
+              265.0,
+              260.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              265.0,
+              260.0
+            ],
+            [
+              265.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              260.0,
+              210.0
+            ],
+            [
+              265.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              265.0,
+              210.0
+            ],
+            [
+              270.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              270.0,
+              210.0
+            ],
+            [
+              270.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              270.0,
+              185.0
+            ],
+            [
+              225.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              215.0,
+              210.0
+            ],
+            [
+              215.0,
+              190.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              215.0,
+              190.0
+            ],
+            [
+              220.0,
+              190.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              220.0,
+              190.0
+            ],
+            [
+              220.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              220.0,
+              170.0
+            ],
+            [
+              215.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              210.0,
+              210.0
+            ],
+            [
+              215.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              215.0,
+              210.0
+            ],
+            [
+              220.0,
+              210.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N5",
+          "points": [
+            [
+              380.0,
+              120.0
+            ],
+            [
+              365.0,
+              120.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N3",
+          "points": [
+            [
+              170.0,
+              175.0
+            ],
+            [
+              230.0,
+              175.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N3",
+          "points": [
+            [
+              230.0,
+              175.0
+            ],
+            [
+              230.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N3",
+          "points": [
+            [
+              230.0,
+              170.0
+            ],
+            [
+              235.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              225.0,
+              160.0
+            ],
+            [
+              235.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              225.0,
+              155.0
+            ],
+            [
+              225.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              225.0,
+              160.0
+            ],
+            [
+              225.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              305.0,
+              170.0
+            ],
+            [
+              310.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              310.0,
+              170.0
+            ],
+            [
+              320.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              310.0,
+              170.0
+            ],
+            [
+              310.0,
+              175.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              210.0,
+              260.0
+            ],
+            [
+              215.0,
+              260.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              210.0,
+              210.0
+            ],
+            [
+              210.0,
+              260.0
+            ]
+          ]
+        },
+        {
+          "net": "+3V3",
+          "points": [
+            [
+              210.0,
+              260.0
+            ],
+            [
+              210.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N5",
+          "points": [
+            [
+              305.0,
+              150.0
+            ],
+            [
+              380.0,
+              150.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N5",
+          "points": [
+            [
+              380.0,
+              150.0
+            ],
+            [
+              385.0,
+              150.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N5",
+          "points": [
+            [
+              380.0,
+              120.0
+            ],
+            [
+              380.0,
+              150.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N5",
+          "points": [
+            [
+              380.0,
+              150.0
+            ],
+            [
+              380.0,
+              155.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N3",
+          "points": [
+            [
+              170.0,
+              170.0
+            ],
+            [
+              175.0,
+              170.0
+            ]
+          ]
+        },
+        {
+          "net": "U3_N3",
+          "points": [
+            [
+              170.0,
+              170.0
+            ],
+            [
+              170.0,
+              175.0
+            ]
+          ]
+        }
+      ],
+      "flags": [
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 225.0,
+          "pinY": 155.0,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -45,
+            "y": -5
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 360.0,
+          "pinY": 170.0,
+          "direction": "right",
+          "offset": 55,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c37",
+            "pinNumber": "2",
+            "net": "GND"
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 425.0,
+          "pinY": 150.0,
+          "direction": "right",
+          "offset": 35,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c36",
+            "pinNumber": "2",
+            "net": "GND"
+          }
+        },
+        {
+          "net": "+5V",
+          "kind": "power",
+          "pinX": 235.0,
+          "pinY": 150.0,
+          "direction": "left",
+          "offset": 80,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c33",
+            "pinNumber": "EN",
+            "net": "+5V"
+          }
+        },
+        {
+          "net": "+5V",
+          "kind": "power",
+          "pinX": 310.0,
+          "pinY": 175.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "+5V",
+            "x": 40,
+            "y": 15
+          }
+        },
+        {
+          "net": "+3V3",
+          "kind": "power",
+          "pinX": 210.0,
+          "pinY": 265.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "+3V3",
+            "x": -60,
+            "y": 105
+          }
+        },
+        {
+          "net": "+3V3",
+          "kind": "power",
+          "pinX": 325.0,
+          "pinY": 120.0,
+          "direction": "left",
+          "offset": 30,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c35",
+            "pinNumber": "1",
+            "net": "+3V3"
+          }
+        },
+        {
+          "net": "U3_N5",
+          "kind": "net_port_bi",
+          "pinX": 380.0,
+          "pinY": 155.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U3_N5",
+            "x": 110,
+            "y": -5
+          }
+        },
+        {
+          "net": "U3_N3",
+          "kind": "net_port_bi",
+          "pinX": 170.0,
+          "pinY": 175.0,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U3_N3",
+            "x": -100,
+            "y": 15
+          }
+        }
+      ]
+    }
+  ]
+}

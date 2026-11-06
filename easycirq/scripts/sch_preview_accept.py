@@ -78,9 +78,12 @@ def widen(zones_path, page):
     return z
 
 
-def one(module, work, exe, sk, verbose=True):
+def one(module, work, exe, sk, verbose=True, comp_override=None):
     work = pathlib.Path(work)
-    comp = work / ("composition-%s-placed.json" % module)
+    # 候选稿：直接用给定的文件，**不替换**工作目录里的正式稿。
+    # （#85 的假结论就是"替换 + finally 恢复"造成的，见 friction #92。）
+    comp = pathlib.Path(comp_override) if comp_override \
+        else work / ("composition-%s-placed.json" % module)
     if not comp.is_file():
         return {"module": module,
                 "error": "缺 %s（先跑 sch_layout_normalize.py）" % comp.name}
@@ -232,15 +235,25 @@ def main() -> int:
     ap.add_argument("--work", required=True)
     ap.add_argument("--modules", default="M1,M2,M3,M4,M5")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--candidate", action="append", default=[],
+                    help="候选排版稿 `模块=路径`：直接验这份，不替换正式稿"
+                         "（避免'替换+恢复'造成假结论）")
     args = ap.parse_args()
 
     exe, sk = exe_path(), skill_scripts()
     if not exe.is_file():
         raise SystemExit("找不到 easycirq 可执行文件：%s" % exe)
 
+    cand = {}
+    for spec in args.candidate:
+        if "=" not in spec:
+            raise SystemExit("--candidate 需要 `模块=路径` 形式")
+        k, v = spec.split("=", 1)
+        cand[k.strip()] = v.strip()
+
     results = []
     for m in [x.strip() for x in args.modules.split(",") if x.strip()]:
-        results.append(one(m, args.work, exe, sk))
+        results.append(one(m, args.work, exe, sk, comp_override=cand.get(m)))
 
     rows = [r for r in results if "criteria" in r]
     if rows:
