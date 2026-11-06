@@ -17,8 +17,11 @@ type libMeasuredStem struct {
 // reached its final named tree yet.
 // libLabelBoxesOverlap 判断两个矩形的内部是否相交（相接不算，留 0.5 raw 余量）。
 func libLabelBoxesOverlap(a, b layoutBBox) bool {
-	return a.MinX+0.5 < b.MaxX && b.MinX+0.5 < a.MaxX &&
-		a.MinY+0.5 < b.MaxY && b.MinY+0.5 < a.MaxY
+	// 要求**至少 2 raw 间距**：渲染器报 component label reservation collision
+	// 时用的容差比我原来的 0.5 更严（实测 L3/U3 被判冲突而我的判据放过了）。
+	const gap = 2.0
+	return a.MinX+gap < b.MaxX && b.MinX+gap < a.MaxX &&
+		a.MinY+gap < b.MaxY && b.MinY+gap < a.MaxY
 }
 
 // libValidateLabelReservations 校验**位号预留区**互不冲突。
