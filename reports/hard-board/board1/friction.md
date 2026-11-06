@@ -2512,3 +2512,76 @@ M1 穿器件 0 ✅   M2 0 ✅   M3 0 ✅   M4 0 ✅   M5 0 ✅
 **纵向仍然偏空**（27%–50%）。因为这些电路天然是"一行排开"的形状，
 而求解器不会主动排成两行。要彻底解决得让它按可用区的**宽高比**决定行数，
 那是摆放搜索的进一步改动，本轮没做。
+
+
+---
+
+## #59 验收链路一直是"没测"而不是"通过"；我又造了一次假数据
+
+目标改为「原理图预览对标顶尖工程师」后，第一件事是用技能自带的图面验收
+（`sch_layout_check.py --strict`）量差距。结果暴露出两个问题。
+
+### 一、验收通道是空的（所以"没报错"= 没测）
+
+适配器 `layout_from_easycirq.py` 第一次读到：
+
+```
+components: 24 ✓   texts: 0 ✗   wires: 0 ✗   net_flags: 0 ✗   module_frames: 0 ✗
+```
+
+也就是说：**导线穿件、文字相压、标签悬空、模块框切器件——一条都没在判。**
+之前几轮我说"审图通过"，判的是我自己写的三个指标，不是技能的标准。
+
+逐个对齐契约（都靠读适配器源码得出，不是猜）：
+
+| 通道 | 适配器要什么 | 我原来给什么 |
+|---|---|---|
+| 导线 | `pagePrimitives.wires[]`，`Line` 是**扁平数字序列**（每 4 个数一段）| `result.wires`，`Line` 是坐标对数组（长度 2 → 被丢弃）|
+| 网标 | `components[]` 里 `componentType == "netflag"` + bbox | 只在独立的 `netflags` 里 |
+| 模块框 | `pagePrimitives.rectangles[]`（TopLeftX/Y/Width/Height）| `pagePrimitives = {}` |
+| 文字 | `pagePrimitives.texts[]` 或 `--visible-text` | 完全没有 |
+
+补齐后五块：导线 143/36/38/53/34 全部 `complete`，网标 17/10/8/10/10，模块框 1/1/1/1/1。
+
+### 二、我为了"让文字判据能跑"，自己编了文字坐标
+
+排版稿**不带文字几何**（placement 只有 primitiveId/designator/x/y/rotation/
+mirror/bbox/pins）。我却按"位号放本体左上角上移 6"硬造了一组文字框。
+
+检查器随即报 **115 项缺陷**。我逐条核对：
+
+| 缺陷码 | 总数 | 由我造的文字引起 | 真缺陷 |
+|---|---|---|---|
+| `bbox_overlap` | 48 | **48** | 0 |
+| `wire_enters_bbox` | 35 | **35** | 0 |
+| `different_named_wires_cross` | 26 | — | 26 |
+| `frame_border_crosses_object` | 6 | — | 6 |
+
+**83 项假缺陷，0 项真实。** 这是 #57 的同类错误第二次出现：
+**自有工具 + 自造数据 = 一个看起来很有内容的报告。**
+
+### 处理
+
+**撤掉编造的文字。** 拿不到真实文字几何就不产文字，文字类判据
+（遮字、文字相压、重复网名、孤立文字）**在离线阶段如实标 NOT RUN**，
+等上机导出 SVG 后由 `svg_text_bbox.py` 实测再做。
+
+撤掉后，五块的真实缺陷列表：
+
+```
+M1 19 项   M2 2 项   M3 2 项   M4 1 项   M5 2 项
+合计 26 项，全部是 different_named_wires_cross（不同网络导线交叉）
+```
+
+### 另一个真缺陷已修
+
+`outside_page` **60 处**：排版稿是**局部坐标系**（负坐标），`sch compose` 会在
+合成时平移，但**预览/审图链路从来没平移**。新增 `sch_layout_normalize.py`
+（只平移、不缩放、对齐 5-raw 网格）后，五块内容全部落在图纸内，
+`outside_page = 0`。
+
+### 6 条回归测试
+
+`tests/test_snapshot_contract.py`：导线必须在 `pagePrimitives.wires` 且
+`Line` 是 4 的倍数扁平数字、网标必须作为 netflag 图元带 bbox、模块框必须有
+正宽高、sheet 图元必须在，以及**核心断言 —— 不许产编造的文字**。

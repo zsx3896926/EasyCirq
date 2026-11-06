@@ -1,0 +1,969 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easycirq reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  594.0,
+  420.0
+ ],
+ "components": [
+  {
+   "id": "c25",
+   "bbox": [
+    360.0,
+    170.0,
+    430.0,
+    270.0
+   ]
+  },
+  {
+   "id": "c30",
+   "bbox": [
+    305.0,
+    240.0,
+    315.0,
+    250.0
+   ]
+  },
+  {
+   "id": "c26",
+   "bbox": [
+    195.0,
+    205.0,
+    205.0,
+    215.0
+   ]
+  },
+  {
+   "id": "c27",
+   "bbox": [
+    195.0,
+    155.0,
+    205.0,
+    165.0
+   ]
+  },
+  {
+   "id": "c32",
+   "bbox": [
+    240.0,
+    150.0,
+    260.0,
+    180.0
+   ]
+  },
+  {
+   "id": "c28",
+   "bbox": [
+    185.0,
+    255.0,
+    215.0,
+    265.0
+   ]
+  },
+  {
+   "id": "c29",
+   "bbox": [
+    140.0,
+    200.0,
+    150.0,
+    210.0
+   ]
+  },
+  {
+   "id": "c31",
+   "bbox": [
+    190.0,
+    105.0,
+    200.0,
+    115.0
+   ]
+  }
+ ],
+ "texts": [],
+ "wires": [
+  {
+   "id": "w-M2-0#0",
+   "primitive_id": "w-M2-0",
+   "points": [
+    [
+     450.0,
+     230.0
+    ],
+    [
+     455.0,
+     230.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-1#0",
+   "primitive_id": "w-M2-1",
+   "points": [
+    [
+     450.0,
+     190.0
+    ],
+    [
+     455.0,
+     190.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-2#0",
+   "primitive_id": "w-M2-2",
+   "points": [
+    [
+     450.0,
+     210.0
+    ],
+    [
+     455.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-3#0",
+   "primitive_id": "w-M2-3",
+   "points": [
+    [
+     320.0,
+     250.0
+    ],
+    [
+     340.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-4#0",
+   "primitive_id": "w-M2-4",
+   "points": [
+    [
+     230.0,
+     170.0
+    ],
+    [
+     225.0,
+     170.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-5#0",
+   "primitive_id": "w-M2-5",
+   "points": [
+    [
+     175.0,
+     210.0
+    ],
+    [
+     180.0,
+     210.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-6#0",
+   "primitive_id": "w-M2-6",
+   "points": [
+    [
+     340.0,
+     210.0
+    ],
+    [
+     230.0,
+     210.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-7#0",
+   "primitive_id": "w-M2-7",
+   "points": [
+    [
+     230.0,
+     210.0
+    ],
+    [
+     230.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-8#0",
+   "primitive_id": "w-M2-8",
+   "points": [
+    [
+     230.0,
+     215.0
+    ],
+    [
+     175.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-9#0",
+   "primitive_id": "w-M2-9",
+   "points": [
+    [
+     180.0,
+     110.0
+    ],
+    [
+     175.0,
+     110.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-10#0",
+   "primitive_id": "w-M2-10",
+   "points": [
+    [
+     150.0,
+     190.0
+    ],
+    [
+     175.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-11#0",
+   "primitive_id": "w-M2-11",
+   "points": [
+    [
+     175.0,
+     190.0
+    ],
+    [
+     340.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-12#0",
+   "primitive_id": "w-M2-12",
+   "points": [
+    [
+     450.0,
+     250.0
+    ],
+    [
+     455.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-13#0",
+   "primitive_id": "w-M2-13",
+   "points": [
+    [
+     455.0,
+     190.0
+    ],
+    [
+     455.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-14#0",
+   "primitive_id": "w-M2-14",
+   "points": [
+    [
+     455.0,
+     210.0
+    ],
+    [
+     455.0,
+     230.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-15#0",
+   "primitive_id": "w-M2-15",
+   "points": [
+    [
+     455.0,
+     230.0
+    ],
+    [
+     455.0,
+     250.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-16#0",
+   "primitive_id": "w-M2-16",
+   "points": [
+    [
+     455.0,
+     250.0
+    ],
+    [
+     455.0,
+     255.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-17#0",
+   "primitive_id": "w-M2-17",
+   "points": [
+    [
+     315.0,
+     270.0
+    ],
+    [
+     320.0,
+     270.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-18#0",
+   "primitive_id": "w-M2-18",
+   "points": [
+    [
+     320.0,
+     250.0
+    ],
+    [
+     320.0,
+     270.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-19#0",
+   "primitive_id": "w-M2-19",
+   "points": [
+    [
+     320.0,
+     270.0
+    ],
+    [
+     320.0,
+     275.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-20#0",
+   "primitive_id": "w-M2-20",
+   "points": [
+    [
+     220.0,
+     210.0
+    ],
+    [
+     225.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-21#0",
+   "primitive_id": "w-M2-21",
+   "points": [
+    [
+     225.0,
+     170.0
+    ],
+    [
+     225.0,
+     210.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-22#0",
+   "primitive_id": "w-M2-22",
+   "points": [
+    [
+     225.0,
+     210.0
+    ],
+    [
+     225.0,
+     225.0
+    ]
+   ],
+   "net": "GND"
+  },
+  {
+   "id": "w-M2-23#0",
+   "primitive_id": "w-M2-23",
+   "points": [
+    [
+     315.0,
+     230.0
+    ],
+    [
+     330.0,
+     230.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-24#0",
+   "primitive_id": "w-M2-24",
+   "points": [
+    [
+     330.0,
+     230.0
+    ],
+    [
+     340.0,
+     230.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-25#0",
+   "primitive_id": "w-M2-25",
+   "points": [
+    [
+     330.0,
+     230.0
+    ],
+    [
+     330.0,
+     235.0
+    ]
+   ],
+   "net": "+12V_FILT"
+  },
+  {
+   "id": "w-M2-26#0",
+   "primitive_id": "w-M2-26",
+   "points": [
+    [
+     220.0,
+     160.0
+    ],
+    [
+     225.0,
+     160.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-27#0",
+   "primitive_id": "w-M2-27",
+   "points": [
+    [
+     225.0,
+     160.0
+    ],
+    [
+     230.0,
+     160.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-28#0",
+   "primitive_id": "w-M2-28",
+   "points": [
+    [
+     225.0,
+     160.0
+    ],
+    [
+     225.0,
+     130.0
+    ]
+   ],
+   "net": "VBAT_RAW"
+  },
+  {
+   "id": "w-M2-29#0",
+   "primitive_id": "w-M2-29",
+   "points": [
+    [
+     175.0,
+     260.0
+    ],
+    [
+     180.0,
+     260.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-30#0",
+   "primitive_id": "w-M2-30",
+   "points": [
+    [
+     175.0,
+     210.0
+    ],
+    [
+     175.0,
+     215.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-31#0",
+   "primitive_id": "w-M2-31",
+   "points": [
+    [
+     175.0,
+     215.0
+    ],
+    [
+     175.0,
+     260.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-32#0",
+   "primitive_id": "w-M2-32",
+   "points": [
+    [
+     175.0,
+     260.0
+    ],
+    [
+     175.0,
+     265.0
+    ]
+   ],
+   "net": "U2_N3"
+  },
+  {
+   "id": "w-M2-33#0",
+   "primitive_id": "w-M2-33",
+   "points": [
+    [
+     175.0,
+     160.0
+    ],
+    [
+     180.0,
+     160.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-34#0",
+   "primitive_id": "w-M2-34",
+   "points": [
+    [
+     175.0,
+     110.0
+    ],
+    [
+     175.0,
+     160.0
+    ]
+   ],
+   "net": "D5_N2"
+  },
+  {
+   "id": "w-M2-35#0",
+   "primitive_id": "w-M2-35",
+   "points": [
+    [
+     175.0,
+     160.0
+    ],
+    [
+     175.0,
+     190.0
+    ]
+   ],
+   "net": "D5_N2"
+  }
+ ],
+ "attachment_points": [
+  {
+   "id": "U2-FB",
+   "x": 340.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND",
+   "x": 450.0,
+   "y": 250.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#2",
+   "x": 450.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#3",
+   "x": 450.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-GND#4",
+   "x": 450.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-ON/OFF",
+   "x": 340.0,
+   "y": 250.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-OUTPUT",
+   "x": 340.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "U2-VIN",
+   "x": 340.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C11-1",
+   "x": 315.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C11-2",
+   "x": 315.0,
+   "y": 270.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D4-A",
+   "x": 220.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D4-K",
+   "x": 180.0,
+   "y": 210.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D5-A",
+   "x": 220.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "D5-K",
+   "x": 180.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "J2-1",
+   "x": 230.0,
+   "y": 160.0,
+   "kind": "pin"
+  },
+  {
+   "id": "J2-2",
+   "x": 230.0,
+   "y": 170.0,
+   "kind": "pin"
+  },
+  {
+   "id": "L2-1",
+   "x": 180.0,
+   "y": 260.0,
+   "kind": "pin"
+  },
+  {
+   "id": "L2-2",
+   "x": 220.0,
+   "y": 260.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C10-1",
+   "x": 150.0,
+   "y": 190.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C10-2",
+   "x": 150.0,
+   "y": 230.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C12-1",
+   "x": 180.0,
+   "y": 110.0,
+   "kind": "pin"
+  },
+  {
+   "id": "C12-2",
+   "x": 210.0,
+   "y": 110.0,
+   "kind": "pin"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [
+  {
+   "id": "flag-0",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    449.0,
+    251.0,
+    461.0,
+    259.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-1",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    314.0,
+    271.0,
+    326.0,
+    279.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-2",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    219.0,
+    221.0,
+    231.0,
+    229.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-3",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    144.0,
+    226.0,
+    156.0,
+    234.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-4",
+   "net": "GND",
+   "kind": "netflag",
+   "bbox": [
+    204.0,
+    106.0,
+    216.0,
+    114.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-5",
+   "net": "+12V_FILT",
+   "kind": "netflag",
+   "bbox": [
+    324.0,
+    231.0,
+    336.0,
+    239.0
+   ],
+   "rotation": 0,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-6",
+   "net": "VBAT_RAW",
+   "kind": "netflag",
+   "bbox": [
+    219.0,
+    126.0,
+    231.0,
+    134.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-7",
+   "net": "+12V_FILT",
+   "kind": "netflag",
+   "bbox": [
+    214.0,
+    256.0,
+    226.0,
+    264.0
+   ],
+   "rotation": 90,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-8",
+   "net": "U2_N3",
+   "kind": "netflag",
+   "bbox": [
+    169.0,
+    261.0,
+    181.0,
+    269.0
+   ],
+   "rotation": 270,
+   "anchor": null,
+   "text_id": null
+  },
+  {
+   "id": "flag-9",
+   "net": "D5_N2",
+   "kind": "netflag",
+   "bbox": [
+    169.0,
+    161.0,
+    181.0,
+    169.0
+   ],
+   "rotation": 270,
+   "anchor": null,
+   "text_id": null
+  }
+ ],
+ "module_frames": [
+  {
+   "id": "frame-M2",
+   "bbox": [
+    122.0,
+    87.0,
+    448.0,
+    288.0
+   ],
+   "contains": [
+    "c25",
+    "c30",
+    "c26",
+    "c27",
+    "c32",
+    "c28",
+    "c29",
+    "c31"
+   ]
+  }
+ ],
+ "title_block_owned": [],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": true,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 8
+  },
+  "texts": {
+   "status": "partial",
+   "observed": 0,
+   "estimated": 0,
+   "rendered": 0
+  },
+  "wires": {
+   "status": "complete",
+   "observed": 36,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 22,
+   "measured_pins": 22,
+   "total_pins": 22
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "complete",
+   "observed": 1,
+   "rectangles": 1
+  }
+ },
+ "snapshot_sha256": "99c79d3018d172e571b3b366372ff60174c32d8dd9f1b31b6c984bc3617ca875",
+ "expected_counts": {
+  "components": 8,
+  "texts": 0,
+  "wires": 36
+ }
+}

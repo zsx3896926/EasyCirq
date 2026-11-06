@@ -1,0 +1,401 @@
+{
+  "schemaVersion": "1.4",
+  "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+  "documentId": "a223803d1fb015ce",
+  "components": [
+    {
+      "id": "c50",
+      "ref": "U5",
+      "role": "U",
+      "device": {
+        "libraryUuid": "01a036a82f3e4723b4d5e3058bf1ffd2",
+        "deviceUuid": "21c410988f214465b9d9afb2bdb45c80",
+        "name": "buckboost.tps63802_vson10"
+      },
+      "pins": [
+        {
+          "number": "AGND",
+          "name": "AGND"
+        },
+        {
+          "number": "EN",
+          "name": "EN"
+        },
+        {
+          "number": "FB",
+          "name": "FB"
+        },
+        {
+          "number": "GND",
+          "name": "GND"
+        },
+        {
+          "number": "L1",
+          "name": "L1"
+        },
+        {
+          "number": "L2",
+          "name": "L2"
+        },
+        {
+          "number": "MODE",
+          "name": "MODE"
+        },
+        {
+          "number": "PG",
+          "name": "PG",
+          "noConnected": true
+        },
+        {
+          "number": "VIN",
+          "name": "VIN"
+        },
+        {
+          "number": "VOUT",
+          "name": "VOUT"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c51",
+      "ref": "L5",
+      "role": "L",
+      "device": {
+        "libraryUuid": "1d2534a4aebd443e9fc8d204865468f4",
+        "deviceUuid": "91c55cd7475c41b4b7f48ca45f7ab5b3",
+        "name": "ind.1uh_1210"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c52",
+      "ref": "R13",
+      "role": "R_FBT",
+      "device": {
+        "libraryUuid": "c2378bfc933c4daface786d2ca8d147c",
+        "deviceUuid": "5446ba25c8174b7fbd5c214ae2fc44e9",
+        "name": "res.665k_0402"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c53",
+      "ref": "R14",
+      "role": "R_FBB",
+      "device": {
+        "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+        "deviceUuid": "ca74fa48280a42d5966001f9b9585429",
+        "name": "res.100k_0402"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c54",
+      "ref": "C21",
+      "role": "C_IN",
+      "device": {
+        "libraryUuid": "ceca196352674ab0a7a5a2b28c6b9343",
+        "deviceUuid": "08fae8331ff641b78a06396b6c3c13f4",
+        "name": "cap.10uf_0805"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c55",
+      "ref": "C22",
+      "role": "C_OUT",
+      "device": {
+        "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+        "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+        "name": "cap.22uf_0805"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    },
+    {
+      "id": "c56",
+      "ref": "C23",
+      "role": "C_HF",
+      "device": {
+        "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+        "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+        "name": "cap.100nf_0402"
+      },
+      "pins": [
+        {
+          "number": "1",
+          "name": "1"
+        },
+        {
+          "number": "2",
+          "name": "2"
+        }
+      ],
+      "pageId": "a223803d1fb015ce",
+      "pageName": "P2"
+    }
+  ],
+  "nets": [
+    {
+      "id": "n2",
+      "name": "GND",
+      "scope": "global",
+      "role": "power"
+    },
+    {
+      "id": "n10",
+      "name": "+5V",
+      "scope": "global",
+      "role": "power"
+    },
+    {
+      "id": "n22",
+      "name": "U5_N3",
+      "scope": "local"
+    },
+    {
+      "id": "n23",
+      "name": "U5_N4",
+      "scope": "local"
+    },
+    {
+      "id": "n24",
+      "name": "+3V8",
+      "scope": "global",
+      "role": "power"
+    },
+    {
+      "id": "n25",
+      "name": "U5_N6",
+      "scope": "local"
+    }
+  ],
+  "connections": [
+    {
+      "componentId": "c50",
+      "pinNumber": "AGND",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "EN",
+      "netId": "n10",
+      "kind": "power"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "FB",
+      "netId": "n25",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "GND",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "L1",
+      "netId": "n22",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "L2",
+      "netId": "n23",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "MODE",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "VIN",
+      "netId": "n10",
+      "kind": "power"
+    },
+    {
+      "componentId": "c50",
+      "pinNumber": "VOUT",
+      "netId": "n24",
+      "kind": "power"
+    },
+    {
+      "componentId": "c51",
+      "pinNumber": "1",
+      "netId": "n22",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c51",
+      "pinNumber": "2",
+      "netId": "n23",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c52",
+      "pinNumber": "1",
+      "netId": "n24",
+      "kind": "power"
+    },
+    {
+      "componentId": "c52",
+      "pinNumber": "2",
+      "netId": "n25",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c53",
+      "pinNumber": "1",
+      "netId": "n25",
+      "kind": "wire"
+    },
+    {
+      "componentId": "c53",
+      "pinNumber": "2",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c54",
+      "pinNumber": "1",
+      "netId": "n10",
+      "kind": "power"
+    },
+    {
+      "componentId": "c54",
+      "pinNumber": "2",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c55",
+      "pinNumber": "1",
+      "netId": "n24",
+      "kind": "power"
+    },
+    {
+      "componentId": "c55",
+      "pinNumber": "2",
+      "netId": "n2",
+      "kind": "ground"
+    },
+    {
+      "componentId": "c56",
+      "pinNumber": "1",
+      "netId": "n24",
+      "kind": "power"
+    },
+    {
+      "componentId": "c56",
+      "pinNumber": "2",
+      "netId": "n2",
+      "kind": "ground"
+    }
+  ],
+  "modules": [
+    {
+      "id": "M5",
+      "name": "升降压：5V → 3.8V（TPS63802）",
+      "coreComponents": [
+        "c50"
+      ],
+      "peripheralComponents": [
+        "c51",
+        "c52",
+        "c53",
+        "c54",
+        "c55",
+        "c56"
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "code": "",
+      "severity": "info",
+      "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+    },
+    {
+      "code": "",
+      "severity": "info",
+      "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+    },
+    {
+      "code": "",
+      "severity": "info",
+      "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+    },
+    {
+      "code": "",
+      "severity": "info",
+      "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+    },
+    {
+      "code": "",
+      "severity": "info",
+      "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+    }
+  ]
+}

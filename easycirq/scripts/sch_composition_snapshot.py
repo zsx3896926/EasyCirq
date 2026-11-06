@@ -39,7 +39,7 @@ def build(composition_paths, out_dir):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    components, wires, flags = [], [], []
+    components, wires, flags, frames = [], [], [], []
     connectivity = None
     sheet = None
     page_id = ""
@@ -87,13 +87,36 @@ def build(composition_paths, out_dir):
                     ],
                     "moduleId": mod.get("id"),
                 })
-            for w in mod.get("wires") or []:
-                wires.append({
-                    "Line": w.get("points") or [],
-                    "Net": w.get("net") or "",
-                    "primitiveId": w.get("primitiveId") or "",
+            # 模块框：该模块所有器件 bbox 的并集，外扩 FRAME_PAD。
+            # 严格检查按 TopLeftX/TopLeftY/Width/Height 读，y 轴向上。
+            boxes = [(pl.get("bbox") or {}) for pl in (mod.get("placements") or [])]
+            boxes = [b for b in boxes if b]
+            if boxes:
+                pad = 18.0
+                frames.append({
+                    "id": mod.get("id") or "",
+                    "title": mod.get("title") or "",
+                    "rect": {
+                        "minX": min(b["minX"] for b in boxes) - pad,
+                        "minY": min(b["minY"] for b in boxes) - pad,
+                        "maxX": max(b["maxX"] for b in boxes) + pad,
+                        "maxY": max(b["maxY"] for b in boxes) + pad,
+                    },
                 })
-            for f in mod.get("flags") or []:
+            for wi, w in enumerate(mod.get("wires") or []):
+                pts = w.get("points") or []
+                # 适配器按小写 `net` / `points` 读，并要求 primitiveId 非空；
+                # 旧的 "Line"/"Net" 大写键它一个都不认，所以导线被记成 0。
+                wires.append({
+                    "net": w.get("net") or "",
+                    "points": pts,
+                    "primitiveId": w.get("primitiveId")
+                                    or "w-%s-%d" % (mod.get("id"), wi),
+                    # 兼容旧读取方
+                    "Line": pts,
+                    "Net": w.get("net") or "",
+                })
+            for fi, f in enumerate(mod.get("flags") or []):
                 flags.append({
                     "net": f.get("net"),
                     "kind": f.get("kind"),
@@ -113,6 +136,57 @@ def build(composition_paths, out_dir):
             "bbox": sheet,
         })
 
+    # ── 网标也要作为 componentType=netflag 的图元出现 ──────────────────
+    # 适配器只从 `components[]` 里挑 netflag；单独放 netflags 它读不到，
+    # 于是"标签悬空/标签与导线不符"这些判据全都跑不起来。
+    direction_rotation = {"up": 0, "right": 90, "down": 180, "left": 270}
+    for i, f in enumerate(flags):
+        if f.get("x") is None or f.get("y") is None:
+            continue
+        rot = direction_rotation.get(str(f.get("direction") or "").lower())
+        components.append({
+            "componentType": "netflag",
+            "primitiveId": "flag-%d" % i,
+            "net": f.get("net") or "",
+            "kind": f.get("kind") or "",
+            "x": f.get("x"),
+            "y": f.get("y"),
+            "rotation": rot if rot is not None else 0,
+            "direction": f.get("direction"),
+            # 标记本身有实体框（箭头/菱形），按 ~12×8 raw 给出
+            "bbox": {"minX": f["x"] - 6, "minY": f["y"] - 4,
+                     "maxX": f["x"] + 6, "maxY": f["y"] + 4},
+        })
+
+    # ── 文字图元：**只在有真实几何时才产** ────────────────────────────
+    #
+    # `lib-layout` 的排版稿不带文字坐标（placement 只有 primitiveId/
+    # designator/x/y/rotation/mirror/bbox/pins）。早先我按"位号放本体左上角
+    # 上移 6"自己造了一组文字框，结果检查器报出 83 项缺陷 —— 抽样核对后
+    # **全部**是"我造的文字压住器件"，没有一项是真实缺陷。
+    #
+    # 所以：拿不到真实文字几何就**不产文字**。文字类判据（遮字、文字相压、
+    # 重复网名、孤立文字）在离线阶段如实标 NOT RUN，等上机导出 SVG 后由
+    # `svg_text_bbox.py` 实测再做。
+    texts = []
+
+    # ── 模块框 → pagePrimitives.rectangles ───────────────────────────
+    # 适配器按 TopLeftX/TopLeftY/Width/Height 读；y 轴向上，TopLeft 是
+    # 矩形的左上角，所以 top = maxY、height = maxY - minY。
+    rectangles = []
+    for frame in frames:
+        r = frame.get("rect") or {}
+        if not all(k in r for k in ("minX", "minY", "maxX", "maxY")):
+            continue
+        rectangles.append({
+            "primitiveId": "frame-%s" % frame.get("id"),
+            "TopLeftX": r["minX"],
+            "TopLeftY": r["maxY"],
+            "Width": r["maxX"] - r["minX"],
+            "Height": r["maxY"] - r["minY"],
+            "title": frame.get("title") or "",
+        })
+
     list_doc = {
         "ok": True,
         "result": {
@@ -120,8 +194,21 @@ def build(composition_paths, out_dir):
             "sheet": sheet,
             "components": components,
             "wires": wires,
-            # 适配器按 dict 读 pagePrimitives（.get('texts')），给 [] 会崩
-            "pagePrimitives": {},
+            # 适配器按 dict 读 pagePrimitives（.get('rectangles') 等）
+            "pagePrimitives": {
+                "rectangles": rectangles,
+                "texts": texts,
+                # 适配器只从 pagePrimitives.wires 读导线；放 result.wires
+                # 它读不到（实测观察值一直是 0）。
+                "wires": [
+                    {"primitiveId": w["primitiveId"],
+                     # flat-segments 编码：[x1,y1,x2,y2, ...]，每 4 个数一段
+                     "Line": [v for a, b in zip(w["points"], w["points"][1:])
+                              for v in (a[0], a[1], b[0], b[1])],
+                     "Net": w.get("net") or ""}
+                    for w in wires if w.get("primitiveId") and w.get("points")
+                ],
+            },
             "netflags": flags,
         },
         # 合成来源：说明这份快照**不是**活体读数
