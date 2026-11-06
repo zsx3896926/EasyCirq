@@ -1,0 +1,195 @@
+{
+  "status": "findings",
+  "measured_count": 30,
+  "findings": [
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-15",
+        "svgtext-18"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          303.0,
+          249.5,
+          315.328,
+          257.5
+        ],
+        [
+          311.262,
+          244.5,
+          314.27,
+          249.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_overlap",
+      "ids": [
+        "svgtext-21",
+        "svgtext-22"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          198.025,
+          204.5,
+          202.025,
+          209.5
+        ],
+        [
+          195.0,
+          204.5,
+          198.5,
+          209.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_overlap",
+      "ids": [
+        "svgtext-25",
+        "svgtext-26"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          198.025,
+          154.5,
+          202.025,
+          159.5
+        ],
+        [
+          195.0,
+          154.5,
+          198.5,
+          159.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-35",
+        "svgtext-38"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          138.0,
+          209.5,
+          150.948,
+          217.5
+        ],
+        [
+          146.263,
+          204.5,
+          149.27,
+          209.5
+        ]
+      ],
+      "distance": 0.0,
+      "same_content": false
+    },
+    {
+      "kind": "text_tight",
+      "ids": [
+        "svgtext-41",
+        "svgtext-42"
+      ],
+      "parents": [
+        null,
+        null
+      ],
+      "designators": [
+        null,
+        null
+      ],
+      "bboxes": [
+        [
+          190.0,
+          104.5,
+          192.508,
+          109.5
+        ],
+        [
+          193.025,
+          104.5,
+          196.033,
+          109.5
+        ]
+      ],
+      "distance": 0.517,
+      "same_content": false
+    }
+  ],
+  "missing_classes": [
+    "values",
+    "pin_names",
+    "wire_names",
+    "title_block"
+  ],
+  "unmeasured": [
+    {
+      "id": "svgtext-0",
+      "text": "第二路 buck：VBAT → 12V 中间轨（XL1509） · 布局预览"
+    },
+    {
+      "id": "svgtext-1",
+      "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+    },
+    {
+      "id": "svgtext-2",
+      "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+    },
+    {
+      "id": "svgtext-3",
+      "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+    },
+    {
+      "id": "svgtext-4",
+      "text": "第二路 buck：VBAT → 12V 中间轨（XL1509）"
+    }
+  ],
+  "coverage_complete": false,
+  "visual_verified": false,
+  "electrical_verified": false,
+  "scope": "text-text only; inspect official full-page and local exports separately",
+  "source_sha256": "d5ba2f8f9ff96cfd95db9a1a13f07b3a26a827645a0654cb531231cf48a2f2e0",
+  "exit_code": 2
+}

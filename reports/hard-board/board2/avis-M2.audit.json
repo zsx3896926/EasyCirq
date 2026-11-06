@@ -1,0 +1,343 @@
+{
+  "result": {
+    "count": 30,
+    "items": [
+      {
+        "id": "svgtext-5",
+        "text": "U2",
+        "bbox": {
+          "minX": 358.0,
+          "minY": 269.5,
+          "maxX": 367.055,
+          "maxY": 277.5
+        }
+      },
+      {
+        "id": "svgtext-7",
+        "text": "FB",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 224.5,
+          "maxX": 365.758,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-8",
+        "text": "GND",
+        "bbox": {
+          "minX": 418.575,
+          "minY": 244.5,
+          "maxX": 428.825,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-9",
+        "text": "GND#2",
+        "bbox": {
+          "minX": 413.625,
+          "minY": 224.5,
+          "maxX": 428.633,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-10",
+        "text": "GND#3",
+        "bbox": {
+          "minX": 413.625,
+          "minY": 204.5,
+          "maxX": 428.633,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-11",
+        "text": "GND#4",
+        "bbox": {
+          "minX": 413.625,
+          "minY": 184.5,
+          "maxX": 428.633,
+          "maxY": 189.5
+        }
+      },
+      {
+        "id": "svgtext-12",
+        "text": "ON/OFF",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 244.5,
+          "maxX": 377.249,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-13",
+        "text": "OUTPUT",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 204.5,
+          "maxX": 378.75,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-14",
+        "text": "VIN",
+        "bbox": {
+          "minX": 359.5,
+          "minY": 184.5,
+          "maxX": 367.752,
+          "maxY": 189.5
+        }
+      },
+      {
+        "id": "svgtext-15",
+        "text": "C11",
+        "bbox": {
+          "minX": 303.0,
+          "minY": 249.5,
+          "maxX": 315.328,
+          "maxY": 257.5
+        }
+      },
+      {
+        "id": "svgtext-17",
+        "text": "1",
+        "bbox": {
+          "minX": 311.762,
+          "minY": 234.5,
+          "maxX": 314.27,
+          "maxY": 239.5
+        }
+      },
+      {
+        "id": "svgtext-18",
+        "text": "2",
+        "bbox": {
+          "minX": 311.262,
+          "minY": 244.5,
+          "maxX": 314.27,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-19",
+        "text": "D4",
+        "bbox": {
+          "minX": 193.0,
+          "minY": 214.5,
+          "maxX": 202.055,
+          "maxY": 222.5
+        }
+      },
+      {
+        "id": "svgtext-21",
+        "text": "A",
+        "bbox": {
+          "minX": 198.025,
+          "minY": 204.5,
+          "maxX": 202.025,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-22",
+        "text": "K",
+        "bbox": {
+          "minX": 195.0,
+          "minY": 204.5,
+          "maxX": 198.5,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-23",
+        "text": "D5",
+        "bbox": {
+          "minX": 193.0,
+          "minY": 164.5,
+          "maxX": 202.055,
+          "maxY": 172.5
+        }
+      },
+      {
+        "id": "svgtext-25",
+        "text": "A",
+        "bbox": {
+          "minX": 198.025,
+          "minY": 154.5,
+          "maxX": 202.025,
+          "maxY": 159.5
+        }
+      },
+      {
+        "id": "svgtext-26",
+        "text": "K",
+        "bbox": {
+          "minX": 195.0,
+          "minY": 154.5,
+          "maxX": 198.5,
+          "maxY": 159.5
+        }
+      },
+      {
+        "id": "svgtext-27",
+        "text": "J2",
+        "bbox": {
+          "minX": 238.0,
+          "minY": 179.5,
+          "maxX": 245.5,
+          "maxY": 187.5
+        }
+      },
+      {
+        "id": "svgtext-29",
+        "text": "1",
+        "bbox": {
+          "minX": 240.0,
+          "minY": 154.5,
+          "maxX": 242.508,
+          "maxY": 159.5
+        }
+      },
+      {
+        "id": "svgtext-30",
+        "text": "2",
+        "bbox": {
+          "minX": 239.5,
+          "minY": 164.5,
+          "maxX": 242.508,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-31",
+        "text": "L2",
+        "bbox": {
+          "minX": 183.0,
+          "minY": 264.5,
+          "maxX": 190.893,
+          "maxY": 272.5
+        }
+      },
+      {
+        "id": "svgtext-33",
+        "text": "1",
+        "bbox": {
+          "minX": 185.0,
+          "minY": 254.5,
+          "maxX": 187.508,
+          "maxY": 259.5
+        }
+      },
+      {
+        "id": "svgtext-34",
+        "text": "2",
+        "bbox": {
+          "minX": 208.025,
+          "minY": 254.5,
+          "maxX": 211.033,
+          "maxY": 259.5
+        }
+      },
+      {
+        "id": "svgtext-35",
+        "text": "C10",
+        "bbox": {
+          "minX": 138.0,
+          "minY": 209.5,
+          "maxX": 150.948,
+          "maxY": 217.5
+        }
+      },
+      {
+        "id": "svgtext-37",
+        "text": "1",
+        "bbox": {
+          "minX": 146.763,
+          "minY": 194.5,
+          "maxX": 149.27,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-38",
+        "text": "2",
+        "bbox": {
+          "minX": 146.263,
+          "minY": 204.5,
+          "maxX": 149.27,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-39",
+        "text": "C12",
+        "bbox": {
+          "minX": 188.0,
+          "minY": 114.5,
+          "maxX": 200.948,
+          "maxY": 122.5
+        }
+      },
+      {
+        "id": "svgtext-41",
+        "text": "1",
+        "bbox": {
+          "minX": 190.0,
+          "minY": 104.5,
+          "maxX": 192.508,
+          "maxY": 109.5
+        }
+      },
+      {
+        "id": "svgtext-42",
+        "text": "2",
+        "bbox": {
+          "minX": 193.025,
+          "minY": 104.5,
+          "maxX": 196.033,
+          "maxY": 109.5
+        }
+      }
+    ],
+    "unmeasured": [
+      {
+        "id": "svgtext-0",
+        "text": "第二路 buck：VBAT → 12V 中间轨（XL1509） · 布局预览"
+      },
+      {
+        "id": "svgtext-1",
+        "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+      },
+      {
+        "id": "svgtext-2",
+        "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+      },
+      {
+        "id": "svgtext-3",
+        "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+      },
+      {
+        "id": "svgtext-4",
+        "text": "第二路 buck：VBAT → 12V 中间轨（XL1509）"
+      }
+    ],
+    "coverage": {
+      "free_text": true,
+      "net_labels": true,
+      "designators": true,
+      "values": false,
+      "pin_names": false,
+      "wire_names": false,
+      "title_block": false
+    }
+  },
+  "gap": 2.0,
+  "source": {
+    "texts": "reports\\hard-board\\board2\\atexts-M2.json",
+    "visible": "reports\\hard-board\\board2\\avis-M2.json"
+  }
+}

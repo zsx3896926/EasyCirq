@@ -1,0 +1,220 @@
+{
+  "items": [
+    {
+      "id": "svgtext-5",
+      "bbox": {
+        "minX": 248.0,
+        "minY": 179.5,
+        "maxX": 257.055,
+        "maxY": 187.5
+      }
+    },
+    {
+      "id": "svgtext-7",
+      "bbox": {
+        "minX": 250.0,
+        "minY": 144.5,
+        "maxX": 256.501,
+        "maxY": 149.5
+      }
+    },
+    {
+      "id": "svgtext-8",
+      "bbox": {
+        "minX": 288.25,
+        "minY": 144.5,
+        "maxX": 294.008,
+        "maxY": 149.5
+      }
+    },
+    {
+      "id": "svgtext-9",
+      "bbox": {
+        "minX": 250.0,
+        "minY": 154.5,
+        "maxX": 260.25,
+        "maxY": 159.5
+      }
+    },
+    {
+      "id": "svgtext-10",
+      "bbox": {
+        "minX": 288.25,
+        "minY": 164.5,
+        "maxX": 293.0,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-11",
+      "bbox": {
+        "minX": 250.0,
+        "minY": 164.5,
+        "maxX": 256.003,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-12",
+      "bbox": {
+        "minX": 333.0,
+        "minY": 174.5,
+        "maxX": 345.948,
+        "maxY": 182.5
+      }
+    },
+    {
+      "id": "svgtext-14",
+      "bbox": {
+        "minX": 335.0,
+        "minY": 164.5,
+        "maxX": 337.508,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-15",
+      "bbox": {
+        "minX": 346.125,
+        "minY": 164.5,
+        "maxX": 349.133,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-16",
+      "bbox": {
+        "minX": 163.0,
+        "minY": 174.5,
+        "maxX": 170.893,
+        "maxY": 182.5
+      }
+    },
+    {
+      "id": "svgtext-18",
+      "bbox": {
+        "minX": 165.0,
+        "minY": 164.5,
+        "maxX": 167.508,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-19",
+      "bbox": {
+        "minX": 186.125,
+        "minY": 164.5,
+        "maxX": 189.133,
+        "maxY": 169.5
+      }
+    },
+    {
+      "id": "svgtext-20",
+      "bbox": {
+        "minX": 213.0,
+        "minY": 214.5,
+        "maxX": 225.948,
+        "maxY": 222.5
+      }
+    },
+    {
+      "id": "svgtext-22",
+      "bbox": {
+        "minX": 215.0,
+        "minY": 204.5,
+        "maxX": 217.508,
+        "maxY": 209.5
+      }
+    },
+    {
+      "id": "svgtext-23",
+      "bbox": {
+        "minX": 226.125,
+        "minY": 204.5,
+        "maxX": 229.133,
+        "maxY": 209.5
+      }
+    },
+    {
+      "id": "svgtext-24",
+      "bbox": {
+        "minX": 208.0,
+        "minY": 264.5,
+        "maxX": 220.948,
+        "maxY": 272.5
+      }
+    },
+    {
+      "id": "svgtext-26",
+      "bbox": {
+        "minX": 210.0,
+        "minY": 254.5,
+        "maxX": 212.508,
+        "maxY": 259.5
+      }
+    },
+    {
+      "id": "svgtext-27",
+      "bbox": {
+        "minX": 221.125,
+        "minY": 254.5,
+        "maxX": 224.133,
+        "maxY": 259.5
+      }
+    },
+    {
+      "id": "svgtext-28",
+      "bbox": {
+        "minX": 358.0,
+        "minY": 124.5,
+        "maxX": 367.055,
+        "maxY": 132.5
+      }
+    },
+    {
+      "id": "svgtext-30",
+      "bbox": {
+        "minX": 360.0,
+        "minY": 114.5,
+        "maxX": 362.508,
+        "maxY": 119.5
+      }
+    },
+    {
+      "id": "svgtext-31",
+      "bbox": {
+        "minX": 371.125,
+        "minY": 114.5,
+        "maxX": 374.133,
+        "maxY": 119.5
+      }
+    },
+    {
+      "id": "svgtext-32",
+      "bbox": {
+        "minX": 398.0,
+        "minY": 159.5,
+        "maxX": 407.055,
+        "maxY": 167.5
+      }
+    },
+    {
+      "id": "svgtext-34",
+      "bbox": {
+        "minX": 400.0,
+        "minY": 149.5,
+        "maxX": 402.508,
+        "maxY": 154.5
+      }
+    },
+    {
+      "id": "svgtext-35",
+      "bbox": {
+        "minX": 411.125,
+        "minY": 149.5,
+        "maxX": 414.133,
+        "maxY": 154.5
+      }
+    }
+  ]
+}

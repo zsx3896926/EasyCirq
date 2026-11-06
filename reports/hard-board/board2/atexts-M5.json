@@ -1,0 +1,308 @@
+[
+  {
+    "primitiveId": "svgtext-0",
+    "Content": "升降压：5V → 3.8V（TPS63802） · 布局预览",
+    "X": -800.0,
+    "Y": 1557.0,
+    "FontSize": 20.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-1",
+    "Content": "离线转译 / 简化符号 / 非仿真、非官方导图",
+    "X": -800.0,
+    "Y": 1536.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-2",
+    "Content": "只转译输入几何；离线预览不等于现场 Apply 验收。",
+    "X": -800.0,
+    "Y": 1520.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-3",
+    "Content": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界",
+    "X": -800.0,
+    "Y": -813.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-4",
+    "Content": "升降压：5V → 3.8V（TPS63802）",
+    "X": -741.0,
+    "Y": 1070.0,
+    "FontSize": 20.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-5",
+    "Content": "U5",
+    "X": 253.0,
+    "Y": 191.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-7",
+    "Content": "AGND",
+    "X": 255.0,
+    "Y": 155.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-8",
+    "Content": "EN",
+    "X": 255.0,
+    "Y": 135.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-9",
+    "Content": "FB",
+    "X": 255.0,
+    "Y": 165.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-10",
+    "Content": "GND",
+    "X": 313.575,
+    "Y": 155.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-11",
+    "Content": "L1",
+    "X": 316.05,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-12",
+    "Content": "L2",
+    "X": 316.05,
+    "Y": 165.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-13",
+    "Content": "MODE",
+    "X": 255.0,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-14",
+    "Content": "PG",
+    "X": 255.0,
+    "Y": 175.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-15",
+    "Content": "VIN",
+    "X": 313.575,
+    "Y": 135.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-16",
+    "Content": "VOUT",
+    "X": 311.1,
+    "Y": 175.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-17",
+    "Content": "C21",
+    "X": 358.0,
+    "Y": 146.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-19",
+    "Content": "1",
+    "X": 360.0,
+    "Y": 135.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-20",
+    "Content": "2",
+    "X": 373.525,
+    "Y": 135.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-21",
+    "Content": "C22",
+    "X": 358.0,
+    "Y": 196.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-23",
+    "Content": "1",
+    "X": 360.0,
+    "Y": 185.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-24",
+    "Content": "2",
+    "X": 373.525,
+    "Y": 185.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-25",
+    "Content": "C23",
+    "X": 353.0,
+    "Y": 246.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-27",
+    "Content": "1",
+    "X": 355.0,
+    "Y": 235.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-28",
+    "Content": "2",
+    "X": 368.525,
+    "Y": 235.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-29",
+    "Content": "L5",
+    "X": 423.0,
+    "Y": 156.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-31",
+    "Content": "1",
+    "X": 425.0,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-32",
+    "Content": "2",
+    "X": 448.525,
+    "Y": 145.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-33",
+    "Content": "R13",
+    "X": 133.0,
+    "Y": 176.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-35",
+    "Content": "1",
+    "X": 135.0,
+    "Y": 165.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-36",
+    "Content": "2",
+    "X": 148.525,
+    "Y": 165.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-37",
+    "Content": "R14",
+    "X": 173.0,
+    "Y": 226.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-39",
+    "Content": "1",
+    "X": 175.0,
+    "Y": 215.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-40",
+    "Content": "2",
+    "X": 188.525,
+    "Y": 215.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "status": "incomplete",
+  "measured_count": 29,
+  "findings": [],
+  "missing_classes": [
+    "values",
+    "pin_names",
+    "wire_names",
+    "title_block"
+  ],
+  "unmeasured": [
+    {
+      "id": "svgtext-0",
+      "text": "升降压：5V → 3.8V（TPS63802） · 布局预览"
+    },
+    {
+      "id": "svgtext-1",
+      "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+    },
+    {
+      "id": "svgtext-2",
+      "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+    },
+    {
+      "id": "svgtext-3",
+      "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+    },
+    {
+      "id": "svgtext-4",
+      "text": "升降压：5V → 3.8V（TPS63802）"
+    }
+  ],
+  "coverage_complete": false,
+  "visual_verified": false,
+  "electrical_verified": false,
+  "scope": "text-text only; inspect official full-page and local exports separately",
+  "source_sha256": "b13dd58faefa6475d43d25816c152ff8755bf1f779858045188c4a7a3c0c3bed",
+  "exit_code": 2
+}

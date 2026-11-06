@@ -1,0 +1,39 @@
+{
+  "status": "incomplete",
+  "measured_count": 24,
+  "findings": [],
+  "missing_classes": [
+    "values",
+    "pin_names",
+    "wire_names",
+    "title_block"
+  ],
+  "unmeasured": [
+    {
+      "id": "svgtext-0",
+      "text": "5V → 3.3V 主逻辑轨（SY8089） · 布局预览"
+    },
+    {
+      "id": "svgtext-1",
+      "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+    },
+    {
+      "id": "svgtext-2",
+      "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+    },
+    {
+      "id": "svgtext-3",
+      "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+    },
+    {
+      "id": "svgtext-4",
+      "text": "5V → 3.3V 主逻辑轨（SY8089）"
+    }
+  ],
+  "coverage_complete": false,
+  "visual_verified": false,
+  "electrical_verified": false,
+  "scope": "text-text only; inspect official full-page and local exports separately",
+  "source_sha256": "476456e0033967ed82c2263d968fb45e3a490b78cc15fb5ac94f7ccd59f7b664",
+  "exit_code": 2
+}

@@ -21,9 +21,9 @@
     {
       "id": "svgtext-8",
       "bbox": {
-        "minX": 427.5,
+        "minX": 426.5,
         "minY": 249.5,
-        "maxX": 441.0,
+        "maxX": 440.0,
         "maxY": 254.5
       }
     },
@@ -39,27 +39,27 @@
     {
       "id": "svgtext-10",
       "bbox": {
-        "minX": 399.996,
+        "minX": 399.125,
         "minY": 219.5,
-        "maxX": 406.004,
+        "maxX": 405.133,
         "maxY": 224.5
       }
     },
     {
       "id": "svgtext-11",
       "bbox": {
-        "minX": 435.242,
+        "minX": 433.25,
         "minY": 259.5,
-        "maxX": 441.0,
+        "maxX": 439.008,
         "maxY": 264.5
       }
     },
     {
       "id": "svgtext-12",
       "bbox": {
-        "minX": 431.0,
+        "minX": 429.875,
         "minY": 239.5,
-        "maxX": 441.25,
+        "maxX": 440.125,
         "maxY": 244.5
       }
     },
@@ -75,9 +75,9 @@
     {
       "id": "svgtext-14",
       "bbox": {
-        "minX": 433.75,
+        "minX": 433.25,
         "minY": 229.5,
-        "maxX": 441.751,
+        "maxX": 441.251,
         "maxY": 234.5
       }
     },
@@ -102,23 +102,14 @@
     {
       "id": "svgtext-18",
       "bbox": {
-        "minX": 367.492,
+        "minX": 366.125,
         "minY": 194.5,
-        "maxX": 371.492,
+        "maxX": 370.125,
         "maxY": 199.5
       }
     },
     {
       "id": "svgtext-19",
-      "bbox": {
-        "minX": 365.0,
-        "minY": 194.5,
-        "maxX": 368.5,
-        "maxY": 199.5
-      }
-    },
-    {
-      "id": "svgtext-20",
       "bbox": {
         "minX": 303.0,
         "minY": 204.5,
@@ -127,7 +118,7 @@
       }
     },
     {
-      "id": "svgtext-22",
+      "id": "svgtext-21",
       "bbox": {
         "minX": 305.0,
         "minY": 194.5,
@@ -136,16 +127,16 @@
       }
     },
     {
-      "id": "svgtext-23",
+      "id": "svgtext-22",
       "bbox": {
-        "minX": 317.992,
+        "minX": 316.125,
         "minY": 194.5,
-        "maxX": 321.0,
+        "maxX": 319.133,
         "maxY": 199.5
       }
     },
     {
-      "id": "svgtext-24",
+      "id": "svgtext-23",
       "bbox": {
         "minX": 248.0,
         "minY": 204.5,
@@ -154,7 +145,7 @@
       }
     },
     {
-      "id": "svgtext-26",
+      "id": "svgtext-25",
       "bbox": {
         "minX": 250.0,
         "minY": 194.5,
@@ -163,16 +154,16 @@
       }
     },
     {
-      "id": "svgtext-27",
+      "id": "svgtext-26",
       "bbox": {
-        "minX": 262.992,
+        "minX": 261.125,
         "minY": 194.5,
-        "maxX": 266.0,
+        "maxX": 264.133,
         "maxY": 199.5
       }
     },
     {
-      "id": "svgtext-28",
+      "id": "svgtext-27",
       "bbox": {
         "minX": 193.0,
         "minY": 204.5,
@@ -181,7 +172,7 @@
       }
     },
     {
-      "id": "svgtext-30",
+      "id": "svgtext-29",
       "bbox": {
         "minX": 195.0,
         "minY": 194.5,
@@ -190,16 +181,16 @@
       }
     },
     {
-      "id": "svgtext-31",
+      "id": "svgtext-30",
       "bbox": {
-        "minX": 207.992,
+        "minX": 206.125,
         "minY": 194.5,
-        "maxX": 211.0,
+        "maxX": 209.133,
         "maxY": 199.5
       }
     },
     {
-      "id": "svgtext-32",
+      "id": "svgtext-31",
       "bbox": {
         "minX": 243.0,
         "minY": 294.5,
@@ -208,16 +199,16 @@
       }
     },
     {
-      "id": "svgtext-34",
+      "id": "svgtext-33",
       "bbox": {
-        "minX": 277.75,
+        "minX": 276.625,
         "minY": 269.5,
-        "maxX": 281.25,
+        "maxX": 280.125,
         "maxY": 274.5
       }
     },
     {
-      "id": "svgtext-35",
+      "id": "svgtext-34",
       "bbox": {
         "minX": 245.0,
         "minY": 279.5,
@@ -226,7 +217,7 @@
       }
     },
     {
-      "id": "svgtext-36",
+      "id": "svgtext-35",
       "bbox": {
         "minX": 245.0,
         "minY": 249.5,
@@ -235,7 +226,7 @@
       }
     },
     {
-      "id": "svgtext-37",
+      "id": "svgtext-36",
       "bbox": {
         "minX": 245.0,
         "minY": 259.5,
@@ -244,7 +235,7 @@
       }
     },
     {
-      "id": "svgtext-38",
+      "id": "svgtext-37",
       "bbox": {
         "minX": 245.0,
         "minY": 269.5,
@@ -253,7 +244,7 @@
       }
     },
     {
-      "id": "svgtext-39",
+      "id": "svgtext-38",
       "bbox": {
         "minX": 618.0,
         "minY": 234.5,
@@ -262,16 +253,7 @@
       }
     },
     {
-      "id": "svgtext-41",
-      "bbox": {
-        "minX": 620.0,
-        "minY": 229.5,
-        "maxX": 622.508,
-        "maxY": 234.5
-      }
-    },
-    {
-      "id": "svgtext-42",
+      "id": "svgtext-40",
       "bbox": {
         "minX": 619.5,
         "minY": 209.5,
@@ -280,25 +262,25 @@
       }
     },
     {
-      "id": "svgtext-43",
+      "id": "svgtext-41",
       "bbox": {
-        "minX": 643.492,
+        "minX": 641.625,
         "minY": 229.5,
-        "maxX": 646.0,
+        "maxX": 644.133,
         "maxY": 234.5
       }
     },
     {
-      "id": "svgtext-44",
+      "id": "svgtext-42",
       "bbox": {
-        "minX": 643.492,
+        "minX": 641.625,
         "minY": 209.5,
-        "maxX": 646.0,
+        "maxX": 644.133,
         "maxY": 214.5
       }
     },
     {
-      "id": "svgtext-45",
+      "id": "svgtext-43",
       "bbox": {
         "minX": 683.0,
         "minY": 239.5,
@@ -307,7 +289,7 @@
       }
     },
     {
-      "id": "svgtext-47",
+      "id": "svgtext-45",
       "bbox": {
         "minX": 685.0,
         "minY": 229.5,
@@ -316,16 +298,16 @@
       }
     },
     {
-      "id": "svgtext-48",
+      "id": "svgtext-46",
       "bbox": {
-        "minX": 697.992,
+        "minX": 696.125,
         "minY": 229.5,
-        "maxX": 701.0,
+        "maxX": 699.133,
         "maxY": 234.5
       }
     },
     {
-      "id": "svgtext-49",
+      "id": "svgtext-47",
       "bbox": {
         "minX": 668.0,
         "minY": 189.5,
@@ -334,7 +316,7 @@
       }
     },
     {
-      "id": "svgtext-51",
+      "id": "svgtext-49",
       "bbox": {
         "minX": 670.0,
         "minY": 179.5,
@@ -343,16 +325,16 @@
       }
     },
     {
-      "id": "svgtext-52",
+      "id": "svgtext-50",
       "bbox": {
-        "minX": 682.992,
+        "minX": 681.125,
         "minY": 179.5,
-        "maxX": 686.0,
+        "maxX": 684.133,
         "maxY": 184.5
       }
     },
     {
-      "id": "svgtext-53",
+      "id": "svgtext-51",
       "bbox": {
         "minX": 678.0,
         "minY": 289.5,
@@ -361,7 +343,7 @@
       }
     },
     {
-      "id": "svgtext-55",
+      "id": "svgtext-53",
       "bbox": {
         "minX": 680.0,
         "minY": 279.5,
@@ -370,16 +352,16 @@
       }
     },
     {
-      "id": "svgtext-56",
+      "id": "svgtext-54",
       "bbox": {
-        "minX": 692.992,
+        "minX": 691.125,
         "minY": 279.5,
-        "maxX": 696.0,
+        "maxX": 694.133,
         "maxY": 284.5
       }
     },
     {
-      "id": "svgtext-57",
+      "id": "svgtext-55",
       "bbox": {
         "minX": 163.0,
         "minY": 259.5,
@@ -388,7 +370,7 @@
       }
     },
     {
-      "id": "svgtext-59",
+      "id": "svgtext-57",
       "bbox": {
         "minX": 165.0,
         "minY": 249.5,
@@ -397,16 +379,16 @@
       }
     },
     {
-      "id": "svgtext-60",
+      "id": "svgtext-58",
       "bbox": {
-        "minX": 177.992,
+        "minX": 176.125,
         "minY": 249.5,
-        "maxX": 181.0,
+        "maxX": 179.133,
         "maxY": 254.5
       }
     },
     {
-      "id": "svgtext-61",
+      "id": "svgtext-59",
       "bbox": {
         "minX": 188.0,
         "minY": 309.5,
@@ -415,7 +397,7 @@
       }
     },
     {
-      "id": "svgtext-63",
+      "id": "svgtext-61",
       "bbox": {
         "minX": 190.0,
         "minY": 299.5,
@@ -424,16 +406,16 @@
       }
     },
     {
-      "id": "svgtext-64",
+      "id": "svgtext-62",
       "bbox": {
-        "minX": 202.992,
+        "minX": 201.125,
         "minY": 299.5,
-        "maxX": 206.0,
+        "maxX": 204.133,
         "maxY": 304.5
       }
     },
     {
-      "id": "svgtext-65",
+      "id": "svgtext-63",
       "bbox": {
         "minX": 203.0,
         "minY": 359.5,
@@ -442,7 +424,7 @@
       }
     },
     {
-      "id": "svgtext-67",
+      "id": "svgtext-65",
       "bbox": {
         "minX": 205.0,
         "minY": 349.5,
@@ -451,16 +433,16 @@
       }
     },
     {
-      "id": "svgtext-68",
+      "id": "svgtext-66",
       "bbox": {
-        "minX": 217.992,
+        "minX": 216.125,
         "minY": 349.5,
-        "maxX": 221.0,
+        "maxX": 219.133,
         "maxY": 354.5
       }
     },
     {
-      "id": "svgtext-69",
+      "id": "svgtext-67",
       "bbox": {
         "minX": 128.0,
         "minY": 229.5,
@@ -469,7 +451,7 @@
       }
     },
     {
-      "id": "svgtext-71",
+      "id": "svgtext-69",
       "bbox": {
         "minX": 130.0,
         "minY": 219.5,
@@ -478,16 +460,16 @@
       }
     },
     {
-      "id": "svgtext-72",
+      "id": "svgtext-70",
       "bbox": {
-        "minX": 142.992,
+        "minX": 141.125,
         "minY": 219.5,
-        "maxX": 146.0,
+        "maxX": 144.133,
         "maxY": 224.5
       }
     },
     {
-      "id": "svgtext-73",
+      "id": "svgtext-71",
       "bbox": {
         "minX": 628.0,
         "minY": 284.5,
@@ -496,25 +478,16 @@
       }
     },
     {
-      "id": "svgtext-75",
+      "id": "svgtext-73",
       "bbox": {
-        "minX": 632.492,
+        "minX": 631.125,
         "minY": 274.5,
-        "maxX": 636.492,
+        "maxX": 635.125,
         "maxY": 279.5
       }
     },
     {
-      "id": "svgtext-76",
-      "bbox": {
-        "minX": 630.0,
-        "minY": 274.5,
-        "maxX": 633.5,
-        "maxY": 279.5
-      }
-    },
-    {
-      "id": "svgtext-77",
+      "id": "svgtext-74",
       "bbox": {
         "minX": 583.0,
         "minY": 319.5,
@@ -523,7 +496,7 @@
       }
     },
     {
-      "id": "svgtext-79",
+      "id": "svgtext-76",
       "bbox": {
         "minX": 585.0,
         "minY": 309.5,
@@ -532,16 +505,16 @@
       }
     },
     {
-      "id": "svgtext-80",
+      "id": "svgtext-77",
       "bbox": {
-        "minX": 597.992,
+        "minX": 596.125,
         "minY": 309.5,
-        "maxX": 601.0,
+        "maxX": 599.133,
         "maxY": 314.5
       }
     },
     {
-      "id": "svgtext-81",
+      "id": "svgtext-78",
       "bbox": {
         "minX": 638.0,
         "minY": 334.5,
@@ -550,7 +523,7 @@
       }
     },
     {
-      "id": "svgtext-83",
+      "id": "svgtext-80",
       "bbox": {
         "minX": 640.0,
         "minY": 324.5,
@@ -559,16 +532,16 @@
       }
     },
     {
-      "id": "svgtext-84",
+      "id": "svgtext-81",
       "bbox": {
-        "minX": 652.992,
+        "minX": 651.125,
         "minY": 324.5,
-        "maxX": 656.0,
+        "maxX": 654.133,
         "maxY": 329.5
       }
     },
     {
-      "id": "svgtext-85",
+      "id": "svgtext-82",
       "bbox": {
         "minX": 623.0,
         "minY": 159.5,
@@ -577,7 +550,7 @@
       }
     },
     {
-      "id": "svgtext-87",
+      "id": "svgtext-84",
       "bbox": {
         "minX": 625.0,
         "minY": 149.5,
@@ -586,16 +559,16 @@
       }
     },
     {
-      "id": "svgtext-88",
+      "id": "svgtext-85",
       "bbox": {
-        "minX": 637.992,
+        "minX": 636.125,
         "minY": 149.5,
-        "maxX": 641.0,
+        "maxX": 639.133,
         "maxY": 154.5
       }
     },
     {
-      "id": "svgtext-89",
+      "id": "svgtext-86",
       "bbox": {
         "minX": 743.0,
         "minY": 259.5,
@@ -604,7 +577,7 @@
       }
     },
     {
-      "id": "svgtext-91",
+      "id": "svgtext-88",
       "bbox": {
         "minX": 745.0,
         "minY": 249.5,
@@ -613,16 +586,7 @@
       }
     },
     {
-      "id": "svgtext-92",
-      "bbox": {
-        "minX": 747.992,
-        "minY": 249.5,
-        "maxX": 751.0,
-        "maxY": 254.5
-      }
-    },
-    {
-      "id": "svgtext-93",
+      "id": "svgtext-89",
       "bbox": {
         "minX": 263.0,
         "minY": 344.5,
@@ -631,7 +595,7 @@
       }
     },
     {
-      "id": "svgtext-95",
+      "id": "svgtext-91",
       "bbox": {
         "minX": 265.0,
         "minY": 334.5,
@@ -640,16 +604,16 @@
       }
     },
     {
-      "id": "svgtext-96",
+      "id": "svgtext-92",
       "bbox": {
-        "minX": 287.992,
+        "minX": 286.125,
         "minY": 334.5,
-        "maxX": 291.0,
+        "maxX": 289.133,
         "maxY": 339.5
       }
     },
     {
-      "id": "svgtext-97",
+      "id": "svgtext-93",
       "bbox": {
         "minX": 263.0,
         "minY": 424.5,
@@ -658,7 +622,7 @@
       }
     },
     {
-      "id": "svgtext-99",
+      "id": "svgtext-95",
       "bbox": {
         "minX": 265.0,
         "minY": 389.5,
@@ -667,7 +631,7 @@
       }
     },
     {
-      "id": "svgtext-100",
+      "id": "svgtext-96",
       "bbox": {
         "minX": 264.5,
         "minY": 399.5,
@@ -676,7 +640,7 @@
       }
     },
     {
-      "id": "svgtext-101",
+      "id": "svgtext-97",
       "bbox": {
         "minX": 265.0,
         "minY": 409.5,
@@ -685,7 +649,7 @@
       }
     },
     {
-      "id": "svgtext-102",
+      "id": "svgtext-98",
       "bbox": {
         "minX": 128.0,
         "minY": 294.5,
@@ -694,7 +658,7 @@
       }
     },
     {
-      "id": "svgtext-104",
+      "id": "svgtext-100",
       "bbox": {
         "minX": 130.0,
         "minY": 284.5,
@@ -703,16 +667,16 @@
       }
     },
     {
-      "id": "svgtext-105",
+      "id": "svgtext-101",
       "bbox": {
-        "minX": 142.992,
+        "minX": 141.125,
         "minY": 284.5,
-        "maxX": 146.0,
+        "maxX": 144.133,
         "maxY": 289.5
       }
     },
     {
-      "id": "svgtext-106",
+      "id": "svgtext-102",
       "bbox": {
         "minX": 83.0,
         "minY": 294.5,
@@ -721,25 +685,16 @@
       }
     },
     {
-      "id": "svgtext-108",
+      "id": "svgtext-104",
       "bbox": {
-        "minX": 87.492,
+        "minX": 86.125,
         "minY": 284.5,
-        "maxX": 91.492,
+        "maxX": 90.125,
         "maxY": 289.5
       }
     },
     {
-      "id": "svgtext-109",
-      "bbox": {
-        "minX": 85.0,
-        "minY": 284.5,
-        "maxX": 88.5,
-        "maxY": 289.5
-      }
-    },
-    {
-      "id": "svgtext-110",
+      "id": "svgtext-105",
       "bbox": {
         "minX": 678.0,
         "minY": 139.5,
@@ -748,20 +703,11 @@
       }
     },
     {
-      "id": "svgtext-112",
+      "id": "svgtext-107",
       "bbox": {
         "minX": 680.0,
         "minY": 129.5,
         "maxX": 682.508,
-        "maxY": 134.5
-      }
-    },
-    {
-      "id": "svgtext-113",
-      "bbox": {
-        "minX": 682.992,
-        "minY": 129.5,
-        "maxX": 686.0,
         "maxY": 134.5
       }
     }

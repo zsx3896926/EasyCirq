@@ -1,0 +1,413 @@
+{
+  "result": {
+    "count": 37,
+    "items": [
+      {
+        "id": "svgtext-5",
+        "text": "U4",
+        "bbox": {
+          "minX": 358.0,
+          "minY": 269.5,
+          "maxX": 367.055,
+          "maxY": 277.5
+        }
+      },
+      {
+        "id": "svgtext-7",
+        "text": "EN",
+        "bbox": {
+          "minX": 411.05,
+          "minY": 244.5,
+          "maxX": 417.552,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-8",
+        "text": "FB",
+        "bbox": {
+          "minX": 411.05,
+          "minY": 224.5,
+          "maxX": 416.808,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-9",
+        "text": "IN",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 224.5,
+          "maxX": 364.75,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-10",
+        "text": "LX",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 194.5,
+          "maxX": 366.003,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-11",
+        "text": "LX#2",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 204.5,
+          "maxX": 370.516,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-12",
+        "text": "OUT",
+        "bbox": {
+          "minX": 408.575,
+          "minY": 204.5,
+          "maxX": 418.325,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-13",
+        "text": "OUT#2",
+        "bbox": {
+          "minX": 403.625,
+          "minY": 194.5,
+          "maxX": 418.133,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-14",
+        "text": "PGND",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 254.5,
+          "maxX": 373.251,
+          "maxY": 259.5
+        }
+      },
+      {
+        "id": "svgtext-15",
+        "text": "SGND",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 244.5,
+          "maxX": 373.251,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-16",
+        "text": "C16",
+        "bbox": {
+          "minX": 453.0,
+          "minY": 254.5,
+          "maxX": 465.948,
+          "maxY": 262.5
+        }
+      },
+      {
+        "id": "svgtext-18",
+        "text": "1",
+        "bbox": {
+          "minX": 455.0,
+          "minY": 244.5,
+          "maxX": 457.508,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-19",
+        "text": "2",
+        "bbox": {
+          "minX": 468.025,
+          "minY": 244.5,
+          "maxX": 471.033,
+          "maxY": 249.5
+        }
+      },
+      {
+        "id": "svgtext-20",
+        "text": "C17",
+        "bbox": {
+          "minX": 448.0,
+          "minY": 304.5,
+          "maxX": 460.948,
+          "maxY": 312.5
+        }
+      },
+      {
+        "id": "svgtext-22",
+        "text": "1",
+        "bbox": {
+          "minX": 450.0,
+          "minY": 294.5,
+          "maxX": 452.508,
+          "maxY": 299.5
+        }
+      },
+      {
+        "id": "svgtext-23",
+        "text": "2",
+        "bbox": {
+          "minX": 463.025,
+          "minY": 294.5,
+          "maxX": 466.033,
+          "maxY": 299.5
+        }
+      },
+      {
+        "id": "svgtext-24",
+        "text": "C18",
+        "bbox": {
+          "minX": 443.0,
+          "minY": 354.5,
+          "maxX": 455.948,
+          "maxY": 362.5
+        }
+      },
+      {
+        "id": "svgtext-26",
+        "text": "1",
+        "bbox": {
+          "minX": 445.0,
+          "minY": 344.5,
+          "maxX": 447.508,
+          "maxY": 349.5
+        }
+      },
+      {
+        "id": "svgtext-27",
+        "text": "2",
+        "bbox": {
+          "minX": 458.025,
+          "minY": 344.5,
+          "maxX": 461.033,
+          "maxY": 349.5
+        }
+      },
+      {
+        "id": "svgtext-28",
+        "text": "C19",
+        "bbox": {
+          "minX": 453.0,
+          "minY": 204.5,
+          "maxX": 465.948,
+          "maxY": 212.5
+        }
+      },
+      {
+        "id": "svgtext-30",
+        "text": "1",
+        "bbox": {
+          "minX": 455.0,
+          "minY": 194.5,
+          "maxX": 457.508,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-31",
+        "text": "2",
+        "bbox": {
+          "minX": 468.025,
+          "minY": 194.5,
+          "maxX": 471.033,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-32",
+        "text": "C20",
+        "bbox": {
+          "minX": 448.0,
+          "minY": 154.5,
+          "maxX": 460.948,
+          "maxY": 162.5
+        }
+      },
+      {
+        "id": "svgtext-34",
+        "text": "1",
+        "bbox": {
+          "minX": 450.0,
+          "minY": 144.5,
+          "maxX": 452.508,
+          "maxY": 149.5
+        }
+      },
+      {
+        "id": "svgtext-35",
+        "text": "2",
+        "bbox": {
+          "minX": 463.025,
+          "minY": 144.5,
+          "maxX": 466.033,
+          "maxY": 149.5
+        }
+      },
+      {
+        "id": "svgtext-36",
+        "text": "R12",
+        "bbox": {
+          "minX": 438.0,
+          "minY": 404.5,
+          "maxX": 450.948,
+          "maxY": 412.5
+        }
+      },
+      {
+        "id": "svgtext-38",
+        "text": "1",
+        "bbox": {
+          "minX": 440.0,
+          "minY": 394.5,
+          "maxX": 442.508,
+          "maxY": 399.5
+        }
+      },
+      {
+        "id": "svgtext-39",
+        "text": "2",
+        "bbox": {
+          "minX": 453.025,
+          "minY": 394.5,
+          "maxX": 456.033,
+          "maxY": 399.5
+        }
+      },
+      {
+        "id": "svgtext-40",
+        "text": "L4",
+        "bbox": {
+          "minX": 193.0,
+          "minY": 204.5,
+          "maxX": 200.893,
+          "maxY": 212.5
+        }
+      },
+      {
+        "id": "svgtext-42",
+        "text": "1",
+        "bbox": {
+          "minX": 195.0,
+          "minY": 194.5,
+          "maxX": 197.508,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-43",
+        "text": "2",
+        "bbox": {
+          "minX": 218.025,
+          "minY": 194.5,
+          "maxX": 221.033,
+          "maxY": 199.5
+        }
+      },
+      {
+        "id": "svgtext-44",
+        "text": "R10",
+        "bbox": {
+          "minX": 558.0,
+          "minY": 234.5,
+          "maxX": 570.948,
+          "maxY": 242.5
+        }
+      },
+      {
+        "id": "svgtext-46",
+        "text": "1",
+        "bbox": {
+          "minX": 560.0,
+          "minY": 224.5,
+          "maxX": 562.508,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-47",
+        "text": "2",
+        "bbox": {
+          "minX": 573.025,
+          "minY": 224.5,
+          "maxX": 576.033,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-48",
+        "text": "R11",
+        "bbox": {
+          "minX": 628.0,
+          "minY": 234.5,
+          "maxX": 640.328,
+          "maxY": 242.5
+        }
+      },
+      {
+        "id": "svgtext-50",
+        "text": "1",
+        "bbox": {
+          "minX": 630.0,
+          "minY": 224.5,
+          "maxX": 632.508,
+          "maxY": 229.5
+        }
+      },
+      {
+        "id": "svgtext-51",
+        "text": "2",
+        "bbox": {
+          "minX": 643.025,
+          "minY": 224.5,
+          "maxX": 646.033,
+          "maxY": 229.5
+        }
+      }
+    ],
+    "unmeasured": [
+      {
+        "id": "svgtext-0",
+        "text": "5V → 升压轨（SY7088） · 布局预览"
+      },
+      {
+        "id": "svgtext-1",
+        "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+      },
+      {
+        "id": "svgtext-2",
+        "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+      },
+      {
+        "id": "svgtext-3",
+        "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+      },
+      {
+        "id": "svgtext-4",
+        "text": "5V → 升压轨（SY7088）"
+      }
+    ],
+    "coverage": {
+      "free_text": true,
+      "net_labels": true,
+      "designators": true,
+      "values": false,
+      "pin_names": false,
+      "wire_names": false,
+      "title_block": false
+    }
+  },
+  "gap": 2.0,
+  "source": {
+    "texts": "reports\\hard-board\\board2\\atexts-M4.json",
+    "visible": "reports\\hard-board\\board2\\avis-M4.json"
+  }
+}

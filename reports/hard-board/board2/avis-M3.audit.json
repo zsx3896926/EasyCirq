@@ -1,0 +1,283 @@
+{
+  "result": {
+    "count": 24,
+    "items": [
+      {
+        "id": "svgtext-5",
+        "text": "U3",
+        "bbox": {
+          "minX": 248.0,
+          "minY": 179.5,
+          "maxX": 257.055,
+          "maxY": 187.5
+        }
+      },
+      {
+        "id": "svgtext-7",
+        "text": "EN",
+        "bbox": {
+          "minX": 250.0,
+          "minY": 144.5,
+          "maxX": 256.501,
+          "maxY": 149.5
+        }
+      },
+      {
+        "id": "svgtext-8",
+        "text": "FB",
+        "bbox": {
+          "minX": 291.05,
+          "minY": 144.5,
+          "maxX": 296.808,
+          "maxY": 149.5
+        }
+      },
+      {
+        "id": "svgtext-9",
+        "text": "GND",
+        "bbox": {
+          "minX": 250.0,
+          "minY": 154.5,
+          "maxX": 260.25,
+          "maxY": 159.5
+        }
+      },
+      {
+        "id": "svgtext-10",
+        "text": "IN",
+        "bbox": {
+          "minX": 291.05,
+          "minY": 164.5,
+          "maxX": 295.8,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-11",
+        "text": "LX",
+        "bbox": {
+          "minX": 250.0,
+          "minY": 164.5,
+          "maxX": 256.003,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-12",
+        "text": "C13",
+        "bbox": {
+          "minX": 333.0,
+          "minY": 174.5,
+          "maxX": 345.948,
+          "maxY": 182.5
+        }
+      },
+      {
+        "id": "svgtext-14",
+        "text": "1",
+        "bbox": {
+          "minX": 335.0,
+          "minY": 164.5,
+          "maxX": 337.508,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-15",
+        "text": "2",
+        "bbox": {
+          "minX": 348.025,
+          "minY": 164.5,
+          "maxX": 351.033,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-16",
+        "text": "L3",
+        "bbox": {
+          "minX": 163.0,
+          "minY": 174.5,
+          "maxX": 170.893,
+          "maxY": 182.5
+        }
+      },
+      {
+        "id": "svgtext-18",
+        "text": "1",
+        "bbox": {
+          "minX": 165.0,
+          "minY": 164.5,
+          "maxX": 167.508,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-19",
+        "text": "2",
+        "bbox": {
+          "minX": 188.025,
+          "minY": 164.5,
+          "maxX": 191.033,
+          "maxY": 169.5
+        }
+      },
+      {
+        "id": "svgtext-20",
+        "text": "C14",
+        "bbox": {
+          "minX": 213.0,
+          "minY": 214.5,
+          "maxX": 225.948,
+          "maxY": 222.5
+        }
+      },
+      {
+        "id": "svgtext-22",
+        "text": "1",
+        "bbox": {
+          "minX": 215.0,
+          "minY": 204.5,
+          "maxX": 217.508,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-23",
+        "text": "2",
+        "bbox": {
+          "minX": 228.025,
+          "minY": 204.5,
+          "maxX": 231.033,
+          "maxY": 209.5
+        }
+      },
+      {
+        "id": "svgtext-24",
+        "text": "C15",
+        "bbox": {
+          "minX": 208.0,
+          "minY": 264.5,
+          "maxX": 220.948,
+          "maxY": 272.5
+        }
+      },
+      {
+        "id": "svgtext-26",
+        "text": "1",
+        "bbox": {
+          "minX": 210.0,
+          "minY": 254.5,
+          "maxX": 212.508,
+          "maxY": 259.5
+        }
+      },
+      {
+        "id": "svgtext-27",
+        "text": "2",
+        "bbox": {
+          "minX": 223.025,
+          "minY": 254.5,
+          "maxX": 226.033,
+          "maxY": 259.5
+        }
+      },
+      {
+        "id": "svgtext-28",
+        "text": "R8",
+        "bbox": {
+          "minX": 358.0,
+          "minY": 124.5,
+          "maxX": 367.055,
+          "maxY": 132.5
+        }
+      },
+      {
+        "id": "svgtext-30",
+        "text": "1",
+        "bbox": {
+          "minX": 360.0,
+          "minY": 114.5,
+          "maxX": 362.508,
+          "maxY": 119.5
+        }
+      },
+      {
+        "id": "svgtext-31",
+        "text": "2",
+        "bbox": {
+          "minX": 373.025,
+          "minY": 114.5,
+          "maxX": 376.033,
+          "maxY": 119.5
+        }
+      },
+      {
+        "id": "svgtext-32",
+        "text": "R9",
+        "bbox": {
+          "minX": 398.0,
+          "minY": 159.5,
+          "maxX": 407.055,
+          "maxY": 167.5
+        }
+      },
+      {
+        "id": "svgtext-34",
+        "text": "1",
+        "bbox": {
+          "minX": 400.0,
+          "minY": 149.5,
+          "maxX": 402.508,
+          "maxY": 154.5
+        }
+      },
+      {
+        "id": "svgtext-35",
+        "text": "2",
+        "bbox": {
+          "minX": 413.025,
+          "minY": 149.5,
+          "maxX": 416.033,
+          "maxY": 154.5
+        }
+      }
+    ],
+    "unmeasured": [
+      {
+        "id": "svgtext-0",
+        "text": "5V → 3.3V 主逻辑轨（SY8089） · 布局预览"
+      },
+      {
+        "id": "svgtext-1",
+        "text": "离线转译 / 简化符号 / 非仿真、非官方导图"
+      },
+      {
+        "id": "svgtext-2",
+        "text": "只转译输入几何；离线预览不等于现场 Apply 验收。"
+      },
+      {
+        "id": "svgtext-3",
+        "text": "原比例 / 页边净距 ≥ 10 raw (2.54 mm) / 区间净距 ≥ 10 raw / 绿色虚线：排版边界"
+      },
+      {
+        "id": "svgtext-4",
+        "text": "5V → 3.3V 主逻辑轨（SY8089）"
+      }
+    ],
+    "coverage": {
+      "free_text": true,
+      "net_labels": true,
+      "designators": true,
+      "values": false,
+      "pin_names": false,
+      "wire_names": false,
+      "title_block": false
+    }
+  },
+  "gap": 2.0,
+  "source": {
+    "texts": "reports\\hard-board\\board2\\atexts-M3.json",
+    "visible": "reports\\hard-board\\board2\\avis-M3.json"
+  }
+}

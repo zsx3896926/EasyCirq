@@ -1954,20 +1954,20 @@
         {
           "primitiveId": "svgtext-7",
           "Content": "EN",
-          "X": 416.0,
+          "X": 408.25,
           "Y": 245.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-8",
           "Content": "FB",
-          "X": 416.0,
+          "X": 408.25,
           "Y": 225.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-9",
@@ -1999,20 +1999,20 @@
         {
           "primitiveId": "svgtext-12",
           "Content": "OUT",
-          "X": 416.0,
+          "X": 404.875,
           "Y": 205.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-13",
           "Content": "OUT#2",
-          "X": 416.0,
+          "X": 398.125,
           "Y": 195.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-14",
@@ -2053,11 +2053,11 @@
         {
           "primitiveId": "svgtext-19",
           "Content": "2",
-          "X": 471.0,
+          "X": 466.625,
           "Y": 245.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-20",
@@ -2080,11 +2080,11 @@
         {
           "primitiveId": "svgtext-23",
           "Content": "2",
-          "X": 466.0,
+          "X": 461.625,
           "Y": 295.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-24",
@@ -2107,11 +2107,11 @@
         {
           "primitiveId": "svgtext-27",
           "Content": "2",
-          "X": 461.0,
+          "X": 456.625,
           "Y": 345.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-28",
@@ -2134,11 +2134,11 @@
         {
           "primitiveId": "svgtext-31",
           "Content": "2",
-          "X": 471.0,
+          "X": 466.625,
           "Y": 195.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-32",
@@ -2161,11 +2161,11 @@
         {
           "primitiveId": "svgtext-35",
           "Content": "2",
-          "X": 466.0,
+          "X": 461.625,
           "Y": 145.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-36",
@@ -2188,11 +2188,11 @@
         {
           "primitiveId": "svgtext-39",
           "Content": "2",
-          "X": 456.0,
+          "X": 451.625,
           "Y": 395.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-40",
@@ -2215,11 +2215,11 @@
         {
           "primitiveId": "svgtext-43",
           "Content": "2",
-          "X": 221.0,
+          "X": 216.625,
           "Y": 195.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-44",
@@ -2242,11 +2242,11 @@
         {
           "primitiveId": "svgtext-47",
           "Content": "2",
-          "X": 576.0,
+          "X": 571.625,
           "Y": 225.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-48",
@@ -2269,11 +2269,11 @@
         {
           "primitiveId": "svgtext-51",
           "Content": "2",
-          "X": 646.0,
+          "X": 641.625,
           "Y": 225.5,
           "FontSize": 4.5,
           "Rotation": 0,
-          "AlignMode": 2
+          "AlignMode": 0
         }
       ],
       "wires": [

@@ -108,9 +108,9 @@
   {
    "id": "svgtext-8",
    "bbox": [
-    416.0,
+    414.875,
     244.5,
-    426.25,
+    425.125,
     249.5
    ],
    "kind": "free_text",
@@ -120,9 +120,9 @@
   {
    "id": "svgtext-9",
    "bbox": [
-    410.992,
+    408.125,
     224.5,
-    426.0,
+    423.133,
     229.5
    ],
    "kind": "free_text",
@@ -132,9 +132,9 @@
   {
    "id": "svgtext-10",
    "bbox": [
-    410.992,
+    408.125,
     204.5,
-    426.0,
+    423.133,
     209.5
    ],
    "kind": "free_text",
@@ -144,9 +144,9 @@
   {
    "id": "svgtext-11",
    "bbox": [
-    410.992,
+    408.125,
     184.5,
-    426.0,
+    423.133,
     189.5
    ],
    "kind": "free_text",
@@ -204,9 +204,9 @@
   {
    "id": "svgtext-17",
    "bbox": [
-    311.746,
+    310.812,
     234.5,
-    314.254,
+    313.32,
     239.5
    ],
    "kind": "free_text",
@@ -215,18 +215,6 @@
   },
   {
    "id": "svgtext-18",
-   "bbox": [
-    311.246,
-    244.5,
-    314.254,
-    249.5
-   ],
-   "kind": "free_text",
-   "content": "2",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-19",
    "bbox": [
     193.0,
     214.5,
@@ -238,11 +226,11 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-21",
+   "id": "svgtext-20",
    "bbox": [
-    197.492,
+    196.125,
     204.5,
-    201.492,
+    200.125,
     209.5
    ],
    "kind": "free_text",
@@ -250,19 +238,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-22",
-   "bbox": [
-    195.0,
-    204.5,
-    198.5,
-    209.5
-   ],
-   "kind": "free_text",
-   "content": "K",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-23",
+   "id": "svgtext-21",
    "bbox": [
     193.0,
     164.5,
@@ -274,11 +250,11 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-25",
+   "id": "svgtext-23",
    "bbox": [
-    197.492,
+    196.125,
     154.5,
-    201.492,
+    200.125,
     159.5
    ],
    "kind": "free_text",
@@ -286,19 +262,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-26",
-   "bbox": [
-    195.0,
-    154.5,
-    198.5,
-    159.5
-   ],
-   "kind": "free_text",
-   "content": "K",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-27",
+   "id": "svgtext-24",
    "bbox": [
     238.0,
     179.5,
@@ -310,7 +274,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-29",
+   "id": "svgtext-26",
    "bbox": [
     240.0,
     154.5,
@@ -322,7 +286,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-30",
+   "id": "svgtext-27",
    "bbox": [
     239.5,
     164.5,
@@ -334,7 +298,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-31",
+   "id": "svgtext-28",
    "bbox": [
     183.0,
     264.5,
@@ -346,7 +310,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-33",
+   "id": "svgtext-30",
    "bbox": [
     185.0,
     254.5,
@@ -358,11 +322,11 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-34",
+   "id": "svgtext-31",
    "bbox": [
-    207.992,
+    206.125,
     254.5,
-    211.0,
+    209.133,
     259.5
    ],
    "kind": "free_text",
@@ -370,7 +334,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-35",
+   "id": "svgtext-32",
    "bbox": [
     138.0,
     209.5,
@@ -382,11 +346,11 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-37",
+   "id": "svgtext-34",
    "bbox": [
-    146.746,
+    145.812,
     194.5,
-    149.254,
+    148.32,
     199.5
    ],
    "kind": "free_text",
@@ -394,19 +358,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-38",
-   "bbox": [
-    146.246,
-    204.5,
-    149.254,
-    209.5
-   ],
-   "kind": "free_text",
-   "content": "2",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-39",
+   "id": "svgtext-35",
    "bbox": [
     188.0,
     114.5,
@@ -418,7 +370,7 @@
    "measurement": "bbox"
   },
   {
-   "id": "svgtext-41",
+   "id": "svgtext-37",
    "bbox": [
     190.0,
     104.5,
@@ -427,18 +379,6 @@
    ],
    "kind": "free_text",
    "content": "1",
-   "measurement": "bbox"
-  },
-  {
-   "id": "svgtext-42",
-   "bbox": [
-    192.992,
-    104.5,
-    196.0,
-    109.5
-   ],
-   "kind": "free_text",
-   "content": "2",
    "measurement": "bbox"
   }
  ],
@@ -1291,24 +1231,19 @@
     "svgtext-15",
     "svgtext-17",
     "svgtext-18",
-    "svgtext-19",
+    "svgtext-20",
     "svgtext-21",
-    "svgtext-22",
     "svgtext-23",
-    "svgtext-25",
+    "svgtext-24",
     "svgtext-26",
     "svgtext-27",
-    "svgtext-29",
+    "svgtext-28",
     "svgtext-30",
     "svgtext-31",
-    "svgtext-33",
+    "svgtext-32",
     "svgtext-34",
     "svgtext-35",
-    "svgtext-37",
-    "svgtext-38",
-    "svgtext-39",
-    "svgtext-41",
-    "svgtext-42"
+    "svgtext-37"
    ]
   }
  ],
@@ -1326,9 +1261,9 @@
   },
   "texts": {
    "status": "complete",
-   "observed": 30,
+   "observed": 25,
    "estimated": 0,
-   "rendered": 45
+   "rendered": 40
   },
   "wires": {
    "status": "complete",
@@ -1352,14 +1287,14 @@
   },
   "rendered_texts": {
    "status": "complete",
-   "observed": 45,
+   "observed": 40,
    "unique_ids": 0
   }
  },
- "snapshot_sha256": "82d0d61027df92fcb92c6535d048e3a5f9a06947ca519b35deb22346232569c9",
+ "snapshot_sha256": "9188f7a2d0cc9c633144344f3797e8dda37128c569df919ed6d73294939f092c",
  "expected_counts": {
   "components": 8,
-  "texts": 30,
+  "texts": 25,
   "wires": 36
  }
 }

@@ -20,11 +20,11 @@
   {
     "primitiveId": "svgtext-8",
     "Content": "FB",
-    "X": 296.0,
+    "X": 288.25,
     "Y": 145.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-9",
@@ -38,11 +38,11 @@
   {
     "primitiveId": "svgtext-10",
     "Content": "IN",
-    "X": 296.0,
+    "X": 288.25,
     "Y": 165.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-11",
@@ -74,11 +74,11 @@
   {
     "primitiveId": "svgtext-15",
     "Content": "2",
-    "X": 351.0,
+    "X": 346.625,
     "Y": 165.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-16",
@@ -101,11 +101,11 @@
   {
     "primitiveId": "svgtext-19",
     "Content": "2",
-    "X": 191.0,
+    "X": 186.625,
     "Y": 165.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-20",
@@ -128,11 +128,11 @@
   {
     "primitiveId": "svgtext-23",
     "Content": "2",
-    "X": 231.0,
+    "X": 226.625,
     "Y": 205.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-24",
@@ -155,11 +155,11 @@
   {
     "primitiveId": "svgtext-27",
     "Content": "2",
-    "X": 226.0,
+    "X": 221.625,
     "Y": 255.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-28",
@@ -182,11 +182,11 @@
   {
     "primitiveId": "svgtext-31",
     "Content": "2",
-    "X": 376.0,
+    "X": 371.625,
     "Y": 115.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   },
   {
     "primitiveId": "svgtext-32",
@@ -209,10 +209,10 @@
   {
     "primitiveId": "svgtext-35",
     "Content": "2",
-    "X": 416.0,
+    "X": 411.625,
     "Y": 150.5,
     "FontSize": 4.5,
     "Rotation": 0,
-    "AlignMode": 2
+    "AlignMode": 0
   }
 ]

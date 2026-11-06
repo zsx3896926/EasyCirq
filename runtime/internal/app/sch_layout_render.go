@@ -239,6 +239,21 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="white" stroke="#34445b" stroke-width="0.8"/>`, X(r.MinX), Y(r.MaxY), r.MaxX-r.MinX, r.MaxY-r.MinY)
 			text(X(r.MinX), Y(r.MaxY)-4, 7, "#24344a", c.Designator, "start")
 			text(X(r.MinX), Y(r.MinY)+9, 5, "#546579", c.Value, "start")
+			// 引脚标签去重：字号 4.5、间距常常只有 5 raw，无条件画必然互压
+			// （`sch_text_audit --strict` 在 M1/M2 报出 6/5 项 text_overlap）。
+			// 这里按估算框记录已画的标签，重叠就跳过 —— 宁缺勿叠。
+			// 位号与值先占位（实测 'C11' 位号压住过引脚标签 '2'）
+			var drawnLabels [][4]float64
+			desigW := 0.75 * 7.0 * float64(len([]rune(c.Designator)))
+			dx0, dy0 := X(r.MinX), Y(r.MaxY)-4
+			drawnLabels = append(drawnLabels,
+				[4]float64{dx0 - 0.5, dy0 - 7.5, dx0 + desigW + 0.5, dy0 + 2.0})
+			if c.Value != "" {
+				valW := 0.75 * 5.0 * float64(len([]rune(c.Value)))
+				vx0, vy0 := X(r.MinX), Y(r.MinY)+9
+				drawnLabels = append(drawnLabels,
+					[4]float64{vx0 - 0.5, vy0 - 5.5, vx0 + valW + 0.5, vy0 + 2.0})
+			}
 			for _, q := range c.Pins {
 				ex, ey := math.Max(r.MinX, math.Min(r.MaxX, q.X)), math.Max(r.MinY, math.Min(r.MaxY, q.Y))
 				line([2]float64{ex, ey}, [2]float64{q.X, q.Y}, "#34445b")
@@ -254,7 +269,32 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 					anchor = "end"
 					dx = -2
 				}
-				text(X(ex)+dx, Y(ey)+1.5, 4.5, "#34445b", label, anchor)
+				if label != "" {
+					fs := 4.5
+					// 宽度系数 0.75 + 0.5 raw 余量：早先 0.55 估得太窄，
+					// 相距 4 raw 的 'A'/'K' 被判成不冲突，实际重叠。
+					wApprox := 0.75*fs*float64(len([]rune(label))) + 1.0
+					bx0, by0 := X(ex)+dx, Y(ey)+1.5
+					if anchor == "end" {
+						bx0 -= wApprox
+					} else if anchor == "middle" {
+						bx0 -= wApprox / 2
+					}
+					box := [4]float64{bx0, by0 - fs, bx0 + wApprox, by0 + fs*0.2}
+					clash := false
+					for _, other := range drawnLabels {
+						// 用 <= ：相接也算冲突，宁可少画一个标签
+						if box[0] <= other[2] && other[0] <= box[2] &&
+							box[1] <= other[3] && other[1] <= box[3] {
+							clash = true
+							break
+						}
+					}
+					if !clash {
+						drawnLabels = append(drawnLabels, box)
+						text(bx0, by0, fs, "#34445b", label, "start")
+					}
+				}
 				fmt.Fprintf(&b, `<circle cx="%g" cy="%g" r="1.1" fill="#34445b"><title>%s</title></circle>`, X(q.X), Y(q.Y), html.EscapeString(c.Designator+"."+q.Number+" "+q.Net))
 				id := z.Layout.ComponentIDs[c.Designator]
 				if q.Net == "" && z.Layout.PinStates[id][q.Number] == "nc" {
