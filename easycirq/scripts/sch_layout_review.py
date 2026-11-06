@@ -911,7 +911,10 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         ("页", "%d / %d" % (int(doc.get("pageIndex") or 1),
                            int(doc.get("pageCount") or 1))),
         ("日期", str(doc.get("date") or "")),
+        # **尺寸**：参考样图与 SVG 图签都有，PNG 原来缺
+        ("尺寸", str(doc.get("pageSize") or "A4")),
         ("绘制", str(doc.get("author") or "")),
+        ("审核", str(doc.get("reviewer") or "")),
     ]
     rh = tb_h / len(rows)
     key_w = 54
