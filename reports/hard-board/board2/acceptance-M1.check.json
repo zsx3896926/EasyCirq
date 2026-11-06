@@ -6,7 +6,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-5"
+        "svgtext-11"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -18,7 +18,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-7"
+        "svgtext-12"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -30,7 +30,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-8"
+        "svgtext-13"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -42,7 +42,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-9"
+        "svgtext-14"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -54,7 +54,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-11"
+        "svgtext-16"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -66,7 +66,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-12"
+        "svgtext-17"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -78,7 +78,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-13"
+        "svgtext-18"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -90,7 +90,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-14"
+        "svgtext-19"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -102,7 +102,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-15"
+        "svgtext-20"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -114,7 +114,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c6",
-        "svgtext-16"
+        "svgtext-21"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -126,7 +126,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c6",
-        "svgtext-18"
+        "svgtext-22"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -138,7 +138,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-19"
+        "svgtext-23"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -150,7 +150,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-21"
+        "svgtext-24"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -162,35 +162,11 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-22"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c8",
-        "svgtext-23"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        7.055,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c8",
         "svgtext-25"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
+        3.008,
         4.5
       ]
     },
@@ -202,6 +178,30 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c8",
+        "svgtext-27"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c8",
+        "svgtext-28"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         3.008,
         4.5
       ]
@@ -210,7 +210,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-27"
+        "svgtext-29"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -222,7 +222,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-29"
+        "svgtext-30"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -234,7 +234,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-30"
+        "svgtext-31"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -246,7 +246,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c3",
-        "svgtext-31"
+        "svgtext-32"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -330,7 +330,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c15",
-        "svgtext-41"
+        "svgtext-40"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -342,7 +342,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-43"
+        "svgtext-42"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -354,7 +354,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-45"
+        "svgtext-43"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -366,11 +366,35 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-46"
+        "svgtext-44"
       ],
       "status": "review_candidate",
       "overlap": [
         3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c23",
+        "svgtext-45"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c23",
+        "svgtext-46"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
         4.5
       ]
     },
@@ -382,6 +406,18 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c24",
+        "svgtext-48"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         7.055,
         0.5
       ]
@@ -389,7 +425,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c23",
+        "c24",
         "svgtext-49"
       ],
       "status": "review_candidate",
@@ -401,7 +437,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c23",
+        "c24",
         "svgtext-50"
       ],
       "status": "review_candidate",
@@ -413,20 +449,20 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
+        "c2",
         "svgtext-51"
       ],
       "status": "review_candidate",
       "overlap": [
-        7.055,
+        6.172,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
-        "svgtext-53"
+        "c2",
+        "svgtext-52"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -437,8 +473,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
-        "svgtext-54"
+        "c2",
+        "svgtext-53"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -449,56 +485,68 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
-        "svgtext-55"
+        "c1",
+        "svgtext-54"
       ],
       "status": "review_candidate",
       "overlap": [
-        7.055,
+        5.398,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
+        "c1",
+        "svgtext-55"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c1",
+        "svgtext-56"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c1",
         "svgtext-57"
       ],
       "status": "review_candidate",
       "overlap": [
         2.508,
-        4.5
+        5.0
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
+        "c4",
         "svgtext-58"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c12",
-        "svgtext-59"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        7.055,
+        6.953,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c12",
-        "svgtext-61"
+        "c4",
+        "svgtext-59"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -509,8 +557,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c12",
-        "svgtext-62"
+        "c4",
+        "svgtext-60"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -521,7 +569,31 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c13",
+        "c5",
+        "svgtext-61"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.953,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c5",
+        "svgtext-62"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c11",
         "svgtext-63"
       ],
       "status": "review_candidate",
@@ -533,11 +605,83 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c13",
+        "c11",
+        "svgtext-64"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c11",
         "svgtext-65"
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-66"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-67"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-68"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c13",
+        "svgtext-69"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c13",
+        "svgtext-70"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         2.508,
         4.5
       ]
@@ -546,7 +690,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c13",
-        "svgtext-66"
+        "svgtext-71"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -558,7 +702,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-67"
+        "svgtext-72"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -570,7 +714,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-69"
+        "svgtext-73"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -582,7 +726,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-70"
+        "svgtext-74"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -594,7 +738,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c16",
-        "svgtext-71"
+        "svgtext-75"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -606,7 +750,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c16",
-        "svgtext-73"
+        "svgtext-76"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -618,7 +762,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-74"
+        "svgtext-77"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -630,7 +774,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-76"
+        "svgtext-78"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -642,7 +786,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-77"
+        "svgtext-79"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -654,7 +798,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-78"
+        "svgtext-80"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -666,7 +810,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-80"
+        "svgtext-81"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -678,7 +822,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-81"
+        "svgtext-82"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -690,7 +834,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c19",
-        "svgtext-82"
+        "svgtext-83"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -725,7 +869,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c21",
+        "c20",
         "svgtext-86"
       ],
       "status": "review_candidate",
@@ -737,164 +881,20 @@
     {
       "code": "bbox_overlap",
       "objects": [
+        "c20",
+        "svgtext-87"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
         "c21",
         "svgtext-88"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-89"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.172,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-91"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-92"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-93"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        5.398,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-95"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-96"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-97"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-98"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.953,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-100"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-101"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c5",
-        "svgtext-102"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.953,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c5",
-        "svgtext-104"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        4.0,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c20",
-        "svgtext-105"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -905,8 +905,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c20",
-        "svgtext-107"
+        "c21",
+        "svgtext-89"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -917,119 +917,15 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-5#0",
-        "svgtext-10"
+        "w-M1-3#0",
+        "svgtext-88"
       ],
       "status": "review_candidate"
     },
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-13#0",
-        "svgtext-100"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-13#0",
-        "svgtext-101"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-50#0",
-        "svgtext-67"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-52#0",
-        "svgtext-59"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-53#0",
-        "svgtext-59"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-62#0",
-        "svgtext-23"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-63#0",
-        "svgtext-19"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-64#0",
-        "svgtext-16"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-76#0",
-        "svgtext-53"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-76#0",
-        "svgtext-54"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-103#0",
-        "svgtext-29"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-103#0",
-        "svgtext-30"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-104#0",
-        "svgtext-25"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-104#0",
+        "w-M1-8#0",
         "svgtext-26"
       ],
       "status": "review_candidate"
@@ -1037,7 +933,15 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-105#0",
+        "w-M1-9#0",
+        "svgtext-23"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-10#0",
         "svgtext-21"
       ],
       "status": "review_candidate"
@@ -1045,24 +949,104 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-105#0",
-        "svgtext-22"
+        "w-M1-39#0",
+        "svgtext-30"
       ],
       "status": "review_candidate"
     },
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-118#0",
-        "svgtext-55"
+        "w-M1-39#0",
+        "svgtext-31"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-40#0",
+        "svgtext-27"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-40#0",
+        "svgtext-28"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-41#0",
+        "svgtext-24"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-41#0",
+        "svgtext-25"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-47#0",
+        "svgtext-63"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-51#0",
+        "svgtext-77"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-72#0",
+        "svgtext-59"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-72#0",
+        "svgtext-60"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-81#0",
+        "svgtext-89"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-100#0",
+        "svgtext-15"
       ],
       "status": "review_candidate"
     },
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-2#0",
-        "w-M1-45#0"
+        "w-M1-61#0",
+        "w-M1-8#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1071,8 +1055,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-2#0",
-        "w-M1-89#0"
+        "w-M1-10#0",
+        "w-M1-116#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1081,8 +1065,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-114#0",
-        "w-M1-4#0"
+        "w-M1-24#0",
+        "w-M1-65#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1091,8 +1075,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-137#0",
-        "w-M1-4#0"
+        "w-M1-126#0",
+        "w-M1-47#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1101,8 +1085,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-6#0",
-        "w-M1-92#0"
+        "w-M1-51#0",
+        "w-M1-94#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1111,107 +1095,7 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-13#0",
-        "w-M1-29#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-133#0",
-        "w-M1-29#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-119#0",
-        "w-M1-34#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-118#0",
-        "w-M1-36#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-38#0",
-        "w-M1-53#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-41#0",
-        "w-M1-80#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-47#0",
-        "w-M1-69#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-47#0",
-        "w-M1-95#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-119#0",
-        "w-M1-50#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-137#0",
-        "w-M1-50#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-53#0",
+        "w-M1-56#0",
         "w-M1-85#0"
       ],
       "status": "review_candidate",
@@ -1221,8 +1105,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-114#0",
-        "w-M1-62#0"
+        "w-M1-127#0",
+        "w-M1-80#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1231,8 +1115,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-137#0",
-        "w-M1-64#0"
+        "w-M1-84#0",
+        "w-M1-98#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1241,8 +1125,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-107#0",
-        "w-M1-76#0"
+        "w-M1-100#0",
+        "w-M1-103#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -1251,8 +1135,8 @@
   ],
   "counts": {
     "components": 24,
-    "texts": 79,
-    "wires": 143
+    "texts": 85,
+    "wires": 147
   },
   "declared_inventory_matches": true,
   "coverage_status": "complete",
@@ -1263,13 +1147,13 @@
     },
     "texts": {
       "status": "complete",
-      "observed": 79,
+      "observed": 85,
       "estimated": 0,
-      "rendered": 101
+      "rendered": 109
     },
     "wires": {
       "status": "complete",
-      "observed": 143,
+      "observed": 147,
       "unparsed": 0
     },
     "attachment_points": {
@@ -1289,16 +1173,20 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 101,
+      "observed": 109,
       "unique_ids": 0
+    },
+    "title_block": {
+      "status": "complete",
+      "source": "sheet-geometry"
     }
   },
   "optional_counts": {
     "module_frames": 1,
     "attachment_points": 61,
     "label_anchors": 0,
-    "net_flags": 17,
-    "title_block_owned": 0
+    "net_flags": 19,
+    "title_block_owned": 6
   },
   "net_flag_census": {
     "GND": {
@@ -1307,77 +1195,84 @@
       ],
       "0": [
         "flag-1",
+        "flag-3",
+        "flag-4"
+      ],
+      "270": [
         "flag-2"
+      ],
+      "90": [
+        "flag-5"
       ]
     },
     "VBAT_RAW": {
       "180": [
-        "flag-3"
+        "flag-6"
       ],
       "270": [
-        "flag-6"
+        "flag-8"
       ]
     },
     "+5V": {
-      "270": [
-        "flag-4",
-        "flag-5"
+      "0": [
+        "flag-7"
       ]
     },
     "U1_N9": {
       "270": [
-        "flag-7"
-      ]
-    },
-    "U1_N13": {
-      "180": [
-        "flag-8"
-      ]
-    },
-    "R2_N7": {
-      "0": [
         "flag-9"
       ]
     },
-    "U1_N12": {
+    "U1_N13": {
       "0": [
         "flag-10"
       ]
     },
-    "U1_N8": {
-      "0": [
+    "R2_N7": {
+      "180": [
         "flag-11"
+      ]
+    },
+    "U1_N12": {
+      "270": [
+        "flag-12"
+      ]
+    },
+    "U1_N8": {
+      "270": [
+        "flag-13"
       ]
     },
     "C4_N10": {
       "180": [
-        "flag-12"
-      ]
-    },
-    "F1_N4": {
-      "0": [
-        "flag-13"
-      ]
-    },
-    "Q1_N5": {
-      "0": [
         "flag-14"
       ]
     },
-    "R7_N14": {
-      "180": [
+    "F1_N4": {
+      "270": [
         "flag-15"
       ]
     },
-    "J1_N1": {
-      "0": [
+    "Q1_N5": {
+      "270": [
         "flag-16"
+      ]
+    },
+    "J1_N1": {
+      "270": [
+        "flag-17"
+      ]
+    },
+    "R7_N14": {
+      "0": [
+        "flag-18"
       ]
     }
   },
   "reading_order": null,
   "text_classes": {
-    "free_text": 79
+    "free_text": 79,
+    "title_block": 6
   },
   "self_text_contact_tolerance": 1.0,
   "label_own_wire_edge_tolerance": 1.0,
@@ -1385,18 +1280,18 @@
   "no_junction_crossings": 0,
   "strict_mode": true,
   "strict_missing": [
-    "title_block",
     "module reading order: frame-M1",
     "module title/purpose bbox: frame-M1",
     "module title/purpose bbox: frame-M1",
     "distinct module title/purpose: frame-M1"
   ],
   "checks_run": [
+    "title_block",
     "module_frames",
-    "net_text_identity"
+    "net_text_identity",
+    "title_block_duplicate"
   ],
   "checks_skipped": [
-    "title_block: title_block not supplied",
     "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check",
     "label_anchors: label_anchors not supplied",
     "zone_reading_order: module_frames[].order not supplied"
@@ -1406,7 +1301,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-5"
+        "svgtext-11"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1418,7 +1313,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-7"
+        "svgtext-12"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1430,7 +1325,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-8"
+        "svgtext-13"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1442,7 +1337,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-9"
+        "svgtext-14"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1454,7 +1349,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-11"
+        "svgtext-16"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1466,7 +1361,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-12"
+        "svgtext-17"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1478,7 +1373,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-13"
+        "svgtext-18"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1490,7 +1385,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-14"
+        "svgtext-19"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1502,7 +1397,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c10",
-        "svgtext-15"
+        "svgtext-20"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1514,7 +1409,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c6",
-        "svgtext-16"
+        "svgtext-21"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1526,7 +1421,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c6",
-        "svgtext-18"
+        "svgtext-22"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1538,7 +1433,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-19"
+        "svgtext-23"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1550,7 +1445,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-21"
+        "svgtext-24"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1562,35 +1457,11 @@
       "code": "bbox_overlap",
       "objects": [
         "c7",
-        "svgtext-22"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c8",
-        "svgtext-23"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        7.055,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c8",
         "svgtext-25"
       ],
       "status": "review_candidate",
       "overlap": [
-        2.508,
+        3.008,
         4.5
       ]
     },
@@ -1602,6 +1473,30 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c8",
+        "svgtext-27"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c8",
+        "svgtext-28"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         3.008,
         4.5
       ]
@@ -1610,7 +1505,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-27"
+        "svgtext-29"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1622,7 +1517,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-29"
+        "svgtext-30"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1634,7 +1529,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c9",
-        "svgtext-30"
+        "svgtext-31"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1646,7 +1541,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c3",
-        "svgtext-31"
+        "svgtext-32"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1730,7 +1625,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c15",
-        "svgtext-41"
+        "svgtext-40"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1742,7 +1637,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-43"
+        "svgtext-42"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1754,7 +1649,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-45"
+        "svgtext-43"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1766,11 +1661,35 @@
       "code": "bbox_overlap",
       "objects": [
         "c22",
-        "svgtext-46"
+        "svgtext-44"
       ],
       "status": "review_candidate",
       "overlap": [
         3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c23",
+        "svgtext-45"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c23",
+        "svgtext-46"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
         4.5
       ]
     },
@@ -1782,6 +1701,18 @@
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c24",
+        "svgtext-48"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         7.055,
         0.5
       ]
@@ -1789,7 +1720,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c23",
+        "c24",
         "svgtext-49"
       ],
       "status": "review_candidate",
@@ -1801,7 +1732,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c23",
+        "c24",
         "svgtext-50"
       ],
       "status": "review_candidate",
@@ -1813,20 +1744,20 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
+        "c2",
         "svgtext-51"
       ],
       "status": "review_candidate",
       "overlap": [
-        7.055,
+        6.172,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
-        "svgtext-53"
+        "c2",
+        "svgtext-52"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1837,8 +1768,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c24",
-        "svgtext-54"
+        "c2",
+        "svgtext-53"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1849,56 +1780,68 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
-        "svgtext-55"
+        "c1",
+        "svgtext-54"
       ],
       "status": "review_candidate",
       "overlap": [
-        7.055,
+        5.398,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
+        "c1",
+        "svgtext-55"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c1",
+        "svgtext-56"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        5.0
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c1",
         "svgtext-57"
       ],
       "status": "review_candidate",
       "overlap": [
         2.508,
-        4.5
+        5.0
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c11",
+        "c4",
         "svgtext-58"
       ],
       "status": "review_candidate",
       "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c12",
-        "svgtext-59"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        7.055,
+        6.953,
         0.5
       ]
     },
     {
       "code": "bbox_overlap",
       "objects": [
-        "c12",
-        "svgtext-61"
+        "c4",
+        "svgtext-59"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1909,8 +1852,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c12",
-        "svgtext-62"
+        "c4",
+        "svgtext-60"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1921,7 +1864,31 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c13",
+        "c5",
+        "svgtext-61"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        6.953,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c5",
+        "svgtext-62"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c11",
         "svgtext-63"
       ],
       "status": "review_candidate",
@@ -1933,11 +1900,83 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c13",
+        "c11",
+        "svgtext-64"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c11",
         "svgtext-65"
       ],
       "status": "review_candidate",
       "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-66"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-67"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c12",
+        "svgtext-68"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        3.008,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c13",
+        "svgtext-69"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        7.055,
+        0.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "c13",
+        "svgtext-70"
+      ],
+      "status": "review_candidate",
+      "overlap": [
         2.508,
         4.5
       ]
@@ -1946,7 +1985,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c13",
-        "svgtext-66"
+        "svgtext-71"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1958,7 +1997,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-67"
+        "svgtext-72"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1970,7 +2009,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-69"
+        "svgtext-73"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1982,7 +2021,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c14",
-        "svgtext-70"
+        "svgtext-74"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -1994,7 +2033,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c16",
-        "svgtext-71"
+        "svgtext-75"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2006,7 +2045,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c16",
-        "svgtext-73"
+        "svgtext-76"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2018,7 +2057,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-74"
+        "svgtext-77"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2030,7 +2069,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-76"
+        "svgtext-78"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2042,7 +2081,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c17",
-        "svgtext-77"
+        "svgtext-79"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2054,7 +2093,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-78"
+        "svgtext-80"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2066,7 +2105,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-80"
+        "svgtext-81"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2078,7 +2117,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c18",
-        "svgtext-81"
+        "svgtext-82"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2090,7 +2129,7 @@
       "code": "bbox_overlap",
       "objects": [
         "c19",
-        "svgtext-82"
+        "svgtext-83"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2125,7 +2164,7 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c21",
+        "c20",
         "svgtext-86"
       ],
       "status": "review_candidate",
@@ -2137,164 +2176,20 @@
     {
       "code": "bbox_overlap",
       "objects": [
+        "c20",
+        "svgtext-87"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        2.508,
+        4.5
+      ]
+    },
+    {
+      "code": "bbox_overlap",
+      "objects": [
         "c21",
         "svgtext-88"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-89"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.172,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-91"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c2",
-        "svgtext-92"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-93"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        5.398,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-95"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-96"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c1",
-        "svgtext-97"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        5.0
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-98"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.953,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-100"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        2.508,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c4",
-        "svgtext-101"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        3.008,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c5",
-        "svgtext-102"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        6.953,
-        0.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c5",
-        "svgtext-104"
-      ],
-      "status": "review_candidate",
-      "overlap": [
-        4.0,
-        4.5
-      ]
-    },
-    {
-      "code": "bbox_overlap",
-      "objects": [
-        "c20",
-        "svgtext-105"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2305,8 +2200,8 @@
     {
       "code": "bbox_overlap",
       "objects": [
-        "c20",
-        "svgtext-107"
+        "c21",
+        "svgtext-89"
       ],
       "status": "review_candidate",
       "overlap": [
@@ -2317,119 +2212,15 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-5#0",
-        "svgtext-10"
+        "w-M1-3#0",
+        "svgtext-88"
       ],
       "status": "review_candidate"
     },
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-13#0",
-        "svgtext-100"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-13#0",
-        "svgtext-101"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-50#0",
-        "svgtext-67"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-52#0",
-        "svgtext-59"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-53#0",
-        "svgtext-59"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-62#0",
-        "svgtext-23"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-63#0",
-        "svgtext-19"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-64#0",
-        "svgtext-16"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-76#0",
-        "svgtext-53"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-76#0",
-        "svgtext-54"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-103#0",
-        "svgtext-29"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-103#0",
-        "svgtext-30"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-104#0",
-        "svgtext-25"
-      ],
-      "status": "review_candidate"
-    },
-    {
-      "code": "wire_enters_bbox",
-      "objects": [
-        "w-M1-104#0",
+        "w-M1-8#0",
         "svgtext-26"
       ],
       "status": "review_candidate"
@@ -2437,7 +2228,15 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-105#0",
+        "w-M1-9#0",
+        "svgtext-23"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-10#0",
         "svgtext-21"
       ],
       "status": "review_candidate"
@@ -2445,24 +2244,104 @@
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-105#0",
-        "svgtext-22"
+        "w-M1-39#0",
+        "svgtext-30"
       ],
       "status": "review_candidate"
     },
     {
       "code": "wire_enters_bbox",
       "objects": [
-        "w-M1-118#0",
-        "svgtext-55"
+        "w-M1-39#0",
+        "svgtext-31"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-40#0",
+        "svgtext-27"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-40#0",
+        "svgtext-28"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-41#0",
+        "svgtext-24"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-41#0",
+        "svgtext-25"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-47#0",
+        "svgtext-63"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-51#0",
+        "svgtext-77"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-72#0",
+        "svgtext-59"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-72#0",
+        "svgtext-60"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-81#0",
+        "svgtext-89"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "w-M1-100#0",
+        "svgtext-15"
       ],
       "status": "review_candidate"
     },
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-2#0",
-        "w-M1-45#0"
+        "w-M1-61#0",
+        "w-M1-8#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2471,8 +2350,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-2#0",
-        "w-M1-89#0"
+        "w-M1-10#0",
+        "w-M1-116#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2481,8 +2360,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-114#0",
-        "w-M1-4#0"
+        "w-M1-24#0",
+        "w-M1-65#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2491,8 +2370,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-137#0",
-        "w-M1-4#0"
+        "w-M1-126#0",
+        "w-M1-47#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2501,8 +2380,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-6#0",
-        "w-M1-92#0"
+        "w-M1-51#0",
+        "w-M1-94#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2511,107 +2390,7 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-13#0",
-        "w-M1-29#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-133#0",
-        "w-M1-29#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-119#0",
-        "w-M1-34#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-118#0",
-        "w-M1-36#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-38#0",
-        "w-M1-53#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-41#0",
-        "w-M1-80#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-47#0",
-        "w-M1-69#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-47#0",
-        "w-M1-95#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-119#0",
-        "w-M1-50#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-137#0",
-        "w-M1-50#0"
-      ],
-      "status": "review_candidate",
-      "junction_evidence": null,
-      "detail": "no host no-junction evidence for this crossing"
-    },
-    {
-      "code": "different_named_wires_cross",
-      "objects": [
-        "w-M1-53#0",
+        "w-M1-56#0",
         "w-M1-85#0"
       ],
       "status": "review_candidate",
@@ -2621,8 +2400,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-114#0",
-        "w-M1-62#0"
+        "w-M1-127#0",
+        "w-M1-80#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2631,8 +2410,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-137#0",
-        "w-M1-64#0"
+        "w-M1-84#0",
+        "w-M1-98#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,
@@ -2641,8 +2420,8 @@
     {
       "code": "different_named_wires_cross",
       "objects": [
-        "w-M1-107#0",
-        "w-M1-76#0"
+        "w-M1-100#0",
+        "w-M1-103#0"
       ],
       "status": "review_candidate",
       "junction_evidence": null,

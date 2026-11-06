@@ -32,7 +32,7 @@ def _zone_title_size():
         return 18
 
 
-def build_zones_input(doc, padding=10.0, gap=10.0):
+def build_zones_input(doc, padding=10.0, gap=10.0, label_reserve=True):
     zones = []
     for mod in doc.get("modules") or []:
         # pinStates：**无网的引脚必须显式声明状态**，否则渲染器报
@@ -61,14 +61,17 @@ def build_zones_input(doc, padding=10.0, gap=10.0):
                 "rotation": pl.get("rotation", 0),
                 "mirror": bool(pl.get("mirror", False)),
                 "bbox": pl["bbox"],
-                "textBboxes": [{
+                # 位号预留区：**默认给出**；`--no-label-boxes` 时不写。
+                # 实测（#114）：不注入时 M1/M2 也能 0 穿线 —— 说明注入框
+                # 比实际文字大，会误拦本来没问题的排版。
+                **({"textBboxes": [{
                     "minX": round(pl["bbox"]["minX"] - 2.0, 1),
                     "minY": round(pl["bbox"]["maxY"] - 0.5, 1),
                     "maxX": round(pl["bbox"]["minX"] - 2.0
                                   + max(6.0, 0.75 * 7.0
                                         * max(1, len(pl.get("designator") or ""))), 1),
                     "maxY": round(pl["bbox"]["maxY"] + 7.5, 1),
-                }],
+                }]} if label_reserve else {}),
                 "pins": [{"number": p.get("number"), "name": p.get("name"),
                           "net": p.get("net") or "", "x": p["x"], "y": p["y"],
                           "rotation": p.get("rotation", 0)}
@@ -191,7 +194,7 @@ if __name__ == "__main__":
     src = pathlib.Path(sys.argv[1])
     dst = pathlib.Path(sys.argv[2])
     doc = json.loads(src.read_text(encoding="utf-8"))
-    z = build_zones_input(doc)
+    z = build_zones_input(doc, label_reserve="--no-label-boxes" not in sys.argv)
     dst.write_text(json.dumps(z, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("  %s → %s（%d zone，sheet %s）"
           % (src.name, dst.name, len(z["zones"]), "有" if z.get("sheet") else "无"))

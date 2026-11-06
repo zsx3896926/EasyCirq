@@ -17,12 +17,20 @@
       "id": "C_wire_vs_body",
       "title": "导线不穿器件本体",
       "status": "FAIL",
-      "count": 1,
+      "count": 3,
       "needs": [],
       "samples": [
         [
-          "w-M2-34#0",
-          "svgtext-20"
+          "w-M2-20#0",
+          "svgtext-32"
+        ],
+        [
+          "w-M2-25#0",
+          "svgtext-29"
+        ],
+        [
+          "w-M2-26#0",
+          "svgtext-22"
         ]
       ],
       "detail": [
@@ -32,34 +40,27 @@
     {
       "id": "D_frame_vs_object",
       "title": "模块框不切器件/导线",
-      "status": "PASS",
-      "count": 0,
-      "needs": [],
-      "samples": [],
-      "detail": []
-    },
-    {
-      "id": "B_text_occlusion",
-      "title": "遮字/文字相压",
       "status": "FAIL",
-      "count": 2,
-      "needs": [
-        "easycirq sch export-image --scope page --format svg",
-        "python scripts/svg_text_bbox.py page.svg"
-      ],
+      "count": 1,
+      "needs": [],
       "samples": [
         [
-          "svgtext-15",
-          "svgtext-17"
-        ],
-        [
-          "svgtext-32",
-          "svgtext-34"
+          "frame-M2",
+          "svgtext-3"
         ]
       ],
       "detail": [
         ""
       ]
+    },
+    {
+      "id": "B_text_occlusion",
+      "title": "遮字/文字相压",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": []
     },
     {
       "id": "E_label_anchor",
@@ -71,6 +72,15 @@
       "detail": [
         "本图没有 netport/netlabel 图元（只有电源/地符号与网标），该判据无对象可测"
       ]
+    },
+    {
+      "id": "J_netflag_rotation",
+      "title": "网标朝向一致",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": []
     },
     {
       "id": "F_net_text",
@@ -85,19 +95,23 @@
       "id": "H_crossing_evidence",
       "title": "不同网络导线交叉无结点",
       "status": "NOT RUN",
-      "count": 2,
+      "count": 4,
       "needs": [
         "easycirq sch junction-report --page <P>",
         "layout_from_easycirq.py --junction-report <报告>"
       ],
       "samples": [
         [
-          "w-M2-3#0",
-          "w-M2-41#0"
+          "w-M2-20#0",
+          "w-M2-4#0"
         ],
         [
-          "w-M2-6#0",
-          "w-M2-7#0"
+          "w-M2-26#0",
+          "w-M2-4#0"
+        ],
+        [
+          "w-M2-23#0",
+          "w-M2-5#0"
         ]
       ],
       "detail": [
@@ -107,13 +121,11 @@
     {
       "id": "I_title_block",
       "title": "图签无重复文字",
-      "status": "N/A",
+      "status": "PASS",
       "count": 0,
       "needs": [],
       "samples": [],
-      "detail": [
-        "本图未设置图签数据（排版稿不含 titleBlock / 渲染 SVG 不画图签），该判据无对象可测；若排版稿带上 titleBlock 会自动回到可测状态"
-      ]
+      "detail": []
     },
     {
       "id": "G_zone_readability",
@@ -123,6 +135,17 @@
       "needs": [],
       "samples": [],
       "detail": []
+    },
+    {
+      "id": "K_png_readability",
+      "title": "审图 PNG 可读性",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "文字相压 0 处"
+      ]
     }
   ],
   "knownFalsePositives": {
@@ -138,15 +161,15 @@
     "samples": [
       [
         "c25",
-        "svgtext-5"
+        "svgtext-11"
       ],
       [
         "c25",
-        "svgtext-7"
+        "svgtext-12"
       ],
       [
         "c25",
-        "svgtext-8"
+        "svgtext-13"
       ]
     ]
   },
@@ -157,13 +180,13 @@
     },
     "texts": {
       "status": "complete",
-      "observed": 25,
+      "observed": 31,
       "estimated": 0,
-      "rendered": 38
+      "rendered": 45
     },
     "wires": {
       "status": "complete",
-      "observed": 50,
+      "observed": 52,
       "unparsed": 0
     },
     "attachment_points": {
@@ -183,8 +206,13 @@
     },
     "rendered_texts": {
       "status": "complete",
-      "observed": 38,
+      "observed": 45,
       "unique_ids": 0
-    }
+    },
+    "title_block": {
+      "status": "complete",
+      "source": "sheet-geometry"
+    },
+    "_title_block": true
   }
 }

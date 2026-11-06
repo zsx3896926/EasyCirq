@@ -13,23 +13,23 @@
         "componentType": "part",
         "primitiveId": "c25",
         "designator": "U2",
-        "x": 330.0,
-        "y": 210.0,
+        "x": 350.0,
+        "y": 220.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 295.0,
-          "minY": 160.0,
-          "maxX": 365.0,
-          "maxY": 260.0
+          "minX": 315.0,
+          "minY": 170.0,
+          "maxX": 385.0,
+          "maxY": 270.0
         },
         "pins": [
           {
             "pinNumber": "FB",
             "pinName": "FB",
             "net": "+12V_FILT",
-            "x": 275.0,
-            "y": 220.0,
+            "x": 295.0,
+            "y": 230.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -37,8 +37,8 @@
             "pinNumber": "GND",
             "pinName": "GND",
             "net": "GND",
-            "x": 385.0,
-            "y": 240.0,
+            "x": 405.0,
+            "y": 250.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -46,8 +46,8 @@
             "pinNumber": "GND#2",
             "pinName": "GND#2",
             "net": "GND",
-            "x": 385.0,
-            "y": 220.0,
+            "x": 405.0,
+            "y": 230.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -55,8 +55,8 @@
             "pinNumber": "GND#3",
             "pinName": "GND#3",
             "net": "GND",
-            "x": 385.0,
-            "y": 200.0,
+            "x": 405.0,
+            "y": 210.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -64,8 +64,8 @@
             "pinNumber": "GND#4",
             "pinName": "GND#4",
             "net": "GND",
-            "x": 385.0,
-            "y": 180.0,
+            "x": 405.0,
+            "y": 190.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -73,8 +73,8 @@
             "pinNumber": "ON/OFF",
             "pinName": "ON/OFF",
             "net": "GND",
-            "x": 275.0,
-            "y": 240.0,
+            "x": 295.0,
+            "y": 250.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -82,8 +82,8 @@
             "pinNumber": "OUTPUT",
             "pinName": "OUTPUT",
             "net": "U2_N3",
-            "x": 275.0,
-            "y": 200.0,
+            "x": 295.0,
+            "y": 210.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -91,8 +91,8 @@
             "pinNumber": "VIN",
             "pinName": "VIN",
             "net": "D5_N2",
-            "x": 275.0,
-            "y": 180.0,
+            "x": 295.0,
+            "y": 190.0,
             "rotation": 180,
             "noConnected": false
           }
@@ -103,23 +103,23 @@
         "componentType": "part",
         "primitiveId": "c30",
         "designator": "C11",
-        "x": 250.0,
-        "y": 240.0,
+        "x": 270.0,
+        "y": 250.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 240.0,
-          "minY": 230.0,
-          "maxX": 250.0,
-          "maxY": 240.0
+          "minX": 260.0,
+          "minY": 240.0,
+          "maxX": 270.0,
+          "maxY": 250.0
         },
         "pins": [
           {
             "pinNumber": "1",
             "pinName": "1",
             "net": "+12V_FILT",
-            "x": 250.0,
-            "y": 220.0,
+            "x": 270.0,
+            "y": 230.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -127,8 +127,8 @@
             "pinNumber": "2",
             "pinName": "2",
             "net": "GND",
-            "x": 250.0,
-            "y": 260.0,
+            "x": 270.0,
+            "y": 270.0,
             "rotation": 0,
             "noConnected": false
           }
@@ -139,23 +139,23 @@
         "componentType": "part",
         "primitiveId": "c26",
         "designator": "D4",
-        "x": 265.0,
-        "y": 190.0,
+        "x": 275.0,
+        "y": 195.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 260.0,
-          "minY": 185.0,
-          "maxX": 270.0,
-          "maxY": 195.0
+          "minX": 270.0,
+          "minY": 190.0,
+          "maxX": 280.0,
+          "maxY": 200.0
         },
         "pins": [
           {
             "pinNumber": "A",
             "pinName": "A",
             "net": "GND",
-            "x": 285.0,
-            "y": 190.0,
+            "x": 295.0,
+            "y": 195.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -163,8 +163,8 @@
             "pinNumber": "K",
             "pinName": "K",
             "net": "U2_N3",
-            "x": 245.0,
-            "y": 190.0,
+            "x": 255.0,
+            "y": 195.0,
             "rotation": 180,
             "noConnected": false
           }
@@ -175,23 +175,23 @@
         "componentType": "part",
         "primitiveId": "c27",
         "designator": "D5",
-        "x": 285.0,
-        "y": 160.0,
+        "x": 310.0,
+        "y": 145.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 280.0,
-          "minY": 155.0,
-          "maxX": 290.0,
-          "maxY": 165.0
+          "minX": 305.0,
+          "minY": 140.0,
+          "maxX": 315.0,
+          "maxY": 150.0
         },
         "pins": [
           {
             "pinNumber": "A",
             "pinName": "A",
             "net": "VBAT_RAW",
-            "x": 305.0,
-            "y": 160.0,
+            "x": 330.0,
+            "y": 145.0,
             "rotation": 0,
             "noConnected": false
           },
@@ -199,8 +199,8 @@
             "pinNumber": "K",
             "pinName": "K",
             "net": "D5_N2",
-            "x": 265.0,
-            "y": 160.0,
+            "x": 290.0,
+            "y": 145.0,
             "rotation": 180,
             "noConnected": false
           }
@@ -211,23 +211,23 @@
         "componentType": "part",
         "primitiveId": "c32",
         "designator": "J2",
-        "x": 330.0,
-        "y": 130.0,
+        "x": 360.0,
+        "y": 115.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 320.0,
-          "minY": 115.0,
-          "maxX": 340.0,
-          "maxY": 145.0
+          "minX": 350.0,
+          "minY": 100.0,
+          "maxX": 370.0,
+          "maxY": 130.0
         },
         "pins": [
           {
             "pinNumber": "1",
             "pinName": "1",
             "net": "VBAT_RAW",
-            "x": 310.0,
-            "y": 125.0,
+            "x": 340.0,
+            "y": 110.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -235,8 +235,8 @@
             "pinNumber": "2",
             "pinName": "2",
             "net": "GND",
-            "x": 310.0,
-            "y": 135.0,
+            "x": 340.0,
+            "y": 120.0,
             "rotation": 180,
             "noConnected": false
           }
@@ -247,23 +247,23 @@
         "componentType": "part",
         "primitiveId": "c28",
         "designator": "L2",
-        "x": 230.0,
-        "y": 220.0,
+        "x": 220.0,
+        "y": 195.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
-          "minX": 215.0,
-          "minY": 215.0,
-          "maxX": 245.0,
-          "maxY": 225.0
+          "minX": 205.0,
+          "minY": 190.0,
+          "maxX": 235.0,
+          "maxY": 200.0
         },
         "pins": [
           {
             "pinNumber": "1",
             "pinName": "1",
             "net": "U2_N3",
-            "x": 210.0,
-            "y": 220.0,
+            "x": 200.0,
+            "y": 195.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -271,44 +271,8 @@
             "pinNumber": "2",
             "pinName": "2",
             "net": "+12V_FILT",
-            "x": 250.0,
-            "y": 220.0,
-            "rotation": 0,
-            "noConnected": false
-          }
-        ],
-        "moduleId": "M2"
-      },
-      {
-        "componentType": "part",
-        "primitiveId": "c29",
-        "designator": "C10",
-        "x": 235.0,
-        "y": 165.0,
-        "rotation": 0,
-        "mirror": false,
-        "bbox": {
-          "minX": 225.0,
-          "minY": 155.0,
-          "maxX": 235.0,
-          "maxY": 165.0
-        },
-        "pins": [
-          {
-            "pinNumber": "1",
-            "pinName": "1",
-            "net": "D5_N2",
-            "x": 235.0,
-            "y": 145.0,
-            "rotation": 0,
-            "noConnected": false
-          },
-          {
-            "pinNumber": "2",
-            "pinName": "2",
-            "net": "GND",
-            "x": 235.0,
-            "y": 185.0,
+            "x": 240.0,
+            "y": 195.0,
             "rotation": 0,
             "noConnected": false
           }
@@ -320,14 +284,14 @@
         "primitiveId": "c31",
         "designator": "C12",
         "x": 255.0,
-        "y": 115.0,
+        "y": 145.0,
         "rotation": 0,
         "mirror": false,
         "bbox": {
           "minX": 250.0,
-          "minY": 110.0,
+          "minY": 140.0,
           "maxX": 260.0,
-          "maxY": 120.0
+          "maxY": 150.0
         },
         "pins": [
           {
@@ -335,7 +299,7 @@
             "pinName": "1",
             "net": "D5_N2",
             "x": 240.0,
-            "y": 115.0,
+            "y": 145.0,
             "rotation": 180,
             "noConnected": false
           },
@@ -344,7 +308,43 @@
             "pinName": "2",
             "net": "GND",
             "x": 270.0,
-            "y": 115.0,
+            "y": 145.0,
+            "rotation": 0,
+            "noConnected": false
+          }
+        ],
+        "moduleId": "M2"
+      },
+      {
+        "componentType": "part",
+        "primitiveId": "c29",
+        "designator": "C10",
+        "x": 190.0,
+        "y": 165.0,
+        "rotation": 0,
+        "mirror": false,
+        "bbox": {
+          "minX": 180.0,
+          "minY": 155.0,
+          "maxX": 190.0,
+          "maxY": 165.0
+        },
+        "pins": [
+          {
+            "pinNumber": "1",
+            "pinName": "1",
+            "net": "D5_N2",
+            "x": 190.0,
+            "y": 145.0,
+            "rotation": 0,
+            "noConnected": false
+          },
+          {
+            "pinNumber": "2",
+            "pinName": "2",
+            "net": "GND",
+            "x": 190.0,
+            "y": 185.0,
             "rotation": 0,
             "noConnected": false
           }
@@ -366,15 +366,15 @@
         "primitiveId": "flag-0",
         "net": "GND",
         "kind": "ground",
-        "x": 390.0,
-        "y": 245.0,
+        "x": 410.0,
+        "y": 255.0,
         "rotation": 0,
         "direction": "up",
         "bbox": {
-          "minX": 384.0,
-          "minY": 241.0,
-          "maxX": 396.0,
-          "maxY": 249.0
+          "minX": 404.0,
+          "minY": 251.0,
+          "maxX": 416.0,
+          "maxY": 259.0
         }
       },
       {
@@ -382,15 +382,15 @@
         "primitiveId": "flag-1",
         "net": "GND",
         "kind": "ground",
-        "x": 255.0,
-        "y": 265.0,
+        "x": 275.0,
+        "y": 275.0,
         "rotation": 0,
         "direction": "up",
         "bbox": {
-          "minX": 249.0,
-          "minY": 261.0,
-          "maxX": 261.0,
-          "maxY": 269.0
+          "minX": 269.0,
+          "minY": 271.0,
+          "maxX": 281.0,
+          "maxY": 279.0
         }
       },
       {
@@ -398,15 +398,15 @@
         "primitiveId": "flag-2",
         "net": "GND",
         "kind": "ground",
-        "x": 240.0,
-        "y": 180.0,
-        "rotation": 270,
-        "direction": "left",
+        "x": 275.0,
+        "y": 140.0,
+        "rotation": 180,
+        "direction": "down",
         "bbox": {
-          "minX": 234.0,
-          "minY": 176.0,
-          "maxX": 246.0,
-          "maxY": 184.0
+          "minX": 269.0,
+          "minY": 136.0,
+          "maxX": 281.0,
+          "maxY": 144.0
         }
       },
       {
@@ -414,79 +414,95 @@
         "primitiveId": "flag-3",
         "net": "GND",
         "kind": "ground",
-        "x": 275.0,
-        "y": 110.0,
-        "rotation": 180,
-        "direction": "down",
+        "x": 340.0,
+        "y": 120.0,
+        "rotation": 270,
+        "direction": "left",
         "bbox": {
-          "minX": 269.0,
-          "minY": 106.0,
-          "maxX": 281.0,
-          "maxY": 114.0
+          "minX": 334.0,
+          "minY": 116.0,
+          "maxX": 346.0,
+          "maxY": 124.0
         }
       },
       {
         "componentType": "netflag",
         "primitiveId": "flag-4",
-        "net": "+12V_FILT",
-        "kind": "power",
-        "x": 265.0,
-        "y": 265.0,
-        "rotation": 90,
-        "direction": "right",
+        "net": "GND",
+        "kind": "ground",
+        "x": 195.0,
+        "y": 190.0,
+        "rotation": 270,
+        "direction": "left",
         "bbox": {
-          "minX": 259.0,
-          "minY": 261.0,
-          "maxX": 271.0,
-          "maxY": 269.0
+          "minX": 189.0,
+          "minY": 186.0,
+          "maxX": 201.0,
+          "maxY": 194.0
         }
       },
       {
         "componentType": "netflag",
         "primitiveId": "flag-5",
-        "net": "VBAT_RAW",
+        "net": "+12V_FILT",
         "kind": "power",
-        "x": 305.0,
-        "y": 120.0,
+        "x": 245.0,
+        "y": 190.0,
         "rotation": 180,
         "direction": "down",
         "bbox": {
-          "minX": 299.0,
-          "minY": 116.0,
-          "maxX": 311.0,
-          "maxY": 124.0
+          "minX": 239.0,
+          "minY": 186.0,
+          "maxX": 251.0,
+          "maxY": 194.0
         }
       },
       {
         "componentType": "netflag",
         "primitiveId": "flag-6",
-        "net": "U2_N3",
-        "kind": "net_port_bi",
-        "x": 205.0,
-        "y": 225.0,
-        "rotation": 270,
-        "direction": "left",
+        "net": "VBAT_RAW",
+        "kind": "power",
+        "x": 335.0,
+        "y": 105.0,
+        "rotation": 180,
+        "direction": "down",
         "bbox": {
-          "minX": 199.0,
-          "minY": 221.0,
-          "maxX": 211.0,
-          "maxY": 229.0
+          "minX": 329.0,
+          "minY": 101.0,
+          "maxX": 341.0,
+          "maxY": 109.0
         }
       },
       {
         "componentType": "netflag",
         "primitiveId": "flag-7",
+        "net": "U2_N3",
+        "kind": "net_port_bi",
+        "x": 195.0,
+        "y": 200.0,
+        "rotation": 0,
+        "direction": "up",
+        "bbox": {
+          "minX": 189.0,
+          "minY": 196.0,
+          "maxX": 201.0,
+          "maxY": 204.0
+        }
+      },
+      {
+        "componentType": "netflag",
+        "primitiveId": "flag-8",
         "net": "D5_N2",
         "kind": "net_port_bi",
         "x": 235.0,
-        "y": 120.0,
-        "rotation": 270,
-        "direction": "left",
+        "y": 140.0,
+        "rotation": 180,
+        "direction": "down",
         "bbox": {
           "minX": 229.0,
-          "minY": 116.0,
+          "minY": 136.0,
           "maxX": 241.0,
-          "maxY": 124.0
+          "maxY": 144.0
         }
       }
     ],
@@ -495,23 +511,23 @@
         "net": "GND",
         "points": [
           [
-            385.0,
-            220.0
+            405.0,
+            230.0
           ],
           [
-            390.0,
-            220.0
+            410.0,
+            230.0
           ]
         ],
         "primitiveId": "w-M2-0",
         "Line": [
           [
-            385.0,
-            220.0
+            405.0,
+            230.0
           ],
           [
-            390.0,
-            220.0
+            410.0,
+            230.0
           ]
         ],
         "Net": "GND"
@@ -520,23 +536,23 @@
         "net": "GND",
         "points": [
           [
-            385.0,
-            180.0
+            405.0,
+            190.0
           ],
           [
-            390.0,
-            180.0
+            410.0,
+            190.0
           ]
         ],
         "primitiveId": "w-M2-1",
         "Line": [
           [
-            385.0,
-            180.0
+            405.0,
+            190.0
           ],
           [
-            390.0,
-            180.0
+            410.0,
+            190.0
           ]
         ],
         "Net": "GND"
@@ -545,23 +561,23 @@
         "net": "GND",
         "points": [
           [
-            385.0,
-            200.0
+            405.0,
+            210.0
           ],
           [
-            390.0,
-            200.0
+            410.0,
+            210.0
           ]
         ],
         "primitiveId": "w-M2-2",
         "Line": [
           [
-            385.0,
-            200.0
+            405.0,
+            210.0
           ],
           [
-            390.0,
-            200.0
+            410.0,
+            210.0
           ]
         ],
         "Net": "GND"
@@ -570,23 +586,23 @@
         "net": "GND",
         "points": [
           [
-            255.0,
-            240.0
+            275.0,
+            250.0
           ],
           [
-            275.0,
-            240.0
+            295.0,
+            250.0
           ]
         ],
         "primitiveId": "w-M2-3",
         "Line": [
           [
-            255.0,
-            240.0
+            275.0,
+            250.0
           ],
           [
-            275.0,
-            240.0
+            295.0,
+            250.0
           ]
         ],
         "Net": "GND"
@@ -595,23 +611,23 @@
         "net": "GND",
         "points": [
           [
-            290.0,
-            185.0
+            280.0,
+            145.0
           ],
           [
-            290.0,
-            190.0
+            280.0,
+            205.0
           ]
         ],
         "primitiveId": "w-M2-4",
         "Line": [
           [
-            290.0,
-            185.0
+            280.0,
+            145.0
           ],
           [
-            290.0,
-            190.0
+            280.0,
+            205.0
           ]
         ],
         "Net": "GND"
@@ -620,23 +636,23 @@
         "net": "GND",
         "points": [
           [
-            290.0,
-            190.0
+            280.0,
+            205.0
           ],
           [
-            285.0,
-            190.0
+            305.0,
+            205.0
           ]
         ],
         "primitiveId": "w-M2-5",
         "Line": [
           [
-            290.0,
-            190.0
+            280.0,
+            205.0
           ],
           [
-            285.0,
-            190.0
+            305.0,
+            205.0
           ]
         ],
         "Net": "GND"
@@ -645,23 +661,48 @@
         "net": "GND",
         "points": [
           [
-            275.0,
-            135.0
+            305.0,
+            205.0
           ],
           [
-            310.0,
-            135.0
+            305.0,
+            195.0
           ]
         ],
         "primitiveId": "w-M2-6",
         "Line": [
           [
-            275.0,
-            135.0
+            305.0,
+            205.0
           ],
           [
-            310.0,
-            135.0
+            305.0,
+            195.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            305.0,
+            195.0
+          ],
+          [
+            295.0,
+            195.0
+          ]
+        ],
+        "primitiveId": "w-M2-7",
+        "Line": [
+          [
+            305.0,
+            195.0
+          ],
+          [
+            295.0,
+            195.0
           ]
         ],
         "Net": "GND"
@@ -670,48 +711,23 @@
         "net": "VBAT_RAW",
         "points": [
           [
-            300.0,
+            330.0,
+            110.0
+          ],
+          [
+            330.0,
             125.0
-          ],
-          [
-            300.0,
-            140.0
-          ]
-        ],
-        "primitiveId": "w-M2-7",
-        "Line": [
-          [
-            300.0,
-            125.0
-          ],
-          [
-            300.0,
-            140.0
-          ]
-        ],
-        "Net": "VBAT_RAW"
-      },
-      {
-        "net": "VBAT_RAW",
-        "points": [
-          [
-            300.0,
-            140.0
-          ],
-          [
-            315.0,
-            140.0
           ]
         ],
         "primitiveId": "w-M2-8",
         "Line": [
           [
-            300.0,
-            140.0
+            330.0,
+            110.0
           ],
           [
-            315.0,
-            140.0
+            330.0,
+            125.0
           ]
         ],
         "Net": "VBAT_RAW"
@@ -720,23 +736,23 @@
         "net": "VBAT_RAW",
         "points": [
           [
-            315.0,
-            140.0
+            330.0,
+            125.0
           ],
           [
-            315.0,
-            160.0
+            340.0,
+            125.0
           ]
         ],
         "primitiveId": "w-M2-9",
         "Line": [
           [
-            315.0,
-            140.0
+            330.0,
+            125.0
           ],
           [
-            315.0,
-            160.0
+            340.0,
+            125.0
           ]
         ],
         "Net": "VBAT_RAW"
@@ -745,173 +761,173 @@
         "net": "VBAT_RAW",
         "points": [
           [
-            315.0,
-            160.0
+            340.0,
+            125.0
           ],
           [
-            305.0,
-            160.0
+            340.0,
+            145.0
           ]
         ],
         "primitiveId": "w-M2-10",
         "Line": [
           [
-            315.0,
-            160.0
+            340.0,
+            125.0
           ],
           [
-            305.0,
-            160.0
+            340.0,
+            145.0
           ]
         ],
         "Net": "VBAT_RAW"
       },
       {
-        "net": "D5_N2",
+        "net": "VBAT_RAW",
         "points": [
           [
-            265.0,
-            160.0
+            340.0,
+            145.0
           ],
           [
-            260.0,
-            160.0
+            330.0,
+            145.0
           ]
         ],
         "primitiveId": "w-M2-11",
         "Line": [
           [
-            265.0,
-            160.0
+            340.0,
+            145.0
           ],
           [
-            260.0,
-            160.0
+            330.0,
+            145.0
           ]
         ],
-        "Net": "D5_N2"
+        "Net": "VBAT_RAW"
       },
       {
-        "net": "D5_N2",
+        "net": "+12V_FILT",
         "points": [
           [
-            260.0,
-            180.0
+            245.0,
+            210.0
           ],
           [
             275.0,
-            180.0
+            210.0
           ]
         ],
         "primitiveId": "w-M2-12",
         "Line": [
           [
-            260.0,
-            180.0
+            245.0,
+            210.0
           ],
           [
             275.0,
-            180.0
+            210.0
           ]
         ],
-        "Net": "D5_N2"
+        "Net": "+12V_FILT"
       },
       {
-        "net": "D5_N2",
+        "net": "+12V_FILT",
         "points": [
           [
-            235.0,
-            145.0
+            275.0,
+            210.0
           ],
           [
-            240.0,
-            145.0
+            275.0,
+            230.0
           ]
         ],
         "primitiveId": "w-M2-13",
         "Line": [
           [
-            235.0,
-            145.0
+            275.0,
+            210.0
           ],
           [
-            240.0,
-            145.0
+            275.0,
+            230.0
           ]
         ],
-        "Net": "D5_N2"
+        "Net": "+12V_FILT"
       },
       {
-        "net": "D5_N2",
+        "net": "+12V_FILT",
         "points": [
           [
-            240.0,
-            145.0
+            270.0,
+            230.0
           ],
           [
-            260.0,
-            145.0
+            275.0,
+            230.0
           ]
         ],
         "primitiveId": "w-M2-14",
         "Line": [
           [
-            240.0,
-            145.0
+            270.0,
+            230.0
           ],
           [
-            260.0,
-            145.0
+            275.0,
+            230.0
           ]
         ],
-        "Net": "D5_N2"
+        "Net": "+12V_FILT"
       },
       {
-        "net": "D5_N2",
+        "net": "+12V_FILT",
         "points": [
           [
-            260.0,
-            145.0
+            275.0,
+            230.0
           ],
           [
-            260.0,
-            160.0
+            295.0,
+            230.0
           ]
         ],
         "primitiveId": "w-M2-15",
         "Line": [
           [
-            260.0,
-            145.0
+            275.0,
+            230.0
           ],
           [
-            260.0,
-            160.0
+            295.0,
+            230.0
           ]
         ],
-        "Net": "D5_N2"
+        "Net": "+12V_FILT"
       },
       {
         "net": "D5_N2",
         "points": [
           [
-            260.0,
-            160.0
+            290.0,
+            145.0
           ],
           [
-            260.0,
-            180.0
+            285.0,
+            145.0
           ]
         ],
         "primitiveId": "w-M2-16",
         "Line": [
           [
-            260.0,
-            160.0
+            290.0,
+            145.0
           ],
           [
-            260.0,
-            180.0
+            285.0,
+            145.0
           ]
         ],
         "Net": "D5_N2"
@@ -920,23 +936,23 @@
         "net": "D5_N2",
         "points": [
           [
-            235.0,
-            140.0
+            285.0,
+            145.0
           ],
           [
-            240.0,
-            140.0
+            285.0,
+            150.0
           ]
         ],
         "primitiveId": "w-M2-17",
         "Line": [
           [
-            235.0,
-            140.0
+            285.0,
+            145.0
           ],
           [
-            240.0,
-            140.0
+            285.0,
+            150.0
           ]
         ],
         "Net": "D5_N2"
@@ -945,773 +961,48 @@
         "net": "D5_N2",
         "points": [
           [
-            240.0,
-            140.0
+            285.0,
+            150.0
           ],
           [
-            240.0,
-            145.0
+            285.0,
+            190.0
           ]
         ],
         "primitiveId": "w-M2-18",
         "Line": [
           [
-            240.0,
-            140.0
+            285.0,
+            150.0
           ],
           [
-            240.0,
-            145.0
+            285.0,
+            190.0
           ]
         ],
         "Net": "D5_N2"
       },
       {
-        "net": "U2_N3",
+        "net": "D5_N2",
         "points": [
           [
-            245.0,
+            285.0,
             190.0
           ],
           [
-            240.0,
+            295.0,
             190.0
           ]
         ],
         "primitiveId": "w-M2-19",
         "Line": [
           [
-            245.0,
+            285.0,
             190.0
           ],
           [
-            240.0,
+            295.0,
             190.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            240.0,
-            190.0
-          ],
-          [
-            240.0,
-            205.0
-          ]
-        ],
-        "primitiveId": "w-M2-20",
-        "Line": [
-          [
-            240.0,
-            190.0
-          ],
-          [
-            240.0,
-            205.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            270.0,
-            205.0
-          ],
-          [
-            270.0,
-            200.0
-          ]
-        ],
-        "primitiveId": "w-M2-21",
-        "Line": [
-          [
-            270.0,
-            205.0
-          ],
-          [
-            270.0,
-            200.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            270.0,
-            200.0
-          ],
-          [
-            275.0,
-            200.0
-          ]
-        ],
-        "primitiveId": "w-M2-22",
-        "Line": [
-          [
-            270.0,
-            200.0
-          ],
-          [
-            275.0,
-            200.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            205.0,
-            205.0
-          ],
-          [
-            240.0,
-            205.0
-          ]
-        ],
-        "primitiveId": "w-M2-23",
-        "Line": [
-          [
-            205.0,
-            205.0
-          ],
-          [
-            240.0,
-            205.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            240.0,
-            205.0
-          ],
-          [
-            270.0,
-            205.0
-          ]
-        ],
-        "primitiveId": "w-M2-24",
-        "Line": [
-          [
-            240.0,
-            205.0
-          ],
-          [
-            270.0,
-            205.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            385.0,
-            240.0
-          ],
-          [
-            390.0,
-            240.0
-          ]
-        ],
-        "primitiveId": "w-M2-25",
-        "Line": [
-          [
-            385.0,
-            240.0
-          ],
-          [
-            390.0,
-            240.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            390.0,
-            180.0
-          ],
-          [
-            390.0,
-            200.0
-          ]
-        ],
-        "primitiveId": "w-M2-26",
-        "Line": [
-          [
-            390.0,
-            180.0
-          ],
-          [
-            390.0,
-            200.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            390.0,
-            200.0
-          ],
-          [
-            390.0,
-            220.0
-          ]
-        ],
-        "primitiveId": "w-M2-27",
-        "Line": [
-          [
-            390.0,
-            200.0
-          ],
-          [
-            390.0,
-            220.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            390.0,
-            220.0
-          ],
-          [
-            390.0,
-            240.0
-          ]
-        ],
-        "primitiveId": "w-M2-28",
-        "Line": [
-          [
-            390.0,
-            220.0
-          ],
-          [
-            390.0,
-            240.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            390.0,
-            240.0
-          ],
-          [
-            390.0,
-            245.0
-          ]
-        ],
-        "primitiveId": "w-M2-29",
-        "Line": [
-          [
-            390.0,
-            240.0
-          ],
-          [
-            390.0,
-            245.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            250.0,
-            260.0
-          ],
-          [
-            255.0,
-            260.0
-          ]
-        ],
-        "primitiveId": "w-M2-30",
-        "Line": [
-          [
-            250.0,
-            260.0
-          ],
-          [
-            255.0,
-            260.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            255.0,
-            240.0
-          ],
-          [
-            255.0,
-            260.0
-          ]
-        ],
-        "primitiveId": "w-M2-31",
-        "Line": [
-          [
-            255.0,
-            240.0
-          ],
-          [
-            255.0,
-            260.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            255.0,
-            260.0
-          ],
-          [
-            255.0,
-            265.0
-          ]
-        ],
-        "primitiveId": "w-M2-32",
-        "Line": [
-          [
-            255.0,
-            260.0
-          ],
-          [
-            255.0,
-            265.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            235.0,
-            185.0
-          ],
-          [
-            240.0,
-            185.0
-          ]
-        ],
-        "primitiveId": "w-M2-33",
-        "Line": [
-          [
-            235.0,
-            185.0
-          ],
-          [
-            240.0,
-            185.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            240.0,
-            185.0
-          ],
-          [
-            290.0,
-            185.0
-          ]
-        ],
-        "primitiveId": "w-M2-34",
-        "Line": [
-          [
-            240.0,
-            185.0
-          ],
-          [
-            290.0,
-            185.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            240.0,
-            185.0
-          ],
-          [
-            240.0,
-            180.0
-          ]
-        ],
-        "primitiveId": "w-M2-35",
-        "Line": [
-          [
-            240.0,
-            185.0
-          ],
-          [
-            240.0,
-            180.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            270.0,
-            115.0
-          ],
-          [
-            275.0,
-            115.0
-          ]
-        ],
-        "primitiveId": "w-M2-36",
-        "Line": [
-          [
-            270.0,
-            115.0
-          ],
-          [
-            275.0,
-            115.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            275.0,
-            110.0
-          ],
-          [
-            275.0,
-            115.0
-          ]
-        ],
-        "primitiveId": "w-M2-37",
-        "Line": [
-          [
-            275.0,
-            110.0
-          ],
-          [
-            275.0,
-            115.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "GND",
-        "points": [
-          [
-            275.0,
-            115.0
-          ],
-          [
-            275.0,
-            135.0
-          ]
-        ],
-        "primitiveId": "w-M2-38",
-        "Line": [
-          [
-            275.0,
-            115.0
-          ],
-          [
-            275.0,
-            135.0
-          ]
-        ],
-        "Net": "GND"
-      },
-      {
-        "net": "+12V_FILT",
-        "points": [
-          [
-            250.0,
-            220.0
-          ],
-          [
-            265.0,
-            220.0
-          ]
-        ],
-        "primitiveId": "w-M2-39",
-        "Line": [
-          [
-            250.0,
-            220.0
-          ],
-          [
-            265.0,
-            220.0
-          ]
-        ],
-        "Net": "+12V_FILT"
-      },
-      {
-        "net": "+12V_FILT",
-        "points": [
-          [
-            265.0,
-            220.0
-          ],
-          [
-            275.0,
-            220.0
-          ]
-        ],
-        "primitiveId": "w-M2-40",
-        "Line": [
-          [
-            265.0,
-            220.0
-          ],
-          [
-            275.0,
-            220.0
-          ]
-        ],
-        "Net": "+12V_FILT"
-      },
-      {
-        "net": "+12V_FILT",
-        "points": [
-          [
-            265.0,
-            220.0
-          ],
-          [
-            265.0,
-            265.0
-          ]
-        ],
-        "primitiveId": "w-M2-41",
-        "Line": [
-          [
-            265.0,
-            220.0
-          ],
-          [
-            265.0,
-            265.0
-          ]
-        ],
-        "Net": "+12V_FILT"
-      },
-      {
-        "net": "VBAT_RAW",
-        "points": [
-          [
-            300.0,
-            125.0
-          ],
-          [
-            305.0,
-            125.0
-          ]
-        ],
-        "primitiveId": "w-M2-42",
-        "Line": [
-          [
-            300.0,
-            125.0
-          ],
-          [
-            305.0,
-            125.0
-          ]
-        ],
-        "Net": "VBAT_RAW"
-      },
-      {
-        "net": "VBAT_RAW",
-        "points": [
-          [
-            305.0,
-            125.0
-          ],
-          [
-            310.0,
-            125.0
-          ]
-        ],
-        "primitiveId": "w-M2-43",
-        "Line": [
-          [
-            305.0,
-            125.0
-          ],
-          [
-            310.0,
-            125.0
-          ]
-        ],
-        "Net": "VBAT_RAW"
-      },
-      {
-        "net": "VBAT_RAW",
-        "points": [
-          [
-            305.0,
-            125.0
-          ],
-          [
-            305.0,
-            120.0
-          ]
-        ],
-        "primitiveId": "w-M2-44",
-        "Line": [
-          [
-            305.0,
-            125.0
-          ],
-          [
-            305.0,
-            120.0
-          ]
-        ],
-        "Net": "VBAT_RAW"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            205.0,
-            220.0
-          ],
-          [
-            210.0,
-            220.0
-          ]
-        ],
-        "primitiveId": "w-M2-45",
-        "Line": [
-          [
-            205.0,
-            220.0
-          ],
-          [
-            210.0,
-            220.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            205.0,
-            205.0
-          ],
-          [
-            205.0,
-            220.0
-          ]
-        ],
-        "primitiveId": "w-M2-46",
-        "Line": [
-          [
-            205.0,
-            205.0
-          ],
-          [
-            205.0,
-            220.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "U2_N3",
-        "points": [
-          [
-            205.0,
-            220.0
-          ],
-          [
-            205.0,
-            225.0
-          ]
-        ],
-        "primitiveId": "w-M2-47",
-        "Line": [
-          [
-            205.0,
-            220.0
-          ],
-          [
-            205.0,
-            225.0
-          ]
-        ],
-        "Net": "U2_N3"
-      },
-      {
-        "net": "D5_N2",
-        "points": [
-          [
-            235.0,
-            115.0
-          ],
-          [
-            240.0,
-            115.0
-          ]
-        ],
-        "primitiveId": "w-M2-48",
-        "Line": [
-          [
-            235.0,
-            115.0
-          ],
-          [
-            240.0,
-            115.0
           ]
         ],
         "Net": "D5_N2"
@@ -1721,22 +1012,797 @@
         "points": [
           [
             235.0,
-            115.0
+            150.0
+          ],
+          [
+            285.0,
+            150.0
+          ]
+        ],
+        "primitiveId": "w-M2-20",
+        "Line": [
+          [
+            235.0,
+            150.0
+          ],
+          [
+            285.0,
+            150.0
+          ]
+        ],
+        "Net": "D5_N2"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            255.0,
+            195.0
+          ],
+          [
+            250.0,
+            195.0
+          ]
+        ],
+        "primitiveId": "w-M2-21",
+        "Line": [
+          [
+            255.0,
+            195.0
+          ],
+          [
+            250.0,
+            195.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            250.0,
+            195.0
+          ],
+          [
+            250.0,
+            200.0
+          ]
+        ],
+        "primitiveId": "w-M2-22",
+        "Line": [
+          [
+            250.0,
+            195.0
+          ],
+          [
+            250.0,
+            200.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            290.0,
+            200.0
+          ],
+          [
+            290.0,
+            210.0
+          ]
+        ],
+        "primitiveId": "w-M2-23",
+        "Line": [
+          [
+            290.0,
+            200.0
+          ],
+          [
+            290.0,
+            210.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            290.0,
+            210.0
+          ],
+          [
+            295.0,
+            210.0
+          ]
+        ],
+        "primitiveId": "w-M2-24",
+        "Line": [
+          [
+            290.0,
+            210.0
+          ],
+          [
+            295.0,
+            210.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            195.0,
+            200.0
+          ],
+          [
+            250.0,
+            200.0
+          ]
+        ],
+        "primitiveId": "w-M2-25",
+        "Line": [
+          [
+            195.0,
+            200.0
+          ],
+          [
+            250.0,
+            200.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            250.0,
+            200.0
+          ],
+          [
+            290.0,
+            200.0
+          ]
+        ],
+        "primitiveId": "w-M2-26",
+        "Line": [
+          [
+            250.0,
+            200.0
+          ],
+          [
+            290.0,
+            200.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            405.0,
+            250.0
+          ],
+          [
+            410.0,
+            250.0
+          ]
+        ],
+        "primitiveId": "w-M2-27",
+        "Line": [
+          [
+            405.0,
+            250.0
+          ],
+          [
+            410.0,
+            250.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            410.0,
+            190.0
+          ],
+          [
+            410.0,
+            210.0
+          ]
+        ],
+        "primitiveId": "w-M2-28",
+        "Line": [
+          [
+            410.0,
+            190.0
+          ],
+          [
+            410.0,
+            210.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            410.0,
+            210.0
+          ],
+          [
+            410.0,
+            230.0
+          ]
+        ],
+        "primitiveId": "w-M2-29",
+        "Line": [
+          [
+            410.0,
+            210.0
+          ],
+          [
+            410.0,
+            230.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            410.0,
+            230.0
+          ],
+          [
+            410.0,
+            250.0
+          ]
+        ],
+        "primitiveId": "w-M2-30",
+        "Line": [
+          [
+            410.0,
+            230.0
+          ],
+          [
+            410.0,
+            250.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            410.0,
+            250.0
+          ],
+          [
+            410.0,
+            255.0
+          ]
+        ],
+        "primitiveId": "w-M2-31",
+        "Line": [
+          [
+            410.0,
+            250.0
+          ],
+          [
+            410.0,
+            255.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            270.0,
+            270.0
+          ],
+          [
+            275.0,
+            270.0
+          ]
+        ],
+        "primitiveId": "w-M2-32",
+        "Line": [
+          [
+            270.0,
+            270.0
+          ],
+          [
+            275.0,
+            270.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            275.0,
+            250.0
+          ],
+          [
+            275.0,
+            270.0
+          ]
+        ],
+        "primitiveId": "w-M2-33",
+        "Line": [
+          [
+            275.0,
+            250.0
+          ],
+          [
+            275.0,
+            270.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            275.0,
+            270.0
+          ],
+          [
+            275.0,
+            275.0
+          ]
+        ],
+        "primitiveId": "w-M2-34",
+        "Line": [
+          [
+            275.0,
+            270.0
+          ],
+          [
+            275.0,
+            275.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            270.0,
+            145.0
+          ],
+          [
+            275.0,
+            145.0
+          ]
+        ],
+        "primitiveId": "w-M2-35",
+        "Line": [
+          [
+            270.0,
+            145.0
+          ],
+          [
+            275.0,
+            145.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            275.0,
+            145.0
+          ],
+          [
+            280.0,
+            145.0
+          ]
+        ],
+        "primitiveId": "w-M2-36",
+        "Line": [
+          [
+            275.0,
+            145.0
+          ],
+          [
+            280.0,
+            145.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            275.0,
+            145.0
+          ],
+          [
+            275.0,
+            140.0
+          ]
+        ],
+        "primitiveId": "w-M2-37",
+        "Line": [
+          [
+            275.0,
+            145.0
+          ],
+          [
+            275.0,
+            140.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            190.0,
+            185.0
+          ],
+          [
+            195.0,
+            185.0
+          ]
+        ],
+        "primitiveId": "w-M2-38",
+        "Line": [
+          [
+            190.0,
+            185.0
+          ],
+          [
+            195.0,
+            185.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "GND",
+        "points": [
+          [
+            195.0,
+            185.0
+          ],
+          [
+            195.0,
+            190.0
+          ]
+        ],
+        "primitiveId": "w-M2-39",
+        "Line": [
+          [
+            195.0,
+            185.0
+          ],
+          [
+            195.0,
+            190.0
+          ]
+        ],
+        "Net": "GND"
+      },
+      {
+        "net": "+12V_FILT",
+        "points": [
+          [
+            240.0,
+            195.0
+          ],
+          [
+            245.0,
+            195.0
+          ]
+        ],
+        "primitiveId": "w-M2-40",
+        "Line": [
+          [
+            240.0,
+            195.0
+          ],
+          [
+            245.0,
+            195.0
+          ]
+        ],
+        "Net": "+12V_FILT"
+      },
+      {
+        "net": "+12V_FILT",
+        "points": [
+          [
+            245.0,
+            190.0
+          ],
+          [
+            245.0,
+            195.0
+          ]
+        ],
+        "primitiveId": "w-M2-41",
+        "Line": [
+          [
+            245.0,
+            190.0
+          ],
+          [
+            245.0,
+            195.0
+          ]
+        ],
+        "Net": "+12V_FILT"
+      },
+      {
+        "net": "+12V_FILT",
+        "points": [
+          [
+            245.0,
+            195.0
+          ],
+          [
+            245.0,
+            210.0
+          ]
+        ],
+        "primitiveId": "w-M2-42",
+        "Line": [
+          [
+            245.0,
+            195.0
+          ],
+          [
+            245.0,
+            210.0
+          ]
+        ],
+        "Net": "+12V_FILT"
+      },
+      {
+        "net": "VBAT_RAW",
+        "points": [
+          [
+            330.0,
+            110.0
+          ],
+          [
+            335.0,
+            110.0
+          ]
+        ],
+        "primitiveId": "w-M2-43",
+        "Line": [
+          [
+            330.0,
+            110.0
+          ],
+          [
+            335.0,
+            110.0
+          ]
+        ],
+        "Net": "VBAT_RAW"
+      },
+      {
+        "net": "VBAT_RAW",
+        "points": [
+          [
+            335.0,
+            110.0
+          ],
+          [
+            340.0,
+            110.0
+          ]
+        ],
+        "primitiveId": "w-M2-44",
+        "Line": [
+          [
+            335.0,
+            110.0
+          ],
+          [
+            340.0,
+            110.0
+          ]
+        ],
+        "Net": "VBAT_RAW"
+      },
+      {
+        "net": "VBAT_RAW",
+        "points": [
+          [
+            335.0,
+            110.0
+          ],
+          [
+            335.0,
+            105.0
+          ]
+        ],
+        "primitiveId": "w-M2-45",
+        "Line": [
+          [
+            335.0,
+            110.0
+          ],
+          [
+            335.0,
+            105.0
+          ]
+        ],
+        "Net": "VBAT_RAW"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            195.0,
+            195.0
+          ],
+          [
+            200.0,
+            195.0
+          ]
+        ],
+        "primitiveId": "w-M2-46",
+        "Line": [
+          [
+            195.0,
+            195.0
+          ],
+          [
+            200.0,
+            195.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "U2_N3",
+        "points": [
+          [
+            195.0,
+            195.0
+          ],
+          [
+            195.0,
+            200.0
+          ]
+        ],
+        "primitiveId": "w-M2-47",
+        "Line": [
+          [
+            195.0,
+            195.0
+          ],
+          [
+            195.0,
+            200.0
+          ]
+        ],
+        "Net": "U2_N3"
+      },
+      {
+        "net": "D5_N2",
+        "points": [
+          [
+            190.0,
+            145.0
           ],
           [
             235.0,
-            140.0
+            145.0
+          ]
+        ],
+        "primitiveId": "w-M2-48",
+        "Line": [
+          [
+            190.0,
+            145.0
+          ],
+          [
+            235.0,
+            145.0
+          ]
+        ],
+        "Net": "D5_N2"
+      },
+      {
+        "net": "D5_N2",
+        "points": [
+          [
+            235.0,
+            145.0
+          ],
+          [
+            240.0,
+            145.0
           ]
         ],
         "primitiveId": "w-M2-49",
         "Line": [
           [
             235.0,
-            115.0
+            145.0
           ],
+          [
+            240.0,
+            145.0
+          ]
+        ],
+        "Net": "D5_N2"
+      },
+      {
+        "net": "D5_N2",
+        "points": [
           [
             235.0,
             140.0
+          ],
+          [
+            235.0,
+            145.0
+          ]
+        ],
+        "primitiveId": "w-M2-50",
+        "Line": [
+          [
+            235.0,
+            140.0
+          ],
+          [
+            235.0,
+            145.0
+          ]
+        ],
+        "Net": "D5_N2"
+      },
+      {
+        "net": "D5_N2",
+        "points": [
+          [
+            235.0,
+            145.0
+          ],
+          [
+            235.0,
+            150.0
+          ]
+        ],
+        "primitiveId": "w-M2-51",
+        "Line": [
+          [
+            235.0,
+            145.0
+          ],
+          [
+            235.0,
+            150.0
           ]
         ],
         "Net": "D5_N2"
@@ -1746,136 +1812,172 @@
       "rectangles": [
         {
           "primitiveId": "frame-M2",
-          "TopLeftX": 197.0,
-          "TopLeftY": 278.0,
-          "Width": 186.0,
-          "Height": 186.0,
+          "TopLeftX": 162.0,
+          "TopLeftY": 288.0,
+          "Width": 241.0,
+          "Height": 206.0,
           "title": "第二路 buck：VBAT → 12V 中间轨（XL1509）"
         }
       ],
       "texts": [
         {
+          "primitiveId": "svgtext-3",
+          "Content": "PROJECT EasyCirq",
+          "X": 396.0,
+          "Y": 77.0,
+          "FontSize": 8.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-4",
+          "Content": "REV A",
+          "X": 396.0,
+          "Y": 66.0,
+          "FontSize": 8.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
           "primitiveId": "svgtext-5",
-          "Content": "U2",
-          "X": 293.0,
-          "Y": 261.0,
-          "FontSize": 7.0,
+          "Content": "2026-11-06",
+          "X": 396.0,
+          "Y": 55.0,
+          "FontSize": 8.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-6",
+          "Content": "SHEET M2",
+          "X": 396.0,
+          "Y": 44.0,
+          "FontSize": 8.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-7",
-          "Content": "FB",
-          "X": 295.0,
-          "Y": 215.5,
-          "FontSize": 4.5,
+          "Content": "PAGE 1/1",
+          "X": 396.0,
+          "Y": 33.0,
+          "FontSize": 8.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-8",
-          "Content": "GND",
-          "X": 349.875,
-          "Y": 235.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-9",
-          "Content": "GND#2",
-          "X": 343.125,
-          "Y": 215.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-10",
-          "Content": "GND#3",
-          "X": 343.125,
-          "Y": 195.5,
-          "FontSize": 4.5,
+          "Content": "SIZE A2",
+          "X": 396.0,
+          "Y": 22.0,
+          "FontSize": 8.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-11",
-          "Content": "GND#4",
-          "X": 343.125,
-          "Y": 175.5,
-          "FontSize": 4.5,
+          "Content": "U2",
+          "X": 313.0,
+          "Y": 271.0,
+          "FontSize": 7.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-12",
-          "Content": "ON/OFF",
-          "X": 295.0,
-          "Y": 235.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-13",
-          "Content": "OUTPUT",
-          "X": 295.0,
-          "Y": 195.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-14",
-          "Content": "VIN",
-          "X": 295.0,
-          "Y": 175.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-15",
-          "Content": "C11",
-          "X": 240.0,
-          "Y": 228.0,
-          "FontSize": 6.0,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-17",
-          "Content": "1",
-          "X": 245.812,
+          "Content": "FB",
+          "X": 315.0,
           "Y": 225.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
-          "primitiveId": "svgtext-18",
-          "Content": "D4",
-          "X": 258.0,
-          "Y": 196.0,
-          "FontSize": 7.0,
+          "primitiveId": "svgtext-13",
+          "Content": "GND",
+          "X": 369.875,
+          "Y": 245.5,
+          "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
-          "primitiveId": "svgtext-20",
-          "Content": "A",
-          "X": 261.625,
+          "primitiveId": "svgtext-14",
+          "Content": "GND#2",
+          "X": 363.125,
+          "Y": 225.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-15",
+          "Content": "GND#3",
+          "X": 363.125,
+          "Y": 205.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-16",
+          "Content": "GND#4",
+          "X": 363.125,
           "Y": 185.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
+          "primitiveId": "svgtext-17",
+          "Content": "ON/OFF",
+          "X": 315.0,
+          "Y": 245.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-18",
+          "Content": "OUTPUT",
+          "X": 315.0,
+          "Y": 205.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-19",
+          "Content": "VIN",
+          "X": 315.0,
+          "Y": 185.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-20",
+          "Content": "C11",
+          "X": 258.0,
+          "Y": 251.0,
+          "FontSize": 7.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
           "primitiveId": "svgtext-21",
-          "Content": "D5",
-          "X": 278.0,
-          "Y": 166.0,
+          "Content": "1",
+          "X": 265.812,
+          "Y": 235.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-22",
+          "Content": "D4",
+          "X": 268.0,
+          "Y": 201.0,
           "FontSize": 7.0,
           "Rotation": 0,
           "AlignMode": 0
@@ -1883,44 +1985,62 @@
         {
           "primitiveId": "svgtext-23",
           "Content": "A",
-          "X": 281.625,
-          "Y": 155.5,
+          "X": 271.625,
+          "Y": 190.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-24",
-          "Content": "J2",
-          "X": 318.0,
-          "Y": 146.0,
+          "Content": "D5",
+          "X": 303.0,
+          "Y": 151.0,
           "FontSize": 7.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
-          "primitiveId": "svgtext-26",
-          "Content": "1",
-          "X": 320.0,
-          "Y": 120.5,
+          "primitiveId": "svgtext-25",
+          "Content": "A",
+          "X": 306.625,
+          "Y": 140.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
+          "primitiveId": "svgtext-26",
+          "Content": "J2",
+          "X": 348.0,
+          "Y": 131.0,
+          "FontSize": 7.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
           "primitiveId": "svgtext-27",
-          "Content": "2",
-          "X": 320.0,
-          "Y": 130.5,
+          "Content": "1",
+          "X": 350.0,
+          "Y": 105.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-28",
+          "Content": "2",
+          "X": 350.0,
+          "Y": 115.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-29",
           "Content": "L2",
-          "X": 213.0,
-          "Y": 226.0,
+          "X": 203.0,
+          "Y": 201.0,
           "FontSize": 7.0,
           "Rotation": 0,
           "AlignMode": 0
@@ -1928,8 +2048,8 @@
         {
           "primitiveId": "svgtext-30",
           "Content": "1",
-          "X": 215.0,
-          "Y": 215.5,
+          "X": 205.0,
+          "Y": 190.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
@@ -1937,44 +2057,44 @@
         {
           "primitiveId": "svgtext-31",
           "Content": "2",
-          "X": 236.625,
-          "Y": 215.5,
+          "X": 226.625,
+          "Y": 190.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
           "primitiveId": "svgtext-32",
-          "Content": "C10",
-          "X": 225.0,
-          "Y": 153.0,
-          "FontSize": 6.0,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-34",
-          "Content": "1",
-          "X": 230.812,
-          "Y": 150.5,
-          "FontSize": 4.5,
-          "Rotation": 0,
-          "AlignMode": 0
-        },
-        {
-          "primitiveId": "svgtext-35",
           "Content": "C12",
           "X": 248.0,
-          "Y": 121.0,
+          "Y": 151.0,
           "FontSize": 7.0,
           "Rotation": 0,
           "AlignMode": 0
         },
         {
-          "primitiveId": "svgtext-37",
+          "primitiveId": "svgtext-33",
           "Content": "1",
           "X": 250.0,
-          "Y": 110.5,
+          "Y": 140.5,
+          "FontSize": 4.5,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-34",
+          "Content": "C10",
+          "X": 178.0,
+          "Y": 166.0,
+          "FontSize": 7.0,
+          "Rotation": 0,
+          "AlignMode": 0
+        },
+        {
+          "primitiveId": "svgtext-35",
+          "Content": "1",
+          "X": 185.812,
+          "Y": 150.5,
           "FontSize": 4.5,
           "Rotation": 0,
           "AlignMode": 0
@@ -1984,229 +2104,229 @@
         {
           "primitiveId": "w-M2-0",
           "Line": [
-            385.0,
-            220.0,
-            390.0,
-            220.0
+            405.0,
+            230.0,
+            410.0,
+            230.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-1",
           "Line": [
-            385.0,
-            180.0,
-            390.0,
-            180.0
+            405.0,
+            190.0,
+            410.0,
+            190.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-2",
           "Line": [
-            385.0,
-            200.0,
-            390.0,
-            200.0
+            405.0,
+            210.0,
+            410.0,
+            210.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-3",
           "Line": [
-            255.0,
-            240.0,
             275.0,
-            240.0
+            250.0,
+            295.0,
+            250.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-4",
           "Line": [
-            290.0,
-            185.0,
-            290.0,
-            190.0
+            280.0,
+            145.0,
+            280.0,
+            205.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-5",
           "Line": [
-            290.0,
-            190.0,
-            285.0,
-            190.0
+            280.0,
+            205.0,
+            305.0,
+            205.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-6",
           "Line": [
-            275.0,
-            135.0,
-            310.0,
-            135.0
+            305.0,
+            205.0,
+            305.0,
+            195.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-7",
           "Line": [
-            300.0,
-            125.0,
-            300.0,
-            140.0
+            305.0,
+            195.0,
+            295.0,
+            195.0
           ],
-          "Net": "VBAT_RAW"
+          "Net": "GND"
         },
         {
           "primitiveId": "w-M2-8",
           "Line": [
-            300.0,
-            140.0,
-            315.0,
-            140.0
+            330.0,
+            110.0,
+            330.0,
+            125.0
           ],
           "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-9",
           "Line": [
-            315.0,
-            140.0,
-            315.0,
-            160.0
+            330.0,
+            125.0,
+            340.0,
+            125.0
           ],
           "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-10",
           "Line": [
-            315.0,
-            160.0,
-            305.0,
-            160.0
+            340.0,
+            125.0,
+            340.0,
+            145.0
           ],
           "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-11",
           "Line": [
-            265.0,
-            160.0,
-            260.0,
-            160.0
+            340.0,
+            145.0,
+            330.0,
+            145.0
           ],
-          "Net": "D5_N2"
+          "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-12",
           "Line": [
-            260.0,
-            180.0,
+            245.0,
+            210.0,
             275.0,
-            180.0
+            210.0
           ],
-          "Net": "D5_N2"
+          "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-13",
           "Line": [
-            235.0,
-            145.0,
-            240.0,
-            145.0
+            275.0,
+            210.0,
+            275.0,
+            230.0
           ],
-          "Net": "D5_N2"
+          "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-14",
           "Line": [
-            240.0,
-            145.0,
-            260.0,
-            145.0
+            270.0,
+            230.0,
+            275.0,
+            230.0
           ],
-          "Net": "D5_N2"
+          "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-15",
           "Line": [
-            260.0,
-            145.0,
-            260.0,
-            160.0
+            275.0,
+            230.0,
+            295.0,
+            230.0
           ],
-          "Net": "D5_N2"
+          "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-16",
           "Line": [
-            260.0,
-            160.0,
-            260.0,
-            180.0
+            290.0,
+            145.0,
+            285.0,
+            145.0
           ],
           "Net": "D5_N2"
         },
         {
           "primitiveId": "w-M2-17",
           "Line": [
-            235.0,
-            140.0,
-            240.0,
-            140.0
+            285.0,
+            145.0,
+            285.0,
+            150.0
           ],
           "Net": "D5_N2"
         },
         {
           "primitiveId": "w-M2-18",
           "Line": [
-            240.0,
-            140.0,
-            240.0,
-            145.0
+            285.0,
+            150.0,
+            285.0,
+            190.0
           ],
           "Net": "D5_N2"
         },
         {
           "primitiveId": "w-M2-19",
           "Line": [
-            245.0,
+            285.0,
             190.0,
-            240.0,
+            295.0,
             190.0
           ],
-          "Net": "U2_N3"
+          "Net": "D5_N2"
         },
         {
           "primitiveId": "w-M2-20",
           "Line": [
-            240.0,
-            190.0,
-            240.0,
-            205.0
+            235.0,
+            150.0,
+            285.0,
+            150.0
           ],
-          "Net": "U2_N3"
+          "Net": "D5_N2"
         },
         {
           "primitiveId": "w-M2-21",
           "Line": [
-            270.0,
-            205.0,
-            270.0,
-            200.0
+            255.0,
+            195.0,
+            250.0,
+            195.0
           ],
           "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-22",
           "Line": [
-            270.0,
-            200.0,
-            275.0,
+            250.0,
+            195.0,
+            250.0,
             200.0
           ],
           "Net": "U2_N3"
@@ -2214,140 +2334,140 @@
         {
           "primitiveId": "w-M2-23",
           "Line": [
-            205.0,
-            205.0,
-            240.0,
-            205.0
+            290.0,
+            200.0,
+            290.0,
+            210.0
           ],
           "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-24",
           "Line": [
-            240.0,
-            205.0,
-            270.0,
-            205.0
+            290.0,
+            210.0,
+            295.0,
+            210.0
           ],
           "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-25",
           "Line": [
-            385.0,
-            240.0,
-            390.0,
-            240.0
+            195.0,
+            200.0,
+            250.0,
+            200.0
           ],
-          "Net": "GND"
+          "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-26",
           "Line": [
-            390.0,
-            180.0,
-            390.0,
+            250.0,
+            200.0,
+            290.0,
             200.0
           ],
-          "Net": "GND"
+          "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-27",
           "Line": [
-            390.0,
-            200.0,
-            390.0,
-            220.0
+            405.0,
+            250.0,
+            410.0,
+            250.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-28",
           "Line": [
-            390.0,
-            220.0,
-            390.0,
-            240.0
+            410.0,
+            190.0,
+            410.0,
+            210.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-29",
           "Line": [
-            390.0,
-            240.0,
-            390.0,
-            245.0
+            410.0,
+            210.0,
+            410.0,
+            230.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-30",
           "Line": [
-            250.0,
-            260.0,
-            255.0,
-            260.0
+            410.0,
+            230.0,
+            410.0,
+            250.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-31",
           "Line": [
-            255.0,
-            240.0,
-            255.0,
-            260.0
+            410.0,
+            250.0,
+            410.0,
+            255.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-32",
           "Line": [
-            255.0,
-            260.0,
-            255.0,
-            265.0
+            270.0,
+            270.0,
+            275.0,
+            270.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-33",
           "Line": [
-            235.0,
-            185.0,
-            240.0,
-            185.0
+            275.0,
+            250.0,
+            275.0,
+            270.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-34",
           "Line": [
-            240.0,
-            185.0,
-            290.0,
-            185.0
+            275.0,
+            270.0,
+            275.0,
+            275.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-35",
           "Line": [
-            240.0,
-            185.0,
-            240.0,
-            180.0
+            270.0,
+            145.0,
+            275.0,
+            145.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-36",
           "Line": [
-            270.0,
-            115.0,
             275.0,
-            115.0
+            145.0,
+            280.0,
+            145.0
           ],
           "Net": "GND"
         },
@@ -2355,119 +2475,119 @@
           "primitiveId": "w-M2-37",
           "Line": [
             275.0,
-            110.0,
+            145.0,
             275.0,
-            115.0
+            140.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-38",
           "Line": [
-            275.0,
-            115.0,
-            275.0,
-            135.0
+            190.0,
+            185.0,
+            195.0,
+            185.0
           ],
           "Net": "GND"
         },
         {
           "primitiveId": "w-M2-39",
           "Line": [
-            250.0,
-            220.0,
-            265.0,
-            220.0
+            195.0,
+            185.0,
+            195.0,
+            190.0
           ],
-          "Net": "+12V_FILT"
+          "Net": "GND"
         },
         {
           "primitiveId": "w-M2-40",
           "Line": [
-            265.0,
-            220.0,
-            275.0,
-            220.0
+            240.0,
+            195.0,
+            245.0,
+            195.0
           ],
           "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-41",
           "Line": [
-            265.0,
-            220.0,
-            265.0,
-            265.0
+            245.0,
+            190.0,
+            245.0,
+            195.0
           ],
           "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-42",
           "Line": [
-            300.0,
-            125.0,
-            305.0,
-            125.0
+            245.0,
+            195.0,
+            245.0,
+            210.0
           ],
-          "Net": "VBAT_RAW"
+          "Net": "+12V_FILT"
         },
         {
           "primitiveId": "w-M2-43",
           "Line": [
-            305.0,
-            125.0,
-            310.0,
-            125.0
+            330.0,
+            110.0,
+            335.0,
+            110.0
           ],
           "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-44",
           "Line": [
-            305.0,
-            125.0,
-            305.0,
-            120.0
+            335.0,
+            110.0,
+            340.0,
+            110.0
           ],
           "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-45",
           "Line": [
-            205.0,
-            220.0,
-            210.0,
-            220.0
+            335.0,
+            110.0,
+            335.0,
+            105.0
           ],
-          "Net": "U2_N3"
+          "Net": "VBAT_RAW"
         },
         {
           "primitiveId": "w-M2-46",
           "Line": [
-            205.0,
-            205.0,
-            205.0,
-            220.0
+            195.0,
+            195.0,
+            200.0,
+            195.0
           ],
           "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-47",
           "Line": [
-            205.0,
-            220.0,
-            205.0,
-            225.0
+            195.0,
+            195.0,
+            195.0,
+            200.0
           ],
           "Net": "U2_N3"
         },
         {
           "primitiveId": "w-M2-48",
           "Line": [
+            190.0,
+            145.0,
             235.0,
-            115.0,
-            240.0,
-            115.0
+            145.0
           ],
           "Net": "D5_N2"
         },
@@ -2475,9 +2595,29 @@
           "primitiveId": "w-M2-49",
           "Line": [
             235.0,
-            115.0,
+            145.0,
+            240.0,
+            145.0
+          ],
+          "Net": "D5_N2"
+        },
+        {
+          "primitiveId": "w-M2-50",
+          "Line": [
             235.0,
-            140.0
+            140.0,
+            235.0,
+            145.0
+          ],
+          "Net": "D5_N2"
+        },
+        {
+          "primitiveId": "w-M2-51",
+          "Line": [
+            235.0,
+            145.0,
+            235.0,
+            150.0
           ],
           "Net": "D5_N2"
         }
@@ -2487,58 +2627,65 @@
       {
         "net": "GND",
         "kind": "ground",
-        "x": 390.0,
-        "y": 245.0,
+        "x": 410.0,
+        "y": 255.0,
         "direction": "up"
-      },
-      {
-        "net": "GND",
-        "kind": "ground",
-        "x": 255.0,
-        "y": 265.0,
-        "direction": "up"
-      },
-      {
-        "net": "GND",
-        "kind": "ground",
-        "x": 240.0,
-        "y": 180.0,
-        "direction": "left"
       },
       {
         "net": "GND",
         "kind": "ground",
         "x": 275.0,
-        "y": 110.0,
+        "y": 275.0,
+        "direction": "up"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 275.0,
+        "y": 140.0,
         "direction": "down"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 340.0,
+        "y": 120.0,
+        "direction": "left"
+      },
+      {
+        "net": "GND",
+        "kind": "ground",
+        "x": 195.0,
+        "y": 190.0,
+        "direction": "left"
       },
       {
         "net": "+12V_FILT",
         "kind": "power",
-        "x": 265.0,
-        "y": 265.0,
-        "direction": "right"
+        "x": 245.0,
+        "y": 190.0,
+        "direction": "down"
       },
       {
         "net": "VBAT_RAW",
         "kind": "power",
-        "x": 305.0,
-        "y": 120.0,
+        "x": 335.0,
+        "y": 105.0,
         "direction": "down"
       },
       {
         "net": "U2_N3",
         "kind": "net_port_bi",
-        "x": 205.0,
-        "y": 225.0,
-        "direction": "left"
+        "x": 195.0,
+        "y": 200.0,
+        "direction": "up"
       },
       {
         "net": "D5_N2",
         "kind": "net_port_bi",
         "x": 235.0,
-        "y": 120.0,
-        "direction": "left"
+        "y": 140.0,
+        "direction": "down"
       }
     ]
   },
