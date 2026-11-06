@@ -281,6 +281,17 @@ def extract_pins(doc):
 BOX_PREFIXES = ("U", "X", "IC", "J", "F", "K", "SW", "Y")
 
 
+def _net_text_color(net):
+    """按 tokens 给网标文字取色：地蓝 / 电源红 / 信号黑。"""
+    n = (net or "").strip()
+    u = n.upper()
+    if u in ("GND", "AGND", "DGND", "PGND") or "GND" in u:
+        return (0, 0, 204)          # #0000CC
+    if n.startswith("+"):
+        return (204, 0, 0)          # #CC0000
+    return (0, 0, 0)                # #000000
+
+
 def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
     """按位号前缀画符号。坐标仍走 px()，所以和器件/导线严格同一坐标系。"""
     x1, y1, x2, y2 = box
@@ -377,7 +388,9 @@ def draw_symbol(d, px, ref, box, pins, f_tiny, f_small, body_edge, body_fill):
                         d.text((nx, gy - 6), q["name"], fill=(70, 70, 80),
                                font=f_tiny)
                         drawn_boxes.append(box)
-                if q["number"]:
+                # **别画两遍**：库里 number 常与 name 相同（如 LX/LX），
+                # 框外再写一遍同一字符串只是噪声。
+                if q["number"] and str(q["number"]) != str(q["name"] or ""):
                     ox, oy = px(qx, qy)
                     d.text((ox + 2, oy - 12), q["number"], fill=(150, 60, 60),
                            font=f_tiny)
@@ -616,10 +629,13 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
                 near = b
                 break
         to_left = bool(near) and x <= (near[0] + near[2]) / 2.0
+        # 文字颜色跟**网络类别**（tokens：地蓝 / 电源红 / 信号黑）。
+        # 原来用 THEME["flag"] 紫色，与旗标符号的 net_color() 是两套，语义丢了。
+        label_fill = _net_text_color(net)
         if to_left:
-            d.text((cxp - 8 - tw, cyp - 6), net, fill=THEME["flag"], font=net_font)
+            d.text((cxp - 8 - tw, cyp - 6), net, fill=label_fill, font=net_font)
         else:
-            d.text((cxp + 8, cyp - 6), net, fill=THEME["flag"], font=net_font)
+            d.text((cxp + 8, cyp - 6), net, fill=label_fill, font=net_font)
 
     # 页头：图纸名 + 质量结论
     head = "%s　·　%d 件 / %d 导线 / %d 网标　·　占用 %.0f%%　·　穿器件 %d　·　%s" % (
