@@ -6175,3 +6175,51 @@ for _, box := range component.TextBBoxes {
 | M3 / M4 / M5 | **9 PASS / 0 FAIL / 1 N/R / 1 N/A** |
 | 风格 token | **0 违规** |
 | M1 / M2 | 渲染被拒（实测 16 / 3 处导线穿位号）|
+
+
+---
+
+## #119 把"6 个失败是既有的"从**推断**变成**证据**
+
+### 之前我只是反复声明
+
+> "6 个失败全是既有的（相关文件最后改动都在本会话之前）"
+
+这句话此前靠 `git log` 眼看，没做机械判定。
+
+### 现在有工具和输出
+
+`scripts/check_preexisting_failures.py`：用 **git 祖先关系**判定
+——那些失败涉及的测试/源码文件，最后一次改动是否早于**本会话第一次提交**。
+
+```
+tests/test_sch_offline_pipeline.py       最后改动 ec4314aa  既有（早于会话）
+easycirq/scripts/sch_offline_pipeline.py 最后改动 84f35522  既有（早于会话）
+tests/test_enterprise_parts.py           最后改动 9983bf2b  既有（早于会话）
+tests/test_knowledge_concepts.py         最后改动 757724b9  既有（早于会话）
+tests/test_failure_explainability.py     最后改动 699c620b  既有（早于会话）
+tests/test_sch_measure_parts.py          最后改动 eaad9f06  既有（早于会话）
+结论：全部既有
+```
+
+**"既有"从此是一条可复现的命令，不是一句声明。**
+
+### 同时补了文档
+
+`preview-acceptance.md` 增加：
+
+1. **风格 token 检查的正确命令**（第 6 步），并写明
+   `--frames` 必须指向 `review/frames-<页名>.json`
+2. **第 4 个文字坑**：`--frames` 给错路径会得到假违规
+   （实测面积 10.9% vs 真实 73.1%、内距 0.00 vs 14.92 mm）
+
+2 条测试钉住：文档必须有该命令与真实位置、必须写出假违规的具体数字。
+
+### 状态
+
+| 项 | 状态 |
+|---|---|
+| M3 / M4 / M5 | **9 PASS / 0 FAIL / 1 N/R / 1 N/A** |
+| 风格 token | **0 违规**（73.1/77.6/73.1%，内距 14.9/10.9/20.0 mm）|
+| 既有失败 | 6 个，**已用 git 祖先关系证明** |
+| M1 / M2 | 渲染被拒（实测 16 / 3 处）|

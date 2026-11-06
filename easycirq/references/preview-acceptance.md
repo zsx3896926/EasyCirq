@@ -84,6 +84,12 @@ python scripts/sch_layout_review.py \
 # 4) 走完整验收链（渲染 → 实测文字 → 严格检查 → 分类结论）
 python scripts/sch_preview_accept.py --work reports/hard-board/board2 --modules M3
 
+# 6) 风格 token（图面合规）：`--frames` 必须指向**审图渲染器产出的** frames 文件
+#    位置：<review 目录>/frames-<页名>.json
+#    不给 --frames 才会按器件外框估算；给了但文件不存在 → **硬报错**（不给假结论）
+python scripts/sch_style_check.py --work reports/hard-board/board2 \
+    --frames "M3=reports/hard-board/board2/review/frames-P3_3V3主逻辑.json"
+
 # 5) 一页纸报告
 python scripts/sch_preview_report.py --work reports/hard-board/board2
 ```
@@ -96,6 +102,10 @@ python scripts/sch_preview_report.py --work reports/hard-board/board2
    渲染输入必须带 `sheet.bounds`。
 3. **键名大小写是契约**：`textBboxes`（小写 b）。写成 `textBBoxes` 会被严格解码器
    当未知字段**静默忽略**，于是"约束看起来加了却从没生效"。
+
+4. **`--frames` 给错路径会得到假违规。** 检查器曾静默回退到"按器件外框估算"，
+   报出面积 10.9% / 内距 0.00 mm（真实值 73.1% / 14.92 mm）。现在缺文件会硬报错；
+   文档也写明 frames 的真实位置：`review/frames-<页名>.json`。
 
 ## 已知限制（如实记录，未绕过）
 
