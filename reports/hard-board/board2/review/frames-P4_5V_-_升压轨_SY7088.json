@@ -6,13 +6,13 @@
       "id": "M4",
       "title": "P4_5V → 升压轨（SY7088） · 5V → 升压轨（SY7088）",
       "rect": {
-        "minX": 25.7,
-        "minY": 77.25,
-        "maxX": 815.3,
-        "maxY": 568.3
+        "minX": 304.0,
+        "minY": 84.0,
+        "maxX": 551.0,
+        "maxY": 466.0
       },
-      "titleX": 29.7,
-      "titleY": 564.3,
+      "titleX": 308.0,
+      "titleY": 462.0,
       "fontSize": 20,
       "color": "#AA00AA",
       "lineType": 1

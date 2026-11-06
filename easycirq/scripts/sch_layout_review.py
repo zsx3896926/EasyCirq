@@ -300,6 +300,14 @@ def zone_rect(doc, content, tb_page, scale):
     def ratio(b):
         return max(0.0, (b[2] - b[0]) * (b[3] - b[1])) / pa
 
+    # **默认紧凑**：单模块页的框贴合内容（内容 ± 18 raw ≈ 5 mm）。
+    # 原来为了满足 `zone_area_ratio ≥ 25%` 把框撑满可用区，
+    # 结果内容只占 6%、框占 73%，图上大片空白（friction #122）。
+    # 需要"撑满"观感时设 TIGHT_FRAME=0。
+    if os.environ.get("TIGHT_FRAME", "1") != "0":
+        pad = 18.0
+        return (content[0] - pad, content[1] - pad,
+                content[2] + pad, content[3] + pad)
     if ratio(content) >= ZONE_AREA_MIN:
         return r
     r = expand(pg, -PAGE_MARGIN_RAW)
@@ -620,30 +628,9 @@ def render(doc, parts, wires, flags, modules, page_name, out_path, q):
         # 分区框取**可用区**（页面减页边距），受 tokens 的 80% 上限约束。
         # 只按器件包围盒外扩时，小电路的分区只占页面 5.5%，
         # 违反 style-tokens.layout.zone_area_ratio（要求 25%~80%）。
-        r = content
-        _sheet = doc.get("sheet") or {}
-        if _sheet:
-            _pg = (_sheet["minX"], _sheet["minY"], _sheet["maxX"], _sheet["maxY"])
-            _pa = max(1e-9, (_pg[2] - _pg[0]) * (_pg[3] - _pg[1]))
-            if (max(0.0, (content[2] - content[0]) * (content[3] - content[1]))
-                    / _pa) < ZONE_AREA_MIN:
-                r = expand(_pg, -PAGE_MARGIN_RAW)
-                # 框会压住图签 → 把下沿抬到图签上方
-                if (r[0] < tb_page[2] and tb_page[0] < r[2]
-                        and r[1] < tb_page[3] and tb_page[1] < r[3]):
-                    r = (r[0], max(r[1], tb_page[3] + 6.0 / scale),
-                         r[2], r[3])
-                _t = 0
-                while _t < 40:
-                    _a = max(0.0, (r[2] - r[0]) * (r[3] - r[1])) / _pa
-                    if _a <= ZONE_AREA_MAX:
-                        break
-                    _n = expand(r, -6.0)
-                    if (_n[0] > content[0] or _n[1] > content[1]
-                            or _n[2] < content[2] or _n[3] < content[3]):
-                        break
-                    r = _n
-                    _t += 1
+        # **共用 zone_rect**：原来这里是同一算法的内联副本，
+        # 于是改 `zone_rect` 不会改变画出来的框（#122 踩到）。
+        r = zone_rect(doc, content, tb_page, scale)
         zc = _rgb(palette[bi % len(palette)], (0, 179, 179))
         d.rectangle([px(r[0], r[3]), px(r[2], r[1])], outline=zc, width=2)
         label = m["title"] or m.get("id") or ""
