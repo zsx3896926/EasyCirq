@@ -2041,7 +2041,7 @@
     "kind": "composition",
     "note": "由 lib-layout 排版稿合成；没有渲染图，故无 svg-text.json",
     "inputs": [
-      "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\composition-M3-placed.json"
+      "reports\\hard-board\\board2\\composition-M3-placed.json"
     ]
   }
 }

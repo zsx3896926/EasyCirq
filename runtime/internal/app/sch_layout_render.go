@@ -185,12 +185,12 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 	if in.Diagnostic {
 		title = "诊断模式 · " + title
 	}
-	text(20, 28, 20, "#22344d", title, "start")
-	text(20, 49, 9, "#546579", "离线转译 / 简化符号 / 非仿真、非官方导图", "start")
+	text(20, 28, 20, "#000000", title, "start")
+	text(20, 49, 9, "#666666", "离线转译 / 简化符号 / 非仿真、非官方导图", "start")
 	if in.Diagnostic {
 		text(20, 65, 9, "#c53b45", "诊断输出：未通过完整性门禁，不得作为完成效果或 Apply 依据。", "start")
 	} else {
-		text(20, 65, 9, "#546579", "只转译输入几何；离线预览不等于现场 Apply 验收。", "start")
+		text(20, 65, 9, "#666666", "只转译输入几何；离线预览不等于现场 Apply 验收。", "start")
 	}
 	if in.Sheet != nil {
 		s := in.Sheet
@@ -211,7 +211,7 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 			// 有一项测不出 bbox（29 条输入 vs 28 条实测），会让整组判据变 N/R。
 			for i, fv := range []string{"SHEET " + panels[0].zone.ID, "REV A",
 				"PAGE 1/1", "2026-11-06", "EasyCirq"} {
-				text(tx0+6, ty0+15+float64(i)*13, 8, "#334155", fv, "start")
+				text(tx0+6, ty0+15+float64(i)*13, 8, "#000000", fv, "start")
 			}
 		}
 		for _, k := range s.Keepouts {
@@ -229,21 +229,21 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 				}
 				fields := []string{sheetName, "版本 A", "第 1 页", "EasyCirq 离线预览", "图签"}
 				for i, fv := range fields {
-					text(kxc+6, kyc+14+float64(i)*11, 7, "#334155", fv, "start")
+					text(kxc+6, kyc+14+float64(i)*11, 7, "#000000", fv, "start")
 				}
 				_ = kw
 			} else {
 				text(kxc+4, kyc+14, 9, "#64748b", "图签禁放区", "start")
 			}
 		}
-		text(20, canvasH-7, 9, "#546579", fmt.Sprintf("原比例 / 页边净距 ≥ %g raw (%.2f mm) / 区间净距 ≥ %g raw / 绿色虚线：排版边界", s.Padding, s.Padding*.254, s.Gap), "start")
+		text(20, canvasH-7, 9, "#666666", fmt.Sprintf("原比例 / 页边净距 ≥ %g raw (%.2f mm) / 区间净距 ≥ %g raw / 绿色虚线：排版边界", s.Padding, s.Padding*.254, s.Gap), "start")
 		if s.BorderSource != "" {
-			text(canvasW-20, canvasH-7, 8, "#546579", s.BorderSource, "end")
+			text(canvasW-20, canvasH-7, 8, "#666666", s.BorderSource, "end")
 		}
 	}
 	for _, v := range panels {
 		z, f := v.zone, v.frame
-		color, status := "#aa00aa", "预案"
+		color, status := "#00B3B3", "预案"
 		if in.Diagnostic {
 			color, status = "#c53b45", "诊断"
 		}
@@ -262,12 +262,12 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		}
 		for _, w := range z.Layout.Wires {
 			for i := 1; i < len(w.Points); i++ {
-				line(w.Points[i-1], w.Points[i], "#07814d")
+				line(w.Points[i-1], w.Points[i], netStroke(w.Net, ""))
 			}
 		}
 		for _, c := range z.Layout.Placements {
 			r := c.BBox
-			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="white" stroke="#34445b" stroke-width="0.8"/>`, X(r.MinX), Y(r.MaxY), r.MaxX-r.MinX, r.MaxY-r.MinY)
+			fmt.Fprintf(&b, `<rect x="%g" y="%g" width="%g" height="%g" fill="white" stroke="#666666" stroke-width="0.8"/>`, X(r.MinX), Y(r.MaxY), r.MaxX-r.MinX, r.MaxY-r.MinY)
 			// 位号画在本体左上角上方。三种避让都试过并回退：
 			// 挪到本体下方（掉出模块框）、顶边左右换端（无改善）、
 			// 顶部有引脚就画进体内（M2 可解但验收 5 PASS→4 PASS）。
@@ -275,7 +275,7 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 			var drawnLabels [][4]float64
 			desigW := 0.75 * 7.0 * float64(len([]rune(c.Designator)))
 			dx0, dy0 := X(r.MinX), Y(r.MaxY)-4
-			text(dx0, dy0, 7, "#24344a", c.Designator, "start")
+			text(dx0, dy0, 7, "#000000", c.Designator, "start")
 			drawnLabels = append(drawnLabels,
 				[4]float64{dx0 - 0.5, dy0 - 7.5, dx0 + desigW + 0.5, dy0 + 2.0})
 			if c.Value != "" {
@@ -286,7 +286,7 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 			}
 			for _, q := range c.Pins {
 				ex, ey := math.Max(r.MinX, math.Min(r.MaxX, q.X)), math.Max(r.MinY, math.Min(r.MaxY, q.Y))
-				line([2]float64{ex, ey}, [2]float64{q.X, q.Y}, "#34445b")
+				line([2]float64{ex, ey}, [2]float64{q.X, q.Y}, "#666666")
 				label, anchor, dx := q.Name, "middle", 0.0
 				if label == "" {
 					label = q.Number
@@ -322,10 +322,10 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 					}
 					if !clash {
 						drawnLabels = append(drawnLabels, box)
-						text(bx0, by0, fs, "#34445b", label, "start")
+						text(bx0, by0, fs, "#666666", label, "start")
 					}
 				}
-				fmt.Fprintf(&b, `<circle cx="%g" cy="%g" r="1.1" fill="#34445b"><title>%s</title></circle>`, X(q.X), Y(q.Y), html.EscapeString(c.Designator+"."+q.Number+" "+q.Net))
+				fmt.Fprintf(&b, `<circle cx="%g" cy="%g" r="1.1" fill="#666666"><title>%s</title></circle>`, X(q.X), Y(q.Y), html.EscapeString(c.Designator+"."+q.Number+" "+q.Net))
 				id := z.Layout.ComponentIDs[c.Designator]
 				if q.Net == "" && z.Layout.PinStates[id][q.Number] == "nc" {
 					line([2]float64{q.X - 2, q.Y - 2}, [2]float64{q.X + 2, q.Y + 2}, "#c53b45")
@@ -335,11 +335,11 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 		}
 		for _, m := range z.Layout.Flags {
 			x, y := endpointFor(m.PinX, m.PinY, m.Offset, m.Direction)
-			line([2]float64{m.PinX, m.PinY}, [2]float64{x, y}, "#07814d")
+			line([2]float64{m.PinX, m.PinY}, [2]float64{x, y}, "#666666")
 			renderLayoutMarker(&b, m, X, Y)
 		}
 		for _, q := range layoutJunctions(z.Layout) {
-			fmt.Fprintf(&b, `<circle class="junction" cx="%g" cy="%g" r="1.6" fill="#07814d"/>`, X(q[0]), Y(q[1]))
+			fmt.Fprintf(&b, `<circle class="junction" cx="%g" cy="%g" r="1.6" fill="#000000"/>`, X(q[0]), Y(q[1]))
 		}
 	}
 	b.WriteString("</g></svg>\n")
@@ -348,6 +348,18 @@ func RenderSchematicLayoutSVG(in SchematicRenderInput) ([]byte, error) {
 
 // Draw the same directional body and text envelope that the solver reserves.
 // Glyphs remain schematic approximations, not vendor symbol artwork.
+// netStroke 按 style-tokens 给网络取色：电源红、地蓝、信号黑。
+func netStroke(net, kind string) string {
+	if kind == "ground" || kind == "analog_ground" ||
+		strings.EqualFold(net, "GND") || strings.HasPrefix(strings.ToUpper(net), "AGND") {
+		return "#0000CC"
+	}
+	if strings.HasPrefix(net, "+") || kind == "power" || kind == "vcc" || kind == "vdd" {
+		return "#CC0000"
+	}
+	return "#000000"
+}
+
 func renderLayoutMarker(b *bytes.Buffer, m powerLayoutFlag, X, Y func(float64) float64) {
 	x, y := endpointFor(m.PinX, m.PinY, m.Offset, m.Direction)
 	body := predictedMarkerBody(x, y, m.Kind, m.Direction, m.Net)
@@ -364,8 +376,18 @@ func renderLayoutMarker(b *bytes.Buffer, m powerLayoutFlag, X, Y func(float64) f
 	point := func(along, across float64) [2]float64 {
 		return [2]float64{X(x + u*along - v*across), Y(y + v*along + u*across)}
 	}
+	// 颜色按 style-tokens：电源红、地蓝、信号黑。
+	// 原来一律 #176bc0，等于丢掉了基准图的颜色语义。
+	markerColor := "#000000"
+	if m.Kind == "ground" || m.Kind == "analog_ground" ||
+		strings.EqualFold(m.Net, "GND") || strings.HasPrefix(strings.ToUpper(m.Net), "AGND") {
+		markerColor = "#0000CC"
+	} else if strings.HasPrefix(m.Net, "+") || m.Kind == "power" ||
+		m.Kind == "vcc" || m.Kind == "vdd" {
+		markerColor = "#CC0000"
+	}
 	line := func(a, c [2]float64) {
-		fmt.Fprintf(b, `<path d="M%g %g L%g %g" fill="none" stroke="#176bc0" stroke-width="0.8"/>`, a[0], a[1], c[0], c[1])
+		fmt.Fprintf(b, `<path d="M%g %g L%g %g" fill="none" stroke="%s" stroke-width="0.8"/>`, a[0], a[1], c[0], c[1], markerColor)
 	}
 	line(point(0, 0), point(profile.Near, 0))
 	if isNetPortKind(m.Kind) {
@@ -374,7 +396,7 @@ func renderLayoutMarker(b *bytes.Buffer, m powerLayoutFlag, X, Y func(float64) f
 			p := point(q[0], q[1])
 			fmt.Fprintf(b, "%g,%g ", p[0], p[1])
 		}
-		fmt.Fprint(b, `" fill="none" stroke="#176bc0" stroke-width="0.8"/>`)
+		fmt.Fprint(b, `" fill="none" stroke="%s" stroke-width="0.8"/>`, markerColor)
 	} else if m.Kind == "ground" {
 		for i := 0; i < 3; i++ {
 			a := profile.Near + float64(i)*(profile.Far-profile.Near)/2
@@ -395,7 +417,7 @@ func renderLayoutMarker(b *bytes.Buffer, m powerLayoutFlag, X, Y func(float64) f
 				angle = 90
 			}
 		}
-		fmt.Fprintf(b, `<text class="marker-name" transform="translate(%g %g) rotate(%d)" y="3.5" text-anchor="middle" font-size="10" textLength="%g" lengthAdjust="spacingAndGlyphs" fill="#176bc0">%s</text>`, cx, cy, angle, math.Max(1, width-2), html.EscapeString(m.Net))
+		fmt.Fprintf(b, `<text class="marker-name" transform="translate(%g %g) rotate(%d)" y="3.5" text-anchor="middle" font-size="10" textLength="%g" lengthAdjust="spacingAndGlyphs" fill="%s">%s</text>`, cx, cy, angle, math.Max(1, width-2), markerColor, html.EscapeString(m.Net))
 	}
 }
 
