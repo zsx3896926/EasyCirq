@@ -3,25 +3,47 @@
   "netlist": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\netlist.json",
   "parts": {
     "buck.sy8089_tsot23": {
-      "libraryUuid": "1901f023b5104a808121139b368dd1a3",
-      "deviceUuid": "3b994414b3d54831a908b7275d8ae0c0",
-      "symbolUuid": "c2ee51f74c3c469a91a045183b1326f8",
+      "libraryUuid": "5e7382a69781406ba214cc82244d6207",
+      "deviceUuid": "fdd1d4a4698e4d32b70e5d959a2a0927",
+      "symbolUuid": "e0abbd8233464f4ca8337e3c9a4e9e8a",
       "lcsc": "C479074",
-      "archive": ".easycirq\\symbol-cache\\buck_sy8089_tsot23_c2ee51f7.elibz2",
+      "archive": ".easycirq\\symbol-cache\\buck_sy8089_tsot23_e0abbd82.elibz2",
       "pins": {
         "EN": {
           "x": -35,
-          "y": 10,
+          "y": -10,
           "length": 10,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
             -35.0,
-            10.0
+            -10.0
           ]
         },
         "FB": {
           "x": 35,
+          "y": -10,
+          "length": 10,
+          "rotation": 180,
+          "outwardRotation": 0.0,
+          "connectionPoint": [
+            35.0,
+            -10.0
+          ]
+        },
+        "GND": {
+          "x": -35,
+          "y": 0,
+          "length": 10,
+          "rotation": 0,
+          "outwardRotation": 180.0,
+          "connectionPoint": [
+            -35.0,
+            0.0
+          ]
+        },
+        "IN": {
+          "x": 35,
           "y": 10,
           "length": 10,
           "rotation": 180,
@@ -31,37 +53,15 @@
             10.0
           ]
         },
-        "GND": {
-          "x": 0,
-          "y": 30,
-          "length": 10,
-          "rotation": 90,
-          "outwardRotation": 90.0,
-          "connectionPoint": [
-            0.0,
-            30.0
-          ]
-        },
-        "IN": {
+        "LX": {
           "x": -35,
-          "y": -10,
+          "y": 10,
           "length": 10,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
             -35.0,
-            -10.0
-          ]
-        },
-        "LX": {
-          "x": 35,
-          "y": -10,
-          "length": 10,
-          "rotation": 180,
-          "outwardRotation": 0.0,
-          "connectionPoint": [
-            35.0,
-            -10.0
+            10.0
           ]
         }
       },
@@ -315,49 +315,49 @@
       "pinCount": 10
     },
     "cap.100nf_0402": {
-      "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-      "deviceUuid": "67499aaae1134337a02800b9c07f7732",
-      "symbolUuid": "5e7f81ce5a064e10be8cca6eb1f60436",
+      "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+      "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+      "symbolUuid": "64737b0d82df41749fa597a505d30499",
       "lcsc": "C1525",
-      "archive": ".easycirq\\symbol-cache\\cap_100nf_0402_5e7f81ce.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_100nf_0402_64737b0d.elibz2",
       "pins": {
         "1": {
-          "x": -15,
+          "x": -20,
           "y": 0,
           "length": 10,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
-            -15.0,
+            -20.0,
             0.0
           ]
         },
         "2": {
-          "x": 15,
+          "x": 20,
           "y": 0,
           "length": 10,
           "rotation": 180,
           "outwardRotation": 0.0,
           "connectionPoint": [
-            15.0,
+            20.0,
             0.0
           ]
         }
       },
       "body": {
-        "minX": -5.0,
+        "minX": -10.0,
         "minY": -5.000000000000001,
-        "maxX": 5.0,
+        "maxX": 10.0,
         "maxY": 4.999999999999999
       },
       "pinCount": 2
     },
     "cap.100nf_0603": {
-      "libraryUuid": "2a9b71d157ba4a04b2da0542264fc583",
-      "deviceUuid": "f8e10f897aa04b27a6c8fd52da974f9d",
-      "symbolUuid": "3838e8d99e2e45ef9a4add912c71630b",
+      "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+      "deviceUuid": "b5784e6c8475475893cee8110c44816d",
+      "symbolUuid": "92bf789a17c44ef58399c3f11c0a273a",
       "lcsc": "C14663",
-      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_3838e8d9.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_100nf_0603_92bf789a.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -467,11 +467,11 @@
       "pinCount": 2
     },
     "cap.1uf_0402": {
-      "libraryUuid": "127545ebfde442869533bbd6e835406d",
-      "deviceUuid": "c0fa9b747a644ed8a224afcb9acfc6ea",
-      "symbolUuid": "8b690e54574a49ab8ffaeb6fa339d793",
+      "libraryUuid": "2f7e240334cd4aa989faec3262b28e26",
+      "deviceUuid": "2708d0d57d954d23871481d1b9af1b30",
+      "symbolUuid": "3402c680b5d34e93bced76a2ede22c9e",
       "lcsc": "C29266",
-      "archive": ".easycirq\\symbol-cache\\cap_1uf_0402_8b690e54.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_1uf_0402_3402c680.elibz2",
       "pins": {
         "1": {
           "x": -15,
@@ -505,11 +505,11 @@
       "pinCount": 2
     },
     "cap.220uf35v_smd": {
-      "libraryUuid": "30cb2012f2484199b940fa34dd177c7f",
-      "deviceUuid": "8171138bb5374f30a258b84eed963a91",
-      "symbolUuid": "47d37140717f48f4a79979487d73623f",
+      "libraryUuid": "0e38ab80ab78448a88d5085597fca312",
+      "deviceUuid": "fb458b2b36f9432e88225f509d1f6e85",
+      "symbolUuid": "e16e7a2477da4eefa5d174014ca2b3df",
       "lcsc": "C9900003178",
-      "archive": ".easycirq\\symbol-cache\\cap_220uf35v_smd_47d37140.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_220uf35v_smd_e16e7a24.elibz2",
       "pins": {
         "1": {
           "x": 0,
@@ -543,11 +543,11 @@
       "pinCount": 2
     },
     "cap.22uf_0805": {
-      "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-      "deviceUuid": "332288bd9dc0418ead423c403a4ec1de",
-      "symbolUuid": "238299d702334c108d0e606695a06d4e",
+      "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+      "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd",
+      "symbolUuid": "67f3ddf4bc60455cbace16bb9c6453ac",
       "lcsc": "C45783",
-      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_238299d7.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_22uf_0805_67f3ddf4.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -619,11 +619,11 @@
       "pinCount": 2
     },
     "cap.47nf_0402": {
-      "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
-      "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab",
-      "symbolUuid": "e9de883aaba6444fbc2bc750159db372",
+      "libraryUuid": "6f08f1ea7b964dd48d0ed40228d0cc15",
+      "deviceUuid": "62a01cb16d9c4ef0920cce89a4c1dcc5",
+      "symbolUuid": "b1cd95542fcc49499bc4acec93d19e91",
       "lcsc": "C1538",
-      "archive": ".easycirq\\symbol-cache\\cap_47nf_0402_e9de883a.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_47nf_0402_b1cd9554.elibz2",
       "pins": {
         "1": {
           "x": -15,
@@ -657,49 +657,49 @@
       "pinCount": 2
     },
     "cap.47pf_0402": {
-      "libraryUuid": "8d2e5ae41c6b41509105dbe33088a401",
-      "deviceUuid": "61303f9a5f55456eabd74db23f690a45",
-      "symbolUuid": "04898aaff79e412fbebd2dc058f52e6e",
+      "libraryUuid": "36528879df554fbbbac09cc798f0db67",
+      "deviceUuid": "cbbfcfc9079049e2b09f8eda962dd7cf",
+      "symbolUuid": "c1c75e82c61f41138ab91f444ec64551",
       "lcsc": "C1567",
-      "archive": ".easycirq\\symbol-cache\\cap_47pf_0402_04898aaf.elibz2",
+      "archive": ".easycirq\\symbol-cache\\cap_47pf_0402_c1c75e82.elibz2",
       "pins": {
         "1": {
-          "x": -15,
+          "x": -20,
           "y": 0,
           "length": 10,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
-            -15.0,
+            -20.0,
             0.0
           ]
         },
         "2": {
-          "x": 15,
+          "x": 20,
           "y": 0,
           "length": 10,
           "rotation": 180,
           "outwardRotation": 0.0,
           "connectionPoint": [
-            15.0,
+            20.0,
             0.0
           ]
         }
       },
       "body": {
-        "minX": -5.0,
-        "minY": -5.000000000000001,
-        "maxX": 5.0,
-        "maxY": 4.999999999999999
+        "minX": -10,
+        "minY": -5,
+        "maxX": 10,
+        "maxY": 5
       },
       "pinCount": 2
     },
     "conn.screw_terminal_2p": {
-      "libraryUuid": "9875a7916d2d4a0d8052ee6936d44523",
-      "deviceUuid": "6aba5c2f23fb40a8b4a7c475d05e9d13",
-      "symbolUuid": "8d7b7c697fca43779d5d7caf47cdc426",
+      "libraryUuid": "74007d7d35604fa78d8a46f06f751618",
+      "deviceUuid": "c6dd164532ad43d987993b5850265e6b",
+      "symbolUuid": "e28aa965aef54e4890b6c8bfa39a1bed",
       "lcsc": "C474881",
-      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_8d7b7c69.elibz2",
+      "archive": ".easycirq\\symbol-cache\\conn_screw_terminal_2p_e28aa965.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -782,11 +782,11 @@
       "pinCount": 3
     },
     "diode.b360a_sma": {
-      "libraryUuid": "4cc456c593ec4d8bb3958e1c14cd60b7",
-      "deviceUuid": "c2a782143a06453094e39465992c1c27",
-      "symbolUuid": "94e8159df40b4efabb21f50bb7982989",
+      "libraryUuid": "2dcde20c62d84228b9779e8f60dc9b49",
+      "deviceUuid": "4d5db67f78944e33a3971d840dfc301d",
+      "symbolUuid": "61552c7d030e47a585d519e6e711d46a",
       "lcsc": "C94193",
-      "archive": ".easycirq\\symbol-cache\\diode_b360a_sma_94e8159d.elibz2",
+      "archive": ".easycirq\\symbol-cache\\diode_b360a_sma_61552c7d.elibz2",
       "pins": {
         "A": {
           "x": 20,
@@ -820,24 +820,13 @@
       "pinCount": 2
     },
     "diode.smbj33a_smb": {
-      "libraryUuid": "ff575526d61f4fffb6ad1284362ddc82",
-      "deviceUuid": "a2de87dc910c4773a015378772bea910",
-      "symbolUuid": "2a6de0d468434d39bf358e156e9af2c9",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "deviceUuid": "4e5e35f0bedc48efa4bdf3fe659de2df",
+      "symbolUuid": "18b972a9f8b54353843e41eace27ed36",
       "lcsc": "C726834",
-      "archive": ".easycirq\\symbol-cache\\diode_smbj33a_smb_2a6de0d4.elibz2",
+      "archive": ".easycirq\\symbol-cache\\diode_smbj33a_smb_18b972a9.elibz2",
       "pins": {
-        "ie2": {
-          "x": -20,
-          "y": 0,
-          "length": 15,
-          "rotation": 0,
-          "outwardRotation": 180.0,
-          "connectionPoint": [
-            -20.0,
-            0.0
-          ]
-        },
-        "ie6": {
+        "A": {
           "x": 20,
           "y": 0,
           "length": 15,
@@ -845,6 +834,17 @@
           "outwardRotation": 0.0,
           "connectionPoint": [
             20.0,
+            0.0
+          ]
+        },
+        "C": {
+          "x": -20,
+          "y": 0,
+          "length": 15,
+          "rotation": 0,
+          "outwardRotation": 180.0,
+          "connectionPoint": [
+            -20.0,
             0.0
           ]
         }
@@ -934,38 +934,38 @@
       "pinCount": 2
     },
     "ic.sy7088": {
-      "libraryUuid": "ed673a013a644ceb9f50cbb02e82271d",
-      "deviceUuid": "2b438f9b61784302b5e0807f29106491",
-      "symbolUuid": "785636c340034fe9a6f208dee80af3bd",
+      "libraryUuid": "1c5864e9302b4e21848ec97139db2d00",
+      "deviceUuid": "d509e94999cc44258b2efa8b74147a4f",
+      "symbolUuid": "18a7228c5d1845b9875502581a2fb210",
       "lcsc": "C178240",
-      "archive": ".easycirq\\symbol-cache\\ic_sy7088_785636c3.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ic_sy7088_18a7228c.elibz2",
       "pins": {
         "EN": {
-          "x": 40,
-          "y": 20,
+          "x": 10,
+          "y": 50,
           "length": 10,
-          "rotation": 180,
-          "outwardRotation": 0.0,
+          "rotation": 90,
+          "outwardRotation": 90.0,
           "connectionPoint": [
-            40.0,
-            20.0
+            10.0,
+            50.0
           ]
         },
         "FB": {
-          "x": 40,
-          "y": 0,
+          "x": 20,
+          "y": -50,
           "length": 10,
-          "rotation": 180,
-          "outwardRotation": 0.0,
+          "rotation": 270,
+          "outwardRotation": 270.0,
           "connectionPoint": [
-            40.0,
-            0.0
+            20.0,
+            -50.0
           ]
         },
         "IN": {
           "x": -40,
           "y": 0,
-          "length": 10,
+          "length": 20,
           "rotation": 0,
           "outwardRotation": 180.0,
           "connectionPoint": [
@@ -974,74 +974,74 @@
           ]
         },
         "LX": {
-          "x": -40,
-          "y": -30,
+          "x": -10,
+          "y": 50,
           "length": 10,
-          "rotation": 0,
-          "outwardRotation": 180.0,
+          "rotation": 90,
+          "outwardRotation": 90.0,
           "connectionPoint": [
-            -40.0,
-            -30.0
+            -10.0,
+            50.0
           ]
         },
         "LX#2": {
-          "x": -40,
-          "y": -20,
+          "x": 0,
+          "y": 50,
           "length": 10,
-          "rotation": 0,
-          "outwardRotation": 180.0,
+          "rotation": 90,
+          "outwardRotation": 90.0,
           "connectionPoint": [
-            -40.0,
-            -20.0
+            0.0,
+            50.0
           ]
         },
         "OUT": {
-          "x": 40,
-          "y": -20,
+          "x": 0,
+          "y": -50,
           "length": 10,
-          "rotation": 180,
-          "outwardRotation": 0.0,
+          "rotation": 270,
+          "outwardRotation": 270.0,
           "connectionPoint": [
-            40.0,
-            -20.0
+            0.0,
+            -50.0
           ]
         },
         "OUT#2": {
-          "x": 40,
-          "y": -30,
+          "x": -10,
+          "y": -50,
           "length": 10,
-          "rotation": 180,
-          "outwardRotation": 0.0,
+          "rotation": 270,
+          "outwardRotation": 270.0,
           "connectionPoint": [
-            40.0,
-            -30.0
+            -10.0,
+            -50.0
           ]
         },
         "PGND": {
-          "x": -40,
-          "y": 30,
-          "length": 10,
-          "rotation": 0,
-          "outwardRotation": 180.0,
+          "x": 50,
+          "y": 0,
+          "length": 20,
+          "rotation": 180,
+          "outwardRotation": 0.0,
           "connectionPoint": [
-            -40.0,
-            30.0
+            50.0,
+            0.0
           ]
         },
         "SGND": {
-          "x": -40,
-          "y": 20,
+          "x": 20,
+          "y": 50,
           "length": 10,
-          "rotation": 0,
-          "outwardRotation": 180.0,
+          "rotation": 90,
+          "outwardRotation": 90.0,
           "connectionPoint": [
-            -40.0,
-            20.0
+            20.0,
+            50.0
           ]
         }
       },
       "body": {
-        "minX": -30,
+        "minX": -20,
         "minY": -40,
         "maxX": 30,
         "maxY": 40
@@ -1049,11 +1049,11 @@
       "pinCount": 9
     },
     "ic.xl1509_5v_buck": {
-      "libraryUuid": "1493496f71f84f23ad1923765c9137a8",
-      "deviceUuid": "bb201d9430f147e28691f5c18dacc89f",
-      "symbolUuid": "06ce3738ef2745e7a22dcfef559c8f48",
+      "libraryUuid": "5ff25a08544d45169db5e0eb2e978f1c",
+      "deviceUuid": "551ea37b6b8d45a69d34e436135d6031",
+      "symbolUuid": "b242d126abd34b70abb81d4e7dfe92cc",
       "lcsc": "C61063",
-      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_06ce3738.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ic_xl1509_5v_buck_b242d126.elibz2",
       "pins": {
         "FB": {
           "x": -55,
@@ -1251,11 +1251,11 @@
       "pinCount": 2
     },
     "ind.2u2_swpa4020": {
-      "libraryUuid": "b2d87f64b53d4f12a6700cc8988eb7a2",
-      "deviceUuid": "5e7ac7b4008542d0853f1c725b8095c7",
-      "symbolUuid": "4ced1bc620334e54860b6c849baa5a7a",
+      "libraryUuid": "4cc10ee860994f7ca741edc6064b8307",
+      "deviceUuid": "8a48ccad1d114242ad9628a162165531",
+      "symbolUuid": "06a70e8868db41ed82e5c3ca88f8e718",
       "lcsc": "C83423",
-      "archive": ".easycirq\\symbol-cache\\ind_2u2_swpa4020_4ced1bc6.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_2u2_swpa4020_06a70e88.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1327,11 +1327,11 @@
       "pinCount": 2
     },
     "ind.68uh_3a": {
-      "libraryUuid": "7d45c4214805418789bc48dbf4c9b5eb",
-      "deviceUuid": "144fe1c9ed024fceaa37611950e3c2fd",
-      "symbolUuid": "9a3dacb561b24a80b0ead87cc7370148",
+      "libraryUuid": "2b7ab9c85e1e46d7a7f6649d7d8303d2",
+      "deviceUuid": "35271e7ee9a64136af7acc79569f526f",
+      "symbolUuid": "f898767e16d84206b85d7de9331d8d65",
       "lcsc": "C7431083",
-      "archive": ".easycirq\\symbol-cache\\ind_68uh_3a_9a3dacb5.elibz2",
+      "archive": ".easycirq\\symbol-cache\\ind_68uh_3a_f898767e.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1436,11 +1436,11 @@
       "pinCount": 5
     },
     "res.100k_0402": {
-      "libraryUuid": "ce4ea38baad04ee0aae3d11bfe221759",
-      "deviceUuid": "62a01926c5b745a185af94b5d0a191af",
-      "symbolUuid": "4c1a5035119f4e109b8dfd67e032a17b",
+      "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+      "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6",
+      "symbolUuid": "b502112b23014a6fa7a1720f044007b2",
       "lcsc": "C25741",
-      "archive": ".easycirq\\symbol-cache\\res_100k_0402_4c1a5035.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_100k_0402_b502112b.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1512,11 +1512,11 @@
       "pinCount": 2
     },
     "res.147k_0402": {
-      "libraryUuid": "0285b653b2194bf4aef348582ad03975",
-      "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8",
-      "symbolUuid": "735a1584085040a4b98cb39d2eb8ef87",
+      "libraryUuid": "b0ed651439db4eedb68717a321728220",
+      "deviceUuid": "164cc9f0a40e4f569a0f1fc43a0d0433",
+      "symbolUuid": "4171e5fbf8c24acbba487212fc3cd73a",
       "lcsc": "C64171",
-      "archive": ".easycirq\\symbol-cache\\res_147k_0402_735a1584.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_147k_0402_4171e5fb.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1588,11 +1588,11 @@
       "pinCount": 2
     },
     "res.453k_0402": {
-      "libraryUuid": "e7cff68fbc204c1cb276a7f9e793ef85",
-      "deviceUuid": "84003cc890d6435b9c76ee8e97774864",
-      "symbolUuid": "46c85c49d7704b6ebee9c8778359035c",
+      "libraryUuid": "f832a134f4c64c5c83e903fa8c1896aa",
+      "deviceUuid": "35248860a87543ef96c4f8e0158d0edc",
+      "symbolUuid": "1c38cda99da84a4c83e6b67e65fc1957",
       "lcsc": "C27009",
-      "archive": ".easycirq\\symbol-cache\\res_453k_0402_46c85c49.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_453k_0402_1c38cda9.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1664,11 +1664,11 @@
       "pinCount": 2
     },
     "res.46k4_0402": {
-      "libraryUuid": "93b9460b251f4968a40ba77879183d36",
-      "deviceUuid": "7ef817a7eb734b879ce88b3e371b5ddf",
-      "symbolUuid": "6852323ed0204098a392fa05f7df704d",
+      "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
+      "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb",
+      "symbolUuid": "35f4e2f8e5f7435e9bfa64485c1c6908",
       "lcsc": "C52378",
-      "archive": ".easycirq\\symbol-cache\\res_46k4_0402_6852323e.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_46k4_0402_35f4e2f8.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1740,11 +1740,11 @@
       "pinCount": 2
     },
     "res.523k_0402": {
-      "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
-      "deviceUuid": "c77d16ba7a664986b5dacef6830da749",
-      "symbolUuid": "9395b58f6bca49e4be047da8a40f90f0",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "deviceUuid": "c6bb55cf9b1342eeae23d37df21c5154",
+      "symbolUuid": "2dad499486f84d408aeeae1c6433bdc5",
       "lcsc": "C170333",
-      "archive": ".easycirq\\symbol-cache\\res_523k_0402_9395b58f.elibz2",
+      "archive": ".easycirq\\symbol-cache\\res_523k_0402_2dad4994.elibz2",
       "pins": {
         "1": {
           "x": -20,
@@ -1893,8 +1893,8 @@
     }
   },
   "stats": {
-    "cache": 31,
-    "fetched": 8,
+    "cache": 35,
+    "fetched": 4,
     "failed": 0
   },
   "problems": []

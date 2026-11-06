@@ -11,8 +11,8 @@
         "role": "U",
         "device": {
           "name": "ic.sy7088",
-          "libraryUuid": "ed673a013a644ceb9f50cbb02e82271d",
-          "deviceUuid": "2b438f9b61784302b5e0807f29106491"
+          "libraryUuid": "1c5864e9302b4e21848ec97139db2d00",
+          "deviceUuid": "d509e94999cc44258b2efa8b74147a4f"
         },
         "pins": [
           {
@@ -83,8 +83,8 @@
         "role": "C_IN1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -105,8 +105,8 @@
         "role": "C_IN2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -127,8 +127,8 @@
         "role": "C_IN3",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -149,8 +149,8 @@
         "role": "C_OUT1",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -171,8 +171,8 @@
         "role": "C_OUT2",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -193,8 +193,8 @@
         "role": "R_FB_H",
         "device": {
           "name": "res.147k_0402",
-          "libraryUuid": "0285b653b2194bf4aef348582ad03975",
-          "deviceUuid": "815e788045d446e5b0bab92e31c6c3e8"
+          "libraryUuid": "b0ed651439db4eedb68717a321728220",
+          "deviceUuid": "164cc9f0a40e4f569a0f1fc43a0d0433"
         },
         "pins": [
           {
@@ -215,8 +215,8 @@
         "role": "R_FB_L",
         "device": {
           "name": "res.46k4_0402",
-          "libraryUuid": "93b9460b251f4968a40ba77879183d36",
-          "deviceUuid": "7ef817a7eb734b879ce88b3e371b5ddf"
+          "libraryUuid": "5410206c1669477bb146c4a57aa67ed5",
+          "deviceUuid": "36e094303a694fcb86168c9f7d0e44bb"
         },
         "pins": [
           {
@@ -237,8 +237,8 @@
         "role": "R_EN",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "ce4ea38baad04ee0aae3d11bfe221759",
-          "deviceUuid": "62a01926c5b745a185af94b5d0a191af"
+          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
         },
         "pins": [
           {
@@ -358,8 +358,8 @@
         "role": "R_FBB",
         "device": {
           "name": "res.100k_0402",
-          "libraryUuid": "ce4ea38baad04ee0aae3d11bfe221759",
-          "deviceUuid": "62a01926c5b745a185af94b5d0a191af"
+          "libraryUuid": "63e636ce32764eec8e022debccf0730c",
+          "deviceUuid": "f4aa177f1eb345728f77e0e22d4003c6"
         },
         "pins": [
           {
@@ -402,8 +402,8 @@
         "role": "C_OUT",
         "device": {
           "name": "cap.22uf_0805",
-          "libraryUuid": "08b2fd2f870a4377bad486863cae84a4",
-          "deviceUuid": "332288bd9dc0418ead423c403a4ec1de"
+          "libraryUuid": "f9947ac5a18f4e768fca0847dcf87f8a",
+          "deviceUuid": "3f743ac315fe489ba1b1e6ddb4415bdd"
         },
         "pins": [
           {
@@ -424,8 +424,8 @@
         "role": "C_HF",
         "device": {
           "name": "cap.100nf_0402",
-          "libraryUuid": "2b6da0219c44409eabecba079f65db77",
-          "deviceUuid": "67499aaae1134337a02800b9c07f7732"
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
         },
         "pins": [
           {
@@ -856,7 +856,7 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": -15.0,
+        "minX": -5.0,
         "minY": -20.0,
         "maxX": 45.0,
         "maxY": 60.0
@@ -866,17 +866,17 @@
           "number": "EN",
           "name": "EN",
           "net": "+5V",
-          "x": 55.0,
-          "y": 40.0,
-          "rotation": 0.0
+          "x": 25.0,
+          "y": 70.0,
+          "rotation": 90.0
         },
         {
           "number": "FB",
           "name": "FB",
           "net": "U4_N4",
-          "x": 55.0,
-          "y": 20.0,
-          "rotation": 0.0
+          "x": 35.0,
+          "y": -30.0,
+          "rotation": 270.0
         },
         {
           "number": "IN",
@@ -890,49 +890,49 @@
           "number": "LX",
           "name": "LX",
           "net": "U4_N1",
-          "x": -25.0,
-          "y": -10.0,
-          "rotation": 180.0
+          "x": 5.0,
+          "y": 70.0,
+          "rotation": 90.0
         },
         {
           "number": "LX#2",
           "name": "LX#2",
           "net": "U4_N1",
-          "x": -25.0,
-          "y": 0.0,
-          "rotation": 180.0
+          "x": 15.0,
+          "y": 70.0,
+          "rotation": 90.0
         },
         {
           "number": "OUT",
           "name": "OUT",
           "net": "+12V_FILT",
-          "x": 55.0,
-          "y": 0.0,
-          "rotation": 0.0
+          "x": 15.0,
+          "y": -30.0,
+          "rotation": 270.0
         },
         {
           "number": "OUT#2",
           "name": "OUT#2",
           "net": "+12V_FILT",
-          "x": 55.0,
-          "y": -10.0,
-          "rotation": 0.0
+          "x": 5.0,
+          "y": -30.0,
+          "rotation": 270.0
         },
         {
           "number": "PGND",
           "name": "PGND",
           "net": "GND",
-          "x": -25.0,
-          "y": 50.0,
-          "rotation": 180.0
+          "x": 65.0,
+          "y": 20.0,
+          "rotation": 0.0
         },
         {
           "number": "SGND",
           "name": "SGND",
           "net": "GND",
-          "x": -25.0,
-          "y": 40.0,
-          "rotation": 180.0
+          "x": 35.0,
+          "y": 70.0,
+          "rotation": 90.0
         }
       ]
     },
@@ -1488,9 +1488,9 @@
       "rotation": 0,
       "mirror": false,
       "bbox": {
-        "minX": 155.0,
+        "minX": 150.0,
         "minY": 90.0,
-        "maxX": 165.0,
+        "maxX": 170.0,
         "maxY": 100.0
       },
       "pins": [
@@ -1498,7 +1498,7 @@
           "number": "1",
           "name": "1",
           "net": "+3V8",
-          "x": 145.0,
+          "x": 140.0,
           "y": 95.0,
           "rotation": 180.0
         },
@@ -1506,7 +1506,7 @@
           "number": "2",
           "name": "2",
           "net": "GND",
-          "x": 175.0,
+          "x": 180.0,
           "y": 95.0,
           "rotation": 0.0
         }

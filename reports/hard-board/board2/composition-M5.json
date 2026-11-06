@@ -640,14 +640,14 @@
         {
           "primitiveId": "c52",
           "designator": "R13",
-          "x": -95,
+          "x": -145,
           "y": 10,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -105,
+            "minX": -155,
             "minY": 5,
-            "maxX": -85,
+            "maxX": -135,
             "maxY": 15
           },
           "pins": [
@@ -655,7 +655,7 @@
               "number": "1",
               "name": "1",
               "net": "+3V8",
-              "x": -115,
+              "x": -165,
               "y": 10,
               "rotation": 180
             },
@@ -663,7 +663,7 @@
               "number": "2",
               "name": "2",
               "net": "U5_N6",
-              "x": -75,
+              "x": -125,
               "y": 10,
               "rotation": 0
             }
@@ -672,14 +672,14 @@
         {
           "primitiveId": "c53",
           "designator": "R14",
-          "x": -30,
+          "x": -105,
           "y": 60,
           "rotation": 0,
           "mirror": false,
           "bbox": {
-            "minX": -40,
+            "minX": -115,
             "minY": 55,
-            "maxX": -20,
+            "maxX": -95,
             "maxY": 65
           },
           "pins": [
@@ -687,7 +687,7 @@
               "number": "1",
               "name": "1",
               "net": "U5_N6",
-              "x": -50,
+              "x": -125,
               "y": 60,
               "rotation": 180
             },
@@ -695,7 +695,7 @@
               "number": "2",
               "name": "2",
               "net": "GND",
-              "x": -10,
+              "x": -85,
               "y": 60,
               "rotation": 0
             }
@@ -707,12 +707,12 @@
           "net": "GND",
           "points": [
             [
-              -50,
-              0
+              -45,
+              -10
             ],
             [
-              -45,
-              0
+              -50,
+              -10
             ]
           ]
         },
@@ -811,11 +811,24 @@
           "net": "U5_N6",
           "points": [
             [
-              -75,
-              10
+              -130,
+              35
             ],
             [
-              -55,
+              -120,
+              35
+            ]
+          ]
+        },
+        {
+          "net": "U5_N6",
+          "points": [
+            [
+              -120,
+              35
+            ],
+            [
+              -120,
               10
             ]
           ]
@@ -824,7 +837,20 @@
           "net": "U5_N6",
           "points": [
             [
-              -55,
+              -125,
+              10
+            ],
+            [
+              -120,
+              10
+            ]
+          ]
+        },
+        {
+          "net": "U5_N6",
+          "points": [
+            [
+              -120,
               10
             ],
             [
@@ -851,24 +877,11 @@
           "points": [
             [
               -50,
-              -10
+              0
             ],
             [
               -45,
-              -10
-            ]
-          ]
-        },
-        {
-          "net": "GND",
-          "points": [
-            [
-              -50,
-              -15
-            ],
-            [
-              -50,
-              -10
+              0
             ]
           ]
         },
@@ -954,32 +967,6 @@
           "net": "+5V",
           "points": [
             [
-              -45,
-              -20
-            ],
-            [
-              -50,
-              -20
-            ]
-          ]
-        },
-        {
-          "net": "+5V",
-          "points": [
-            [
-              -50,
-              -20
-            ],
-            [
-              -50,
-              -25
-            ]
-          ]
-        },
-        {
-          "net": "+5V",
-          "points": [
-            [
               45,
               -20
             ],
@@ -1058,11 +1045,11 @@
           "net": "U5_N6",
           "points": [
             [
-              -55,
+              -130,
               60
             ],
             [
-              -50,
+              -125,
               60
             ]
           ]
@@ -1071,11 +1058,11 @@
           "net": "U5_N6",
           "points": [
             [
-              -55,
-              10
+              -130,
+              35
             ],
             [
-              -55,
+              -130,
               60
             ]
           ]
@@ -1084,11 +1071,11 @@
           "net": "U5_N6",
           "points": [
             [
-              -55,
+              -130,
               60
             ],
             [
-              -55,
+              -130,
               65
             ]
           ]
@@ -1164,14 +1151,14 @@
           "net": "GND",
           "kind": "ground",
           "pinX": -50,
-          "pinY": -15,
+          "pinY": -5,
           "direction": "left",
           "offset": 20,
           "anchor": {
             "type": "wire_tree",
             "net": "GND",
             "x": -50,
-            "y": -15
+            "y": -5
           }
         },
         {
@@ -1191,7 +1178,7 @@
         {
           "net": "GND",
           "kind": "ground",
-          "pinX": -10,
+          "pinX": -85,
           "pinY": 60,
           "direction": "right",
           "offset": 25,
@@ -1205,15 +1192,15 @@
         {
           "net": "+5V",
           "kind": "power",
-          "pinX": -50,
-          "pinY": -25,
-          "direction": "down",
-          "offset": 10,
+          "pinX": -45,
+          "pinY": -20,
+          "direction": "left",
+          "offset": 70,
           "anchor": {
-            "type": "wire_tree",
-            "net": "+5V",
-            "x": -50,
-            "y": -25
+            "type": "pin",
+            "componentId": "c50",
+            "pinNumber": "EN",
+            "net": "+5V"
           }
         },
         {
@@ -1247,7 +1234,7 @@
         {
           "net": "+3V8",
           "kind": "power",
-          "pinX": -115,
+          "pinX": -165,
           "pinY": 10,
           "direction": "left",
           "offset": 30,
@@ -1261,14 +1248,14 @@
         {
           "net": "U5_N6",
           "kind": "net_port_bi",
-          "pinX": -55,
+          "pinX": -130,
           "pinY": 65,
           "direction": "left",
           "offset": 10,
           "anchor": {
             "type": "wire_tree",
             "net": "U5_N6",
-            "x": -55,
+            "x": -130,
             "y": 65
           }
         },
