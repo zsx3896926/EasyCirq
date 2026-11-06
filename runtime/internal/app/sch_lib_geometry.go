@@ -61,8 +61,45 @@ func libValidateLabelReservations(p *powerLayoutPlan) error {
 	return nil
 }
 
+// libValidateWireTextClearance 校验**导线不穿过任何器件的文字预留区**。
+//
+// 只在器件带 TextBBoxes 时查（没给就一条都不查）。
+// 为什么必须有：逐边走线时 `validateLibRoutingEdge` 会拒绝穿文字的边，
+// 但最终导线可能来自别的通路（join / maze 重建），那条约束就漏掉了 ——
+// 现场表现是图里"导线穿位号"，而求解器毫无察觉。
+func libValidateWireTextClearance(p *powerLayoutPlan) error {
+	hasText := false
+	for _, c := range p.Placements {
+		if len(c.TextBBoxes) > 0 {
+			hasText = true
+			break
+		}
+	}
+	if !hasText {
+		return nil
+	}
+	for _, w := range p.Wires {
+		for i := 1; i < len(w.Points); i++ {
+			a, b := w.Points[i-1], w.Points[i]
+			for _, c := range p.Placements {
+				for _, box := range c.TextBBoxes {
+					if plSegmentBox(a, b, box) {
+						return schWireObstruction(p, "wire-text",
+							fmt.Errorf("%s wire crosses %s label reservation", w.Net, c.Designator),
+							[]string{w.Net}, c.Designator)
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func validateLibGeometry(p *powerLayoutPlan) error {
 	if err := libValidateLabelReservations(p); err != nil {
+		return err
+	}
+	if err := libValidateWireTextClearance(p); err != nil {
 		return err
 	}
 	if err := validatePowerLayout(p, layoutBBox{-math.MaxFloat64, -math.MaxFloat64, math.MaxFloat64, math.MaxFloat64}); err != nil {
