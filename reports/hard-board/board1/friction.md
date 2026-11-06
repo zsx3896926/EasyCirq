@@ -3419,3 +3419,83 @@ M3/M4/M5 **解出来了**，但验收仍报 3/3/1 项。核对坐标：
 
 五块仍是 **5 PASS / 1 FAIL / 1 NOT RUN / 2 N/A**，报告已按实测重新生成。
 缺陷如实保留，不因"补了一条校验"就宣称修好。
+
+
+---
+
+## #73 追到第五层才见底：求解器**输出把 `textBBoxes` 丢了**
+
+上一轮定位到"最终几何校验没有 wire-vs-text"。本轮顺着往下挖，一共有**五层**，
+每层都用实测判定：
+
+### 层 1：`plSegmentBox` 与检查器的边界口径不同
+
+读源码：`plSegmentBox` 用**严格不等号**（`>`/`<`），导线正好贴着 `x == MinX` 不算穿过；
+检查器把贴边算穿过。
+
+→ 在 `libValidateWireTextClearance` 里把文字框**外扩 1 raw**。
+
+**结果：没变（仍 3/3/1）。** 说明不是贴边。
+
+### 层 2：我的预留框**算低了 10 raw**
+
+实测对照（M3/U3）：
+
+```
+U3 最终 bbox         minX=245  maxY=170
+渲染件画的文字框      x 248..257   y 180..188
+```
+
+相对偏移：x `+3..+12`，y **`+10..+18`**。
+而我原来算的是 `y∈[maxY-1, maxY+9]` —— **整整低了 10 raw**。
+求解器"避开"的是一个**不存在的位置**，真文字照样被穿。
+
+→ 校正为 `y∈[maxY+8, maxY+20]`。**结果：仍 3/3/1。**
+
+### 层 3：校验到底有没有在最终产物上跑
+
+`validateLibGeometry` **到处都在调用**（21 处，含渲染前的
+`validateCompleteLayoutPreview`）。所以不是"没调用"。
+
+### 层 4：输出里根本没有文字框
+
+拿求解器输出检查：
+
+```
+M3 器件 7，其中带 textBBoxes 0
+M4 器件 10，其中带 textBBoxes 0
+M5 器件 7，其中带 textBBoxes 0
+```
+
+**输入带了，输出丢了。** 于是后续每一次 `validateLibGeometry` 里我的新校验
+都处于"没有框可查"的**空转**状态 —— 包括渲染前那道门。
+
+### 层 5：输入形状确认
+
+试验两种形状：
+
+| 形状 | 结果 |
+|---|---|
+| 扁平 `{primitiveId, designator, bbox, pins, textBboxes}` | ✅ 解出，但输出仍 0 个带框 |
+| 嵌套 `{id, measurement:{...}}` | ❌ `unknown JSON field /measurements/0/id` |
+
+→ 扁平是对的（`measurements` 解码成 `SchematicPlacement`），
+所以**不是我的输入形状错**，是**管线在中间某处重建 placement 时把文字框丢了**。
+
+### 结论
+
+五层挖到底，真正的缺口是一句可执行的话：
+
+> **求解器在重建 placement 的过程中必须保留 `textBBoxes`（并随之平移）。**
+> 不保留，下游所有"导线避让文字"的校验全部空转。
+
+这属 Go 侧管线改动，需要逐个检查 `powerLayoutPlacement{}` 的构造点
+（已定位到 8 处可疑位置，如 `sch_layout_engine.go` 的 `measured` 装配、
+`sch_layout_feasibility.go`、`sch_layout_edit.go`），本轮**未做**。
+
+### 附带确认的两件事
+
+- 外扩 1 raw 的改动**保留**（口径对齐是对的，只是不是瓶颈），有测试
+- 五块验收状态不变：**5 PASS / 1 FAIL / 1 NOT RUN / 2 N/A**，报告按实测重新生成
+
+**缺陷如实保留。** 追到第五层是进展，但不是修复。

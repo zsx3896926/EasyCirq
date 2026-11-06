@@ -83,7 +83,12 @@ func libValidateWireTextClearance(p *powerLayoutPlan) error {
 			a, b := w.Points[i-1], w.Points[i]
 			for _, c := range p.Placements {
 				for _, box := range c.TextBBoxes {
-					if plSegmentBox(a, b, box) {
+					// **外扩 1 raw**：`plSegmentBox` 用严格不等号，把"贴边"
+					// 当没进去；而验收检查器把贴边算作穿过。两边口径必须一致，
+					// 否则会出现"求解器避开了、验收仍判穿"（实测 M3/M4/M5）。
+					padded := layoutBBox{MinX: box.MinX - 1, MinY: box.MinY - 1,
+						MaxX: box.MaxX + 1, MaxY: box.MaxY + 1}
+					if plSegmentBox(a, b, padded) {
 						return schWireObstruction(p, "wire-text",
 							fmt.Errorf("%s wire crosses %s label reservation", w.Net, c.Designator),
 							[]string{w.Net}, c.Designator)
