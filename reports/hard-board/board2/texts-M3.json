@@ -1,0 +1,335 @@
+[
+  {
+    "primitiveId": "svgtext-0",
+    "Content": "5V → 3.3V 主逻辑轨（SY8089） · 布局预览",
+    "X": 20.0,
+    "Y": 452.0,
+    "FontSize": 20.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-1",
+    "Content": "离线转译 / 简化符号 / 非仿真、非官方导图",
+    "X": 20.0,
+    "Y": 431.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-2",
+    "Content": "只转译输入几何；离线预览不等于现场 Apply 验收。",
+    "X": 20.0,
+    "Y": 415.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-3",
+    "Content": "预案 · 7 个器件",
+    "X": 20.0,
+    "Y": 385.0,
+    "FontSize": 9.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-4",
+    "Content": "5V → 3.3V 主逻辑轨（SY8089）",
+    "X": 30.0,
+    "Y": 344.0,
+    "FontSize": 20.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-5",
+    "Content": "U3",
+    "X": 215.0,
+    "Y": 219.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-7",
+    "Content": "EN",
+    "X": 217.0,
+    "Y": 183.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-8",
+    "Content": "FB",
+    "X": 263.0,
+    "Y": 183.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-9",
+    "Content": "GND",
+    "X": 217.0,
+    "Y": 193.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-10",
+    "Content": "IN",
+    "X": 263.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-11",
+    "Content": "LX",
+    "X": 217.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-12",
+    "Content": "C13",
+    "X": 300.0,
+    "Y": 214.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-14",
+    "Content": "1",
+    "X": 302.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-15",
+    "Content": "2",
+    "X": 318.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-16",
+    "Content": "L3",
+    "X": 130.0,
+    "Y": 214.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-18",
+    "Content": "1",
+    "X": 132.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-19",
+    "Content": "2",
+    "X": 158.0,
+    "Y": 203.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-20",
+    "Content": "C14",
+    "X": 180.0,
+    "Y": 254.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-22",
+    "Content": "1",
+    "X": 182.0,
+    "Y": 243.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-23",
+    "Content": "2",
+    "X": 198.0,
+    "Y": 243.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-24",
+    "Content": "C15",
+    "X": 175.0,
+    "Y": 304.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-26",
+    "Content": "1",
+    "X": 177.0,
+    "Y": 293.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-27",
+    "Content": "2",
+    "X": 193.0,
+    "Y": 293.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-28",
+    "Content": "R8",
+    "X": 325.0,
+    "Y": 164.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-30",
+    "Content": "1",
+    "X": 327.0,
+    "Y": 153.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-31",
+    "Content": "2",
+    "X": 343.0,
+    "Y": 153.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-32",
+    "Content": "R9",
+    "X": 365.0,
+    "Y": 199.0,
+    "FontSize": 7.0,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-34",
+    "Content": "1",
+    "X": 367.0,
+    "Y": 188.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 0
+  },
+  {
+    "primitiveId": "svgtext-35",
+    "Content": "2",
+    "X": 383.0,
+    "Y": 188.5,
+    "FontSize": 4.5,
+    "Rotation": 0,
+    "AlignMode": 2
+  },
+  {
+    "primitiveId": "svgtext-36",
+    "Content": "GND",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-37",
+    "Content": "GND",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-38",
+    "Content": "+5V",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-39",
+    "Content": "+5V",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-40",
+    "Content": "+3V3",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-41",
+    "Content": "+3V3",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-42",
+    "Content": "U3_N5",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  },
+  {
+    "primitiveId": "svgtext-43",
+    "Content": "U3_N3",
+    "X": 0.0,
+    "Y": 476.5,
+    "FontSize": 10.0,
+    "Rotation": 0,
+    "AlignMode": 1
+  }
+]

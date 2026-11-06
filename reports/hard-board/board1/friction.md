@@ -2585,3 +2585,98 @@ M1 19 项   M2 2 项   M3 2 项   M4 1 项   M5 2 项
 `tests/test_snapshot_contract.py`：导线必须在 `pagePrimitives.wires` 且
 `Line` 是 4 的倍数扁平数字、网标必须作为 netflag 图元带 bbox、模块框必须有
 正宽高、sheet 图元必须在，以及**核心断言 —— 不许产编造的文字**。
+
+
+---
+
+## #60 验收表分开了"真缺陷/缺证据"；文字度量撞上坐标系陷阱
+
+目标：原理图预览对标顶尖工程师。本轮做了三件事，一件做成了，一件部分做成，一件卡住。
+
+### 一、做成：验收表把两类结论分开
+
+直接跑 `sch_layout_check.py --strict` 会把两种东西混在 `blocking_findings` 里：
+真几何缺陷，和"缺证据的候选"。混报"115 项缺陷"会让人以为图很糟，
+全不报又会让人以为都合格——**两者都错**。
+
+新增 `sch_layout_acceptance.py`，按判据给三种结论：
+
+| 结论 | 含义 |
+|---|---|
+| PASS | 已测且无缺陷 |
+| FAIL | 已测且有缺陷（附对象） |
+| NOT RUN | 缺证据，**附下一步要跑的命令** |
+
+顺带修掉一个假通过：**「图签无重复文字」原本被标 PASS**，但我根本没有图签数据——
+没有对象可比自然没有 finding。规则改成"每项判据声明依赖的覆盖度，覆盖不全一律
+NOT RUN"。
+
+五块基线（改后）：
+
+```
+判据                     M1    M2    M3    M4    M5
+内容不越框               PASS  PASS  PASS  PASS  PASS
+导线不穿器件本体          PASS  PASS  PASS  PASS  PASS
+模块框不切器件            PASS  PASS  PASS  PASS  PASS
+遮字/文字相压             N/R   N/R   N/R   N/R   N/R
+标签落在真实端点          N/R   N/R   N/R   N/R   N/R
+重复网名/孤立文字         N/R   N/R   N/R   N/R   N/R
+不同网络导线交叉无结点     N/R   N/R   N/R   N/R   N/R
+图签无重复文字            N/R   N/R   N/R   N/R   N/R
+分区阅读顺序              N/R   N/R   N/R   N/R   N/R
+```
+
+**3 通过 / 0 失败 / 6 缺证据**，五块一致。
+
+还有一条判断要记：那 26 项 `different_named_wires_cross` 的 `detail` 是
+"no host no-junction evidence"——**不是证明有缺陷，是缺"此处无结点"的证据**。
+而 Go 布线器本来就允许垂直跨线、只禁止接触（`foreign-wire-contact`）。
+所以这 26 项属**离线判不了**，不该当缺陷去追。
+
+### 二、部分做成：找到了离线出图的路径，但撞上坐标系
+
+`sch layout-render` 能**离线出 SVG**（不用开 EDA），再配 `svg_text_bbox.py`
+实测文字边界，就能把文字类判据从 NOT RUN 变成可判。
+
+已打通的部分：
+
+```
+排版稿 → sch_preview_zones.py → layout-render → SVG → svg_text_bbox.py
+       → sch_preview_text.py（37 条文字，30 条有实测边界）
+```
+
+**但撞上一个坑**：不带 `sheet` 时渲染器**自己装行**（display-only zone packing），
+它产出的文字坐标落在自己的 viewBox（0..480）里，而器件在 0..594 —— **两套坐标系**。
+把这种文字喂进验收，立刻报出 **10 项越页 + 24 项文字相压**，
+全是坐标系错位造成的**假象**，不是真缺陷。
+
+这与 #59 同源：**数据来源对不上，结论就只能是假的。**
+
+### 三、卡住：`sheet` 模式被拒
+
+`SchematicRenderInput` 支持顶层 `sheet`（带它才按原坐标渲染），结构读源码得出：
+
+```
+sheet: {bounds{minX,minY,maxX,maxY}, border{...}, keepouts[], padding, gap}
+zone:  {id, title, layout, sheetPosition{x,y}, contentBounds?}
+```
+
+我按这个填了（padding/gap=10，sheetPosition{0,0}，并显式给 contentBounds），
+仍报：
+
+```
+zone M3 violates page padding
+```
+
+内容实测在 x 155..435 / y 115..265，可用区 10..584 / 10..410，**明明在里面**。
+所以 zone 矩形的算法和我理解的不同（可能含框外扩或标题带）。
+**这条没解开**，下一步要读 `sheetPreviewPlacementError` 的上游
+（zone 矩形怎么算出来的），而不是继续猜参数。
+
+### 结论
+
+- 验收链路现在能**诚实分类**
+- 文字度量**有路可走**，但必须先把坐标系对齐
+- 对齐的钥匙是 `sheet` 模式，卡在 zone 矩形算法上
+
+**在坐标系对齐之前，任何"文字类通过"或"文字类失败"都不成立。**

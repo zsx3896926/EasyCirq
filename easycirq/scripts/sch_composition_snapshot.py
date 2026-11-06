@@ -35,7 +35,7 @@ for _s in (sys.stdout, sys.stderr):
 SCHEMA = "easycirq-sch-composition-snapshot/v1"
 
 
-def build(composition_paths, out_dir):
+def build(composition_paths, out_dir, text_plan=None):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -168,7 +168,10 @@ def build(composition_paths, out_dir):
     # 所以：拿不到真实文字几何就**不产文字**。文字类判据（遮字、文字相压、
     # 重复网名、孤立文字）在离线阶段如实标 NOT RUN，等上机导出 SVG 后由
     # `svg_text_bbox.py` 实测再做。
-    texts = []
+    #
+    # `--text-plan` 给的就是**渲染器 SVG 里提取的真实文字坐标**
+    # （由 `sch_preview_text.py` 产出），那种可以用。
+    texts = list(text_plan or [])
 
     # ── 模块框 → pagePrimitives.rectangles ───────────────────────────
     # 适配器按 TopLeftX/TopLeftY/Width/Height 读；y 轴向上，TopLeft 是
@@ -240,6 +243,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="composition → S3 快照")
     ap.add_argument("--composition", action="append", required=True)
     ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--text-plan",
+                    help="渲染 SVG 提取的文字几何 JSON（真实文字坐标）")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
@@ -248,7 +253,11 @@ def main() -> int:
             print("找不到排版稿：%s" % cp, file=sys.stderr)
             return 2
 
-    info = build(args.composition, args.out_dir)
+    text_plan = None
+    if getattr(args, "text_plan", None):
+        text_plan = json.loads(
+            pathlib.Path(args.text_plan).read_text(encoding="utf-8"))
+    info = build(args.composition, args.out_dir, text_plan)
     if args.json:
         print(json.dumps(info, ensure_ascii=False, indent=2))
     else:
