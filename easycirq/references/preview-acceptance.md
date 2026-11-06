@@ -159,6 +159,38 @@ python scripts/sch_layout_review.py --composition composition-M3-placed.json \
 
 > 换句话说：**token 没有错，拓扑不同。** 偏离是有据的，不是放水。
 
+## 每条判据怎么复现
+
+一条命令跑全部：`python scripts/sch_preview_accept.py --work <目录>`
+
+| # | 判据 | 复现命令 | 离线 |
+|---|---|---|---|
+| A | 内容不越框 | `sch_preview_accept.py`（内部 `sch_layout_check.py --strict`）| ✅ |
+| B | 遮字/文字相压 | 同上 | ✅ |
+| C | 导线不穿器件本体 | 同上 | ✅ |
+| D | 模块框不切器件/导线 | 同上 | ✅ |
+| E | 标签落在真实端点 | **N/A**：本设计无 netport/netlabel；若适用需 `sch read --page <P>` | — |
+| F | 重复网名/孤立文字 | `sch_preview_accept.py` | ✅ |
+| G | 分区阅读顺序 | `sch_preview_accept.py` | ✅ |
+| H | 不同网络导线交叉无结点 | **NOT RUN**：需 `sch junction-report --page <P>` 的现场结点证据 | ❌ |
+| I | 图签无重复文字 | `sch_preview_accept.py` | ✅ |
+| J | 网标朝向一致 | `sch_preview_accept.py` | ✅ |
+| K | 审图 PNG 可读性 | `sch_layout_review.py --composition <稿> --page-name <名> --out-dir <目录> --gate` | ✅ |
+| L | 文字审计（技能自检） | `sch_text_audit.py <visible-<M>.json> --strict` | ✅ |
+
+### 每条判据都必须报告**受检对象数量**
+
+PASS 但没写查了多少 = 无法区分"查过没问题"与"没有对象可查"。
+验收产物里每条 PASS 都带 `checked`：
+
+```
+内容不越框   已查：components 7，wires 37
+遮字/文字相压 已查：texts 30
+网标朝向一致  已查：net_flags 7
+```
+
+`test_criteria_checked_counts.py` 会因"PASS 缺受检数"或"受检数全为 0"而失败。
+
 ## 一键复现
 
 ```bash
