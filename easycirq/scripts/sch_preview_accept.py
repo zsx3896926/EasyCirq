@@ -100,6 +100,18 @@ def one(module, work, exe, sk, verbose=True, comp_override=None,
     r = run_py(zcmd)
     if not zones.is_file():
         return {"module": module, "error": "zones 生成失败：%s" % (r.stderr or "")[:200]}
+    # **实测框注入**：先用探针渲染量出每个位号的真实文字框，
+    # 替换掉公式估算框（#114：公式框过覆盖，会误拦本来没问题的排版）。
+    if not no_label_boxes:
+        lb = run_py([HERE / "sch_preview_label_boxes.py", "--zones", zones,
+                     "--work", work], 2400)
+        if lb.returncode != 0:
+            # 带公式框时渲染被拒（导线穿公式框）→ 去掉框再探针（#114）
+            lb = run_py([HERE / "sch_preview_label_boxes.py", "--zones", zones,
+                         "--work", work, "--no-boxes"], 2400)
+        if verbose and lb.returncode == 0 and lb.stdout:
+            for line in (lb.stdout or "").strip().splitlines()[-1:]:
+                print("     " + line.strip())
     widen(zones, page)
 
     svg = work / ("preview-%s.svg" % module)
