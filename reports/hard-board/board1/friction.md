@@ -7244,3 +7244,53 @@ M1c  C1 C3 C5 C8 D2 R5 R6 R7      余下
 
 **结论：拆页不是"切两刀"，是"切完还要补线"。** 下一步做跨页网络标签生成，
 做完 M1 才真正可交付。
+
+
+---
+
+## #138 跨页网络标签：**求出了**（一行策略），适配器还差一步
+
+### 发现：求解器早就支持
+
+`netPolicies` 支持 `direct / module_port / local_power / local_ground`。
+**`module_port` 就是"这条网的端点变成端口"** —— 正是跨页需要的语义。
+
+### 改法只有一行
+
+拆页时把**跨页信号网**的策略从 `direct` 改成 `module_port`：
+
+```python
+if n["id"] in severed_ids:
+    net_pol[n["id"]] = "module_port"
+```
+
+### 实测：端口真的生成了
+
+```
+M1a ✅ 1.6 秒 带预留区（导线不会穿位号）
+器件 8  导线 47  网标(flags) 11
+  U1_N9    kind=net_port_bi
+  U1_N13   kind=net_port_bi
+  R2_N7    kind=net_port_bi
+```
+
+`net_port_bi` 就是跨页网络标签：**两端同名、由求解器自动放置**。
+拆页从此不再把电路切断。
+
+### 但适配器还差一步
+
+判据 E 仍报"N/A：本图没有 netport/netlabel 图元"，而图上明明有 `net_port_bi`。
+说明**适配器没把 `net_port_bi` 识别成 netport**，于是判据 E 一直是 N/A ——
+它本该在跨页图上生效，检查"标签落在真实端点"。
+
+待办（都很小）：
+· 适配器把 `net_port_bi/in/out` 映射为 netport 图元 → 判据 E 从 N/A 变可测
+· `J_netflag_rotation` 仍 FAIL（一个网标朝向）—— 端口图元的朝向规则要补
+
+### 状态
+
+| 项 | 状态 |
+|---|---|
+| 拆页切断电路 | **已解决**（module_port 自动生成两端端口）|
+| M1a | 1.6 秒解出，9 PASS / 1 FAIL / 1 N/A |
+| 判据 E | 仍 N/A —— 适配器不认 `net_port_bi` |
