@@ -609,8 +609,8 @@
     "n2": "local_ground",
     "n5": "local_power",
     "n10": "local_power",
-    "n11": "direct",
-    "n12": "direct",
+    "n11": "module_port",
+    "n12": "module_port",
     "n13": "direct"
    },
    "peripherals": [

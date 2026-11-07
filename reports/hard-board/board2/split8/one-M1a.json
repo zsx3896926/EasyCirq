@@ -790,8 +790,8 @@
     "n8": "direct",
     "n9": "direct",
     "n10": "local_power",
-    "n11": "direct",
-    "n12": "direct"
+    "n11": "module_port",
+    "n12": "module_port"
    },
    "peripherals": [
     {

@@ -134,6 +134,21 @@ def main() -> int:
         tgt = min(pages, key=len)
         tgt.append(c)
 
+    # **跨页信号网**：成员分布在多页 → 必须用 `module_port` 让它变成端口，
+    # 否则两端没有网络标签，电路断在页边界上（判据看不见这类缺陷）。
+    page_of = {}
+    for i, page in enumerate(pages):
+        for c in page:
+            page_of[c] = i
+    severed, severed_ids = [], set()
+    for nid in {n for nets in sig.values() for n in nets}:
+        members = [cid for cid, ns in sig.items() if nid in ns]
+        pgs = {page_of.get(c) for c in members}
+        if len(pgs) > 1:
+            severed_ids.add(nid)
+            severed.append({"net": names.get(nid, nid),
+                            "pages": sorted(pg + 1 for pg in pgs if pg is not None)})
+
     outdir = pathlib.Path(args.out_dir)
     outdir.mkdir(parents=True, exist_ok=True)
     mid = src.stem[4:] if src.stem.startswith("one-") else src.stem
@@ -183,7 +198,10 @@ def main() -> int:
         for n in conn.get("nets") or []:
             nm = names.get(n["id"], "")
             up = nm.strip().upper()
-            if n["id"] in orig_pol:
+            if n["id"] in severed_ids:
+                # **跨页必用端口**：两端各一个同名 netport，电路才连得起来
+                net_pol[n["id"]] = "module_port"
+            elif n["id"] in orig_pol:
                 net_pol[n["id"]] = orig_pol[n["id"]]
             elif up in ("GND", "AGND", "PGND", "DGND"):
                 net_pol[n["id"]] = "local_ground"
@@ -206,18 +224,6 @@ def main() -> int:
                      "parts": len(keep),
                      "designators": sorted(byid[c] for c in keep)})
 
-    # **跨页信号网**：每个信号网的成员若分布在多于一页，电路就断了。
-    page_of = {}
-    for i, page in enumerate(pages):
-        for c in page:
-            page_of[c] = i
-    severed = []
-    for nid in {n for nets in sig.values() for n in nets}:
-        members = [cid for cid, ns in sig.items() if nid in ns]
-        pgs = {page_of.get(c) for c in members}
-        if len(pgs) > 1:
-            severed.append({"net": names.get(nid, nid),
-                            "pages": sorted(pg + 1 for pg in pgs if pg is not None)})
     if args.json:
         print(json.dumps({"pages": made, "severedNets": severed},
                          ensure_ascii=False, indent=2))
