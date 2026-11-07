@@ -1,0 +1,262 @@
+{
+  "schema": "easycirq-sch-acceptance/v1",
+  "strictInput": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\split8\\strict-M1a-full.json",
+  "checkerVerdict": "incomplete",
+  "verdict": "BLOCKED",
+  "criteria": [
+    {
+      "id": "A_content_inside_page",
+      "title": "内容不越框",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：components 8，wires 47"
+      ],
+      "checked": {
+        "components": 8,
+        "wires": 47
+      }
+    },
+    {
+      "id": "C_wire_vs_body",
+      "title": "导线不穿器件本体",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：wires 47，components 8"
+      ],
+      "checked": {
+        "wires": 47,
+        "components": 8
+      }
+    },
+    {
+      "id": "D_frame_vs_object",
+      "title": "模块框不切器件/导线",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：zones 1，components 8，wires 47"
+      ],
+      "checked": {
+        "zones": 1,
+        "components": 8,
+        "wires": 47
+      }
+    },
+    {
+      "id": "B_text_occlusion",
+      "title": "遮字/文字相压",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：texts 36"
+      ],
+      "checked": {
+        "texts": 36
+      }
+    },
+    {
+      "id": "E_label_anchor",
+      "title": "标签落在真实端点、朝向一致",
+      "status": "N/A",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "本图没有 netport/netlabel 图元（只有电源/地符号与网标），该判据无对象可测"
+      ],
+      "checked": {
+        "net_flags": 11
+      }
+    },
+    {
+      "id": "J_netflag_rotation",
+      "title": "网标朝向一致",
+      "status": "FAIL",
+      "count": 1,
+      "needs": [],
+      "samples": [
+        [
+          "flag-0"
+        ]
+      ],
+      "detail": [
+        ""
+      ],
+      "checked": {
+        "net_flags": 11
+      }
+    },
+    {
+      "id": "F_net_text",
+      "title": "重复网名/孤立文字",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：net_flags 11，texts 36"
+      ],
+      "checked": {
+        "net_flags": 11,
+        "texts": 36
+      }
+    },
+    {
+      "id": "H_crossing_evidence",
+      "title": "不同网络导线交叉无结点",
+      "status": "NOT RUN",
+      "count": 1,
+      "needs": [
+        "easycirq sch junction-report --page <P>",
+        "layout_from_easycirq.py --junction-report <报告>"
+      ],
+      "samples": [
+        [
+          "w-M1a-15#0",
+          "w-M1a-20#0"
+        ]
+      ],
+      "detail": [
+        "no host no-junction evidence for this crossing"
+      ],
+      "checked": {
+        "wires": 47
+      }
+    },
+    {
+      "id": "I_title_block",
+      "title": "图签无重复文字",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：texts 36"
+      ],
+      "checked": {
+        "texts": 36
+      }
+    },
+    {
+      "id": "G_zone_readability",
+      "title": "分区阅读顺序",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "已查：zones 1，components 8"
+      ],
+      "checked": {
+        "zones": 1,
+        "components": 8
+      }
+    },
+    {
+      "id": "L_text_audit",
+      "title": "文字审计（技能自检）",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "detail": [
+        "clear（量测 36 段）"
+      ],
+      "checked": {
+        "texts": 36
+      }
+    },
+    {
+      "id": "K_png_readability",
+      "title": "审图 PNG 可读性",
+      "status": "PASS",
+      "count": 0,
+      "needs": [],
+      "samples": [],
+      "checked": {
+        "components": 8,
+        "wires": 47
+      },
+      "detail": [
+        "各类缺陷：无"
+      ]
+    }
+  ],
+  "knownFalsePositives": {
+    "count": 27,
+    "byReason": {
+      "designator_at_corner": 8,
+      "pin_name_inside_body": 19
+    },
+    "reason": "文字落在其**所属器件**本体内且内容是该器件的引脚名（箱形符号把引脚名画在框内属正常画法）；适配器的 owner 豁免分支到不了 pagePrimitives.texts 通道，故在此显式记录为误报",
+    "codes": [
+      "bbox_overlap"
+    ],
+    "samples": [
+      [
+        "c10",
+        "svgtext-11"
+      ],
+      [
+        "c10",
+        "svgtext-12"
+      ],
+      [
+        "c10",
+        "svgtext-13"
+      ]
+    ]
+  },
+  "coverage": {
+    "components": {
+      "status": "complete",
+      "observed": 8
+    },
+    "texts": {
+      "status": "complete",
+      "observed": 36,
+      "estimated": 0,
+      "rendered": 52
+    },
+    "wires": {
+      "status": "complete",
+      "observed": 47,
+      "unparsed": 0
+    },
+    "attachment_points": {
+      "status": "complete",
+      "observed": 25,
+      "measured_pins": 25,
+      "total_pins": 25
+    },
+    "label_anchors": {
+      "status": "complete",
+      "observed": 0
+    },
+    "module_frames": {
+      "status": "complete",
+      "observed": 1,
+      "rectangles": 1
+    },
+    "rendered_texts": {
+      "status": "complete",
+      "observed": 52,
+      "unique_ids": 0
+    },
+    "title_block": {
+      "status": "complete",
+      "source": "sheet-geometry"
+    },
+    "_title_block": true
+  }
+}

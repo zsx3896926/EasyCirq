@@ -1,0 +1,4152 @@
+{
+  "schemaVersion": 1,
+  "connectivity": {
+    "schemaVersion": "1.4",
+    "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+    "documentId": "49c6dbb9567dd6af",
+    "components": [
+      {
+        "id": "c1",
+        "ref": "J1",
+        "role": "J_VEH",
+        "device": {
+          "libraryUuid": "eefe07b923bf4acd9f27ee796f7a235d",
+          "deviceUuid": "a7f414f9d3114bf4977147ab3925380c",
+          "name": "conn.terminal_3p_508"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2",
+            "noConnected": true
+          },
+          {
+            "number": "3",
+            "name": "3"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c2",
+        "ref": "F1",
+        "role": "F_IN",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "dc120c572b1544619b5c0f3313259566",
+          "name": "fuse.2a_1206"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c3",
+        "ref": "Q1",
+        "role": "Q_REV",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "a74b3c84e3a345d7b3acca5a8bae0b58",
+          "name": "mos.pmos40v_powerdi3333"
+        },
+        "pins": [
+          {
+            "number": "D",
+            "name": "D"
+          },
+          {
+            "number": "G",
+            "name": "G"
+          },
+          {
+            "number": "S",
+            "name": "S"
+          },
+          {
+            "number": "S#2",
+            "name": "S#2"
+          },
+          {
+            "number": "S#3",
+            "name": "S#3"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c4",
+        "ref": "R1",
+        "role": "R_QG",
+        "device": {
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ca74fa48280a42d5966001f9b9585429",
+          "name": "res.100k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c5",
+        "ref": "D1",
+        "role": "D_QG",
+        "device": {
+          "libraryUuid": "f4288d098d4b4843911bc9918a68a779",
+          "deviceUuid": "3b244202f1be43e5bceb721d5404f677",
+          "name": "zener.bzt52c12_sod123"
+        },
+        "pins": [
+          {
+            "number": "A",
+            "name": "A"
+          },
+          {
+            "number": "C",
+            "name": "C"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c6",
+        "ref": "D2",
+        "role": "D_TVS",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "4e5e35f0bedc48efa4bdf3fe659de2df",
+          "name": "diode.smbj33a_smb"
+        },
+        "pins": [
+          {
+            "number": "A",
+            "name": "A"
+          },
+          {
+            "number": "C",
+            "name": "C"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c7",
+        "ref": "C1",
+        "role": "C_IN1",
+        "device": {
+          "libraryUuid": "305a4407d9dc42cab3e3d4f703eb6981",
+          "deviceUuid": "8bf10b7aee90441baf947e7823386f7e",
+          "name": "cap.10uf50v_1210"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c8",
+        "ref": "C2",
+        "role": "C_IN1B",
+        "device": {
+          "libraryUuid": "305a4407d9dc42cab3e3d4f703eb6981",
+          "deviceUuid": "8bf10b7aee90441baf947e7823386f7e",
+          "name": "cap.10uf50v_1210"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c9",
+        "ref": "C3",
+        "role": "C_IN_HF",
+        "device": {
+          "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+          "deviceUuid": "b5784e6c8475475893cee8110c44816d",
+          "name": "cap.100nf_0603"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c10",
+        "ref": "U1",
+        "role": "U",
+        "device": {
+          "libraryUuid": "0481ea3f21c8478dbff09dc19803ed28",
+          "deviceUuid": "72247f71c8a6496d8ae2c45e43de09f8",
+          "name": "buck.tps54360_so8"
+        },
+        "pins": [
+          {
+            "number": "BOOT",
+            "name": "BOOT"
+          },
+          {
+            "number": "COMP",
+            "name": "COMP"
+          },
+          {
+            "number": "EN",
+            "name": "EN"
+          },
+          {
+            "number": "EP",
+            "name": "EP"
+          },
+          {
+            "number": "FB",
+            "name": "FB"
+          },
+          {
+            "number": "GND",
+            "name": "GND"
+          },
+          {
+            "number": "RT/CLK",
+            "name": "RT/CLK"
+          },
+          {
+            "number": "SW",
+            "name": "SW"
+          },
+          {
+            "number": "VIN",
+            "name": "VIN"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c11",
+        "ref": "R2",
+        "role": "R_ENT",
+        "device": {
+          "libraryUuid": "f832a134f4c64c5c83e903fa8c1896aa",
+          "deviceUuid": "35248860a87543ef96c4f8e0158d0edc",
+          "name": "res.453k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c12",
+        "ref": "R3",
+        "role": "R_ENB",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "deviceUuid": "65cecbe588014ef9a202f25cfeb1111c",
+          "name": "res.887k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c13",
+        "ref": "R4",
+        "role": "R_RT",
+        "device": {
+          "libraryUuid": "da2c49133a84449d8ed40cb0396ce078",
+          "deviceUuid": "0431f40563cd48efb18e125afac749df",
+          "name": "res.162k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c14",
+        "ref": "C4",
+        "role": "C_BOOT",
+        "device": {
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+          "name": "cap.100nf_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c15",
+        "ref": "L1",
+        "role": "L_OUT",
+        "device": {
+          "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
+          "deviceUuid": "844d3737c395406cbda147b110b6c196",
+          "name": "ind.15uh_12x12mm"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          },
+          {
+            "number": "3",
+            "name": "3"
+          },
+          {
+            "number": "4",
+            "name": "4"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c16",
+        "ref": "D3",
+        "role": "D_CATCH",
+        "device": {
+          "libraryUuid": "4cc456c593ec4d8bb3958e1c14cd60b7",
+          "deviceUuid": "c2a782143a06453094e39465992c1c27",
+          "name": "diode.b360a_sma"
+        },
+        "pins": [
+          {
+            "number": "A",
+            "name": "A"
+          },
+          {
+            "number": "K",
+            "name": "K"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c17",
+        "ref": "R5",
+        "role": "R_FBT",
+        "device": {
+          "libraryUuid": "f4680728dd0a4668ac0b78b87a70de08",
+          "deviceUuid": "c77d16ba7a664986b5dacef6830da749",
+          "name": "res.523k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c18",
+        "ref": "R6",
+        "role": "R_FBB",
+        "device": {
+          "libraryUuid": "f23fe15671054e81ab261d14102c265f",
+          "deviceUuid": "e3318ffdea7d48fb9e38991b26f87f58",
+          "name": "res.10k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c19",
+        "ref": "R7",
+        "role": "R_COMP",
+        "device": {
+          "libraryUuid": "97ee120a8e7e45228fbb55b92ead330b",
+          "deviceUuid": "7f8517046d5745479b75cadd5fcaa9f5",
+          "name": "res.47k_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c20",
+        "ref": "C5",
+        "role": "C_COMP",
+        "device": {
+          "libraryUuid": "1e7d82f038e548929b27c153b7491f24",
+          "deviceUuid": "f406f1cdc1a64a7584d11072b1577cab",
+          "name": "cap.47nf_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c21",
+        "ref": "C6",
+        "role": "C_COMP_HF",
+        "device": {
+          "libraryUuid": "72a164d3e0194e869076efb13d57f056",
+          "deviceUuid": "d9400867edbc40cc9c6c7f6aeb5043e4",
+          "name": "cap.47pf_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c22",
+        "ref": "C7",
+        "role": "C_OUT1",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c23",
+        "ref": "C8",
+        "role": "C_OUT2",
+        "device": {
+          "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+          "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e",
+          "name": "cap.22uf_0805"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      },
+      {
+        "id": "c24",
+        "ref": "C9",
+        "role": "C_OUT_HF",
+        "device": {
+          "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+          "deviceUuid": "ec8c99bfee964853b1f86532895188b2",
+          "name": "cap.100nf_0402"
+        },
+        "pins": [
+          {
+            "number": "1",
+            "name": "1"
+          },
+          {
+            "number": "2",
+            "name": "2"
+          }
+        ],
+        "pageId": "49c6dbb9567dd6af",
+        "pageName": "P1"
+      }
+    ],
+    "nets": [
+      {
+        "id": "n1",
+        "name": "J1_N1",
+        "scope": "local"
+      },
+      {
+        "id": "n2",
+        "name": "GND",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n3",
+        "name": "F1_N4",
+        "scope": "local"
+      },
+      {
+        "id": "n4",
+        "name": "Q1_N5",
+        "scope": "local"
+      },
+      {
+        "id": "n5",
+        "name": "VBAT_RAW",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n6",
+        "name": "R2_N7",
+        "scope": "local"
+      },
+      {
+        "id": "n7",
+        "name": "U1_N8",
+        "scope": "local"
+      },
+      {
+        "id": "n8",
+        "name": "U1_N9",
+        "scope": "local"
+      },
+      {
+        "id": "n9",
+        "name": "C4_N10",
+        "scope": "local"
+      },
+      {
+        "id": "n10",
+        "name": "+5V",
+        "scope": "global",
+        "role": "power"
+      },
+      {
+        "id": "n11",
+        "name": "U1_N12",
+        "scope": "local"
+      },
+      {
+        "id": "n12",
+        "name": "U1_N13",
+        "scope": "local"
+      },
+      {
+        "id": "n13",
+        "name": "R7_N14",
+        "scope": "local"
+      }
+    ],
+    "connections": [
+      {
+        "componentId": "c1",
+        "pinNumber": "1",
+        "netId": "n1",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c1",
+        "pinNumber": "3",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c2",
+        "pinNumber": "1",
+        "netId": "n1",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c2",
+        "pinNumber": "2",
+        "netId": "n3",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c3",
+        "pinNumber": "D",
+        "netId": "n3",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c3",
+        "pinNumber": "G",
+        "netId": "n4",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c3",
+        "pinNumber": "S",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c3",
+        "pinNumber": "S#2",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c3",
+        "pinNumber": "S#3",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c4",
+        "pinNumber": "1",
+        "netId": "n4",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c4",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c5",
+        "pinNumber": "A",
+        "netId": "n4",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c5",
+        "pinNumber": "C",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c6",
+        "pinNumber": "A",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c6",
+        "pinNumber": "C",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c7",
+        "pinNumber": "1",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c7",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c8",
+        "pinNumber": "1",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c8",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c9",
+        "pinNumber": "1",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c9",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "BOOT",
+        "netId": "n8",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "COMP",
+        "netId": "n12",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "EN",
+        "netId": "n6",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "EP",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "FB",
+        "netId": "n11",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "GND",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "RT/CLK",
+        "netId": "n7",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "SW",
+        "netId": "n9",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c10",
+        "pinNumber": "VIN",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c11",
+        "pinNumber": "1",
+        "netId": "n5",
+        "kind": "power"
+      },
+      {
+        "componentId": "c11",
+        "pinNumber": "2",
+        "netId": "n6",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c12",
+        "pinNumber": "1",
+        "netId": "n6",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c12",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c13",
+        "pinNumber": "1",
+        "netId": "n7",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c13",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c14",
+        "pinNumber": "1",
+        "netId": "n8",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c14",
+        "pinNumber": "2",
+        "netId": "n9",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c15",
+        "pinNumber": "1",
+        "netId": "n9",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c15",
+        "pinNumber": "2",
+        "netId": "n9",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c15",
+        "pinNumber": "3",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c15",
+        "pinNumber": "4",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c16",
+        "pinNumber": "A",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c16",
+        "pinNumber": "K",
+        "netId": "n9",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c17",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c17",
+        "pinNumber": "2",
+        "netId": "n11",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c18",
+        "pinNumber": "1",
+        "netId": "n11",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c18",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c19",
+        "pinNumber": "1",
+        "netId": "n12",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c19",
+        "pinNumber": "2",
+        "netId": "n13",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c20",
+        "pinNumber": "1",
+        "netId": "n13",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c20",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c21",
+        "pinNumber": "1",
+        "netId": "n12",
+        "kind": "wire"
+      },
+      {
+        "componentId": "c21",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c22",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c22",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c23",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c23",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      },
+      {
+        "componentId": "c24",
+        "pinNumber": "1",
+        "netId": "n10",
+        "kind": "power"
+      },
+      {
+        "componentId": "c24",
+        "pinNumber": "2",
+        "netId": "n2",
+        "kind": "ground"
+      }
+    ],
+    "modules": [
+      {
+        "id": "M1",
+        "name": "车辆宽压输入 + 主 5V（TPS54360）",
+        "coreComponents": [
+          "c10"
+        ],
+        "peripheralComponents": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "c8",
+          "c9",
+          "c11",
+          "c12",
+          "c13",
+          "c14",
+          "c15",
+          "c16",
+          "c17",
+          "c18",
+          "c19",
+          "c20",
+          "c21",
+          "c22",
+          "c23",
+          "c24"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M1: 58 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M2: 19 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M3: 17 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M4: 25 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      },
+      {
+        "code": "",
+        "severity": "info",
+        "message": "M5: 21 个引脚用块库的引脚**名**当编号（离线拿不到真实脚号）"
+      }
+    ]
+  },
+  "sheet": {
+    "minX": 0,
+    "minY": 0,
+    "maxX": 841,
+    "maxY": 594
+  },
+  "keepouts": [],
+  "modules": [
+    {
+      "id": "M1",
+      "title": "车辆宽压输入 + 主 5V（TPS54360）",
+      "placements": [
+        {
+          "primitiveId": "c10",
+          "designator": "U1",
+          "x": 470.0,
+          "y": 230.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 430.0,
+            "minY": 205.0,
+            "maxX": 510.0,
+            "maxY": 255.0
+          },
+          "pins": [
+            {
+              "number": "BOOT",
+              "name": "BOOT",
+              "net": "U1_N9",
+              "x": 420.0,
+              "y": 215.0,
+              "rotation": 180
+            },
+            {
+              "number": "COMP",
+              "name": "COMP",
+              "net": "U1_N13",
+              "x": 520.0,
+              "y": 235.0,
+              "rotation": 0
+            },
+            {
+              "number": "EN",
+              "name": "EN",
+              "net": "R2_N7",
+              "x": 420.0,
+              "y": 235.0,
+              "rotation": 180
+            },
+            {
+              "number": "EP",
+              "name": "EP",
+              "net": "GND",
+              "x": 470.0,
+              "y": 195.0,
+              "rotation": 270
+            },
+            {
+              "number": "FB",
+              "name": "FB",
+              "net": "U1_N12",
+              "x": 520.0,
+              "y": 245.0,
+              "rotation": 0
+            },
+            {
+              "number": "GND",
+              "name": "GND",
+              "net": "GND",
+              "x": 520.0,
+              "y": 225.0,
+              "rotation": 0
+            },
+            {
+              "number": "RT/CLK",
+              "name": "RT/CLK",
+              "net": "U1_N8",
+              "x": 420.0,
+              "y": 245.0,
+              "rotation": 180
+            },
+            {
+              "number": "SW",
+              "name": "SW",
+              "net": "C4_N10",
+              "x": 520.0,
+              "y": 215.0,
+              "rotation": 0
+            },
+            {
+              "number": "VIN",
+              "name": "VIN",
+              "net": "VBAT_RAW",
+              "x": 420.0,
+              "y": 225.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c6",
+          "designator": "D2",
+          "x": 435.0,
+          "y": 180.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 430.0,
+            "minY": 175.0,
+            "maxX": 440.0,
+            "maxY": 185.0
+          },
+          "pins": [
+            {
+              "number": "A",
+              "name": "A",
+              "net": "GND",
+              "x": 455.0,
+              "y": 180.0,
+              "rotation": 0
+            },
+            {
+              "number": "C",
+              "name": "C",
+              "net": "VBAT_RAW",
+              "x": 415.0,
+              "y": 180.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c7",
+          "designator": "C1",
+          "x": 380.0,
+          "y": 180.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 370.0,
+            "minY": 175.0,
+            "maxX": 390.0,
+            "maxY": 185.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "VBAT_RAW",
+              "x": 360.0,
+              "y": 180.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 400.0,
+              "y": 180.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c8",
+          "designator": "C2",
+          "x": 325.0,
+          "y": 180.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 315.0,
+            "minY": 175.0,
+            "maxX": 335.0,
+            "maxY": 185.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "VBAT_RAW",
+              "x": 305.0,
+              "y": 180.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 345.0,
+              "y": 180.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c9",
+          "designator": "C3",
+          "x": 270.0,
+          "y": 180.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 260.0,
+            "minY": 175.0,
+            "maxX": 280.0,
+            "maxY": 185.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "VBAT_RAW",
+              "x": 250.0,
+              "y": 180.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 290.0,
+              "y": 180.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c3",
+          "designator": "Q1",
+          "x": 330.0,
+          "y": 250.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 310.0,
+            "minY": 225.0,
+            "maxX": 350.0,
+            "maxY": 275.0
+          },
+          "pins": [
+            {
+              "number": "D",
+              "name": "D",
+              "net": "F1_N4",
+              "x": 360.0,
+              "y": 255.0,
+              "rotation": 0
+            },
+            {
+              "number": "G",
+              "name": "G",
+              "net": "Q1_N5",
+              "x": 300.0,
+              "y": 265.0,
+              "rotation": 180
+            },
+            {
+              "number": "S",
+              "name": "S",
+              "net": "VBAT_RAW",
+              "x": 300.0,
+              "y": 235.0,
+              "rotation": 180
+            },
+            {
+              "number": "S#2",
+              "name": "S#2",
+              "net": "VBAT_RAW",
+              "x": 300.0,
+              "y": 245.0,
+              "rotation": 180
+            },
+            {
+              "number": "S#3",
+              "name": "S#3",
+              "net": "VBAT_RAW",
+              "x": 300.0,
+              "y": 255.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c15",
+          "designator": "L1",
+          "x": 570.0,
+          "y": 225.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 555.0,
+            "minY": 215.0,
+            "maxX": 585.0,
+            "maxY": 235.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "C4_N10",
+              "x": 550.0,
+              "y": 235.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "C4_N10",
+              "x": 550.0,
+              "y": 215.0,
+              "rotation": 180
+            },
+            {
+              "number": "3",
+              "name": "3",
+              "net": "+5V",
+              "x": 590.0,
+              "y": 235.0,
+              "rotation": 0
+            },
+            {
+              "number": "4",
+              "name": "4",
+              "net": "+5V",
+              "x": 590.0,
+              "y": 215.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c22",
+          "designator": "C7",
+          "x": 630.0,
+          "y": 235.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 620.0,
+            "minY": 230.0,
+            "maxX": 640.0,
+            "maxY": 240.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 610.0,
+              "y": 235.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 650.0,
+              "y": 235.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c23",
+          "designator": "C8",
+          "x": 615.0,
+          "y": 185.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 605.0,
+            "minY": 180.0,
+            "maxX": 625.0,
+            "maxY": 190.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 595.0,
+              "y": 185.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 635.0,
+              "y": 185.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c24",
+          "designator": "C9",
+          "x": 625.0,
+          "y": 285.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 615.0,
+            "minY": 280.0,
+            "maxX": 635.0,
+            "maxY": 290.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 605.0,
+              "y": 285.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 645.0,
+              "y": 285.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c2",
+          "designator": "F1",
+          "x": 345.0,
+          "y": 320.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 330.0,
+            "minY": 315.0,
+            "maxX": 360.0,
+            "maxY": 325.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "J1_N1",
+              "x": 325.0,
+              "y": 320.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "F1_N4",
+              "x": 365.0,
+              "y": 320.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c1",
+          "designator": "J1",
+          "x": 340.0,
+          "y": 385.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 330.0,
+            "minY": 365.0,
+            "maxX": 370.0,
+            "maxY": 405.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "J1_N1",
+              "x": 320.0,
+              "y": 375.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "",
+              "x": 320.0,
+              "y": 385.0,
+              "rotation": 180
+            },
+            {
+              "number": "3",
+              "name": "3",
+              "net": "GND",
+              "x": 320.0,
+              "y": 395.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c4",
+          "designator": "R1",
+          "x": 265.0,
+          "y": 265.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 255.0,
+            "minY": 260.0,
+            "maxX": 275.0,
+            "maxY": 270.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "Q1_N5",
+              "x": 245.0,
+              "y": 265.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 285.0,
+              "y": 265.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c5",
+          "designator": "D1",
+          "x": 215.0,
+          "y": 265.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 210.0,
+            "minY": 260.0,
+            "maxX": 220.0,
+            "maxY": 270.0
+          },
+          "pins": [
+            {
+              "number": "A",
+              "name": "A",
+              "net": "Q1_N5",
+              "x": 235.0,
+              "y": 265.0,
+              "rotation": 0
+            },
+            {
+              "number": "C",
+              "name": "C",
+              "net": "VBAT_RAW",
+              "x": 195.0,
+              "y": 265.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c11",
+          "designator": "R2",
+          "x": 215.0,
+          "y": 180.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 205.0,
+            "minY": 175.0,
+            "maxX": 225.0,
+            "maxY": 185.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "VBAT_RAW",
+              "x": 195.0,
+              "y": 180.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "R2_N7",
+              "x": 235.0,
+              "y": 180.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c12",
+          "designator": "R3",
+          "x": 435.0,
+          "y": 285.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 425.0,
+            "minY": 280.0,
+            "maxX": 445.0,
+            "maxY": 290.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "R2_N7",
+              "x": 415.0,
+              "y": 285.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 455.0,
+              "y": 285.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c13",
+          "designator": "R4",
+          "x": 435.0,
+          "y": 335.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 425.0,
+            "minY": 330.0,
+            "maxX": 445.0,
+            "maxY": 340.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U1_N8",
+              "x": 415.0,
+              "y": 335.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 455.0,
+              "y": 335.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c14",
+          "designator": "C4",
+          "x": 505.0,
+          "y": 160.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 495.0,
+            "minY": 155.0,
+            "maxX": 515.0,
+            "maxY": 165.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U1_N9",
+              "x": 485.0,
+              "y": 160.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "C4_N10",
+              "x": 525.0,
+              "y": 160.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c16",
+          "designator": "D3",
+          "x": 555.0,
+          "y": 155.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 550.0,
+            "minY": 150.0,
+            "maxX": 560.0,
+            "maxY": 160.0
+          },
+          "pins": [
+            {
+              "number": "A",
+              "name": "A",
+              "net": "GND",
+              "x": 575.0,
+              "y": 155.0,
+              "rotation": 0
+            },
+            {
+              "number": "K",
+              "name": "K",
+              "net": "C4_N10",
+              "x": 535.0,
+              "y": 155.0,
+              "rotation": 180
+            }
+          ]
+        },
+        {
+          "primitiveId": "c17",
+          "designator": "R5",
+          "x": 570.0,
+          "y": 285.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 560.0,
+            "minY": 280.0,
+            "maxX": 580.0,
+            "maxY": 290.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "+5V",
+              "x": 550.0,
+              "y": 285.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "U1_N12",
+              "x": 590.0,
+              "y": 285.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c18",
+          "designator": "R6",
+          "x": 615.0,
+          "y": 335.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 605.0,
+            "minY": 330.0,
+            "maxX": 625.0,
+            "maxY": 340.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U1_N12",
+              "x": 595.0,
+              "y": 335.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 635.0,
+              "y": 335.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c19",
+          "designator": "R7",
+          "x": 545.0,
+          "y": 335.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 535.0,
+            "minY": 330.0,
+            "maxX": 555.0,
+            "maxY": 340.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U1_N13",
+              "x": 525.0,
+              "y": 335.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "R7_N14",
+              "x": 565.0,
+              "y": 335.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c20",
+          "designator": "C5",
+          "x": 585.0,
+          "y": 370.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 580.0,
+            "minY": 365.0,
+            "maxX": 590.0,
+            "maxY": 375.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "R7_N14",
+              "x": 570.0,
+              "y": 370.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 600.0,
+              "y": 370.0,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "primitiveId": "c21",
+          "designator": "C6",
+          "x": 490.0,
+          "y": 335.0,
+          "rotation": 0,
+          "mirror": false,
+          "bbox": {
+            "minX": 485.0,
+            "minY": 330.0,
+            "maxX": 495.0,
+            "maxY": 340.0
+          },
+          "pins": [
+            {
+              "number": "1",
+              "name": "1",
+              "net": "U1_N13",
+              "x": 475.0,
+              "y": 335.0,
+              "rotation": 180
+            },
+            {
+              "number": "2",
+              "name": "2",
+              "net": "GND",
+              "x": 505.0,
+              "y": 335.0,
+              "rotation": 0
+            }
+          ]
+        }
+      ],
+      "wires": [
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              285.0
+            ],
+            [
+              455.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              505.0,
+              335.0
+            ],
+            [
+              510.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              510.0,
+              335.0
+            ],
+            [
+              510.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              510.0,
+              340.0
+            ],
+            [
+              460.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              405.0,
+              180.0
+            ],
+            [
+              405.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              400.0,
+              180.0
+            ],
+            [
+              405.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              290.0,
+              180.0
+            ],
+            [
+              295.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              295.0,
+              180.0
+            ],
+            [
+              295.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              295.0,
+              185.0
+            ],
+            [
+              350.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              350.0,
+              185.0
+            ],
+            [
+              405.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              405.0,
+              185.0
+            ],
+            [
+              460.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              350.0,
+              180.0
+            ],
+            [
+              350.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              345.0,
+              180.0
+            ],
+            [
+              350.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              650.0,
+              335.0
+            ],
+            [
+              650.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              645.0,
+              285.0
+            ],
+            [
+              650.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              650.0,
+              285.0
+            ],
+            [
+              655.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              635.0,
+              185.0
+            ],
+            [
+              655.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              655.0,
+              185.0
+            ],
+            [
+              655.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              655.0,
+              235.0
+            ],
+            [
+              655.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              650.0,
+              235.0
+            ],
+            [
+              655.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              640.0,
+              370.0
+            ],
+            [
+              640.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              635.0,
+              335.0
+            ],
+            [
+              640.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              640.0,
+              335.0
+            ],
+            [
+              650.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              520.0,
+              225.0
+            ],
+            [
+              530.0,
+              225.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              530.0,
+              225.0
+            ],
+            [
+              530.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              530.0,
+              185.0
+            ],
+            [
+              470.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              470.0,
+              180.0
+            ],
+            [
+              470.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              470.0,
+              185.0
+            ],
+            [
+              470.0,
+              195.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              255.0
+            ],
+            [
+              295.0,
+              255.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              245.0
+            ],
+            [
+              295.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              595.0,
+              185.0
+            ],
+            [
+              590.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              590.0,
+              185.0
+            ],
+            [
+              590.0,
+              200.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              590.0,
+              200.0
+            ],
+            [
+              595.0,
+              200.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              595.0,
+              200.0
+            ],
+            [
+              595.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              595.0,
+              215.0
+            ],
+            [
+              595.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              590.0,
+              215.0
+            ],
+            [
+              595.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              410.0,
+              225.0
+            ],
+            [
+              420.0,
+              225.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              355.0,
+              175.0
+            ],
+            [
+              355.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              355.0,
+              180.0
+            ],
+            [
+              360.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              245.0,
+              175.0
+            ],
+            [
+              300.0,
+              175.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              175.0
+            ],
+            [
+              355.0,
+              175.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              355.0,
+              175.0
+            ],
+            [
+              410.0,
+              175.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              590.0,
+              235.0
+            ],
+            [
+              595.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              595.0,
+              235.0
+            ],
+            [
+              600.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              600.0,
+              235.0
+            ],
+            [
+              610.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              195.0,
+              180.0
+            ],
+            [
+              190.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              190.0,
+              180.0
+            ],
+            [
+              190.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              190.0,
+              185.0
+            ],
+            [
+              245.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              245.0,
+              175.0
+            ],
+            [
+              245.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              245.0,
+              180.0
+            ],
+            [
+              245.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              245.0,
+              180.0
+            ],
+            [
+              250.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              545.0,
+              290.0
+            ],
+            [
+              600.0,
+              290.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              600.0,
+              235.0
+            ],
+            [
+              600.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              600.0,
+              285.0
+            ],
+            [
+              600.0,
+              290.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              600.0,
+              285.0
+            ],
+            [
+              605.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              295.0,
+              235.0
+            ],
+            [
+              300.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              295.0,
+              205.0
+            ],
+            [
+              295.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              295.0,
+              235.0
+            ],
+            [
+              295.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              295.0,
+              245.0
+            ],
+            [
+              295.0,
+              255.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              295.0,
+              205.0
+            ],
+            [
+              300.0,
+              205.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              175.0
+            ],
+            [
+              300.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              180.0
+            ],
+            [
+              300.0,
+              205.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              300.0,
+              180.0
+            ],
+            [
+              305.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              545.0,
+              215.0
+            ],
+            [
+              545.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              545.0,
+              235.0
+            ],
+            [
+              550.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              520.0,
+              215.0
+            ],
+            [
+              535.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              535.0,
+              215.0
+            ],
+            [
+              545.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              545.0,
+              215.0
+            ],
+            [
+              550.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              535.0,
+              160.0
+            ],
+            [
+              535.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              535.0,
+              155.0
+            ],
+            [
+              530.0,
+              155.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              235.0,
+              265.0
+            ],
+            [
+              240.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              240.0,
+              265.0
+            ],
+            [
+              245.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              295.0,
+              260.0
+            ],
+            [
+              240.0,
+              260.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              240.0,
+              260.0
+            ],
+            [
+              240.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              565.0,
+              350.0
+            ],
+            [
+              570.0,
+              350.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              570.0,
+              350.0
+            ],
+            [
+              570.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              570.0,
+              335.0
+            ],
+            [
+              565.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              475.0,
+              335.0
+            ],
+            [
+              470.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              470.0,
+              335.0
+            ],
+            [
+              470.0,
+              330.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              520.0,
+              235.0
+            ],
+            [
+              530.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              530.0,
+              235.0
+            ],
+            [
+              530.0,
+              330.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              470.0,
+              330.0
+            ],
+            [
+              520.0,
+              330.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              520.0,
+              330.0
+            ],
+            [
+              530.0,
+              330.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              415.0,
+              285.0
+            ],
+            [
+              410.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              410.0,
+              285.0
+            ],
+            [
+              410.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              240.0,
+              225.0
+            ],
+            [
+              405.0,
+              225.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              405.0,
+              225.0
+            ],
+            [
+              405.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              405.0,
+              235.0
+            ],
+            [
+              410.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              410.0,
+              235.0
+            ],
+            [
+              420.0,
+              235.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              595.0,
+              335.0
+            ],
+            [
+              590.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              590.0,
+              335.0
+            ],
+            [
+              590.0,
+              310.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              590.0,
+              310.0
+            ],
+            [
+              595.0,
+              310.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              595.0,
+              285.0
+            ],
+            [
+              590.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              595.0,
+              245.0
+            ],
+            [
+              595.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              595.0,
+              285.0
+            ],
+            [
+              595.0,
+              310.0
+            ]
+          ]
+        },
+        {
+          "net": "J1_N1",
+          "points": [
+            [
+              320.0,
+              375.0
+            ],
+            [
+              315.0,
+              375.0
+            ]
+          ]
+        },
+        {
+          "net": "F1_N4",
+          "points": [
+            [
+              370.0,
+              255.0
+            ],
+            [
+              360.0,
+              255.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N8",
+          "points": [
+            [
+              405.0,
+              335.0
+            ],
+            [
+              405.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N8",
+          "points": [
+            [
+              405.0,
+              245.0
+            ],
+            [
+              420.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N9",
+          "points": [
+            [
+              485.0,
+              160.0
+            ],
+            [
+              465.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N9",
+          "points": [
+            [
+              465.0,
+              160.0
+            ],
+            [
+              465.0,
+              205.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N9",
+          "points": [
+            [
+              465.0,
+              205.0
+            ],
+            [
+              415.0,
+              205.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              455.0,
+              180.0
+            ],
+            [
+              460.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              180.0
+            ],
+            [
+              470.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              175.0
+            ],
+            [
+              460.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              180.0
+            ],
+            [
+              460.0,
+              185.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              600.0,
+              370.0
+            ],
+            [
+              605.0,
+              370.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              605.0,
+              370.0
+            ],
+            [
+              640.0,
+              370.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              605.0,
+              370.0
+            ],
+            [
+              605.0,
+              375.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              285.0,
+              265.0
+            ],
+            [
+              290.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              290.0,
+              265.0
+            ],
+            [
+              290.0,
+              270.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              455.0,
+              335.0
+            ],
+            [
+              460.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              285.0
+            ],
+            [
+              460.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "GND",
+          "points": [
+            [
+              460.0,
+              335.0
+            ],
+            [
+              460.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              410.0,
+              180.0
+            ],
+            [
+              415.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              410.0,
+              175.0
+            ],
+            [
+              410.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "VBAT_RAW",
+          "points": [
+            [
+              410.0,
+              180.0
+            ],
+            [
+              410.0,
+              225.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              545.0,
+              285.0
+            ],
+            [
+              550.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "+5V",
+          "points": [
+            [
+              545.0,
+              285.0
+            ],
+            [
+              545.0,
+              290.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N9",
+          "points": [
+            [
+              415.0,
+              215.0
+            ],
+            [
+              420.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N9",
+          "points": [
+            [
+              415.0,
+              205.0
+            ],
+            [
+              415.0,
+              215.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              520.0,
+              335.0
+            ],
+            [
+              525.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              520.0,
+              330.0
+            ],
+            [
+              520.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N13",
+          "points": [
+            [
+              520.0,
+              335.0
+            ],
+            [
+              520.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              235.0,
+              180.0
+            ],
+            [
+              240.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              240.0,
+              175.0
+            ],
+            [
+              240.0,
+              180.0
+            ]
+          ]
+        },
+        {
+          "net": "R2_N7",
+          "points": [
+            [
+              240.0,
+              180.0
+            ],
+            [
+              240.0,
+              225.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              520.0,
+              245.0
+            ],
+            [
+              545.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              545.0,
+              245.0
+            ],
+            [
+              595.0,
+              245.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N12",
+          "points": [
+            [
+              545.0,
+              245.0
+            ],
+            [
+              545.0,
+              270.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N8",
+          "points": [
+            [
+              405.0,
+              335.0
+            ],
+            [
+              410.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N8",
+          "points": [
+            [
+              410.0,
+              335.0
+            ],
+            [
+              415.0,
+              335.0
+            ]
+          ]
+        },
+        {
+          "net": "U1_N8",
+          "points": [
+            [
+              410.0,
+              335.0
+            ],
+            [
+              410.0,
+              340.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              525.0,
+              160.0
+            ],
+            [
+              530.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              530.0,
+              160.0
+            ],
+            [
+              535.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "C4_N10",
+          "points": [
+            [
+              530.0,
+              155.0
+            ],
+            [
+              530.0,
+              160.0
+            ]
+          ]
+        },
+        {
+          "net": "F1_N4",
+          "points": [
+            [
+              365.0,
+              320.0
+            ],
+            [
+              370.0,
+              320.0
+            ]
+          ]
+        },
+        {
+          "net": "F1_N4",
+          "points": [
+            [
+              370.0,
+              255.0
+            ],
+            [
+              370.0,
+              320.0
+            ]
+          ]
+        },
+        {
+          "net": "F1_N4",
+          "points": [
+            [
+              370.0,
+              320.0
+            ],
+            [
+              370.0,
+              325.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              295.0,
+              265.0
+            ],
+            [
+              300.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              295.0,
+              260.0
+            ],
+            [
+              295.0,
+              265.0
+            ]
+          ]
+        },
+        {
+          "net": "Q1_N5",
+          "points": [
+            [
+              295.0,
+              265.0
+            ],
+            [
+              295.0,
+              285.0
+            ]
+          ]
+        },
+        {
+          "net": "J1_N1",
+          "points": [
+            [
+              315.0,
+              320.0
+            ],
+            [
+              325.0,
+              320.0
+            ]
+          ]
+        },
+        {
+          "net": "J1_N1",
+          "points": [
+            [
+              315.0,
+              320.0
+            ],
+            [
+              315.0,
+              375.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              565.0,
+              370.0
+            ],
+            [
+              570.0,
+              370.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              565.0,
+              350.0
+            ],
+            [
+              565.0,
+              370.0
+            ]
+          ]
+        },
+        {
+          "net": "R7_N14",
+          "points": [
+            [
+              565.0,
+              370.0
+            ],
+            [
+              565.0,
+              375.0
+            ]
+          ]
+        }
+      ],
+      "flags": [
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 460.0,
+          "pinY": 175.0,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -10,
+            "y": -55
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 605.0,
+          "pinY": 375.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": 135,
+            "y": 145
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 320.0,
+          "pinY": 395.0,
+          "direction": "left",
+          "offset": 25,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c1",
+            "pinNumber": "3",
+            "net": "GND"
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 290.0,
+          "pinY": 270.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -180,
+            "y": 40
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 460.0,
+          "pinY": 340.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "GND",
+            "x": -10,
+            "y": 110
+          }
+        },
+        {
+          "net": "GND",
+          "kind": "ground",
+          "pinX": 575.0,
+          "pinY": 155.0,
+          "direction": "right",
+          "offset": 25,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c16",
+            "pinNumber": "A",
+            "net": "GND"
+          }
+        },
+        {
+          "net": "VBAT_RAW",
+          "kind": "power",
+          "pinX": 410.0,
+          "pinY": 175.0,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "VBAT_RAW",
+            "x": -60,
+            "y": -55
+          }
+        },
+        {
+          "net": "+5V",
+          "kind": "power",
+          "pinX": 545.0,
+          "pinY": 290.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "+5V",
+            "x": 75,
+            "y": 60
+          }
+        },
+        {
+          "net": "VBAT_RAW",
+          "kind": "power",
+          "pinX": 195.0,
+          "pinY": 265.0,
+          "direction": "left",
+          "offset": 55,
+          "anchor": {
+            "type": "pin",
+            "componentId": "c5",
+            "pinNumber": "C",
+            "net": "VBAT_RAW"
+          }
+        },
+        {
+          "net": "U1_N9",
+          "kind": "net_port_bi",
+          "pinX": 415.0,
+          "pinY": 210.0,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U1_N9",
+            "x": -55,
+            "y": -20
+          }
+        },
+        {
+          "net": "U1_N13",
+          "kind": "net_port_bi",
+          "pinX": 520.0,
+          "pinY": 340.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U1_N13",
+            "x": 50,
+            "y": 110
+          }
+        },
+        {
+          "net": "R2_N7",
+          "kind": "net_port_bi",
+          "pinX": 240.0,
+          "pinY": 175.0,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "R2_N7",
+            "x": -230,
+            "y": -55
+          }
+        },
+        {
+          "net": "U1_N12",
+          "kind": "net_port_bi",
+          "pinX": 545.0,
+          "pinY": 270.0,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U1_N12",
+            "x": 75,
+            "y": 40
+          }
+        },
+        {
+          "net": "U1_N8",
+          "kind": "net_port_bi",
+          "pinX": 410.0,
+          "pinY": 340.0,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "U1_N8",
+            "x": -60,
+            "y": 110
+          }
+        },
+        {
+          "net": "C4_N10",
+          "kind": "net_port_bi",
+          "pinX": 530.0,
+          "pinY": 155.0,
+          "direction": "down",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "C4_N10",
+            "x": 60,
+            "y": -75
+          }
+        },
+        {
+          "net": "F1_N4",
+          "kind": "net_port_bi",
+          "pinX": 370.0,
+          "pinY": 325.0,
+          "direction": "left",
+          "offset": 50,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "F1_N4",
+            "x": -100,
+            "y": 95
+          }
+        },
+        {
+          "net": "Q1_N5",
+          "kind": "net_port_bi",
+          "pinX": 295.0,
+          "pinY": 285.0,
+          "direction": "left",
+          "offset": 15,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "Q1_N5",
+            "x": -175,
+            "y": 55
+          }
+        },
+        {
+          "net": "J1_N1",
+          "kind": "net_port_bi",
+          "pinX": 315.0,
+          "pinY": 345.0,
+          "direction": "left",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "J1_N1",
+            "x": -155,
+            "y": 115
+          }
+        },
+        {
+          "net": "R7_N14",
+          "kind": "net_port_bi",
+          "pinX": 565.0,
+          "pinY": 375.0,
+          "direction": "up",
+          "offset": 10,
+          "anchor": {
+            "type": "wire_tree",
+            "net": "R7_N14",
+            "x": 95,
+            "y": 145
+          }
+        }
+      ]
+    }
+  ]
+}

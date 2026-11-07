@@ -1,0 +1,7 @@
+{
+  "schema": "easycirq-sch-acceptance/v1",
+  "verdict": "REFUSED",
+  "error": "渲染/验收未通过，详见本次运行输出",
+  "criteria": [],
+  "note": "该模块当前不产出图纸（渲染门拒绝），任何旧的逐条结论都不代表现状"
+}

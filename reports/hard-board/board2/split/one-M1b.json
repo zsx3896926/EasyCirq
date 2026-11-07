@@ -1,0 +1,989 @@
+{
+ "schemaVersion": 1,
+ "connectivity": {
+  "schemaVersion": "1.4",
+  "projectId": "23ce6e4eb178464cb0b709920da3b26c",
+  "documentId": "49c6dbb9567dd6af",
+  "components": [
+   {
+    "id": "c1",
+    "ref": "J1",
+    "role": "J_VEH",
+    "device": {
+     "name": "conn.terminal_3p_508",
+     "libraryUuid": "eefe07b923bf4acd9f27ee796f7a235d",
+     "deviceUuid": "a7f414f9d3114bf4977147ab3925380c"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2",
+      "noConnected": true
+     },
+     {
+      "number": "3",
+      "name": "3"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c2",
+    "ref": "F1",
+    "role": "F_IN",
+    "device": {
+     "name": "fuse.2a_1206",
+     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+     "deviceUuid": "dc120c572b1544619b5c0f3313259566"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c3",
+    "ref": "Q1",
+    "role": "Q_REV",
+    "device": {
+     "name": "mos.pmos40v_powerdi3333",
+     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+     "deviceUuid": "a74b3c84e3a345d7b3acca5a8bae0b58"
+    },
+    "pins": [
+     {
+      "number": "D",
+      "name": "D"
+     },
+     {
+      "number": "G",
+      "name": "G"
+     },
+     {
+      "number": "S",
+      "name": "S"
+     },
+     {
+      "number": "S#2",
+      "name": "S#2"
+     },
+     {
+      "number": "S#3",
+      "name": "S#3"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c4",
+    "ref": "R1",
+    "role": "R_QG",
+    "device": {
+     "name": "res.100k_0402",
+     "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+     "deviceUuid": "ca74fa48280a42d5966001f9b9585429"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c5",
+    "ref": "D1",
+    "role": "D_QG",
+    "device": {
+     "name": "zener.bzt52c12_sod123",
+     "libraryUuid": "f4288d098d4b4843911bc9918a68a779",
+     "deviceUuid": "3b244202f1be43e5bceb721d5404f677"
+    },
+    "pins": [
+     {
+      "number": "A",
+      "name": "A"
+     },
+     {
+      "number": "C",
+      "name": "C"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c6",
+    "ref": "D2",
+    "role": "D_TVS",
+    "device": {
+     "name": "diode.smbj33a_smb",
+     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+     "deviceUuid": "4e5e35f0bedc48efa4bdf3fe659de2df"
+    },
+    "pins": [
+     {
+      "number": "A",
+      "name": "A"
+     },
+     {
+      "number": "C",
+      "name": "C"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c7",
+    "ref": "C1",
+    "role": "C_IN1",
+    "device": {
+     "name": "cap.10uf50v_1210",
+     "libraryUuid": "305a4407d9dc42cab3e3d4f703eb6981",
+     "deviceUuid": "8bf10b7aee90441baf947e7823386f7e"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c8",
+    "ref": "C2",
+    "role": "C_IN1B",
+    "device": {
+     "name": "cap.10uf50v_1210",
+     "libraryUuid": "305a4407d9dc42cab3e3d4f703eb6981",
+     "deviceUuid": "8bf10b7aee90441baf947e7823386f7e"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c9",
+    "ref": "C3",
+    "role": "C_IN_HF",
+    "device": {
+     "name": "cap.100nf_0603",
+     "libraryUuid": "b1570bcb38e64521a47e10fb78346eb6",
+     "deviceUuid": "b5784e6c8475475893cee8110c44816d"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c22",
+    "ref": "C7",
+    "role": "C_OUT1",
+    "device": {
+     "name": "cap.22uf_0805",
+     "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+     "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c23",
+    "ref": "C8",
+    "role": "C_OUT2",
+    "device": {
+     "name": "cap.22uf_0805",
+     "libraryUuid": "1729b074e69e4284b185662d6e7b3463",
+     "deviceUuid": "4c33b62062984e2c8ab867fb4174a54e"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   },
+   {
+    "id": "c24",
+    "ref": "C9",
+    "role": "C_OUT_HF",
+    "device": {
+     "name": "cap.100nf_0402",
+     "libraryUuid": "a6eee3f94746481791f60dc15c3b0cf1",
+     "deviceUuid": "ec8c99bfee964853b1f86532895188b2"
+    },
+    "pins": [
+     {
+      "number": "1",
+      "name": "1"
+     },
+     {
+      "number": "2",
+      "name": "2"
+     }
+    ],
+    "pageId": "49c6dbb9567dd6af",
+    "pageName": "P1"
+   }
+  ],
+  "nets": [
+   {
+    "id": "n1",
+    "name": "J1_N1",
+    "scope": "local"
+   },
+   {
+    "id": "n2",
+    "name": "GND",
+    "scope": "global",
+    "role": "power"
+   },
+   {
+    "id": "n3",
+    "name": "F1_N4",
+    "scope": "local"
+   },
+   {
+    "id": "n4",
+    "name": "Q1_N5",
+    "scope": "local"
+   },
+   {
+    "id": "n5",
+    "name": "VBAT_RAW",
+    "scope": "global",
+    "role": "power"
+   },
+   {
+    "id": "n10",
+    "name": "+5V",
+    "scope": "global",
+    "role": "power"
+   }
+  ],
+  "connections": [
+   {
+    "componentId": "c1",
+    "pinNumber": "1",
+    "netId": "n1",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c1",
+    "pinNumber": "3",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c2",
+    "pinNumber": "1",
+    "netId": "n1",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c2",
+    "pinNumber": "2",
+    "netId": "n3",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c3",
+    "pinNumber": "D",
+    "netId": "n3",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c3",
+    "pinNumber": "G",
+    "netId": "n4",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c3",
+    "pinNumber": "S",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c3",
+    "pinNumber": "S#2",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c3",
+    "pinNumber": "S#3",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c4",
+    "pinNumber": "1",
+    "netId": "n4",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c4",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c5",
+    "pinNumber": "A",
+    "netId": "n4",
+    "kind": "wire"
+   },
+   {
+    "componentId": "c5",
+    "pinNumber": "C",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c6",
+    "pinNumber": "A",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c6",
+    "pinNumber": "C",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c7",
+    "pinNumber": "1",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c7",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c8",
+    "pinNumber": "1",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c8",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c9",
+    "pinNumber": "1",
+    "netId": "n5",
+    "kind": "power"
+   },
+   {
+    "componentId": "c9",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c22",
+    "pinNumber": "1",
+    "netId": "n10",
+    "kind": "power"
+   },
+   {
+    "componentId": "c22",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c23",
+    "pinNumber": "1",
+    "netId": "n10",
+    "kind": "power"
+   },
+   {
+    "componentId": "c23",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   },
+   {
+    "componentId": "c24",
+    "pinNumber": "1",
+    "netId": "n10",
+    "kind": "power"
+   },
+   {
+    "componentId": "c24",
+    "pinNumber": "2",
+    "netId": "n2",
+    "kind": "ground"
+   }
+  ],
+  "modules": [
+   {
+    "id": "M1b",
+    "name": "M1-2",
+    "coreComponents": [
+     "c3"
+    ],
+    "peripheralComponents": [
+     "c1",
+     "c2",
+     "c22",
+     "c23",
+     "c24",
+     "c4",
+     "c5",
+     "c6",
+     "c7",
+     "c8",
+     "c9"
+    ]
+   }
+  ],
+  "issues": []
+ },
+ "sheet": {
+  "minX": 0,
+  "minY": 0,
+  "maxX": 841,
+  "maxY": 594
+ },
+ "keepouts": [],
+ "measurements": [
+  {
+   "primitiveId": "c1",
+   "designator": "J1",
+   "x": 15.0,
+   "y": 20.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 5.0,
+    "minY": 0.0,
+    "maxX": 45.0,
+    "maxY": 40.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "J1_N1",
+     "x": -5.0,
+     "y": 10.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "",
+     "x": -5.0,
+     "y": 20.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "3",
+     "name": "3",
+     "net": "GND",
+     "x": -5.0,
+     "y": 30.0,
+     "rotation": 180.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c2",
+   "designator": "F1",
+   "x": 55.0,
+   "y": 20.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 40.0,
+    "minY": 15.0,
+    "maxX": 70.0,
+    "maxY": 25.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "J1_N1",
+     "x": 35.0,
+     "y": 20.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "F1_N4",
+     "x": 75.0,
+     "y": 20.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c3",
+   "designator": "Q1",
+   "x": 95.0,
+   "y": 20.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 75.0,
+    "minY": -5.0,
+    "maxX": 115.0,
+    "maxY": 45.0
+   },
+   "pins": [
+    {
+     "number": "D",
+     "name": "D",
+     "net": "F1_N4",
+     "x": 125.0,
+     "y": 25.0,
+     "rotation": 0.0
+    },
+    {
+     "number": "G",
+     "name": "G",
+     "net": "Q1_N5",
+     "x": 65.0,
+     "y": 35.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "S",
+     "name": "S",
+     "net": "VBAT_RAW",
+     "x": 65.0,
+     "y": 5.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "S#2",
+     "name": "S#2",
+     "net": "VBAT_RAW",
+     "x": 65.0,
+     "y": 15.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "S#3",
+     "name": "S#3",
+     "net": "VBAT_RAW",
+     "x": 65.0,
+     "y": 25.0,
+     "rotation": 180.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c4",
+   "designator": "R1",
+   "x": 15.0,
+   "y": 35.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 5.0,
+    "minY": 30.0,
+    "maxX": 25.0,
+    "maxY": 40.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "Q1_N5",
+     "x": -5.0,
+     "y": 35.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 35.0,
+     "y": 35.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c5",
+   "designator": "D1",
+   "x": 55.0,
+   "y": 35.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 50.0,
+    "minY": 30.0,
+    "maxX": 60.0,
+    "maxY": 40.0
+   },
+   "pins": [
+    {
+     "number": "A",
+     "name": "A",
+     "net": "Q1_N5",
+     "x": 75.0,
+     "y": 35.0,
+     "rotation": 0.0
+    },
+    {
+     "number": "C",
+     "name": "C",
+     "net": "VBAT_RAW",
+     "x": 35.0,
+     "y": 35.0,
+     "rotation": 180.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c6",
+   "designator": "D2",
+   "x": 95.0,
+   "y": 35.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 90.0,
+    "minY": 30.0,
+    "maxX": 100.0,
+    "maxY": 40.0
+   },
+   "pins": [
+    {
+     "number": "A",
+     "name": "A",
+     "net": "GND",
+     "x": 115.0,
+     "y": 35.0,
+     "rotation": 0.0
+    },
+    {
+     "number": "C",
+     "name": "C",
+     "net": "VBAT_RAW",
+     "x": 75.0,
+     "y": 35.0,
+     "rotation": 180.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c7",
+   "designator": "C1",
+   "x": 15.0,
+   "y": 50.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 5.0,
+    "minY": 45.0,
+    "maxX": 25.0,
+    "maxY": 55.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "VBAT_RAW",
+     "x": -5.0,
+     "y": 50.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 35.0,
+     "y": 50.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c8",
+   "designator": "C2",
+   "x": 55.0,
+   "y": 50.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 45.0,
+    "minY": 45.0,
+    "maxX": 65.0,
+    "maxY": 55.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "VBAT_RAW",
+     "x": 35.0,
+     "y": 50.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 75.0,
+     "y": 50.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c9",
+   "designator": "C3",
+   "x": 95.0,
+   "y": 50.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 85.0,
+    "minY": 45.0,
+    "maxX": 105.0,
+    "maxY": 55.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "VBAT_RAW",
+     "x": 75.0,
+     "y": 50.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 115.0,
+     "y": 50.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c22",
+   "designator": "C7",
+   "x": 15.0,
+   "y": 125.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 5.0,
+    "minY": 120.0,
+    "maxX": 25.0,
+    "maxY": 130.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "+5V",
+     "x": -5.0,
+     "y": 125.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 35.0,
+     "y": 125.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c23",
+   "designator": "C8",
+   "x": 55.0,
+   "y": 125.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 45.0,
+    "minY": 120.0,
+    "maxX": 65.0,
+    "maxY": 130.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "+5V",
+     "x": 35.0,
+     "y": 125.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 75.0,
+     "y": 125.0,
+     "rotation": 0.0
+    }
+   ]
+  },
+  {
+   "primitiveId": "c24",
+   "designator": "C9",
+   "x": 95.0,
+   "y": 125.0,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": {
+    "minX": 85.0,
+    "minY": 120.0,
+    "maxX": 105.0,
+    "maxY": 130.0
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1",
+     "net": "+5V",
+     "x": 75.0,
+     "y": 125.0,
+     "rotation": 180.0
+    },
+    {
+     "number": "2",
+     "name": "2",
+     "net": "GND",
+     "x": 115.0,
+     "y": 125.0,
+     "rotation": 0.0
+    }
+   ]
+  }
+ ],
+ "layoutModules": [
+  {
+   "id": "M1b",
+   "title": "M1-2",
+   "coreComponentId": "c3",
+   "netPolicies": {
+    "n1": "direct",
+    "n2": "local_ground",
+    "n3": "direct",
+    "n4": "direct",
+    "n5": "local_power",
+    "n10": "local_power"
+   },
+   "peripherals": [
+    {
+     "componentId": "c1"
+    },
+    {
+     "componentId": "c2"
+    },
+    {
+     "componentId": "c22"
+    },
+    {
+     "componentId": "c23"
+    },
+    {
+     "componentId": "c24"
+    },
+    {
+     "componentId": "c4"
+    },
+    {
+     "componentId": "c5"
+    },
+    {
+     "componentId": "c6"
+    },
+    {
+     "componentId": "c7"
+    },
+    {
+     "componentId": "c8"
+    },
+    {
+     "componentId": "c9"
+    }
+   ]
+  }
+ ],
+ "maxCandidates": 1000000
+}

@@ -1,0 +1,339 @@
+{
+  "count": 36,
+  "items": [
+    {
+      "id": "svgtext-3",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 75.5,
+        "maxX": 714.918,
+        "maxY": 84.0
+      }
+    },
+    {
+      "id": "svgtext-4",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 64.5,
+        "maxX": 666.73,
+        "maxY": 73.0
+      }
+    },
+    {
+      "id": "svgtext-5",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 53.5,
+        "maxX": 683.379,
+        "maxY": 62.0
+      }
+    },
+    {
+      "id": "svgtext-6",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 42.5,
+        "maxX": 687.363,
+        "maxY": 51.0
+      }
+    },
+    {
+      "id": "svgtext-7",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 31.5,
+        "maxX": 677.984,
+        "maxY": 40.0
+      }
+    },
+    {
+      "id": "svgtext-8",
+      "bbox": {
+        "minX": 643.0,
+        "minY": 20.5,
+        "maxX": 672.352,
+        "maxY": 29.0
+      }
+    },
+    {
+      "id": "svgtext-11",
+      "bbox": {
+        "minX": 378.0,
+        "minY": 294.5,
+        "maxX": 386.953,
+        "maxY": 302.5
+      }
+    },
+    {
+      "id": "svgtext-12",
+      "bbox": {
+        "minX": 380.0,
+        "minY": 249.5,
+        "maxX": 393.002,
+        "maxY": 254.5
+      }
+    },
+    {
+      "id": "svgtext-13",
+      "bbox": {
+        "minX": 441.5,
+        "minY": 269.5,
+        "maxX": 455.0,
+        "maxY": 274.5
+      }
+    },
+    {
+      "id": "svgtext-14",
+      "bbox": {
+        "minX": 380.0,
+        "minY": 269.5,
+        "maxX": 386.501,
+        "maxY": 274.5
+      }
+    },
+    {
+      "id": "svgtext-15",
+      "bbox": {
+        "minX": 414.125,
+        "minY": 239.5,
+        "maxX": 420.133,
+        "maxY": 244.5
+      }
+    },
+    {
+      "id": "svgtext-16",
+      "bbox": {
+        "minX": 448.25,
+        "minY": 279.5,
+        "maxX": 454.008,
+        "maxY": 284.5
+      }
+    },
+    {
+      "id": "svgtext-17",
+      "bbox": {
+        "minX": 444.875,
+        "minY": 259.5,
+        "maxX": 455.125,
+        "maxY": 264.5
+      }
+    },
+    {
+      "id": "svgtext-18",
+      "bbox": {
+        "minX": 380.0,
+        "minY": 279.5,
+        "maxX": 396.42,
+        "maxY": 284.5
+      }
+    },
+    {
+      "id": "svgtext-19",
+      "bbox": {
+        "minX": 448.25,
+        "minY": 249.5,
+        "maxX": 456.251,
+        "maxY": 254.5
+      }
+    },
+    {
+      "id": "svgtext-20",
+      "bbox": {
+        "minX": 379.5,
+        "minY": 259.5,
+        "maxX": 387.752,
+        "maxY": 264.5
+      }
+    },
+    {
+      "id": "svgtext-21",
+      "bbox": {
+        "minX": 483.0,
+        "minY": 254.5,
+        "maxX": 490.789,
+        "maxY": 262.5
+      }
+    },
+    {
+      "id": "svgtext-22",
+      "bbox": {
+        "minX": 484.5,
+        "minY": 229.5,
+        "maxX": 487.508,
+        "maxY": 234.5
+      }
+    },
+    {
+      "id": "svgtext-23",
+      "bbox": {
+        "minX": 506.625,
+        "minY": 249.5,
+        "maxX": 509.133,
+        "maxY": 254.5
+      }
+    },
+    {
+      "id": "svgtext-24",
+      "bbox": {
+        "minX": 506.625,
+        "minY": 229.5,
+        "maxX": 509.133,
+        "maxY": 234.5
+      }
+    },
+    {
+      "id": "svgtext-25",
+      "bbox": {
+        "minX": 328.0,
+        "minY": 279.5,
+        "maxX": 337.055,
+        "maxY": 287.5
+      }
+    },
+    {
+      "id": "svgtext-26",
+      "bbox": {
+        "minX": 330.0,
+        "minY": 269.5,
+        "maxX": 332.508,
+        "maxY": 274.5
+      }
+    },
+    {
+      "id": "svgtext-27",
+      "bbox": {
+        "minX": 341.125,
+        "minY": 269.5,
+        "maxX": 344.133,
+        "maxY": 274.5
+      }
+    },
+    {
+      "id": "svgtext-28",
+      "bbox": {
+        "minX": 368.0,
+        "minY": 319.5,
+        "maxX": 377.055,
+        "maxY": 327.5
+      }
+    },
+    {
+      "id": "svgtext-29",
+      "bbox": {
+        "minX": 370.0,
+        "minY": 309.5,
+        "maxX": 372.508,
+        "maxY": 314.5
+      }
+    },
+    {
+      "id": "svgtext-30",
+      "bbox": {
+        "minX": 381.125,
+        "minY": 309.5,
+        "maxX": 384.133,
+        "maxY": 314.5
+      }
+    },
+    {
+      "id": "svgtext-31",
+      "bbox": {
+        "minX": 373.0,
+        "minY": 344.5,
+        "maxX": 382.055,
+        "maxY": 352.5
+      }
+    },
+    {
+      "id": "svgtext-32",
+      "bbox": {
+        "minX": 375.0,
+        "minY": 334.5,
+        "maxX": 377.508,
+        "maxY": 339.5
+      }
+    },
+    {
+      "id": "svgtext-33",
+      "bbox": {
+        "minX": 386.125,
+        "minY": 334.5,
+        "maxX": 389.133,
+        "maxY": 339.5
+      }
+    },
+    {
+      "id": "svgtext-34",
+      "bbox": {
+        "minX": 443.0,
+        "minY": 229.5,
+        "maxX": 452.055,
+        "maxY": 237.5
+      }
+    },
+    {
+      "id": "svgtext-35",
+      "bbox": {
+        "minX": 445.0,
+        "minY": 219.5,
+        "maxX": 447.508,
+        "maxY": 224.5
+      }
+    },
+    {
+      "id": "svgtext-36",
+      "bbox": {
+        "minX": 456.125,
+        "minY": 219.5,
+        "maxX": 459.133,
+        "maxY": 224.5
+      }
+    },
+    {
+      "id": "svgtext-37",
+      "bbox": {
+        "minX": 493.0,
+        "minY": 219.5,
+        "maxX": 502.055,
+        "maxY": 227.5
+      }
+    },
+    {
+      "id": "svgtext-38",
+      "bbox": {
+        "minX": 496.125,
+        "minY": 209.5,
+        "maxX": 500.125,
+        "maxY": 214.5
+      }
+    },
+    {
+      "id": "svgtext-39",
+      "bbox": {
+        "minX": 488.0,
+        "minY": 279.5,
+        "maxX": 497.055,
+        "maxY": 287.5
+      }
+    },
+    {
+      "id": "svgtext-40",
+      "bbox": {
+        "minX": 490.0,
+        "minY": 269.5,
+        "maxX": 492.508,
+        "maxY": 274.5
+      }
+    }
+  ],
+  "unmeasured": [],
+  "coverage": {
+    "designators": true,
+    "values": true,
+    "pin_names": true,
+    "net_labels": true,
+    "wire_names": true,
+    "free_text": true,
+    "title_block": true
+  }
+}

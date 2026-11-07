@@ -1,6 +1,6 @@
 {
   "schema": "easycirq-sch-acceptance/v1",
-  "strictInput": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-a-method\\reports\\hard-board\\board2\\strict-M3-full.json",
+  "strictInput": "reports\\hard-board\\board2\\strict-M3-full.json",
   "checkerVerdict": "incomplete",
   "verdict": "INCOMPLETE",
   "criteria": [
